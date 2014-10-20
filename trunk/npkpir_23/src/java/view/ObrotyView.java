@@ -29,6 +29,8 @@ import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfObroty;
+import pdf.PdfPkpir;
 
 /**
  *
@@ -197,6 +199,14 @@ public class ObrotyView implements Serializable{
            
        }
    }
+   
+   public void drukujObroty() {
+        try {
+            PdfObroty.drukuj(goscwybral, wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
        
     public List<Dok> getObiektDOKmrjsfSelX() {
         return obiektDOKmrjsfSelX;

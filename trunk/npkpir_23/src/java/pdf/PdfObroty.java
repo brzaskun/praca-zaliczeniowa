@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.DokKsiega;
 import entity.Dok;
 import entity.Klienci;
 import java.io.FileNotFoundException;
@@ -29,20 +30,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfObroty extends Pdf implements Serializable {
+@Singleton
+public class PdfObroty  {
 
-    public void drukuj() throws DocumentException, FileNotFoundException, IOException {
+    public static void drukuj(List<Dok> goscwybral, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 0;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);
@@ -79,7 +83,7 @@ public class PdfObroty extends Pdf implements Serializable {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        List<Dok> wykaz = obliczsume(obrotyView.getGoscwybral());
+        List<Dok> wykaz = obliczsume(goscwybral);
         for (Dok rs : wykaz) {
             if (rs.getNrWpkpir() != 0) {
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getNrWpkpir()), "center",8));
@@ -108,7 +112,7 @@ public class PdfObroty extends Pdf implements Serializable {
         Msg.msg("i", "Wydrukowano obroty", "form:messages");
     }
 
-    private List<Dok> obliczsume(List<Dok> wykaz) {
+    private static List<Dok> obliczsume(List<Dok> wykaz) {
         Double nettosuma = 0.0;
         Double bruttosuma = 0.0;
         for(Dok p : wykaz){
