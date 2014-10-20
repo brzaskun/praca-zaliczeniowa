@@ -5,7 +5,10 @@
 package view;
 
 import comparator.Dokcomparator;
+import dao.AmoDokDAO;
 import dao.DokDAO;
+import dao.PodatnikDAO;
+import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Dok;
 import entity.Wpis;
@@ -21,6 +24,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import pdf.PdfPK;
 
 /**
  *
@@ -29,7 +33,7 @@ import javax.servlet.http.HttpSession;
 @ManagedBean(name = "DokTabGuestView")
 @ViewScoped
 public class DokTabGuestView implements Serializable {
-    private Dok selected;
+    private List<Dok> selected;
     private List<Dok> pobranedokumenty;
     private List<Dok> pobranedokumentyFiltered;
     @ManagedProperty(value = "#{WpisView}")
@@ -37,10 +41,17 @@ public class DokTabGuestView implements Serializable {
     @Inject
     private DokDAO dokDAO;
     @Inject
+    private PodatnikDAO podatnikDAO;
+    @Inject
     private WpisDAO wpisDAO;
+    @Inject
+    private UzDAO uzDAO;
+    @Inject
+    private AmoDokDAO amoDokDAO;
 
     @PostConstruct
     private void init() {
+        selected = new ArrayList<>();
         pobranedokumenty = new ArrayList<>();
         pobranedokumentyFiltered = null;
         try {
@@ -90,6 +101,14 @@ public class DokTabGuestView implements Serializable {
         init();
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
+     
+     public void drukPIT5Pdf() {
+         try {
+             PdfPK.drukujPK(selected, podatnikDAO, wpisView, uzDAO, amoDokDAO);
+         } catch (Exception e) {
+             
+         }
+     }
     
 
     public List<Dok> getPobranedokumenty() {
@@ -108,14 +127,15 @@ public class DokTabGuestView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public Dok getSelected() {
+    public List<Dok> getSelected() {
         return selected;
     }
 
-    public void setSelected(Dok selected) {
+    public void setSelected(List<Dok> selected) {
         this.selected = selected;
     }
 
+   
     public List<Dok> getPobranedokumentyFiltered() {
         return pobranedokumentyFiltered;
     }

@@ -37,7 +37,6 @@ public class PitView implements Serializable {
 
     @Inject private PitDAO pitDAO;
     @Inject private PodatnikDAO podatnikDAO;
-    @Inject private PdfPIT5 pdfPIT5;
     @ManagedProperty(value="#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -73,7 +72,7 @@ public class PitView implements Serializable {
      
      public void drukujarch() {
          try {
-            pdfPIT5.drukuj(biezacyPit, wpisView);
+            PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
          } catch (Exception e) {
              
          }

@@ -25,20 +25,23 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfPkpir extends Pdf implements Serializable {
+@Singleton
+public class PdfPkpir implements Serializable {
 
-    public void drukujksiege() throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 0;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);
@@ -124,8 +127,6 @@ public class PdfPkpir extends Pdf implements Serializable {
         } catch (IOException ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        List<DokKsiega> wykaz = ksiegaView.getLista();
         for (DokKsiega rs : wykaz) {
             if (rs.getNrWpkpir() != 0) {
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getNrWpkpir()), "center",6));

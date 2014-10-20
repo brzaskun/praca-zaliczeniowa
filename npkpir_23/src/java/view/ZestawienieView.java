@@ -81,8 +81,6 @@ public class ZestawienieView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private AmoDokDAO amoDokDAO;
-    @Inject
-    private PdfPIT5 pdfPIT5;
     //bieżący pit
     private Pitpoz pitpoz;
     //sumowanie poprzednich pitów jeżeli są zachowane
@@ -1381,7 +1379,7 @@ private void aktualizujGuest(){
     
     public void drukujbiezacypit() {
         try {
-            pdfPIT5.drukuj(biezacyPit, wpisView);
+            PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
         } catch (Exception e) {
             
         }

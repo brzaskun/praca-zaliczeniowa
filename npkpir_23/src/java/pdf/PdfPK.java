@@ -16,6 +16,9 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.AmoDokDAO;
+import dao.PodatnikDAO;
+import dao.UzDAO;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.Dok;
@@ -32,24 +35,26 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import static pdf.PdfVAT7.absText;
+import static pdf.PdfVAT7.absText;
 import view.DokTabView;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfPK extends Pdf implements Serializable {
 
-    @ManagedProperty(value = "#{DokTabView}")
-    private DokTabView dokTabView;
+@Singleton
+public class PdfPK {
 
-    public void drukujPK() throws DocumentException, FileNotFoundException, IOException {
-        Dok selected = dokTabView.getGosciuwybral().get(0);
+ 
+    public static void drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, AmoDokDAO amoDokDAO) throws DocumentException, FileNotFoundException, IOException {
+        Dok selected = gosciuwybral.get(0);
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf"));
         writer.setInitialLeading(16);
@@ -144,7 +149,7 @@ public class PdfPK extends Pdf implements Serializable {
         if (selected.getOpis().equals("umorzenie za miesiac")) {
             document.add(new Paragraph("Zawartość dokumentu amortyzacji", fontM));
             document.add(Chunk.NEWLINE);
-            dodajamo(document);
+            dodajamo(document, amoDokDAO, wpisView);
             document.add(Chunk.NEWLINE);
         }
         Uz uz = uzDAO.find(selected.getWprowadzil());
@@ -155,7 +160,7 @@ public class PdfPK extends Pdf implements Serializable {
         Msg.msg("i", "Wydrukowano PK", "form:messages");
     }
 
-    private void dodajamo(Document document) throws DocumentException, IOException {
+    private static void dodajamo(Document document, AmoDokDAO amoDokDAO, WpisView wpisView) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -179,7 +184,7 @@ public class PdfPK extends Pdf implements Serializable {
         document.add(table);
     }
     
-    private PdfPTable tabelaFaktura(Dok selected) throws DocumentException {
+    private static PdfPTable tabelaFaktura(Dok selected) throws DocumentException {
         PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100);
         table.setSpacingBefore(2f);
@@ -225,7 +230,7 @@ public class PdfPK extends Pdf implements Serializable {
         }
     }
     
-    private PdfPTable tabelaPK(Dok selected) throws DocumentException {
+    private static PdfPTable tabelaPK(Dok selected) throws DocumentException {
         PdfPTable table = new PdfPTable(5);
         table.setWidthPercentage(85);
         table.setSpacingBefore(2f);
@@ -262,12 +267,5 @@ public class PdfPK extends Pdf implements Serializable {
         }
     }
 
-    public DokTabView getDokTabView() {
-        return dokTabView;
-    }
-
-    public void setDokTabView(DokTabView dokTabView) {
-        this.dokTabView = dokTabView;
-    }
-
+    
 }
