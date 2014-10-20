@@ -7,7 +7,7 @@
 >
     
     
-   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfObroty.drukuj()}" >
+   <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{obrotyView.drukujObroty()}" >
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij na maila" actionListener="#{sesjaView.dodajmail()}" action="#{obrotyView.mailobroty()}" onsuccess="alert('Wysłano mail');" style="display: none;">
         </p:commandButton>

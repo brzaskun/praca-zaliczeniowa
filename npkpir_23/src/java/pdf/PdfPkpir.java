@@ -36,7 +36,7 @@ import view.WpisView;
  * @author Osito
  */
 @Singleton
-public class PdfPkpir implements Serializable {
+public class PdfPkpir {
 
     public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
