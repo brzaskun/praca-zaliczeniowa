@@ -45,7 +45,7 @@
                     <p:menuitem value="VAT" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                         <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
                         <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
-                        <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
+                        <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>
                     </p:menuitem>
                     <p:menuitem value="zamknięcie miesiąca"  outcome="zamkniecie" icon="ui-icon-circle-arrow-e"/>
                 </p:menu>

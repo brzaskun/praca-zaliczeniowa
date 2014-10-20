@@ -60,7 +60,7 @@ public class FakturyokresoweView implements Serializable{
     
     public void dodajfaktureokresowaGuest(){
         Fakturyokresowe fakturyokresowe = new Fakturyokresowe();
-        fakturyokresowe.setDokument(dokTabGuestView.getSelected());
+        fakturyokresowe.setDokument(dokTabGuestView.getSelected().get(0));
         fakturyokresowe.setPodatnik(wpisView.getPodatnikWpisu());
         fakturyokresoweDAO.dodaj(fakturyokresowe);
         Msg.msg("i", "Dodano fakturę okresową");

@@ -34,7 +34,7 @@
                             <p:menuitem value="ewidencja vat" icon="ui-icon-circle-arrow-e" outcome="gewidencja"  action="#{ewidencjaVatView.przekierowanieEwidencjiGuest()}" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
                                 <f:actionListener binding="#{pdfVAT.drukujewidencje()}"/>
-                                <f:actionListener binding="#{pdfVATsuma.drukuj()}"/>
+                                <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>
                             </p:menuitem>
                             <p:menuitem value="niezapłacone"  outcome="gniezaplacone" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />

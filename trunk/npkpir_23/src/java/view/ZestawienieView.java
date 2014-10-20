@@ -47,6 +47,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import pdf.PdfPIT5;
+import pdf.PdfZestRok;
 
 /**
  *
@@ -1380,6 +1381,14 @@ private void aktualizujGuest(){
     public void drukujbiezacypit() {
         try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
+        } catch (Exception e) {
+            
+        }
+    }
+    
+     public void drukujPodsumowanieRoczne() {
+        try {
+            PdfZestRok.drukuj(wpisView, this);
         } catch (Exception e) {
             
         }

@@ -15,6 +15,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.EwidencjeVatDAO;
 import data.Data;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
@@ -35,17 +36,17 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import view.EwidencjaVatView;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean(name="pdfVATsuma")
-public class PdfVATsuma extends Pdf implements Serializable {
-    @ManagedProperty(value="#{ewidencjaVatView}")
-    public EwidencjaVatView vatView;
+
+public class PdfVATsuma {
+
      
-    public void drukuj() throws FileNotFoundException, DocumentException, IOException  {
+    public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
@@ -81,7 +82,7 @@ public class PdfVATsuma extends Pdf implements Serializable {
             document.add(Chunk.NEWLINE);
             miziu1 = new Paragraph(new Phrase("Firma: "+wpisView.getPodatnikWpisu(),fontM));
             document.add(miziu1);
-            Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            Podatnik pod = wpisView.getPodatnikObiekt();
             miziu1 = new Paragraph(new Phrase("adres: "+pod.getMiejscowosc()+" "+pod.getUlica()+" "+pod.getNrdomu(),fontM));
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
@@ -183,13 +184,6 @@ public class PdfVATsuma extends Pdf implements Serializable {
         //Msg.msg("i", "Wydrukowano sume ewidencji VAT", "form:messages");
     }
 
-    public EwidencjaVatView getVatView() {
-        return vatView;
-    }
-
-    public void setVatView(EwidencjaVatView vatView) {
-        this.vatView = vatView;
-    }
-    
+       
     
 }
