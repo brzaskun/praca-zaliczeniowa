@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.VatKorektaDokcomparator;
+import dao.PodatnikDAO;
 import data.Data;
 import embeddable.VatKorektaDok;
 import entity.Podatnik;
@@ -37,25 +38,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import view.VatKorektaView;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfVATKorektaReczna  extends Pdf implements Serializable{
-    private static final long serialVersionUID = 1L;
-    @ManagedProperty(value = "#{vatKorektaView}")
-    private VatKorektaView vatKorektaView;
+@Singleton
+public class PdfVATKorektaReczna {
+
     
-    public void drukuj(){
+    public static void drukuj(VATDeklaracjaKorektaDok selected, WpisView wpisView, PodatnikDAO podatnikDAO){
         try {
-            VATDeklaracjaKorektaDok selected = vatKorektaView.getvATDeklaracjaKorektaDok();
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/dokumentyVATKorektaReczna" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
             document.addTitle("Wykaz dokumentów dla korekty VAT");
@@ -146,14 +146,6 @@ public class PdfVATKorektaReczna  extends Pdf implements Serializable{
         
     }
 
-    public VatKorektaView getVatKorektaView() {
-        return vatKorektaView;
-    }
-
-    public void setVatKorektaView(VatKorektaView vatKorektaView) {
-        this.vatKorektaView = vatKorektaView;
-    }
-    
     
     
 }

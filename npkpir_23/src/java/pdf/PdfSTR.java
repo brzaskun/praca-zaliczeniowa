@@ -29,22 +29,24 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import view.STREwidencja;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfSTR extends Pdf implements Serializable {
-    @ManagedProperty(value="#{STREwidencja}")
-    protected STREwidencja sTREwidencja;
-    public void drukuj() throws DocumentException, FileNotFoundException, IOException {
+@Singleton
+public class PdfSTR {
+
+    public static void drukuj(WpisView wpisView, List<STRtabela> wykaz) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 0;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);
@@ -92,7 +94,6 @@ public class PdfSTR extends Pdf implements Serializable {
         }
 
 //        List<STRtabela> wykaz = obliczsume(sTRTabView.getStrtabela());
-        List<STRtabela> wykaz = sTREwidencja.getStrtabela();
         for (STRtabela rs : wykaz) {
             if (rs.getId() != 0) {
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getId()), "center",6));
@@ -149,21 +150,5 @@ public class PdfSTR extends Pdf implements Serializable {
 //        return wykaz;
 //    }
 
-    public EwidencjeVatDAO getEwidencjeVatDAO() {
-        return ewidencjeVatDAO;
-    }
-
-    public void setEwidencjeVatDAO(EwidencjeVatDAO ewidencjeVatDAO) {
-        this.ewidencjeVatDAO = ewidencjeVatDAO;
-    }
-
-    public STREwidencja getsTREwidencja() {
-        return sTREwidencja;
-    }
-
-    public void setsTREwidencja(STREwidencja sTREwidencja) {
-        this.sTREwidencja = sTREwidencja;
-    }
-    
-    
+       
 }

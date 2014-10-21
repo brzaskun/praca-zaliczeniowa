@@ -6,6 +6,7 @@ package view;
 
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
+import dao.PodatnikDAO;
 import dao.WpisDAO;
 import entity.Deklaracjevat;
 import entity.Wpis;
@@ -25,6 +26,8 @@ import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.event.RowEditEvent;
+import pdf.PdfVAT;
+import pdf.PdfVAT7;
 
 /**
  *
@@ -45,6 +48,8 @@ public class DeklaracjevatView implements Serializable {
     private WpisView wpisView;
     @Inject
     private WpisDAO wpisDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -167,6 +172,14 @@ public class DeklaracjevatView implements Serializable {
         aktualizuj();
         init();
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
+    }
+     
+    public void drukujdeklaracje(Deklaracjevat dkl, int index) {
+        try {
+            PdfVAT7.drukuj(dkl, index, podatnikDAO);
+        } catch (Exception e) {
+            
+        }
     }
     
     public List<Deklaracjevat> getWyslane() {

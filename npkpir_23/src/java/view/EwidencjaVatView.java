@@ -44,6 +44,7 @@ import mail.MailOther;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.UnselectEvent;
+import pdf.PdfVAT;
 import pdf.PdfVATsuma;
 
 /**
@@ -549,6 +550,14 @@ public class EwidencjaVatView implements Serializable {
             
         }
     }
+    public void drukujPdfEwidencje() {
+        try {
+            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO);
+        } catch (Exception e) {
+            
+        }
+    }
+    
       
     //<editor-fold defaultstate="collapsed" desc="comment">
     //generuje poszczegolen ewidencje

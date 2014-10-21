@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import mail.MailOther;
+import pdf.PdfSTR;
 
 /**
  *
@@ -230,6 +231,14 @@ public class STREwidencja implements Serializable {
     public void mailewidencjaSTR() {
         try {
             MailOther.ewidencjaSTR(wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void drukewidencjaSTR() {
+        try {
+            PdfSTR.drukuj(wpisView, strtabela);
         } catch (Exception e) {
             
         }

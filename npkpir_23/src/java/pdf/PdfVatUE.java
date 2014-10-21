@@ -31,23 +31,24 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import static pdf.PdfVAT7.absText;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfVatUE extends Pdf implements Serializable {
+@Singleton
+public class PdfVatUE {
 
-    @Inject
-    private VatuepodatnikDAO vatuepodatnikDAO;
 
-    public void drukujewidencje() throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujewidencje(VatuepodatnikDAO vatuepodatnikDAO, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
         try {
             List<Parametr> param = podatnik.getVatokres();
@@ -138,7 +139,7 @@ public class PdfVatUE extends Pdf implements Serializable {
         RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikWpisu() + "');");
     }
 
-    private PdfPTable createsubtable(List<Dok> zawiera) {
+    private static PdfPTable createsubtable(List<Dok> zawiera) {
         PdfPTable table = new PdfPTable(6);
         try {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();

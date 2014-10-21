@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
+import javax.ejb.Singleton;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 
@@ -32,10 +32,11 @@ import static pdf.PdfVAT7.absText;
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfVAT7K extends PdfVAT7 implements Serializable{
-    static String vat71kw;
-    static String vat72kw;
+@Singleton
+public class PdfVAT7K {
+    private static String vat71kw;
+    private static String vat72kw;
+    private static final String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
             
             
     public static  void drukujVAT7K(Deklaracjevat dkl, Podatnik p, int index) throws DocumentException, FileNotFoundException, IOException {

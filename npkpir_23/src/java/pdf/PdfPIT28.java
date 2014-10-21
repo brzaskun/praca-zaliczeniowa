@@ -15,6 +15,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.PodatnikDAO;
 import data.Data;
 import embeddable.RyczaltPodatek;
 import entity.Podatnik;
@@ -29,23 +30,21 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import msg.Msg;
+import view.WpisView;
 import view.ZestawienieRyczaltView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfPIT28 extends Pdf implements Serializable {
+@Singleton
+public class PdfPIT28 {
     
-    @ManagedProperty(value="#{ZestawienieRyczaltView}")
-    private ZestawienieRyczaltView zestawienieView;
-    
-    public void drukuj() throws DocumentException, FileNotFoundException, IOException {
-        Ryczpoz selected = zestawienieView.getBiezacyPit();
+    public static void drukuj(Ryczpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
@@ -144,13 +143,5 @@ public class PdfPIT28 extends Pdf implements Serializable {
     }
     
    
-    public ZestawienieRyczaltView getZestawienieView() {
-        return zestawienieView;
-    }
-
-    public void setZestawienieView(ZestawienieRyczaltView zestawienieView) {
-        this.zestawienieView = zestawienieView;
-    }
-    
-    
+     
 }

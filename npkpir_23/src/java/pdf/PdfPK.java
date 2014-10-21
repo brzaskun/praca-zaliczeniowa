@@ -28,7 +28,6 @@ import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -36,12 +35,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import static pdf.PdfVAT7.absText;
-import static pdf.PdfVAT7.absText;
-import view.DokTabView;
 import view.WpisView;
 
 /**

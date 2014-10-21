@@ -43,6 +43,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfPIT28;
 import pdf.PdfZestRok;
 
 /**
@@ -719,6 +720,13 @@ public class ZestawienieRyczaltView implements Serializable {
         biezacyPit = narPitpoz;
     }
     
+    public void drukujRyczalt() {
+        try {
+            PdfPIT28.drukuj(biezacyPit, wpisView, podatnikDAO);
+        } catch (Exception e) {
+            
+        }
+    }
    
 
     public DokDAO getDokDAO() {

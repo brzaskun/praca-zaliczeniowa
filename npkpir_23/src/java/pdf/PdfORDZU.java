@@ -22,11 +22,13 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javax.ejb.Singleton;
 
 /**
  *
  * @author Osito
  */
+@Singleton
 public class PdfORDZU extends PdfVAT7{
     static String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/ORD-ZU.jpg";
     
