@@ -12,6 +12,7 @@ import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
+import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import dao.VATDeklaracjaKorektaDokDAO;
 import deklaracjaVAT7_13.VAT713;
@@ -32,8 +33,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -43,6 +42,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import params.Params;
+import pdf.PdfVATKorektaReczna;
 import serialclone.SerialClone;
 
 /**
@@ -75,6 +75,8 @@ public class VatKorektaView implements Serializable {
     private VATDeklaracjaKorektaDok vATDeklaracjaKorektaDok;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private PodatnikDAO podatnikDAO;
     private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
     private boolean pole70zreki;
@@ -319,6 +321,13 @@ public class VatKorektaView implements Serializable {
         return kwotaautoryzujaca;
     }
 
+    public void drukujkorektareczna() {
+        try {
+            PdfVATKorektaReczna.drukuj(vATDeklaracjaKorektaDok, wpisView, podatnikDAO);
+        } catch (Exception e) {
+            
+        }
+    }
     public List<Deklaracjevat> getDeklaracjeWyslane() {
         return deklaracjeWyslane;
     }

@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:outputPanel deferred="true">
     <p:growl id="mess_add" />
-    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfSTR.drukuj()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
+    <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{STREwidencja.drukewidencjaSTR()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
         </p:commandButton>  
     <p:commandButton id="ewwysylka" value="Wyślij na mail" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;">
         </p:commandButton>

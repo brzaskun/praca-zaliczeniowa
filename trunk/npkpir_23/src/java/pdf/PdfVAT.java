@@ -18,6 +18,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.Kwartaly;
 import embeddable.Parametr;
@@ -34,15 +35,16 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
-public class PdfVAT extends Pdf implements Serializable {
 
-    public void drukujewidencje() throws DocumentException, FileNotFoundException, IOException {
+public class PdfVAT {
+
+    public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         try {
             List<Parametr> param = pod.getVatokres();
@@ -66,6 +68,7 @@ public class PdfVAT extends Pdf implements Serializable {
                     nowanazwa = p;
                 }
                 PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf"));
+                int liczydlo = 0;
                 PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                 writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
                 writer.setPageEvent(headerfoter);

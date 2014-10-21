@@ -7,9 +7,6 @@
 >
     <p:tabView id="akordeon">
         <p:tab title="rozpoczęte">
-           <h:form>
-               <p:commandButton value="odnajdz kontrahentow" actionListener="#{inwestycjeView.naprawkontrahentow()}"/>
-            </h:form>
             <p:panelGrid columns="4" style="margin-left: 65%;">
                 <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
                     <f:selectItems value="#{Mce.mceList}"/>

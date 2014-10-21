@@ -21,14 +21,16 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javax.ejb.Singleton;
 import static pdf.PdfVAT7.absText;
 
 /**
  *
  * @author Osito
  */
-public class PdfVATZT extends PdfVAT7{
-    static String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-ZT.jpg";
+@Singleton
+public class PdfVATZT {
+    private static final String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-ZT.jpg";
     
     public static void drukujZT(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
         Vatpoz v = dkl.getSelected();

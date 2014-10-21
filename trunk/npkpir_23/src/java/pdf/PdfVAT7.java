@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import dao.PodatnikDAO;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.context.RequestContext;
 
@@ -31,12 +33,12 @@ import org.primefaces.context.RequestContext;
  *
  * @author Osito
  */
-@ManagedBean
+@Singleton
 public class PdfVAT7 extends Pdf implements Serializable{
     
-    static String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
-    static String INPUTFILE = "c:/vat/pk1.pdf";
-    static String INPUTFILEM = "c:/vat/vat7.pdf";
+    private static final String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
+    private static final String INPUTFILE = "c:/vat/pk1.pdf";
+    private static final String INPUTFILEM = "c:/vat/vat7.pdf";
     
     protected static void absText(PdfWriter writer,String text, int x, int y) {
     try {
@@ -194,10 +196,10 @@ public class PdfVAT7 extends Pdf implements Serializable{
         writer.close();
        
       }
-    String vat71;
-    String vat72;
+    private static String vat71;
+    private static String vat72;
 
-    public void drukuj(Deklaracjevat dkl, int index) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukuj(Deklaracjevat dkl, int index, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
         Podatnik p = podatnikDAO.find(dkl.getPodatnik());
         if(dkl.isMiesiackwartal()==true){
             PdfVAT7K.drukujVAT7K(dkl, p, index);
@@ -225,9 +227,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 12);
             Font fontM = new Font(helvetica, 10);
-            pierwszastrona(writer,v,dkl);
+            pierwszastrona(writer,v,dkl,podatnikDAO);
             document.newPage();
-            drugastrona(writer,v,dkl);
+            drugastrona(writer,v,dkl,podatnikDAO);
             document.close();
             PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf");
             reader.removeUsageRights();
@@ -356,7 +358,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         }
     }
 
-    private void pierwszastrona(PdfWriter writer, Vatpoz d, Deklaracjevat l) {
+    private static void pierwszastrona(PdfWriter writer, Vatpoz d, Deklaracjevat l, PodatnikDAO podatnikDAO) {
         try{
             String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("M-14")){
@@ -466,7 +468,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
         }
     }
 
-    private void drugastrona(PdfWriter writer, Vatpoz d, Deklaracjevat l) {
+    private static void drugastrona(PdfWriter writer, Vatpoz d, Deklaracjevat l, PodatnikDAO podatnikDAO) {
         try{
             String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("M-14")){
@@ -660,7 +662,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
             absText(writer, "91 8120976", 80, 142);
         }}
 
-    private void kombinuj(String kto, String zalaczniki) {
+    private static void kombinuj(String kto, String zalaczniki) {
         try {
             List<String> files = new ArrayList<>();
             switch (zalaczniki) {

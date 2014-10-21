@@ -29,6 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfVatUE;
 
 /**
  *
@@ -207,6 +208,13 @@ public class VatUeView implements Serializable {
         }
     }
 
+    public void drukujewidencjeUE() {
+      try {
+          PdfVatUE.drukujewidencje(vatuepodatnikDAO, wpisView);
+      }  catch (Exception e) {
+          
+      }
+    } 
     public List<Danezdekalracji> getDanezdeklaracji() {
         return danezdeklaracji;
     }

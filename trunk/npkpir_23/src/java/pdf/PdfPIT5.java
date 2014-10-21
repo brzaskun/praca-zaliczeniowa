@@ -23,20 +23,14 @@ import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
 import msg.Msg;
-import view.PitView;
 import view.WpisView;
-import view.ZestawienieView;
 
 /**
  *
