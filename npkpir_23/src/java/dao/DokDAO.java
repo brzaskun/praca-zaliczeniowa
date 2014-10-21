@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -119,6 +120,10 @@ public class DokDAO extends DAO implements Serializable {
        } catch (Exception e ){
            return null;
        }
+    }
+
+    public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
+        return dokFacade.znajdzDokumentInwestycja(wpisView, r);
     }
   
 }

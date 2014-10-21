@@ -28,26 +28,29 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 
 /**
  *
  * @author Osito
  */
 
-@ManagedBean
-public class PdfInwestycja extends Pdf implements Serializable {
+@Singleton
+public class PdfInwestycja {
     
-     public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
-         PdfInwestycja tmp = new PdfInwestycja();
-         tmp.drukujinwestycje(new Inwestycje());
-     }
+//     public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
+//         PdfInwestycja tmp = new PdfInwestycja();
+//         tmp.drukujinwestycje(new Inwestycje());
+//     }
      
-    public void drukujinwestycje (Inwestycje inwestycja) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujinwestycje (Inwestycje inwestycja, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycja" + wpisView.getPodatnikWpisu() + ".pdf"));
+        int liczydlo = 0;
         //PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycjaTesting.pdf"));
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

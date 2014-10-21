@@ -7,7 +7,9 @@
 >
     <p:tabView id="akordeon">
         <p:tab title="rozpoczęte">
-          
+           <h:form>
+               <p:commandButton value="odnajdz kontrahentow" actionListener="#{inwestycjeView.naprawkontrahentow()}"/>
+            </h:form>
             <p:panelGrid columns="4" style="margin-left: 65%;">
                 <h:outputText value="m-c zakończenia"/><h:selectOneMenu value="#{inwestycjeView.mczakonczenia}">
                     <f:selectItems value="#{Mce.mceList}"/>
@@ -16,7 +18,7 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
             </p:panelGrid>
-            <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1600px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
+            <p:dataTable id="dataList" value="#{inwestycjeView.inwestycjerozpoczete}" style="width: 1550px;" emptyMessage="Nie ma żadnych rozpoczętych inwestycji w firmie" var="item"
                          paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                          rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true"  selection="#{inwestycjeView.wybrany}" selectionMode="single"
                          rowKey="#{item.id}">
@@ -36,25 +38,25 @@
                     </f:facet>
                     <h:outputText value="#{item.skrot}"/>
                 </p:column>
-                <p:column width="300">
+                <p:column width="250">
                     <f:facet name="header">
                         <h:outputText value="Opis"/>
                     </f:facet>
                     <h:outputText value="#{item.opis}"/>
                 </p:column>
-                <p:column>
+                <p:column width="70" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="Rozpoczęcie"/>
+                        <h:outputText value="Rozpocz."/>
                     </f:facet>
                     <h:outputText value="#{item.rokrozpoczecia}/#{item.mcrozpoczecia}"/>
                 </p:column>
-                <p:column>
+                <p:column width="70" style="text-align: center;">
                     <f:facet name="header">
-                        <h:outputText value="Zakończenie"/>
+                        <h:outputText value="Zakończ."/>
                     </f:facet>
                     <h:outputText value="#{item.rokzakonczenia}#{item.rokzakonczenia != '' ? '/' :''}#{item.mczakonczenia}"/>
                 </p:column>
-                <p:column>
+                <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="Total"/>
                     </f:facet>
@@ -114,29 +116,29 @@
                         </p:dataTable>
                     </p:column>
                 </p:rowExpansion>
-                <p:column>
+                <p:column width="80">
                     <f:facet name="header">
                         <h:outputText value="Stan"/>
                     </f:facet>
                     <h:outputText value="#{item.zakonczona eq true ? 'zakończona' : 'rozpoczęta'}"/>
                 </p:column>
-                 <p:column style="text-align: center;">
+                <p:column style="text-align: center;" width="85">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                     <p:commandButton value="Drukuj" actionListener="#{pdfInwestycja.drukujinwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
+                     <p:commandButton value="Drukuj" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 80px;"/>
                 </p:column>
-                <p:column style="text-align: center;">
+                <p:column style="text-align: center;" width="85">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <p:commandButton value="Zakończ" actionListener="#{inwestycjeView.zamknijinwestycje(item)}" icon="ui-icon-locked" update=":form:akordeon:dataList :form:akordeon:zakonczoneList" style="width: 90px;"/>
+                    <p:commandButton value="Zakończ" actionListener="#{inwestycjeView.zamknijinwestycje(item)}" icon="ui-icon-locked" update=":form:akordeon:dataList :form:akordeon:zakonczoneList" style="width: 80px;"/>
                 </p:column>
-                <p:column style="text-align: center;">
+                <p:column style="text-align: center;" width="85">
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                    <p:commandButton value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":form:akordeon:dataList" style="width: 90px;"/>
+                    <p:commandButton value="Usuń" actionListener="#{inwestycjeView.usun}" icon="ui-icon-trash" update=":form:akordeon:dataList" style="width: 80px;"/>
                 </p:column>
                 
             </p:dataTable>
@@ -272,7 +274,7 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                     <p:commandButton value="Drukuj" actionListener="#{pdfInwestycja.drukujinwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
+                     <p:commandButton value="Drukuj" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
                 </p:column>
                  <p:column style="text-align: center;">
                     <f:facet name="header">

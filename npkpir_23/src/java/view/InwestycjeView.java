@@ -4,9 +4,13 @@
  */
 package view;
 
+import dao.DokDAO;
 import dao.InwestycjeDAO;
+import embeddable.Roki;
 import entity.Dok;
 import entity.Inwestycje;
+import entity.Inwestycje.Sumazalata;
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfInwestycja;
 
 /**
  *
@@ -54,6 +59,7 @@ public class InwestycjeView implements Serializable{
             inwestycjesymbole.add("wybierz");
             inwestycjesymbole.add(p.getSymbol());
             i=1;
+            aktualizujwartosci(p);
         }
         }
         if (inwestycjezakonczone != null) {
@@ -131,6 +137,32 @@ public class InwestycjeView implements Serializable{
             Msg.msg("e","Wystąpił błąd. Nie można było ponownie otworzyć inwestycji","form:messages");
         }
     }
+    
+    @Inject
+    private DokDAO dokDAO;
+    public void naprawkontrahentow() {
+        Msg.msg("naprawiam kontrahentow");
+        for (Inwestycje p : inwestycjerozpoczete) {
+            List<Dok> dokumenty = p.getDokumenty();
+            for (Dok r : dokumenty) {
+                Klienci k = r.getKontr();
+                if (k == null) {
+                    Dok odnaleziony = dokDAO.znajdzDokumentInwestycja(wpisView, r);
+                    r.setKontr1(odnaleziony.getKontr1());
+                }
+            }
+            inwestycjeDAO.edit(p);
+        }
+        
+    }
+    
+    public void drukujInwestycje(Inwestycje wybrany) {
+        try {
+            PdfInwestycja.drukujinwestycje(wybrany, wpisView);
+        } catch (Exception e) {
+            
+        }
+    }
 
     public void wybranoinwestycje() {
         Msg.msg("i","Wybrano inwestycję "+wybrany.getOpis(),"form:messages");
@@ -203,4 +235,36 @@ public class InwestycjeView implements Serializable{
     }
   
     //</editor-fold>
+
+    private void aktualizujwartosci(Inwestycje p) {
+        Integer rokbiezacy = Integer.parseInt(p.getRokrozpoczecia());
+        
+        List<String> lata = new ArrayList<>();
+        for (Integer r : Roki.getRokiListS()) {
+            if (r >= rokbiezacy) {
+                lata.add(String.valueOf(r));
+            }
+        }
+        for (Inwestycje s : inwestycjerozpoczete) {
+            s.setSumazalata(new ArrayList<Sumazalata>());
+            inwestycjeDAO.edit(s);
+            List<Inwestycje.Sumazalata> suma = s.getSumazalata();
+            for (String t : lata) {
+                suma.add(s.new Sumazalata(t));
+            }
+            double total = 0.0;
+            for (Inwestycje.Sumazalata o : suma) {
+                String rok = o.getRok();
+                for (Dok u : s.getDokumenty()) {
+                    if (u.getPkpirR().equals(rok)) {
+                        o.setKwota(o.getKwota()+u.getNetto());
+                        total += u.getNetto();
+                    }
+                }
+            }
+            s.setTotal(total);
+            inwestycjeDAO.edit(s);
+        }
+        
+    }
 }

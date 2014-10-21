@@ -58,6 +58,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByPkpirR", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR"),
     @NamedQuery(name = "Dok.findByVatM", query = "SELECT d FROM Dok d WHERE d.vatM = :vatM"),
     @NamedQuery(name = "Dok.findByVatR", query = "SELECT d FROM Dok d WHERE d.vatR = :vatR"),
+    @NamedQuery(name = "Dok.znajdzInwestycja", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.dataWyst = :data AND d.netto = :netto AND d.nrWlDk = :numer"),
     @NamedQuery(name = "Dok.findDuplicate", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.netto = :netto AND d.pkpirR = :pkpirR"),
     @NamedQuery(name = "Dok.findDuplicateAMO", query = "SELECT d FROM Dok d WHERE d.podatnik = :podatnik AND d.nrWlDk = :nrWlDk AND d.pkpirR = :pkpirR AND d.typdokumentu = 'AMO'"),
     @NamedQuery(name = "Dok.findDuplicatewTrakcie", query = "SELECT d FROM Dok d WHERE d.kontr1 = :kontr AND d.nrWlDk = :nrWlDk AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
