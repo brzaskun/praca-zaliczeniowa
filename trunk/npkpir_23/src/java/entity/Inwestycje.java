@@ -240,13 +240,23 @@ public class Inwestycje implements Serializable {
     }
 
     public class Sumazalata implements Serializable {
-
+        private static final long serialVersionUID = -6730292558506174856L;
         private String rok;
         private Double kwota;
 
         public String getRok() {
             return rok;
         }
+
+        public Sumazalata(String rok) {
+            this.rok = rok;
+            this.kwota = 0.0;
+        }
+
+        public Sumazalata() {
+        }
+        
+        
 
         public void setRok(String rok) {
             this.rok = rok;
@@ -259,6 +269,13 @@ public class Inwestycje implements Serializable {
         public void setKwota(Double kwota) {
             this.kwota = kwota;
         }
+
+        @Override
+        public String toString() {
+            return "Sumazalata{" + "rok=" + rok + ", kwota=" + kwota + '}';
+        }
+        
+        
     }
     
 }

@@ -58,6 +58,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import view.WpisView;
 
 /**
  *
@@ -975,6 +976,10 @@ public class SessionFacade<T> implements Serializable{
   
     public List<Transakcja> findByRozliczajacy(StronaWiersza s) {
         return em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList();
+    }
+
+    public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
+        return (Dok) em.createNamedQuery("Dok.znajdzInwestycja").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("data", r.getDataWyst()).setParameter("netto", r.getNetto() ).setParameter("numer", r.getNrWlDk()).getSingleResult();
     }
   
 }
