@@ -1,0 +1,101 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    <style>
+        .ui-inputfield .ui-inputtext {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+
+        .ui-datatable-data tr td {
+            padding: 0px !important;
+            margin: 0px !important;
+        }
+/*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
+        .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+        .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            font-weight: 900;
+            background: #e4e3e3;
+        }
+        
+        
+    </style>
+    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpir" widgetVar="dialog_srodki_dodaj" 
+              resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,350);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
+        <!--pola ewidencji SRODKOW TRWALYCH-->
+        <h:form id="formdialogsrodki">
+            <p:panel id="panelwyszukiwarki" style="width: 300px;" >
+                <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
+                <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                minQueryLength="3" maxResults="15" maxlength="20" itemtipMyPosition="rightbottom"
+                                queryDelay="100" size="70" style="margin-left: 2%;" placeholder="wpisz nazwę środka">
+                    <p:ajax event="blur" async="true" listener="#{STRTableView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane środka trwałego"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                            <h:outputText value="Stawka " />  
+                            <h:outputText id="nip1" value="#{pa.stawka}" />  
+                            <h:outputText value="KŚT " />  
+                            <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+            </p:panel>
+            <p:panel id="nowypanelsrodki" style="width: 600px;">
+                <p:panel header="dodawanie środka trw." style="width: 300px;" />
+                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4">
+                    <h:outputText value="nazwa środka"/>
+                    <p:column headerText="nazwa środka">
+                        <p:inputText id="nazwasrodka" value="#{STRTableView.selectedSTR.nazwa}"/>
+                    </p:column>
+                    <h:outputText value="data zakupu"/>
+                    <p:column>
+                        <p:inputText id="datazak" value="#{STRTableView.selectedSTR.datazak}" onblur="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                    </p:column>
+                    <h:outputText value="data przyjecia"/>
+                    <p:column>
+                        <p:inputText id="dataprz" value="#{STRTableView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                    </p:column>
+                    <h:outputText value="numer faktury"/>
+                    <p:column>
+                        <p:inputText value="#{STRTableView.selectedSTR.nrwldokzak}"/>
+                    </p:column>
+                    <h:outputText value="symbol KST"/>
+                    <p:column>
+                        <p:inputText value="#{STRTableView.selectedSTR.kst}"/>
+                    </p:column>
+                    <h:outputText value="cena zakupu"/>
+                    <p:column>
+                        <pe:inputNumber value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="środek trw/wyposazenie"/>
+                    <p:column>
+                        <h:selectOneMenu value="#{STRTableView.selectedSTR.typ}"
+                                          onfocus="$(this).addClass('ui-state-focus');"
+                                        onblur="$(this).removeClass('ui-state-focus');" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:panelGrid>
+                <p:commandButton value="dodaj środek trwały" actionListener="#{STRTableView.dodajSrodekTrwaly()}" update=":formSTR:akordeon" onclick="PF('dialog_srodki_dodaj').hide();"/>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

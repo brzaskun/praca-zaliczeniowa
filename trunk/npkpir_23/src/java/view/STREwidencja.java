@@ -4,6 +4,7 @@
  */
 package view;
 
+import comparator.SrodekTrwcomparatorData;
 import dao.STRDAO;
 import embeddable.STRtabela;
 import embeddable.Umorzenie;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -111,70 +113,70 @@ public class STREwidencja implements Serializable {
             strdocelowy.setListopad(0.0);
             strdocelowy.setGrudzien(0.0);
             List<Double> miesiace = new ArrayList<>();
-            Iterator itX;
-            itX = str.getUmorzWyk().iterator();
-            BigDecimal umorzenianarastajaco = new BigDecimal(0);
-            while (itX.hasNext()) {
-                Umorzenie um = (Umorzenie) itX.next();
-                if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
-                    Integer mc = um.getMcUmorzenia();
-                    switch (mc) {
-                        case 1:
-                            strdocelowy.setStyczen(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getStyczen());
-                            break;
-                        case 2:
-                            strdocelowy.setLuty(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLuty());
-                            break;
-                        case 3:
-                            strdocelowy.setMarzec(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMarzec());
-                            break;
-                        case 4:
-                            strdocelowy.setKwiecien(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getKwiecien());
-                            break;
-                        case 5:
-                            strdocelowy.setMaj(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMaj());
-                            break;
-                        case 6:
-                            strdocelowy.setCzerwiec(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getCzerwiec());
-                            break;
-                        case 7:
-                            strdocelowy.setLipiec(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLipiec());
-                            break;
-                        case 8:
-                            strdocelowy.setSierpien(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getSierpien());
-                            break;
-                        case 9:
-                            strdocelowy.setWrzesien(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getWrzesien());
-                            break;
-                        case 10:
-                            strdocelowy.setPazdziernik(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getPazdziernik());
-                            break;
-                        case 11:
-                            strdocelowy.setListopad(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getListopad());
-                            break;
-                        case 12:
-                            strdocelowy.setGrudzien(um.getKwota().doubleValue());
-                            strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getGrudzien());
-                            break;
-                    }
-                } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
-                    umorzenianarastajaco = umorzenianarastajaco.add(um.getKwota());
-                } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()) {
-                    break;
-                }
-            }
             try {
+                Iterator itX;
+                itX = str.getUmorzWyk().iterator();
+                BigDecimal umorzenianarastajaco = new BigDecimal(0);
+                while (itX.hasNext()) {
+                    Umorzenie um = (Umorzenie) itX.next();
+                    if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
+                        Integer mc = um.getMcUmorzenia();
+                        switch (mc) {
+                            case 1:
+                                strdocelowy.setStyczen(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getStyczen());
+                                break;
+                            case 2:
+                                strdocelowy.setLuty(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLuty());
+                                break;
+                            case 3:
+                                strdocelowy.setMarzec(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMarzec());
+                                break;
+                            case 4:
+                                strdocelowy.setKwiecien(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getKwiecien());
+                                break;
+                            case 5:
+                                strdocelowy.setMaj(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMaj());
+                                break;
+                            case 6:
+                                strdocelowy.setCzerwiec(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getCzerwiec());
+                                break;
+                            case 7:
+                                strdocelowy.setLipiec(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLipiec());
+                                break;
+                            case 8:
+                                strdocelowy.setSierpien(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getSierpien());
+                                break;
+                            case 9:
+                                strdocelowy.setWrzesien(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getWrzesien());
+                                break;
+                            case 10:
+                                strdocelowy.setPazdziernik(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getPazdziernik());
+                                break;
+                            case 11:
+                                strdocelowy.setListopad(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getListopad());
+                                break;
+                            case 12:
+                                strdocelowy.setGrudzien(um.getKwota().doubleValue());
+                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getGrudzien());
+                                break;
+                        }
+                    } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
+                        umorzenianarastajaco = umorzenianarastajaco.add(um.getKwota());
+                    } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()) {
+                        break;
+                    }
+                }
                 strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
             } catch (Exception e) {
                 strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO));
@@ -183,6 +185,7 @@ public class STREwidencja implements Serializable {
             strtabela.add(strdocelowy);
             i++;
         }
+        Collections.sort(strtabela, new SrodekTrwcomparatorData());
         STRtabela podsumowanie = new STRtabela();
         podsumowanie.setId(0);
         podsumowanie.setNazwa("");
@@ -232,18 +235,18 @@ public class STREwidencja implements Serializable {
         try {
             MailOther.ewidencjaSTR(wpisView);
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     public void drukewidencjaSTR() {
         try {
             PdfSTR.drukuj(wpisView, strtabela);
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     public STRDAO getsTRDAO() {
         return sTRDAO;
     }
