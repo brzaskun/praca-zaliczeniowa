@@ -112,7 +112,6 @@ public class STRView implements Serializable {
             }
             STR.setUmorzPlan(listaplanum);
             sTRDAO.dodaj(STR);
-            RequestContext ctx = null;
             RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+STR.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) {

@@ -6,7 +6,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <p:outputPanel id="wrapper" deferred="true">
-        <p:growl id="mess_add" />
+        <h:form id="formbuttonsrodki">
+            <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
+        </h:form>
+        <h:form id="formSTR">
+            <p:growl id="mess_add" autoUpdate="true"/>
         <p:panel id="infosrodki" header="informacje">
             <h:outputText value="liczba środków ogółem: #{STRTableView.iloscsrodkow}"/> <br/>
             <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok}"/>
@@ -16,7 +20,7 @@
         <p:tabView id="akordeon">
             <p:tab id="zestawieniestr" title="posiadane">
                 <p:contextMenu for="srodkiLista" style="width: 220px;">
-                <p:menuitem value="Wycofaj środek z ewidencji" update="@form" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
+                <p:menuitem value="Wycofaj środek z ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
             </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="6"
@@ -29,59 +33,59 @@
                         <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('srodkiLista1').filter()" style="width: 200px;"/>
                     </f:facet>
 
-                    <p:column id="idColumn" headerText="nr kolejny" width="40">  
+                    <p:column id="idColumn" headerText="nr kol." width="40">  
 
-                        <h:outputText value="#{wpis.nrsrodka}" />
+                        <h:outputText value="#{wpis.nrsrodka}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
 
                     <p:column id="dataColumn" headerText="data zakupu środka    " filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="80">  
 
-                        <h:outputText value="#{wpis.datazak}">
+                        <h:outputText value="#{wpis.datazak}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
                     <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="80">  
 
-                        <h:outputText value="#{wpis.dataprzek}">
+                        <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
                     <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nazwa}" width="200">  
 
-                        <h:outputText value="#{wpis.nazwa}"  />
+                        <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50">  
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50" style="text-align: center;">  
 
-                        <h:outputText value="#{wpis.kst}"  />
+                        <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
                     <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="70">  
 
-                        <h:outputText value="#{wpis.nrwldokzak}"  />
+                        <h:outputText value="#{wpis.nrwldokzak}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
                     <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="70">  
-                        <h:outputText value="#{wpis.netto}" style="float: right;">
+                        <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="vatwarColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="70">  
-                        <h:outputText value="#{wpis.vat}" style="float: right;">
+                        <h:outputText value="#{wpis.vat}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
 
                     <p:column id="umoColumn" headerText="umorzenie początkowe" filterBy="#{wpis.umorzeniepoczatkowe}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.umorzeniepoczatkowe}" width="70">  
-                        <h:outputText value="#{wpis.umorzeniepoczatkowe}" style="float: right;">
+                        <h:outputText value="#{wpis.umorzeniepoczatkowe}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.niepodlegaamortyzacji}" width="70">  
-                        <h:outputText value="#{wpis.niepodlegaamortyzacji}" style="float: right;">
+                        <h:outputText value="#{wpis.niepodlegaamortyzacji}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="stawka odpisu" filterBy="#{wpis.stawka}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="50">  
+                    <p:column id="stawkaColumn" headerText="stawka odpisu" filterBy="#{wpis.stawka}" style="text-align: center;" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="50">  
 
-                        <h:outputText value="#{wpis.stawka}%" >
+                        <h:outputText value="#{wpis.stawka}%"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertNumber maxFractionDigits="2"
                                              groupingUsed="true"
                                              maxIntegerDigits="5"
@@ -90,13 +94,13 @@
                     </p:column>
                     <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.odpisrok}" width="90">  
 
-                        <h:outputText value="#{wpis.odpisrok}" style="float: right;">
+                        <h:outputText value="#{wpis.odpisrok}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
                     <p:column id="odpismcColumn" headerText="odpis miesięczny" filterBy="#{wpis.odpismc}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.odpismc}" width="90">  
 
-                        <h:outputText value="#{wpis.odpismc}" style="float: right;">
+                        <h:outputText value="#{wpis.odpismc}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -108,7 +112,7 @@
             </p:tab>
             <p:tab id="zestawieniestrs" title="sprzedane">
                 <p:contextMenu for="srodkiListas" style="width: 220px;">
-                    <p:menuitem value="Przywróć środek do ewidencji" update="@form" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Przywróć środek do ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
                 </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{STRTableView.sprzedane}" id="srodkiListas" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="6"
@@ -120,7 +124,7 @@
                         <h:outputText value="Ewidencja srodkow trwalych" />  
                     </f:facet>
 
-                    <p:column id="idColumn" headerText="nr kolejny" width="40">  
+                    <p:column id="idColumn" headerText="nr kol." width="40">  
 
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
@@ -137,11 +141,11 @@
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nazwa}"  width="200">  
-
-                        <h:outputText value="#{wpis.nazwa}"  />
+                    <p:column id="nazwaColumn" headerText="nazwa środka trwałego" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nazwa}"  width="200"
+                              >  
+                        <h:outputText value="#{wpis.nazwa}"/>
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50">  
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50" style="text-align: center;">  
 
                         <h:outputText value="#{wpis.kst}"  />
                     </p:column>
@@ -161,7 +165,7 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="50">  
+                    <p:column id="stawkaColumn" headerText="odpis stawka" filterBy="#{wpis.stawka}"  style="text-align: center;" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="50">  
 
                         <h:outputText value="#{wpis.stawka}%" >
                             <f:convertNumber maxFractionDigits="2"
@@ -277,6 +281,7 @@
                 </p:dataTable>
             </p:tab>
         </p:tabView>
+        </h:form>
     </p:outputPanel>
 
 </ui:composition>   
