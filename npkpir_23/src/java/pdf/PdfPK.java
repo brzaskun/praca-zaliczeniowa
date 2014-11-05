@@ -16,6 +16,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.tools.Executable;
 import dao.AmoDokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
@@ -48,10 +49,11 @@ import view.WpisView;
 public class PdfPK {
 
  
-    public static void drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, AmoDokDAO amoDokDAO) throws DocumentException, FileNotFoundException, IOException {
+    public static String drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, AmoDokDAO amoDokDAO) throws DocumentException, FileNotFoundException, IOException {
         Dok selected = gosciuwybral.get(0);
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf"));
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         writer.setInitialLeading(16);
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -152,7 +154,8 @@ public class PdfPK {
         document.add(new Paragraph("___________________________", fontM));
         document.add(new Paragraph("sporządził", fontM));
         document.close();
-        Msg.msg("i", "Wydrukowano PK", "form:messages");
+        Msg.msg("i", "Sporządzono dokument w pdf", "form:messages");
+        return nazwapliku;
     }
 
     private static void dodajamo(Document document, AmoDokDAO amoDokDAO, WpisView wpisView) throws DocumentException, IOException {
@@ -262,5 +265,14 @@ public class PdfPK {
         }
     }
 
+    public static void silentPrintPdf(String nazwapliku) {
+         try{
+               Executable ex = new Executable();
+               ex.printDocumentSilent(nazwapliku);
+               Msg.msg("i", "Wysłano dokument na drukarkę", "form:messages");
+            }catch(IOException e){
+               e.printStackTrace();
+            }        
+    }
     
 }

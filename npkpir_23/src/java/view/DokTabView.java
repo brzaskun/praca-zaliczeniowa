@@ -388,6 +388,14 @@ public class DokTabView implements Serializable {
              
          }
      }
+       
+       public void printPDFPKWydruk() {
+         try {
+            PdfPK.silentPrintPdf(PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO));
+         } catch (Exception e) {
+             
+         }
+     }
     
     public String wysokosctabeli() {
               //FacesContext.getCurrentInstance().getExternalContext().get
