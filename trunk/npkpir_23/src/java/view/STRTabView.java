@@ -68,6 +68,7 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> obiektDOKjsf;
     //tablica obiektw danego klienta
     private List<SrodekTrw> obiektDOKjsfSel;
+    private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
     private List<SrodekTrw> sprzedane;
     //tablica obiektów danego klienta z określonego roku i miesiąca
@@ -426,6 +427,15 @@ public class STRTabView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public List<SrodekTrw> getFilteredValues() {
+        return filteredValues;
+    }
+
+    public void setFilteredValues(List<SrodekTrw> filteredValues) {
+        this.filteredValues = filteredValues;
+    }
+
     public STRDAO getsTRDAO() {
         return sTRDAO;
     }

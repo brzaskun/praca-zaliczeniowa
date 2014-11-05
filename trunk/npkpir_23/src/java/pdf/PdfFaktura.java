@@ -15,12 +15,12 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.tools.Executable;
 import comparator.Pozycjenafakturzecomparator;
 import dao.FakturadodelementyDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
-import entity.EVatwpis1;
 import entity.Faktura;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
@@ -41,9 +41,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
-import static pdf.PdfVAT7.absText;
 import slownie.Slownie;
-import view.FakturaView;
 import view.WpisView;
 
 
@@ -275,6 +273,16 @@ public class PdfFaktura extends Pdf implements Serializable {
             String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + "');";
             RequestContext.getCurrentInstance().execute(funkcja);
         }
+
+    }
+    
+    private void silentPrintPdf(String nazwapliku) {
+         try{
+               Executable ex = new Executable();
+               ex.printDocumentSilent(nazwapliku);
+            }catch(IOException e){
+               e.printStackTrace();
+            }        
     }
 
     private String przerobkwote(double kwota) {

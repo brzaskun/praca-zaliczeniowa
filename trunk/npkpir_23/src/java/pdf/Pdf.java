@@ -9,6 +9,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.tools.Executable;
 import dao.AmoDokDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
@@ -123,6 +124,15 @@ public class Pdf implements Serializable {
 
     protected int liczydlo = 0;
 
+    protected void init(String fileName) {
+        try{
+               Executable ex = new Executable();
+               ex.openDocument(fileName);
+               ex.printDocument(fileName);
+            }catch(IOException e){
+               e.printStackTrace();
+            }
+    }
     //<editor-fold defaultstate="collapsed" desc="comment">
     public int getLiczydlo() {
         return liczydlo;

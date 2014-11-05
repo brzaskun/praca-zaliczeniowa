@@ -6,9 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
-      
+      <bcf:ajaxs/>
         <h:form id="formzestawienie">
-            <p:commandButton value="pobierz" actionListener="#{fakturaZestView.init()}" update="@form"/>
+            <p><p:commandButton value="pobierz" actionListener="#{fakturaZestView.init()}" update="@form" style="width: 120px;"/></p>
             <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="max-width: 1200px;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy">
