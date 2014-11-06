@@ -22,7 +22,7 @@
                 <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText><h:outputText value="zł  "/><br/><br/>
             <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFiltered}"
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1200px;">
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1000px;">
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:podsumowaniewybrnetto"/>      
@@ -41,22 +41,22 @@
                 <p:column headerText="email" sortBy="#{wpis.kontrahent.email}" filterBy="#{wpis.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.email}"/>
                 </p:column>
-                <p:column headerText="data wystawienia" sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;"  width="150">
+                <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;"  width="90">
                     <h:outputText value="#{wpis.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="150">
+                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="100">
                     <h:outputText value="#{wpis.brutto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     <h:outputText value="#{wpis.walutafaktury}"/>
                 </p:column>
-                <p:column headerText="wysłana" sortBy="#{wpis.wyslana}" style="text-align: center;" width="70">
+                <p:column headerText="wysł." sortBy="#{wpis.wyslana}" style="text-align: center;" width="50">
                     <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column headerText="zaksiegow." sortBy="#{wpis.zaksiegowana}" style="text-align: center;" width="70">
+                <p:column headerText="zaksi." sortBy="#{wpis.zaksiegowana}" style="text-align: center;" width="50">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column style="text-align: center;"  width="70">
+                <p:column headerText="pdf" style="text-align: center;"  width="50">
                     <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row)}" icon="ui-icon-print" />
                 </p:column>
             </p:dataTable>
