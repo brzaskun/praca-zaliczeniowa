@@ -9,7 +9,7 @@
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
                 <p:menuitem value="Mail do kontr." update=":formM:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
                 <p:menuitem value="Okresowa" update=":formM:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
-                <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />
+                <p:menuitem value="Drukuj" update=":formM:messages" actionListener="#{fakturaView.pdffaktura()}" icon="ui-icon-print" />
                 <p:menuitem value="Zaksięguj" update=":formM:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
                 <p:separator/>

@@ -27,21 +27,20 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
+import javax.ejb.Singleton;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-
+@Singleton
 public class PdfVAT {
 
     public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {

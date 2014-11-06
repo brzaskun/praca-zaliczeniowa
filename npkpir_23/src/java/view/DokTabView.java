@@ -40,6 +40,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PDFDirectPrint;
 import pdf.PdfPK;
 
 /**
@@ -391,7 +392,7 @@ public class DokTabView implements Serializable {
        
        public void printPDFPKWydruk() {
          try {
-            PdfPK.silentPrintPdf(PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO));
+             PDFDirectPrint.silentPrintPdf(PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO));
          } catch (Exception e) {
              
          }

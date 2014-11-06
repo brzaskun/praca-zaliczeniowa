@@ -265,14 +265,6 @@ public class PdfPK {
         }
     }
 
-    public static void silentPrintPdf(String nazwapliku) {
-         try{
-               Executable ex = new Executable();
-               ex.printDocumentSilent(nazwapliku);
-               Msg.msg("i", "Wysłano dokument na drukarkę", "form:messages");
-            }catch(IOException e){
-               e.printStackTrace();
-            }        
-    }
+ 
     
 }

@@ -674,7 +674,7 @@ public class FakturaView implements Serializable {
             if (kwotaprzedwaloryzacja > 0) {
                 fakturatmp = fakturywystokresoweDAO.findOkresowa(kwotaprzedwaloryzacja, rok, p.getKontrahent_nip(), podatnik);
                 //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
-                if (fakturatmp == null) {
+                if (fakturatmp == null) { 
                     fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
                 }
             } else {
@@ -705,7 +705,9 @@ public class FakturaView implements Serializable {
         for (Fakturywystokresowe p : gosciwybralokres) {
             fakturywystokresoweDAO.destroy(p);
             fakturyokresowe.remove(p);
-            fakturyokresoweFiltered.remove(p);
+            if (fakturyokresoweFiltered != null) {
+                fakturyokresoweFiltered.remove(p);
+            }
             Msg.msg("i", "Usunięto fakturę okresową");
         }
         RequestContext.getCurrentInstance().update("akordeon:formokresowe:dokumentyOkresowe");
@@ -779,7 +781,7 @@ public class FakturaView implements Serializable {
                         nrkolejny = Integer.parseInt(elementy[0]);
                     } else {
                         String[] elementytmp = f.getFakturaPK().getNumerkolejny().split(separator);
-                        int nrkolejnytmp = Integer.parseInt(elementytmp[0]);
+                        int nrkolejnytmp = Integer.parseInt(elementytmp[0].replaceAll("[^\\d.]", ""));
                         if (nrkolejnytmp > nrkolejny) {
                             nrkolejny = nrkolejnytmp;
                             elementy  = f.getFakturaPK().getNumerkolejny().split(separator);
@@ -1031,12 +1033,21 @@ public class FakturaView implements Serializable {
         }
     }
     
-    public void drukujfaktura() {
+    public void pdffaktura() {
         try {
             pdfFaktura.drukuj(gosciwybral, wpisView);
         } catch (Exception e) {
         }
     }
+    
+    public void drukujfaktura() {
+        try {
+            pdfFaktura.drukujPrinter(gosciwybral, wpisView);
+        } catch (Exception e) {
+        }
+    }
+    
+    
     
     public void oznaczonejakowyslane() {
         MailOther.oznaczonejakowyslane(gosciwybral, fakturaDAO);
