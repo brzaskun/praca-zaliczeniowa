@@ -28,7 +28,6 @@ import entity.VATDeklaracjaKorektaDok;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -39,11 +38,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import view.VatKorektaView;
 import view.WpisView;
 
 /**

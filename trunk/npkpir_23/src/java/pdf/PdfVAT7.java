@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
 import org.primefaces.context.RequestContext;
 
 /**
