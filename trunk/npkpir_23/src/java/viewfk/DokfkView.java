@@ -427,9 +427,15 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                int lpmacierzystego = wiersz.getLpmacierzystego();
+                if (lpmacierzystego == 0) {
+                    ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
+                }
                 Konto kontown = wiersz.getStronaWn().getKonto();
                 wiersz.getStronaWn().setKwota(kwotanowa);
-                if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+                boolean sprawdzczworki = wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki();
+                boolean sprawdzpiatki = wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7;
+                if ( sprawdzczworki || sprawdzpiatki) {
                     dodajNowyWierszStronaWnPiatka(wiersz);
                 } else if (piatka(wiersz)) {
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -443,7 +449,7 @@ public class DokfkView implements Serializable {
             }
         }
     }
-    
+    //sprawdza czy wiersz po stronie wn to piatka z kwotami takimi samymi po stronie wn i ma
     private boolean piatka (Wiersz wiersz) {
         StronaWiersza wn = wiersz.getStronaWn();
         StronaWiersza ma = wiersz.getStronaMa();
@@ -482,6 +488,10 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                int lpmacierzystego = wiersz.getLpmacierzystego();
+                if (lpmacierzystego == 0) {
+                    ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
+                }
                 Konto kontoma = wiersz.getStronaMa().getKonto();
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 if ((wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
@@ -525,6 +535,25 @@ public class DokfkView implements Serializable {
                         dolaczNowyWiersz(indexwTabeli, true);
                     } catch (Exception e) {
                         dolaczNowyWiersz(indexwTabeli, false);
+                    }
+                } else if (kwotaWn == kwotaMa) {
+                    try {
+                        do {
+                            wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
+                            if (wiersznastepny.getStronaWn().getKonto() != null) {
+                                boolean sprawdzczworki = wiersznastepny.getStronaWn().getKonto().getPelnynumer().startsWith("4");
+                                boolean sprawdzpiatki = wiersznastepny.getTypWiersza() == 5 || wiersznastepny.getTypWiersza() == 6 || wiersznastepny.getTypWiersza() == 7;
+                                if (sprawdzpiatki) {
+
+                                } else if (sprawdzczworki){
+                                    selected.getListawierszy().remove(wiersznastepny);
+                                }
+                            } else {
+                                selected.getListawierszy().remove(wiersznastepny);
+                            }
+                        } while (true);
+                    } catch (Exception e) {
+                        
                     }
                 }
             } catch (Exception e) {
