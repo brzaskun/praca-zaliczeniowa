@@ -59,7 +59,7 @@
                                      title="wpisz numer dnia, lub miesiąc i dzień"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
+                                         $(this).addClass('ui-state-focus');" style="height: 19px;"
                                      >
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
@@ -124,7 +124,7 @@
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');" style="width: 200px;"
+                                                     $(this).addClass('ui-state-default');" style="width: 200px; height: 19px;"
                                                              converter="RodzajedokConv">
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:paneldaneogolnefaktury"/>
@@ -181,7 +181,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');"
+                                         $(this).addClass('ui-state-default');" style="height: 19px;"
                                      >
                             <f:ajax />
                         </h:inputText>
@@ -219,6 +219,7 @@
                                                          $(this).addClass('ui-state-focus');"
                                              onblur="$(this).removeClass('ui-state-focus');
                                                          $(this).addClass('ui-state-default');"
+                                                          style="height: 19px;"
                                              >
                                 <f:ajax />
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
@@ -238,7 +239,7 @@
                     <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                  style="width: 100%;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}">
                         <p:column headerText="rodzaj ewidencji" style="width: 23%;">
-                            <h:outputText value="#{item.opis}"/>
+                            <h:outputText value="#{item.opis}" style="height: 19px"/>
                         </p:column>
                         <p:column headerText="netto" style="width: 20%;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 

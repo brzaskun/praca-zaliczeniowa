@@ -14,6 +14,7 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -260,6 +261,7 @@ public class ObslugaWiersza {
         double kwotawielka = 0.0;
         double sumaczastowych = 0.0;
         //idziemy w gore i sumujemy
+        boolean kwotawielkaPoWn = false;
         for (int i = lpmerwiersza; i > 0; i--) {
             //jest i-2 bo i-1 jest usuniety i na jego miejsce wpasl nizej polozony wiersz
             int iW = i-2;
@@ -280,6 +282,19 @@ public class ObslugaWiersza {
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 0) {
+                //jezeli juz jest jakis wiersz podpiety to trzeba to uwzglednic
+                try {
+                    Wiersz nastepny = selected.getListawierszy().get(lpmerwiersza);
+                    if (nastepny.getTypWiersza() == 1) {
+                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+                        kwotawielkaPoWn = false;
+                    } else {
+                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+                        kwotawielkaPoWn = true;
+                    }
+                } catch (Exception e) {
                 //jak tego nie bedzie to wyjda minusy potem, bo return jest bez abs
                     if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
                         kwotawielka = wierszbiezacy.getStronaWn().getKwota();
@@ -290,6 +305,7 @@ public class ObslugaWiersza {
                         sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
                         break;
                     }
+                }
             }
         }
         int ostatnielpwiersza = selected.getListawierszy().size()+1;
@@ -300,13 +316,21 @@ public class ObslugaWiersza {
                 int iW = i-1;
                 if(wierszbiezacy.getTypWiersza() == 2) {
                     if (lista.get(iW).getTypWiersza()==2) {
-                        sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+                        if (kwotawielkaPoWn) {
+                            sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+                        } else {
+                            sumaczastowych -= lista.get(iW).getStronaMa().getKwota();
+                        }
                     } else if (lista.get(iW).getTypWiersza()==0) {
                         break;
                     }
                 } else if (wierszbiezacy.getTypWiersza() == 1) {
                     if (lista.get(iW).getTypWiersza()==1) {
-                        sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+                        if (kwotawielkaPoWn) {
+                            sumaczastowych -= lista.get(iW).getStronaWn().getKwota();
+                        } else {
+                            sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+                        }
                     } else if (lista.get(iW).getTypWiersza()==0) {
                         // bo dotarlismy do nastepnego macierzystego
                         break;
@@ -532,5 +556,20 @@ public class ObslugaWiersza {
         }
     }
 
+    public static void usunpuste(Wiersz wiersz, List<Wiersz> listawierszy) {
+        int lpmacierzystego = wiersz.getIdporzadkowy();
+        for (Iterator<Wiersz> lWiersz = listawierszy.iterator(); lWiersz.hasNext();) {
+            Wiersz p = lWiersz.next();
+            Konto kWn = p.getStronaWn() != null? p.getStronaWn().getKonto() : null;
+            Konto kMa = p.getStronaMa() != null? p.getStronaMa().getKonto() : null;
+            if (kWn == null && kMa == null) {
+                lWiersz.remove();
+            }
+        }
+    }
+
+   
+
+    
    
 }
