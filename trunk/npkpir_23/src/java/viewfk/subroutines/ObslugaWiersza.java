@@ -271,6 +271,7 @@ public class ObslugaWiersza {
                 } else if (lista.get(iW).getTypWiersza()==0) {
                     sumaczastowych += lista.get(iW).getStronaMa().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaWn().getKwota();
+                    kwotawielkaPoWn = true;
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 1) {
@@ -279,6 +280,7 @@ public class ObslugaWiersza {
                 } else if (lista.get(iW).getTypWiersza()==0) {
                     sumaczastowych += lista.get(iW).getStronaWn().getKwota();
                     kwotawielka +=  lista.get(iW).getStronaMa().getKwota();
+                    kwotawielkaPoWn = false;
                     break;
                 }
             } else if (wierszbiezacy.getTypWiersza() == 0) {
@@ -299,10 +301,12 @@ public class ObslugaWiersza {
                     if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
                         kwotawielka = wierszbiezacy.getStronaWn().getKwota();
                         sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+                        kwotawielkaPoWn = true;
                         break;
                     } else {
                         kwotawielka = wierszbiezacy.getStronaMa().getKwota();
                         sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+                        kwotawielkaPoWn = false;
                         break;
                     }
                 }

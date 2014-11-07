@@ -428,7 +428,7 @@ public class DokfkView implements Serializable {
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 int lpmacierzystego = wiersz.getLpmacierzystego();
-                if (lpmacierzystego == 0) {
+                if (lpmacierzystego == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
                 Konto kontown = wiersz.getStronaWn().getKonto();
@@ -489,7 +489,7 @@ public class DokfkView implements Serializable {
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 int lpmacierzystego = wiersz.getLpmacierzystego();
-                if (lpmacierzystego == 0) {
+                if (lpmacierzystego == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
                 Konto kontoma = wiersz.getStronaMa().getKonto();
@@ -587,7 +587,6 @@ public class DokfkView implements Serializable {
         if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
             dolaczNowyWierszPusty(indexwTabeli, false);
         }
-        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
@@ -1247,9 +1246,6 @@ public void updatenetto(EwidencjaAddwiad e) {
         } else {
             pokazPanelWalutowy = false;
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
-        //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        //RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
     }
     

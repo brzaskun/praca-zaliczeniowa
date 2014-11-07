@@ -66,7 +66,7 @@ var TabKeyDown;
             } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                     console.log("wierszMa");
                     MYAPP.liczydloWcisnietychEnter = 2;
-                    $(document.getElementById("wpisywaniefooter:dodajwierszMa")).click();
+                    $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
