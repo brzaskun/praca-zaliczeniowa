@@ -8,6 +8,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
     $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
+    focusNaNowoDodanym();
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -172,6 +173,15 @@ var czydodackontoShow = function (){
     $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
 };
 
+var focusNaNowoDodanym = function() {
+    var rzedy = r("formwpisdokument:dataList_data").children();
+    var wybrany = $(rzedy[rzedy.size()-1]).children().get(1);
+    console.log(wybrany);
+    if ($(wybrany.firstChild).val() == "") {
+        $(wybrany.firstChild).focus();
+        document.activeElement = $(wybrany.firstChild);
+    }
+};
 
 
 

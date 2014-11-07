@@ -58,8 +58,7 @@
                                                  $(this).addClass('ui-state-default');"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                         $(this).addClass('ui-state-focus');" style="height: 19px;"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" style="height: 19px;"
                                      >
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
@@ -124,13 +123,11 @@
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');" style="width: 200px; height: 19px;"
-                                                             converter="RodzajedokConv">
-                             <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
+                                                     $(this).addClass('ui-state-default');" 
+                                                     style="width: 200px; height: 19px;" converter="RodzajedokConv">
+                            <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
+                            <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:paneldaneogolnefaktury"/>
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny"/>
-                            
-                            
                         </h:selectOneMenu>
                         <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -217,8 +214,7 @@
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                          $(this).addClass('ui-state-focus');"
-                                             onblur="$(this).removeClass('ui-state-focus');
-                                                         $(this).addClass('ui-state-default');"
+                                             onblur="$(this).removeClass('ui-state-focus'); $(this).addClass('ui-state-default');"
                                                           style="height: 19px;"
                                              >
                                 <f:ajax />
@@ -239,11 +235,11 @@
                     <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                  style="width: 100%;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}">
                         <p:column headerText="rodzaj ewidencji" style="width: 23%;">
-                            <h:outputText value="#{item.opis}" style="height: 19px"/>
+                            <h:outputText value="#{item.opis}" />
                         </p:column>
                         <p:column headerText="netto" style="width: 20%;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="text-align: right; width: 95%; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" listener="#{dokfkView.updatenetto(item)}" />
                             </pe:inputNumber>
                         </p:column>
@@ -280,10 +276,10 @@
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranoWierszMsg}"/>
                     <p:column headerText="lp" width="20" style="text-align: center" >
-                        <h:outputText value="#{loop.idporzadkowy}" />
+                        <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
                     <p:column headerText="opis transakcji" width="200" style="text-align: center;">
-                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 200px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 200px; height: 19px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <p:ajax event="focus" oncomplete="wybierzdate();"/>
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
@@ -317,11 +313,11 @@
 
                     <p:column headerText="konto Wn" width="140" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
-                                        minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
+                                        minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" 
+                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="blur" partialSubmit="true"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
@@ -331,7 +327,7 @@
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 90px;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
-                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}"  />
+                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
                     <p:column width="12" style="text-align: center" >
@@ -340,13 +336,13 @@
                     <p:column headerText="konto Ma" width="120" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
-                                        minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}"
+                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
                                         >
                             <p:ajax event="blur" partialSubmit="true"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column width="3" >
@@ -377,7 +373,7 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajwierszMa" value="dodajwierszMa" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" update=":formwpisdokument:dataList" style="display: none;" oncomplete="pozazieleniajNoweTransakcje();"/>
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" style="display: none;" update=":formwpisdokument:dataList" oncomplete="pozazieleniajNoweTransakcje();"/>
             </h:form>
         </f:facet>
 
