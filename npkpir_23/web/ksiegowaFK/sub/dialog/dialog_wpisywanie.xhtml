@@ -24,8 +24,6 @@
             padding: 0px;
         }
         .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
-            -webkit-box-shadow: none;
-            box-shadow: none;
             font-weight: 900;
             background: #e4e3e3;
         }
@@ -34,6 +32,9 @@
            width: 250px;
         }
  
+        .ui-autocomplete input {
+            width: 150px;
+        }
        
 
     </style>
@@ -311,11 +312,11 @@
                         <h:outputText id="symbolWn" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaWn != null}"/>
                     </p:column>
 
-                    <p:column headerText="konto Wn" width="140" style="text-align: center;"> 
+                    <p:column headerText="konto Wn" width="120" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                        minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10"
-                                        converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
+                                        minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10" cache="true"
+                                        converterMessage="Nieudana konwersja Klient" style="margin-left: 0; margin-right: 0; width: 160px;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
                                         ><!--to teraz powoduje blad-->
@@ -336,7 +337,7 @@
                     <p:column headerText="konto Ma" width="120" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
-                                        minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10"  cache="true"
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
