@@ -703,33 +703,35 @@ public class DokfkView implements Serializable {
     }
     
     public void podepnijEwidencjeVat() {
-            String skrotRT = (String) Params.params("formwpisdokument:symbol");
-            String transakcjiRodzaj = "";
-            for (Rodzajedok temp : rodzajedokKlienta) {
-                if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
-                    transakcjiRodzaj = temp.getRodzajtransakcji();
-                    break;
+            if (selected.getwTrakcieEdycji() == false) {
+                String skrotRT = (String) Params.params("formwpisdokument:symbol");
+                String transakcjiRodzaj = "";
+                for (Rodzajedok temp : rodzajedokKlienta) {
+                    if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
+                        transakcjiRodzaj = temp.getRodzajtransakcji();
+                        break;
+                    }
                 }
-            }
-            symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-            boolean nievatowiec = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
-            if (!nievatowiec) {
-                /*wyswietlamy ewidencje VAT*/
-                List opisewidencji = new ArrayList<>();
-                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
-                ewidencjaAddwiad = new ArrayList<>();
-                int k = 0;
-                for (Object p : opisewidencji) {
-                    EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
-                    ewidencjaAddwiad.setLp(k++);
-                    ewidencjaAddwiad.setOpis((String) p);
-                    ewidencjaAddwiad.setNetto(0.0);
-                    ewidencjaAddwiad.setVat(0.0);
-                    ewidencjaAddwiad.setBrutto(0.0);
-                    ewidencjaAddwiad.setOpzw("op");
-                    this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+                symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                boolean nievatowiec = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
+                if (!nievatowiec) {
+                    /*wyswietlamy ewidencje VAT*/
+                    List opisewidencji = new ArrayList<>();
+                    opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+                    ewidencjaAddwiad = new ArrayList<>();
+                    int k = 0;
+                    for (Object p : opisewidencji) {
+                        EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                        ewidencjaAddwiad.setLp(k++);
+                        ewidencjaAddwiad.setOpis((String) p);
+                        ewidencjaAddwiad.setNetto(0.0);
+                        ewidencjaAddwiad.setVat(0.0);
+                        ewidencjaAddwiad.setBrutto(0.0);
+                        ewidencjaAddwiad.setOpzw("op");
+                        this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+                    }
+                    RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
                 }
-                RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
             }
     }
     
@@ -1113,6 +1115,7 @@ public void updatenetto(EwidencjaAddwiad e) {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWaluty(p);
                 }
+                dolaczEwidencjeVATDoDokumentu();
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.clear();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
@@ -1390,30 +1393,30 @@ public void updatenetto(EwidencjaAddwiad e) {
         return zwrot;
     }
 
-    public void przygotujDokumentEdycja(Dokfk item) {
+    public void przygotujDokumentEdycja(Dokfk wybranyDokfk) {
         try {
-            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(item);
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
             if (odnalezionywbazie.getwTrakcieEdycji() == true) {
-                item.setwTrakcieEdycji(true);
-                selected = item;
+                wybranyDokfk.setwTrakcieEdycji(true);
+                selected = wybranyDokfk;
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             } else {
-                selected = item;
+                selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-                Msg.msg("i", "Wybrano dokument do edycji " + item.getDokfkPK().toString());
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 selected.setWartoscdokumentu(0.0);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
-                if (item.getDokfkPK().getSeriadokfk().equals("WB")) {
+                if (wybranyDokfk.getDokfkPK().getSeriadokfk().equals("WB")) {
                     pokazPanelWalutowy = true;
                 } else {
                     pokazPanelWalutowy = false;
                 }
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
             }
-            int j = 1;
+            int j = 0;
             try {//trzeba ignorowac w przypadku dokumentow prostych
                 for (EVatwpisFK s : selected.getEwidencjaVAT()) {
                     EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
