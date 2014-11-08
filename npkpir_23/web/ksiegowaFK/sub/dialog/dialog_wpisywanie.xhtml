@@ -308,7 +308,7 @@
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" />
                         </pe:inputNumber>
                     </p:column>
-                    <p:column width="12" style="text-align: center" >
+                    <p:column width="12" style="text-align: center" rendered="#{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
                         <h:outputText id="symbolWn" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaWn != null}"/>
                     </p:column>
 
@@ -331,7 +331,7 @@
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
-                    <p:column width="12" style="text-align: center" >
+                    <p:column width="12" style="text-align: center"  rendered="#{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
                         <h:outputText id="symbolMa" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaMa != null}"/>
                     </p:column>
                     <p:column headerText="konto Ma" width="120" style="text-align: center;">
@@ -346,12 +346,12 @@
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column width="3" >
-                        <h:outputText id="wnNowaTransakcja" value="#{loop.stronaWn.typStronaWiersza}" />
+<!--                    <p:column width="3" >
+                        <h:outputText id="wnNowaTransakcja" value="{loop.stronaWn.typStronaWiersza}" />
                     </p:column>
                     <p:column  width="3">
-                        <h:outputText id="maNowaTransakcja" value="#{loop.stronaMa.typStronaWiersza}" />
-                    </p:column>
+                        <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
+                    </p:column>-->
                 </p:dataTable>
                 <p:panel style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
