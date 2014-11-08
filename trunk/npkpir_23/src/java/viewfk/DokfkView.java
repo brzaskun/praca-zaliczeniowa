@@ -427,8 +427,7 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                int lpmacierzystego = wiersz.getLpmacierzystego();
-                if (lpmacierzystego == 0 && kwotastara != 0) {
+                if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
                 Konto kontown = wiersz.getStronaWn().getKonto();
@@ -437,12 +436,14 @@ public class DokfkView implements Serializable {
                 boolean sprawdzpiatki = wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7;
                 if ( sprawdzczworki || sprawdzpiatki) {
                     dodajNowyWierszStronaWnPiatka(wiersz);
-                } else if (piatka(wiersz)) {
+                } else if ((wiersz.getTypWiersza() == 5) && piatka(wiersz)) {
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                     return;
                 } else {
                     dodajNowyWierszStronaWn(wiersz);
                 }
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             } catch (Exception e1) {
 
@@ -488,8 +489,7 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                int lpmacierzystego = wiersz.getLpmacierzystego();
-                if (lpmacierzystego == 0 && kwotastara != 0) {
+                if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
                 Konto kontoma = wiersz.getStronaMa().getKonto();
@@ -500,6 +500,8 @@ public class DokfkView implements Serializable {
                     dodajNowyWierszStronaMa(wiersz);
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu"); 
             } catch (Exception e1) {
                 System.out.println(e1);
             }
@@ -1105,7 +1107,6 @@ public void updatenetto(EwidencjaAddwiad e) {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
-                selected.setWartoscdokumentu(0.0);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 selected.setwTrakcieEdycji(false);

@@ -1,5 +1,6 @@
 var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
+    var source = event.target || event.srcElement;
     MYAPP.lpwiersza = lpwiersza;
     MYAPP.wnlubma = wnlubma;
     MYAPP.zaznaczonepole = event.target;
@@ -8,7 +9,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
     $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
-    focusNaNowoDodanym();
+    setTimeout(focusNaNowoDodanym(source),5000);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -173,13 +174,15 @@ var czydodackontoShow = function (){
     $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
 };
 
-var focusNaNowoDodanym = function() {
+var focusNaNowoDodanym = function(source) {
     var rzedy = r("formwpisdokument:dataList_data").children();
-    var wybrany = $(rzedy[rzedy.size()-1]).children().get(1);
-    console.log(wybrany);
-    if ($(wybrany.firstChild).val() == "") {
-        $(wybrany.firstChild).focus();
-        document.activeElement = $(wybrany.firstChild);
+    for (var rzad in rzedy) {
+        var wybrany = $(rzedy[rzad]).children().get(1);
+        console.log(wybrany);
+        if ($(wybrany.firstChild).val() == "") {
+            $(wybrany.firstChild).focus();
+            break;
+        }
     }
 };
 

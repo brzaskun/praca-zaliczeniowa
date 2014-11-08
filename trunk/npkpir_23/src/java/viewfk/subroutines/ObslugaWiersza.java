@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
