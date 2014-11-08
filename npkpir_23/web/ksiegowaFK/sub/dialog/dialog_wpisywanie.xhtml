@@ -72,6 +72,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
+                            <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                         <h:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie');
@@ -82,6 +83,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
+                            <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                         <h:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie');
@@ -92,6 +94,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
+                            <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                          <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 60px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -170,9 +173,9 @@
                             <f:ajax event="blur" execute="@this"/>
                         </h:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidok" columns="3" style="min-width: 95%;"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
                         <h:outputText value="treść dok."/>
-                        <h:outputText value="kontrahent"/>
+                        <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 'kontrahent' : ''}"/>
                         <h:outputText value="wartość dokumentu"/>
                         <h:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -187,7 +190,8 @@
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" valueChangeListener="#{kliencifkView.pobieraniekontaFKWpis}"
-                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();">
+                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();"
+                                rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2}" style="width: 250px;">
                         <f:ajax event="blur" execute="@this"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -202,7 +206,8 @@
                                 <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
                             </h:panelGrid>
                         </f:facet>
-                    </p:autoComplete>
+                        </p:autoComplete>
+                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>
                          <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
