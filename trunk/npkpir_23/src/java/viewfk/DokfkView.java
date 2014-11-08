@@ -1245,7 +1245,7 @@ public void updatenetto(EwidencjaAddwiad e) {
             }
         }
         //pokazuje daty w wierszach
-        if (skrotnazwydokumentu.equals("WB")) {
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
             pokazPanelWalutowy = true;
         } else {
             pokazPanelWalutowy = false;

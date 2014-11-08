@@ -117,8 +117,8 @@
                         <h:outputText value="symbol"/>
                         <h:outputText value="numer"/>
                         <h:outputText value="numer własny"/>
-                       <h:outputText value="rok VAT"/>
-                        <h:outputText value="mc VAT"/>
+                       <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'rok VAT' : ''}"/>
+                        <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'mc VAT' : ''}"/>
                          
                          <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -128,7 +128,7 @@
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                             <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
-                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:paneldaneogolnefaktury"/>
+                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument"/>
                         </h:selectOneMenu>
                         <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -223,12 +223,12 @@
                             </h:selectOneMenu>
                         </p:panelGrid>
                         <p:panelGrid id="panelTabelaNBP"  columns="3" style="min-width: 80%;"   styleClass="uipanelGrid0">
-                            <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                            <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
+                            <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
+                            <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
+                            <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
+                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
+                            <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy and dokfkView.selected.rodzajedok != 0}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
@@ -272,15 +272,15 @@
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
                 <!--                poszczególne wiersze-->
-                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="width: 980px; max-height: 440px;" 
+                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 980px; max-height: 440px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                     <p:ajax event="rowSelect"  listener="#{dokfkView.wybranoWierszMsg}"/>
-                    <p:column headerText="lp" width="20" style="text-align: center" >
+                    <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
-                    <p:column headerText="opis transakcji" width="200" style="text-align: center;">
-                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 200px; height: 19px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                    <p:column headerText="opis transakcji" width="150" style="text-align: center;">
+                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 240px; height: 19px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <p:ajax event="focus" oncomplete="wybierzdate();"/>
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
@@ -295,24 +295,24 @@
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="data" width="50" style="text-align: center;"  rendered="#{dokfkView.pokazPanelWalutowy}" >
+                    <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.pokazPanelWalutowy}" >
                         <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="keyup" execute="@this"/>
                             <f:ajax event="blur" listener="#{dokfkView.pobierzkursNBPwiersz(loop.dataWalutyWiersza, loop)}"/>
                         </p:spinner>
                     </p:column>
-                    <p:column headerText="kwota"  style="text-align: center;" width="80">
-                        <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 90px;" rendered="#{loop.stronaWn != null}"
+                    <p:column headerText="kwota"  style="text-align: center;" width="60">
+                        <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" />
                         </pe:inputNumber>
                     </p:column>
-                    <p:column width="12" style="text-align: center" rendered="#{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
-                        <h:outputText id="symbolWn" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaWn != null}"/>
-                    </p:column>
+<!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
+                        <h:outputText id="symbolWn" value="{loop.tabelanbp.waluta.skrotsymbolu}" rendered="{loop.stronaWn != null}"/>
+                    </p:column>-->
 
-                    <p:column headerText="konto Wn" width="120" style="text-align: center;"> 
+                    <p:column headerText="konto Wn" width="90" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                         minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10" cache="true"
@@ -324,17 +324,17 @@
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="80">
-                        <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 90px;" rendered="#{loop.stronaMa != null}"
+                    <p:column headerText="kwota" style="text-align: center;" width="60">
+                        <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
-                    <p:column width="12" style="text-align: center"  rendered="#{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
-                        <h:outputText id="symbolMa" value="${loop.tabelanbp.waluta.skrotsymbolu}" rendered="#{loop.stronaMa != null}"/>
-                    </p:column>
-                    <p:column headerText="konto Ma" width="120" style="text-align: center;">
+<!--                    <p:column width="12" style="text-align: center"  rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
+                        <h:outputText id="symbolMa" value="{loop.tabelanbp.waluta.skrotsymbolu}" rendered="{loop.stronaMa != null}"/>
+                    </p:column>-->
+                    <p:column headerText="konto Ma" width="90" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
                                         minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10"  cache="true"
