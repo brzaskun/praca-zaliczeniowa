@@ -373,6 +373,7 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
+                <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="PF('dialogewidencjavatRK').show();" accesskey="x" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>

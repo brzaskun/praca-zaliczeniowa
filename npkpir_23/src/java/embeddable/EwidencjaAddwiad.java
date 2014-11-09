@@ -5,11 +5,9 @@
 package embeddable;
 
 import entity.Klienci;
+import entityfk.Wiersz;
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -28,6 +26,7 @@ public class EwidencjaAddwiad implements Serializable{
     private String datadokumentu;
     private String dataoperacji;
     private Klienci klient;
+    private Wiersz wiersz;
 
     public EwidencjaAddwiad() {
     }
@@ -112,6 +111,14 @@ public class EwidencjaAddwiad implements Serializable{
 
     public void setKlient(Klienci klient) {
         this.klient = klient;
+    }
+
+    public Wiersz getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersz wiersz) {
+        this.wiersz = wiersz;
     }
     
     

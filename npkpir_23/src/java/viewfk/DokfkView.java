@@ -1090,13 +1090,13 @@ public void updatenetto(EwidencjaAddwiad e) {
                     List<EVatwpisFK> ewidencjeDokumentu = new ArrayList<>();
                     for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                         String op = p.getOpis();
-                        EVatwpisFK eVatwpis = new EVatwpisFK();
-                        eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
-                        eVatwpis.setNetto(p.getNetto());
-                        eVatwpis.setVat(p.getVat());
-                        eVatwpis.setEstawka(p.getOpzw());
-                        eVatwpis.setDokfk(selected); 
-                        ewidencjeDokumentu.add(eVatwpis);
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                        eVatwpisFK.setEwidencja(zdefiniowaneEwidencje.get(op));
+                        eVatwpisFK.setNetto(p.getNetto());
+                        eVatwpisFK.setVat(p.getVat());
+                        eVatwpisFK.setEstawka(p.getOpzw());
+                        eVatwpisFK.setDokfk(selected); 
+                        ewidencjeDokumentu.add(eVatwpisFK);
                     }
                     selected.setEwidencjaVAT(ewidencjeDokumentu);
                 }
