@@ -10,28 +10,63 @@
               resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',600,400);" 
 closeOnEscape="true" onHide="resetujdialog('dialogewidencjavatRK');" >
         <h:form id="ewidencjavatRK"> 
+             <p:panelGrid id="paneldatydokumentu" columns="2" style="width: 300px;"  styleClass="uipanelGrid0">
+                        <h:outputText value="data dokumentu"/>
+                        <h:outputText value="data operacji gosp."/>
+                        <h:inputText id="data1DialogVAT" value="#{dokfkView.datadokumentu}" 
+                                     onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
+                                                 $(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                     title="wpisz numer dnia, lub miesiąc i dzień"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" style="height: 19px;"
+                                     >
+                             <p:ajax event="blur" partialSubmit="true" />
+                        </h:inputText>
+                        <h:inputText id="data2DialogVAT" value="#{dokfkView.dataoperacji}" 
+                                     onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogVAT');
+                                                 $(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                     title="wpisz numer dnia, lub miesiąc i dzień"
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" style="height: 19px;"
+                                     >
+                             <p:ajax event="blur" partialSubmit="true" />
+                        </h:inputText>
+             </p:panelGrid>
             <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="min-width: 470px;">
-                <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma 
+                <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaVatRK}" var="item" emptyMessage="nie ma 
 zapisów w ewidencji vat"
                              style="width: 100%;" >
                     <p:column headerText="rodzaj ewidencji" style="width: 23%;">
-                        <h:outputText value="#{item.opis}" />
+                        <h:selectOneMenu value="#{item.opis}" 
+                                onblur="$(this).removeClass('ui-state-focus');
+                                       $(this).addClass('ui-state-default');"
+                           styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                           onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');" style="height: 19px;"
+                                         >
+                            <f:selectItem itemLabel="zakup" itemValue="zakup"/>
+                            <f:selectItem itemLabel="sprzedaż 23%" itemValue="sprzedaż 23%"/>
+                            <f:selectItem itemLabel="sprzedaż 8%" itemValue="sprzedaż 8%"/>
+                            <f:selectItem itemLabel="sprzedaż 5%" itemValue="sprzedaż 5%"/>
+                            <f:selectItem itemLabel="sprzedaż 0%" itemValue="sprzedaż 0%"/>
+                            <f:selectItem itemLabel="sprzedaż zw" itemValue="sprzedaż zw"/>
+                        </h:selectOneMenu>
                     </p:column>
                     <p:column headerText="netto" style="width: 20%;">
-                        <pe:inputNumber id="netto" value="#{item.netto}" symbol="#
-{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                        <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
+                                        required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         style="text-align: right; width: 95%; height: 19px;" symbolPosition="s" 
-decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                            <p:ajax event="change" listener="#{dokfkView.updatenetto(item)}" />
+                                        decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            <p:ajax event="change" listener="#{dokfkView.updatenetto(item, 'ewidencjavatRK')}" />
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="vat" style="width: 20%;">
                         <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" 
-requiredMessage="Brak kwoty - uzupełnij" 
-                                        style="text-align: right; width: 95%;" symbolPosition="s" 
-decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                            <p:ajax event="blur" listener="#{dokfkView.rozliczVat(item)}" partialSubmit="true" />
-                            <p:ajax event="change" listener="#{dokfkView.updatevat(item)}" />
+                        requiredMessage="Brak kwoty - uzupełnij" 
+                            style="text-align: right; width: 95%;" symbolPosition="s" 
+                            decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" listener="#{dokfkView.updatevat(item, 'ewidencjavatRK')}"  partialSubmit="true" />
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="brutto" style="width: 20%;">
