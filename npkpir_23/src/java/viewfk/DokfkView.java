@@ -400,12 +400,22 @@ public class DokfkView implements Serializable {
 
         }
     }
+    
+    public void niewybranokontaStronaWn(Wiersz wiersz, int indexwiersza) {
+        if (!(wiersz.getStronaWn().getKonto() instanceof Konto)) {
+            skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
+        }
+    }
+    public void niewybranokontaStronaMa(Wiersz wiersz, int indexwiersza) {
+        if (!(wiersz.getStronaMa().getKonto() instanceof Konto)) {
+            skopiujKontoZWierszaWyzej(indexwiersza, "Ma");
+        }
+    }
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
         if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("20")) {
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
-        skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
         int t = wiersz.getTypWiersza();
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
@@ -1872,9 +1882,27 @@ public void updatenetto(EwidencjaAddwiad e) {
             }
         }
     }
+    
+    public void obsluzDataWiersza(String datawiersza, Wiersz wierszbiezacy) {
+        if (wierszbiezacy.getDataWalutyWiersza().isEmpty()) {
+            skopiujDateZWierszaWyzej(wierszbiezacy);
+        }
+        pobierzkursNBPwiersz(datawiersza, wierszbiezacy);
+    }
 
+    private void skopiujDateZWierszaWyzej(Wiersz wierszbiezacy) {
+        int numerwiersza = wierszbiezacy.getIdporzadkowy();
+        if (numerwiersza > 1) {
+            int numerpoprzedni = numerwiersza - 2;
+            int numeraktualny = numerwiersza - 1;
+            String dataWierszPoprzedni = selected.getListawierszy().get(numerpoprzedni).getDataWalutyWiersza();
+            Wiersz wierszBiezacy =  selected.getListawierszy().get(numeraktualny);
+            wierszBiezacy.setDataWalutyWiersza(dataWierszPoprzedni);
+            Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
+        }
+    }
 //    //a to jest rodzial dotyczacy walut w wierszu
-    public void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
+    private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
         if (!symbolwaluty.equals("PLN")) {
             String datadokumentu = (String) Params.params("formwpisdokument:data1DialogWpisywanie");
@@ -1922,15 +1950,17 @@ public void updatenetto(EwidencjaAddwiad e) {
     }
 
     public void skopiujKontoZWierszaWyzej(int numerwiersza, String wnma) {
-        if (numerwiersza > 0) {
-            int numerpoprzedni = numerwiersza - 1;
-            StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
-            StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numerwiersza).getStronaWn() : selected.getListawierszy().get(numerwiersza).getStronaMa());
-            if (!(wierszBiezacy.getKonto() instanceof Konto)) {
+        try {
+            if (numerwiersza > 0) {
+                int numerpoprzedni = numerwiersza - 1;
+                StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
+                StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numerwiersza).getStronaWn() : selected.getListawierszy().get(numerwiersza).getStronaMa());
                 Konto kontoPoprzedni = serialclone.SerialClone.clone(wierszPoprzedni.getKonto());
                 wierszBiezacy.setKonto(kontoPoprzedni);
                 Msg.msg("Skopiowano konto z wiersza poprzedzającego");
             }
+        } catch (Exception e) {
+            
         }
     }
 
@@ -1942,10 +1972,8 @@ public void updatenetto(EwidencjaAddwiad e) {
             StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
             if (wierszBiezacy.getKwota() == 0) {
                 int typ = selected.getListawierszy().get(numerpoprzedni).getTypWiersza();
-                if ((typ == 0 || typ == 1 || typ == 2) && selected.getListawierszy().get(numeraktualny).getTypWiersza() == 5) {
                     wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
                     Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
-                }
             }
         }
     }

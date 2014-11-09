@@ -303,14 +303,14 @@
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.pokazPanelWalutowy}" >
                         <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="keyup" execute="@this"/>
-                            <f:ajax event="blur" listener="#{dokfkView.pobierzkursNBPwiersz(loop.dataWalutyWiersza, loop)}"/>
+                            <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" partialSubmit="true" update="@this"/>
                         </p:spinner>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="60">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
-                            <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" />
+                            <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
                         </pe:inputNumber>
                     </p:column>
 <!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
@@ -325,7 +325,7 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" partialSubmit="true"/>
+                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
@@ -347,7 +347,7 @@
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
                                         >
-                            <p:ajax event="blur" partialSubmit="true"/>
+                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
