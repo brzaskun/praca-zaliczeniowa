@@ -38,6 +38,7 @@
        
 
     </style>
+    <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
@@ -246,14 +247,14 @@
                         <p:column headerText="netto" style="width: 20%;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="text-align: right; width: 95%; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" listener="#{dokfkView.updatenetto(item)}" />
+                                <p:ajax event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="vat" style="width: 20%;">
                             <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                                 <p:ajax event="blur" listener="#{dokfkView.rozliczVat(item)}" partialSubmit="true" />
-                                <p:ajax event="change" listener="#{dokfkView.updatevat(item)}" />
+                                <p:ajax event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="brutto" style="width: 20%;">
@@ -351,9 +352,9 @@
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
-<!--                    <p:column width="3" >
-                        <h:outputText id="wnNowaTransakcja" value="{loop.stronaWn.typStronaWiersza}" />
-                    </p:column>
+                    <p:column width="3" >
+                        <h:outputText id="idwiersza" value="#{loop.typWiersza}" style="display: none;" />
+                    </p:column><!--
                     <p:column  width="3">
                         <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
                     </p:column>-->
@@ -373,7 +374,7 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
-                <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="PF('dialogewidencjavatRK').show();" accesskey="x" />
+                <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="pokazewidencjevatRK();" accesskey="x" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
