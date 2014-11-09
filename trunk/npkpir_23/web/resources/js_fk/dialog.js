@@ -1,10 +1,10 @@
-var ustawdialog = function(nazwa,menu) {
+var ustawdialog = function(nazwa,rodzic) {
     $(document.getElementById(nazwa)).width(1250).height(700);
     try {
         $(document.getElementById(nazwa)).position({
         my: "left top",
         at: "left+40px top",
-        of: $(document.getElementById(menu)),
+        of: $(document.getElementById(rodzic)),
         collision: "none none"
         });
     } catch (Exception) {
@@ -13,13 +13,13 @@ var ustawdialog = function(nazwa,menu) {
 
 };
 
-var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
+var ustawdialog = function(nazwa,rodzic, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
         $(document.getElementById(nazwa)).position({
         my: "left top",
         at: "left+40px top",
-        of: $(document.getElementById(menu)),
+        of: $(document.getElementById(rodzic)),
         collision: "none none"
         });
     } catch (Exception) {
@@ -28,6 +28,20 @@ var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
 
 };
 
+var ustawdialogrk = function(nazwa,rodzic, szerokosc, wysokosc) {
+    $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
+    try {
+        $(document.getElementById(nazwa)).position({
+        my: "left center",
+        at: "left+150px center",
+        of: $(document.getElementById(rodzic)),
+        collision: "none none"
+        });
+    } catch (Exception) {
+       //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+    }
+
+};
 
 
 
