@@ -7,12 +7,13 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK" widgetVar="dialogewidencjavatRK"  
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',600,400);" 
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',600,200);" 
 closeOnEscape="true" onHide="resetujdialog('dialogewidencjavatRK');" >
         <h:form id="ewidencjavatRK"> 
-             <p:panelGrid id="paneldatydokumentu" columns="2" style="width: 300px;"  styleClass="uipanelGrid0">
+             <p:panelGrid id="paneldatydokumentu" columns="3" style="width: 300px;"  styleClass="uipanelGrid0">
                         <h:outputText value="data dokumentu"/>
                         <h:outputText value="data operacji gosp."/>
+                        <h:outputText value="dane kontrahenta"/>
                         <h:inputText id="data1DialogVAT" value="#{dokfkView.datadokumentu}" 
                                      onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                                  $(this).removeClass('ui-state-focus');
@@ -33,8 +34,30 @@ closeOnEscape="true" onHide="resetujdialog('dialogewidencjavatRK');" >
                                      >
                              <p:ajax event="blur" partialSubmit="true" />
                         </h:inputText>
-             </p:panelGrid>
-            <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="min-width: 470px;">
+            
+                <p:autoComplete id="klientRK" value="#{dokfkView.klientRK}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
+                                cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" 
+                                required="true" requiredMessage="Pole klienta nie może być puste" onblur="sprawdzczybrakklientaRK();"
+                                style="width: 250px;">
+                        <f:ajax event="blur" execute="@this"/>
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane kontrahenta"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p.npelna}" />  
+                                <h:outputText value="NIP: " />  
+                                <h:outputText id="nip" value="#{p.nip}" />  
+                                <h:outputText value="Adres " />  
+                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                            </h:panelGrid>
+                        </f:facet>
+                        </p:autoComplete>
+                         </p:panelGrid>
+            <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaVatRK}" var="item" emptyMessage="nie ma 
 zapisów w ewidencji vat"
                              style="width: 100%;" >
@@ -87,6 +110,8 @@ width: 95%;"
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
+            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;"/>
+            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;"/>
         </h:form>
     </p:dialog>
 </ui:composition>

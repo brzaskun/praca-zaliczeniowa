@@ -140,6 +140,7 @@ public class DokfkView implements Serializable {
     private String datadokumentu;
     private String dataoperacji;
     private List<EwidencjaAddwiad> ewidencjaVatRK;
+    private Klienci klientRK;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -2339,6 +2340,14 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
 
     public void setEwidencjaVatRK(List<EwidencjaAddwiad> ewidencjaVatRK) {
         this.ewidencjaVatRK = ewidencjaVatRK;
+    }
+
+    public Klienci getKlientRK() {
+        return klientRK;
+    }
+
+    public void setKlientRK(Klienci klientRK) {
+        this.klientRK = klientRK;
     }
 
     
