@@ -21,11 +21,24 @@ var skopiujdanenowegoklientafk = function () {
         $('#kliencifk\\:wyborkontrahenta_input').select();
         PF('dialogklient').search(szukana);
     } catch (e) {
+    }
+    try {
+        var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
         $('#formwpisdokument\\:acForce_input').val(document.getElementById('formX:nazwaPole').value);
         $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formX:nazwaPole').value);
         $('#formwpisdokument\\:acForce_input').focus();
         $('#formwpisdokument\\:acForce_input').select();
         PF('poleklientawpisywaniefk').search(szukana);
+    } catch (e) {
+    }
+    try {
+        var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
+        $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formX:nazwaPole').value);
+        $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formX:nazwaPole').value);
+        $('#ewidencjavatRK\\:klientRK_input').focus();
+        $('#ewidencjavatRK\\:klientRK_input').select();
+        PF('poleklientawpisywaniefkRK').search(szukana);
+    } catch (e) {
     }
 
 };
