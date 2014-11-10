@@ -26,6 +26,7 @@ import javax.persistence.OneToOne;
 @Named
 @Entity
 public class EVatwpisFK implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -61,81 +62,80 @@ public class EVatwpisFK implements Serializable {
     public EVatwpisFK() {
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public Evewidencja getEwidencja() {
         return ewidencja;
     }
-
+    
     public void setEwidencja(Evewidencja ewidencja) {
         this.ewidencja = ewidencja;
     }
-
-  
+    
+    
     public double getNetto() {
         return netto;
     }
-
+    
     public void setNetto(double netto) {
         this.netto = netto;
     }
-
+    
     public double getVat() {
         return vat;
     }
-
+    
     public void setVat(double vat) {
         this.vat = vat;
     }
-
+    
     public String getEstawka() {
         return estawka;
     }
-
+    
     public void setEstawka(String estawka) {
         this.estawka = estawka;
     }
-
+    
     public Dokfk getDokfk() {
         return dokfk;
     }
-
+    
     public void setDokfk(Dokfk dokfk) {
         this.dokfk = dokfk;
     }
-
+    
     public long getId() {
         return id;
     }
-
+    
     public void setId(long id) {
         this.id = id;
     }
-
+    
     public Wiersz getWiersz() {
         return wiersz;
     }
-
+    
     public void setWiersz(Wiersz wiersz) {
         this.wiersz = wiersz;
     }
-
+    
     public String getDatadokumentu() {
         return datadokumentu;
     }
-
+    
     public void setDatadokumentu(String datadokumentu) {
         this.datadokumentu = datadokumentu;
     }
-
+    
     public String getDataoperacji() {
         return dataoperacji;
     }
-
+    
     public void setDataoperacji(String dataoperacji) {
         this.dataoperacji = dataoperacji;
     }
-
-    
-       
+//</editor-fold>
     
     
     @Override
@@ -163,11 +163,13 @@ public class EVatwpisFK implements Serializable {
         if (!Objects.equals(this.dokfk, other.dokfk)) {
             return false;
         }
+        if (!Objects.equals(this.wiersz, other.wiersz)) {
+            return false;
+        }
         return true;
     }
 
-   
-
+    
    
     
 }

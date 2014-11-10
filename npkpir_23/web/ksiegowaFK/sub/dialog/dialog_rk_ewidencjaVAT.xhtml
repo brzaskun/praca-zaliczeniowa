@@ -110,8 +110,8 @@ width: 95%;"
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
-            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dodajPozycjeRKDoEwidencji()}" onsuccess="PF('dialogewidencjavatRK').hide"/>
-            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" onsuccess="PF('dialogewidencjavatRK').hide"/>
+            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dodajPozycjeRKDoEwidencji()}" onsuccess="PF('dialogewidencjavatRK').hide();"/>
+            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" onsuccess="PF('dialogewidencjavatRK').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>
