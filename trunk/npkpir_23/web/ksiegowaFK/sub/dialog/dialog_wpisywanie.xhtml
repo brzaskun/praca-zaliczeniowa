@@ -281,12 +281,15 @@
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 980px; max-height: 440px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
-                    <p:ajax event="rowSelect"  listener="#{dokfkView.wybranoWierszMsg}"/>
+          
                     <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
                     <p:column headerText="opis transakcji" width="150" style="text-align: center;">
-                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 240px; height: 19px;" onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                        <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 240px; height: 19px;" 
+                                     onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" 
+                                     onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
+                                     >
                             <p:ajax event="focus" oncomplete="wybierzdate();"/>
                             <p:ajax event="blur" partialSubmit="true"/>
                         </p:inputText>
@@ -310,7 +313,8 @@
                     <p:column headerText="kwota"  style="text-align: center;" width="60">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
+                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}"
+                                        >
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
                         </pe:inputNumber>
                     </p:column>
@@ -333,7 +337,8 @@
                     <p:column headerText="kwota" style="text-align: center;" width="60">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
+                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}"
+                                        >
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
