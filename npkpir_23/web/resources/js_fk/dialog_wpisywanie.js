@@ -15,6 +15,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     }
 };
 
+
 var wpisywanieOnShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',1100,700);

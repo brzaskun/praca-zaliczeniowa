@@ -50,6 +50,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -57,6 +58,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.component.autocomplete.AutoComplete;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -141,6 +143,8 @@ public class DokfkView implements Serializable {
     private String dataoperacji;
     private List<EwidencjaAddwiad> ewidencjaVatRK;
     private Klienci klientRK;
+    //powiazalem tabele z dialog_wpisu ze zmienna
+    private DataTable dataTable;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -2080,7 +2084,7 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
             p.setDatadokumentu(datadokumentu);
             p.setDataoperacji(dataoperacji);
             p.setKlient(klientRK);
-            int idn = lpwiersza+1;
+            int idn = dataTable.getRowIndex();
             for (Wiersz r : selected.getListawierszy()) {
                 if (idn == r.getIdporzadkowy()) {
                     p.setWiersz(r);
@@ -2092,7 +2096,23 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
         ewidencjaVatRK.add(new EwidencjaAddwiad());
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
+    
+    public void dataTableTest() {
+        int idn = dataTable.getRowIndex();
+        Object lolo = dataTable.getRowData();
+        System.out.print("lolo");
+    }
+
 //<editor-fold defaultstate="collapsed" desc="comment">
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
+    }
+    
+    
     
     public List<Rodzajedok> getRodzajedokKlienta() {
         return rodzajedokKlienta;
