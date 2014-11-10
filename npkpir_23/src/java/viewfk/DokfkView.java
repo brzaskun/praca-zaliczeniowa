@@ -732,7 +732,7 @@ public class DokfkView implements Serializable {
                 }
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                 boolean nievatowiec = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
-                if (!nievatowiec) {
+                if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
                     /*wyswietlamy ewidencje VAT*/
                     List opisewidencji = new ArrayList<>();
                     opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
@@ -1072,7 +1072,7 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
                 RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
                 resetujDokumentWpis();
             } catch (Exception e) {
@@ -1121,6 +1121,12 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                         eVatwpisFK.setVat(p.getVat());
                         eVatwpisFK.setEstawka(p.getOpzw());
                         eVatwpisFK.setDokfk(selected); 
+                        try {
+                            eVatwpisFK.setWiersz(p.getWiersz());
+                            eVatwpisFK.setDatadokumentu(p.getDatadokumentu());
+                            eVatwpisFK.setDataoperacji(p.getDataoperacji());
+                            p.getWiersz().geteVatwpisFK().add(eVatwpisFK);
+                        } catch (Exception e1) {}
                         ewidencjeDokumentu.add(eVatwpisFK);
                     }
                     selected.setEwidencjaVAT(ewidencjeDokumentu);
@@ -2069,6 +2075,23 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
 
     }
 
+    public void dodajPozycjeRKDoEwidencji () {
+        for (EwidencjaAddwiad p : ewidencjaVatRK) {
+            p.setDatadokumentu(datadokumentu);
+            p.setDataoperacji(dataoperacji);
+            p.setKlient(klientRK);
+            int idn = lpwiersza+1;
+            for (Wiersz r : selected.getListawierszy()) {
+                if (idn == r.getIdporzadkowy()) {
+                    p.setWiersz(r);
+                }
+            }
+        }
+        ewidencjaAddwiad.addAll(ewidencjaVatRK);
+        ewidencjaVatRK = new ArrayList<>();
+        ewidencjaVatRK.add(new EwidencjaAddwiad());
+        Msg.msg("Zachowano zapis w ewidencji VAT");
+    }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public List<Rodzajedok> getRodzajedokKlienta() {
@@ -2192,22 +2215,6 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
         this.wykazZaksiegowanychDokumentow = wykazZaksiegowanychDokumentow;
     }
 
-   
-//    public String getWierszid() {
-//        return wierszid;
-//    }
-//    
-//    public void setWierszid(String wierszid) {
-//        this.wierszid = wierszid;
-//    }
-//    
-//    public String getWnlubma() {
-//        return wnlubma;
-//    }
-//    
-//    public void setWnlubma(String wnlubma) {
-//        this.wnlubma = wnlubma;
-//    }
     public boolean isZapisz0edytuj1() {
         return zapisz0edytuj1;
     }
@@ -2288,28 +2295,7 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
         this.pokazPanelWalutowy = pokazPanelWalutowy;
     }
 
-//</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="comment">
-//    public static void main(String[] args) {
-//        String staranazwa = "EUR";
-//        String nazwawaluty = "PLN";
-//        double kurs = 4.189;
-//        if (!staranazwa.equals("PLN")) {
-//            kurs = 1 / kurs * 100000000;
-//            kurs = Math.round(kurs);
-//            kurs = kurs / 100000000;
-//        }
-//        double kwota = 100000;
-//        kwota = Math.round(kwota * kurs * 10000);
-//        kwota = kwota / 10000;
-//        System.out.println(kwota);
-//        staranazwa = "PLN";
-//        nazwawaluty = "EUR";
-//        kurs = 4.189;
-//        kwota = Math.round(kwota * kurs * 100);
-//        kwota = kwota / 100;
-//}        
-//</editor-fold>
+
     public boolean isPokazRzadWalutowy() {
         return pokazRzadWalutowy;
     }
@@ -2350,7 +2336,28 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
         this.klientRK = klientRK;
     }
 
-    
+    //</editor-fold>
+    //<editor-fold defaultstate="collapsed" desc="comment">
+//    public static void main(String[] args) {
+//        String staranazwa = "EUR";
+//        String nazwawaluty = "PLN";
+//        double kurs = 4.189;
+//        if (!staranazwa.equals("PLN")) {
+//            kurs = 1 / kurs * 100000000;
+//            kurs = Math.round(kurs);
+//            kurs = kurs / 100000000;
+//        }
+//        double kwota = 100000;
+//        kwota = Math.round(kwota * kurs * 10000);
+//        kwota = kwota / 10000;
+//        System.out.println(kwota);
+//        staranazwa = "PLN";
+//        nazwawaluty = "EUR";
+//        kurs = 4.189;
+//        kwota = Math.round(kwota * kurs * 100);
+//        kwota = kwota / 100;
+//}        
+//</editor-fold>
     
 
 }
