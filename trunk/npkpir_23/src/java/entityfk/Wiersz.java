@@ -21,6 +21,7 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -85,6 +86,8 @@ public class Wiersz implements Serializable {
     private Wiersz czworka;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Wiersz> piatki;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<EVatwpisFK> eVatwpisFK;
 
   
     
@@ -103,6 +106,16 @@ public class Wiersz implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public Set<EVatwpisFK> geteVatwpisFK() {
+        return eVatwpisFK;
+    }
+
+    public void seteVatwpisFK(Set<EVatwpisFK> eVatwpisFK) {
+        this.eVatwpisFK = eVatwpisFK;
+    }
+    
+   
+
     public double getIlosc_kg() {
         return ilosc_kg;
     }

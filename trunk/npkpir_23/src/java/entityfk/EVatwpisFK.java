@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -41,6 +42,12 @@ public class EVatwpisFK implements Serializable {
     private String estawka;
     @ManyToOne(cascade = CascadeType.ALL)
     private Dokfk dokfk;
+    @ManyToOne
+    private Wiersz wiersz;
+    @Column(name = "datadokumentu")
+    private String datadokumentu;
+    @Column(name = "dataoperacji")
+    private String dataoperacji;
     
     
 
@@ -103,6 +110,31 @@ public class EVatwpisFK implements Serializable {
         this.id = id;
     }
 
+    public Wiersz getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersz wiersz) {
+        this.wiersz = wiersz;
+    }
+
+    public String getDatadokumentu() {
+        return datadokumentu;
+    }
+
+    public void setDatadokumentu(String datadokumentu) {
+        this.datadokumentu = datadokumentu;
+    }
+
+    public String getDataoperacji() {
+        return dataoperacji;
+    }
+
+    public void setDataoperacji(String dataoperacji) {
+        this.dataoperacji = dataoperacji;
+    }
+
+    
        
     
     
