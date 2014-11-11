@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -29,6 +31,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
+})
+@NamedQueries({
+    @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz")
 })
 public class EVatwpisFK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,7 +54,7 @@ public class EVatwpisFK implements Serializable {
     private String estawka;
     @ManyToOne(cascade = CascadeType.ALL)
     private Dokfk dokfk;
-    @ManyToOne
+    @OneToOne
     private Wiersz wiersz;
     private Klienci klient;
     @Column(name = "datadokumentu")

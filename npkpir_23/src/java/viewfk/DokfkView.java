@@ -16,6 +16,7 @@ import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
 import daoFK.DokDAOfk;
+import daoFK.EVatwpisFKDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
@@ -23,7 +24,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
-import embeddable.EwidencjaAddwiad;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -50,7 +50,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -62,7 +61,6 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
-import view.KlienciConverterView;
 import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
@@ -89,6 +87,8 @@ public class DokfkView implements Serializable {
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private EVatwpisFKDAO eVatwpisFKDAO;
     private List<Rodzajedok> rodzajedokKlienta;
     @Inject 
     private KliencifkDAO kliencifkDAO;
@@ -139,11 +139,9 @@ public class DokfkView implements Serializable {
     private int rodzajBiezacegoDokumentu;
     private String symbolWalutyNettoVat;
     //ewidencja vat raport kasowy
-    private String datadokumentu;
-    private String dataoperacji;
-    private List<EwidencjaAddwiad> ewidencjaVatRK;
-    private Klienci klientRK;
+    private EVatwpisFK ewidencjaVatRK;
     private Wiersz wierszRK;
+    private List<Evewidencja> listaewidencjivatRK;
     //powiazalem tabele z dialog_wpisu ze zmienna
 
     public DokfkView() {
@@ -156,7 +154,7 @@ public class DokfkView implements Serializable {
         this.symbolwalutydowiersza = "";
         this.zapisz0edytuj1 = false;
         this.rodzajedokKlienta = new ArrayList<>();
-        this.ewidencjaVatRK = new ArrayList<>();
+        this.listaewidencjivatRK = new ArrayList<>();
     }
 
     @PostConstruct
@@ -168,9 +166,9 @@ public class DokfkView implements Serializable {
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
             selected.setRodzajedok(odnajdzZZ());
+            stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
-            ewidencjaVatRK.add(new EwidencjaAddwiad());
-            RequestContext.getCurrentInstance().update("ewidencjavatRK:tablicavat");
+            RequestContext.getCurrentInstance().update("ewidencjavatRK");
         } catch (Exception e) {
         }
         try {
@@ -754,6 +752,19 @@ public class DokfkView implements Serializable {
                 }
             }
     }
+    private void stworzlisteewidencjiRK() {
+        List<String> nazwyewidencji = new ArrayList<>();
+        nazwyewidencji.add("zakup");
+        nazwyewidencji.add("sprzedaż 23%");
+        nazwyewidencji.add("sprzedaż 8%");
+        nazwyewidencji.add("sprzedaż 5%");
+        nazwyewidencji.add("sprzedaż 0%");
+        nazwyewidencji.add("sprzedaż zw");
+        for (String p : nazwyewidencji) {
+            listaewidencjivatRK.add(evewidencjaDAO.znajdzponazwie(p));
+        }
+    }
+  
     
     public void rozliczVat(EVatwpisFK e) {
         Rodzajedok rodzajdok = selected.getRodzajedok();
@@ -1053,6 +1064,67 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().execute(activate);
     }
      
+    public void updatenettoRK() {
+        EVatwpisFK e = ewidencjaVatRK;
+        String skrotRT = selected.getDokfkPK().getSeriadokfk();
+        int lp = e.getLp();
+        String stawkavat = null;
+        try {
+            stawkavat = e.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
+        } catch (Exception e1) {
+            stawkavat = "23";
+        }
+        try {
+            double stawkaint = Double.parseDouble(stawkavat) / 100;
+            Waluty w = selected.getWalutadokumentu();
+            if (!w.getSymbolwaluty().equals("PLN")) {
+                    double kurs = selected.getTabelanbp().getKurssredni();
+                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 100.0) / 100.0;
+                    e.setVat(kwotawPLN * stawkaint);
+                } else {
+                    e.setVat(e.getNetto() * stawkaint);
+                }
+            
+        } catch (Exception ex) {
+            List<EVatwpisFK> l = selected.getEwidencjaVAT();
+            String opis = e.getEwidencja().getNazwa();
+            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+                l.get(0).setVat(0.0);
+            } else if (skrotRT.contains("ZZP")) {
+                Waluty w = selected.getWalutadokumentu();
+                if (!w.getSymbolwaluty().equals("PLN")) {
+                    double kurs = selected.getTabelanbp().getKurssredni();
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    l.get(0).setVat((kwotawPLN * 0.23) / 2);
+                } else {
+                    l.get(0).setVat((l.get(0).getNetto() * 0.23) / 2);
+                }
+            } else {
+                Waluty w = selected.getWalutadokumentu();
+                if (!w.getSymbolwaluty().equals("PLN")) {
+                    double kurs = selected.getTabelanbp().getKurssredni();
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    l.get(0).setVat((kwotawPLN * 0.23));
+                } else {
+                    l.get(0).setVat((l.get(0).getNetto() * 0.23));
+                }
+            }
+        }
+        String update = "ewidencjavatRK:vat";
+        RequestContext.getCurrentInstance().update(update);
+        update = "ewidencjavatRK:brutto";
+        RequestContext.getCurrentInstance().update(update);
+        String activate = "document.getElementById('ewidencjavatRK:vat_input').select();";
+        RequestContext.getCurrentInstance().execute(activate);
+    }
+
+    public void updatevatRK() {
+        String update = "ewidencjavatRK:brutto";
+        RequestContext.getCurrentInstance().update(update);
+        String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
+        RequestContext.getCurrentInstance().execute(activate);
+    }
+    
     public void dodaj() {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
@@ -1061,13 +1133,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //nanosimy zapisy na kontach
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
                 //dolaczEwidencjeVATDoDokumentu();
-                Dokfk dodany = dokDAOfk.findDokfkObj(selected);
-                wykazZaksiegowanychDokumentow.add(dodany);
                 //utrwalTransakcje();
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWaluty(p);
                 }
                 dokDAOfk.edit(selected);
+                Dokfk dodany = dokDAOfk.findDokfkObj(selected);
+                wykazZaksiegowanychDokumentow.add(dodany);
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
@@ -2058,19 +2130,11 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void dodajPozycjeRKDoEwidencji () {
-//        for (EwidencjaAddwiad p : ewidencjaVatRK) {
-//            p.setDatadokumentu(datadokumentu);
-//            p.setDataoperacji(dataoperacji);
-//            p.setKlient(klientRK);
-//            p.setWiersz(wierszRK);
-//            if (ewidencjaAddwiad.contains(p)) {
-//            } else {
-//               ewidencjaAddwiad.add(p);
-//            }
-//        }
-//        ewidencjaVatRK = new ArrayList<>();
-//        ewidencjaVatRK.add(new EwidencjaAddwiad());
-//        Msg.msg("Zachowano zapis w ewidencji VAT");
+        if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
+            selected.getEwidencjaVAT().add(ewidencjaVatRK);
+        }
+        ewidencjaVatRK = null;
+        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
     public void dataTableTest() {
@@ -2078,6 +2142,21 @@ public void updatenetto(EVatwpisFK e, String form) {
         Object o = d.getLocalSelection();
         int idn = d.getRowIndex();
         wierszRK = (Wiersz) d.getRowData();
+        ewidencjaVatRK = null;
+        for (EVatwpisFK p : selected.getEwidencjaVAT()) {
+            if (p.getWiersz() == wierszRK) {
+                ewidencjaVatRK = p;
+            }
+        }
+        if (ewidencjaVatRK == null) {
+            ewidencjaVatRK = new EVatwpisFK();
+            ewidencjaVatRK.setLp(0);
+            ewidencjaVatRK.setWiersz(wierszRK);
+            ewidencjaVatRK.setDokfk(selected);
+            ewidencjaVatRK.setNetto(0.0);
+            ewidencjaVatRK.setVat(0.0);
+        }
+        RequestContext.getCurrentInstance().update("ewidencjavatRK");
     }
     private DataTable dataTable;
 
@@ -2090,7 +2169,24 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
-      
+    
+    public List<Evewidencja> getListaewidencjivatRK() {
+        return listaewidencjivatRK;
+    }
+
+    public void setListaewidencjivatRK(List<Evewidencja> listaewidencjivatRK) {
+        this.listaewidencjivatRK = listaewidencjivatRK;
+    }
+
+    public EVatwpisFK getEwidencjaVatRK() {
+        return ewidencjaVatRK;
+    }
+
+    public void setEwidencjaVatRK(EVatwpisFK ewidencjaVatRK) {
+        this.ewidencjaVatRK = ewidencjaVatRK;
+    }
+    
+    
     public List<Rodzajedok> getRodzajedokKlienta() {
         return rodzajedokKlienta;
     }
@@ -2293,37 +2389,6 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.pokazRzadWalutowy = pokazRzadWalutowy;
     }
 
-    public String getDatadokumentu() {
-        return datadokumentu;
-    }
-
-    public void setDatadokumentu(String datadokumentu) {
-        this.datadokumentu = datadokumentu;
-    }
-
-    public String getDataoperacji() {
-        return dataoperacji;
-    }
-
-    public void setDataoperacji(String dataoperacji) {
-        this.dataoperacji = dataoperacji;
-    }
-
-    public List<EwidencjaAddwiad> getEwidencjaVatRK() {
-        return ewidencjaVatRK;
-    }
-
-    public void setEwidencjaVatRK(List<EwidencjaAddwiad> ewidencjaVatRK) {
-        this.ewidencjaVatRK = ewidencjaVatRK;
-    }
-
-    public Klienci getKlientRK() {
-        return klientRK;
-    }
-
-    public void setKlientRK(Klienci klientRK) {
-        this.klientRK = klientRK;
-    }
 
     //</editor-fold>
     //<editor-fold defaultstate="collapsed" desc="comment">
