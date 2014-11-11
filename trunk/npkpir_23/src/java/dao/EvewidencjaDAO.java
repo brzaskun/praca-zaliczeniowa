@@ -50,13 +50,13 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         }
    }
     
-    public Evewidencja znajdzponazwie(String nazwa) throws Exception {
+    public Evewidencja znajdzponazwie(String nazwa)  {
         Evewidencja tmp = new Evewidencja();
         try {
             tmp = evewidencjaFacade.findEvewidencjaByName(nazwa);
             return tmp;
         } catch (Exception e) {
-            throw new Exception();
+             return null;
         }
     }
     

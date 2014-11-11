@@ -238,11 +238,11 @@
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
-                <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="min-width: 470px;">
-                    <p:dataTable id="tablicavat" value="#{dokfkView.ewidencjaAddwiad}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="width: 100%;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}">
+                <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 470px;">
+                    <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
+                                 style="width: 100%; margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}">
                         <p:column headerText="rodzaj ewidencji" style="width: 23%;">
-                            <h:outputText value="#{item.opis}" />
+                            <h:outputText value="#{item.ewidencja.nazwa}" />
                         </p:column>
                         <p:column headerText="netto" style="width: 20%;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
@@ -258,11 +258,11 @@
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="brutto" style="width: 20%;">
-                            <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                            <pe:inputNumber id="brutto" value="#{item.netto + item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" /> 
                         </p:column>
                         <p:column headerText="op/zw" style="width: 17%;">
-                            <h:selectOneMenu value="#{item.opzw}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                            <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                              onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
                                              onblur="$(this).removeClass('ui-state-focus');">
                                 <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
