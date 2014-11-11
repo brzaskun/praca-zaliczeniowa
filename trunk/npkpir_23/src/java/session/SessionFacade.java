@@ -40,6 +40,7 @@ import entity.Zobowiazanie;
 import entity.Zusmail;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
+import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
@@ -71,6 +72,7 @@ public class SessionFacade<T> implements Serializable{
 
     @PersistenceContext(unitName = "npkpir_22PU")
     private EntityManager em;
+    private Exception EVatwpisFK;
 
     public SessionFacade() {
     }
@@ -980,6 +982,10 @@ public class SessionFacade<T> implements Serializable{
 
     public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
         return (Dok) em.createNamedQuery("Dok.znajdzInwestycja").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("data", r.getDataWyst()).setParameter("netto", r.getNetto() ).setParameter("numer", r.getNrWlDk()).getSingleResult();
+    }
+
+    public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
+        return (EVatwpisFK) em.createNamedQuery("EVatwpisFK.findByWiersz").setParameter("wiersz", wiersz).getSingleResult();
     }
   
 }

@@ -86,8 +86,8 @@ public class Wiersz implements Serializable {
     private Wiersz czworka;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Wiersz> piatki;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<EVatwpisFK> eVatwpisFK;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    private EVatwpisFK eVatwpisFK;
 
   
     
@@ -95,7 +95,6 @@ public class Wiersz implements Serializable {
     public Wiersz() {
         this.strona = new HashMap<>();
         this.piatki = new HashSet<>();
-        this.eVatwpisFK = new HashSet<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
@@ -104,19 +103,16 @@ public class Wiersz implements Serializable {
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();
-        this.eVatwpisFK = new HashSet<>();
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public Set<EVatwpisFK> geteVatwpisFK() {
+    public EVatwpisFK geteVatwpisFK() {
         return eVatwpisFK;
     }
 
-    public void seteVatwpisFK(Set<EVatwpisFK> eVatwpisFK) {
+    public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
     }
-    
-   
 
     public double getIlosc_kg() {
         return ilosc_kg;
