@@ -811,92 +811,94 @@ public class DokfkView implements Serializable {
             symbolWalutyNettoVat = " zł";
         }
         Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
-        if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
-            StronaWiersza wn = wierszpierwszy.getStronaWn();
-            StronaWiersza ma = wierszpierwszy.getStronaMa();
-            wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-            if (w.getSymbolwaluty().equals("PLN")) {
-                wn.setKwota(nettovat);
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    ma.setKwota(nettovat);
+        if (kontoRozrachunkowe != null) {
+            if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+                StronaWiersza wn = wierszpierwszy.getStronaWn();
+                StronaWiersza ma = wierszpierwszy.getStronaMa();
+                wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    wn.setKwota(nettovat);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        ma.setKwota(nettovat);
+                    } else {
+                        ma.setKwota(nettovat+kwotavat);
+                    }
                 } else {
-                    ma.setKwota(nettovat+kwotavat);
+                    wn.setKwota(nettovat);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        ma.setKwota(nettovat);
+                    } else {
+                        ma.setKwota(nettovat+vatwWalucie);
+                    }
                 }
-            } else {
-                wn.setKwota(nettovat);
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    ma.setKwota(nettovat);
+                if (kontoRozrachunkowe != null) {
+                    wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
+                }
+                Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
+                if (kontonetto != null) {
+                    wierszpierwszy.getStronaWn().setKonto(kontonetto);
+                }
+            }
+            double przechowajnettovat = nettovat;
+            if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
+                nettovat = kwotawPLN;
+            }
+            if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+                Wiersz wierszdrugi;
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
+                    } else {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+                    }
                 } else {
-                    ma.setKwota(nettovat+vatwWalucie);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
+                    } else {
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
+                    }
                 }
+                wierszdrugi.setOpisWiersza("podatek vat");
+                Konto kontovat = selected.getRodzajedok().getKontovat();
+                if (kontovat != null) {
+                    wierszdrugi.getStronaWn().setKonto(kontovat);
+                } else {
+                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                    wierszdrugi.getStronaWn().setKonto(k);
+                }
+                selected.getListawierszy().add(wierszdrugi);
+            } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+                Wiersz wierszdrugi;
+                wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, przechowajnettovat, 1);
+                wierszdrugi.getStronaWn().setKwota(przechowajnettovat);
+                wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
+                wierszdrugi.setCzworka(wierszpierwszy);
+                wierszpierwszy.getPiatki().add(wierszdrugi);
+                Konto k = kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu());
+                wierszdrugi.getStronaMa().setKonto(k);
+                selected.getListawierszy().add(wierszdrugi);
+                Wiersz wiersztrzeci;
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
+                    } else {
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
+                    }
+                } else {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
+                    } else {
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
+                    }
+                }
+                wiersztrzeci.setOpisWiersza("podatek vat");
+                k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                wiersztrzeci.getStronaWn().setKonto(k);
+                selected.getListawierszy().add(wiersztrzeci);
             }
-            if (kontoRozrachunkowe != null) {
-                wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
-            }
-            Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
-            if (kontonetto != null) {
-                wierszpierwszy.getStronaWn().setKonto(kontonetto);
-            }
+            pobierzkontaZpoprzedniegoDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
-        double przechowajnettovat = nettovat;
-        if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
-            nettovat = kwotawPLN;
-        }
-        if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
-            Wiersz wierszdrugi;
-            if (w.getSymbolwaluty().equals("PLN")) {
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
-                } else {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
-                }
-            } else {
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatwWalucie, 1);
-                } else {
-                    wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
-                }
-            }
-            wierszdrugi.setOpisWiersza("podatek vat");
-            Konto kontovat = selected.getRodzajedok().getKontovat();
-            if (kontovat != null) {
-                wierszdrugi.getStronaWn().setKonto(kontovat);
-            } else {
-                Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-                wierszdrugi.getStronaWn().setKonto(k);
-            }
-            selected.getListawierszy().add(wierszdrugi);
-        } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
-            Wiersz wierszdrugi;
-            wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, przechowajnettovat, 1);
-            wierszdrugi.getStronaWn().setKwota(przechowajnettovat);
-            wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
-            wierszdrugi.setCzworka(wierszpierwszy);
-            wierszpierwszy.getPiatki().add(wierszdrugi);
-            Konto k = kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu());
-            wierszdrugi.getStronaMa().setKonto(k);
-            selected.getListawierszy().add(wierszdrugi);
-            Wiersz wiersztrzeci;
-            if (w.getSymbolwaluty().equals("PLN")) {
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
-                } else {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
-                }
-            } else {
-                if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatwWalucie, 1);
-                } else {
-                    wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
-                }
-            }
-            wiersztrzeci.setOpisWiersza("podatek vat");
-            k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-            wiersztrzeci.getStronaWn().setKonto(k);
-            selected.getListawierszy().add(wiersztrzeci);
-        }
-        pobierzkontaZpoprzedniegoDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
     
     public void rozliczVatPrzychod(HashMap<String,Double> wartosciVAT) {
@@ -917,60 +919,67 @@ public class DokfkView implements Serializable {
             symbolWalutyNettoVat = " zł";
         }
         Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
-        if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
-            StronaWiersza wn = wierszpierwszy.getStronaWn();
-            StronaWiersza ma = wierszpierwszy.getStronaMa();
-            wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-            if (w.getSymbolwaluty().equals("PLN")) {
-                ma.setKwota(nettovat);
-                wn.setKwota(nettovat+kwotavat);
-            } else {
-                ma.setKwota(nettovat);
-                wn.setKwota(nettovat+vatwWalucie);
+        if (kontoRozrachunkowe != null) {
+            if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+                StronaWiersza wn = wierszpierwszy.getStronaWn();
+                StronaWiersza ma = wierszpierwszy.getStronaMa();
+                wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    ma.setKwota(nettovat);
+                    wn.setKwota(nettovat+kwotavat);
+                } else {
+                    ma.setKwota(nettovat);
+                    wn.setKwota(nettovat+vatwWalucie);
+                }
+                if (kontoRozrachunkowe != null) {
+                    wierszpierwszy.getStronaWn().setKonto(kontoRozrachunkowe);
+                }
+                Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
+                if (kontonetto != null) {
+                    wierszpierwszy.getStronaMa().setKonto(kontonetto);
+                }
             }
-            if (kontoRozrachunkowe != null) {
-                wierszpierwszy.getStronaWn().setKonto(kontoRozrachunkowe);
+            if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
+                nettovat = kwotawPLN;
             }
-            Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
-            if (kontonetto != null) {
-                wierszpierwszy.getStronaMa().setKonto(kontonetto);
+            if (selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+                Wiersz wierszdrugi;
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, kwotavat, 1);
+                } else {
+                    wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
+                }
+                wierszdrugi.setOpisWiersza("podatek vat");
+                Konto kontovat = selected.getRodzajedok().getKontovat();
+                if (kontovat != null) {
+                    wierszdrugi.getStronaMa().setKonto(kontovat);
+                } else {
+                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                    wierszdrugi.getStronaMa().setKonto(k);
+                }
+                selected.getListawierszy().add(wierszdrugi);
             }
+            pobierzkontaZpoprzedniegoDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
-        if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
-            nettovat = kwotawPLN;
-        }
-        if (selected.getListawierszy().size()==1 && kwotavat != 0.0) {
-            Wiersz wierszdrugi;
-            if (w.getSymbolwaluty().equals("PLN")) {
-                wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, kwotavat, 1);
-            } else {
-                wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
-            }
-            wierszdrugi.setOpisWiersza("podatek vat");
-            Konto kontovat = selected.getRodzajedok().getKontovat();
-            if (kontovat != null) {
-                wierszdrugi.getStronaMa().setKonto(kontovat);
-            } else {
-                Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
-                wierszdrugi.getStronaMa().setKonto(k);
-            }
-            selected.getListawierszy().add(wierszdrugi);
-        }
-        pobierzkontaZpoprzedniegoDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
     
     private Konto pobierzKontoRozrachunkowe() {
-        Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-        List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
-        Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
-        Konto konto = null;
-        for (Konto p : listakont) {
-            if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
-                konto = p;
+        try {
+            Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+            List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+            Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
+            Konto konto = null;
+            for (Konto p : listakont) {
+                if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
+                    konto = p;
+                }
             }
+            return konto;
+        } catch (Exception e) {
+            Msg.msg("e", "Brak przyporządkowanego konta rozrachunkowego do danego dokumentu. Nie można wygenerować zapisów");
+            return null;
         }
-        return konto;
     }
     
     private void pobierzkontaZpoprzedniegoDokumentu() {

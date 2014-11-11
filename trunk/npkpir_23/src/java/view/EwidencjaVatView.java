@@ -4,6 +4,7 @@
  */
 package view;
 
+import com.sun.corba.se.impl.protocol.RequestCanceledException;
 import comparator.Dokcomparator;
 import comparator.Dokfkcomparator;
 import dao.DokDAO;
@@ -43,6 +44,7 @@ import javax.inject.Inject;
 import mail.MailOther;
 import msg.Msg;
 import org.primefaces.component.tabview.TabView;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.UnselectEvent;
 import pdf.PdfVAT;
 import pdf.PdfVATsuma;
@@ -141,6 +143,7 @@ public class EwidencjaVatView implements Serializable {
             listadokvatFK = zmodyfikujlisteMcKwFK(listadokvatFK, vatokres);
             transferujDokdoEVatwpisFK();
             stworzenieEwidencjiCzescWspolna(vatokres);
+            RequestContext.getCurrentInstance().update("dialogewidencjevat");
         } catch (Exception e) {
         }
         //drukuj ewidencje
@@ -342,6 +345,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void transferujDokdoEVatwpisFK() {
+        int k = 1;
         for (Dokfk zaksiegowanafaktura : listadokvatFK) {
             if (zaksiegowanafaktura.getEwidencjaVAT() != null) {
                 List<EVatwpisFK> ewidencja = new ArrayList<>();
@@ -364,7 +368,7 @@ public class EwidencjaVatView implements Serializable {
                             wiersz.setNrWlDk(nrdok);
                             wiersz.setOpis(zaksiegowanafaktura.getOpisdokfk());
                         }
-                        wiersz.setId(zaksiegowanafaktura.getDokfkPK().getNrkolejnywserii());
+                        wiersz.setId(k++);
                         wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
                         wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
                         wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());

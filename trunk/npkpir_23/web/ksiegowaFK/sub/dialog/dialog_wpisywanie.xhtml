@@ -132,6 +132,7 @@
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                             <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop}"/>
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
+                            <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument"/>
                         </h:selectOneMenu>
                         <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;"
@@ -141,7 +142,6 @@
                                      onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');">
                             <f:ajax/>
-                            <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                         </h:inputText>
                        
                         <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 180px;"

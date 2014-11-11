@@ -13,19 +13,16 @@
             <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
             <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
                      rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-            <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+<!--            <h:outputText value="Wynik za okres rozliczeniowy: 9{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="9{ewidencjaVatView.wynikOkresu}" style="9{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="9{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />
-            </h:outputText>
-            <p:tabView id="akorderonbis" style="max-width: 1300px; margin-top: 1%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+            </h:outputText>-->
+            <p:tabView id="akorderonbis" style="max-width: 1300px; margin-top: -10px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
 
                 <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
                     <p:tab  title="#{item[0].nazwaewidencji}">
-                        <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
-                        <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
-                            <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
-                        </p:commandButton>    
-                        <p:separator/>
-                        <p:panel id="sumka#{numer.index}" header="suma wybranych dokumentów" style="max-width: 400px;">
+                        <p:panelGrid columns="4">
+                            <h:outputText value="suma wybranych: "/>
+                        <p:panel id="sumka#{numer.index}"  style="width: 400px;">
                             <h:outputText value="netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -36,8 +33,12 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:panel>
-
-                        <p:separator/>
+                        <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 300px;"/>
+                        <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')" 
+                                         style="width: 120px; margin-left: 7%">
+                            <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
+                        </p:commandButton>    
+                        </p:panelGrid>
                         <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
                                      rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
                                      rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600" 
@@ -46,18 +47,18 @@
                                 <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
                                 <p:inputText id="globalFilter" onkeyup="PF('dokTable#{numer.index}').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie"/>  
                             </f:facet>
-                            <p:column selectionMode="multiple" style="width: 40px;" rendered="#{itemik.opis eq 'podsumowanie' ? false : true}"/>
-                            <p:column style="width: 40px;" rendered="#{itemik.opis eq 'podsumowanie' ? true : false}"/>
+                            <p:column selectionMode="multiple" style="width: 20px; text-align: center;" rendered="#{itemik.opis eq 'podsumowanie' ? false : true}"/>
+                            <p:column style="width: 30px;" rendered="#{itemik.opis eq 'podsumowanie' ? true : false}"/>
                             <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                             <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                             <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
-                            <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
+                            <p:column headerText="id" style="width: 10px; text-align: center;" sortBy="#{itemik.id}">
                                 <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                             </p:column>
-                            <p:column headerText="data wyst." style="width: 80px;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
+                            <p:column headerText="data wyst." style="width: 70px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
                                 <h:outputText value="#{itemik.dataWyst}"/>
                             </p:column>
-                            <p:column headerText="data sprz." style="width: 80px;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
+                            <p:column headerText="data sprz." style="width: 70px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
                                 <h:outputText value="#{itemik.dataSprz}"/>
                             </p:column>
                             <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
