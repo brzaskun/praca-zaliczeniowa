@@ -29,6 +29,7 @@
         }
         
         
+        
     </style>
     <h:form id="dodWiad">
 <!--                te batony zostaja, sa wywolywane przez javascript-->
@@ -104,7 +105,7 @@
                               <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
             <p:panelGrid columns="2" style="width: 90%;" columnClasses="forty-percent, sixty-percent">
               <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
-                    <p:column headerText="kwota faktury netto" style="text-align: center;" width="120">
+                    <p:column headerText="kwota faktury netto" style="text-align: right;" width="120">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; width: 120px; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
                             <p:ajax event="blur" listener="#{DokumentView.dokumentProstySchowajEwidencje}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
                         </pe:inputNumber>

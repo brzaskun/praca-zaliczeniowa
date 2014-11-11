@@ -18,7 +18,9 @@ body {
     font-weight: 600 !important;*/
 }
 
-
+.pe-inputNumber {
+            text-align: right;
+        }
 
 .old{
     background-image:none !important;
