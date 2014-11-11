@@ -741,12 +741,14 @@ public class DokfkView implements Serializable {
                     opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
                     int k = 0;
                     for (String p : opisewidencji) {
-                        EVatwpisFK ewidencjaAddwiad = new EVatwpisFK();
-                        ewidencjaAddwiad.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
-                        ewidencjaAddwiad.setNetto(0.0);
-                        ewidencjaAddwiad.setVat(0.0);
-                        ewidencjaAddwiad.setEstawka("op");
-                        this.selected.getEwidencjaVAT().add(ewidencjaAddwiad);
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                        eVatwpisFK.setLp(k++);
+                        eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                        eVatwpisFK.setNetto(0.0);
+                        eVatwpisFK.setVat(0.0);
+                        eVatwpisFK.setDokfk(selected);
+                        eVatwpisFK.setEstawka("op");
+                        this.selected.getEwidencjaVAT().add(eVatwpisFK);
                     }
                     RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
                 }
@@ -986,12 +988,12 @@ public class DokfkView implements Serializable {
         }
     }
     
-public void updatenetto(EwidencjaAddwiad e, String form) {
+public void updatenetto(EVatwpisFK e, String form) {
         String skrotRT = selected.getDokfkPK().getSeriadokfk();
         int lp = e.getLp();
         String stawkavat = null;
         try {
-            stawkavat = e.getOpis().replaceAll("[^\\d]", "");
+            stawkavat = e.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
         } catch (Exception e1) {
             if (form.equals("ewidencjavatRK")) {
                 stawkavat = "23";
@@ -1010,7 +1012,7 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
             
         } catch (Exception ex) {
             List<EVatwpisFK> l = selected.getEwidencjaVAT();
-            String opis = e.getOpis();
+            String opis = e.getEwidencja().getNazwa();
             if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
                 l.get(0).setVat(0.0);
             } else if (skrotRT.contains("ZZP")) {
@@ -1033,7 +1035,6 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                 }
             }
         }
-        e.setBrutto(e.getNetto() + e.getVat());
         String update = form+":tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
         update = form+":tablicavat:" + lp + ":brutto";
@@ -1042,11 +1043,10 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
         RequestContext.getCurrentInstance().execute(activate);
     }
 
-    public void updatevat(EwidencjaAddwiad e, String form) {
+    public void updatevat(EVatwpisFK e, String form) {
         int lp = e.getLp();
         String update = form+":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
-        e.setBrutto(e.getNetto() + e.getVat());
         update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
