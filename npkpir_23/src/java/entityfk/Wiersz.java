@@ -95,6 +95,7 @@ public class Wiersz implements Serializable {
     public Wiersz() {
         this.strona = new HashMap<>();
         this.piatki = new HashSet<>();
+        this.eVatwpisFK = new HashSet<>();
     }
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
@@ -103,6 +104,7 @@ public class Wiersz implements Serializable {
         this.idporzadkowy = idporzadkowy;
         this.typWiersza = typwiersza;
         this.piatki = new HashSet<>();
+        this.eVatwpisFK = new HashSet<>();
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

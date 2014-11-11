@@ -1119,6 +1119,9 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                     Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
                     List<EVatwpisFK> ewidencjeDokumentu = new ArrayList<>();
                     for (EwidencjaAddwiad p : ewidencjaAddwiad) {
+                        p.getWiersz().seteVatwpisFK(new HashSet<EVatwpisFK>());
+                    }
+                    for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                         String op = p.getOpis();
                         EVatwpisFK eVatwpisFK = new EVatwpisFK();
                         eVatwpisFK.setEwidencja(zdefiniowaneEwidencje.get(op));
@@ -1128,6 +1131,7 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                         eVatwpisFK.setDokfk(selected); 
                         try {
                             eVatwpisFK.setWiersz(p.getWiersz());
+                            eVatwpisFK.setKlient(p.getKlient());
                             eVatwpisFK.setDatadokumentu(p.getDatadokumentu());
                             eVatwpisFK.setDataoperacji(p.getDataoperacji());
                             p.getWiersz().geteVatwpisFK().add(eVatwpisFK);
@@ -1462,6 +1466,10 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                     ewidencjaAddwiad.setNetto(s.getNetto());
                     ewidencjaAddwiad.setVat(s.getVat());
                     ewidencjaAddwiad.setBrutto(s.getNetto() + s.getVat());
+                    ewidencjaAddwiad.setWiersz(s.getWiersz());
+                    ewidencjaAddwiad.setKlient(s.getKlient());
+                    ewidencjaAddwiad.setDatadokumentu(s.getDatadokumentu());
+                    ewidencjaAddwiad.setDataoperacji(s.getDataoperacji());
                     ewidencjaAddwiad.setLp(j++);
                     //sumbrutto += s.getNetto() + s.getVat();
                     this.ewidencjaAddwiad.add(ewidencjaAddwiad);
@@ -2087,9 +2095,9 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
             p.setKlient(klientRK);
             p.setWiersz(wierszRK);
             if (ewidencjaAddwiad.contains(p)) {
-                ewidencjaAddwiad.remove(p);
+            } else {
+               ewidencjaAddwiad.add(p);
             }
-            ewidencjaAddwiad.add(p);
         }
         ewidencjaVatRK = new ArrayList<>();
         ewidencjaVatRK.add(new EwidencjaAddwiad());
