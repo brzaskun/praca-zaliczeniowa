@@ -18,6 +18,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -25,6 +27,9 @@ import javax.persistence.OneToOne;
  */
 @Named
 @Entity
+@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
+})
 public class EVatwpisFK implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,6 +50,7 @@ public class EVatwpisFK implements Serializable {
     private Dokfk dokfk;
     @ManyToOne
     private Wiersz wiersz;
+    private Klienci klient;
     @Column(name = "datadokumentu")
     private String datadokumentu;
     @Column(name = "dataoperacji")
@@ -63,6 +69,15 @@ public class EVatwpisFK implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public Klienci getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klienci klient) {
+        this.klient = klient;
+    }
+
     public Evewidencja getEwidencja() {
         return ewidencja;
     }
@@ -166,8 +181,18 @@ public class EVatwpisFK implements Serializable {
         if (!Objects.equals(this.wiersz, other.wiersz)) {
             return false;
         }
+        if (!Objects.equals(this.klient, other.klient)) {
+            return false;
+        }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "EVatwpisFK{" + "ewidencja=" + ewidencja + ", netto=" + netto + ", vat=" + vat + ", dokfk=" + dokfk + ", wiersz=" + wiersz + ", klient=" + klient + '}';
+    }
+
+    
 
     
    

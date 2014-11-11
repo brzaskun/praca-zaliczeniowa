@@ -7,6 +7,7 @@ package embeddable;
 import entity.Klienci;
 import entityfk.Wiersz;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
@@ -40,6 +41,37 @@ public class EwidencjaAddwiad implements Serializable{
         this.opzw = opzw;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.wiersz);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EwidencjaAddwiad other = (EwidencjaAddwiad) obj;
+        if (!Objects.equals(this.opis, other.opis)) {
+            return false;
+        }
+        if (!Objects.equals(this.klient, other.klient)) {
+            return false;
+        }
+        if (!Objects.equals(this.wiersz, other.wiersz)) {
+            return false;
+        }
+        return true;
+    }
+
+    
+    
     public int getLp() {
         return lp;
     }
