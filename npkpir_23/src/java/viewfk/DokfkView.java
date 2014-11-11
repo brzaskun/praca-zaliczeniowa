@@ -1119,9 +1119,6 @@ public void updatenetto(EwidencjaAddwiad e, String form) {
                     Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
                     List<EVatwpisFK> ewidencjeDokumentu = new ArrayList<>();
                     for (EwidencjaAddwiad p : ewidencjaAddwiad) {
-                        p.getWiersz().seteVatwpisFK(new HashSet<EVatwpisFK>());
-                    }
-                    for (EwidencjaAddwiad p : ewidencjaAddwiad) {
                         String op = p.getOpis();
                         EVatwpisFK eVatwpisFK = new EVatwpisFK();
                         eVatwpisFK.setEwidencja(zdefiniowaneEwidencje.get(op));
