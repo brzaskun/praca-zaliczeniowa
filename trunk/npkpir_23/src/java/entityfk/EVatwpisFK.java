@@ -37,6 +37,7 @@ public class EVatwpisFK implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private long id;
+    private int lp;
     @JoinColumn(name = "ewidencja")
     @ManyToOne
     private Evewidencja ewidencja;
@@ -69,6 +70,14 @@ public class EVatwpisFK implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public int getLp() {
+        return lp;
+    }
+
+    public void setLp(int lp) {
+        this.lp = lp;
+    }
+    
     
     public Klienci getKlient() {
         return klient;

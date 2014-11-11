@@ -240,7 +240,11 @@
                 </p:panelGrid>
                 <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 470px;">
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="width: 100%; margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}">
+                                 style="width: 100%; margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                 sortBy="#{item.lp}">
+                        <p:column headerText="" style="width: 3%;">
+                            <h:outputText value="#{item.lp+1}" />
+                        </p:column>
                         <p:column headerText="rodzaj ewidencji" style="width: 23%;">
                             <h:outputText value="#{item.ewidencja.nazwa}" />
                         </p:column>
@@ -258,7 +262,7 @@
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="brutto" style="width: 20%;">
-                            <pe:inputNumber id="brutto" value="#{item.netto + item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                            <pe:inputNumber id="brutto" value="#{item.netto + item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" readonly="true"
                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" /> 
                         </p:column>
                         <p:column headerText="op/zw" style="width: 17%;">
