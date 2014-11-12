@@ -495,7 +495,6 @@ public class DokfkView implements Serializable {
         if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("20")) {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
-        skopiujKontoZWierszaWyzej(numerwiersza, "Ma");
         dodajNowyWierszStronaMa(wiersz);
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -808,6 +807,7 @@ public class DokfkView implements Serializable {
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
                 double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
                 p.setNetto(kPLN);
+                p.setBrutto(p.getNetto()+p.getVat());
             }
             symbolWalutyNettoVat = " zł";
         }
@@ -898,6 +898,7 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(wiersztrzeci);
             }
             pobierzkontaZpoprzedniegoDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }
@@ -917,6 +918,7 @@ public class DokfkView implements Serializable {
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
                 double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
                 p.setNetto(kPLN);
+                p.setBrutto(p.getNetto()+p.getVat());
             }
             symbolWalutyNettoVat = " zł";
         }
@@ -969,6 +971,7 @@ public class DokfkView implements Serializable {
                 
             }
             pobierzkontaZpoprzedniegoDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }
@@ -1065,6 +1068,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
             }
         }
+        e.setBrutto(e.getNetto() + e.getVat());
         String update = form+":tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
         update = form+":tablicavat:" + lp + ":brutto";
@@ -1077,6 +1081,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         int lp = e.getLp();
         String update = form+":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
+        e.setBrutto(e.getNetto() + e.getVat());
         update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";

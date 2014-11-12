@@ -26,19 +26,16 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
         } else {  
             try {  
                 String skrot = submittedValue;  
-  
-                for (Rodzajedok p : kl) {  
+                  for (Rodzajedok p : kl) {  
                     if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {  
                         return p;  
                     }  
                 }  
-  
-            } catch(NumberFormatException exception) {  
+              } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid rodzajdok"));  
             }  
         }  
-  
-        return null;  
+          return null;  
     }  
   
     @Override
