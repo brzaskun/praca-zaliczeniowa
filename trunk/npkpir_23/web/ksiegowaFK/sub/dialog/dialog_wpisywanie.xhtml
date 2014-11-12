@@ -259,7 +259,7 @@
                         <p:column headerText="vat" style="width: 20%;">
                             <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="blur" listener="#{dokfkView.rozliczVat(item)}" partialSubmit="true" />
+                                <p:ajax event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}" partialSubmit="true" />
                                 <p:ajax event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
