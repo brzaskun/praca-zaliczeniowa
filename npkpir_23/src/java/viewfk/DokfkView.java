@@ -767,16 +767,16 @@ public class DokfkView implements Serializable {
     }
   
     
-    public void rozliczVat(EVatwpisFK e) {
+    public void dolaczWierszZKwotami(EVatwpisFK e) {
         Rodzajedok rodzajdok = selected.getRodzajedok();
+        HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
         if (rodzajdok.getKategoriadokumentu()==1) {
-            HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
             rozliczVatKoszt(wartosciVAT);
-        } else if (rodzajdok.getKategoriadokumentu()==2) {
-            HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
+        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2 && e.getLp() == 4) {
+            rozliczVatPrzychod(wartosciVAT);
+        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
             rozliczVatPrzychod(wartosciVAT);
         } else if (rodzajdok.getRodzajtransakcji().equals("WDT")) {
-            HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
             rozliczVatPrzychod(wartosciVAT);
         }
     }
@@ -909,7 +909,8 @@ public class DokfkView implements Serializable {
         Waluty w = selected.getWalutadokumentu();
         double kwotawPLN = 0.0;
         double vatwWalucie = 0.0;
-        if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+        //przeliczanie waluty na zlotowki dla netto
+        if (!w.getSymbolwaluty().equals("PLN")) {
             double kurs = selected.getTabelanbp().getKurssredni();
             kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
             vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
@@ -921,7 +922,7 @@ public class DokfkView implements Serializable {
         }
         Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
         if (kontoRozrachunkowe != null) {
-            if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
+            if (wierszpierwszy != null) {
                 StronaWiersza wn = wierszpierwszy.getStronaWn();
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
                 wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
@@ -959,6 +960,13 @@ public class DokfkView implements Serializable {
                     wierszdrugi.getStronaMa().setKonto(k);
                 }
                 selected.getListawierszy().add(wierszdrugi);
+            } else if (kwotavat != 0.0) {
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    selected.getListawierszy().get(1).getStronaMa().setKwota(kwotavat);
+                } else {
+                    selected.getListawierszy().get(1).getStronaMa().setKwota(vatwWalucie);
+                }
+                
             }
             pobierzkontaZpoprzedniegoDokumentu();
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -967,6 +975,7 @@ public class DokfkView implements Serializable {
     
     private Konto pobierzKontoRozrachunkowe() {
         try {
+            //to znajdujemy polaczenie konta z klientem nazwa tego polaczenia to Kliencifk
             Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
             List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
             Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
