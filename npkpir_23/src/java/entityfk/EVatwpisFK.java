@@ -50,6 +50,8 @@ public class EVatwpisFK implements Serializable {
     private double netto;
     @Column(name = "vat")
     private double vat;
+    @Column(name = "brutto")
+    private double brutto;
     @Column(name = "estawka")
     private String estawka;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -74,7 +76,16 @@ public class EVatwpisFK implements Serializable {
     public EVatwpisFK() {
     }
 
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    //<editor-fold defaultstate="collapsed" desc="getters & setters">
+    public double getBrutto() {
+        return brutto;
+    }
+
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
+    }
+    
+    
     public int getLp() {
         return lp;
     }
