@@ -15,6 +15,24 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     }
 };
 
+var zachowajwierszVATRK = function () {
+    try {
+        var source = event.target || event.srcElement;
+        if (source.status) {
+            
+        } else {
+            MYAPP.lpwiersza = source;
+        }
+    } catch (blad) {
+        //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
+    }
+};
+
+var odtworzwierszVATRK = function() {
+    $(MYAPP.lpwiersza).focus();
+    $(MYAPP.lpwiersza).select();
+    document.activeElement = MYAPP.lpwiersza;
+};
 
 var wpisywanieOnShow = function () {
     try {
