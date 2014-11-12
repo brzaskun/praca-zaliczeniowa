@@ -4,15 +4,17 @@
  * and open the template in the editor.
  */
 var pokazewidencjevatRK = function() {
-    var wiersz = document.activeElement.id;
-    var numerwiersza = wiersz.split(":")[2];
-    var opis = wiersz.split(":")[3]
-    var rodzajwiersza = "formwpisdokument:dataList:"+numerwiersza+":idwiersza";
-    var typwiersza = rj(rodzajwiersza).innerHTML;
-    MYAPP.nrwierszaRK = numerwiersza;
-    if (typwiersza === "0" && opis === "opis") {
-        PF('dialogewidencjavatRK').show();
-    }
+    try {
+        var wiersz = document.activeElement.id;
+        var numerwiersza = wiersz.split(":")[2];
+        var opis = wiersz.split(":")[3]
+        var rodzajwiersza = "formwpisdokument:dataList:"+numerwiersza+":idwiersza";
+        var typwiersza = rj(rodzajwiersza).innerHTML;
+        MYAPP.nrwierszaRK = numerwiersza;
+        if (typwiersza === "0" && opis === "opis") {
+            PF('dialogewidencjavatRK').show();
+        }
+    } catch (e) {}
 };
 
 var sprawdzczybrakklientaRK = function() {
