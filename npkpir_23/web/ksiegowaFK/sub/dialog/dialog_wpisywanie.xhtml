@@ -186,6 +186,7 @@
                                          $(this).addClass('ui-state-default');" style="height: 19px;"
                                      >
                             <f:ajax />
+                            <p:ajax event="blur" listener="#{dokfkView.pokazZapisButton()}" update=":formwpisdokument:panelwpisbutton"/>
                         </h:inputText>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
@@ -207,6 +208,7 @@
                                 <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
                             </h:panelGrid>
                         </f:facet>
+                        
                         </p:autoComplete>
                         <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>
                          <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
@@ -367,9 +369,9 @@
                         <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
                     </p:column>-->
                 </p:dataTable>
-                <p:panel style="text-align: right;">
+                <p:panel id="panelwpisbutton" style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
-                                     accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{!dokfkView.zapisz0edytuj1}"
+                                     accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"

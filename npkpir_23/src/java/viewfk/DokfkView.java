@@ -143,6 +143,7 @@ public class DokfkView implements Serializable {
     private Wiersz wierszRK;
     private List<Evewidencja> listaewidencjivatRK;
     //powiazalem tabele z dialog_wpisu ze zmienna
+    boolean wlaczZapiszButon;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -2167,17 +2168,21 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
         RequestContext.getCurrentInstance().update("ewidencjavatRK");
     }
-    private DataTable dataTable;
 
-    public DataTable getDataTable() {
-        return dataTable;
+    public void pokazZapisButton() {
+        wlaczZapiszButon = true;
     }
-
-    public void setDataTable(DataTable dataTable) {
-        this.dataTable = dataTable;
-    }
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    public boolean isWlaczZapiszButon() {
+        return wlaczZapiszButon;
+    }
+
+    public void setWlaczZapiszButon(boolean wlaczZapiszButon) {
+        this.wlaczZapiszButon = wlaczZapiszButon;
+    }
+    
     
     public List<Evewidencja> getListaewidencjivatRK() {
         return listaewidencjivatRK;
