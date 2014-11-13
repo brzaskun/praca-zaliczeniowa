@@ -97,14 +97,14 @@
                         <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                         <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                         <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->
-                        <p:column selectionMode="multiple" width="35"></p:column>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                         <p:column headerText="id" width="20" sortBy="#{loop.id}" >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
-                        <p:column headerText="lp" width="20" sortBy="#{rowindex}" >
+                        <p:column headerText="lp" width="20" style="text-align: center;" sortBy="#{rowindex}" >
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="data" width="70" sortBy="#{loop.wiersz.dataksiegowania}">
+                        <p:column headerText="data" width="80" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania}"/>
                         </p:column>
                         <p:column headerText="dokument" width="80" >
