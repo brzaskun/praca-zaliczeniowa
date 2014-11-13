@@ -15,14 +15,10 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     }
 };
 
-var zachowajwierszVATRK = function () {
+var zachowajwierszVATRK = function (source) {
     try {
-        var source = event.target || event.srcElement;
-        if (source.status) {
-            
-        } else {
-            MYAPP.lpwiersza = source;
-        }
+        var lp = parseInt(source)-1;
+        MYAPP.lpwiersza = r("formwpisdokument:dataList:"+lp+":opis");
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
