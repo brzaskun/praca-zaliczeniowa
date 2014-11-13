@@ -227,6 +227,7 @@ public class DokfkView implements Serializable {
             selected = null;
             selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
             selected.setRodzajedok(rodzajDokPoprzedni);
+            wlaczZapiszButon = false;
         } catch (Exception e2) {
         } 
         try {

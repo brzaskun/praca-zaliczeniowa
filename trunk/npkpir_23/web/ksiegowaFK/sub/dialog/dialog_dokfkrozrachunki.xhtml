@@ -6,7 +6,11 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-
+   <style>
+        .ui-inputNum .ui-widget {
+            width: 80px;
+        }
+    </style>
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" 
               resizable="false"  onShow="rozrachunkiOnShow();" closeOnEscape="true" onHide="rozrachunkiOnHide();" >
@@ -52,7 +56,7 @@
                                 <h:outputText value="Dokumenty nie rozliczone"/>
                             </f:facet>
                             <p:column headerText="kwota rozlicz. - bieżący dok." width="50" >
-                                <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; float: right; width: 80px;"
+                                <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; float: right; width: 60px;"
                                                 decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                                 </pe:inputNumber>
