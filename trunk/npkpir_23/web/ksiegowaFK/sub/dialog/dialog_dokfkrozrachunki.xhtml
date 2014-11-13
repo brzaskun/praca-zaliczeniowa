@@ -56,7 +56,7 @@
                                 <h:outputText value="Dokumenty nie rozliczone"/>
                             </f:facet>
                             <p:column headerText="kwota rozlicz. - bieżący dok." width="50" >
-                                <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; float: right; width: 60px;"
+                                <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 70px;"
                                                 decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                                 </pe:inputNumber>

@@ -44,16 +44,16 @@
             <p:column headerText="data" width="90" style="text-align: center;"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
                 <h:outputText value="#{item.datawystawienia}"/>
             </p:column>
-            <p:column headerText="okres" width="90" style="text-align: center;" sortBy="#{item.miesiac}" filterBy="#{item.miesiac}" >
-                <h:outputText value="#{item.miesiac}"/>
-            </p:column>
-            <p:column headerText="symbol" width="100" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
+            <p:column headerText="symbol" width="90" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
             </p:column>
-            <p:column headerText="numer" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
+            <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr}" filterBy="#{item.kontr}" >
+                <h:outputText value="#{item.kontr}"/>
+            </p:column>
+            <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
             </p:column>
-                <p:column headerText="opis" width="100" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                <p:column headerText="opis" width="90" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                 <h:outputText value="#{item.opisdokfk}"/>
             </p:column>
             <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
