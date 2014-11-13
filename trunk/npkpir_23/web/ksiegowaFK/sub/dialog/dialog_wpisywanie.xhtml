@@ -42,8 +42,8 @@
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
-        <p:focus/>
         <h:form id="formwpisdokument" >
+            <p:focus id="focuselement"/>
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
@@ -135,7 +135,7 @@
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
                         </h:selectOneMenu>
-                        <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;"
+                        <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;" readonly="true"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
@@ -295,7 +295,7 @@
                                      onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" 
                                      onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                      >
-                            <p:ajax event="focus" listener="#{dokfkView.dataTableTest}" onstart="zachowajwierszVATRK();"/>
+                            <p:ajax event="focus" listener="#{dokfkView.dataTableTest}" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});"/>
                             <p:ajax event="blur" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
@@ -309,7 +309,7 @@
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.pokazPanelWalutowy}" >
+                    <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
                         <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="keyup" execute="@this"/>
                             <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" partialSubmit="true" update="@this"/>
@@ -379,12 +379,14 @@
 
                 </p:panel>
             </div>
+            <p:commandButton id="vatRKhidden" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" 
+                             oncomplete="pokazewidencjevatRK();"/>
         </h:form>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
-                <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="pokazewidencjevatRK();"  accesskey="x" />
+                <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="r('formwpisdokument:vatRKhidden').click();return false;" accesskey="x" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>

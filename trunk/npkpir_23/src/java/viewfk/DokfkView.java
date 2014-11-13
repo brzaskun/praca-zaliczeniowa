@@ -141,6 +141,7 @@ public class DokfkView implements Serializable {
     //ewidencja vat raport kasowy
     private EVatwpisFK ewidencjaVatRK;
     private Wiersz wierszRK;
+    private int wierszRKindex;
     private List<Evewidencja> listaewidencjivatRK;
     //powiazalem tabele z dialog_wpisu ze zmienna
     boolean wlaczZapiszButon;
@@ -1135,6 +1136,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
             }
         }
+        e.setBrutto(e.getNetto() + e.getVat());
         String update = "ewidencjavatRK:vat";
         RequestContext.getCurrentInstance().update(update);
         update = "ewidencjavatRK:brutto";
@@ -1144,6 +1146,8 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void updatevatRK() {
+        EVatwpisFK e = ewidencjaVatRK;
+        e.setBrutto(e.getNetto() + e.getVat());
         String update = "ewidencjavatRK:brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
@@ -2158,6 +2162,22 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
             selected.getEwidencjaVAT().add(ewidencjaVatRK);
         }
+        String dzien = ewidencjaVatRK.getDatadokumentu().split("-")[2];
+        wierszRK.setDataWalutyWiersza(dzien);
+        if (ewidencjaVatRK.getEwidencja().getTypewidencji().equals("z")) {
+            wierszRK.getStronaWn().setKwota(ewidencjaVatRK.getNetto());
+            wierszRK.getStronaMa().setKwota(ewidencjaVatRK.getBrutto());
+        } else if (ewidencjaVatRK.getEwidencja().getTypewidencji().equals("s")){
+            wierszRK.getStronaWn().setKwota(ewidencjaVatRK.getBrutto());
+            wierszRK.getStronaMa().setKwota(ewidencjaVatRK.getNetto());
+        }
+        String update = "formwpisdokument:dataList:"+wierszRKindex+":minmax";
+        RequestContext.getCurrentInstance().update(update);
+        update = "formwpisdokument:dataList:"+wierszRKindex+":wn";
+        RequestContext.getCurrentInstance().update(update);
+        update = "formwpisdokument:dataList:"+wierszRKindex+":ma";
+        RequestContext.getCurrentInstance().update(update);
+        RequestContext.getCurrentInstance().execute("odtworzwierszVATRK();");
         ewidencjaVatRK = null;
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
@@ -2165,7 +2185,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void dataTableTest() {
         DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
         Object o = d.getLocalSelection();
-        int idn = d.getRowIndex();
+        wierszRKindex = d.getRowIndex();
         wierszRK = (Wiersz) d.getRowData();
         ewidencjaVatRK = null;
         for (EVatwpisFK p : selected.getEwidencjaVAT()) {
