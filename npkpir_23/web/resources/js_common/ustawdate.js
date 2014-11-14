@@ -59,6 +59,15 @@ function ustawDateFK(rok,mc, koncowkaadresu){
         if(mc!==10&&mc!==11&&mc!==12){
             mc = "0"+mc;
         }
+        //dzieki temu akceptuje wpis 0214
+        if (wart.length === 4) {
+            var nowa = wart.substring(0, 2)+"-"+wart.substring(2, 4);
+            wart = nowa;
+        }
+        if (wart.length === 8) {
+            var nowa = wart.substring(0, 4)+"-"+wart.substring(4, 6)+"-"+wart.substring(6, 8);
+            wart = nowa;
+        }
         var re1 = /[0-3][0-9]/;
         var re2 = /[0-1][0-9]\S[0-3][0-9]/;
         var re3 = /[2][0][0-9][0-9]\S[0-1][0-9]\S[0-3][0-9]/;
@@ -90,6 +99,11 @@ function ustawDateFK(rok,mc, koncowkaadresu){
             dataWyst1.value = dataWyst.value;
             adres = "formwpisdokument:data4DialogWpisywanie";
             dataWyst1 = document.getElementById(adres);
+            dataWyst1.value = dataWyst.value;
+         }
+          if (koncowkaadresu === "data2DialogWpisywanie") {
+            var adres = "formwpisdokument:data3DialogWpisywanie";
+            var dataWyst1 = document.getElementById(adres);
             dataWyst1.value = dataWyst.value;
          }
      } catch (e) {
