@@ -245,37 +245,36 @@
                 </p:panelGrid>
                 <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" >
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                 style="margin-top: 0px; width: 450px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
                                  sortBy="#{item.lp}" >
                         <p:column headerText="" style="width: 10px; display: none">
                             <h:outputText value="#{item.lp+1}" />
                         </p:column>
-                        <p:column headerText="rodzaj ewid." style="width: 40px;">
-                            <h:outputText value="#{item.ewidencja.nazwa}" />
+                        <p:column headerText="rodzaj ewid." style="width: 80px;">
+                            <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;"/>
                         </p:column>
-                        <p:column headerText="netto" style="width: 70px;">
+                        <p:column headerText="netto" style="width: 80px;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000000" styleClass="wiersznetto"> 
+                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="vat" style="width: 70px;">
+                        <p:column headerText="vat" style="width: 80px;">
                             <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                
                                 <p:ajax event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="brutto" style="width: 70px;">
+                        <p:column headerText="brutto" style="width: 80px;">
                             <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
                                 <p:ajax event="keyup" listener="#{dokfkView.dolaczWierszZKwotami(item)}"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="op/zw" style="width: 50px;">
+                        <p:column headerText="op/zw" style="width: 40px;">
                             <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                              onfocus="$(this).addClass('ui-state-focus');" 
-                                             onblur="$(this).removeClass('ui-state-focus');">
+                                             onblur="$(this).removeClass('ui-state-focus');" style="width: 45px; height: 20px;">
                                 <f:selectItem itemLabel="op" itemValue="sprz.op"/>
                                 <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
                             </h:selectOneMenu>

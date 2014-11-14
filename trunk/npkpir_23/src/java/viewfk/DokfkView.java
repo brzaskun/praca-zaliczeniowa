@@ -775,12 +775,12 @@ public class DokfkView implements Serializable {
         HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
         if (rodzajdok.getKategoriadokumentu()==1) {
             rozliczVatKoszt(wartosciVAT);
-        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2 && e.getLp() == 4) {
-            rozliczVatPrzychod(wartosciVAT);
+        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
+            rozliczVatPrzychod(e, wartosciVAT);
         } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
-            rozliczVatPrzychod(wartosciVAT);
+            rozliczVatPrzychod(e, wartosciVAT);
         } else if (rodzajdok.getRodzajtransakcji().equals("WDT")) {
-            rozliczVatPrzychod(wartosciVAT);
+            rozliczVatPrzychod(e, wartosciVAT);
         }
     }
     
@@ -902,12 +902,13 @@ public class DokfkView implements Serializable {
                 selected.getListawierszy().add(wiersztrzeci);
             }
             pobierzkontaZpoprzedniegoDokumentu();
-            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto");
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }
     
-    public void rozliczVatPrzychod(HashMap<String,Double> wartosciVAT) {
+    public void rozliczVatPrzychod(EVatwpisFK e, HashMap<String,Double> wartosciVAT) {
         double nettovat = wartosciVAT.get("netto");
         double kwotavat = wartosciVAT.get("vat");
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
@@ -975,7 +976,9 @@ public class DokfkView implements Serializable {
                 
             }
             pobierzkontaZpoprzedniegoDokumentu();
-            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
+            int index = e.getLp()-1;
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
+            RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
     }
