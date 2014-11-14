@@ -80,7 +80,7 @@ public class MailOther implements Serializable{
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMail(wpisView);
+                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
@@ -132,7 +132,7 @@ public class MailOther implements Serializable{
              try {
                  
                  Klienci klientf = faktura.getKontrahent();
-                 MimeMessage message = MailSetUp.logintoMail(wpisView);
+                 MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView);
                  message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();

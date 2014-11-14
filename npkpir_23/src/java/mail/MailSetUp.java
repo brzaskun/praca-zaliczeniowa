@@ -4,6 +4,7 @@
  */
 package mail;
 
+import entity.Klienci;
 import java.io.Serializable;
 import java.util.Properties;
 import javax.ejb.Singleton;
@@ -62,6 +63,37 @@ public class MailSetUp implements Serializable{
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress("info@e-taxman.pl"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
+        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
+        try {
+            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+        } catch (Exception e){
+            Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
+        }
+        }
+        return message;
+    }
+    
+    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView) throws MessagingException {
+        final String username = "info@e-taxman.pl";
+        final String password = "Pufikun7005*";
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "az0066.srv.az.pl");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
         try {
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
