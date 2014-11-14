@@ -215,6 +215,7 @@ public class DokfkView implements Serializable {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
         selected.setRodzajedok(odnajdzZZ());
+        rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:dataDialogWpisywanie')).select();");
@@ -769,6 +770,7 @@ public class DokfkView implements Serializable {
   
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
+        //Msg.msg("dolaczWierszZKwotami");
         Rodzajedok rodzajdok = selected.getRodzajedok();
         HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
         if (rodzajdok.getKategoriadokumentu()==1) {
@@ -1080,6 +1082,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void updatevat(EVatwpisFK e, String form) {
+        //Msg.msg("updatevat");
         int lp = e.getLp();
         String update = form+":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
@@ -1921,7 +1924,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                     }
                     zabezpieczenie++;
                 }
-                pokazRzadWalutowy = true;
+                if (rodzajBiezacegoDokumentu != 0) {
+                    pokazRzadWalutowy = true;
+                }
                 if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
                     DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -1992,6 +1997,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             skopiujDateZWierszaWyzej(wierszbiezacy);
         }
         pobierzkursNBPwiersz(datawiersza, wierszbiezacy);
+        int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
+        String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
+        RequestContext.getCurrentInstance().update(update);
     }
 
     private void skopiujDateZWierszaWyzej(Wiersz wierszbiezacy) {
@@ -2029,11 +2037,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 zabezpieczenie++;
             }
             //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(symbolwaluty);
-            //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaWn(), wybranawaluta, tabelanbp);
-            //DokFKWalutyBean.uzupelnijwierszprzyprzewalutowaniu(wierszbiezacy.getWierszStronaMa(), wybranawaluta, tabelanbp);
-        } else {
-            Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(symbolwaluty);
+            wierszbiezacy.setTabelanbp(tabelanbp);
         }
     }
 

@@ -35,6 +35,13 @@
         .ui-autocomplete input {
             width: 150px;
         }
+        
+        .pe-inputNumber{
+            width: 70px;
+        }
+        .ui-inputNum .ui-widget {
+            width: 100px !important;
+        }
        
 
     </style>
@@ -47,7 +54,7 @@
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
-                    <p:panelGrid id="paneldatydokumentu" columns="6" style="width: 580px;"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="paneldatydokumentu" columns="6" style="width: 560px;"  styleClass="uipanelGrid0">
                         <h:outputText value="data wprowadzenia"/>
                         <h:outputText value="data dokumentu"/>
                         <h:outputText value="data operacji gosp."/>
@@ -119,10 +126,10 @@
                     </p:panelGrid>
                     <p:panelGrid id="paneldaneogolnefaktury" columns="5"  styleClass="uipanelGrid0">
                         <h:outputText value="symbol"/>
-                        <h:outputText value="numer"/>
                         <h:outputText value="numer własny"/>
                        <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'rok VAT' : ''}"/>
                         <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'mc VAT' : ''}"/>
+                        <h:outputText value="numer"/>
                          
                          <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -133,16 +140,9 @@
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
-                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
+                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, :formwpisdokument:dataList"/>
                         </h:selectOneMenu>
-                        <h:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px;" readonly="true"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
-                                     onblur="$(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');">
-                            <f:ajax/>
-                        </h:inputText>
+                        
                        
                         <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 180px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -173,6 +173,9 @@
                             <f:selectItems value="#{Mce.mceList}"/>
                             <f:ajax event="blur" execute="@this"/>
                         </h:selectOneMenu>
+                        <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; float: right; font-weight: 900;" 
+                                     >
+                        </h:outputText>
                     </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
                         <h:outputText value="treść dok."/>
@@ -240,39 +243,41 @@
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
-                <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" style="width: 470px;">
+                <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" >
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="width: 100%; margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
-                                 sortBy="#{item.lp}">
-                        <p:column headerText="" style="width: 3%;">
+                                 style="margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                 sortBy="#{item.lp}" >
+                        <p:column headerText="" style="width: 10px; display: none">
                             <h:outputText value="#{item.lp+1}" />
                         </p:column>
-                        <p:column headerText="rodzaj ewidencji" style="width: 23%;">
+                        <p:column headerText="rodzaj ewid." style="width: 40px;">
                             <h:outputText value="#{item.ewidencja.nazwa}" />
                         </p:column>
-                        <p:column headerText="netto" style="width: 20%;">
+                        <p:column headerText="netto" style="width: 70px;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="text-align: right; width: 95%; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="vat" style="width: 20%;">
+                        <p:column headerText="vat" style="width: 70px;">
                             <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}" partialSubmit="true" />
-                                <p:ajax event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" />
+                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                                
+                                <p:ajax event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="brutto" style="width: 20%;">
-                            <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" readonly="true"
-                                            style="text-align: right; width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" /> 
+                        <p:column headerText="brutto" style="width: 70px;">
+                            <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
+                                <p:ajax event="keyup" listener="#{dokfkView.dolaczWierszZKwotami(item)}"/>
+                            </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="op/zw" style="width: 17%;">
+                        <p:column headerText="op/zw" style="width: 50px;">
                             <h:selectOneMenu value="#{item.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                             onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
+                                             onfocus="$(this).addClass('ui-state-focus');" 
                                              onblur="$(this).removeClass('ui-state-focus');">
-                                <f:selectItem itemLabel="sprz.op" itemValue="sprz.op"/>
-                                <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
+                                <f:selectItem itemLabel="op" itemValue="sprz.op"/>
+                                <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
                             </h:selectOneMenu>
                         </p:column>
                     </p:dataTable>
@@ -284,7 +289,7 @@
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
                 <!--                poszczególne wiersze-->
-                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 980px; max-height: 440px;" 
+                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px; max-height: 440px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" >
                     <p:column headerText="lp" width="10" style="text-align: center" >
@@ -299,21 +304,22 @@
                             <p:ajax event="blur" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="ilość kg" width="30" rendered="#{dokfkView.selected.rodzajedok.skrot eq 'WNT' || dokfkView.selected.rodzajedok.skrot eq 'WDT'}" >
+                    <p:column headerText="ilość kg" width="30" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
                         <p:inputText id="ilosckg" value="#{loop.ilosc_kg}" style="width: 50px;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="ilość szt" width="30" rendered="#{dokfkView.selected.rodzajedok.skrot eq 'WNT' || dokfkView.selected.rodzajedok.skrot eq 'WDT'}" >
+                    <p:column headerText="ilość szt" width="30" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
                         <p:inputText id="iloscszt" value="#{loop.ilosc_szt}" style="width: 50px;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                             <f:ajax event="blur" execute="@this"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
-                        <p:spinner id="minmax" min="1" max="31" stepFactor="1" size="2" value="#{loop.dataWalutyWiersza}" style="padding-right: 20px;"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
-                            <f:ajax event="keyup" execute="@this"/>
-                            <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" partialSubmit="true" update="@this"/>
-                        </p:spinner>
+                        <p:inputText id="minmax" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
+                            <p:ajax event="keyup" partialSubmit="true"/>
+                            <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" />
+                            <f:validateLength minimum="1" maximum="2"/>
+                        </p:inputText>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="60">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaWn != null}"
@@ -362,9 +368,12 @@
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column width="3" >
-                        <h:outputText id="idwiersza" value="#{loop.typWiersza}" style="display: none;" />
-                    </p:column><!--
+                <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
+                        <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"/>
+                    </p:column>
+<!--                    <p:column width="1" >
+                        <h:outputText id="idwiersza" value="{loop.typWiersza}" style="display: none;" />
+                    </p:column>
                     <p:column  width="3">
                         <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
                     </p:column>-->

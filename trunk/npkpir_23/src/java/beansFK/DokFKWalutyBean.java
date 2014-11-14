@@ -83,15 +83,7 @@ public class DokFKWalutyBean implements Serializable{
         }
         }
     }
-
     
-//    public static void uzupelnijwierszprzyprzewalutowaniuPLN(StronaWiersza wierszStronafk) {
-//            wierszStronafk.setGrafikawaluty("zł");
-//            Tabelanbp tabelanbp = null;
-//            wierszStronafk.setNrtabelinbp(null);
-//            wierszStronafk.setKurswaluty(1);
-//            wierszStronafk.setSymbolwaluty("PLN");
-//            wierszStronafk.setDatawaluty(null);
-//    }
+    
 }
 
