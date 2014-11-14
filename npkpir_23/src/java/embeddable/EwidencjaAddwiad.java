@@ -16,7 +16,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class EwidencjaAddwiad implements Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -595126647192102178L;
     
     private int lp;
     private String opis;
