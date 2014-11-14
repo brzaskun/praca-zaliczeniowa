@@ -23,7 +23,7 @@
                     <h:outputLabel value="data wystawienia faktury: " />
                     <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
-                        <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
+                    <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="nr faktury: "/>
                     <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                         <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
@@ -61,7 +61,9 @@
                                 <h:outputText value="NIP: " />  
                                 <h:outputText id="nip" value="#{p.nip}" />  
                                 <h:outputText value="Adres " />  
-                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" />
+                                <h:outputText value="Email " />  
+                                <h:outputText id="kemail" value="#{p.email}" /> 
                             </h:panelGrid>
                         </f:facet>
                         <f:param name="passedValue" value="#{p}" />
@@ -79,7 +81,7 @@
                     <p:outputLabel value="ilość" style="margin-right: 135px; font-weight: bolder;"/>
                     <p:outputLabel value="cena jednostkowa" style="margin-right: 45px; font-weight: bolder;"/>
                     <p:outputLabel value="stawka podatku VAT" style="font-weight: bolder;"/>
-                   <p:dataTable id="rzad" value="#{fakturaView.pozycje}" var="row" rowIndexVar="rowStat" style="width: 70%;">
+                    <p:dataTable id="rzad" value="#{fakturaView.pozycje}" var="row" rowIndexVar="rowStat" style="width: 70%;">
                         <p:column headerText="nazwa">
                             <p:inputText id="nazwa" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
                         </p:column>
