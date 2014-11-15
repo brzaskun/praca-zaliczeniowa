@@ -250,6 +250,10 @@ public class KontoDAOfk extends DAO implements Serializable{
         
     }
 
+    public List<Konto> findlistaKontKasaBank(String p) {
+        return kontoFacade.findlistaKontKasaBank(p);
+    }
+
    
  
 }

@@ -113,6 +113,7 @@ public class PodatnikView implements Serializable {
     @Inject
     private PitDAO pitDAO;
     private String biezacadata;
+    private List<Konto> listaKontKasaBank;
     private List<Konto> listaKontRozrachunkowych;
     private List<Konto> listaKontVAT;
     private List<Konto> listakontoRZiS;
@@ -131,6 +132,7 @@ public class PodatnikView implements Serializable {
         listaKontRozrachunkowych = new ArrayList<>();
         listaKontVAT = new ArrayList<>();
         listakontoRZiS  = new ArrayList<>();
+        listaKontKasaBank  = new ArrayList<>();
         
     }
 
@@ -1073,6 +1075,7 @@ public class PodatnikView implements Serializable {
         listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(p);
         listaKontVAT = kontoDAOfk.findKontaVAT(p);
         listakontoRZiS = kontoDAOfk.findKontaRZiS(p);
+        listaKontKasaBank = kontoDAOfk.findlistaKontKasaBank(p);
     }
     
     public void naniesKontaNaDokumentRozrachunki(ValueChangeEvent e) {
@@ -1106,7 +1109,12 @@ public class PodatnikView implements Serializable {
 
     }
 
-//     public void skopiujstraty() {
+    
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    
+    //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
 //         for (Podatnik p : podatnicy) {
 //             if (p.getStratyzlatub1() != null) {
@@ -1128,9 +1136,14 @@ public class PodatnikView implements Serializable {
 //     }
     
     
-    //<editor-fold defaultstate="collapsed" desc="comment">
-    
-    
+    public List<Konto> getListaKontKasaBank() {
+        return listaKontKasaBank;
+    }
+
+    public void setListaKontKasaBank(List<Konto> listaKontKasaBank) {
+        this.listaKontKasaBank = listaKontKasaBank;
+    }
+
     public List<Konto> getListaKontRozrachunkowych() {
         return listaKontRozrachunkowych;
     }
