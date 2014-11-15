@@ -325,7 +325,8 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}"
                                         >
-                            <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
+                            <p:ajax event="blur" listener="#{dokfkView.przepiszWaluty(loop)}" partialSubmit="true" />
+                            <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}"  update="@this"/>
                         </pe:inputNumber>
                     </p:column>
                      <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
@@ -357,6 +358,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}"
                                         >
+                            <p:ajax event="blur" listener="#{dokfkView.przepiszWaluty(loop)}" partialSubmit="true"/>
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
