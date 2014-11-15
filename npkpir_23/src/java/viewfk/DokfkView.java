@@ -450,7 +450,6 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                przepiszWaluty(wiersz);
                 if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
@@ -512,7 +511,6 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                przepiszWaluty(wiersz);
                 if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
@@ -1200,7 +1198,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     
 }
-    private void przepiszWaluty(Wiersz wiersz) {
+    public void przepiszWaluty(Wiersz wiersz) {
         StronaWiersza wn = wiersz.getStronaWn();
         StronaWiersza ma = wiersz.getStronaMa();
         if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
