@@ -987,5 +987,9 @@ public class SessionFacade<T> implements Serializable{
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
         return (EVatwpisFK) em.createNamedQuery("EVatwpisFK.findByWiersz").setParameter("wiersz", wiersz).getSingleResult();
     }
+
+    public List<Konto> findlistaKontKasaBank(String podatnik) {
+        return em.createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", podatnik).getResultList();
+    }
   
 }
