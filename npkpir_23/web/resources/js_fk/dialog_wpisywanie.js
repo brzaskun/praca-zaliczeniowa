@@ -18,16 +18,22 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
 var zachowajwierszVATRK = function (source) {
     try {
         var lp = parseInt(source)-1;
-        MYAPP.lpwiersza = r("formwpisdokument:dataList:"+lp+":opis");
+        MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
 };
 
-var odtworzwierszVATRK = function() {
-    $(MYAPP.lpwiersza).focus();
-    $(MYAPP.lpwiersza).select();
-    document.activeElement = MYAPP.lpwiersza;
+var odtworzwierszVATRK = function(data) {
+    if (MYAPP.lpwiersza) {
+        $(data).removeClass('ui-state-focus');
+        $(data).addClass('ui-state-default');
+        r(MYAPP.lpwiersza).focus();
+        r(MYAPP.lpwiersza).select();
+        r(MYAPP.lpwiersza).keyup();
+        document.activeElement = rj(MYAPP.lpwiersza);
+        delete MYAPP.lpwiersza;
+    }
 };
 
 var wpisywanieOnShow = function () {

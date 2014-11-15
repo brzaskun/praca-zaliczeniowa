@@ -86,9 +86,10 @@
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />
                 </pe:inputNumber>
-                <pe:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.netto + dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
+                <pe:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                 style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 
-                                readonly="true"/> 
+                                readonly="true"> 
+                </pe:inputNumber>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.estawka}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');" style="text-align: right; width: 95%;"
                                  onblur="$(this).removeClass('ui-state-focus');">
@@ -96,8 +97,8 @@
                     <f:selectItem itemLabel="sprzed.op.izw." itemValue="sprzed.op.izw."/>
                 </h:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dodajPozycjeRKDoEwidencji()}" 
-                             oncomplete="PF('dialogewidencjavatRK').hide();" />
+            <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK()}" 
+                             oncomplete="PF('dialogewidencjavatRK').hide();"/>
             <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" type="button" onclick="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();"/>
         </h:form>
     </p:dialog>
