@@ -491,6 +491,17 @@ public class ObslugaWiersza {
         }
     }
      
+    public static Wiersz wygenerujiDodajWierszRK(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
+        int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
+        Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        if (wierszbiezacyIndex == selected.getListawierszy().size()-1) {
+            selected.getListawierszy().add(wiersz);
+        } else {
+            ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wiersz, lpmacierzystego);
+        }
+        return wiersz;
+    }
+     
      public static void wygenerujiDodajWierszPiatka(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza, Wiersz czworka, Konto konto490) {
         int lpmacierzystego = znajdzmacierzysty5(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz nowywiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
