@@ -145,6 +145,7 @@ public class DokfkView implements Serializable {
     private List<Evewidencja> listaewidencjivatRK;
     //powiazalem tabele z dialog_wpisu ze zmienna
     boolean wlaczZapiszButon;
+    boolean pokazzapisywzlotowkach;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -449,6 +450,7 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                przepiszWaluty(wiersz);
                 if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
@@ -510,6 +512,7 @@ public class DokfkView implements Serializable {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                przepiszWaluty(wiersz);
                 if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
                     ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
                 }
@@ -782,6 +785,9 @@ public class DokfkView implements Serializable {
         } else if (rodzajdok.getRodzajtransakcji().equals("WDT")) {
             rozliczVatPrzychod(e, wartosciVAT);
         }
+        for (Wiersz p : selected.getListawierszy()) {
+            przepiszWaluty(p);
+        }
     }
     
     private HashMap<String, Double> podsumujwartosciVAT() {
@@ -806,10 +812,10 @@ public class DokfkView implements Serializable {
         double vatwWalucie = 0.0;
         if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 10000.0) / 10000.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 10000.0) / 10000.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 10000.0) / 10000.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
@@ -821,6 +827,7 @@ public class DokfkView implements Serializable {
                 StronaWiersza wn = wierszpierwszy.getStronaWn();
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
                 wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                wierszpierwszy.setTabelanbp(selected.getTabelanbp());
                 if (w.getSymbolwaluty().equals("PLN")) {
                     wn.setKwota(nettovat);
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
@@ -863,6 +870,7 @@ public class DokfkView implements Serializable {
                         wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatwWalucie, 1);
                     }
                 }
+                wierszdrugi.setTabelanbp(selected.getTabelanbp());
                 wierszdrugi.setOpisWiersza("podatek vat");
                 Konto kontovat = selected.getRodzajedok().getKontovat();
                 if (kontovat != null) {
@@ -875,6 +883,7 @@ public class DokfkView implements Serializable {
             } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
                 Wiersz wierszdrugi;
                 wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, przechowajnettovat, 1);
+                wierszdrugi.setTabelanbp(selected.getTabelanbp());
                 wierszdrugi.getStronaWn().setKwota(przechowajnettovat);
                 wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                 wierszdrugi.setCzworka(wierszpierwszy);
@@ -896,6 +905,7 @@ public class DokfkView implements Serializable {
                         wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatwWalucie, 1);
                     }
                 }
+                wiersztrzeci.setTabelanbp(selected.getTabelanbp());
                 wiersztrzeci.setOpisWiersza("podatek vat");
                 k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
                 wiersztrzeci.getStronaWn().setKonto(k);
@@ -918,10 +928,10 @@ public class DokfkView implements Serializable {
         //przeliczanie waluty na zlotowki dla netto
         if (!w.getSymbolwaluty().equals("PLN")) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 10000.0) / 10000.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 10000.0) / 10000.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 10000.0) / 10000.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
@@ -1044,7 +1054,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Waluty w = selected.getWalutadokumentu();
             if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 10000.0) / 10000.0;
                     e.setVat(kwotawPLN * stawkaint);
                 } else {
                     e.setVat(e.getNetto() * stawkaint);
@@ -1059,7 +1069,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
                     l.get(0).setVat((kwotawPLN * 0.23) / 2);
                 } else {
                     l.get(0).setVat((l.get(0).getNetto() * 0.23) / 2);
@@ -1068,7 +1078,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
                     l.get(0).setVat((kwotawPLN * 0.23));
                 } else {
                     l.get(0).setVat((l.get(0).getNetto() * 0.23));
@@ -1111,7 +1121,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Waluty w = selected.getWalutadokumentu();
             if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 10000.0) / 10000.0;
                     e.setVat(kwotawPLN * stawkaint);
                 } else {
                     e.setVat(e.getNetto() * stawkaint);
@@ -1126,7 +1136,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
                     l.get(0).setVat((kwotawPLN * 0.23) / 2);
                 } else {
                     l.get(0).setVat((l.get(0).getNetto() * 0.23) / 2);
@@ -1135,7 +1145,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
+                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
                     l.get(0).setVat((kwotawPLN * 0.23));
                 } else {
                     l.get(0).setVat((l.get(0).getNetto() * 0.23));
@@ -2215,8 +2225,25 @@ public void updatenetto(EVatwpisFK e, String form) {
         wlaczZapiszButon = true;
     }
     
+    public void zmienwalutezapisow() {
+        if (pokazzapisywzlotowkach == true) {
+            pokazzapisywzlotowkach = false;
+        } else {
+            pokazzapisywzlotowkach = true;
+        }
+    }
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public boolean isPokazzapisywzlotowkach() {
+        return pokazzapisywzlotowkach;
+    }
+
+    public void setPokazzapisywzlotowkach(boolean pokazzapisywzlotowkach) {
+        this.pokazzapisywzlotowkach = pokazzapisywzlotowkach;
+    }
+
     public boolean isWlaczZapiszButon() {
         return wlaczZapiszButon;
     }

@@ -320,13 +320,21 @@
                             <f:validateLength minimum="1" maximum="2"/>
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="kwota"  style="text-align: center;" width="60">
+                    <p:column headerText="kwota"  style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}"
                                         >
                             <p:ajax event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}" partialSubmit="true" update="@this"/>
                         </pe:inputNumber>
+                    </p:column>
+                     <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                        <pe:inputNumber id="wnpln" value="#{loop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" 
+                                        rendered="#{loop.stronaWn != null}"
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                        readonly="true"
+                                        >
+                        </pe:inputNumber> 
                     </p:column>
 <!--                    <p:column width="12" style="text-align: center" rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
                         <h:outputText id="symbolWn" value="{loop.tabelanbp.waluta.skrotsymbolu}" rendered="{loop.stronaWn != null}"/>
@@ -344,12 +352,20 @@
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="60">
+                    <p:column headerText="kwota" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}"
                                         >
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
+                        </pe:inputNumber> 
+                    </p:column>
+                    <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                        <pe:inputNumber id="mapln" value="#{loop.stronaMa.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 100px;" 
+                                        rendered="#{loop.stronaMa != null}"
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
+                                        readonly="true"
+                                        >
                         </pe:inputNumber> 
                     </p:column>
 <!--                    <p:column width="12" style="text-align: center"  rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
@@ -395,6 +411,7 @@
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 150px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" onclick="r('formwpisdokument:vatRKhidden').click();return false;" accesskey="x" />
+                <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 150px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 150px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.numerwiersza}" style="display: none;"/>
