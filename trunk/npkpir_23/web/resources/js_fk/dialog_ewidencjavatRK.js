@@ -26,7 +26,6 @@ var sprawdzczybrakklientaRK = function() {
 
 
 var ukryjdialogvatrk = function() {
-    setTimeout(odtworzwierszVATRK(),5000);
     resetujdialog('dialogewidencjavatRK');
 };
 

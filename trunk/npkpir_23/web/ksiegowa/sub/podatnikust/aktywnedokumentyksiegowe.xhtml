@@ -34,7 +34,11 @@
                     </p:column>
                     <f:ajax >
                         <p:column headerText="konto rozrach." style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                            <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv">
+                            <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{loop.kategoriadokumentu == 0}">
+                                <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                                <f:selectItems value="#{podatnikView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                            </p:selectOneMenu>
+                            <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{loop.kategoriadokumentu != 0}">
                                 <f:selectItem itemLabel="wybierz konto" itemValue="" />
                                 <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
                             </p:selectOneMenu>
