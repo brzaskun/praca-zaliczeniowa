@@ -122,6 +122,7 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
+    private List<Cechazapisu> cechadokumentu;
  
 
     
@@ -132,6 +133,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentu = new ArrayList<>();
     }
     
     public Dokfk(String opis) {
@@ -142,6 +144,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentu = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK) {
@@ -151,6 +154,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentu = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
@@ -161,6 +165,7 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentu = new ArrayList<>();
         this.wTrakcieEdycji = false;
     }
 
@@ -170,10 +175,21 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentu = new ArrayList<>();
         ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public List<Cechazapisu> getCechadokumentu() {
+        return cechadokumentu;
+    }
+
+    public void setCechadokumentu(List<Cechazapisu> cechadokumentu) {
+        this.cechadokumentu = cechadokumentu;
+    }
+    
+   
+
     public String getVatM() {
         return vatM;
     }

@@ -15,6 +15,7 @@ import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
+import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.EVatwpisFKDAO;
 import daoFK.KliencifkDAO;
@@ -28,6 +29,7 @@ import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
@@ -146,6 +148,9 @@ public class DokfkView implements Serializable {
     //powiazalem tabele z dialog_wpisu ze zmienna
     boolean wlaczZapiszButon;
     boolean pokazzapisywzlotowkach;
+    @Inject private CechazapisuDAOfk cechazapisuDAOfk;
+    private List<Cechazapisu> pobranecechy;
+    
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -158,12 +163,14 @@ public class DokfkView implements Serializable {
         this.zapisz0edytuj1 = false;
         this.rodzajedokKlienta = new ArrayList<>();
         this.listaewidencjivatRK = new ArrayList<>();
+        this.pobranecechy = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         try {
             resetujDokument();
+            obsluzcechydokumentu();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
@@ -1809,6 +1816,8 @@ public void updatenetto(EVatwpisFK e, String form) {
             wybranoRachunekPlatnoscCD(stronawiersza);
         }
     }
+    
+  
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc(Wiersz wiersz, String stronawiersza) {
@@ -2371,9 +2380,34 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
+    public void dodajcechedodokumentu(Cechazapisu c) {
+        pobranecechy.remove(c);
+        selected.getCechadokumentu().add(c);
+    }
+    public void usuncechedodokumentu(Cechazapisu c) {
+        pobranecechy.add(c);
+        selected.getCechadokumentu().remove(c);
+    }
+    
+    private void obsluzcechydokumentu() {
+        //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
+        pobranecechy = cechazapisuDAOfk.findAll();
+        List<Cechazapisu> cechyuzyte = selected.getCechadokumentu();
+        for (Cechazapisu c : cechyuzyte) {
+            pobranecechy.remove(c);
+        }
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public List<Cechazapisu> getPobranecechy() {
+        return pobranecechy;
+    }
+
+    public void setPobranecechy(List<Cechazapisu> pobranecechy) {
+        this.pobranecechy = pobranecechy;
+    }
+
     public boolean isPokazzapisywzlotowkach() {
         return pokazzapisywzlotowkach;
     }
@@ -2633,6 +2667,8 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        kwota = kwota / 100;
 //}        
 //</editor-fold>
+
+    
     
 
 }
