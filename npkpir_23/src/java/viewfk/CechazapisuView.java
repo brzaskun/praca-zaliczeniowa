@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -39,26 +41,35 @@ public class CechazapisuView implements Serializable {
     }
     
     public void dodajnowacecha() {
+        Cechazapisu nc = new Cechazapisu(nazwacechy, rodzajcechy);
+        cechazapisuDAOfk.dodaj(nc);
+        pobranecechy.add(nc);
         Msg.msg("Dodano nową cechę");
     }
-
-    //<editor-fold defaultstate="collapsed" desc="comment">
+  
+    public void usun(Cechazapisu c) {
+        cechazapisuDAOfk.destroy(c);
+        pobranecechy.remove(c);
+        Msg.msg("Usunięto cechę");
+    }
+    
+      //<editor-fold defaultstate="collapsed" desc="comment">
     public String getNazwacechy() {
         return nazwacechy;
     }
-    
+
     public void setNazwacechy(String nazwacechy) {
         this.nazwacechy = nazwacechy;
     }
-    
+
     public String getRodzajcechy() {
         return rodzajcechy;
     }
-    
+
     public void setRodzajcechy(String rodzajcechy) {
         this.rodzajcechy = rodzajcechy;
     }
-    
+       
     public List<Cechazapisu> getPobranecechy() {
         return pobranecechy;
     }

@@ -25,9 +25,14 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Inject private SessionFacade sessionFacade;
+
+    public CechazapisuDAOfk() {
+        super(Cechazapisu.class);
+    }
+    
     
     public List<Cechazapisu> findAll() {
-        return sessionFacade.findAll(CechazapisuDAOfk.class);
+        return sessionFacade.findAll(Cechazapisu.class);
     }
     
 }

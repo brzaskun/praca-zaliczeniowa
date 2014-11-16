@@ -7,10 +7,11 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',700,700);" focus=":formCH" 
+              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',500,400);" focus=":formCH" 
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable value="#{CechazapisuView}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 550px;">
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 250px;"
+                         paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="Nazwa cechy"/>
@@ -23,8 +24,12 @@
                     </f:facet>
                     <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
                 </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton value="usuń"  actionListener="#{cechazapisuView.usun(item)}"
+                             update=":formCH:dataList"/>
+                </p:column>
             </p:dataTable>
-            <p:panelGrid columns="4" style="height: 50px;">
+            <p:panelGrid id="nowacecha" columns="4" style="height: 50px;">
                 <h:outputText value="Nazwa cechy"/>
                 <p:inputText value="#{cechazapisuView.nazwacechy}"/>
                 <h:outputText value="Rodzaj cechy"/>
@@ -34,7 +39,9 @@
                     <f:selectItem itemLabel="rmk" itemValue="rmk"/>
                 </p:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"/>
+            <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
+                             update=":formCH:dataList"/>
+            
         </h:form>
     </p:dialog>
 </ui:composition> 
