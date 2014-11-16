@@ -83,6 +83,7 @@ public class StronaWiersza implements Serializable{
     private List<Transakcja> nowetransakcje;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
+    private List<Cechazapisu> cechazapisu;
     
 
    
@@ -259,6 +260,15 @@ public class StronaWiersza implements Serializable{
     public void setKonto(Konto konto) {
         this.konto = konto;
     }
+
+    public List<Cechazapisu> getCechazapisu() {
+        return cechazapisu;
+    }
+
+    public void setCechazapisu(List<Cechazapisu> cechazapisu) {
+        this.cechazapisu = cechazapisu;
+    }
+    
     
 
 //    public void dodajTransakcjeNowe(Transakcja transakcja) {
