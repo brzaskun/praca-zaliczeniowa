@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Cechazapisu implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected CechazapisuPK cechazapisuPK;
+    protected CechazapisuPK cechazapisuPK  = new CechazapisuPK();
 
     public Cechazapisu() {
     }
