@@ -424,12 +424,32 @@ public class DokfkView implements Serializable {
     
     public void niewybranokontaStronaWn(Wiersz wiersz, int indexwiersza) {
         if (!(wiersz.getStronaWn().getKonto() instanceof Konto)) {
-            skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+             try {
+               Konto k = selected.getRodzajedok().getKontorozrachunkowe();
+               StronaWiersza wierszBiezacy = wiersz.getStronaWn();
+               wierszBiezacy.setKonto(serialclone.SerialClone.clone(k));
+             } catch (Exception e) {
+                 
+             }
+            } else {
+                skopiujKontoZWierszaWyzej(indexwiersza, "Wn");
+            }
         }
     }
     public void niewybranokontaStronaMa(Wiersz wiersz, int indexwiersza) {
         if (!(wiersz.getStronaMa().getKonto() instanceof Konto)) {
-            skopiujKontoZWierszaWyzej(indexwiersza, "Ma");
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+             try {
+               Konto k = selected.getRodzajedok().getKontorozrachunkowe();
+               StronaWiersza wierszBiezacy = wiersz.getStronaMa();
+               wierszBiezacy.setKonto(serialclone.SerialClone.clone(k));
+             } catch (Exception e) {
+                 
+             }
+            } else {
+                skopiujKontoZWierszaWyzej(indexwiersza, "Ma");
+            }
         }
     }
 

@@ -140,7 +140,8 @@
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
-                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, :formwpisdokument:dataList"/>
+                            <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
+                                    :formwpisdokument:dataList, :formwpisdokument:paneldaneogolnefaktury"/>
                         </h:selectOneMenu>
                         
                        
@@ -158,7 +159,7 @@
                                                      $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');"
-                                        rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
                                          >
                             <f:selectItems value="#{Roki.rokiList}"/>
                         </h:selectOneMenu>
@@ -168,7 +169,7 @@
                                                      $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');"
-                                        rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                        rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
                                         >
                             <f:selectItems value="#{Mce.mceList}"/>
                             <f:ajax event="blur" execute="@this"/>
@@ -316,7 +317,7 @@
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
                         <p:inputText id="minmax" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
                             <p:ajax event="keyup" partialSubmit="true"/>
-                            <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" />
+                            <p:ajax event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" update="@this"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
@@ -381,7 +382,7 @@
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
                                         >
                             <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>
-                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
+                            <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" />
                         </p:autoComplete>
                     </p:column>
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
