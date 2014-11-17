@@ -1687,9 +1687,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             } else {
-                obsluzcechydokumentu();
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
+                obsluzcechydokumentu();
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
@@ -1835,6 +1835,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         for (Cechazapisu c : cechyuzyte) {
             pobranecechy.remove(c);
         }
+        RequestContext.getCurrentInstance().update("formCHW");
     }
     
     public void dodajcechedostronawiersza(Cechazapisu c) {
