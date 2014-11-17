@@ -107,13 +107,16 @@
                         <p:column headerText="dok." width="40" >
                             <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
+                        <p:column headerText="wiersz" width="30" >
+                            <h:outputText value="#{loop.wiersz.idporzadkowy}"/>
+                        </p:column>
                         <p:column headerText="opis" width="100" sortBy="#{loop.wiersz.opisWiersza}">
                             <h:outputText value="#{loop.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="kurs" width="40" sortBy="#{loop.id}" >
+                        <p:column headerText="kurs" width="40" sortBy="#{loop.id}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.kurssredni}"/>
                         </p:column>
-                        <p:column headerText="tab" width="40" sortBy="#{loop.id}" >
+                        <p:column headerText="tab" width="40" sortBy="#{loop.id}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}"/>
                         </p:column>
                         <p:column headerText="Wn" width="60" sortBy="#{loop.kwota}">
