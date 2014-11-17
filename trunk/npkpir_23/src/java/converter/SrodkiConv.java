@@ -18,29 +18,32 @@ import view.SrodkikstView;
  */
 public class SrodkiConv implements javax.faces.convert.Converter{
     
+    private List<Srodkikst> srodkiKSTLista;
+    
+    public SrodkiConv() {
+       FacesContext context = FacesContext.getCurrentInstance();
+       SrodkikstView srodkikstView = (SrodkikstView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"srodkikstView");
+       srodkiKSTLista = srodkikstView.getLista();
+    }
     
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         SrodkikstView srodkikstView = new SrodkikstView();
-        List<Srodkikst> kl = srodkikstView.getLista();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
             try {  
                 String number = submittedValue;  
-  
-                for (Srodkikst p : kl) {  
+                  for (Srodkikst p : srodkiKSTLista) {  
                     if (p.getNazwa().equals(number)) {  
                         return p;  
                     }  
                 }  
-  
-            } catch(NumberFormatException exception) {  
+              } catch(NumberFormatException exception) {  
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
             }  
         }  
-  
         return null;  
     }  
   
