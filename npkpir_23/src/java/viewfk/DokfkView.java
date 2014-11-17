@@ -150,6 +150,7 @@ public class DokfkView implements Serializable {
     boolean pokazzapisywzlotowkach;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
+    private StronaWiersza stronaWierszaCechy;
     
 
     public DokfkView() {
@@ -1546,6 +1547,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void przygotujDokumentEdycja() {
         selected.setwTrakcieEdycji(true);
+        obsluzcechydokumentu();
         RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         try {
@@ -1685,6 +1687,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             } else {
+                obsluzcechydokumentu();
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
@@ -1817,6 +1820,31 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
+    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
+    public void wybranoStronaWierszaCecha() {
+        numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
+        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+        if (stronawiersza.equals("Wn")) {
+            stronaWierszaCechy = wiersz.getStronaWn();
+        } else {
+            stronaWierszaCechy = wiersz.getStronaMa();
+        }
+        pobranecechy = cechazapisuDAOfk.findAll();
+        List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisu();
+        for (Cechazapisu c : cechyuzyte) {
+            pobranecechy.remove(c);
+        }
+    }
+    
+    public void dodajcechedostronawiersza(Cechazapisu c) {
+        pobranecechy.remove(c);
+        stronaWierszaCechy.getCechazapisu().add(c);
+    }
+    public void usuncechedostronawiersza(Cechazapisu c) {
+        pobranecechy.add(c);
+        stronaWierszaCechy.getCechazapisu().remove(c);
+    }
   
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
@@ -2392,14 +2420,28 @@ public void updatenetto(EVatwpisFK e, String form) {
     private void obsluzcechydokumentu() {
         //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
         pobranecechy = cechazapisuDAOfk.findAll();
-        List<Cechazapisu> cechyuzyte = selected.getCechadokumentu();
+        List<Cechazapisu> cechyuzyte = null;
+        if (selected.getCechadokumentu() == null) {
+            cechyuzyte = new ArrayList<>();
+        } else {
+            cechyuzyte = selected.getCechadokumentu();
+        }
         for (Cechazapisu c : cechyuzyte) {
             pobranecechy.remove(c);
         }
+        RequestContext.getCurrentInstance().update("formCH");
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public StronaWiersza getStronaWierszaCechy() {
+        return stronaWierszaCechy;
+    }
+
+    public void setStronaWierszaCechy(StronaWiersza stronaWierszaCechy) {
+        this.stronaWierszaCechy = stronaWierszaCechy;
+    }
+
     public List<Cechazapisu> getPobranecechy() {
         return pobranecechy;
     }
