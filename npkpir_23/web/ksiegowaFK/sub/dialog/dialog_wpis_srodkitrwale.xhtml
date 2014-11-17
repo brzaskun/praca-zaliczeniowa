@@ -1,0 +1,72 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+    <style>
+        .ui-autocomplete input[id="srodkiwpis:acForce1_input"] {
+            width: 300px;
+        }
+    </style>
+    <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego" widgetVar="dialogwpissrodkitrwale"  
+              resizable="false"  onShow="ustawdialogrk('dialogwpissrodkitrwale','dialogpierwszy',900,300);" 
+              closeOnEscape="true" onHide="ukryjdialogvatrk();" >
+        <h:form id="srodkiwpis"> 
+            <!--pola ewidencji SRODKOW TRWALYCH-->
+            <p:panel id="panelwyszukiwarki" style="width: 300px;" >
+                <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
+                <p:autoComplete id="acForce1" value="#{SrodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                                var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
+                                minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom"
+                                queryDelay="10" size="50" >
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400" >  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane środka trwałego"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna1" value="#{pa.nazwa}"/>  
+                            <h:outputText value="Stawka " />  
+                            <h:outputText id="nip1" value="#{pa.stawka}" />  
+                            <h:outputText value="KŚT " />  
+                            <h:outputText id="klumna1" value="#{pa.symbol}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                    <p:ajax event="itemSelect" listener="#{SrodkiTrwaleView.skopiujSTR}"/>
+                </p:autoComplete>
+            </p:panel><!--
+-->            <p:panel id="nowypanelsrodki" >
+                <p:dataTable id="tabelasrodkitrwaleOT" value="#{SrodkiTrwaleView.selectedSTR}" var="loops"> 
+                    <p:column headerText="nazwa środka">
+                        <p:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
+                    </p:column>
+                     <p:column headerText="data przyjecia">
+                         <p:inputText id="dataprz" value="#{loops.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                    </p:column>
+                    <p:column headerText="symbol KST">
+                         <p:inputText value="#{loops.kst}"/>
+                    </p:column>
+                    <p:column headerText="stawka amort">
+                         <p:inputText value="#{loops.stawka}"/>
+                    </p:column>
+                    <p:column headerText="dotychczasowe umorzenie">
+                         <pe:inputNumber value="#{loops.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="nie podlega umorzeniu">
+                         <pe:inputNumber value="#{loops.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="środek trw/wyposazenie">
+                        <h:selectOneMenu value="#{loops.typ}">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            <p:commandButton value="zapisz" />
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

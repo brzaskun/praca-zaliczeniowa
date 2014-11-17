@@ -6,17 +6,21 @@ package view;
 
 import dao.STRDAO;
 import entity.SrodekTrw;
+import entity.Srodkikst;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -29,42 +33,15 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class STRView implements Serializable {
 
-    public static void main(String[] args) {
-        Double opm = 9.33;
-        Double max = 45.11;
-        Double nar = 0.0;
-        List<Double> listaplanum = new ArrayList<>();
-        while (max - nar > 0) {
-            Double odp = (max - nar) > opm ? opm : max - nar;
-            DecimalFormat df2 = new DecimalFormat("###.##");
-            double tmp = odp.doubleValue();
-            String tmpX = df2.format(tmp);
-            tmpX = tmpX.replace(",", ".");
-            odp = Double.valueOf(tmpX);
-            listaplanum.add(odp);
-            nar = nar + odp;
-        }
-    }
 
     @Inject
     private STRDAO sTRDAO;
     private Integer ilesrodkow;
-
-    public Integer getIlesrodkow() {
-        return ilesrodkow;
-    }
-
-    public void setIlesrodkow(Integer ilesrodkow) {
-        this.ilesrodkow = ilesrodkow;
-    }
-
-    public STRDAO getsTRDAO() {
-        return sTRDAO;
-    }
-
-    public void setsTRDAO(STRDAO sTRDAO) {
-        this.sTRDAO = sTRDAO;
-    }
+    @Inject
+    private Srodkikst srodekkategoria;
+    @Inject
+    private SrodekTrw selectedSTR;
+  
 
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
     public void dodajSrodekTrwaly(SrodekTrw STR) {
@@ -120,6 +97,24 @@ public class STRView implements Serializable {
         }
 
     }
+    
+    
+    public static void main(String[] args) {
+        Double opm = 9.33;
+        Double max = 45.11;
+        Double nar = 0.0;
+        List<Double> listaplanum = new ArrayList<>();
+        while (max - nar > 0) {
+            Double odp = (max - nar) > opm ? opm : max - nar;
+            DecimalFormat df2 = new DecimalFormat("###.##");
+            double tmp = odp.doubleValue();
+            String tmpX = df2.format(tmp);
+            tmpX = tmpX.replace(",", ".");
+            odp = Double.valueOf(tmpX);
+            listaplanum.add(odp);
+            nar = nar + odp;
+        }
+    }
 
     public void aktualizujTabele(AjaxBehaviorEvent e) {
         RequestContext.getCurrentInstance().update("formSTR");
@@ -134,5 +129,49 @@ public class STRView implements Serializable {
     public int ile() {
         return sTRDAO.findAll().size();
     }
+    
+     public void skopiujSTR() {
+        try {
+            selectedSTR.setKst(srodekkategoria.getSymbol());
+            selectedSTR.setUmorzeniepoczatkowe(0.0);
+            selectedSTR.setStawka(Double.parseDouble(srodekkategoria.getStawka()));
+            RequestContext.getCurrentInstance().update("srodkiwpis:nowypanelsrodki");
+        } catch (Exception e1) {
+        }
+    }
+    
+    public Integer getIlesrodkow() {
+        return ilesrodkow;
+    }
 
+    public void setIlesrodkow(Integer ilesrodkow) {
+        this.ilesrodkow = ilesrodkow;
+    }
+
+    public STRDAO getsTRDAO() {
+        return sTRDAO;
+    }
+
+    public void setsTRDAO(STRDAO sTRDAO) {
+        this.sTRDAO = sTRDAO;
+    }
+
+    public Srodkikst getSrodekkategoria() {
+        return srodekkategoria;
+    }
+
+    public void setSrodekkategoria(Srodkikst srodekkategoria) {
+        this.srodekkategoria = srodekkategoria;
+    }
+
+    public SrodekTrw getSelectedSTR() {
+        return selectedSTR;
+    }
+
+    public void setSelectedSTR(SrodekTrw selectedSTR) {
+        this.selectedSTR = selectedSTR;
+    }
+    
+    
+    
 }
