@@ -6,20 +6,17 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menurozrachunki" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
-                <p:tab title="wrowadzanie">
+                <p:tab title="przeglądanie">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="FVZ" ></p:menuitem>
-                            <p:menuitem value="FVK"></p:menuitem>
-                            <p:menuitem value="FVS"></p:menuitem>
+                             <p:menuitem value="Rozrachunki" onclick="PF('rozrachunkiPrzeglad').show();"></p:menuitem>
+                            <p:menuitem value="Zapisy" onclick="PF('zapisywdokumentach').show();"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
-                <p:tab title="przeglądanie">
+                <p:tab title="aa">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Rozrachunki" onclick="PF('rozrachunkiPrzeglad').show();"></p:menuitem>
-                            <p:menuitem value="Zapisy" onclick="PF('zapisywdokumentach').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>  

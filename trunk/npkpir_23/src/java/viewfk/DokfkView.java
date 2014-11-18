@@ -2070,7 +2070,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 stronaMa.setPozostalo(stronaMa.getKwota());
             }
         }
-        stronaWiersza.setDatarozrachunku(Data.aktualnyDzien());
+        if (wiersz.getDataWalutyWiersza() != null) {
+            stronaWiersza.setDatarozrachunku(wiersz.getDataWalutyWiersza());
+        } else if (selected.getDatadokumentu() != null) {
+            stronaWiersza.setDatarozrachunku(selected.getDatadokumentu());
+        } else {
+            stronaWiersza.setDatarozrachunku(Data.aktualnyDzien());
+        }
         stronaWiersza.setWiersz(wiersz);
         //Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;
