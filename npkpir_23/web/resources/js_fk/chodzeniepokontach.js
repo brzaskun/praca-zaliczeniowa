@@ -138,8 +138,8 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
     var iloscrzedow = wiersze.size();
     try {
         for(var i = 0; i < iloscrzedow; i++) {
-            var trescwiersza = wiersze[i].innerHTML;
-            if (trescwiersza.indexOf(wartosc)>-1) {
+            var trescwiersza = $(wiersze[i]).children()[0].innerText;
+            if (trescwiersza === wartosc) {
                 return wiersze[i];
             }
         }

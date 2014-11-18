@@ -21,7 +21,7 @@
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
-                            <p:ajax event="blur" update=":form:dataList, :tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="itemSelect" update=":form:dataList, :tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>
@@ -72,7 +72,8 @@
                         /* ]]> */
                     </script>
                     <p:outputPanel id="kontenertabeli" deferred="true">
-                        <p:treeTable id="dataList" value="#{planKontView.root}" var="loop1" selectionMode="single" selection="#{kontoZapisFKView.wybranekontoNode}" 
+                        <p:treeTable id="dataList" value="#{planKontView.root}" var="loop1" selectionMode="single" 
+                                     selection="#{kontoZapisFKView.wybranekontoNode}" 
                                      styleClass="grid" style="width: 100%; height: 550px; overflow-y: scroll;" >
                             <p:ajax event="select" update=":tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
                             <p:ajax event="unselect" update=":tabelazzapisami:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
@@ -114,10 +115,10 @@
                             <h:outputText value="#{loop.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="kurs" width="40" sortBy="#{loop.id}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
-                            <h:outputText value="#{loop.wiersz.tabelanbp.kurssredni}"/>
+                            <h:outputText value="#{loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.kurssredni > 0.0}"/>
                         </p:column>
                         <p:column headerText="tab" width="40" sortBy="#{loop.id}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
-                            <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}"/>
+                            <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
                         </p:column>
                         <p:column headerText="Wn" width="60" sortBy="#{loop.kwota}">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
