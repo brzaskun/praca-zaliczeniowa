@@ -11,6 +11,7 @@ import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -31,14 +32,19 @@ public class KontoView  implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject private KontoDAOfk kontoDAO;
-
-     public KontoView() {
-         
-     }
+    private List<Konto> listakont;
+    
+    public KontoView() {
+        this.listakont = new ArrayList<>();
+    }
+    
+    @PostConstruct
+    private void init() {
+        listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+    }
     
      public List<Konto> complete(String query) {  
          List<Konto> results = new ArrayList<>();
-         List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
          try{
              String q = query.substring(0,1);
              int i = Integer.parseInt(q);
@@ -61,10 +67,10 @@ public class KontoView  implements Serializable {
          return results;
      }
      
-    public void pobierzZapisyNaKoncie() {
-        listazapisownakoncie = new ArrayList<>();
-        listazapisownakoncie = wierszeDAO.findWierszeZapisy(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
-    }
+//    public void pobierzZapisyNaKoncie() {
+//        listazapisownakoncie = new ArrayList<>();
+//        listazapisownakoncie = wierszeDAO.findWierszeZapisy(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer());
+//    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {

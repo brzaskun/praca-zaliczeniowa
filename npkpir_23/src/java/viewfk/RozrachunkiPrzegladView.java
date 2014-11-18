@@ -6,7 +6,6 @@
 
 package viewfk;
 
-import beansFK.DokFKTransakcjeBean;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
@@ -23,7 +22,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
 
 /**
@@ -68,12 +66,6 @@ public class RozrachunkiPrzegladView implements Serializable{
 
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         Iterator it = wykazKont.iterator();
-        while (it.hasNext()) {
-            Konto konto = (Konto) it.next();
-            if (konto.getNrkonta().equals("0")) {
-                it.remove();
-            }
-        }
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
         if (!wykazKont.isEmpty()) {
             r.createTreeNodesForElement(wykazKont);
@@ -100,18 +92,9 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-//        listaRozrachunkow = new ArrayList<>();
-//        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-//        wybranekonto = (Konto) node.getData();
-//        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer(), wybranaWalutaDlaKont);
-//        if (!listarozrachunkowkonto.isEmpty()) {
-//            for (Rozrachunekfk p : listarozrachunkowkonto) {
-//                List<Transakcja> listatransakcjikonto = new ArrayList<>();
-//                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-//               // RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-//                //listaRozrachunkow.add(rozrachunkiTransakcje);
-//            }
-//        }
+        listaTransakcji = new ArrayList<>();
+        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
+        wybranekonto = (Konto) node.getData();
     }
     
     public void pobierzZapisyZmianaWaluty() {
