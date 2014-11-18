@@ -14,32 +14,38 @@ var skopiujdanenowegoklientafk = function () {
     PF('dlgwprowadzanieklienta').hide();
     var szukana = document.getElementById('formX:nazwaPole').value;
     try {
-        var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
-        $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formX:nazwaPole').value);
-        $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formX:nazwaPole').value);
-        $('#kliencifk\\:wyborkontrahenta_input').focus();
-        $('#kliencifk\\:wyborkontrahenta_input').select();
-        PF('dialogklient').search(szukana);
+        if ($("#dialog_kliencifk_dolaczanie").hasClass('ui-overlay-visible')){
+            var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
+            $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formX:nazwaPole').value);
+            $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#kliencifk\\:wyborkontrahenta_input').focus();
+            $('#kliencifk\\:wyborkontrahenta_input').select();
+            PF('dialogklient').search(szukana);
+        }
     } catch (e) {
     }
     try {
-        var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
-        $('#formwpisdokument\\:acForce_input').val(document.getElementById('formX:nazwaPole').value);
-        $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formX:nazwaPole').value);
-        $('#formwpisdokument\\:acForce_input').focus();
-        $('#formwpisdokument\\:acForce_input').select();
-        PF('poleklientawpisywaniefk').search(szukana);
+        if ($("#dialogpierwszy").hasClass('ui-overlay-visible')){
+            var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
+            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formX:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_input').focus();
+            $('#formwpisdokument\\:acForce_input').select();
+            PF('poleklientawpisywaniefk').search(szukana);
+        }
     } catch (e) {
     }
     try {
-        var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
-        $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formX:nazwaPole').value);
-        $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formX:nazwaPole').value);
-        $('#ewidencjavatRK\\:klientRK_input').focus();
-        $('#ewidencjavatRK\\:klientRK_input').select();
-        PF('poleklientawpisywaniefkRK').search(szukana);
+        if ($("#dialogewidencjavatRK").hasClass('ui-overlay-visible')){
+            var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
+            $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formX:nazwaPole').value);
+            $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#ewidencjavatRK\\:klientRK_input').focus();
+            $('#ewidencjavatRK\\:klientRK_input').select();
+            PF('poleklientawpisywaniefkRK').search(szukana);
+        }
     } catch (e) {
     }
-
+    
 };
 
