@@ -158,8 +158,6 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
             ($(node).children("td"))[0].click();
             MYAPP.obiekt = node;
             przejdzwierszNode(tabela, tabela1, node);
-            document.getElementById(inputpole).value = "";
-            document.getElementById(inputpole).value = "";
         }
     } catch (ex) {
         alert("Problem z zaznacznoda/chodzeniepokontach.js");

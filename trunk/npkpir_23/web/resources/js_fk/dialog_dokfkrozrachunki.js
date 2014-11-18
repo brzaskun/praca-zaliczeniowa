@@ -322,7 +322,7 @@ var podswietlrozrachunki = function() {
         var nrpolazapisu = komorki[1].innerHTML;
         znaleziono = $.inArray(nrpolazapisu, listawierszy);
         if (znaleziono > -1) {
-            for (var kom = 0; kom < 9; kom++) {
+            for (var kom = 0; kom < 15; kom++) {
                 $(komorki[kom]).css("font-weight", "900");
                 $(komorki[kom]).css("color", "green");
             }
