@@ -10,6 +10,9 @@
         .ui-inputNum .ui-widget {
             width: 80px;
         }
+        .kwotarozrachunku .pe-inputNumber{
+            width: 90px !important;
+        }
     </style>
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" 
@@ -55,9 +58,9 @@
                             <f:facet name="header">
                                 <h:outputText value="Dokumenty nie rozliczone"/>
                             </f:facet>
-                            <p:column headerText="kwota rozlicz. - bieżący dok." width="50" >
+                            <p:column headerText="kwota rozlicz. - bieżący dok." width="60" >
                                 <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 70px;"
-                                                decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                                decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
                                     <f:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" execute="@this" />
                                 </pe:inputNumber>
                                 <h:outputText value="#{loop.kwotatransakcji}" style="text-align: right; float: right; width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
@@ -109,11 +112,11 @@
                                 <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}" style="width: 80px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}/#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}"  style="width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
-                            <p:column headerText="nr własny dokumentu" width="90">
+                            <p:column headerText="nr własny dokumentu" width="80">
                                 <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
-                            <p:column headerText="opis wiersza" width="120">
+                            <p:column headerText="opis wiersza" width="110">
                                 <h:outputText id="opiswierszaWn" value="#{loop.nowaTransakcja.wiersz.opisWiersza}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText id="opiswierszaMa" value="#{loop.rozliczajacy.wiersz.opisWiersza}"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
