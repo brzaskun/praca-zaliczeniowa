@@ -39,10 +39,8 @@ public class StronaWierszaBean {
             wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getStronaWn().getKwota();
-            kwotazlotowki *= kurs;
-            kwotazlotowki *= 10000;
-            kwotazlotowki = Math.round(kwotazlotowki);
-            kwotazlotowki /= 10000;
+            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
+            kwotazlotowki /= 100;
             return kwotazlotowki;
         }
      
@@ -50,10 +48,8 @@ public class StronaWierszaBean {
             wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
             double kurs = wiersz.getTabelanbp().getKurssredni();
             double kwotazlotowki = wiersz.getStronaMa().getKwota();
-            kwotazlotowki *= kurs;
-            kwotazlotowki *= 10000;
-            kwotazlotowki = Math.round(kwotazlotowki);
-            kwotazlotowki /= 10000;
+            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
+            kwotazlotowki /= 100;
             return kwotazlotowki;
         }
 }

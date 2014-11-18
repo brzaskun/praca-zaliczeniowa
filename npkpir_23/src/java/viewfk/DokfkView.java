@@ -865,15 +865,16 @@ public class DokfkView implements Serializable {
         double vatwWalucie = 0.0;
         if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 10000.0) / 10000.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 10000.0) / 10000.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 10000.0) / 10000.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
             symbolWalutyNettoVat = " zł";
         }
+        try {
         Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
         if (kontoRozrachunkowe != null) {
             if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
@@ -968,6 +969,11 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto");
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        } else {
+            Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
+        }
+        } catch (Exception e1) {
+            Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
         }
     }
     
@@ -1034,15 +1040,16 @@ public class DokfkView implements Serializable {
         //przeliczanie waluty na zlotowki dla netto
         if (!w.getSymbolwaluty().equals("PLN")) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 10000.0) / 10000.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 10000.0) / 10000.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 10000.0) / 10000.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
             symbolWalutyNettoVat = " zł";
         }
+        try {
         Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
         if (kontoRozrachunkowe != null) {
             if (wierszpierwszy != null) {
@@ -1067,14 +1074,14 @@ public class DokfkView implements Serializable {
             if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
                 nettovat = kwotawPLN;
             }
-            if (selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+           if (selected.getListawierszy().size()==1 && kwotavat != 0.0) {
                 Wiersz wierszdrugi;
                 if (w.getSymbolwaluty().equals("PLN")) {
                     wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, kwotavat, 1);
                 } else {
                     wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
                 }
-                wierszdrugi.setOpisWiersza("podatek vat");
+                wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" - podatek vat");
                 Konto kontovat = selected.getRodzajedok().getKontovat();
                 if (kontovat != null) {
                     wierszdrugi.getStronaMa().setKonto(kontovat);
@@ -1096,6 +1103,11 @@ public class DokfkView implements Serializable {
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        } else {
+            Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
+        }
+        } catch (Exception e1) {
+            Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
         }
     }
     

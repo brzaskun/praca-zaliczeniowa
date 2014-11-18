@@ -38,8 +38,8 @@ public class DokFKWalutyBean implements Serializable{
                     if (p.getStronaWn().getKwota() != 0.0) {
                         double kwota = p.getStronaWn().getKwota();
                         p.getStronaWn().setKwotaPLN(kwota+0.0);
-                        kwota = Math.round(kwota * kurs * 10000);
-                        kwota /= 10000;
+                        kwota = Math.round(kwota * kurs * 100);
+                        kwota /= 100;
                         p.getStronaWn().setKwota(kwota);
                         p.getStronaWn().setKwotaWaluta(kwota);
                     }
@@ -48,8 +48,8 @@ public class DokFKWalutyBean implements Serializable{
                     if (p.getStronaMa().getKwota() != 0.0) {
                         double kwota = p.getStronaMa().getKwota();
                         p.getStronaMa().setKwotaPLN(kwota+0.0);
-                        kwota = Math.round(kwota * kurs * 10000);
-                        kwota /= 10000;
+                        kwota = Math.round(kwota * kurs * 100);
+                        kwota /= 100;
                         p.getStronaMa().setKwota(kwota);
                         p.getStronaMa().setKwotaWaluta(kwota);
                     }
