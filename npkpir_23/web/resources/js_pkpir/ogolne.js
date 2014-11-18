@@ -261,9 +261,6 @@ var skopiujdanenowegoklienta = function() {
 };
 
 
-var selcolor = function() {
-
-};
 
 var varzmienkolorpola47deklvat = function() {
     $("#form\\:pole47").css({

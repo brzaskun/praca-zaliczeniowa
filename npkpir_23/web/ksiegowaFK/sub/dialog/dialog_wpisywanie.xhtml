@@ -37,11 +37,16 @@
         }
         
         .pe-inputNumber{
-            width: 70px;
+            width: 70px !important;
         }
         .ui-inputNum .ui-widget {
             width: 100px !important;
         }
+        .ilosci .pe-inputNumber{
+            width: 70px !important;
+        }
+        
+        
        
 
     </style>
@@ -304,14 +309,16 @@
                         </p:inputText>
                     </p:column>
                     <p:column headerText="ilość kg" width="30" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
-                        <p:inputText id="ilosckg" value="#{loop.ilosc_kg}" style="width: 50px;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                        <pe:inputNumber id="ilosckg" value="#{loop.ilosc_kg}" style="text-align: right;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                        decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" >
                             <f:ajax event="blur" execute="@this"/>
-                        </p:inputText>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="ilość szt" width="30" rendered="#{dokfkView.selected.rodzajedok.pokazszt}" >
-                        <p:inputText id="iloscszt" value="#{loop.ilosc_szt}" style="width: 50px;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                        <pe:inputNumber  id="iloscszt" value="#{loop.ilosc_szt}" style="text-align: right;" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}, ilosci"
+                                     decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000">
                             <f:ajax event="blur" execute="@this"/>
-                        </p:inputText>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
                         <p:inputText id="minmax" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
