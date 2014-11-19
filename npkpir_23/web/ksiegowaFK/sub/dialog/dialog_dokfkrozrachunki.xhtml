@@ -60,7 +60,7 @@
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
                     <p:focus for="rozrachunki:dataList">
                         <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
-                                     emptyMessage="Nie ma zapisów po przeciwnej stronie na tym samym koncie lub transakcja jest traktowana wyłącznie jako Rozliczana #{dokfkView.biezacetransakcje.size()}"  
+                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie"  
                                      >
                             <f:facet name="header">
                                 <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów"/>
@@ -75,18 +75,19 @@
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="zostało do rozliczenia" width="50">
-                                <h:outputText id="pozostaloWn" value="#{loop.nowaTransakcja.pozostalo+loop.kwotatransakcji}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK.id != -1 ? loop.nowaTransakcja.pozostalo+loop.kwotatransakcji : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
-                                <h:outputText id="pozostaloMa" value="#{loop.rozliczajacy.pozostalo+loop.kwotatransakcji}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText id="pozostaloMa" value="#{loop.transakcjaPK.id != -1 ? loop.rozliczajacy.pozostalo+loop.kwotatransakcji : loop.rozliczajacy.pozostalo}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="kwota rozlicz. innymi dok." width="50">
-                                <h:outputText value="#{loop.nowaTransakcja.rozliczono-loop.kwotatransakcji}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.transakcjaPK.id  != -1 ? loop.nowaTransakcja.rozliczono-loop.kwotatransakcji : loop.nowaTransakcja.rozliczono}" 
+                                              style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
-                                <h:outputText value="#{loop.rozliczajacy.rozliczono-loop.kwotatransakcji}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.transakcjaPK.id != -1 ? loop.rozliczajacy.rozliczono-loop.kwotatransakcji : loop.rozliczajacy.rozliczono}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>

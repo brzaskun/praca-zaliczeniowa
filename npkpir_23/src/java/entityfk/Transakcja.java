@@ -69,6 +69,7 @@ public class Transakcja  implements Serializable {
 
     
    public Transakcja(StronaWiersza rozliczajacy, StronaWiersza nowaTransakcja) {
+        this.transakcjaPK = new TransakcjaPK();
         this.kwotatransakcji = 0.0;
         this.poprzedniakwota = 0.0;
         this.roznicekursowe = 0.0;

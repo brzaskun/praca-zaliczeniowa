@@ -22,7 +22,6 @@ import entity.FakturaPK;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
-import entity.SrodekTrw_;
 import entity.Wpis;
 import java.io.IOException;
 import java.io.Serializable;

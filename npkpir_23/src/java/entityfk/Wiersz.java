@@ -274,8 +274,10 @@ public class Wiersz implements Serializable {
             return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + '}';
         } else if (getStronaMa() == null) {
             return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer();
-        } else {
+        } else if (idwiersza != null) {
             return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+        } else {
+            return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
         }
     }
     
