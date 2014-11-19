@@ -8,7 +8,12 @@ package entityfk;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
@@ -16,18 +21,31 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class TransakcjaPK implements Serializable{
-    
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private long id;
     private Integer rozliczajacyPK;
     private Integer nowaTransakcjaPK;
 
     public TransakcjaPK() {
+        this.id = -1;
     }
     
     
 
     public TransakcjaPK(Integer rozliczajacyId, Integer rozliczanyId) {
+        this.id = -1;
         this.rozliczajacyPK = rozliczajacyId;
         this.nowaTransakcjaPK = rozliczanyId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
     
 

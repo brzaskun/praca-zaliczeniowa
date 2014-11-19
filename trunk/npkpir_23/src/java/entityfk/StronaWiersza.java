@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -81,6 +82,7 @@ public class StronaWiersza implements Serializable{
     private List<Transakcja> nowetransakcje;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
+  
     private List<Cechazapisu> cechazapisu;
     
 
@@ -158,7 +160,7 @@ public class StronaWiersza implements Serializable{
         this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
-                this.rozliczono += p.getKwotatransakcji();
+                    this.rozliczono += p.getKwotatransakcji();
             }
             this.pozostalo = this.kwota - this.rozliczono;
         } else {
@@ -332,7 +334,11 @@ public class StronaWiersza implements Serializable{
 
     @Override
     public String toString() {
-        return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+        if (this. id != null) {
+            return "StronaWiersza{" + "id=" + id + ", wiersz=" + wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+        } else {
+            return "StronaWiersza{" + "id=null, wiersz= "+ wiersz + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+        }
     }
 
     

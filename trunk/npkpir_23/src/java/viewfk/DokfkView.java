@@ -1929,6 +1929,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 pobranezDokumentu.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
                 biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(aktualnyWierszDlaRozrachunkow, biezacetransakcje, selected.getListawierszy(), stronawiersza);
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
                 potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1;
@@ -1944,6 +1945,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
                 RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
+                RequestContext.getCurrentInstance().update("rozrachunki:dataList");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() > 0) {
@@ -2014,6 +2016,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         StronaWiersza stronaWiersza;
         StronaWiersza stronaWn = wiersz.getStronaWn();
         StronaWiersza stronaMa = wiersz.getStronaMa();
+        //dziwny kod ta zmienna tez jest niepotrzeban juz chyba tak wynika z innych wierszy
         if (stronawiersza.equals("Wn")) {
             stronaWiersza = stronaWn;
             potraktujjakoNowaTransakcje = stronaWn.isNowatransakcja();
@@ -2021,6 +2024,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             stronaWiersza = stronaMa;
             potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
         }
+        //dziwny kod przewalutowanie jest robione teraz przy kazdym blur na kwocie
         if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
             if (stronawiersza.equals("Wn")) {
                 stronaWn.setKwotaPLN(stronaWn.getKwota());
@@ -2055,7 +2059,8 @@ public void updatenetto(EVatwpisFK e, String form) {
         while (it.hasNext()) {
             Transakcja tr = (Transakcja) it.next();
             if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
-                tr.setDatarozrachunku(aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza());
+                String datawiersza = selected.getDokfkPK().getRok()+"-"+selected.getMiesiac()+"-"+aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
+                tr.setDatarozrachunku(datawiersza);
             } else {
                 tr.setDatarozrachunku(Data.aktualnyDzien());
             }

@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -185,7 +186,7 @@ public class DokFKTransakcjeBean implements Serializable{
         //laczymy te stare z bazy i nowe z dokumentu
         listaZbiorcza.addAll(pobranezDokumentu);
         listaZbiorcza.addAll(innezBazy);
-        //z utworzonych rozrachunkow tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
+        //z pobranych StronWiersza tworzy sie transkakcje laczac rozrachunek rozliczony ze sparowanym
         // nie bedzie duplikatow bo wczesniej je usunelismmy po zaktualizowaniu wartosci w zalaczonych juz transakcjach
         for (StronaWiersza nowatransakcjazbazy : listaZbiorcza) {
                 Transakcja transakcja = new Transakcja(aktualnywierszdorozrachunkow, nowatransakcjazbazy);
@@ -275,5 +276,38 @@ public class DokFKTransakcjeBean implements Serializable{
 //        }
 //
 //    }
+
+    public static void naniesKwotyZTransakcjiwPowietrzu(StronaWiersza aktualnyWierszDlaRozrachunkow, List<Transakcja> biezacetransakcje, List<Wiersz> listawierszy, String stronawiersza) {
+        List<StronaWiersza> pobraneStronyWiersza = new ArrayList<>();
+        if (stronawiersza.equals("Wn")) {
+            for (Wiersz p : listawierszy) {
+                if (p.getStronaWn() != aktualnyWierszDlaRozrachunkow) {
+                    pobraneStronyWiersza.add(p.getStronaWn());
+                }
+            }
+        } else {
+            for (Wiersz p : listawierszy) {
+                if (p.getStronaMa() != aktualnyWierszDlaRozrachunkow) {
+                    pobraneStronyWiersza.add(p.getStronaMa());
+                }
+            }
+        }
+        List<Transakcja> transakcjeWPowietrzu = new ArrayList<>();
+        for (StronaWiersza r : pobraneStronyWiersza) {
+            transakcjeWPowietrzu.addAll(r.getNowetransakcje());
+        }
+        for (Transakcja s: transakcjeWPowietrzu) {
+            for (Transakcja t : biezacetransakcje) {
+                if (t.getNowaTransakcja().equals(s.getNowaTransakcja())) {
+                    if (!t.getNowaTransakcja().getPlatnosci().contains(s)) {
+                        t.getNowaTransakcja().getPlatnosci().add(s);
+                    } else {
+                        t.getNowaTransakcja().getPlatnosci().remove(s);
+                        t.getNowaTransakcja().getPlatnosci().add(s);
+                    }
+                }
+            }
+        }
+    }
     
 }

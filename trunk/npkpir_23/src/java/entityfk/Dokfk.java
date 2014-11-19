@@ -122,6 +122,7 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
+  
     private List<Cechazapisu> cechadokumentu;
  
 
