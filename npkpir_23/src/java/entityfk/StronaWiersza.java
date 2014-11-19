@@ -72,8 +72,6 @@ public class StronaWiersza implements Serializable{
     private int typStronaWiersza;
     @Column(name="nowatransakcja")
     private boolean nowatransakcja;
-    @Column(name= "datarozrachunku")
-    private String datarozrachunku;
     @JoinColumn(name= "idkonto")
     @ManyToOne
     private Konto konto;
@@ -245,13 +243,6 @@ public class StronaWiersza implements Serializable{
         this.nowatransakcja = nowatransakcja;
     }
     
-    public String getDatarozrachunku() {
-        return datarozrachunku;
-    }
-
-    public void setDatarozrachunku(String datarozrachunku) {
-        this.datarozrachunku = datarozrachunku;
-    }
 
     public Konto getKonto() {
         return konto;

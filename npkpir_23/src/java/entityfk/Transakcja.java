@@ -58,6 +58,8 @@ public class Transakcja  implements Serializable {
     private double poprzedniakwota;
     @Column(name = "roznicekursowe")
     private double roznicekursowe;
+    @Column(name= "datarozrachunku")
+    private String datarozrachunku;
     
 
    
@@ -125,6 +127,15 @@ public class Transakcja  implements Serializable {
         this.roznicekursowe = roznicekursowe;
     }
 
+    public String getDatarozrachunku() {
+        return datarozrachunku;
+    }
+
+    public void setDatarozrachunku(String datarozrachunku) {
+        this.datarozrachunku = datarozrachunku;
+    }
+
+    
    
     
     
