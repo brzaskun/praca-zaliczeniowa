@@ -2066,6 +2066,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
             if (tr.getKwotatransakcji() == 0.0) {
                 it.remove();
+                dokDAOfk.edit(selected);
             }
             
         }
