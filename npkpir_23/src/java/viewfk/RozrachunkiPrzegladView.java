@@ -98,17 +98,8 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyZmianaWaluty() {
-//        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
-//        listaRozrachunkow = new ArrayList<>();
-//        List<Rozrachunekfk> listarozrachunkowkonto = rozrachunekfkDAO.findRozrachunkifkByPodatnikKontoWaluta(wpisView.getPodatnikWpisu(), wybraneKontoNode.getPelnynumer(), wybranaWalutaDlaKont);
-//        if (!listarozrachunkowkonto.isEmpty()) {
-//            for (Rozrachunekfk p : listarozrachunkowkonto) {
-//                List<Transakcja> listatransakcjikonto = new ArrayList<>();
-//                //listatransakcjikonto.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjePrzegladRozrachunkow(transakcjaDAO, p));
-//                //RozrachunkiTransakcje rozrachunkiTransakcje = new RozrachunkiTransakcje(p, listatransakcjikonto);
-//                //listaRozrachunkow.add(rozrachunkiTransakcje);
-//            }
-//        }
+        Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
+        listaTransakcji = transakcjaDAO.findByKonto(wybraneKontoNode);
     }
     
     public void pobierzZapisyZmianaZakresu() {

@@ -102,23 +102,14 @@
                         <p:column headerText="lp" width="40" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="rok" sortBy="#{loop.rok}">
-                            <h:outputText value="#{loop.rozrachunekfk.rok}"/>
+                        <p:column headerText="waluta" sortBy="#{loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
+                            <h:outputText value="#{loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
-                        <p:column headerText="data" sortBy="#{loop.datarozrachunku}">
-                            <h:outputText value="#{loop.rozrachunekfk.datarozrachunku}"/>
+                        <p:column headerText="nr własny dok" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" width="100">
+                            <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.walutarozrachunku}" width="40">
-                            <h:outputText value="#{loop.rozrachunekfk.walutarozrachunku}"/>
-                        </p:column>
-                        <p:column headerText="nr kolejny">
-                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.typdokumentu}/#{loop.rozrachunekfk.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
-                        </p:column>
-                        <p:column headerText="nr własny dok" sortBy="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.numerwlasnydokfk}" width="100">
-                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.winumerwlasnydokfkdokfk.numer}"/>
-                        </p:column>
-                        <p:column headerText="opis" width="200" sortBy="#{loop.wierszStronafk.wiersz.dokfk.tresc}">
-                            <h:outputText value="#{loop.rozrachunekfk.wierszStronafk.wiersz.dokfk.opisdokfk}/#{loop.rozrachunekfk.wierszStronafk.opiswiersza}"/>
+                        <p:column headerText="opis" width="200" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.opisdokfk}">
+                            <h:outputText value="#{loop.nowaTransakcja.wiersz.opisWiersza}/#{loop.nowaTransakcja.wiersz.dokfk.opisdokfk}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="100">
                             <h:outputText value="#{loop.rozrachunekfk.kwotapierwotna}" style="float: right;">
