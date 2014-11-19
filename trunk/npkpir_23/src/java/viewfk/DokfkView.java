@@ -1388,37 +1388,7 @@ public void updatenetto(EVatwpisFK e, String form) {
              }
         }
     }
-    
-//    private void dolaczEwidencjeVATDoDokumentu() {
-//        Podatnik podatnikWDokumencie = wpisView.getPodatnikObiekt();
-//        try {
-//                String rodzajOpodatkowania = ParametrView.zwrocParametr(podatnikWDokumencie.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-//                if ((!rodzajOpodatkowania.contains("bez VAT")) && (!ewidencjaAddwiad.isEmpty())) {
-//                    Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
-//                    List<EVatwpisFK> ewidencjeDokumentu = new ArrayList<>();
-//                    for (EwidencjaAddwiad p : ewidencjaAddwiad) {
-//                        String op = p.getOpis();
-//                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
-//                        eVatwpisFK.setEwidencja(zdefiniowaneEwidencje.get(op));
-//                        eVatwpisFK.setNetto(p.getNetto());
-//                        eVatwpisFK.setVat(p.getVat());
-//                        eVatwpisFK.setEstawka(p.getOpzw());
-//                        eVatwpisFK.setDokfk(selected); 
-//                        try {
-//                            eVatwpisFK.setWiersz(p.getWiersz());
-//                            eVatwpisFK.setKlient(p.getKlient());
-//                            eVatwpisFK.setDatadokumentu(p.getDatadokumentu());
-//                            eVatwpisFK.setDataoperacji(p.getDataoperacji());
-//                            p.getWiersz().geteVatwpisFK().add(eVatwpisFK);
-//                        } catch (Exception e1) {}
-//                        ewidencjeDokumentu.add(eVatwpisFK);
-//                    }
-//                    selected.setEwidencjaVAT(ewidencjeDokumentu);
-//                }
-//        } catch (Exception e) {
-//            Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getMessage() + " " + e.getStackTrace().toString());
-//        }
-//    }
+
 
     public void edycja() {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
@@ -2070,13 +2040,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 stronaMa.setPozostalo(stronaMa.getKwota());
             }
         }
-        if (wiersz.getDataWalutyWiersza() != null) {
-            stronaWiersza.setDatarozrachunku(wiersz.getDataWalutyWiersza());
-        } else if (selected.getDatadokumentu() != null) {
-            stronaWiersza.setDatarozrachunku(selected.getDatadokumentu());
-        } else {
-            stronaWiersza.setDatarozrachunku(Data.aktualnyDzien());
-        }
         stronaWiersza.setWiersz(wiersz);
         //Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;
@@ -2091,9 +2054,15 @@ public void updatenetto(EVatwpisFK e, String form) {
         Iterator it = aktualnyWierszDlaRozrachunkow.getNowetransakcje().iterator();
         while (it.hasNext()) {
             Transakcja tr = (Transakcja) it.next();
+            if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
+                tr.setDatarozrachunku(aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza());
+            } else {
+                tr.setDatarozrachunku(Data.aktualnyDzien());
+            }
             if (tr.getKwotatransakcji() == 0.0) {
                 it.remove();
             }
+            
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
