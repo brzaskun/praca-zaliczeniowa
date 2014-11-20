@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -39,7 +40,7 @@ public class KontoView  implements Serializable {
     }
     
     @PostConstruct
-    private void init() {
+    public void init() {
         listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
     }
     

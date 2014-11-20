@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
 
 /**
@@ -60,6 +61,9 @@ public class RozrachunkiPrzegladView implements Serializable{
     @PostConstruct
     private void init() {
         listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkowe(wpisView.getPodatnikWpisu()));
+        if (listaKontRozrachunkowych != null) {
+            wybranekonto = listaKontRozrachunkowych.get(0);
+        }
         root = rootInit(listaKontRozrachunkowych);
         rozwinwszystkie(root);
     }
@@ -95,6 +99,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         listaTransakcji = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
+        listaTransakcji = transakcjaDAO.findByKonto(wybranekonto);
     }
     
     public void pobierzZapisyZmianaWaluty() {
@@ -116,10 +121,33 @@ public class RozrachunkiPrzegladView implements Serializable{
 //        }
     }
     
+    public List<Konto> complete(String query) {  
+         List<Konto> results = new ArrayList<>();
+         try{
+             String q = query.substring(0,1);
+             int i = Integer.parseInt(q);
+             for(Konto p : listaKontRozrachunkowych) {
+                 if(query.length()==4&&!query.contains("-")){
+                     //wstawia - do ciagu konta
+                     query = query.substring(0,3)+"-"+query.substring(3,4);
+                 }
+                 if(p.getPelnynumer().startsWith(query)) {
+                     results.add(p);
+                 }
+             }
+         } catch (Exception e){
+             for(Konto p : listaKontRozrachunkowych) {
+                 if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                     results.add(p);
+                 }
+             }
+         }
+         return results;
+     }
     
-//    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
-//        listaRozrachunkow.clear();
-//    }
+    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
+        listaTransakcji.clear();
+    }
     
     public WpisView getWpisView() {
         return wpisView;

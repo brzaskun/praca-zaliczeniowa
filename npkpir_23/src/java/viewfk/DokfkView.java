@@ -2130,6 +2130,11 @@ public void updatenetto(EVatwpisFK e, String form) {
                     //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
                     Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
                 }
+                if (zapisz0edytuj1 == false) {
+                    symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                } else {
+                    symbolWalutyNettoVat = " zł";
+                }
             } else {
                 //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
                 if (staranazwa != null && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
@@ -2156,8 +2161,12 @@ public void updatenetto(EVatwpisFK e, String form) {
                     p.setTabelanbp(tabelanbpPLN);
                 }
                 pokazRzadWalutowy = false;
+                if (zapisz0edytuj1 == false) {
+                    symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                } else {
+                    symbolWalutyNettoVat = " zł";
+                }
             }
-            symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
             RequestContext.getCurrentInstance().update("formwpisdokument:panelTabelaNBP");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
