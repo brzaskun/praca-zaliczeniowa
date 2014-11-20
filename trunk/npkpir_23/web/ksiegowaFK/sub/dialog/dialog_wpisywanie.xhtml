@@ -225,9 +225,9 @@
                     </p:panelGrid>
                     <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
                         <p:panelGrid  columns="1" style="min-width: 20%;"  styleClass="uipanelGrid0">
-                            <h:outputText value="waluta dokumentu" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"/>
+                            <h:outputText value="waluta dokumentu" />
                             <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                             readonly="#{dokfkView.selected.zablokujzmianewaluty}" rendered="#{!dokfkView.selected.zablokujzmianewaluty}"
+                                             readonly="#{dokfkView.selected.zablokujzmianewaluty}"
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                          $(this).addClass('ui-state-focus');"
@@ -239,12 +239,18 @@
                             </h:selectOneMenu>
                         </p:panelGrid>
                         <p:panelGrid id="panelTabelaNBP"  columns="3" style="min-width: 80%;"   styleClass="uipanelGrid0">
-                            <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
-                            <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" rendered="#{dokfkView.pokazRzadWalutowy}"/>
+                            <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" 
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                            <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                            <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" 
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                            <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}"
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}"
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                            <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
