@@ -6,11 +6,13 @@
 
 package viewfk;
 
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,8 +38,9 @@ public class RozrachunkiPrzegladView implements Serializable{
     
     private List<Konto> listaKontRozrachunkowych;
     //private List<RozrachunkiTransakcje> listaRozrachunkow;
-    private List<Transakcja> listaTransakcji;
+    private List<StronaWiersza> stronyWiersza;
     @Inject private KontoDAOfk kontoDAOfk;
+    @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private Konto wybranekonto;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
     @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
@@ -54,7 +57,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     public RozrachunkiPrzegladView() {
         listaKontRozrachunkowych = new ArrayList<>();
         //listaRozrachunkow = new ArrayList<>();
-        listaTransakcji = new ArrayList<>();
+        stronyWiersza = new ArrayList<>();
         wybranaWalutaDlaKont = "PLN";
     }
     
@@ -96,15 +99,15 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        listaTransakcji = new ArrayList<>();
+        stronyWiersza = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
-        listaTransakcji = transakcjaDAO.findByKonto(wybranekonto);
+        stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
     }
     
     public void pobierzZapisyZmianaWaluty() {
         Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
-        listaTransakcji = transakcjaDAO.findByKonto(wybraneKontoNode);
+        stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
     }
     
     public void pobierzZapisyZmianaZakresu() {
@@ -146,7 +149,7 @@ public class RozrachunkiPrzegladView implements Serializable{
      }
     
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
-        listaTransakcji.clear();
+        stronyWiersza.clear();
     }
     
     public WpisView getWpisView() {
@@ -165,15 +168,15 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.listaKontRozrachunkowych = listaKontRozrachunkowych;
     }
 
-   
-
-    public List<Transakcja> getListaTransakcji() {
-        return listaTransakcji;
+    public List<StronaWiersza> getStronyWiersza() {
+        return stronyWiersza;
     }
 
-    public void setListaTransakcji(List<Transakcja> listaTransakcji) {
-        this.listaTransakcji = listaTransakcji;
+    public void setStronyWiersza(List<StronaWiersza> stronyWiersza) {
+        this.stronyWiersza = stronyWiersza;
     }
+
+    
 
     public TreeNodeExtended<Konto> getRoot() {
         return root;

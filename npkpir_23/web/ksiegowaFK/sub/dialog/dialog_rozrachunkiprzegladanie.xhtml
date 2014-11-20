@@ -92,9 +92,9 @@
 
             <p:layoutUnit position="center" style="min-width: 1050px;">
                 <h:form id="tabelanowerozrachunki">
-                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.listaTransakcji}" var="loop" rowKey="#{loop.transakcjaPK}" 
-                                 emptyMessage="Nie ma rozrachunków na koncie"
-                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1050px;"
+                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
+                                 emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}"
+                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1050px;" expandedRow="true"
                                  >
                         <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
                         <p:column style="height: 45px; text-align: center;" width="20">
@@ -103,72 +103,67 @@
                         <p:column headerText="lp" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
-                            <h:outputText value="#{loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}"/>
+                        <p:column headerText="waluta" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
+                            <h:outputText value="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
                         <p:column headerText="data" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
-                            <h:outputText value="#{loop.nowaTransakcja.wiersz.dataksiegowania.substring(0,10)}"/>
+                            <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" >
-                            <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                            <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
-                        <p:column headerText="nr własny dok" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" width="90">
-                            <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}"/>
+                        <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
+                            <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="opis" width="150" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.opisdokfk}">
-                            <h:outputText value="#{loop.nowaTransakcja.wiersz.opisWiersza}/#{loop.nowaTransakcja.wiersz.dokfk.opisdokfk}"/>
+                        <p:column headerText="opis" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
+                            <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="70">
-                            <h:outputText value="#{loop.nowaTransakcja.kwota}" style="float: right;">
+                            <h:outputText value="#{loop.kwota}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="rozliczono" width="70">
-                            <h:outputText value="#{loop.nowaTransakcja.rozliczono}" style="float: right;">
+                            <h:outputText value="#{loop.rozliczono}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="pozostało" width="70">
-                            <h:outputText value="#{loop.nowaTransakcja.pozostalo}" style="float: right;">
+                            <h:outputText value="#{loop.pozostalo}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <!--                        <p:column headerText="kwota pierwotna" width="100">
-                                                    <h:outputText value="9{loop.rozrachunekfk.kwotapierwotna}" style="float: right;">
-                                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                                    </h:outputText>
-                                                </p:column>
-                                                <p:column headerText="rozliczono" width="100">
-                                                    <h:outputText value="9{loop.rozrachunekfk.rozliczono}" style="float: right;">
-                                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                                    </h:outputText>
-                                                </p:column>
-                                                <p:column headerText="zostało" width="100">
-                                                    <h:outputText value="9{loop.rozrachunekfk.pozostalo}" style="float: right;">
-                                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                                    </h:outputText>
-                                                </p:column>
-                        -->                        <p:rowExpansion>
-                            <!--                        <p:column  headerText="wykaz transakcji" width="300" resizable="true">  
-                                                        <p:dataTable var="subwpis" value="9{loop.transakcje}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 50%;">
-                                                            <p:column headerText="kwota transakcji">
-                                                                <h:outputText value="9{subwpis.kwotatransakcji}" style="float: right;">
-                                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                                        </h:outputText>
-                                                            </p:column>
-                                                            <p:column headerText="kwota rozliczanego">
-                                                                <h:outputText value="9{subwpis.rozliczany.kwotapierwotna}" style="float: right;">
-                                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                                        </h:outputText>
-                                                            </p:column>
-                                                            <p:column headerText="nr rozliczanego">
-                                                                <h:outputText value="9{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.typdokumentu}/9{subwpis.rozliczany.wierszStronafk.wierszStronafkPK.nrkolejnydokumentu}"/>
-                                                            </p:column>
-                                                            <p:column headerText="nr wlasny">
-                                                                <h:outputText value="9{subwpis.rozliczany.wierszStronafk.wiersz.dokfk.numer}"/>
-                                                            </p:column>
-                                                        </p:dataTable>
-                                                    </p:column>-->
+                        <p:rowExpansion>
+                        <p:column  headerText="wykaz transakcji" width="500" resizable="true">  
+                            <p:dataTable var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 80%;">
+                                <p:column headerText="kwota transakcji">
+                                <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
+                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                                </p:column>
+                                <p:column headerText="data transakcji">
+                                <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
+                                </h:outputText>
+                                </p:column>
+                                <p:column headerText="kwota rozliczanego">
+                                    <h:outputText value="#{subwpis.rozliczajacy.kwota}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                                </p:column>
+                                <p:column headerText="nr dok rozliczanego" style="text-align: center;">
+                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                                </p:column>
+                                <p:column headerText="lp wiersza rozliczanego" style="text-align: center;">
+                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
+                                </p:column>
+                                <p:column headerText="nr wlasny">
+                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
+                                </p:column>
+                                <p:column headerText="opis wiersza">
+                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>  
