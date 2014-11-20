@@ -279,7 +279,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
     }
 
     //drukuje deklaracje przygotowana do wysylki
-    public void drukujwys(Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujwys(PodatnikDAO podatnikDAO, Deklaracjevat dkl) throws DocumentException, FileNotFoundException, IOException {
         Podatnik p = podatnikDAO.find(dkl.getPodatnik());
         if(dkl.isMiesiackwartal()==true){
             PdfVAT7K.drukujwysVAT7K(dkl, p);
@@ -306,9 +306,9 @@ public class PdfVAT7 extends Pdf implements Serializable{
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, 12);
             Font fontM = new Font(helvetica, 10);
-            pierwszastronawys(writer,v,dkl);
+            pierwszastronawys(podatnikDAO, writer,v,dkl);
             document.newPage();
-            drugastronawys(writer,v,dkl);
+            drugastronawys(podatnikDAO, writer,v,dkl);
             document.close();
             PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7"+v.getPodatnik()+".pdf");
             reader.removeUsageRights();
@@ -518,7 +518,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
             } catch (Exception e){}
         }}
 
-    private void pierwszastronawys(PdfWriter writer, Vatpoz d, Deklaracjevat l) {
+    private static void pierwszastronawys(PodatnikDAO podatnikDAO, PdfWriter writer, Vatpoz d, Deklaracjevat l) {
         try{
             String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("M-14")){
@@ -608,7 +608,7 @@ public class PdfVAT7 extends Pdf implements Serializable{
             
         }}
 
-    private void drugastronawys(PdfWriter writer, Vatpoz d, Deklaracjevat l) {
+    private static void drugastronawys(PodatnikDAO podatnikDAO, PdfWriter writer, Vatpoz d, Deklaracjevat l) {
         try{
             String var = l.getWzorschemy();
             if(l.getWzorschemy().equals("M-14")){
