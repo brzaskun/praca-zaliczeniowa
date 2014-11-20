@@ -35,7 +35,7 @@
                         <h:outputText value="waluta: "/>
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
                         <h:outputText value="kurs: " style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold;
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold; width: 50px;
                                       color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
                         <h:outputText value="tabela: "  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
@@ -105,10 +105,10 @@
                             </p:column>
                             <p:column headerText="kurs" width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                 <h:outputText id="kursWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp.kurssredni}"  style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    <f:convertNumber minFractionDigits="4" locale="PL"/>
                                 </h:outputText>
                                 <h:outputText id="kursMa" value="#{loop.rozliczajacy.wiersz.tabelanbp.kurssredni}"  style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    <f:convertNumber minFractionDigits="4" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="roznica kursowa" width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">

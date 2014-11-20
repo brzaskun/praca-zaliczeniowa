@@ -800,7 +800,7 @@ public class DokfkView implements Serializable {
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
-        Rodzajedok rodzajdok = selected.getRodzajedok();
+            Rodzajedok rodzajdok = selected.getRodzajedok();
         HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
         if (rodzajdok.getKategoriadokumentu()==1) {
             rozliczVatKoszt(wartosciVAT);
@@ -808,9 +808,7 @@ public class DokfkView implements Serializable {
             rozliczVatPrzychod(e, wartosciVAT);
         } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
             rozliczVatPrzychod(e, wartosciVAT);
-        } else if (rodzajdok.getRodzajtransakcji().equals("WDT")) {
-            rozliczVatPrzychod(e, wartosciVAT);
-        }
+        } 
         for (Wiersz p : selected.getListawierszy()) {
             przepiszWaluty(p);
         }
@@ -1099,7 +1097,7 @@ public class DokfkView implements Serializable {
                 
             }
             pobierzkontaZpoprzedniegoDokumentu();
-            int index = e.getLp()-1;
+            int index = e.getLp()-1 < 0 ? 0 : e.getLp()-1;
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -1272,7 +1270,8 @@ public void updatenetto(EVatwpisFK e, String form) {
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
-     
+    
+   
     public void updatenettoRK() {
         EVatwpisFK e = ewidencjaVatRK;
         String skrotRT = selected.getDokfkPK().getSeriadokfk();
