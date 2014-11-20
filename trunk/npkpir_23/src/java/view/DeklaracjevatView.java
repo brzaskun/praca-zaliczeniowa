@@ -145,6 +145,14 @@ public class DeklaracjevatView implements Serializable {
         }
     }
     
+    public void drukujprzygotowanedowysylki(Deklaracjevat d) {
+        try {
+            PdfVAT7.drukujwys(podatnikDAO, d);
+        } catch (Exception e) {
+            
+        }
+    }
+    
     private void aktualizujGuest(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
