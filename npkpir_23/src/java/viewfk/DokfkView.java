@@ -1025,7 +1025,9 @@ public class DokfkView implements Serializable {
                     }
                 }
             } 
-          }
+          } else {
+            Msg.msg("w", "Brak Zdefiniowanego konta kasy. Nie można generować zapisów VAT.");
+        }
     }
     
     public void rozliczVatPrzychod(EVatwpisFK e, HashMap<String,Double> wartosciVAT) {
@@ -1155,6 +1157,8 @@ public class DokfkView implements Serializable {
                     wierszdrugi.getStronaMa().setKonto(k);
                 }
             }
+        } else {
+            Msg.msg("w", "Brak Zdefiniowanego konta kasy. Nie można generować zapisów VAT.");
         }
     }
     
