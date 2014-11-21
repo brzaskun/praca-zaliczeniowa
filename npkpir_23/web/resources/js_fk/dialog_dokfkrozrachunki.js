@@ -95,12 +95,13 @@ var znadzpasujacepolerozrachunku = function(kwota) {
             }
             //uzupelniamy tylko wtedy jak inne pola sa puste. inaczej przy edycji bedzie gupota
             if (sumarozliczonych === 0) {
-                var opisaktualnyrorachunek = document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent;
+                var opisaktualnyrorachunek = (document.getElementById("rozrachunki:opiswierszaaktualnyrozrachunek").textContent).toLocaleLowerCase();
                 var dl = opisy.length;
                 var gdzieszukac = -1;
                 for (var i = 0; i < dl; i++) {
                     var opisbiezacy = opisy[i];
-                    var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacy);
+                    var opisbiezacyLC = (opisbiezacy.toLocaleString()).toLowerCase();
+                    var znaleziono = opisaktualnyrorachunek.indexOf(opisbiezacyLC);
                     if (znaleziono > 0) {
                         gdzieszukac = i;
                         break;
