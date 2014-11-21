@@ -117,7 +117,6 @@
                                                      $(this).addClass('ui-state-default');"
                                          >
                             <f:selectItems value="#{Roki.rokiList}"/>
-                            <f:ajax event="blur" execute="@this" listener="#{dokfkView.znajdzduplicatdokumentu}"/>
                         </h:selectOneMenu>
                         <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 50px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
@@ -153,7 +152,9 @@
                         <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 180px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
+                                                 $(this).addClass('ui-state-focus');
+                                                 "
+                                     onkeyup="r('formwpisdokument:wpiszdokbutton').show();"
                                      onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');">
                             <f:ajax />
@@ -203,6 +204,7 @@
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();"
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2}" style="width: 250px;">
                         <f:ajax event="blur" execute="@this"/>
+                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  

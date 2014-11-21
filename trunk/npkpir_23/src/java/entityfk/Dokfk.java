@@ -20,6 +20,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
@@ -51,6 +53,7 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok"),
     @NamedQuery(name = "Dokfk.findByBKVAT", query = "SELECT d FROM Dokfk d WHERE d.vatR = :vatR AND d.podatnikObj = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPK", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.dokfkPK.nrkolejnywserii = :nrkolejnywserii"),
+    @NamedQuery(name = "Dokfk.findByDuplikat", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnikObj AND d.numerwlasnydokfk = :numerwlasnydokfk"),
     @NamedQuery(name = "Dokfk.findByDatawystawienia", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia"),
     @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numerwlasnydokfk = :numer"),
     @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
@@ -122,8 +125,20 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
-  
-    private List<Cechazapisu> cechadokumentu;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+      name="Dokfk_Cechazapisu",
+      joinColumns={
+          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+          @JoinColumn(name = "rok", referencedColumnName = "rok")
+      },
+      inverseJoinColumns={
+          @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
+          @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+      })
+    private List<Cechazapisu> cechadokumentuLista;
  
 
     
@@ -134,7 +149,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentu = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
     }
     
     public Dokfk(String opis) {
@@ -145,7 +160,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentu = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK) {
@@ -155,7 +170,7 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentu = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
@@ -166,7 +181,7 @@ public class Dokfk implements Serializable {
         this.wartoscdokumentu = 0.0;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentu = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
         this.wTrakcieEdycji = false;
     }
 
@@ -176,17 +191,17 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
-        this.cechadokumentu = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
         ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    public List<Cechazapisu> getCechadokumentu() {
-        return cechadokumentu;
+    public List<Cechazapisu> getCechadokumentuLista() {
+        return cechadokumentuLista;
     }
 
-    public void setCechadokumentu(List<Cechazapisu> cechadokumentu) {
-        this.cechadokumentu = cechadokumentu;
+    public void setCechadokumentuLista(List<Cechazapisu> cechadokumentuLista) {
+        this.cechadokumentuLista = cechadokumentuLista;
     }
     
    

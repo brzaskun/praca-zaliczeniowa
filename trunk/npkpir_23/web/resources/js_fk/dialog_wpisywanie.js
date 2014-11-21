@@ -165,6 +165,11 @@ var sprawdzczybrakklientawpisywanie = function() {
     }
 };
 
+var znalezionoduplikat = function() {
+    document.getElementById('formwpisdokument:numerwlasny').select();
+    r('formwpisdokument:wpiszdokbutton').hide();
+    
+};
 var sprawdzczykopiowacklienta = function() {
 //    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
 //    if (zawartosc === "+") {

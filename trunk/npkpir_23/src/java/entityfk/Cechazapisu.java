@@ -7,8 +7,15 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,25 +36,55 @@ public class Cechazapisu implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CechazapisuPK cechazapisuPK  = new CechazapisuPK();
-
+    @ManyToMany(mappedBy = "cechadokumentuLista", cascade = CascadeType.ALL)
+    private List<Dokfk> dokfkLista;
+    @ManyToMany(mappedBy = "cechazapisuLista", cascade = CascadeType.ALL)
+    private List<StronaWiersza> stronaWierszaLista;
+            
+    
     public Cechazapisu() {
+        this.dokfkLista = new ArrayList<>();
+        this.stronaWierszaLista = new ArrayList<>();
     }
 
     public Cechazapisu(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
+        this.dokfkLista = new ArrayList<>();
+        this.stronaWierszaLista = new ArrayList<>();
     }
 
     public Cechazapisu(String nazwacechy, String rodzajcechy) {
         this.cechazapisuPK = new CechazapisuPK(nazwacechy, rodzajcechy);
+        this.dokfkLista = new ArrayList<>();
+        this.stronaWierszaLista = new ArrayList<>();
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public CechazapisuPK getCechazapisuPK() {
         return cechazapisuPK;
     }
-
+    
     public void setCechazapisuPK(CechazapisuPK cechazapisuPK) {
         this.cechazapisuPK = cechazapisuPK;
     }
+    
+    public List<Dokfk> getDokfkLista() {
+        return dokfkLista;
+    }
+    
+    public void setDokfkLista(List<Dokfk> dokfkLista) {
+        this.dokfkLista = dokfkLista;
+    }
+    
+    public List<StronaWiersza> getStronaWierszaLista() {
+        return stronaWierszaLista;
+    }
+    
+    public void setStronaWierszaLista(List<StronaWiersza> stronaWierszaLista) {
+        this.stronaWierszaLista = stronaWierszaLista;
+    }
+    
+//</editor-fold>
 
     @Override
     public int hashCode() {

@@ -21,6 +21,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -83,8 +85,17 @@ public class StronaWiersza implements Serializable{
     private List<Transakcja> nowetransakcje;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
-  
-    private List<Cechazapisu> cechazapisu;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+      name="StronaWiersza_Cechazapisu",
+      joinColumns={
+          @JoinColumn(name = "id_StronaWiersza", referencedColumnName = "id"),
+      },
+      inverseJoinColumns={
+          @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
+          @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+      })
+    private List<Cechazapisu> cechazapisuLista;
     
 
    
@@ -255,12 +266,12 @@ public class StronaWiersza implements Serializable{
         this.konto = konto;
     }
 
-    public List<Cechazapisu> getCechazapisu() {
-        return cechazapisu;
+    public List<Cechazapisu> getCechazapisuLista() {
+        return cechazapisuLista;
     }
 
-    public void setCechazapisu(List<Cechazapisu> cechazapisu) {
-        this.cechazapisu = cechazapisu;
+    public void setCechazapisuLista(List<Cechazapisu> cechazapisuLista) {
+        this.cechazapisuLista = cechazapisuLista;
     }
     
     
