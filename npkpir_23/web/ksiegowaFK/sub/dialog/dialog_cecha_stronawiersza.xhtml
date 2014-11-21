@@ -23,7 +23,7 @@
                 </p:column>
             </p:dataTable>
             <p:separator/>
-            <p:dataTable  value="#{dokfkView.stronaWierszaCechy.cechazapisu}" var="item" rows="6" style="height: 170px;"
+            <p:dataTable  value="#{dokfkView.stronaWierszaCechy.cechazapisuLista}" var="item" rows="6" style="height: 170px;"
                           emptyMessage="dokument bez cech">
                 <p:column headerText="nazwa cechy przyporządkowanej">
                     <h:outputText value="#{item.cechazapisuPK.nazwacechy}"/>

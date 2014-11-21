@@ -616,10 +616,10 @@ public class SessionFacade<T> implements Serializable{
 
     public Dokfk findDokfk(Dokfk selected) {
         try {
-            return (Dokfk) em.createNamedQuery("Dokfk.findByPK").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikat").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
                     .setParameter("rok", selected.getDokfkPK().getRok())
                     .setParameter("podatnikObj", selected.getPodatnikObj())
-                    .setParameter("nrkolejnywserii", selected.getDokfkPK().getNrkolejnywserii())
+                    .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
                     .getSingleResult();
         } catch (Exception e) {
             return null;

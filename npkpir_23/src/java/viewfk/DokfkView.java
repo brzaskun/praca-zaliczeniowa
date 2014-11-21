@@ -1492,7 +1492,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             } catch (Exception e) {
             }
             if (dokument != null) {
-                RequestContext.getCurrentInstance().execute("document.getElementById('formwpisdokument:numer').select();");
+                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
                 Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
                 Msg.msg("i", "Go on Master");
@@ -1836,7 +1836,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             stronaWierszaCechy = wiersz.getStronaMa();
         }
         pobranecechy = cechazapisuDAOfk.findAll();
-        List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisu();
+        List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
         for (Cechazapisu c : cechyuzyte) {
             pobranecechy.remove(c);
         }
@@ -1845,11 +1845,13 @@ public void updatenetto(EVatwpisFK e, String form) {
     
     public void dodajcechedostronawiersza(Cechazapisu c) {
         pobranecechy.remove(c);
-        stronaWierszaCechy.getCechazapisu().add(c);
+        stronaWierszaCechy.getCechazapisuLista().add(c);
+        c.getStronaWierszaLista().add(stronaWierszaCechy);
     }
     public void usuncechedostronawiersza(Cechazapisu c) {
         pobranecechy.add(c);
-        stronaWierszaCechy.getCechazapisu().remove(c);
+        stronaWierszaCechy.getCechazapisuLista().remove(c);
+        c.getStronaWierszaLista().remove(stronaWierszaCechy);
     }
   
 
@@ -2436,28 +2438,31 @@ public void updatenetto(EVatwpisFK e, String form) {
     
     public void dodajcechedodokumentu(Cechazapisu c) {
         pobranecechy.remove(c);
-        selected.getCechadokumentu().add(c);
+        selected.getCechadokumentuLista().add(c);
+        c.getDokfkLista().add(selected);
     }
     public void usuncechedodokumentu(Cechazapisu c) {
         pobranecechy.add(c);
-        selected.getCechadokumentu().remove(c);
+        selected.getCechadokumentuLista().remove(c);
+        c.getDokfkLista().remove(selected);
     }
     
     private void obsluzcechydokumentu() {
         //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
         pobranecechy = cechazapisuDAOfk.findAll();
         List<Cechazapisu> cechyuzyte = null;
-        if (selected.getCechadokumentu() == null) {
+        if (selected.getCechadokumentuLista() == null) {
             cechyuzyte = new ArrayList<>();
         } else {
-            cechyuzyte = selected.getCechadokumentu();
+            cechyuzyte = selected.getCechadokumentuLista();
         }
         for (Cechazapisu c : cechyuzyte) {
             pobranecechy.remove(c);
         }
         RequestContext.getCurrentInstance().update("formCH");
     }
-
+    
+   
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public StronaWiersza getStronaWierszaCechy() {
