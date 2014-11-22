@@ -427,9 +427,9 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
-                <p:commandButton id="cechadokumentu" value="CechyD" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
-                <p:commandButton id="cechazapisu" value="CechyZ" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" oncomplete="PF('dialogCechyStronaWiersza').show();" accesskey="c" />
-                <p:commandButton id="srodektrw" value="STR" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" oncomplete="PF('dialogwpissrodkitrwale').show();" accesskey="c" />
+                <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
+                <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" />
+                <p:commandButton id="srodektrw" value="STR(t)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" oncomplete="PF('dialogwpissrodkitrwale').show();" accesskey="t" />
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" onclick="r('formwpisdokument:vatRKhidden').click();return false;" accesskey="x" />
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>

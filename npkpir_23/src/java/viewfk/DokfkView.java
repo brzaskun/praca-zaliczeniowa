@@ -1829,18 +1829,23 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void wybranoStronaWierszaCecha() {
         numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
-        if (stronawiersza.equals("Wn")) {
-            stronaWierszaCechy = wiersz.getStronaWn();
-        } else {
-            stronaWierszaCechy = wiersz.getStronaMa();
+        if (numerwiersza > -1) {
+            Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+            if (stronawiersza.equals("Wn")) {
+                stronaWierszaCechy = wiersz.getStronaWn();
+            } else {
+                stronaWierszaCechy = wiersz.getStronaMa();
+            }
+            pobranecechy = cechazapisuDAOfk.findAll();
+            List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
+            for (Cechazapisu c : cechyuzyte) {
+                pobranecechy.remove(c);
+            }
+            RequestContext.getCurrentInstance().update("formCHW");
+            numerwiersza = -1;
+            RequestContext.getCurrentInstance().update("wpisywaniefooter:wierszid");
+            RequestContext.getCurrentInstance().execute("PF('dialogCechyStronaWiersza').show();");
         }
-        pobranecechy = cechazapisuDAOfk.findAll();
-        List<Cechazapisu> cechyuzyte = stronaWierszaCechy.getCechazapisuLista();
-        for (Cechazapisu c : cechyuzyte) {
-            pobranecechy.remove(c);
-        }
-        RequestContext.getCurrentInstance().update("formCHW");
     }
     
     public void dodajcechedostronawiersza(Cechazapisu c) {

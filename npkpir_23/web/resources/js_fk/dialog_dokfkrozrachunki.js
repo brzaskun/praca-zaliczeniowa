@@ -206,14 +206,17 @@ var doklejsumowaniewprowadzonych = function() {
         $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "normal");
         $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
         var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
+        var _jednak_nie_odslaniaj;
         if (wartoscwprowadzona > wartoscpoprawej) {
             if (wartoscpoprawej === 0) {
                 $(document.getElementById(wiersz)).css("font-weight", "600");
                 $(document.getElementById(wiersz)).css("color", "green");
+                _jednak_nie_odslaniaj = false;
             } else {
                 $(document.getElementById(wiersz)).css("font-weight", "900");
                 $(document.getElementById(wiersz)).css("color", "red");
                 r("rozrachunki:zapiszrozrachunekButton").hide();
+                _jednak_nie_odslaniaj = true;
             }
         }
         if (wprowadzonowpole === " zł") {
@@ -247,7 +250,10 @@ var doklejsumowaniewprowadzonych = function() {
                 $(wszystkiewiersze[i]).css("color", "black");
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "600");
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
-                r("rozrachunki:zapiszrozrachunekButton").show();
+                //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
+                if (_jednak_nie_odslaniaj===false)  {
+                    r("rozrachunki:zapiszrozrachunekButton").show();
+                }
             }
         }
         
