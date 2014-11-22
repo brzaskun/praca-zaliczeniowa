@@ -1936,9 +1936,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 biezacetransakcje = new ArrayList<>();
-                pobranezDokumentu.addAll(DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                innezBazy.addAll(DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
-                biezacetransakcje.addAll(DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
+                pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                innezBazy = (DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
+                biezacetransakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(aktualnyWierszDlaRozrachunkow, biezacetransakcje, selected.getListawierszy(), stronawiersza);
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
@@ -2034,26 +2034,26 @@ public void updatenetto(EVatwpisFK e, String form) {
             stronaWiersza = stronaMa;
             potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
         }
-        //dziwny kod przewalutowanie jest robione teraz przy kazdym blur na kwocie
-        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-            if (stronawiersza.equals("Wn")) {
-                stronaWn.setKwotaPLN(stronaWn.getKwota());
-                stronaWn.setPozostalo(stronaWn.getKwota());
-            } else {
-                stronaMa.setKwotaPLN(stronaMa.getKwota());
-                stronaMa.setPozostalo(stronaMa.getKwota());
-            }
-        } else {
-            if (stronawiersza.equals("Wn")) {
-                stronaWn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                stronaWn.setKwotaWaluta(stronaWn.getKwota());
-                stronaWn.setPozostalo(stronaWn.getKwota());
-            } else {
-                stronaMa.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                stronaMa.setKwotaWaluta(stronaMa.getKwota());
-                stronaMa.setPozostalo(stronaMa.getKwota());
-            }
-        }
+        //archeo dziwny kod przewalutowanie jest robione teraz przy kazdym blur na kwocie
+//        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+//            if (stronawiersza.equals("Wn")) {
+//                stronaWn.setKwotaPLN(stronaWn.getKwota());
+//                stronaWn.setPozostalo(stronaWn.getKwota());
+//            } else {
+//                stronaMa.setKwotaPLN(stronaMa.getKwota());
+//                stronaMa.setPozostalo(stronaMa.getKwota());
+//            }
+//        } else {
+//            if (stronawiersza.equals("Wn")) {
+//                stronaWn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+//                stronaWn.setKwotaWaluta(stronaWn.getKwota());
+//                stronaWn.setPozostalo(stronaWn.getKwota());
+//            } else {
+//                stronaMa.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+//                stronaMa.setKwotaWaluta(stronaMa.getKwota());
+//                stronaMa.setPozostalo(stronaMa.getKwota());
+//            }
+//        }
         stronaWiersza.setWiersz(wiersz);
         //Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;
@@ -2076,9 +2076,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
             if (tr.getKwotatransakcji() == 0.0) {
                 it.remove();
-                dokDAOfk.edit(selected);
             }
-            
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
