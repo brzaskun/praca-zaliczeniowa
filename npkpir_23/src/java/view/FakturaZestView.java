@@ -21,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -51,38 +52,23 @@ public class FakturaZestView implements Serializable {
     
     public void init() {
         podatnicyWProgramie = podatnikDAO.findAll();
-        fakturyWystawione = fakturaDAO.findFakturyByRok(wpisView.getRokWpisuSt());
+        fakturyWystawione = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         Set<String> odnalezioneNIP = new HashSet<>();
-        for (Faktura p : fakturyWystawione) {
-            String n = p.getKontrahent().getNip();
-            FakturaZestawienie f = new FakturaZestawienie();
-            if (odnalezioneNIP.contains(n)) {
-                for (FakturaZestawienie r : fakturyZestawienie) {
-                    if (r.getKontrahent() != null && r.getKontrahent().getNip().equals(n)) {
-                        f = r;
-                        break;
-                    } else if (r.getPodatnik() != null && r.getPodatnik().getNip().equals(n)) {
-                        f = r;
-                        break;
+        if (fakturyWystawione != null) {
+            for (Faktura p : fakturyWystawione) {
+                String n = p.getKontrahent().getNip();
+                FakturaZestawienie f = new FakturaZestawienie();
+                if (odnalezioneNIP.contains(n)) {
+                    for (FakturaZestawienie r : fakturyZestawienie) {
+                        if (r.getKontrahent() != null && r.getKontrahent().getNip().equals(n)) {
+                            f = r;
+                            break;
+                        } else if (r.getPodatnik() != null && r.getPodatnik().getNip().equals(n)) {
+                            f = r;
+                            break;
+                        }
                     }
-                }
-                FakturaZestawienie.FZTresc ft = f.new FZTresc();
-                ft.setMc(p.getMc());
-                ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
-                ft.setNetto(p.getNetto());
-                ft.setVat(p.getVat());
-                ft.setBrutto(p.getBrutto());
-                ft.setData(p.getDatawystawienia());
-                ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
-                f.getFaktury().add(ft);
-            } else {
-                Podatnik odnalezionyPodatnik = null;
-                try {
-                    odnalezionyPodatnik = podatnikDAO.findPodatnikByNIP(n);
-                } catch (Exception e) {}
-                FakturaZestawienie.FZTresc ft = f.new FZTresc();
-                if (odnalezionyPodatnik != null) {
-                    f.setPodatnik(odnalezionyPodatnik);
+                    FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     ft.setMc(p.getMc());
                     ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
                     ft.setNetto(p.getNetto());
@@ -90,22 +76,43 @@ public class FakturaZestView implements Serializable {
                     ft.setBrutto(p.getBrutto());
                     ft.setData(p.getDatawystawienia());
                     ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
-                    f.getFaktury().add(ft);
+                    ft.setFaktura(p);
+                    f.getTrescfaktury().add(ft);
                 } else {
-                    f.setKontrahent(p.getKontrahent());
-                    ft.setMc(p.getMc());
-                    ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
-                    ft.setNetto(p.getNetto());
-                    ft.setVat(p.getVat());
-                    ft.setBrutto(p.getBrutto());
-                    ft.setData(p.getDatawystawienia());
-                    ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
-                    f.getFaktury().add(ft);
+                    Podatnik odnalezionyPodatnik = null;
+                    try {
+                        odnalezionyPodatnik = podatnikDAO.findPodatnikByNIP(n);
+                    } catch (Exception e) {}
+                    FakturaZestawienie.FZTresc ft = f.new FZTresc();
+                    if (odnalezionyPodatnik != null) {
+                        f.setPodatnik(odnalezionyPodatnik);
+                        ft.setMc(p.getMc());
+                        ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
+                        ft.setNetto(p.getNetto());
+                        ft.setVat(p.getVat());
+                        ft.setBrutto(p.getBrutto());
+                        ft.setData(p.getDatawystawienia());
+                        ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
+                        ft.setFaktura(p);
+                        f.getTrescfaktury().add(ft);
+                    } else {
+                        f.setKontrahent(p.getKontrahent());
+                        ft.setMc(p.getMc());
+                        ft.setNrfakt(p.getFakturaPK().getNumerkolejny());
+                        ft.setNetto(p.getNetto());
+                        ft.setVat(p.getVat());
+                        ft.setBrutto(p.getBrutto());
+                        ft.setData(p.getDatawystawienia());
+                        ft.setOpis(p.getPozycjenafakturze().get(0).getNazwa());
+                        ft.setFaktura(p);
+                        f.getTrescfaktury().add(ft);
+                    }
+                    odnalezioneNIP.add(n);
+                    fakturyZestawienie.add(f);
                 }
-                odnalezioneNIP.add(n);
-                fakturyZestawienie.add(f);
             }
         }
+        Msg.msg("Pobrano faktury");
         System.out.println("Skoncozne");
     }
     

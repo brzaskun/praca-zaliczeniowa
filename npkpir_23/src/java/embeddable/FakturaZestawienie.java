@@ -6,6 +6,7 @@
 
 package embeddable;
 
+import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
 import java.io.Serializable;
@@ -24,10 +25,11 @@ public class FakturaZestawienie  implements Serializable{
     private Podatnik podatnik;
     private Klienci kontrahent;
     private boolean zprogramu;
-    private List<FZTresc> faktury;
+    private List<FZTresc> trescfaktury;
+    
 
     public FakturaZestawienie() {
-        faktury = new ArrayList<>();
+        trescfaktury = new ArrayList<>();
     }
 
     @Override
@@ -81,15 +83,15 @@ public class FakturaZestawienie  implements Serializable{
         this.zprogramu = zprogramu;
     }
     
-    public List<FZTresc> getFaktury() {
-        return faktury;
+    public List<FZTresc> getTrescfaktury() {
+        return trescfaktury;
     }
 
-    public void setFaktury(List<FZTresc> faktury) {
-        this.faktury = faktury;
+    public void setTrescfaktury(List<FZTresc> trescfaktury) {
+        this.trescfaktury = trescfaktury;
     }
 
-    
+      
     
     public class FZTresc {
         private String mc;
@@ -99,6 +101,7 @@ public class FakturaZestawienie  implements Serializable{
         private double vat;
         private double brutto;
         private String opis;
+        private Faktura faktura;
 
         public String getMc() {
             return mc;
@@ -154,6 +157,14 @@ public class FakturaZestawienie  implements Serializable{
 
         public void setData(String data) {
             this.data = data;
+        }
+
+        public Faktura getFaktura() {
+            return faktura;
+        }
+
+        public void setFaktura(Faktura faktura) {
+            this.faktura = faktura;
         }
 
        
