@@ -6,6 +6,24 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="form">
+        <script>
+            //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+             /* <![CDATA[ */
+               $(document).on("click", '.grid tr', function(e) {
+               var lolo = $("#form\\:dokumentyKsiega_data").children("tr");
+               var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+               try {
+                   e.stopPropagation(); // will prevent double click events from link being clicked within row
+                   var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+                   var numerwiersza = unitNo- pierwszy;
+                   zachowajnumerwiersza(numerwiersza);
+               } catch (e) {
+                   alert('error');
+               }
+               });
+               
+             /* ]]> */
+        </script>
         <p:growl id="messages" autoUpdate="true"/>
         <p:outputPanel id="wrapper"  deferred="true">
              <p:panel id="panelpkpir">
@@ -15,10 +33,12 @@
                 <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
                 </p:commandButton>
             </p:panel>
+             <p:hotkey bind="down"  onstart="przejdzwierszK();"/>
+            <p:hotkey bind="up"   onstart="wrocwierszK();"/>
             <p:dataTable  var="wpis" value="#{ksiegaView.lista}" id="dokumentyKsiega" 
                           rowKey="#{wpis.idDok}" selection="#{ksiegaView.selDokument}" selectionMode="single" filteredValue="#{ksiegaView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 100%;" widgetVar="dokKsiega"  
+                          style="width: 100%; height: 800px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
                           > 
                 <f:facet name="header">  
                     <h:outputText value="Podatkowa księga przychodów i rozchodów" />
@@ -74,7 +94,7 @@
                     <p:rowToggler rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
                 <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}">  
-                    <h:outputText value="#{wpis.nrWpkpir}"  rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
+                    <h:outputText value="#{wpis.nrWpkpir}"  styleClass="lpwiersza" rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
                 <p:column id="dataColumn" headerText="data wyst" >  
                     <h:outputText value="#{wpis.dataWyst.substring(5)}" ></h:outputText>
