@@ -195,6 +195,7 @@
                                          $(this).addClass('ui-state-default');" style="height: 19px;"
                                      >
                             <f:ajax />
+                            <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}"/>
                             <p:ajax event="blur" listener="#{dokfkView.pokazZapisButton()}" update=":formwpisdokument:panelwpisbutton"/>
                         </h:inputText>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
@@ -204,7 +205,7 @@
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();"
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2}" style="width: 250px;">
                         <f:ajax event="blur" execute="@this"/>
-                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}"/>
+                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" />
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  

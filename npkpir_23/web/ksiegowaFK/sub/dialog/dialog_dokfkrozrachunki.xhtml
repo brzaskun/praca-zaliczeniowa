@@ -52,6 +52,11 @@
                         <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="font-weight: bold; width: 130px;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
+                        <h:outputText value="kwota pierwotna w PLN: " style="width: 120;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaPLN}" id="dorozliczeniaPLN" style="font-weight: bold; width: 130px;"
+                                       rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                     </p:panelGrid>
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza == 0}" >
                         <h:outputText value="Nowa transakcja czy nowa płatność"/>

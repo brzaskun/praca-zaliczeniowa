@@ -166,6 +166,7 @@ var sprawdzczybrakklientawpisywanie = function() {
 };
 
 var znalezionoduplikat = function() {
+    document.getElementById('formwpisdokument:numerwlasny').focus();
     document.getElementById('formwpisdokument:numerwlasny').select();
     r('formwpisdokument:wpiszdokbutton').hide();
     
