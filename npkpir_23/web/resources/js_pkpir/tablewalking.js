@@ -38,6 +38,40 @@ var wrocwiersz = function() {
     $(komorki[1]).click();
 };
 
+var przejdzwierszK = function() {
+    var lolo = $("#form\\:dokumentyKsiega_data").children("tr");
+    if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
+        MYAPP.nrbiezacegowiersza = 0;
+    } else {
+        MYAPP.nrbiezacegowiersza += 1;
+        if (MYAPP.nrbiezacegowiersza >= lolo.length) {
+            MYAPP.nrbiezacegowiersza = lolo.length-1;
+        }
+    }
+    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var przesun = isScrolledIntoView(komorki[1]);
+    var elem = document.getElementById('form:dokumentyKsiega');
+    elem.scrollTop = elem.scrollTop + przesun;
+    $(komorki[1]).click();
+};
+
+var wrocwierszK = function() {
+    var lolo = $("#form\\:dokumentyKsiega_data").children("tr");
+    if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
+        MYAPP.nrbiezacegowiersza = 0;
+    } else {
+        MYAPP.nrbiezacegowiersza -= 1;
+        if (MYAPP.nrbiezacegowiersza < 0) {
+            MYAPP.nrbiezacegowiersza = 0;
+        }
+    }
+    var komorki = $(lolo[MYAPP.nrbiezacegowiersza]).children("td");
+    var przesun = isScrolledIntoView(komorki[1]);
+    var elem = document.getElementById('form:dokumentyKsiega');
+    elem.scrollTop = elem.scrollTop + przesun;
+    $(komorki[1]).click();
+};
+
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
