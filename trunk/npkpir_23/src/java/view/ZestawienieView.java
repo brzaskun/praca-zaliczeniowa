@@ -44,7 +44,11 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CartesianChartModel;
+import org.primefaces.model.chart.CategoryAxis;
+import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
 import pdf.PdfPIT5;
 import pdf.PdfZestRok;
@@ -110,9 +114,8 @@ public class ZestawienieView implements Serializable {
 
 
     //rysuje wykres
-    private CartesianChartModel linearModel;
-    private double maxliczbadowykresu;
-    private double minliczbadowykresu;
+    private LineChartModel linearModel;
+
   
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[10]);
@@ -628,20 +631,20 @@ public class ZestawienieView implements Serializable {
         createLinearModel(); 
     }
 
-    public CartesianChartModel getLinearModel() {  
+    public LineChartModel getLinearModel() {
         return linearModel;
     }
-  
-          
-    public double getMaxliczbadowykresu() {
-        return maxliczbadowykresu;
-    } 
-    
-    public double getMinliczbadowykresu() {
-        return minliczbadowykresu;
+
+    public void setLinearModel(LineChartModel linearModel) {
+        this.linearModel = linearModel;
     }
+
+   
+
+          
+ 
     private void createLinearModel() {  
-        linearModel = new CartesianChartModel();  
+        linearModel = new LineChartModel();
         
         LineChartSeries series1 = new LineChartSeries();
         series1.setLabel("przychody");
@@ -694,15 +697,25 @@ public class ZestawienieView implements Serializable {
         series3.set("listopad", listopad.get(9));
         series3.set("grudzień", grudzien.get(9));
         
-        
         linearModel.addSeries(series1);
         linearModel.addSeries(series2);
         linearModel.addSeries(series3);
-        wyliczmaksymalna();
-        wyliczminimalna();
+        linearModel.setAnimate(true);
+        linearModel.setShadow(true);
+        linearModel.setBreakOnNull(true);
+        Axis yAxis = linearModel.getAxis(AxisType.Y);
+        yAxis.setMin(wyliczminimalna());
+        yAxis.setMax(wyliczmaksymalna());
+        yAxis.setLabel("kwota");
+        linearModel.getAxes().put(AxisType.X, new CategoryAxis("miesiące"));
+        Axis xAxis = linearModel.getAxis(AxisType.X);
+        xAxis.setLabel("miesiące");
+        linearModel.setTitle("Zestawienie za rok");
+        linearModel.setLegendPosition("e");
+        linearModel.setZoom(true);
     }
-    private void wyliczmaksymalna() {
-        maxliczbadowykresu =0;
+    private double wyliczmaksymalna() {
+        double maxliczbadowykresu =0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
@@ -757,11 +770,11 @@ public class ZestawienieView implements Serializable {
             maxliczbadowykresu = maxliczbadowykresu*10000;
         }
         
-        
+        return maxliczbadowykresu;
     }
     
-    private void wyliczminimalna() {
-        minliczbadowykresu =0;
+    private double wyliczminimalna() {
+        double minliczbadowykresu =0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
@@ -815,7 +828,7 @@ public class ZestawienieView implements Serializable {
             minliczbadowykresu = Math.round(minliczbadowykresu);
             minliczbadowykresu = minliczbadowykresu*10000;
         }
-        
+        return minliczbadowykresu;
     }
 
     //oblicze pit i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje

@@ -201,7 +201,7 @@
                             <h:outputText value="zamknięty"/><h:inputText value="#{ZestawienieRyczaltView.biezacyPit.zamkniety}"/>
                         </p:panelGrid>
                         <p:panelGrid  columns="3">
-                           <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{pdfPIT28.drukuj()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
+                            <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieRyczaltView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" style="width: 140px;">
                                 </p:commandButton>
 
                             <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px"/>
