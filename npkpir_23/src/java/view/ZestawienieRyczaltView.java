@@ -728,6 +728,8 @@ public class ZestawienieRyczaltView implements Serializable {
         }
     }
    
+    
+    
 
     public DokDAO getDokDAO() {
         return dokDAO;

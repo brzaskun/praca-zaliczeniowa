@@ -351,6 +351,8 @@ public final class DokView implements Serializable {
                     ewidencjaAddwiad.get(0).setVat(0.0);
                 } else if (skrotRT.contains("ZZP")) {
                     ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
+                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ((ewidencjaAddwiad.get(0).getNetto() * 0.23) /2));
+                    sumbrutto = ewidencjaAddwiad.get(0).getNetto() + (ewidencjaAddwiad.get(0).getNetto() * 0.23);
                 } else if (transakcjiRodzaj.equals("sprzedaz")){
                     try {
                         String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
@@ -452,7 +454,12 @@ public final class DokView implements Serializable {
     public void updatevat(EwidencjaAddwiad e) {
         int lp = e.getLp();
         ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
-        sumbruttoAddwiad();
+        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+        if (skrotRT.contains("ZZP")) {
+            sumbrutto = e.getNetto()+ (e.getVat()*2);
+        } else {
+            sumbruttoAddwiad();
+        }
         String update = "dodWiad:tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         update = "dodWiad:tabelapkpir2:0:sumbrutto";

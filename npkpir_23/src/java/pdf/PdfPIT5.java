@@ -81,15 +81,21 @@ public class PdfPIT5 {
             document.add(miziu1);
             miziu1 = new Paragraph(new Phrase("NIP: "+pod.getNip(),fontM));
             document.add(miziu1);
+            PdfPTable table0 = new PdfPTable(2);
             PdfPTable table = new PdfPTable(2);
+            PdfPTable table1 = new PdfPTable(2);
+            PdfPTable table2 = new PdfPTable(2);
+            table0.setWidths(new int[]{5, 5,});
             table.setWidths(new int[]{5, 5,});
+            table1.setWidths(new int[]{5, 5,});
+            table2.setWidths(new int[]{5, 5,});
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
             try {
-                table.addCell(ustawfrazeAlign("imię i nazwisko podatnika","center",10));
-                table.addCell(ustawfrazeAlign(selected.getUdzialowiec(),"right",10));
+                table0.addCell(ustawfrazeAlign("imię i nazwisko podatnika","center",10));
+                table0.addCell(ustawfrazeAlign(selected.getUdzialowiec(),"right",10));
                 table.addCell(ustawfrazeAlign("przychody narastająco","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychody())),"right",10));
                 table.addCell(ustawfrazeAlign("koszty narastająco","center",10));
@@ -112,36 +118,43 @@ public class PdfPIT5 {
                 table.addCell(ustawfrazeAlign("","center",10));
                 table.addCell(ustawfrazeAlign("","center",10));
                 
-                table.addCell(ustawfrazeAlign("ZUS 51","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
-                table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
+                table1.addCell(ustawfrazeAlign("ZUS 51","center",10));
+                table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                table1.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
+                table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
-                table.addCell(ustawfrazeAlign("podstawa op.","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
-                table.addCell(ustawfrazeAlign("podatek od pocz.roku","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
+                table1.addCell(ustawfrazeAlign("podstawa op.","center",10));
+                table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
+                table1.addCell(ustawfrazeAlign("podatek brutto od pocz.roku","center",10));
+                table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
                 
-                table.addCell(ustawfrazeAlign("ZUS 52","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
-                table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
+                table2.addCell(ustawfrazeAlign("ZUS 52","center",10));
+                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
+                table2.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
+                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
-                table.addCell(ustawfrazeAlign("zaliczki za pop.mce","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNalzalodpoczrok())),"right",10));
-                table.addCell(ustawfrazeAlign("podatek od pocz.roku","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNaleznazal())),"right",10));
+                
+                table2.addCell(ustawfrazeAlign("podatek należny od pocz.roku","center",10));
+                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPododpoczrok())),"right",10));
+                table2.addCell(ustawfrazeAlign("zaliczki za pop.mce","center",10));
+                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNalzalodpoczrok())),"right",10));
 
-                table.addCell(ustawfrazeAlign("do zapłaty","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
-                table.addCell(ustawfrazeAlign("termin płatności","center",10));
-                table.addCell(ustawfrazeAlign(selected.getTerminwplaty(),"center",10));
+                table2.addCell(ustawfrazeAlign("do zapłaty","center",10));
+                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
+                table2.addCell(ustawfrazeAlign("termin płatności","center",10));
+                table2.addCell(ustawfrazeAlign(selected.getTerminwplaty(),"center",10));
 
                } catch (DocumentException | IOException e){
                 
             }
             document.add(Chunk.NEWLINE);
+            document.add(table0);
+            document.add(Chunk.NEWLINE);
             document.add(table);
+            document.add(Chunk.NEWLINE);
+            document.add(table1);
+            document.add(Chunk.NEWLINE);
+            document.add(table2);
             document.add(Chunk.NEWLINE);
             Uz uz = wpisView.getWprowadzil();
             document.add(new Paragraph(String.valueOf(uz.getImie()+" "+uz.getNazw()),fontM));
