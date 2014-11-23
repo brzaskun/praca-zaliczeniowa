@@ -629,6 +629,19 @@ public class SessionFacade<T> implements Serializable{
             return null;
         }
     }
+    
+    public Dokfk findDokfkKontrahent(Dokfk selected) {
+        try {
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
+                    .setParameter("rok", selected.getDokfkPK().getRok())
+                    .setParameter("podatnikObj", selected.getPodatnikObj())
+                    .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
+                    .setParameter("kontrahent", selected.getKontr())
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public List<Konto> findKontaOstAlityka(String podatnik) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).getResultList();

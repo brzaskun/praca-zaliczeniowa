@@ -1499,6 +1499,22 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
         }
     }
+    
+    public void znajdzduplicatdokumentuKontrahent() {
+        if (zapisz0edytuj1 == false) {
+            Dokfk dokument = null;
+            try {
+                dokument = dokDAOfk.findDokfkObjKontrahent(selected);
+            } catch (Exception e) {
+            }
+            if (dokument != null) {
+                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+            } else {
+                Msg.msg("i", "Go on Master");
+            }
+        }
+    }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
