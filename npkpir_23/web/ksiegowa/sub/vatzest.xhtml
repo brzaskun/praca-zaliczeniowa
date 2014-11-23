@@ -22,7 +22,8 @@
                 <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
-                </p:commandButton>    
+                </p:commandButton>
+                <p:commandButton value="Drukuj wszystkie" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
                 <p:separator/>
                 <p:panel id="sumka#{numer.index}" header="suma wybranych dokumentów" style="max-width: 400px;">
                     <h:outputText value="netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">

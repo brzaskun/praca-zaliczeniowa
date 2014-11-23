@@ -568,6 +568,14 @@ public class EwidencjaVatView implements Serializable {
 
         }
     }
+    
+    public void drukujPdfWszystkie() {
+        try {
+            PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO);
+        } catch (Exception e) {
+
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     //generuje poszczegolen ewidencje
