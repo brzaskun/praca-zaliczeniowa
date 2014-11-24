@@ -90,6 +90,7 @@ public class Vat7DKView implements Serializable {
     private boolean pole56zreki;
     private boolean pole59zreki;
     private boolean pole47zreki;
+    private boolean pole53zreki;
     private boolean pole70zreki;
     private boolean pokaz56lub59;
     private boolean zachowaj;
@@ -233,7 +234,7 @@ public class Vat7DKView implements Serializable {
     }
 
     public void odswiezprzycisk(ValueChangeEvent e){
-        RequestContext.getCurrentInstance().update("formvat:przycisk1");
+        RequestContext.getCurrentInstance().update("form:przyciskivat");
     }
     
      private String sprawdzjakiokresvat() {
@@ -431,6 +432,9 @@ public class Vat7DKView implements Serializable {
     private void podsumujszczegolowe() {
         if (pole43zreki==true) {
             pozycjeSzczegoloweVAT.setPoleI43(Integer.parseInt(pozycjeSzczegoloweVAT.getPole43()));
+        }
+        if (pole53zreki==true) {
+            pozycjeSzczegoloweVAT.setPoleI53(Integer.parseInt(pozycjeSzczegoloweVAT.getPole53()));
         }
         String rok = wpisView.getRokWpisu().toString();
         String mc = wpisView.getMiesiacWpisu();
@@ -642,6 +646,16 @@ public class Vat7DKView implements Serializable {
     public void setPole43zreki(boolean pole43zreki) {
         this.pole43zreki = pole43zreki;
     }
+
+    public boolean isPole53zreki() {
+        return pole53zreki;
+    }
+
+    public void setPole53zreki(boolean pole53zreki) {
+        this.pole53zreki = pole53zreki;
+    }
+    
+    
 
     public boolean isPole47zreki() {
         return pole47zreki;

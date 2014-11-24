@@ -7,10 +7,12 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
             <h:form id="form">
-            <p:panelGrid columns="5" style="border-style: solid; border-color: lightgray;">
+            <p:panelGrid id="przyciskivat" columns="5" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk1" value="#{vat7DKView.zachowaj eq true ? 'zachowaj dekl.' : 'oblicz vat7'}"  action="#{vat7DKView.oblicz()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
             <h:outputText value="Dane zgodne, można zachować." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
-            <p:selectBooleanCheckbox value="#{vat7DKView.zachowaj}" onchange="submit()"  style="width: 120px" immediate="true" valueChangeListener="#{vat7DKView.odswiezprzycisk}" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
+            <p:selectBooleanCheckbox value="#{vat7DKView.zachowaj}" style="width: 120px" valueChangeListener="#{vat7DKView.odswiezprzycisk}" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
+                <p:ajax event="change" partialSubmit="true" update=":form:przyciskivat"/>
+            </p:selectBooleanCheckbox>
             <h:outputText value="Wymuś zapis jako deklarację pierwotną." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.pierwotnazamiastkorekty}" style="width: 120px" immediate="true" rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
               </p:panelGrid>
@@ -98,7 +100,7 @@
                         </h:panelGrid>
                         <h:panelGrid columns="3">
                             <h:outputLabel value="Kwota podatku należnego od towarów i usług objętych spisem z natury, o którym mowa w art.14 ust.5 43. ustawy:" for="pole43" />
-                            <h:inputText id="pole43" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole43}" title="Pole43"  style="font-weight: 700; text-align: right; width: 80px;">
+                            <h:inputText id="pole43" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole43}" title="Pole43"  style="font-weight: 700; text-align: right; width: 80px; #{vat7DKView.pole43zreki eq true ? 'color: green' : null}">
                                  <p:ajax event="keyup" listener="#{vat7DKView.setPole43zreki(true)}" update=":form:reka43"/>
                                 </h:inputText>
                             <h:selectBooleanCheckbox id="reka43" label="z ręki" value="#{vat7DKView.pole43zreki}"/>
@@ -123,7 +125,7 @@
                         <h:panelGrid title="strona podatku naliczonego"  columns="1">
                             <h:panelGrid columns="3">
                                 <h:outputLabel value="Kwota nadwyżki z poprzedniej deklaracji:" for="pole47" />
-                                <h:inputText id="pole47" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole47}" title="Pole47"  style="font-weight: 700; text-align: right; width: 80px;">
+                                <h:inputText id="pole47" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole47}" title="Pole47"  style="font-weight: 700; text-align: right; width: 80px;  #{vat7DKView.pole47zreki eq true ? 'color: green' : null}">
                                      <p:ajax event="keyup" listener="#{vat7DKView.setPole47zreki(true)}" update=":form:reka47"/>
                                 </h:inputText>
                             <h:selectBooleanCheckbox id="reka47" label="z ręki" value="#{vat7DKView.pole47zreki}"/>
@@ -147,10 +149,15 @@
                                 <h:inputText id="pole52" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole52}" title="Pole52"  style="font-weight: 700; text-align: right; width: 80px;">
                                     </h:inputText>
                             </h:panelGrid>
-                            <h:panelGrid columns="2" >
+                            <h:panelGrid columns="3">
                                 <h:outputLabel value="Korekta podatku naliczonego od nabycia środków trwałych:" for="pole53" />
-                                <h:inputText id="pole53" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole53}" title="Pole53"  style="font-weight: 700; text-align: right; width: 80px;">
-                                    </h:inputText>
+                                <h:inputText id="pole53" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole53}" title="Pole53"  
+                                             style="font-weight: 700; text-align: right; width: 80px; #{vat7DKView.pole53zreki eq true ? 'color: green' : null}">
+                                    <p:ajax event="keyup" listener="#{vat7DKView.setPole53zreki(true)}" update=":form:reka53"/>
+                                </h:inputText>
+                            <h:selectBooleanCheckbox id="reka53" label="z ręki" value="#{vat7DKView.pole53zreki}"/>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
                                 <h:outputLabel value="Korekta podatku naliczonego od pozostałych nabyć:" for="pole54" />
                                 <h:inputText id="pole54" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole54}" title="Pole54"  style="font-weight: 700; text-align: right; width: 80px;">
                                     </h:inputText>
@@ -163,7 +170,7 @@
                     <h:panelGrid columns="1" frame="box" width="100%" > 
                         <h:panelGrid columns="3">
                             <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, do odliczenia w danym okresie rozliczeniowym - jest VAT do zapłaty:" for="pole56" />
-                            <h:inputText id="pole56" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole56}" title="Pole56"  style="font-weight: 700; text-align: right; width: 80px;">
+                            <h:inputText id="pole56" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole56}" title="Pole56"  style="font-weight: 700; text-align: right; width: 80px;  #{vat7DKView.pole56zreki eq true ? 'color: green' : null}">
                                 <p:ajax event="keyup" listener="#{vat7DKView.setPole56zreki(true)}" update=":form:reka56"/>
                                 </h:inputText>
                             <h:selectBooleanCheckbox id="reka56" label="z ręki" value="#{vat7DKView.pole56zreki}"/>
@@ -179,7 +186,7 @@
                         <h:panelGrid columns="3">
                             <h:outputLabel value="Kwota wydatkowana na zakup kas rejestrujących, przysługująca do zwrotu w danym okresie rozliczeniowym - jest VAT do zwrotu:" for="pole59" />
                              
-                            <h:inputText id="pole59" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole59}" title="Pole59"  style="font-weight: 700; text-align: right; width: 80px;" >
+                            <h:inputText id="pole59" value="#{vat7DKView.pozycjeSzczegoloweVAT.pole59}" title="Pole59"  style="font-weight: 700; text-align: right; width: 80px; #{vat7DKView.pole59zreki eq true ? 'color: green' : null}" >
                                 <p:ajax event="keyup" listener="#{vat7DKView.setPole59zreki(true)}" update=":form:reka59"/>
                                 </h:inputText>
                             <h:selectBooleanCheckbox id="reka59" label="z ręki" value="#{vat7DKView.pole59zreki}"/>
