@@ -52,4 +52,13 @@ public class StronaWierszaBean {
             kwotazlotowki /= 100;
             return kwotazlotowki;
         }
+     
+     public static void main(String[] args) {
+            double kwotawaluta = 12300.55;
+            double kurs = 4.3452;
+            double kwotazlotowki = 0.0;
+            kwotazlotowki = Math.round(kwotawaluta * kurs * 100);
+            kwotazlotowki /= 100;
+            System.out.println(kwotazlotowki);
+     }
 }
