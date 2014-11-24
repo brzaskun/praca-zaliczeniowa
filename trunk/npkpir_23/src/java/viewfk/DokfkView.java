@@ -2208,9 +2208,11 @@ public void updatenetto(EVatwpisFK e, String form) {
             zwartywiersz = zwartywiersz.replaceAll("\\s", "");
             if (zwartywiersz.length() > 0) {
                 double kwotarozrachunku = Double.parseDouble(zwartywiersz);
-                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100)/100;
+                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100);
+                kwotaAktualnywPLN /= 100;
                 double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100)/100;
                 double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
+                kwotaSparowanywPLN /= 100;
                 roznicakursowa = Math.round(roznicakursowa);
                 roznicakursowa /= 100;
                 Transakcja analizowanatransakcja = biezacetransakcje.get(row);
@@ -2219,6 +2221,21 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update(wiersz);
             }
         }
+    }
+    
+    public static void main(String[] args) {
+        double kwotarozrachunku = Double.parseDouble("15359.33");
+                System.out.println(kwotarozrachunku);
+                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.1235 * 100);
+                kwotaAktualnywPLN /= 100;
+                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.6852 * 100)/100;
+                kwotaSparowanywPLN /= 100;
+                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN);
+                System.out.println(kwotaAktualnywPLN);
+                System.out.println(kwotaSparowanywPLN);
+                roznicakursowa = Math.round(roznicakursowa*100);
+                roznicakursowa /= 100;
+                System.out.println(roznicakursowa);
     }
     
     public void obsluzDataWiersza(String datawiersza, Wiersz wierszbiezacy) {
