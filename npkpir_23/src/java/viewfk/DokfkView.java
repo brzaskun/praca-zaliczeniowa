@@ -602,6 +602,7 @@ public class DokfkView implements Serializable {
                                 }
                             } else {
                                 selected.getListawierszy().remove(wiersznastepny);
+                                Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:604");
                             }
                         } while (true);
                     } catch (Exception e) {
@@ -1371,24 +1372,28 @@ public void updatenetto(EVatwpisFK e, String form) {
     
 }
     public void przepiszWaluty(Wiersz wiersz) {
-        StronaWiersza wn = wiersz.getStronaWn();
-        StronaWiersza ma = wiersz.getStronaMa();
-        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-             if (wn != null) {
-                wn.setKwotaPLN(wn.getKwota());
-             }
-             if (ma != null) {
-                ma.setKwotaPLN(ma.getKwota());
-             }
-        } else {
-             if (wn != null) {
-                wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                wn.setKwotaWaluta(wn.getKwota());
-             }
-             if (ma != null) {
-                ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                ma.setKwotaWaluta(ma.getKwota());
-             }
+        try {
+            StronaWiersza wn = wiersz.getStronaWn();
+            StronaWiersza ma = wiersz.getStronaMa();
+            if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                 if (wn != null) {
+                    wn.setKwotaPLN(wn.getKwota());
+                 }
+                 if (ma != null) {
+                    ma.setKwotaPLN(ma.getKwota());
+                 }
+            } else {
+                 if (wn != null) {
+                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                    wn.setKwotaWaluta(wn.getKwota());
+                 }
+                 if (ma != null) {
+                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                    ma.setKwotaWaluta(ma.getKwota());
+                 }
+            }
+        } catch (Exception e) {
+            Msg.msg("Blad DokfkView przepisz waluty");
         }
     }
 
@@ -2203,8 +2208,8 @@ public void updatenetto(EVatwpisFK e, String form) {
             zwartywiersz = zwartywiersz.replaceAll("\\s", "");
             if (zwartywiersz.length() > 0) {
                 double kwotarozrachunku = Double.parseDouble(zwartywiersz);
-                double kwotaAktualnywPLN = kwotarozrachunku * kursAktualny;
-                double kwotaSparowanywPLN = kwotarozrachunku * kursSparowany;
+                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100)/100;
+                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100)/100;
                 double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
                 roznicakursowa = Math.round(roznicakursowa);
                 roznicakursowa /= 100;
