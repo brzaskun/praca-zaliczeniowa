@@ -2210,7 +2210,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 double kwotarozrachunku = Double.parseDouble(zwartywiersz);
                 double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100);
                 kwotaAktualnywPLN /= 100;
-                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100)/100;
+                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100);
                 double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
                 kwotaSparowanywPLN /= 100;
                 roznicakursowa = Math.round(roznicakursowa);
@@ -2224,18 +2224,18 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public static void main(String[] args) {
-        double kwotarozrachunku = Double.parseDouble("15359.33");
+        double kwotarozrachunku = Double.parseDouble("18370.80");
                 System.out.println(kwotarozrachunku);
-                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.1235 * 100);
+                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.2053 * 100);
                 kwotaAktualnywPLN /= 100;
-                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.6852 * 100)/100;
+                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.1968 * 100);
                 kwotaSparowanywPLN /= 100;
                 double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN);
-                System.out.println(kwotaAktualnywPLN);
-                System.out.println(kwotaSparowanywPLN);
+                System.out.println("aktualny "+kwotaAktualnywPLN);
+                System.out.println("sparowany "+kwotaSparowanywPLN);
                 roznicakursowa = Math.round(roznicakursowa*100);
                 roznicakursowa /= 100;
-                System.out.println(roznicakursowa);
+                System.out.println("roznica " +roznicakursowa);
     }
     
     public void obsluzDataWiersza(String datawiersza, Wiersz wierszbiezacy) {
