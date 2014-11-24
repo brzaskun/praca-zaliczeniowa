@@ -11,9 +11,15 @@ import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.Wiersz;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -34,13 +40,33 @@ public class DokFKTransakcjeBean implements Serializable{
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
         }
-        Iterator it = listaNowychRozrachunkow.iterator();
-        while(it.hasNext()) {
-            StronaWiersza p = (StronaWiersza) it.next();
-            if (p.getPozostalo() == 0.0) {
-                it.remove();
+        try {
+            DateFormat formatter;
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
+            Date dataR = formatter.parse(datarozrachunku);
+            Iterator it = listaNowychRozrachunkow.iterator();
+            while(it.hasNext()) {
+                StronaWiersza p = (StronaWiersza) it.next();
+                if (p.getPozostalo() == 0.0) {
+                    it.remove();
+                } else {
+                    String dataplatnosci;
+                    if (p.getWiersz().getDataWalutyWiersza() != null) {
+                        dataplatnosci = p.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+p.getWiersz().getDokfk().getMiesiac()+"-"+p.getWiersz().getDataWalutyWiersza();
+                    } else {
+                        dataplatnosci = p.getWiersz().getDokfk().getDatadokumentu();
+                    }
+                    Date dataP = formatter.parse(dataplatnosci);
+                    if (dataP.compareTo(dataR) > 0)  {
+                        it.remove();
+                    }
+                }
             }
+        } catch (ParseException ex) {
+            
         }
+        
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
