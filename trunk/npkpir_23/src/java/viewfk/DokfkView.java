@@ -2211,8 +2211,8 @@ public void updatenetto(EVatwpisFK e, String form) {
                 double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100);
                 kwotaAktualnywPLN /= 100;
                 double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100);
-                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
                 kwotaSparowanywPLN /= 100;
+                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
                 roznicakursowa = Math.round(roznicakursowa);
                 roznicakursowa /= 100;
                 Transakcja analizowanatransakcja = biezacetransakcje.get(row);
