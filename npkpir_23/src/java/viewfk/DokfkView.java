@@ -76,7 +76,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ViewScoped
 public class DokfkView implements Serializable {
 
-    private int numerwiersza;
+    private int lpWierszaWpisywanie;
     private String stronawiersza;
     protected Dokfk selected;
     @Inject
@@ -599,10 +599,15 @@ public class DokfkView implements Serializable {
 
                                 } else if (sprawdzczworki){
                                     selected.getListawierszy().remove(wiersznastepny);
+                                    RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602\");");
+                                    System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
+                                    Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
                                 }
                             } else {
                                 selected.getListawierszy().remove(wiersznastepny);
-                                Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:604");
+                                RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606\");");
+                                System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
+                                Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
                             }
                         } while (true);
                     } catch (Exception e) {
@@ -634,11 +639,13 @@ public class DokfkView implements Serializable {
 
     public void dodajPustyWierszNaKoncu() {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-        Wiersz wiersz = selected.getListawierszy().get(numerwiersza - 1);
-        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
-        Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
-        if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
-            dolaczNowyWierszPusty(indexwTabeli, false);
+        if (lpWierszaWpisywanie > 0) {
+            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie - 1);
+            int indexwTabeli = wiersz.getIdporzadkowy() - 1;
+            Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
+            if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
+                dolaczNowyWierszPusty(indexwTabeli, false);
+            }
         }
     }
 
@@ -928,9 +935,15 @@ public class DokfkView implements Serializable {
                 Konto kontovat = selected.getRodzajedok().getKontovat();
                 if (kontovat != null) {
                     wierszdrugi.getStronaWn().setKonto(kontovat);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wierszdrugi.getStronaMa().setKonto(kontovat);
+                    }
                 } else {
                     Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
                     wierszdrugi.getStronaWn().setKonto(k);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                        wierszdrugi.getStronaMa().setKonto(k);
+                    }
                 }
                 selected.getListawierszy().add(wierszdrugi);
             } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
@@ -1832,9 +1845,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc() {
-        numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+        Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         biezacetransakcje = new ArrayList<>();
         tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
         rachunekCzyPlatnosc = "płatność";
@@ -1848,10 +1861,10 @@ public void updatenetto(EVatwpisFK e, String form) {
     
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
-        numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        if (numerwiersza > -1) {
-            Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+        if (lpWierszaWpisywanie > -1) {
+            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
             if (stronawiersza.equals("Wn")) {
                 stronaWierszaCechy = wiersz.getStronaWn();
             } else {
@@ -1863,7 +1876,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 pobranecechy.remove(c);
             }
             RequestContext.getCurrentInstance().update("formCHW");
-            numerwiersza = -1;
+            lpWierszaWpisywanie = -1;
             RequestContext.getCurrentInstance().update("wpisywaniefooter:wierszid");
             RequestContext.getCurrentInstance().execute("PF('dialogCechyStronaWiersza').show();");
         }
@@ -1939,7 +1952,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     private void tworzAktualnyWierszDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
         //numerwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
         //stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        //Msg.msg("nr: "+numerwiersza+" wnma: "+stronawiersza);
+        //Msg.msg("nr: "+lpWierszaWpisywanie+" wnma: "+stronawiersza);
         zablokujprzyciskzapisz = false;
         try {
             aktualnyWierszDlaRozrachunkow = null;
@@ -2043,7 +2056,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 
 //po wcisnieciu klawisza art-r nastepuje przygotowanie inicjalizacja aktualnego wiersza dla rozrachunkow
     private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow(Wiersz wiersz, String stronawiersza) {
-        //Wiersz wiersz = selected.getListawierszy().get(numerwiersza);
+        //Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         StronaWiersza stronaWiersza;
         StronaWiersza stronaWn = wiersz.getStronaWn();
         StronaWiersza stronaMa = wiersz.getStronaMa();
@@ -2443,26 +2456,33 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
+    //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void dataTableTest() {
-        DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
-        Object o = d.getLocalSelection();
-        wierszRKindex = d.getRowIndex();
-        wierszRK = (Wiersz) d.getRowData();
-        ewidencjaVatRK = null;
-        for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-            if (p.getWiersz() == wierszRK) {
-                ewidencjaVatRK = p;
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            try {
+                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
+                Object o = d.getLocalSelection();
+                wierszRKindex = d.getRowIndex();
+                wierszRK = (Wiersz) d.getRowData();
+                ewidencjaVatRK = null;
+                for (EVatwpisFK p : selected.getEwidencjaVAT()) {
+                    if (p.getWiersz() == wierszRK) {
+                        ewidencjaVatRK = p;
+                    }
+                }
+                if (ewidencjaVatRK == null) {
+                    ewidencjaVatRK = new EVatwpisFK();
+                    ewidencjaVatRK.setLp(0);
+                    ewidencjaVatRK.setWiersz(wierszRK);
+                    ewidencjaVatRK.setDokfk(selected);
+                    ewidencjaVatRK.setNetto(0.0);
+                    ewidencjaVatRK.setVat(0.0);
+                }
+                RequestContext.getCurrentInstance().update("ewidencjavatRK");
+            } catch (Exception e) {
+                System.out.println("Blad DokfkView dataTableTest "+e.getLocalizedMessage());
             }
         }
-        if (ewidencjaVatRK == null) {
-            ewidencjaVatRK = new EVatwpisFK();
-            ewidencjaVatRK.setLp(0);
-            ewidencjaVatRK.setWiersz(wierszRK);
-            ewidencjaVatRK.setDokfk(selected);
-            ewidencjaVatRK.setNetto(0.0);
-            ewidencjaVatRK.setVat(0.0);
-        }
-        RequestContext.getCurrentInstance().update("ewidencjavatRK");
     }
 
     public void pokazZapisButton() {
@@ -2621,12 +2641,12 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.aktualnyWierszDlaRozrachunkow = aktualnyWierszDlaRozrachunkow;
     }
 
-    public int getNumerwiersza() {
-        return numerwiersza;
+    public int getLpWierszaWpisywanie() {
+        return lpWierszaWpisywanie;
     }
 
-    public void setNumerwiersza(int numerwiersza) {
-        this.numerwiersza = numerwiersza;
+    public void setLpWierszaWpisywanie(int lpWierszaWpisywanie) {
+        this.lpWierszaWpisywanie = lpWierszaWpisywanie;
     }
 
     public String getStronawiersza() {
