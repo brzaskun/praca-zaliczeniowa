@@ -202,15 +202,27 @@ var czydodackontoShow = function (){
 };
 
 var focusNaNowoDodanym = function(source) {
-    var rzedy = r("formwpisdokument:dataList_data").children();
-    for (var rzad in rzedy) {
-        var wybrany = $(rzedy[rzad]).children().get(1);
-        console.log(wybrany);
-        if ($(wybrany.firstChild).val() == "") {
-            $(wybrany.firstChild).focus();
-            break;
+    try {
+        var rzedy = r("formwpisdokument:dataList_data").children();
+        for (var rzad in rzedy) {
+            var wybrany = $(rzedy[rzad]).children().get(1);
+            console.log(wybrany);
+            if ($(wybrany.firstChild).val() == "") {
+                $(wybrany.firstChild).focus();
+                break;
+            }
         }
-    }
+    } catch (e) {
+        
+    };
+};
+
+var kopiujnazwepelna = function () {
+  var skadkopiowac = rj("formX:nazwaPole").value;
+  var dokadkopiowac = rj("formX:symbolPole").value;
+  if (dokadkopiowac === "") {
+      rj("formX:symbolPole").value = skadkopiowac;
+  }
 };
 
 
