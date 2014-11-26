@@ -45,7 +45,7 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid id="logowaniebutton" columns="1" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" update=":formlog1:logowanie, :infologowanie" ajax="false" style="width: 150px;" rendered="#{Logowanie.liczniklogowan gt 0}"/>
+                        <p:commandButton value="#{mgs.zaloguj}" action="#{Logowanie.login()}" ajax="false" style="width: 150px;" rendered="#{Logowanie.liczniklogowan gt 0}"/>
                         <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{Logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>
                     <!--                        <p:commandButton value="Wyloguj" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->

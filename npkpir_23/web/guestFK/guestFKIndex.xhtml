@@ -13,21 +13,15 @@
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
 <!--                       
 -->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                            <ui:include src="sub/layout/west.xhtml"/>   <!-- panel zachodni-->
+
                         <p:layoutUnit position="center">
+                           
+                                <ui:include src="sub/menu_wiad.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
                             <h:form id="form">
-                                <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
-                                <ui:include src="sub/tablica.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form><!--
--->                           <h:form id="dodWiad">
-                                 <ui:include src="sub/dodawanie_usera.xhtml" />  <!--  dodawanie nowego wiersza do księgi-->
+                                <ui:include src="sub/indexGuestFK.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form>
-                            <h:form id="editUzyt">
-                                <ui:include src="sub/edycja_usera.xhtml"/>  <!--edytowanie danych klienta-->
-                            </h:form>
+                           
                         </p:layoutUnit>
-                                 <ui:include src="sub/layout/east.xhtml"/>  <!--  panel wschodni-->
                     </p:layout>
                 </f:view>
             

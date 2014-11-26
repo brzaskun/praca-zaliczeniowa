@@ -24,7 +24,7 @@
             <h:inputText value="#{UzDAO.selUzytkownik.nazw}" required="true" requiredMessage="nazwisko - uzupełnij"/>
             <h:inputText value="#{UzDAO.selUzytkownik.haslo}" required="true" requiredMessage="hasło - uzupełnij"/>
             <h:selectOneMenu value="#{UzDAO.selUzytkownik.upr}" required="true" requiredMessage="uprawnienia - uzupełnij">
-                <f:selectItems value="#{Uprawnienia.upr}"/>
+                <f:selectItems value="#{uprawnienia.listaUprawnien}"/>
             </h:selectOneMenu>
             <h:inputText value="#{UzDAO.selUzytkownik.log}" required="true" requiredMessage="login - uzupełnij"/>
             <p:commandButton action="#{UzDAO.dodajNowyWpis()}" value="Dodaj" update=":form:uzytkownicyLista,mess_add,:dodWiad:ostatniUzytkownik"/>
