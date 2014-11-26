@@ -919,7 +919,11 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Klienci findKlientByNip(String nip) {
-        return (Klienci) em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
+        try  {
+            return (Klienci) em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Dok findDokByNr(String numer) {
