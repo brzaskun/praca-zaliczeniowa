@@ -9,16 +9,18 @@
     <h:body>
        <ui:composition>
            <f:view >
-               <p:dialog closable="false" height="120" width="150" position="center" widgetVar="dialogAjaxCzekaj" showHeader="false" draggable="false" modal="true" style="text-align: center;">
-                <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 20px;">
+               <p:dialog closable="false" height="140" width="170" position="center" widgetVar="dialogAjaxCzekaj" 
+                         showHeader="false" draggable="false" modal="true" style="text-align: center;">
+                <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
                     <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto;" />
                     <h:outputText value="#{value != null ? value : 'Trwa przetwarzanie danych'}" style="margin-top: 20px; margin-left: auto; margin-right: auto;"/>
                 </p:panelGrid>
             </p:dialog>
             <h:form>
-                 <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
+                 <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
                      <f:facet name="error">
-                         <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie" style="color: red; font-weight: 900;"/>
+                         <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                                       style="color: red; font-weight: 900;"/>
                      </f:facet>
                 </p:ajaxStatus>
             </h:form>

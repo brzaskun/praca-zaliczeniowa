@@ -14,23 +14,23 @@ import javax.persistence.Embeddable;
  *
  * @author Grzegorz Grzelczyk
  */
-@Named(value="Uprawnienia")
+@Named
 @Embeddable
 public class Uprawnienia implements Serializable{
-    private static final List<String> upr;
+    private static final List<String> listaUprawnien;
 
     static {
-        upr = new ArrayList<String>();
-        upr.add("Administrator");
-        upr.add("Manager");
-        upr.add("Bookkeeper");
-        upr.add("BookkeeperFK");
-        upr.add("klient");
-        upr.add("Guest");
+        listaUprawnien = new ArrayList<String>();
+        listaUprawnien.add("Administrator");
+        listaUprawnien.add("Manager");
+        listaUprawnien.add("Bookkeeper");
+        listaUprawnien.add("BookkeeperFK");
+        listaUprawnien.add("GuestFK");
+        listaUprawnien.add("Guest");
     }
 
-    public List<String> getUpr() {
-        return upr;
+    public List<String> getListaUprawnien() {
+        return listaUprawnien;
     }
     
 }

@@ -109,6 +109,12 @@ public class Logowanie implements Serializable {
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
+            } else if (request.isUserInRole("GuestFK")) {
+                String nip = uzDAO.find(uzytk).getFirma();
+                String firma = podatnikDAO.findPodatnikByNIP(nip).getNazwapelna();
+                wpis.setPodatnikWpisu(firma);
+                message = "Username : " + principal.getName() + " You're wasting my resources...";
+                navto = "GuestFK";
             } else if (request.isUserInRole("Noobie")) {
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Noobie";
@@ -116,27 +122,8 @@ public class Logowanie implements Serializable {
             if (haslo.equals("haslo")) {
                 navto = "nowehaslo";
             }
-            session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            session.setAttribute("user", principal.getName());
-            String nrsesji = session.getId();
-            sesja.setNrsesji(nrsesji);
-            sesja.setUzytkownik(principal.getName());
-            sesja.setIloscdokumentow(0);
-            sesja.setIloscmaili(0);
-            sesja.setIloscwydrukow(0);
-            sesja.setIp(IPaddress.getIpAddr(request));
-            Calendar calendar = Calendar.getInstance();
-            sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
-            try {
-                sesjaDAO.dodaj(sesja);
-            } catch (Exception e) {
-                sesjaDAO.edit(sesja);
-            }
-            Uz wpr = uzDAO.find(uzytk);
-            wpr.setBiezacasesja(nrsesji);
-            uzDAO.edit(wpr);
             Wpis wpisX = wpisDAO.find(uzytk);
-            wpisX.setBiezacasesja(nrsesji);
+            wpisX.setBiezacasesja(dodajInfoDoSesji());
             wpisDAO.edit(wpisX);
             Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             return navto;
@@ -147,7 +134,31 @@ public class Logowanie implements Serializable {
         }
     }
     
-   
+    private String dodajInfoDoSesji() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Principal principal = request.getUserPrincipal();
+        session.setAttribute("user", principal.getName());
+        String nrsesji = session.getId();
+        sesja.setNrsesji(nrsesji);
+        sesja.setUzytkownik(principal.getName());
+        sesja.setIloscdokumentow(0);
+        sesja.setIloscmaili(0);
+        sesja.setIloscwydrukow(0);
+        sesja.setIp(IPaddress.getIpAddr(request));
+        Calendar calendar = Calendar.getInstance();
+        sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
+        try {
+            sesjaDAO.dodaj(sesja);
+        } catch (Exception e) {
+            sesjaDAO.edit(sesja);
+        }
+        Uz wpr = uzDAO.find(uzytk);
+        wpr.setBiezacasesja(nrsesji);
+        uzDAO.edit(wpr);
+        return nrsesji;
+    }
+
     
     public void logout() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
