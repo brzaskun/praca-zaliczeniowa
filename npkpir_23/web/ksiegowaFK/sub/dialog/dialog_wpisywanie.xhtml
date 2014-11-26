@@ -374,7 +374,6 @@
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}"
                                         >
                             <p:ajax event="blur" listener="#{dokfkView.przepiszWaluty(loop)}" partialSubmit="true"/>
-                            <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}" update="@this" />
                         </pe:inputNumber> 
                     </p:column>
                     <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
@@ -398,6 +397,7 @@
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
                                         >
 <!--                            <p:ajax event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
+                            <p:ajax event="focus" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}"/>
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 
                                     update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
@@ -415,9 +415,10 @@
                 <p:panel id="panelwpisbutton" style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
+                                     onfocus="focusNaNowoDodanym();"
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach"
+                                     accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanym();"
                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>

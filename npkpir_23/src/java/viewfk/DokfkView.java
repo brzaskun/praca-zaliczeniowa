@@ -460,13 +460,14 @@ public class DokfkView implements Serializable {
         int t = wiersz.getTypWiersza();
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         } else if (t == 5 && piatka(wiersz)) {
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             return;
         } else {
             dodajNowyWierszStronaWn(wiersz);
         }
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
     }
 
@@ -528,7 +529,6 @@ public class DokfkView implements Serializable {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
         dodajNowyWierszStronaMa(wiersz);
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
 
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
@@ -544,16 +544,18 @@ public class DokfkView implements Serializable {
                 }
                 Konto kontoma = wiersz.getStronaMa().getKonto();
                 wiersz.getStronaMa().setKwota(kwotanowa);
-                if ((wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
-                    Msg.msg("Koto kosztowe moze byc jedynie po stronie Wn");
-                } else {
-                    dodajNowyWierszStronaMa(wiersz);
+                if (wiersz.getStronaMa() != null && wiersz.getStronaMa() != null) {
+                    if ((wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7)) {
+                        Msg.msg("Koto kosztowe moze byc jedynie po stronie Wn");
+                    } else {
+                        dodajNowyWierszStronaMa(wiersz);
+                    }
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu"); 
             } catch (Exception e1) {
-                System.out.println(e1);
+                System.out.println(e1.getLocalizedMessage());
             }
         }
     }
@@ -565,8 +567,10 @@ public class DokfkView implements Serializable {
             try {
                 wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
                 dolaczNowyWiersz(indexwTabeli, true);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             } catch (Exception e) {
                 dolaczNowyWiersz(indexwTabeli, false);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         } else if ((wiersz.getTypWiersza() == 0)) {
             //bo mozemy podczas edycji dokumentu zmienic kwote
@@ -617,6 +621,7 @@ public class DokfkView implements Serializable {
             } catch (Exception e) {
 
             }
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
         //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -626,12 +631,15 @@ public class DokfkView implements Serializable {
         int indexwTabeli = wiersz.getIdporzadkowy() - 1;
         if (wiersz.getTypWiersza() == 5) {
             dolaczNowyWierszPiatka(indexwTabeli, false);
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         } else {
             try {
                 Wiersz wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
                 dolaczNowyWiersz(indexwTabeli, true);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             } catch (Exception e) {
                 dolaczNowyWiersz(indexwTabeli, false);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         }
         // RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -2302,13 +2310,17 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void skopiujWndoMa(Wiersz wiersz) {
         try {
+            int wierszlp = wiersz.getIdporzadkowy()-1;
+            String coupdate = "formwpisdokument:dataList:"+wierszlp+":ma";
             if (wiersz.getTypWiersza() == 0) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(ObslugaWiersza.obliczkwotepozostala(selected, wiersz));
+                    RequestContext.getCurrentInstance().update(coupdate);
                 }
             } else if (wiersz.getTypWiersza() == 5) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(ObslugaWiersza.obliczkwotepozostala5(selected, wiersz));
+                    RequestContext.getCurrentInstance().update(coupdate);
                 }
             }
         } catch (Exception e) {
