@@ -1861,6 +1861,8 @@ public void updatenetto(EVatwpisFK e, String form) {
         rachunekCzyPlatnosc = "płatność";
         RequestContext.getCurrentInstance().update("transakcjawybor");
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+            rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+            RequestContext.getCurrentInstance().update("transakcjawybor");
             RequestContext.getCurrentInstance().execute("PF('transakcjawybor').show();");
         } else {
             wybranoRachunekPlatnoscCD(stronawiersza);
