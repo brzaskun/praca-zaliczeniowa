@@ -75,10 +75,19 @@ public class ObslugaWiersza {
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
                 stronalewa += p.getStronaWn().getKwota();
                 stronaprawa += p.getStronaMa().getKwota();
+                if (p.getStronaWn().getKonto() == null || p.getStronaMa().getKonto() == null ) {
+                    return false;
+                }
             } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
                 stronalewa += p.getStronaWn().getKwota();
+                if (p.getStronaWn().getKonto() == null) {
+                    return false;
+                }
             } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
                 stronaprawa += p.getStronaMa().getKwota();
+                if (p.getStronaMa().getKonto() == null ) {
+                    return false;
+                }
             }
         }
         return stronalewa == stronaprawa;
@@ -292,10 +301,20 @@ public class ObslugaWiersza {
                         kwotawielka = wierszbiezacy.getStronaMa().getKwota();
                         sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
                         kwotawielkaPoWn = false;
-                    } else {
+                    } else if (nastepny.getTypWiersza() == 2) {
                         kwotawielka = wierszbiezacy.getStronaWn().getKwota();
                         sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
                         kwotawielkaPoWn = true;
+                    } else {
+                        if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
+                            kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+                            sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+                            kwotawielkaPoWn = true;
+                        } else {
+                            kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+                            sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+                            kwotawielkaPoWn = false;
+                        }
                     }
                 } catch (Exception e) {
                 //jak tego nie bedzie to wyjda minusy potem, bo return jest bez abs
