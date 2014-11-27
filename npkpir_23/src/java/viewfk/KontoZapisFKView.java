@@ -8,7 +8,6 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
-import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -49,8 +48,6 @@ public class KontoZapisFKView implements Serializable{
     private WierszBODAO wierszBODAO;
     @Inject private Konto wybranekonto;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
-    //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
-    @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;

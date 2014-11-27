@@ -23,7 +23,6 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
-import daoFK.ZestawienielisttransakcjiDAO;
 import data.Data;
 import entity.Evewidencja;
 import entity.Klienci;
@@ -107,8 +106,6 @@ public class DokfkView implements Serializable {
     //************************************zmienne dla rozrachunkow
 //    @Inject
 //    protected RozrachunekfkDAO rozrachunekfkDAO;
-    @Inject
-    protected ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     @Inject
     protected TransakcjaDAO transakcjaDAO;
     private boolean potraktujjakoNowaTransakcje;

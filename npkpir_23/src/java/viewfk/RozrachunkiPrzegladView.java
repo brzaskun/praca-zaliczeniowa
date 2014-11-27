@@ -9,7 +9,6 @@ package viewfk;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
-import daoFK.ZestawienielisttransakcjiDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -43,7 +42,6 @@ public class RozrachunkiPrzegladView implements Serializable{
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private Konto wybranekonto;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
-    @Inject private ZestawienielisttransakcjiDAO zestawienielisttransakcjiDAO;
     @Inject private TransakcjaDAO transakcjaDAO;
     private TreeNodeExtended<Konto> root;
     private int levelBiezacy = 0;
