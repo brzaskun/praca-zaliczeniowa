@@ -1,0 +1,37 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+    <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,150);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
+        <h:form id="formkursrecznie">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
+                <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
+                    <p:inputText id="numertabeli" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()"/>
+                </p:column>
+                <p:column headerText="data tabeli" width="100" style="text-align: center;">
+                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()"/>
+                </p:column>
+                <p:column headerText="symbol waluty" width="100" style="text-align: center;">
+                    <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
+                        <f:selectItems value="#{walutyViewFK.pobranewalutyrecznykurs}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column headerText="wartość w pln" width="100" style="text-align: center;">
+                    <pe:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                    </pe:inputNumber>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="@form, :wprowadzonekursy"
+                                     onclick="PF('dialogkursrecznie').hide();"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+      
+    </p:dialog>
+</ui:composition>

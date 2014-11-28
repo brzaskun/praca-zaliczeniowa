@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialogwaluty" header="Zestawienie walut" widgetVar="waluty"  
+    <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
               resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',580,400);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
         <h:form id="wprowadzonewaluty">
             <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobranewaluty}" editable="true" emptyMessage="Nie ma wprowadzonych walut" style="width: 500px;">
-                <p:column headerText="skrót waluty" width="100" style="text-align: center;">
+                <p:column headerText="skrót waluty" width="100" style="text-align: center; height: 25px;">
                     <h:outputText value="#{wpis.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="nazwa waluty" width="200">

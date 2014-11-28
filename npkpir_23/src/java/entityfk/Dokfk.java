@@ -140,6 +140,8 @@ public class Dokfk implements Serializable {
           @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
       })
     private List<Cechazapisu> cechadokumentuLista;
+    @Column(name = "nrdziennika")
+    private String nrdziennika;
  
 
     
@@ -197,6 +199,15 @@ public class Dokfk implements Serializable {
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getNrdziennika() {
+        return nrdziennika;
+    }
+
+    public void setNrdziennika(String nrdziennika) {
+        this.nrdziennika = nrdziennika;
+    }
+    
+    
     public List<Cechazapisu> getCechadokumentuLista() {
         return cechadokumentuLista;
     }
