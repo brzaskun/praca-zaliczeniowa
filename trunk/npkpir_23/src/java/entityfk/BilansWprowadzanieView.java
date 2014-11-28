@@ -261,7 +261,21 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             wiersz.setKwotaMaPLN(kwotawPLN);
         }
-        
+        podsumujWnMa();
+    }
+    
+    public void przeliczkurs(WierszBO wiersz) {
+        double kurs = wiersz.getKurs();
+        if (wiersz.getKwotaWn() != 0.0) {
+            double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
+            kwotawPLN /= 100;
+            wiersz.setKwotaWnPLN(kwotawPLN);
+        } else if (wiersz.getKwotaMa() != 0.0) {
+            double kwotawPLN = Math.round(wiersz.getKwotaMa() * kurs * 100);
+            kwotawPLN /= 100;
+            wiersz.setKwotaMaPLN(kwotawPLN);
+        }
+        podsumujWnMa();
     }
 
     public List<WierszBO> getLista0() {
@@ -353,6 +367,8 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private void podsumujWnMa() {
+        stronaWn = 0.0;
+        stronaMa = 0.0;
         for (WierszBO p : listaW) {
             stronaWn += p.getKwotaWnPLN();
             stronaMa += p.getKwotaMaPLN();

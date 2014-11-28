@@ -876,10 +876,13 @@ public class DokfkView implements Serializable {
         double vatwWalucie = 0.0;
         if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0);
+            kwotawPLN /= 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0);
+            vatwWalucie /= 100.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 100.0);
+                kPLN /= 100.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
@@ -1059,10 +1062,13 @@ public class DokfkView implements Serializable {
         //przeliczanie waluty na zlotowki dla netto
         if (!w.getSymbolwaluty().equals("PLN")) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 100.0) / 100.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 100.0) / 100.0;
+            kwotawPLN = Math.round((nettovat*kurs) * 100.0);
+            kwotawPLN /= 100.0;
+            vatwWalucie = Math.round((kwotavat/kurs) * 100.0);
+            vatwWalucie /= 100.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                double kPLN = Math.round((p.getNetto()*kurs) * 100.0) / 100.0;
+                double kPLN = Math.round((p.getNetto()*kurs) * 100.0);
+                kPLN /= 100.0;
                 p.setNetto(kPLN);
                 p.setBrutto(p.getNetto()+p.getVat());
             }
