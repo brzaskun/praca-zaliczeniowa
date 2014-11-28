@@ -35,9 +35,12 @@ public class WalutyViewFK implements Serializable {
     @Inject
     private TabelanbpDAO tabelanbpDAO;
     private List<Waluty> pobranewaluty;
+    private List<Waluty> pobranewalutyrecznykurs;
     private List<String> symboleWalut;
     private List<Tabelanbp> pobranekursy;
     private List<Tabelanbp> pobranekursyRok;
+    @Inject
+    private Tabelanbp kurswprowadzonyrecznie;
     @Inject
     private Waluty nowawaluta;
     @ManagedProperty(value = "#{walutyFKBean}")
@@ -47,6 +50,7 @@ public class WalutyViewFK implements Serializable {
         pobranewaluty = new ArrayList<>();
         pobranekursy = new ArrayList<>();
         symboleWalut = new ArrayList<>();
+        pobranewalutyrecznykurs = new ArrayList<>();
     }
 
     @PostConstruct
@@ -56,6 +60,9 @@ public class WalutyViewFK implements Serializable {
         pobranekursyRok = tabelanbpDAO.findKursyRok();
         for (Waluty w : pobranewaluty) {
             symboleWalut.add(w.getSymbolwaluty());
+            if (!w.getSymbolwaluty().equals("PLN")) {
+                pobranewalutyrecznykurs.add(w);
+            }
         }
     }
 
@@ -90,8 +97,37 @@ public class WalutyViewFK implements Serializable {
             Msg.msg("e","Istnieją zapisy w walucie, nie można jej usunąć!");
         }
     }
+    
+    public void dodajkurs(Tabelanbp tabelanbp) {
+        try {
+            tabelanbp.setNrtabeli(tabelanbp.getNrtabeli().toUpperCase(new Locale("PL")));
+            tabelanbpDAO.dodaj(tabelanbp);
+            pobranekursyRok.add(tabelanbp);
+            tabelanbp = null;
+            Msg.msg("Dodaj tabelę NBP");
+        } catch (Exception e) {
+            Msg.msg("e","Istnieje już taka tabela o takim numerze dot. danej waluty. Nie można wprowadzić kursu.");
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public List<Waluty> getPobranewalutyrecznykurs() {
+        return pobranewalutyrecznykurs;
+    }
+
+    public void setPobranewalutyrecznykurs(List<Waluty> pobranewalutyrecznykurs) {
+        this.pobranewalutyrecznykurs = pobranewalutyrecznykurs;
+    }
+
+    public Tabelanbp getKurswprowadzonyrecznie() {
+        return kurswprowadzonyrecznie;
+    }
+
+    public void setKurswprowadzonyrecznie(Tabelanbp kurswprowadzonyrecznie) {
+        this.kurswprowadzonyrecznie = kurswprowadzonyrecznie;
+    }
+    
     
     public WalutyFKBean getWalutyFKBean() {
         return walutyFKBean;

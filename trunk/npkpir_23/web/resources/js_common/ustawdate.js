@@ -111,6 +111,24 @@ function ustawDateFK(rok,mc, koncowkaadresu){
      }
    };
    
+   var weryfikujdatekursreczny = function () {
+       var dataWyst = document.getElementById("formkursrecznie:dataKursReczny:0:datakurs");
+       var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+       var testw = dataWyst.value;
+         if (!testw.match(re)){
+             dataWyst.value = "b\u0142ędna data";
+         }
+   };
+   
+   var weryfikujnumertabeli = function () {
+       var nrTabeli = document.getElementById("formkursrecznie:dataKursReczny:0:numertabeli");
+       var re = /\d{3}[\/]\w{1}[\/]\w{3}[\/]\d{4}/;
+       var testw = nrTabeli.value;
+         if (!testw.match(re)){
+             nrTabeli.value = "b\u0142ędny numer tabeli";
+         }
+   };
+   
    function ustawDateFKRK(rok,mc, koncowkaadresu){
     try {
         var adres = "ewidencjavatRK:"+koncowkaadresu;

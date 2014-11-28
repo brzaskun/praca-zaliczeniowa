@@ -151,7 +151,11 @@ public class Logowanie implements Serializable {
         try {
             sesjaDAO.dodaj(sesja);
         } catch (Exception e) {
-            sesjaDAO.edit(sesja);
+            try {
+                sesjaDAO.edit(sesja);
+            } catch (Exception e1) {
+                
+            }
         }
         Uz wpr = uzDAO.find(uzytk);
         wpr.setBiezacasesja(nrsesji);
