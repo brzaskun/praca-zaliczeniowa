@@ -1024,5 +1024,9 @@ public class SessionFacade<T> implements Serializable{
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList();
     }
+
+    public List<Transakcja> findByPodatniRok(WpisView wpisView) {
+        return em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    }
   
 }
