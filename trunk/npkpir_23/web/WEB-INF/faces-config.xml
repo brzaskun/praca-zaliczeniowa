@@ -51,7 +51,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>gfaktura</from-outcome>
-            <to-view-id>/guest/guestFaktura.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gtablica</from-outcome>
@@ -235,7 +235,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>faktura</from-outcome>
-            <to-view-id>/ksiegowa/ksiegowaFaktura.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>parampodatnika</from-outcome>
