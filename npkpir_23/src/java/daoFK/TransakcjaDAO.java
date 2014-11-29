@@ -19,6 +19,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -88,6 +89,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
 
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return sessionFacade.findByKonto(wybraneKontoNode);
+    }
+
+    public List<Transakcja> findPodatnikRok(WpisView wpisView) {
+        return sessionFacade.findByPodatniRok(wpisView);
     }
     
 }

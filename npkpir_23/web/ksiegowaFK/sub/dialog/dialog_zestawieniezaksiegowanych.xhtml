@@ -65,7 +65,7 @@
             <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
-            <p:column headerText="b/k" width="100" sortBy="#{item.nrdziennika}" style="text-align: center;">
+            <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
                 <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
             </p:column>         
             <p:column width="90" style="text-align: center;" >
