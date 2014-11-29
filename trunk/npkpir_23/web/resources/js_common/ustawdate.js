@@ -120,6 +120,14 @@ function ustawDateFK(rok,mc, koncowkaadresu){
          }
    };
    
+   var weryfikujsporzadzfakture = function (poleDaty) {
+       var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+       var testw = poleDaty.value;
+         if (!testw.match(re)){
+             poleDaty.value = "b\u0142ędna data";
+         }
+   };
+   
    var weryfikujnumertabeli = function () {
        var nrTabeli = document.getElementById("formkursrecznie:dataKursReczny:0:numertabeli");
        var re = /\d{3}[\/]\w{1}[\/]\w{3}[\/]\d{4}/;
