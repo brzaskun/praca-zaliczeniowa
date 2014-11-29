@@ -150,6 +150,21 @@
         <auth-constraint>
                 <role-name>Noobie</role-name>
             <role-name>Guest</role-name>
+            <role-name>GuestFK</role-name>
+            <role-name>Manager</role-name>
+            <role-name>Administrator</role-name>
+            <role-name>Bookkeeper</role-name>
+            <role-name>BookkeeperFK</role-name>
+        </auth-constraint>
+    </security-constraint>
+     <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Wspolny</web-resource-name>
+            <url-pattern>/faces/wspolny/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Guest</role-name>
+            <role-name>GuestFK</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>

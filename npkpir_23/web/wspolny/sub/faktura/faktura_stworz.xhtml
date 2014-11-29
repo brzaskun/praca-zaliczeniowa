@@ -19,28 +19,21 @@
                     <h:outputLabel value="miejsce wystawienia faktury: " />
                     <p:inplace id="miejsce" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                         <p:inputText value="#{fakturaView.selected.miejscewystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>  
-                    <h:outputLabel value="data wystawienia faktury: " />
-                    <p:inplace id="datawystawienia" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>  
-                    <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
-                    <p:inplace id="datasprz" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
                     </p:inplace>
+                    <h:outputLabel value="data wystawienia faktury: " />
+                    <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"/>  
+                    <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
+                    <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="nr faktury: "/>
                     <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                         <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
                     </p:inplace>
-
                     <h:outputLabel value="termin zapłaty: " />
-                    <p:inplace id="terminzaplaty" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
-                        <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
-                    </p:inplace>
+                    <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"/>  
                     <h:outputLabel value="sposób zapłaty: " />
                     <h:selectOneMenu value="#{fakturaView.selected.sposobzaplaty}" >
-                        <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
                         <f:selectItem itemLabel="przelew" itemValue="przelew"/>
+                        <f:selectItem itemLabel="gotówka" itemValue="gotówka"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="konto bankowe: " />
                     <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
@@ -56,7 +49,7 @@
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                     minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                     autocomplete="true" forceSelection="true" 
-                                    required="true" requiredMessage="Pole klienta nie może byc puste" queryDelay="10" >
+                                    required="true" requiredMessage="Dane klienta niedawno edytowane" queryDelay="10" >
                         <f:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" execute="@this" />
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -68,7 +61,9 @@
                                 <h:outputText value="NIP: " />  
                                 <h:outputText id="nip" value="#{p.nip}" />  
                                 <h:outputText value="Adres " />  
-                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" />
+                                <h:outputText value="Email " />  
+                                <h:outputText id="kemail" value="#{p.email}" /> 
                             </h:panelGrid>
                         </f:facet>
                         <f:param name="passedValue" value="#{p}" />
@@ -78,9 +73,14 @@
                         <p:inputText value="#{fakturaView.selected.podpis}" required="true" label="text" style="font-weight: bolder;"/>  
                     </p:inplace>
                 </p:panelGrid>
-
                 <br/>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
+                    <p:outputLabel value="nazwa" style="margin-right: 135px; font-weight: bolder;"/>
+                    <p:outputLabel value="pkwiu" style="margin-right: 125px; font-weight: bolder;"/>
+                    <p:outputLabel value="jednosta miary" style="margin-right: 70px; font-weight: bolder;"/>
+                    <p:outputLabel value="ilość" style="margin-right: 135px; font-weight: bolder;"/>
+                    <p:outputLabel value="cena jednostkowa" style="margin-right: 45px; font-weight: bolder;"/>
+                    <p:outputLabel value="stawka podatku VAT" style="font-weight: bolder;"/>
                     <p:dataTable id="rzad" value="#{fakturaView.pozycje}" var="row" rowIndexVar="rowStat" style="width: 70%;">
                         <p:column headerText="nazwa">
                             <p:inputText id="nazwa" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
@@ -115,7 +115,8 @@
                 </p:outputPanel>
                 <br/>
                 <p:outputPanel  style="margin-top: 25px;">
-                    <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" style="margin-bottom: 25px;"/>
+                    <p:commandButton id="dodkol" value="dodaj wiersz" actionListener="#{fakturaView.dodajwiersz()}" oncomplete="wybierzrzadfaktury();" style="margin-bottom: 25px;"/>
+                    <p:commandButton id="usunkol" value="usuń wiersz" actionListener="#{fakturaView.usunwiersz()}" style="margin-bottom: 25px;"/>
                 </p:outputPanel>
                 <br/>
                 <p:outputPanel  style="margin-top: 15px;">
@@ -123,10 +124,8 @@
                     <p:commandButton style="margin-left: 25px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
                 </p:outputPanel>
             </p:outputPanel>
-
         </h:form>
     </p:tab>  
-
 </ui:composition>   
 
 

@@ -11,10 +11,13 @@ import entity.PozycjenafakturzePK;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
 
 /**
@@ -24,10 +27,11 @@ import msg.Msg;
 @ManagedBean
 @RequestScoped
 public class PozycjeNaFakturzeView implements Serializable{
-    private static String lewyTablica;
-    private static String goraTablica;
-    private static String coTablica;
+    private String lewyTablica;
+    private String goraTablica;
+    private String coTablica;
     private static final List<Pozycjenafakturzebazadanych> zestaw;
+    private String west;
     
     static{
         zestaw = new ArrayList<>();
@@ -40,7 +44,16 @@ public class PozycjeNaFakturzeView implements Serializable{
     private int lewy;
     private int gora;
     private String co;
-        
+    
+    @PostConstruct
+    private void init() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (request.isUserInRole("Guest") ) {
+            west = "sub/layoutFaktura/west.xhtml";
+        } else if (request.isUserInRole("Bookkeeper") ) {
+            west = "sub/layoutFakturaKsiegowa/west.xhtml";
+        }
+    }
     
     @Inject private PozycjenafakturzeDAO pozycjeDAO;
     
@@ -75,10 +88,18 @@ public class PozycjeNaFakturzeView implements Serializable{
        }
    }
 
-   //<editor-fold defaultstate="collapsed" desc="comment">
-   public int getLewy() {
-       return lewy;
-   }
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public String getWest() {
+        return west;
+    }
+
+    public void setWest(String west) {
+        this.west = west;
+    }
+   
+    public int getLewy() {
+        return lewy;
+    }
    
    public void setLewy(int lewy) {
        this.lewy = lewy;
@@ -105,7 +126,7 @@ public class PozycjeNaFakturzeView implements Serializable{
    }
    
    public void setLewyTablica(String lewyTablica) {
-       PozycjeNaFakturzeView.lewyTablica = lewyTablica;
+       this.lewyTablica = lewyTablica;
    }
    
    public String getGoraTablica() {
@@ -113,7 +134,7 @@ public class PozycjeNaFakturzeView implements Serializable{
    }
    
    public void setGoraTablica(String goraTablica) {
-       PozycjeNaFakturzeView.goraTablica = goraTablica;
+       this.goraTablica = goraTablica;
    }
    
    public String getCoTablica() {
@@ -121,7 +142,7 @@ public class PozycjeNaFakturzeView implements Serializable{
    }
    
    public void setCoTablica(String coTablica) {
-       PozycjeNaFakturzeView.coTablica = coTablica;
+       this.coTablica = coTablica;
    }
    
    public List<Pozycjenafakturzebazadanych> getZestaw() {

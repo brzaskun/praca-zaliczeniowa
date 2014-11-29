@@ -10,27 +10,20 @@
         </ui:define>
         <ui:define name="body">
             <f:view contentType="text/html">
-                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                    <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutFaktura/west.xhtml"/>   <!-- panel zachodni-->
-                    <ui:include src="sub/layoutTablica/east.xhtml"/>   <!-- panel wchodni-->
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
+                        <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="#{pozycjeNaFakturzeView.west}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <p:panel toggleable="true" closable="true" style="width: 1000px;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do generowania, przeglądania i księgowania faktur"/>
                             </f:facet>
                         </p:panel>
-                        <h:form id="form">
-                            <ui:include src="sub/menu_wiad.xhtml"/> 
-                        </h:form>
-                        <!-- menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="sub/menu_wiad.xhtml"/> 
                         <ui:include src="sub/faktura.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-
                     </p:layoutUnit>
-
                 </p:layout>
             </f:view>
-
         </ui:define>
     </ui:composition>
 </html>
