@@ -200,6 +200,7 @@ public class FakturaView implements Serializable {
             pokazfakture = false;
             selected = new Faktura();
             faktury.add(selected);
+            
         } catch (Exception e) {
             Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
             try {
@@ -219,10 +220,13 @@ public class FakturaView implements Serializable {
             }
             selected.setWystawca(podatnikobiekt);
             fakturaDAO.edit(selected);
+            faktury.remove(selected);
+            faktury.add(selected);
             Msg.msg("i", "Dokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");  
+        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
 
     private void ewidencjavat(Faktura selected) throws Exception {
