@@ -251,7 +251,8 @@ public class WpisView implements Serializable {
     private int zwrocindexparametrzarok(List<Parametr> podatekdochodowy) {
         boolean manager = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Manager");
         boolean admin = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Administrator");
-        if ((manager == false) && (admin == false)) {
+        boolean guestfk = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("GuestFK");
+        if ((manager == false) && (admin == false) && (guestfk == false)) {
             int i = 0;
             for (Parametr p : podatekdochodowy) {
                 String rokod = p.getRokOd();
