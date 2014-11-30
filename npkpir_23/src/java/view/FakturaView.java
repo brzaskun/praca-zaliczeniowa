@@ -1005,6 +1005,8 @@ public class FakturaView implements Serializable {
         init();
         Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
     }
+     
+     
 
     private void aktualizujGuest(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
