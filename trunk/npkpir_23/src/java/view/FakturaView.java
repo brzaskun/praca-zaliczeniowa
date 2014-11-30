@@ -44,6 +44,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
 import org.primefaces.context.RequestContext;
+import params.Params;
 import pdf.PdfFaktura;
 import serialclone.SerialClone;
 
@@ -186,7 +187,7 @@ public class FakturaView implements Serializable {
         selected.setWystawca(podatnikobiekt);
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
-        Msg.msg("i", "Przygotowano fakture");
+        Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
 
     public void dodaj() throws Exception {
@@ -574,43 +575,46 @@ public class FakturaView implements Serializable {
     }
 
     public void wgenerujnumerfaktury() throws IOException {
-        List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
-        int rozpoznaj = 0;
-        try {
-            if (wykazfaktur.size() > 0) {
-                rozpoznaj = 1;
-            }
-        } catch (Exception er) {
-        }
-        if (selected.getKontrahent().getNskrocona() == null) {
-            Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane.");
-            pokazfakture = false;
-            RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        } else {
-            if (rozpoznaj == 0) {
-                String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
-                selected.getFakturaPK().setNumerkolejny(numer);
-                Msg.msg("i", "Generuje nową serie numerów faktury");
-            } else {
-                String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
-                String separator = "/";
-                String[] elementy;
-                elementy = ostatniafaktura.split(separator);
-                int starynumer = Integer.parseInt(elementy[0]);
-                starynumer++;
-                String numer = String.valueOf(starynumer);
-                int i = 0;
-                for (String p : elementy) {
-                    if (i > 0) {
-                        numer += "/" + p;
-                    }
-                    i++;
+            String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
+        if (!nazwaklienta.equals("nowy klient")) {
+            List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+            int rozpoznaj = 0;
+            try {
+                if (wykazfaktur.size() > 0) {
+                    rozpoznaj = 1;
                 }
-                selected.getFakturaPK().setNumerkolejny(numer);
-                Msg.msg("i", "Generuje kolejny numer faktury");
+            } catch (Exception er) {
             }
-            RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-            RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+            if (selected.getKontrahent().getNskrocona() == null) {
+                Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane.");
+                pokazfakture = false;
+                RequestContext.getCurrentInstance().update("akordeon:formstworz");
+            } else {
+                if (rozpoznaj == 0) {
+                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
+                    selected.getFakturaPK().setNumerkolejny(numer);
+                    Msg.msg("i", "Generuje nową serie numerów faktury");
+                } else {
+                    String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
+                    String separator = "/";
+                    String[] elementy;
+                    elementy = ostatniafaktura.split(separator);
+                    int starynumer = Integer.parseInt(elementy[0]);
+                    starynumer++;
+                    String numer = String.valueOf(starynumer);
+                    int i = 0;
+                    for (String p : elementy) {
+                        if (i > 0) {
+                            numer += "/" + p;
+                        }
+                        i++;
+                    }
+                    selected.getFakturaPK().setNumerkolejny(numer);
+                    Msg.msg("i", "Generuje kolejny numer faktury");
+                }
+                RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
+                RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+            }
         }
     }
 
