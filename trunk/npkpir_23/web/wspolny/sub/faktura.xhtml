@@ -17,7 +17,7 @@
         <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     </h:form>
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
-    <p:tabView id="akordeon" style="width: 1500px;">
+    <p:tabView id="akordeon" style="width: 1500px;" activeIndex="#{fakturaView.aktywnytab}">
         <ui:include src="faktura/faktura_stworz.xhtml"/>
         <ui:include src="faktura/faktura_sporzadzone.xhtml"/>
         <ui:include src="faktura/faktura_archiwum.xhtml"/>
@@ -25,6 +25,7 @@
         <ui:include src="faktura/faktura_zestawienie.xhtml"/>
         <ui:include src="faktura/faktura_wzor.xhtml"/>
         <ui:include src="faktura/faktura_elementyopcjonalne.xhtml"/>
+        <ui:include src="faktura/danedofaktury.xhtml"/>
     </p:tabView>
 
 </ui:composition>   

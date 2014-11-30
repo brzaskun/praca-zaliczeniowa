@@ -30,3 +30,7 @@ var kopiujnazwepelna = function () {
       rj("formnkfaktura:symbolPole").value = skadkopiowac;
   }
 };
+
+var kliknij = function () {
+    
+};

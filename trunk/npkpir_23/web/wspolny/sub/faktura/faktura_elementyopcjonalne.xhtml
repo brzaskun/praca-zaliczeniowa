@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
       <p:tab id="elementy" title="Dodatkowe elementy faktury">
           <h:form id="formelementy">
-              <p:dataTable value="#{fakturadodelementyView.fakturadodelementy}" var="wpis" style="width: 900px;">
+              <p:dataTable value="#{fakturadodelementyView.fakturadodelementy}" var="wpis" style="width: 1000px;">
                   <f:facet name="header">
                       <h:outputText value="Wybierze elementy opcjonalne faktury"/>
                   </f:facet>
@@ -20,7 +20,8 @@
                       <h:inputTextarea value="#{wpis.trescelementu}" style="width: 600px;"/>
                   </p:column>
               </p:dataTable>
-              <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update="@all"/>
+              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update="@form"
+                               style="margin-top: 5px;"/>
           </h:form>
         </p:tab>
 </ui:composition>   

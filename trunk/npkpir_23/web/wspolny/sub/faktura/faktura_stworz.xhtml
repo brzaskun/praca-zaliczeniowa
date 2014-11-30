@@ -138,7 +138,7 @@
                      </div>
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.pozycje}" var="row" rowIndexVar="rowStat" style="width: 70%;">
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 70%;">
                         <p:column headerText="nazwa">
                             <p:inputText id="nazwa" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
                         </p:column>
