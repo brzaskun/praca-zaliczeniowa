@@ -107,15 +107,16 @@
                     </div>
                      <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputLabel value="dane kontrahenta: " />
+                            <h:outputLabel id="danekontrahentaout" value="dane kontrahenta: " />
                         </div>
                         <div class="ui-grid-col-2">
                             <p:autoComplete id="acForce" value="#{fakturaView.selected.kontrahent}" completeMethod="#{KlView.complete}"
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                             minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                            autocomplete="true" forceSelection="true" 
-                                            required="true" requiredMessage="Dane klienta niedawno edytowane" queryDelay="10" >
-                                <f:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" execute="@this" />
+                                            autocomplete="true" forceSelection="true" widgetVar="tworzenieklientapolenazwy"
+                                            required="true" requiredMessage="Dane klienta niedawno edytowane" queryDelay="10"
+                                            >
+                                <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"/>
                                 <f:facet name="itemtip">  
                                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                         <f:facet name="header">  
@@ -187,7 +188,7 @@
                                      style="margin-left: 25px; width: 120px;"
                                      />
                 </p:outputPanel>
-                <p:messages id="messagesinline" autoUpdate="true"/>
+                <p:messages id="messagesinline"/>
                 <p:outputPanel  style="margin-top: 15px;">
                     <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
                                      update=":akordeon:formstworz" style="margin-bottom: 25px; width: 120px; height: 45px;" />

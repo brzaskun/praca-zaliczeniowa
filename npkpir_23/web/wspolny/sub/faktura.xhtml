@@ -16,7 +16,7 @@
         <br/>
         <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     </h:form>
-
+    <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <p:tabView id="akordeon" style="width: 1500px;">
         <ui:include src="faktura/faktura_stworz.xhtml"/>
         <ui:include src="faktura/faktura_sporzadzone.xhtml"/>

@@ -48,10 +48,11 @@
                 <p:inputText id="lokalPole" value="#{KlView.selected.lokal}"  style="width: 200px"/>
 
                <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
-                                     onfocus="$(this).removeClass('ui-state-default');
+                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                             onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
-                                         onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');">
+                                             onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
                 

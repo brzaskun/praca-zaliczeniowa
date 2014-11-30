@@ -6,10 +6,10 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
-    <p:dialog id="dialogEdycja" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" 
-              onShow="ustawdialog('dialogEdycja','menukartoteki',1070,200);" focus=":formX:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
-        <h:form id="formX" >
-            <p:panel >
+    <p:dialog id="dialognowyklientfaktura" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dialognowyklientfaktura" resizable="false" 
+              onShow="ustawdialog('dialognowyklientfaktura','akordeon:formstworz:danekontrahentaout',1150,220);" focus=":formnkfaktura:nazwaPole" onHide="resetujdialog('dialognowyklientfaktura');" >
+        <h:form id="formnkfaktura" >
+            <p:panel style="width: 95%;">
                 <p:growl id="mess_add" />
                 <p:focus id="focus" for="polawprowadzania"  />
                 <p:panelGrid id="polawprowadzania" columns="5" >
@@ -28,7 +28,8 @@
                     <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
                         <p:watermark for="nipPole" value="bez -" /> 
                     </p:inputText>
-                    <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
+                    <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" 
+                                 requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
                     <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}" 
                                     minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
@@ -53,7 +54,7 @@
                                                      $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" oncomplete="skopiujdanenowegoklientanowafaktura();" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:panelGrid id="polawprowadzania1" columns="5" >
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>
