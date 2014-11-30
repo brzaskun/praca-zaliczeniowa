@@ -46,8 +46,7 @@
             width: 70px !important;
         }
         
-        
-       
+            
 
     </style>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
@@ -179,10 +178,9 @@
                             <f:selectItems value="#{Mce.mceList}"/>
                             <f:ajax event="blur" execute="@this"/>
                         </h:selectOneMenu>
-                        <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; float: right; font-weight: 900;" 
-                                     >
-                        </h:outputText>
-                    </p:panelGrid>
+                        <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
+                        />
+                        </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
                         <h:outputText value="treść dok."/>
                         <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 'kontrahent' : ''}"/>
@@ -413,12 +411,12 @@
                     </p:column>-->
                 </p:dataTable>
                 <p:panel id="panelwpisbutton" style="text-align: right;">
-                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (s)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
-                                     accesskey="s" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
+                    <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
+                                     accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                      onfocus="focusNaNowoDodanym();"
                                      />
-                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="w" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanym();"
+                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (e)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
+                                     accesskey="s" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanym();"
                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>
