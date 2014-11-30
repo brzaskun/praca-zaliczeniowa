@@ -98,6 +98,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             drukujcd(selected, fdod, 0, "druk", wpisView);
+            Msg.msg("i","Wygenerowano podgląd faktury.","akordeon:formstworz:messagesinline");
 
         } catch (DocumentException | IOException e) {
             Msg.msg("e", "Błąd - nie wybrano faktury");
@@ -209,7 +210,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "akordeon:formwzor:data":
                         //Dane do moudlu data
                         pobrane = zwrocpozycje(lista, "data");
-                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:data") - 5, 100, 15);
+                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:data") - 5, 140, 15);
                         absText(writer, selected.getMiejscewystawienia() + " dnia: " + selected.getDatawystawienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
                         break;
                     case "akordeon:formwzor:datasprzedazy":

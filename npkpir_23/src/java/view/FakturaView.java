@@ -56,7 +56,6 @@ import serialclone.SerialClone;
 @ViewScoped
 public class FakturaView implements Serializable {
 
-    private static ArrayList<Pozycjenafakturzebazadanych> pozycje = new ArrayList<>();
     //faktury wybrane z listy
     private List<Faktura> gosciwybral;
     //faktury okresowe wybrane z listy
@@ -102,6 +101,7 @@ public class FakturaView implements Serializable {
     @Inject
     private WpisDAO wpisDAO;
     private String wiadomoscdodatkowa;
+    private int aktywnytab;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -169,7 +169,7 @@ public class FakturaView implements Serializable {
         }
 
         selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
-        pozycje = new ArrayList<>();
+        selected.setPozycjenafakturze(new ArrayList());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
         if (podatnikobiekt.getWierszwzorcowy() != null) {
@@ -180,8 +180,7 @@ public class FakturaView implements Serializable {
             poz.setIlosc(wierszwzorcowy.getIlosc());
             poz.setPodatek(wierszwzorcowy.getPodatek());
         }
-        pozycje.add(poz);
-        selected.setPozycjenafakturze(pozycje);
+        selected.getPozycjenafakturze().add(poz);
         selected.setAutor(wpisView.getWprowadzil().getLogin());
         setPokazfakture(true);
         selected.setWystawca(podatnikobiekt);
@@ -195,14 +194,32 @@ public class FakturaView implements Serializable {
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
-        faktury.add(selected);
         try {
             fakturaDAO.dodaj(selected);
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
             selected = new Faktura();
+            faktury.add(selected);
         } catch (Exception e) {
-            Msg.msg("e", "Wystąpił błąd. Nie dodano faktury. " + e.getMessage());
+            Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+            try {
+            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+            } catch (Exception et) {
+                selected.setMiejscewystawienia("nie ustawiono miejsca");
+            }
+            try {
+                String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
+                if (nrkonta != null) {
+                    selected.setNrkontabankowego(nrkonta);
+                } else {
+                    selected.setNrkontabankowego("");
+                }
+            } catch (Exception es) {
+                selected.setNrkontabankowego("");
+            }
+            selected.setWystawca(podatnikobiekt);
+            fakturaDAO.edit(selected);
+            Msg.msg("i", "Dokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
@@ -265,6 +282,12 @@ public class FakturaView implements Serializable {
         wartosc = Math.round(wartosc);
         wartosc = wartosc / 100;
         selected.setBrutto(wartosc);
+    }
+    
+    public void skierujfakturedoedycji(Faktura faktura) {
+        selected = serialclone.SerialClone.clone(faktura);
+        aktywnytab = 0;
+        pokazfakture = true;
     }
 
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
@@ -479,7 +502,7 @@ public class FakturaView implements Serializable {
 
     //taki wiersz do wykorzystania przy robieniu faktur
     public void zachowajwierszwzorcowy() {
-        Pozycjenafakturzebazadanych pobranywiersz = pozycje.get(0);
+        Pozycjenafakturzebazadanych pobranywiersz = selected.getPozycjenafakturze().get(0);
         Podatnik podatnik = wpisView.getPodatnikObiekt();
         podatnik.setWierszwzorcowy(pobranywiersz);
         podatnikDAO.edit(podatnik);
@@ -489,13 +512,13 @@ public class FakturaView implements Serializable {
     public void dodajwiersz() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
-        pozycje.add(poz);
+        selected.getPozycjenafakturze().add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
     }
 
     public void usunwiersz() {
-        if (!pozycje.isEmpty()) {
-            pozycje.remove(pozycje.size() - 1);
+        if (!selected.getPozycjenafakturze().isEmpty()) {
+            selected.getPozycjenafakturze().remove(selected.getPozycjenafakturze().size() - 1);
             RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
             String nazwafunkcji = "wybierzrzadfaktury()";
             RequestContext.getCurrentInstance().execute(nazwafunkcji);
@@ -1069,7 +1092,21 @@ public class FakturaView implements Serializable {
         }
     }
 
+    public void edytujdanepodatnika () {
+        podatnikDAO.edit(wpisView.getPodatnikObiekt());
+        Msg.msg("Naniesiono dane do faktur.");
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public int getAktywnytab() {
+        return aktywnytab;
+    }
+
+    public void setAktywnytab(int aktywnytab) {
+        this.aktywnytab = aktywnytab;
+    }
+
     public Faktura getSelected() {
         return selected;
     }
@@ -1092,14 +1129,6 @@ public class FakturaView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
-    }
-
-    public ArrayList<Pozycjenafakturzebazadanych> getPozycje() {
-        return pozycje;
-    }
-
-    public void setPozycje(ArrayList<Pozycjenafakturzebazadanych> pozycje) {
-        FakturaView.pozycje = pozycje;
     }
 
     public FakturaPK getFakturaPK() {
