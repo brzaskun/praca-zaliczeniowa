@@ -14,21 +14,21 @@
                     <h:outputText value="tu sie dodaje dane do faktury podatnika"/>
                     <p:panelGrid id="wprowadzaniefaktura" columns="2">
                         <h:outputLabel value="miejsce wystawienia faktury"/>
-                        <h:inputText id="miejscewystawienia" value="#{WpisView.podatnikObiekt.miejscewystawienia}" maxlength="26" style="width: 300px;" required="false">
-                        </h:inputText>
+                        <p:inputText id="miejscewystawienia" value="#{WpisView.podatnikObiekt.miejscewystawienia}" maxlength="26" style="width: 300px;" required="false">
+                        </p:inputText>
                         <h:outputLabel value="nr konta bankowego dla faktur sprzedaży"/>
-                        <h:inputText id="polekonto" value="#{WpisView.podatnikObiekt.nrkontabankowego}" maxlength="26" style="width: 300px;" required="false">
-                        </h:inputText>
+                        <p:inputText id="polekonto" value="#{WpisView.podatnikObiekt.nrkontabankowego}" maxlength="26" style="width: 300px;" required="false">
+                        </p:inputText>
                         <h:outputLabel value="termin płatności w dniach (np. 14)"/>
                         <p:spinner id="spinnerBasic" value="#{WpisView.podatnikObiekt.platnoscwdni}" max="365" min="0" size="3" />  
                         <h:outputLabel value="nazwa firmy umieszczana na fakturach sprzedaży"/>
-                        <h:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
+                        <p:inputText id="nazwadlafaktury" value="#{WpisView.podatnikObiekt.nazwadlafaktury}" maxlength="512" style="width: 400px;">
                             <f:validateLength minimum="10"/>
-                        </h:inputText>
+                        </p:inputText>
                         <h:outputLabel value="adres firmy umieszczana na fakturach sprzedaży"/>
-                        <h:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
+                        <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
                             <f:validateLength minimum="10"/>
-                        </h:inputText>
+                        </p:inputText>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
                         <p:commandButton action="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update=":akordeon" type="submit"/>
