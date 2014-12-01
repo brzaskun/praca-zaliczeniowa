@@ -371,6 +371,13 @@ public class PlanKontView implements Serializable {
         }
     }
 
+    public void zmiananazwykonta() {
+        try {
+            kontoDAO.edit(selectednodekonto);
+        } catch (Exception e) {
+            
+        }
+    }
     public List<Konto> complete(String qr) {
         if (qr != null) {
             String query = qr.split(" ")[0];
