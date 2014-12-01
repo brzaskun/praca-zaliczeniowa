@@ -70,7 +70,7 @@ public class KliencifkView implements Serializable{
     }
     
     public int pobieraniekontaFK(){
-        if (wybranyklient instanceof Klienci) {
+        if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
             klientMaKonto = new Kliencifk();
             klientBezKonta = new Kliencifk();
             Msg.msg("Pobieram kontofk");

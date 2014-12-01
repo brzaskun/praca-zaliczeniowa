@@ -153,7 +153,10 @@ public class PlanKontFKBean {
             r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika("Wzorcowy"));
         } else {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika(podatnik));
+            List<Konto> listakontpodatnika = kontoDAO.findWszystkieKontaPodatnika(podatnik);
+            if (listakontpodatnika != null && !listakontpodatnika.isEmpty()) {
+                r.createTreeNodesForElement(listakontpodatnika);
+            }
         }
         r.expandAll();
     }

@@ -5,9 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-
+    <style>
+        .wpisywanieklienta input  {
+            width: 180px !important;
+        }
+    </style>
     <p:dialog id="dialogEdycja" header="Dane nowego klienta: ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" 
-              onShow="ustawdialog('dialogEdycja','menukartoteki',1070,200);" focus=":formX:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
+              onShow="ustawdialog('dialogEdycja','menukartoteki',1100,200);" focus=":formX:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
         <h:form id="formX" >
             <p:panel >
                 <p:growl id="mess_add" />
@@ -28,9 +32,9 @@
                     <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
                         <p:watermark for="nipPole" value="bez -" /> 
                     </p:inputText>
-                    <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 200px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
+                    <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 150px" required="true" requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
                     <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
-                                    var="p" itemLabel="#{p}" itemValue="#{p}" 
+                                    var="p" itemLabel="#{p}" itemValue="#{p}"  styleClass="wpisywanieklienta"
                                     minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
                                     effect="clip" autocomplete="true" queryDelay="100" 
                                     required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
@@ -64,7 +68,7 @@
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}" 
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
-                                    effect="clip" autocomplete="true" queryDelay="100" 
+                                    effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
                                     style="width: 200px" >
                         <p:ajax event="change" partialSubmit="true" global="false"/>
                     </p:autoComplete>

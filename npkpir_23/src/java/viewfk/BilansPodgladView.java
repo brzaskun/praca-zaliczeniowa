@@ -62,12 +62,16 @@ public class BilansPodgladView  implements Serializable{
        
         
     public void rozwinwszystkie(){
-        getNodes();
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
-        level = root.ustaldepthDT(kontadlanodes)-1;
-        root.expandAll();
-        Msg.msg("Rozwinięto maksymalnie");
+        try {
+            getNodes();
+            ArrayList<Konto> kontadlanodes = new ArrayList<>();
+            kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
+            level = root.ustaldepthDT(kontadlanodes)-1;
+            root.expandAll();
+            Msg.msg("Rozwinięto maksymalnie");
+        } catch (Exception e) {
+            Msg.msg("e", "Brak kont bilansowych u podatnika");
+        }
     }  
     
     public void rozwin(){
