@@ -53,6 +53,7 @@ public class PlanKontView implements Serializable {
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> rootwzorcowy;
     private TreeNodeExtended<Konto> selectednode;
+    private Konto selectednodekonto;
     private String wewy;
     private String listajs;
     private boolean czyoddacdowzorca;
@@ -151,6 +152,7 @@ public class PlanKontView implements Serializable {
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
             try {
+                //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (nowe.getNrkonta().equals("kontr")) {
                     if (kontomacierzyste.isMapotomkow() == true) {
                         Msg.msg("e", "Konto już ma analitykę, nie można dodać słownika");
@@ -388,6 +390,7 @@ public class PlanKontView implements Serializable {
     public void selrow(NodeSelectEvent e) {
         TreeNode p = e.getTreeNode();
         Konto zawartosc = (Konto) p.getData();
+        selectednodekonto = (Konto) p.getData();
         Msg.msg("i", "Wybrano: " + zawartosc.getPelnynumer() + " " + zawartosc.getNazwapelna());
     }
     
@@ -403,6 +406,15 @@ public class PlanKontView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public Konto getSelectednodekonto() {
+        return selectednodekonto;
+    }
+
+    public void setSelectednodekonto(Konto selectednodekonto) {
+        this.selectednodekonto = selectednodekonto;
+    }
+    
+    
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
@@ -441,6 +453,9 @@ public class PlanKontView implements Serializable {
 
     public void setSelectednode(TreeNodeExtended<Konto> selectednode) {
         this.selectednode = selectednode;
+        if (selectednode != null) {
+            this.selectednodekonto = (Konto) selectednode.getData();
+        }
     }
 
 //   static{
