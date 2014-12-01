@@ -152,7 +152,7 @@ public class PodatnikView implements Serializable {
         Collections.sort(listaPodatnikowFK, new Podatnikcomparator());
             nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
         try {
-            selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+            selected = wpisView.getPodatnikObiekt();
             pobierzogolneDokKsi();
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
@@ -343,7 +343,7 @@ public class PodatnikView implements Serializable {
 //    }
 //
     public void dodajdoch() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getPodatekdochodowy());
@@ -362,7 +362,7 @@ public class PodatnikView implements Serializable {
     }
     
     public void dodajzawieszenie() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getZawieszeniedzialalnosci());
@@ -415,7 +415,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajvat() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getVatokres());
@@ -469,7 +469,7 @@ public class PodatnikView implements Serializable {
 
     public void dodajzus() {
         try {
-            selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+            selected = wpisView.getPodatnikObiekt();
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
@@ -501,7 +501,7 @@ public class PodatnikView implements Serializable {
     
      public void edytujzus() {
         try {
-            selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+            selected = wpisView.getPodatnikObiekt();
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
@@ -523,7 +523,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunzus(Zusstawki loop) {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(selected.getZusparametr());
         tmp.remove(loop);
@@ -564,14 +564,14 @@ public class PodatnikView implements Serializable {
    
 
     public String przejdzdoStrony() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         //sprawdazic
         RequestContext.getCurrentInstance().execute("openwindow()");
         return "/manager/managerPodUstaw.xhtml?faces-redirect=true";
     }
 
     public void dodajremanent() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getRemanent());
@@ -598,7 +598,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajkwoteautoryzujaca() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getKwotaautoryzujaca());
@@ -629,7 +629,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajnrpkpir() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getNumerpkpir());
@@ -660,7 +660,7 @@ public class PodatnikView implements Serializable {
     }
     
      public void dodajFKpiatki() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getFKpiatki());
@@ -701,7 +701,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajUdzialy() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Udzialy> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getUdzialy());
@@ -749,7 +749,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void usunUdzialy(Udzialy udzialy) {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Udzialy> tmp = new ArrayList<>();
         tmp.addAll(selected.getUdzialy());
         tmp.remove(udzialy);
@@ -794,7 +794,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void pobierzogolneDokKsi() {
-        selected = podatnikDAO.find(nazwaWybranegoPodatnika);
+        selected = wpisView.getPodatnikObiekt();
         List<Rodzajedok> lista = new ArrayList<>();
         try {
             lista.addAll(rodzajedokDAO.findListaPodatnik(selected));
@@ -820,6 +820,9 @@ public class PodatnikView implements Serializable {
                     Rodzajedok nowy  = serialclone.SerialClone.clone(tmp);
                     nowy.setPodatnikObj(selected);
                     nowy.getRodzajedokPK().setPodatnik(selected.getNip());
+                    nowy.setKontoRZiS(null);
+                    nowy.setKontorozrachunkowe(null);
+                    nowy.setKontovat(null);
                     rodzajedokDAO.dodaj(nowy);
                     lista.add(nowy);
                 }
@@ -1089,12 +1092,16 @@ public class PodatnikView implements Serializable {
     }
     
     public void naniesKontaNaDokumentVat(ValueChangeEvent e) {
-        if (selectedDokKsi.getRodzajedokPK() != null) {
-            Konto wybraneKonto = (Konto) e.getNewValue();
-            selectedDokKsi.setKontovat(wybraneKonto);
-            rodzajedokDAO.edit(selectedDokKsi);
-        } else {
-            Msg.msg("e", "Nie wybrano dokumentu");
+        try {
+            if (selectedDokKsi.getRodzajedokPK() != null) {
+                Konto wybraneKonto = (Konto) e.getNewValue();
+                selectedDokKsi.setKontovat(wybraneKonto);
+                rodzajedokDAO.edit(selectedDokKsi);
+            } else {
+                Msg.msg("e", "Nie wybrano dokumentu");
+            }
+        } catch (Exception e1) {
+            Msg.msg("e", "Błąd przy przyporzadkowaniu konta do dokumentu");
         }
     }
     

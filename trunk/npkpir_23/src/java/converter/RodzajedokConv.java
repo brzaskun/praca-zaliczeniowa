@@ -20,7 +20,7 @@ public class RodzajedokConv implements javax.faces.convert.Converter{
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         RodzajedokView rodzajedokView = (RodzajedokView) facesContext.getELContext().getELResolver().getValue(facesContext.getELContext(), null,"rodzajedokView"); 
-        List<Rodzajedok> kl = rodzajedokView.getListaWspolnych();
+        List<Rodzajedok> kl = rodzajedokView.getListaPodatnika();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  

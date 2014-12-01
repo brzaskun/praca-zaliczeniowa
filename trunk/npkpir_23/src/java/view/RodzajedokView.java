@@ -39,18 +39,23 @@ public class RodzajedokView implements Serializable {
     @Inject
     private Rodzajedok selected;
     private List<Rodzajedok> listaWspolnych;
+    private List<Rodzajedok> listaPodatnika;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
  
 
     public RodzajedokView() {
         listaWspolnych = new ArrayList<>();
+        listaPodatnika = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
         try {
-            listaWspolnych.addAll(rodzajedokDAO.findListaWspolne());
+            listaWspolnych = rodzajedokDAO.findListaWspolne();
+            listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         } catch (Exception e) {
         }
 
@@ -106,6 +111,22 @@ public class RodzajedokView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public List<Rodzajedok> getListaPodatnika() {
+        return listaPodatnika;
+    }
+
+    public void setListaPodatnika(List<Rodzajedok> listaPodatnika) {
+        this.listaPodatnika = listaPodatnika;
+    }
     
    
     public Rodzajedok getSelected() {
