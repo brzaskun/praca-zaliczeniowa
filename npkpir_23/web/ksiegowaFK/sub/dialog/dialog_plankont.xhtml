@@ -13,6 +13,7 @@
                 <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" />
                 <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" />
                 <p:menuitem id="noweslownik" value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
+                <p:menuitem id="noweedycjanazwy" value="Edycja nazw konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.root)}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form"/>
@@ -42,7 +43,7 @@
                 <p:treeTable id="dataList" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
-                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego" listener="#{planKontView.selrow}"/>
+                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nazwapelna eq 'Słownik kontrahenci' ? false : true}"/> 
                     </p:column>

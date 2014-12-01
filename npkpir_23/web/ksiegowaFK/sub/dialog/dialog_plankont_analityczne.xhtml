@@ -3,7 +3,8 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:f="http://java.sun.com/jsf/core">
     <p:dialog header="Wpisz dane konta analitycznego: #{planKontView.selectednodekonto.pelnynumer}" widgetVar="nowekontoanalityczne" resizable="false" id="dodawaniekontaanalitycznego">  
         <h:form id="formY">  
         <p:focus for="dkp">
@@ -14,7 +15,15 @@
                         <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         
                         <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formY, :form, :formwzorcowy" style="display: none;" oncomplete="PF('nowekontoanalityczne').hide();"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form, :formwzorcowy" style="float: right;" oncomplete="PF('nowekontoanalityczne').hide();"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formY, :form, :formwzorcowy" 
+                                         style="float: right;" oncomplete="PF('nowekontoanalityczne').hide();">
+                            <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
+                                <f:facet name="error">
+                                    <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                                                  style="color: red; font-weight: 900;"/>
+                                </f:facet>
+                           </p:ajaxStatus>
+                        </p:commandButton>
             </p:panelGrid>
             </p:focus>
     </h:form>  
