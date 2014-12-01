@@ -21,6 +21,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -254,14 +255,16 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void przeliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, String strona) {
-        double kwotawPLN = Math.round(kwotaWwalucie * kurs * 100);
-        kwotawPLN /= 100;
-        if (strona.equals("Wn")) {
-            wiersz.setKwotaWnPLN(kwotawPLN);
-        } else {
-            wiersz.setKwotaMaPLN(kwotawPLN);
+        if (kurs != 0.0) {
+            double kwotawPLN = Math.round(kwotaWwalucie * kurs * 100);
+            kwotawPLN /= 100;
+            if (strona.equals("Wn")) {
+                wiersz.setKwotaWnPLN(kwotawPLN);
+            } else {
+                wiersz.setKwotaMaPLN(kwotawPLN);
+            }
+            podsumujWnMa();
         }
-        podsumujWnMa();
     }
     
     public void przeliczkurs(WierszBO wiersz) {
@@ -373,6 +376,7 @@ public class BilansWprowadzanieView implements Serializable {
             stronaWn += p.getKwotaWnPLN();
             stronaMa += p.getKwotaMaPLN();
         }
+        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
     }
     
     
