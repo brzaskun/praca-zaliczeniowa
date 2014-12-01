@@ -771,17 +771,18 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajDokKsi() {
-        try {
-            selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
-            selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok());
-            rodzajedokDAO.dodaj(selectedDokKsi);
-            rodzajeDokumentowLista.add(selectedDokKsi);
-            selectedDokKsi = new Rodzajedok();
-            Msg.msg("i", "Dodano nowy wzór dokumentu", "akordeon:form6");
-        } catch (Exception ex) {
-            Msg.msg("e", "Niedodano nowego wzoru dokumentu, wystąpił błąd", "akordeon:form6");
+        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getSkrot() != null) {
+            try {
+                selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
+                selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok());
+                rodzajedokDAO.dodaj(selectedDokKsi);
+                rodzajeDokumentowLista.add(selectedDokKsi);
+                selectedDokKsi = new Rodzajedok();
+                Msg.msg("i", "Dodano nowy wzór dokumentu", "akordeon:form6");
+            } catch (Exception ex) {
+                Msg.msg("e", "Niedodano nowego wzoru dokumentu, wystąpił błąd", "akordeon:form6");
+            }
         }
-
     }
 
     public void przygotujdoedycjiDokKsi() {

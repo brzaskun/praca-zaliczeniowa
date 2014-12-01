@@ -30,9 +30,9 @@ public class WierszBODAO extends DAO implements Serializable {
     @Inject
     private SessionFacade wierszBOFacade;
     
-    public List<WierszBO> lista(String grupa) {
+    public List<WierszBO> lista(String grupa, Podatnik podatnik) {
         try {
-            return wierszBOFacade.findBOLista0(grupa);
+            return wierszBOFacade.findBOLista0(grupa, podatnik);
         } catch (Exception e) {
             return new ArrayList<>();
         }
