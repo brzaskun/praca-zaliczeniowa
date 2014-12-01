@@ -16,12 +16,12 @@
             width: 50px !important;
         }
     </style>
-    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzaniesald" widgetVar="bilanswprowadzanie" 
+    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald" widgetVar="bilanswprowadzanie" 
               resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1250, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -68,7 +68,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="1">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -115,7 +115,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -206,7 +206,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="3">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -253,7 +253,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="6">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -300,7 +300,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="8">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" sortBy="#{item.konto.pelnynumer}">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -347,7 +347,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab id="tabzbiorczy" title="W">
-                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item">
+                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item" sortBy="#{item.konto.pelnynumer}">
                                 <p:column width="260">
                                     <f:facet name="header">
                                         <h:outputText value="Konto"/>
