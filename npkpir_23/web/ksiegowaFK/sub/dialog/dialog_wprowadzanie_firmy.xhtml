@@ -13,14 +13,15 @@
             <p:growl id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
-                <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 500px;">
+                <p:panel id="panelwpisywanianowejfirmy" header="Rejestracja nowej firmy w programie" style="width: 850px;">
                 <p:focus for="wprowadzaniepodatnika"/>
                 <p:panelGrid id="wprowadzaniepodatnika" columns="4" >
 
                     <h:outputLabel value="nip firmy"/>
-                    <p:inputText id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!">
-                        <f:validateLength minimum="10"/>
-                    </p:inputText>
+                    <p:inputMask id="polenip" value="#{podatnikView.selectedDod.nip}" maxlength="10" required="true" requiredMessage="NIP - jest wymagany, uzupełnij!"
+                             mask="9999999999" validatorMessage="Nip powinien składać się z 10 cyfr">
+                    <f:validateLength minimum="10" />
+                    </p:inputMask>
                     <h:outputLabel value="nazwa pełna"/>
                     <p:inputText id="nazwapelna" value="#{podatnikView.selectedDod.nazwapelna}" required="true" requiredMessage="Nazwa pełna jest wymagana, uzupełnij!" style="width: 300px;"/>
                     <h:outputLabel value="nazwa skrócona"/>
@@ -40,9 +41,12 @@
                     <h:outputLabel value="email"/>
                     <p:inputText id="email" value="#{podatnikView.selectedDod.email}" required="true" requiredMessage="Email - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="data rozpoczęcia dział."/>
-                    <p:inputMask id="dataurodzenia" value="#{podatnikView.selectedDod.dataurodzenia}" mask="9999-99-99" required="true" requiredMessage="Data urodzenia - jest wymagana, uzupełnij!"/>
+                    <p:inputMask id="dataurodzenia" value="#{podatnikView.selectedDod.dataurodzenia}" mask="9999-99-99" required="true" requiredMessage="Data urodzenia - jest wymagana, uzupełnij!"
+                                 onblur="weryfikujsporzadzfakture(this);"/>
                     <h:outputLabel value="województwo"/>
-                    <h:selectOneMenu value="#{podatnikView.selectedDod.wojewodztwo}" >
+                    <h:selectOneMenu value="#{podatnikView.selectedDod.wojewodztwo}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');" 
+                                     onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItems value="#{wojewodztwa.wykazS}" />
                     </h:selectOneMenu>
                     <h:outputLabel value="powiat"/>
@@ -62,12 +66,16 @@
                     <h:outputLabel value="nr lokalu"/>
                     <p:inputText id="nrlokalu" value="#{podatnikView.selectedDod.nrlokalu}"/>
                     <h:outputLabel value="dochodowy okres?"/>
-                    <h:selectOneMenu value="#{podatnikView.selectedDod.dochokres}" >
+                    <h:selectOneMenu value="#{podatnikView.selectedDod.dochokres}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');" 
+                                     onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItem itemValue="miesiąc"/>
                         <f:selectItem itemValue="kwartał"/>
                     </h:selectOneMenu>
                     <h:outputLabel value="VAT metoda kasowa"/>
-                    <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}">
+                    <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                     onfocus="$(this).addClass('ui-state-focus');" 
+                                     onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItem itemValue="tak"/>
                         <f:selectItem itemValue="nie"/>
                     </h:selectOneMenu>

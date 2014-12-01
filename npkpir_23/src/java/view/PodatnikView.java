@@ -164,11 +164,12 @@ public class PodatnikView implements Serializable {
 
     public void dodaj() {
         if (selectedDod.getPesel() == null) {
-            selectedDod.setPesel("99999999999");
+            selectedDod.setPesel("00000000000");
         }
         try {
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
+            selectedDod = null;
             Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
@@ -177,17 +178,17 @@ public class PodatnikView implements Serializable {
 
     public void dodajfk() {
         if (selectedDod.getPesel() == null) {
-            selectedDod.setPesel("99999999999");
+            selectedDod.setPesel("00000000000");
         }
         try {
-            
+            selectedDod.setFirmafk(true);
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
+            selectedDod = null;
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
-        selectedDod = new Podatnik();
         RequestContext.getCurrentInstance().reset("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
         RequestContext.getCurrentInstance().update("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
     }
@@ -202,6 +203,17 @@ public class PodatnikView implements Serializable {
         }
     }
     
+    
+    public void edytujfk() {
+        try {
+            sformatuj(selected);
+            selected.setFirmafk(true);
+            podatnikDAO.edit(selected);
+            Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
+        }
+    }
    
     public void zmianaWysylkaZus(ValueChangeEvent el) {
         try {
