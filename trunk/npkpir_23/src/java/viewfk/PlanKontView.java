@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.persistence.PersistenceException;
+import javax.persistence.RollbackException;
 import msg.Msg;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
@@ -227,26 +228,38 @@ public class PlanKontView implements Serializable {
 
     public void implementacjaJednegoKontaWzorcowego() {
         if (selectednode != null) {
+            try {
             List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
             for (Podatnik p : listapodatnikowfk) {
                 Konto konto = ((Konto) selectednode.getData());
                 konto.setPodatnik(p.getNazwapelna());
                 if (!konto.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
-                    konto.setMacierzysty(macierzyste.getId());
+                    
+                        Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
+                        konto.setMacierzysty(macierzyste.getId());
+                        macierzyste.setMapotomkow(true);
+                        macierzyste.setBlokada(true);
+                        kontoDAO.edit(macierzyste);
+                } else {
+                    konto.setMapotomkow(false);
+                    konto.setBlokada(false);
                 }
                 try {
                     kontoDAO.dodaj(konto);
-                } catch (PersistenceException e) {
+                } catch (RollbackException e) {
+                    
+                } catch (PersistenceException x) {
                     Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
                 } catch (Exception ef) {
-                    Msg.msg("e", "Wystąpił błąd podczas dodawania konta. " + ef.getMessage() + " Nie dodano: " + konto.getPelnynumer());
                 }
             }
             wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
+            } catch (Exception e1) {
+                        Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+            }
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
@@ -300,18 +313,18 @@ public class PlanKontView implements Serializable {
             podatnik = wpisView.getPodatnikWpisu();
         }
         if (selectednode != null) {
-            Konto zawartosc = (Konto) selectednode.getData();
-            if (zawartosc.isBlokada() == true) {
+            Konto kontoDoUsuniecia = (Konto) selectednode.getData();
+            if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
-            } else if (zawartosc.isMapotomkow() == true) {
+            } else if (kontoDoUsuniecia.isMapotomkow() == true) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 try {
-                    kontoDAO.destroy(selectednode.getData());
-                    if (zawartosc.getNazwapelna().equals("Słownik kontrahenci")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(zawartosc.getMacierzyste(), kontoDAO, podatnik);
+                    kontoDAO.destroy(kontoDoUsuniecia);
+                    if (kontoDoUsuniecia.getNazwapelna().equals("Słownik kontrahenci")) {
+                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAO, podatnik);
                         if (wynik == 0) {
-                            Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                            Konto kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
                             kontomacierzyste.setMapotomkow(false);
                             kontomacierzyste.setMaslownik(false);
@@ -321,9 +334,10 @@ public class PlanKontView implements Serializable {
                             Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                         }
                     } else {
-                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, zawartosc, kontoDAO);
-                        if (!sadzieci) {
-                            Konto kontomacierzyste = kontoDAO.findKonto(zawartosc.getMacierzysty());
+                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, kontoDoUsuniecia, kontoDAO);
+                        //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
+                        if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
+                            Konto kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
                             kontomacierzyste.setMapotomkow(false);
                             kontoDAO.edit(kontomacierzyste);

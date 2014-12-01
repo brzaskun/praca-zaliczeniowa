@@ -5,6 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
     <p:dialog id="dialog_kliencifk_dolaczanie" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_dolaczanie" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_dolaczanie');" >
        
@@ -12,8 +17,8 @@
             <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
-                                widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();"
-                                required="true" requiredMessage="Pole klienta nie może być puste" onfocus="$('#kliencifk\\:wyborkontrahenta_input').width('400px');" >
+                                widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
+                                required="true" requiredMessage="Pole klienta nie może być puste" >
                 <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFK}"/>
                 <p:ajax event="blur" update=":kontoformV, :kontoformE"/>
                     <f:facet name="itemtip">  

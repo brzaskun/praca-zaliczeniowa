@@ -28,8 +28,13 @@ public class KontaFKBean implements Serializable{
      * @param podatnikWpisu String
      */
     public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnikWpisu) {
-         kontoDAO.resetujKolumneMapotomkow(podatnikWpisu);
-         kontoDAO.resetujKolumneZablokowane(podatnikWpisu);
+        for (Konto r : wykazkont) {
+            r.setMapotomkow(false);
+            r.setBlokada(false);
+            kontoDAO.edit(r);
+        }
+//         kontoDAO.resetujKolumneMapotomkow(podatnikWpisu);
+//         kontoDAO.resetujKolumneZablokowane(podatnikWpisu);
          for (Konto p : wykazkont) {
             if (!"0".equals(p.getMacierzyste())) {
                 try {
@@ -43,7 +48,7 @@ public class KontaFKBean implements Serializable{
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
                 }
                
-            }
+            } 
         }
     }
 }
