@@ -6,7 +6,7 @@
         
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:f="http://java.sun.com/jsf/core">
-    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" 
+    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
             <p:contextMenu id="contextforplankont" for="dataList">
