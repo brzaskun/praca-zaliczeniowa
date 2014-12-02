@@ -155,7 +155,15 @@ public class PlanKontView implements Serializable {
             try {
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (nowe.getNrkonta().equals("kontr")) {
-                    if (kontomacierzyste.isMapotomkow() == true) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int czysatylkoslownikowe = 0;
+                    List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
+                    for (Konto t : kontapodpiete) {
+                        if (t.isSlownikowe()==false) {
+                            czysatylkoslownikowe = 1;
+                        }
+                    }
+                    if (kontomacierzyste.isMapotomkow() == true && czysatylkoslownikowe == 1) {
                         Msg.msg("e", "Konto już ma analitykę, nie można dodać słownika");
                     } else {
                         int wynikdodaniakonta = PlanKontFKBean.dodajslownik(nowe, kontomacierzyste, kontoDAO, podatnik);
@@ -167,7 +175,7 @@ public class PlanKontView implements Serializable {
                             Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
                             return;
                         }
-                        wynikdodaniakonta = PlanKontFKBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView.getPodatnikObiekt());
+                        wynikdodaniakonta = PlanKontFKBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView.getPodatnikObiekt(), wpisView.getRokWpisu());
                         if (wynikdodaniakonta == 0) {
                             nowe = new Konto();
                             PlanKontFKBean.odswiezroot(r, kontoDAO, podatnik);

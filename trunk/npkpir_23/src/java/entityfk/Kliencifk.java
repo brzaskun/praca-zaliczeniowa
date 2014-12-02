@@ -172,7 +172,9 @@ public class Kliencifk implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Kliencifk[ lp=" + lp + " ]";
+        return "Kliencifk{" + "nip=" + nip + ", nazwa=" + nazwa + ", podatniknip=" + podatniknip + ", podatniknazwa=" + podatniknazwa + ", nrkonta=" + nrkonta + '}';
     }
+
+   
     
 }

@@ -24,6 +24,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
+import embeddable.Parametr;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -777,23 +778,29 @@ public class DokfkView implements Serializable {
                     }
                 }
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                boolean nievatowiec = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
-                if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
-                    /*wyswietlamy ewidencje VAT*/
-                    List<String> opisewidencji = new ArrayList<>();
-                    opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
-                    int k = 0;
-                    for (String p : opisewidencji) {
-                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
-                        eVatwpisFK.setLp(k++);
-                        eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
-                        eVatwpisFK.setNetto(0.0);
-                        eVatwpisFK.setVat(0.0);
-                        eVatwpisFK.setDokfk(selected);
-                        eVatwpisFK.setEstawka("op");
-                        this.selected.getEwidencjaVAT().add(eVatwpisFK);
+                List<Parametr> podatekdochparamlist = wpisView.getPodatnikObiekt().getPodatekdochodowy();
+                if (podatekdochparamlist != null && !podatekdochparamlist.isEmpty()) {
+                    boolean nievatowiec = ParametrView.zwrocParametr(podatekdochparamlist, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
+                    if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
+                        /*wyswietlamy ewidencje VAT*/
+                        List<String> opisewidencji = new ArrayList<>();
+                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+                        int k = 0;
+                        for (String p : opisewidencji) {
+                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                            eVatwpisFK.setLp(k++);
+                            eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                            eVatwpisFK.setNetto(0.0);
+                            eVatwpisFK.setVat(0.0);
+                            eVatwpisFK.setDokfk(selected);
+                            eVatwpisFK.setEstawka("op");
+                            this.selected.getEwidencjaVAT().add(eVatwpisFK);
+                        }
+                        RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
                     }
-                    RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
+                } else {
+                    wlaczZapiszButon = false;
+                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów!");
                 }
             }
     }
