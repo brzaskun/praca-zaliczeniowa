@@ -5,12 +5,14 @@
  */
 package entityfk;
 
+import comparator.WierszBOcomparator;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +107,13 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             this.listaW.addAll(this.lista8);
         }
+        Collections.sort(lista0, new WierszBOcomparator());
+        Collections.sort(lista1, new WierszBOcomparator());
+        Collections.sort(lista2, new WierszBOcomparator());
+        Collections.sort(lista3, new WierszBOcomparator());
+        Collections.sort(lista6, new WierszBOcomparator());
+        Collections.sort(lista8, new WierszBOcomparator());
+        Collections.sort(listaW, new WierszBOcomparator());
         podsumujWnMa();
     }
     

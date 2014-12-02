@@ -51,7 +51,8 @@
     </style>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
-              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true">
+              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true"
+              >
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
         <h:form id="formwpisdokument" >
             <p:focus id="focuselement"/>
@@ -359,7 +360,8 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                         minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10" cache="true"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: 0; margin-right: 0; width: 160px;"
-                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
+                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
                                         ><!--to teraz powoduje blad-->
 <!--                            <p:ajax event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
@@ -387,11 +389,11 @@
                     </p:column>-->
                     <p:column headerText="konto Ma" width="90" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" 
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true"  
                                         minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10"  cache="true"
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});" 
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
                                         >
 <!--                            <p:ajax event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->

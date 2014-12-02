@@ -16,3 +16,9 @@ var zrobFloat = function (kwota){
      return document.getElementById(pole);
  };
  
+ var usunspacje = function(polezespacja) {
+    if (polezespacja.value === " ") {
+        polezespacja.value = "";  
+    }
+};
+ 
