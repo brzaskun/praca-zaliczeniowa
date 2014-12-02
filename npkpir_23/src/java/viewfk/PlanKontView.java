@@ -282,7 +282,7 @@ public class PlanKontView implements Serializable {
                     try {
                         kontoDAO.destroy(p);
                     } catch (Exception e) {
-                        Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Przerywam wykonywanie funkcji");
+                        Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                     }
                 } else {
                     Msg.msg("e", "Próbujesz usunąć konta wzorcowe. Przerywam działanie.");
