@@ -115,7 +115,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" sortBy="#{item.konto.pelnynumer}">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" sortBy="#{item.konto.pelnynumer}" style="overflow-y: scroll; height: 400px;">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -143,7 +143,7 @@
                             <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000" 
                                              styleClass="kurswaluta"> 
-                                <p:ajax event="blur" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki, :formbilanswprowadzanie:kwotysum"/>
+                                <p:ajax event="blur" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="70">
@@ -166,11 +166,11 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 90%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki"/>
                             </pe:inputNumber>
                         </p:column>
-                         <p:column>
+                        <p:column width="90">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
@@ -183,11 +183,11 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 90%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki"/>
                             </pe:inputNumber>
                         </p:column>
-                         <p:column>
+                        <p:column width="90">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>

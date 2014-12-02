@@ -264,6 +264,8 @@ public class BilansWprowadzanieView implements Serializable {
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
             podsumujWnMa();
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tabelarozrachunki");
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
         }
     }
     
