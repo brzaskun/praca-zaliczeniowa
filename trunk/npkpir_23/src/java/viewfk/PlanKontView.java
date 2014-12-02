@@ -199,6 +199,8 @@ public class PlanKontView implements Serializable {
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
+                p.setMapotomkow(false);
+                p.setBlokada(false);
                 p.setPodatnik(wpisView.getPodatnikWpisu());
                 try {
                     kontoDAO.dodaj(p);
@@ -217,6 +219,7 @@ public class PlanKontView implements Serializable {
                     kontoDAO.edit(p);
                 }
             }
+            porzadkowanieKontPodatnika();
             wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
@@ -234,12 +237,11 @@ public class PlanKontView implements Serializable {
                 Konto konto = ((Konto) selectednode.getData());
                 konto.setPodatnik(p.getNazwapelna());
                 if (!konto.getMacierzyste().equals("0")) {
-                    
-                        Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
-                        konto.setMacierzysty(macierzyste.getId());
-                        macierzyste.setMapotomkow(true);
-                        macierzyste.setBlokada(true);
-                        kontoDAO.edit(macierzyste);
+                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
+                    konto.setMacierzysty(macierzyste.getId());
+                    macierzyste.setMapotomkow(true);
+                    macierzyste.setBlokada(true);
+                    kontoDAO.edit(macierzyste);
                 } else {
                     konto.setMapotomkow(false);
                     konto.setBlokada(false);
