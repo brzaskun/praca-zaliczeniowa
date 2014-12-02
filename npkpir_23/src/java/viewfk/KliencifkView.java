@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
+import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -14,6 +15,7 @@ import entity.Klienci;
 import entityfk.Kliencifk;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -93,12 +95,13 @@ public class KliencifkView implements Serializable{
     public void przyporzadkujdokonta(){
         try {
             klienciDAO.dodaj(klientBezKonta);
-            int wynik = PlanKontFKBean.aktualizujslownik(klientBezKonta, kontoDAOfk, wpisView.getPodatnikWpisu());
+            int wynik = PlanKontFKBean.aktualizujslownik(klientBezKonta, kontoDAOfk, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
         }
+        wybranyklient = new Klienci();
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
@@ -106,6 +109,7 @@ public class KliencifkView implements Serializable{
     private String pobierznastepnynumer() {
         try {
             List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size()-1).getNrkonta())+1);
         } catch (Exception e) {
             return "1";
