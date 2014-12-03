@@ -2234,7 +2234,12 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {
         double kursAktualny = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-        double kursSparowany = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+        double kursSparowany;
+        if (loop.getNowaTransakcja().getSymbolWalutyBO() == null) {
+            kursSparowany = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+        } else {
+            kursSparowany = loop.getNowaTransakcja().getKursBO();
+        }
         if (kursAktualny != 0.0 && kursSparowany != 0.0) {
             String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
             String zwartywiersz = (String) Params.params(wiersz);

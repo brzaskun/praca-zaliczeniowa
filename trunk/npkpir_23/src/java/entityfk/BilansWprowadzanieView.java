@@ -6,6 +6,7 @@
 package entityfk;
 
 import comparator.WierszBOcomparator;
+import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
@@ -40,6 +41,8 @@ public class BilansWprowadzanieView implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private KontoDAOfk kontoDAO;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
 
     List<WierszBO> lista0;
     List<WierszBO> lista1;
@@ -291,95 +294,112 @@ public class BilansWprowadzanieView implements Serializable {
         }
         podsumujWnMa();
     }
-
+    
+    public void ksiegujrozrachunki() {
+        List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRokRozrachunkowe(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (WierszBO p :zachowaneWiersze) {
+            double kwotaWn = p.getKwotaWn();
+            double kwotaMa = p.getKwotaMa();
+            if (kwotaWn != 0) {
+                StronaWiersza stronaWiersza = new StronaWiersza(p,"Wn");
+                stronaWierszaDAO.dodaj(stronaWiersza);
+            } else if (kwotaMa != 0) {
+                StronaWiersza stronaWiersza = new StronaWiersza(p,"Ma");
+                stronaWierszaDAO.dodaj(stronaWiersza);
+            }
+        }
+    }
+    
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public List<WierszBO> getLista0() {
         return lista0;
     }
-
+    
     public void setLista0(List<WierszBO> lista0) {
         this.lista0 = lista0;
     }
-
+    
     public List<WierszBO> getLista1() {
         return lista1;
     }
-
+    
     public void setLista1(List<WierszBO> lista1) {
         this.lista1 = lista1;
     }
-
+    
     public List<WierszBO> getLista2() {
         return lista2;
     }
-
+    
     public void setLista2(List<WierszBO> lista2) {
         this.lista2 = lista2;
     }
-
+    
     public List<WierszBO> getLista3() {
         return lista3;
     }
-
+    
     public void setLista3(List<WierszBO> lista3) {
         this.lista3 = lista3;
     }
-
+    
     public List<WierszBO> getLista6() {
         return lista6;
     }
-
+    
     public void setLista6(List<WierszBO> lista6) {
         this.lista6 = lista6;
     }
-
+    
     public List<WierszBO> getLista8() {
         return lista8;
     }
-
+    
     public void setLista8(List<WierszBO> lista8) {
         this.lista8 = lista8;
     }
-
+    
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public Map<Integer, List<WierszBO>> getListazbiorcza() {
         return listazbiorcza;
     }
-
+    
     public void setListazbiorcza(Map<Integer, List<WierszBO>> listazbiorcza) {
         this.listazbiorcza = listazbiorcza;
     }
-
+    
     public List<WierszBO> getListaW() {
         return listaW;
     }
-
+    
     public void setListaW(List<WierszBO> listaW) {
         this.listaW = listaW;
     }
-
+    
     public double getStronaWn() {
         return stronaWn;
     }
-
+    
     public void setStronaWn(double stronaWn) {
         this.stronaWn = stronaWn;
     }
-
+    
     public double getStronaMa() {
         return stronaMa;
     }
-
+    
     public void setStronaMa(double stronaMa) {
         this.stronaMa = stronaMa;
     }
-
+    
     private void podsumujWnMa() {
         stronaWn = 0.0;
         stronaMa = 0.0;
@@ -390,6 +410,7 @@ public class BilansWprowadzanieView implements Serializable {
         RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
     }
     
+//</editor-fold>
     
     
 
