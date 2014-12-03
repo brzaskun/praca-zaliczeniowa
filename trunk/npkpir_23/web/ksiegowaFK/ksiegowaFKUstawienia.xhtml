@@ -22,6 +22,8 @@
                          update=":form:dataList" listenerPresent="true"/>
             <bcf:confirm lp="3" wiadomosc="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń." listener="#{planKontView.porzadkowanieKontPodatnika()}" 
                          update=":form:dataList" listenerPresent="true"/>
+            <bcf:confirm lp="4" wiadomosc="Rozpoczynam porządkowanie słowników. Sprawdzam podpiętych kontrahentów." listener="#{planKontView.porzadkujSlowniki()}" 
+                         update=":form:dataList" listenerPresent="true"/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >

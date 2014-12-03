@@ -115,7 +115,8 @@ public class KliencifkView implements Serializable{
             return "1";
         }
     }
-
+    
+   
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public List<Klienci> getListawszystkichklientow() {
