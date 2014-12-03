@@ -122,6 +122,18 @@ public class PlanKontFKBean {
         }
         return 0;
     }
+    
+    public static void porzadkujslowniki(Kliencifk kliencifk, KontoDAOfk kontoDAO, String podatnik, Integer rok) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(podatnik);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(kliencifk.getNazwa());
+            nowekonto.setNazwaskrocona(kliencifk.getNip());
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), podatnik, rok);
+        }
+    }
             
     public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, String podatnik) {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(podatnik, kontomacierzyste);

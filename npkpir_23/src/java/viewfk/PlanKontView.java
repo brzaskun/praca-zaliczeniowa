@@ -11,10 +11,10 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -62,6 +62,8 @@ public class PlanKontView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
 
     public PlanKontView() {
     }
@@ -434,6 +436,23 @@ public class PlanKontView implements Serializable {
         }
         wykazkontwzor = kontoDAO.findWszystkieKontaPodatnika("Wzorcowy");
         rootwzorcowy = rootInit(wykazkontwzor);
+    }
+    
+     public void porzadkujSlowniki() {
+        List<Kliencifk> obecniprzyporzadkowaniklienci = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+        if (obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty()) {
+            for (Kliencifk p : obecniprzyporzadkowaniklienci) {
+                try {
+                    PlanKontFKBean.porzadkujslowniki(p, kontoDAOfk, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+                } catch (Exception e) {
+                    
+                }
+            }
+            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+            root = rootInit(wykazkont);
+            rozwinwszystkie(root);
+            Msg.msg("Zakonczono aktualizowanie słowników");
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

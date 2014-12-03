@@ -5,7 +5,6 @@
 package daoFK;
 
 import dao.DAO;
-import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.model.TreeNode;
 import session.SessionFacade;
 
 /**

@@ -19,12 +19,12 @@
                         <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}"  type="submit" update=":formedycjanazw, :form, :formwzorcowy" style="display: none; margin-top: 5px;" oncomplete="PF('dialogedycjanazwkonta').hide();"/>
                         <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" accesskey="d" type="submit" update=":formedycjanazw, :form, :formwzorcowy" 
                                          style="float: right; margin-top: 5px;" oncomplete="PF('dialogedycjanazwkonta').hide();">
-                             <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
+<!--                             <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
                                 <f:facet name="error">
                                     <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
                                                   style="color: red; font-weight: 900;"/>
                                 </f:facet>
-                           </p:ajaxStatus>
+                           </p:ajaxStatus>-->
                         </p:commandButton>
             </p:panelGrid>
             </p:focus>
