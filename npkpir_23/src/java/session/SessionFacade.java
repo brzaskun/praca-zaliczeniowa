@@ -940,7 +940,14 @@ public class SessionFacade<T> implements Serializable{
         } catch (Exception e) {
             return null;
         }
-            
+    }
+    
+    public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaBO(Konto konto, String symbolwaluty, String wnma) {
+        try {
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Rodzajedok> findListaWspolne() {
@@ -991,6 +998,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<WierszBO> findWierszBOPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+    
+    public List<WierszBO> findWierszBOPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
     public List<WierszBO> findWierszBOPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {

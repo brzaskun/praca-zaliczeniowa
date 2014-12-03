@@ -38,6 +38,7 @@ import javax.persistence.Table;
 @Table(name = "stronawiersza")
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
+    @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWalutaBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.symbolWalutyBO = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '9'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutaWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieNT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '1'"),
@@ -97,6 +98,9 @@ public class StronaWiersza implements Serializable{
           @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
       })
     private List<Cechazapisu> cechazapisuLista;
+    private String symbolWalutyBO;
+    private double kursBO;
+    private String opisBO;
     
 
    
@@ -122,24 +126,45 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = 0;
     }
     
-     public StronaWiersza(WierszBO w, String wnma) {
+//     public StronaWiersza(WierszBO w, String wnma) {
+//         this.konto = w.getKonto();
+//         this.typStronaWiersza = 9;
+//         if (wnma.equals("Wn")) {
+//             this.wnma = "Wn";
+//             this.kwota = w.getKwotaWn();
+//             this.kwotaPLN = w.getKwotaWnPLN();
+//             this.kwotaWaluta = w.getKwotaWn();
+//         } else {
+//             this.wnma = "Ma";
+//             this.kwota = w.getKwotaMa();
+//             this.kwotaPLN = w.getKwotaMaPLN();
+//             this.kwotaWaluta = w.getKwotaMa();
+//         }
+//         this.wiersz = new Wiersz();
+//         this.wiersz.setIdwiersza(0);
+//         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis());
+//         this.wiersz.setDokfk(new Dokfk("zapis z BO"));
+//       }
+     
+      public StronaWiersza(WierszBO w, String wnma) {
          this.konto = w.getKonto();
          this.typStronaWiersza = 9;
+         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
          if (wnma.equals("Wn")) {
              this.wnma = "Wn";
              this.kwota = w.getKwotaWn();
-             this.kwotaPLN = w.getKwotaWnPLN();
              this.kwotaWaluta = w.getKwotaWn();
+             this.kwotaPLN = w.getKwotaWnPLN();
          } else {
              this.wnma = "Ma";
              this.kwota = w.getKwotaMa();
-             this.kwotaPLN = w.getKwotaMaPLN();
              this.kwotaWaluta = w.getKwotaMa();
-         }
-         this.wiersz = new Wiersz();
-         this.wiersz.setIdwiersza(0);
-         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis());
-         this.wiersz.setDokfk(new Dokfk("zapis z BO"));
+             this.kwotaPLN = w.getKwotaMaPLN();
+          }
+             this.nowatransakcja = true;
+             this.kursBO = w.getKurs();
+             this.opisBO = w.getWierszBOPK().getOpis();
+
        }
     
     
@@ -153,6 +178,14 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = 0;
     }
 
+    public double getKursBO() {
+        return kursBO;
+    }
+
+    public void setKursBO(double kursBO) {
+        this.kursBO = kursBO;
+    }
+    
     public Integer getId() {
         return id;
     }
@@ -274,6 +307,14 @@ public class StronaWiersza implements Serializable{
     public void setCechazapisuLista(List<Cechazapisu> cechazapisuLista) {
         this.cechazapisuLista = cechazapisuLista;
     }
+
+    public String getOpisBO() {
+        return opisBO;
+    }
+
+    public void setOpisBO(String opisBO) {
+        this.opisBO = opisBO;
+    }
     
     
 
@@ -312,6 +353,16 @@ public class StronaWiersza implements Serializable{
     public void setPlatnosci(List<Transakcja> platnosci) {
         this.platnosci = platnosci;
     }
+
+    public String getSymbolWalutyBO() {
+        return symbolWalutyBO;
+    }
+
+    public void setSymbolWalutyBO(String symbolWalutyBO) {
+        this.symbolWalutyBO = symbolWalutyBO;
+    }
+    
+    
     
     
     

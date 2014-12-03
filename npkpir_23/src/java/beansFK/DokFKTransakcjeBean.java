@@ -37,36 +37,41 @@ public class DokFKTransakcjeBean implements Serializable{
     public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> listaNowychRozrachunkow = new ArrayList<>();
         listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+        if (listaNowychRozrachunkow != null && !listaNowychRozrachunkow.isEmpty()) {
+            try {
+                DateFormat formatter;
+                formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
+                Date dataR = formatter.parse(datarozrachunku);
+                Iterator it = listaNowychRozrachunkow.iterator();
+                while(it.hasNext()) {
+                    StronaWiersza p = (StronaWiersza) it.next();
+                    if (p.getPozostalo() == 0.0) {
+                        it.remove();
+                    } else {
+                        String dataplatnosci;
+                        if (p.getWiersz().getDataWalutyWiersza() != null) {
+                            dataplatnosci = p.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+p.getWiersz().getDokfk().getMiesiac()+"-"+p.getWiersz().getDataWalutyWiersza();
+                        } else {
+                            dataplatnosci = p.getWiersz().getDokfk().getDatadokumentu();
+                        }
+                        Date dataP = formatter.parse(dataplatnosci);
+                        if (dataP.compareTo(dataR) > 0)  {
+                            it.remove();
+                        }
+                    }
+                }
+            } catch (ParseException ex) {
+
+            }
+        }
+        List<StronaWiersza> stronywierszaBO = stronaWierszaDAO.findStronaByKontoWnMaWalutaBO(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+        if (stronywierszaBO != null && !stronywierszaBO.isEmpty()) {
+            listaNowychRozrachunkow.addAll(stronywierszaBO);
+        }
         if (listaNowychRozrachunkow == null) {
             return (new ArrayList<>());
         }
-        try {
-            DateFormat formatter;
-            formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
-            Date dataR = formatter.parse(datarozrachunku);
-            Iterator it = listaNowychRozrachunkow.iterator();
-            while(it.hasNext()) {
-                StronaWiersza p = (StronaWiersza) it.next();
-                if (p.getPozostalo() == 0.0) {
-                    it.remove();
-                } else {
-                    String dataplatnosci;
-                    if (p.getWiersz().getDataWalutyWiersza() != null) {
-                        dataplatnosci = p.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+p.getWiersz().getDokfk().getMiesiac()+"-"+p.getWiersz().getDataWalutyWiersza();
-                    } else {
-                        dataplatnosci = p.getWiersz().getDokfk().getDatadokumentu();
-                    }
-                    Date dataP = formatter.parse(dataplatnosci);
-                    if (dataP.compareTo(dataR) > 0)  {
-                        it.remove();
-                    }
-                }
-            }
-        } catch (ParseException ex) {
-            
-        }
-        
         return listaNowychRozrachunkow;
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }

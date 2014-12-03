@@ -383,11 +383,13 @@
             </p:tabView>
             <p:panelGrid columns="2" id="sumyibutton">
                 <p:column>
-                    <p:commandButton value="zapisz" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
+                    <p:commandButton value="zapisz kwoty i konta" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
+                    </p:commandButton>
+                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>
                 </p:column>
                 <p:column>
-                    <p:panelGrid id="kwotysum" columns="6" style="margin-top: 10px;">
+                    <p:panelGrid id="kwotysum" columns="6" style="margin-top: 10px;margin-left: 10px;">
                         <h:outputText value="stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value="stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value="różnica: " style="margin-left: 10px;"/>

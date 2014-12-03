@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
    <style>
         .ui-inputNum .ui-widget {
             width: 80px;
@@ -115,6 +116,7 @@
                             <p:column headerText="waluta" width="40" style="text-align: center">
                                 <h:outputText id="walutaWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText id="walutaMa" value="#{loop.rozliczajacy.wiersz.tabelanbp.waluta.symbolwaluty}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                <h:outputText id="walutaMaBO" value="#{loop.nowaTransakcja.symbolWalutyBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                             </p:column>
                             <p:column headerText="kurs" width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                 <h:outputText id="kursWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp.kurssredni}"  style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
@@ -139,18 +141,21 @@
                                 <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
                             <p:column headerText="opis wiersza dok sparowanego" width="110">
-                                <h:outputText id="opiswierszaWn" value="#{loop.nowaTransakcja.wiersz.opisWiersza}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                <h:outputText id="opiswierszaWn" value="#{loop.nowaTransakcja.wiersz.opisWiersza}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
                                 <h:outputText id="opiswierszaMa" value="#{loop.rozliczajacy.wiersz.opisWiersza}"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                <h:outputText id="opiswierszaBO" value="#{loop.nowaTransakcja.opisBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                             </p:column>
                             <p:column headerText="wiersz w dok" width="40"  style="text-align: center;">
                                 <h:outputText value="#{loop.nowaTransakcja.wiersz.idporzadkowy}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                 <h:outputText value="#{loop.rozliczajacy.wiersz.idporzadkowy}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             </p:column>
                             <p:column headerText="pochodzenie zapisu" width="80">
-                                <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
-                                              rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
-                                              rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                    <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                                  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
+                                    <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                                  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
+                                    <h:outputText value="zapis z BO"
+                                                  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                             </p:column>
 
                         </p:dataTable>
