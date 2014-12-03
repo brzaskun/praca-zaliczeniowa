@@ -121,9 +121,9 @@ public class KontoZapisFKView implements Serializable{
           List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
           for (WierszBO p : wierszeBO) {
               if (p.getKwotaWnPLN()>0) {
-                zapisy.add(new StronaWiersza(p,"Wn"));
+                zapisy.add(new StronaWiersza(p,"Wn","zapisy"));
               } else {
-                zapisy.add(new StronaWiersza(p,"Ma"));
+                zapisy.add(new StronaWiersza(p,"Ma","zapisy"));
               }
           }
           return zapisy;
@@ -134,9 +134,9 @@ public class KontoZapisFKView implements Serializable{
           List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKontoWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto, waluta);
           for (WierszBO p : wierszeBO) {
               if (p.getKwotaWnPLN()>0) {
-                zapisy.add(new StronaWiersza(p,"Wn"));
+                zapisy.add(new StronaWiersza(p,"Wn","zapisy"));
               } else {
-                zapisy.add(new StronaWiersza(p,"Ma"));
+                zapisy.add(new StronaWiersza(p,"Ma","zapisy"));
               }
           }
           return zapisy;
