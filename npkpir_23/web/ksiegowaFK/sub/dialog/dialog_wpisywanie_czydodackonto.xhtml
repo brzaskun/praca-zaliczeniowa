@@ -7,8 +7,8 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="czydodackonto" header="Klient nie ma własnego konta, dodać?" widgetVar="czydodackonto" 
-              resizable="false" onShow="czydodackontoShow();" closeOnEscape="true" onHide="resetujdialog('czydodackonto');"  >
+    <p:dialog id="czydodackonto" header="Klient nie ma własnego konta, dodać?" widgetVar="czydodackonto" modal="true" appendTo="@(body)"
+              resizable="false" onShow="czydodackontoShow();" closeOnEscape="true" onHide="resetujdialog('czydodackonto');" focus=":formczydodackonto:czydodackontookbutton" >
         <h:form id="formczydodackonto">
             <p:panelGrid id="wyborgridczydodackonto" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus >
