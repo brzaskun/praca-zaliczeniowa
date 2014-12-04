@@ -25,7 +25,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class CechazapisuView implements Serializable {
-    
+    private static final long serialVersionUID = 1L;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
     private String nazwacechy;

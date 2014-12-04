@@ -24,7 +24,7 @@ import view.WpisView;
 @ManagedBean
 @RequestScoped
 public class PlanKontConverterView implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     private List<Konto> wykazkont;
     @Inject
     private KontoDAOfk kontoDAO;

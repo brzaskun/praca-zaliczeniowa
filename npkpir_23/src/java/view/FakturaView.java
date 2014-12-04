@@ -55,7 +55,7 @@ import serialclone.SerialClone;
 @ManagedBean
 @ViewScoped
 public class FakturaView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     //faktury wybrane z listy
     private List<Faktura> gosciwybral;
     //faktury okresowe wybrane z listy
@@ -196,10 +196,10 @@ public class FakturaView implements Serializable {
         selected.setMc(wpisView.getMiesiacWpisu());
         try {
             fakturaDAO.dodaj(selected);
+            init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
             selected = new Faktura();
-            faktury.add(selected);
             
         } catch (Exception e) {
             Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
@@ -220,8 +220,7 @@ public class FakturaView implements Serializable {
             }
             selected.setWystawca(podatnikobiekt);
             fakturaDAO.edit(selected);
-            faktury.remove(selected);
-            faktury.add(selected);
+            init();
             Msg.msg("i", "Dokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
@@ -289,10 +288,13 @@ public class FakturaView implements Serializable {
     }
     
     public void skierujfakturedoedycji(Faktura faktura) {
+        Msg.msg("edycja faktury");
         selected = serialclone.SerialClone.clone(faktura);
         aktywnytab = 0;
         pokazfakture = true;
-    }
+        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
+        RequestContext.getCurrentInstance().execute(funkcja);
+        }
 
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
         kwotaprzedwaloryzacja = faktura.getBrutto();

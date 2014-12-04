@@ -75,7 +75,7 @@ import viewfk.subroutines.UzupelnijWierszeoDane;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
-
+private static final long serialVersionUID = 1L;
     private int lpWierszaWpisywanie;
     private String stronawiersza;
     protected Dokfk selected;

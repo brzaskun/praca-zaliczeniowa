@@ -1039,5 +1039,9 @@ public class SessionFacade<T> implements Serializable{
     public List<Transakcja> findByPodatniRok(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }
+
+    public Faktura findfaktura(Faktura f) {
+        return em.find(Faktura.class, f.getFakturaPK());
+    }
   
 }

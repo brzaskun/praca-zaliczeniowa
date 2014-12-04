@@ -82,6 +82,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             }
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             drukujcd(selected, fdod, row, "druk", wpisView);
+            Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
             Msg.msg("e", "Błąd - nie wybrano faktury");
