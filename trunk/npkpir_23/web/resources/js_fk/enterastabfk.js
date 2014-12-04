@@ -31,7 +31,8 @@ var TabKeyDown;
             if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
                 toJestPoleKonta = true;
             }
-            if (isBackspaceKey(event) && $(event.target).is("input") === false) {
+            var czypoleedycji = $(event.target).is("input") || $(event.target).is("textarea");
+            if (isBackspaceKey(event) && czypoleedycji === false) {
                 //alert('backspace');
                 event.preventDefault();
                 event.stopPropagation();
