@@ -1555,7 +1555,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
-            String data = (String) Params.params("formwpisdokument:data1DialogWpisywanie");
+            String data = (String) Params.params("formwpisdokument:data3DialogWpisywanie");
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
                 selected.getDokfkPK().setRok(rok);
@@ -1570,6 +1570,23 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
         }
         RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
+    }
+    
+    public void skorygujokreswpisudokumentu(AjaxBehaviorEvent event) {
+        if (rodzajBiezacegoDokumentu == 1) {
+            //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
+            if (zapisz0edytuj1 == false) {
+                String data = (String) Params.params("formwpisdokument:data4DialogWpisywanie");
+                if (data.length() == 10) {
+                    String rok = data.split("-")[0];
+                    selected.getDokfkPK().setRok(rok);
+                    String mc = data.split("-")[1];
+                    selected.setVatM(mc);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
+                }
+            }
+            RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
+        }
     }
 
     public void przygotujDokumentWpisywanie() {

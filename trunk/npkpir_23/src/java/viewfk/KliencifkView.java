@@ -63,6 +63,7 @@ public class KliencifkView implements Serializable{
             int wynik = pobieraniekontaFK();
             if (wynik == 1) {
                 RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+                RequestContext.getCurrentInstance().execute("$(document.getElementById(\"formczydodackonto:czydodackontookbutton\")).focus();");
             }
         }
     }

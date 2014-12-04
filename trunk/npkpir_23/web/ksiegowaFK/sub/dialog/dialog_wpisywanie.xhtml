@@ -74,7 +74,7 @@
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');odtworzwierszVATRK(this);" style="height: 19px;"
                                      >
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
+                            <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                         <h:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie');
@@ -96,7 +96,7 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                      >
-                            <p:ajax event="blur" partialSubmit="true"/>
+                            <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
                         <h:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie');
@@ -144,6 +144,7 @@
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
+                            <p:ajax event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
                                     :formwpisdokument:dataList"/>
                         </h:selectOneMenu>
