@@ -276,6 +276,52 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
     }
+    
+     public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
+        if (selectednode != null) {
+            try {
+            List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
+            for (Podatnik p : listapodatnikowfk) {
+                Konto konto = (Konto) selectednode.getData();
+                dodajpojedynczekoto(konto, wpisView.getPodatnikWpisu());
+                List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", konto.getPelnynumer());
+                for (Konto r : potomne) {
+                    dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
+                }
+            }
+            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+            root = rootInit(wykazkont);
+            rozwinwszystkie(root);
+            Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego z analityką u wszystkich klientów FK");
+            } catch (Exception e1) {
+                        Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+            }
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
+        }
+    }
+     
+     private void dodajpojedynczekoto(Konto konto, String podatnik) {
+        konto.setPodatnik(podatnik);
+        if (!konto.getMacierzyste().equals("0")) {
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), podatnik);
+            konto.setMacierzysty(macierzyste.getId());
+            macierzyste.setMapotomkow(true);
+            macierzyste.setBlokada(true);
+            kontoDAO.edit(macierzyste);
+        } else {
+            konto.setMapotomkow(false);
+            konto.setBlokada(false);
+        }
+        try {
+            kontoDAO.dodaj(konto);
+        } catch (RollbackException e) {
+
+        } catch (PersistenceException x) {
+            Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
+        } catch (Exception ef) {
+        }
+     }
 
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
@@ -358,7 +404,7 @@ public class PlanKontView implements Serializable {
                     PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, podatnik);
                     Msg.msg("i", "Usuwam konto", "formX:messages");
                 } catch (Exception e) {
-                    Msg.msg("e", "Istnieją zapisy na koncie, nie można go usunąć.");
+                    Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");
                 }
             }
         } else {
