@@ -6,6 +6,7 @@
 
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:bcf="http://brzaskun.com/facelets">
+   
     <p:dialog id="dialogpierwszywzorcowy" header="Plan kont WZORCOWY - struktura" widgetVar="dialogplankontwzorcowy" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszywzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszywzorcowy');"  >
         <h:form id="formwzorcowy">
@@ -49,7 +50,7 @@
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 150px;">
+                    <p:column headerText="nazwa pełna" style="width: 200px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column headerText="nazwa skrócona" style="width: 100px;">
@@ -84,11 +85,11 @@
                      <p:column headerText="pozycja Ma" style="width: 100px;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
-                    <p:column headerText="zablokowane" style="width: 100px;">
-                        <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 
+                    <p:column headerText="blokada" style="width: 60px;">
+                        <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column headerText="słownikowe" style="width: 100px;">
-                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownikowe' : null}" /> 
+                    <p:column headerText="słownik" style="width: 60px;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
                 </p:treeTable>>
             </p:panelGrid>

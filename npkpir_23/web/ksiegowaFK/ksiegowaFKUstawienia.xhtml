@@ -9,13 +9,7 @@
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <p:dialog closable="false" height="140" width="170" position="center" widgetVar="dialogAjaxCzekaj" 
-                         showHeader="false" draggable="false" modal="true" style="text-align: center;">
-                <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
-                    <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto;" />
-                    <h:outputText value="#{value != null ? value : 'Trwa przetwarzanie danych'}" style="margin-top: 20px; margin-left: auto; margin-right: auto;"/>
-                </p:panelGrid>
-            </p:dialog>
+            <bcf:ajaxs />
             <bcf:confirm lp="1" wiadomosc="Zaimplementować wzorcowy plan kont dla bieżącego klienta?" listener="#{planKontView.implementacjaKontWzorcowych()}" 
                          update=":form:dataList" listenerPresent="true"/>
             <bcf:confirm lp="2" wiadomosc="Usunąć wszystkie konta? Operacja jest nieodwracalna!" listener="#{planKontView.usunieciewszystkichKontPodatnika()}" 
