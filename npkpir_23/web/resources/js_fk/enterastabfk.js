@@ -25,7 +25,7 @@ var TabKeyDown;
             var i = "formwpisdokument:dataList:"+wierszid+":opis";
             var i_obj = document.getElementById(i);
             if (i_obj) {
-                ominjednoklikniecie = true;
+                ominjednoklikniecie = true; 
             }
             var toJestPoleKonta = false;
             if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
