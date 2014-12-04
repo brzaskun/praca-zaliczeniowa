@@ -53,7 +53,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByBilansowewynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.findByBilansowewynikowePodatnik", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe AND k.podatnik = :podatnik AND k.mapotomkow = false AND k.nrkonta != 0"),
     @NamedQuery(name = "Konto.findByZwyklerozrachszczegolne", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne"),
-    @NamedQuery(name = "Konto.findByRozrachunkowePodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik  AND k.nrkonta != 0"),
+    @NamedQuery(name = "Konto.findByRozrachunkowePodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik  AND k.nrkonta != 0 AND k.maslownik = true"),
     @NamedQuery(name = "Konto.findByVATPodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik AND k.mapotomkow = false AND k.nrkonta != 0"),
     @NamedQuery(name = "Konto.findByMacierzyste", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000'"),
     @NamedQuery(name = "Konto.findByMacierzysteBOPodatnik", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND k.podatnik = :podatnik AND NOT k.pelnynumer = '000'"),

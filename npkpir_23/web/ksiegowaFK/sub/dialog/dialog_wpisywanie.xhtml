@@ -49,6 +49,23 @@
             
 
     </style>
+        <script>
+                        /* <![CDATA[ */
+                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                        $(document).on("focus", '.gridvat tr', function(e) {
+                            var lolo = $("#formwpisdokument\\:tablicavat_data").children("tr");
+                            var pierwszy = $(lolo[0]).find(".lpwierszavat").text();
+                            try {
+                                e.stopPropagation(); // will prevent double click events from link being clicked within row
+                                var unitNo = $.trim($(this).closest("tr").find(".lpwierszavat").text()); // trim to remove end space, closest gets closest parent of selected type
+                                var numerwiersza = unitNo- pierwszy;
+                                zachowajnumerwiersza("zmiennavat", numerwiersza);
+                            } catch (e) {
+                                //alert('error');
+                            }
+                        });
+                        /* ]]> */
+                    </script>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" 
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true"
@@ -237,6 +254,7 @@
                                              onblur="$(this).removeClass('ui-state-focus'); $(this).addClass('ui-state-default');"
                                                           style="height: 19px;"
                                              >
+                                <p:ajax event="focus" onstart="sprawdzczywyborkontaniejestshown();"/>
                                 <f:ajax />
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
@@ -257,12 +275,13 @@
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
+             
                 <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" >
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
                                  style="margin-top: 0px; width: 450px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
-                                 sortBy="#{item.lp}" >
+                                 sortBy="#{item.lp}" styleClass="gridvat">
                         <p:column headerText="" style="width: 10px; display: none">
-                            <h:outputText value="#{item.lp+1}" />
+                            <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
                         </p:column>
                         <p:column headerText="rodzaj ewid." style="width: 80px;">
                             <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;"/>

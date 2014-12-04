@@ -20,7 +20,7 @@
                     <p:column headerText="skrót" style="text-align: center; height: 30px;" width="40">
                         <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
                     </p:column>
-                    <p:column headerText="nazwa pelna">
+                    <p:column headerText="nazwa pelna" width="150">
                         <h:outputText value="#{loop.nazwa}" />
                     </p:column>
                     <p:column headerText="rodzaj transakcji">
@@ -32,35 +32,21 @@
                     <p:column headerText="kategoria" style="text-align: center;">
                         <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': (loop.kategoriadokumentu eq 5 ? 'dokument prosty' : 'płatność'))))}" />
                     </p:column>
-                    <f:ajax >
-                        <p:column headerText="konto rozrach." style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                            <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{loop.kategoriadokumentu == 0}">
-                                <f:selectItem itemLabel="wybierz konto" itemValue="" />
-                                <f:selectItems value="#{podatnikView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
-                            </p:selectOneMenu>
-                            <p:selectOneMenu value="#{loop.kontorozrachunkowe}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{loop.kategoriadokumentu != 0}">
-                                <f:selectItem itemLabel="wybierz konto" itemValue="" />
-                                <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                            <p:selectOneMenu value="#{loop.kontovat}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentVat}" converter="KontoConv">
-                                <f:selectItem itemLabel="wybierz konto" itemValue="" />
-                                <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                        <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
-                            <p:selectOneMenu value="#{loop.kontoRZiS}" style="width: 120px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRZiS}" converter="KontoConv">
-                                <f:selectItem itemLabel="wybierz konto" itemValue="" />
-                                <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
-                            </p:selectOneMenu>
-                        </p:column>
-                    </f:ajax>
+
                     <p:column headerText="kg" width="30" style="text-align: center;">
-                         <h:outputText value="#{loop.pokazkg eq true ? 'tak' : 'nie'}" />
+                        <h:outputText value="#{loop.pokazkg eq true ? 'tak' : 'nie'}" />
                     </p:column>
                     <p:column headerText="szt" width="30" style="text-align: center;">
                         <h:outputText value="#{loop.pokazszt eq true ? 'tak' : 'nie'}" />
+                    </p:column>
+                    <p:column headerText="konto rozrach." style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontorozrachunkowe.pelnynumer}" />
+                    </p:column>
+                    <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontovat.pelnynumer}" />
+                    </p:column>
+                    <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <h:outputText value="#{loop.kontoRZiS.pelnynumer}" />
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 50px;">
                         <p:commandButton actionListener="#{podatnikView.usunDokKsi(loop)}" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
@@ -71,31 +57,57 @@
         </h:form>
         <h:form id="form7" > 
             <p:focus for="parametryDokKsi"/><br/>
-            <h:outputText value="Wpisz nowy dokument"/><br/>
-            <p:panelGrid id="parametryDokKsi" columns="6" >
+            <h:outputText value="Wpisz nowy dokument/Edytuj dane dokumentu" style="padding: 5px; margin-bottom: 10px;"/>
+            <p:panelGrid id="parametryDokKsi" columns="8" >
                 <h:outputText value="skrót: " />
-                <h:inputText value="#{podatnikView.selectedDokKsi.rodzajedokPK.skrotNazwyDok}" />
+                <p:inputText value="#{podatnikView.selectedDokKsi.rodzajedokPK.skrotNazwyDok}" />
                 <h:outputText value=" nazwa pelna: " />
-                <h:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
+                <p:inputText value="#{podatnikView.selectedDokKsi.nazwa}" />
                 <h:outputText value=" rodzaj transakcji: " />
-                <h:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
+                <p:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
                     <f:selectItems value="#{Trans.transListView}"/>
-                </h:selectOneMenu>
+                </p:selectOneMenu>
                 <h:outputText value=" wzorzec: " />
-                <h:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
+                <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
                 <h:outputText value=" kategoria dokumentu: " />
-                <h:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}">
+                <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}">
                     <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
                     <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                     <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
                     <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                     <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                     <f:selectItem itemLabel="płatności" itemValue="0"/>
-                </h:selectOneMenu>
+                </p:selectOneMenu>
                 <h:outputText value=" pokaż kg: " />
                 <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
                 <h:outputText value=" pokaż szt: " />
                 <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
+            </p:panelGrid>
+            <p:panelGrid id="parametryDokKsi1" columns="3" rendered="#{WpisView.ksiegirachunkowe}">
+                <f:ajax >
+                    <p:column headerText="konto rozrach." style="text-align: center;" >
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontKasaBank}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRozrachunki}" converter="KontoConv"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu != 0}">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontRozrachunkowych}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontovat}" style="width: 250px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentVat}" converter="KontoConv">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listaKontVAT}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                        <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontoRZiS}" style="width: 250px;" valueChangeListener="#{podatnikView.naniesKontaNaDokumentRZiS}" converter="KontoConv">
+                            <f:selectItem itemLabel="wybierz konto" itemValue="" />
+                            <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </f:ajax>
             </p:panelGrid>
             <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
                 <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6" />

@@ -10,8 +10,7 @@
 
     
          <h:form id="zestawieniedokumentow">
-               <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
+               
          <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
@@ -19,13 +18,13 @@
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
                         $(document).on("click", '.gridZaksiegowane tr', function(e) {
-                            var lolo = $("#zestawieniedokumentow\\:dataList_data").children("tr");
-                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+                            var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+                            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
                             try {
                                 e.stopPropagation(); // will prevent double click events from link being clicked within row
-                                var unitNo = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var numerwiersza = unitNo- pierwszy -1;
-                                zachowajnumerwiersza("zmiennazaksiegowane", numerwiersza);
+                                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                                var liczbadokalkulacji = numerkliknietegowiersza- numerpierwszegowiersza;
+                                zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
                             } catch (e) {
                                 //alert('error');
                             }
@@ -33,6 +32,8 @@
                         /* ]]> */
                     </script>
              <div style="height: 600px;">
+                 <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
+                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" 
                               style="width: 1200px; height: 580px; overflow-y: scroll" 
