@@ -25,7 +25,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class GuestFKView implements Serializable {
-    
+    private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject

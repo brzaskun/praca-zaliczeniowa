@@ -191,7 +191,7 @@
                 <p:messages id="messagesinline"/>
                 <p:outputPanel  style="margin-top: 15px;">
                     <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
-                                     update=":akordeon:formstworz" style="margin-bottom: 25px; width: 120px; height: 45px;" />
+                                     update=":akordeon:formstworz, :akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;" />
                     <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
                                       title="zachowaj pierwszy wiersz jako wzorcowy" actionListener="#{fakturaView.zachowajwierszwzorcowy()}"/>
                     <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" actionListener="#{pdfFaktura.drukujPodgladfaktury(fakturaView.selected, WpisView)}" 

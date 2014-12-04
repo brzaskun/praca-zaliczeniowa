@@ -25,6 +25,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class RozniceKursoweFKView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Transakcja> pobranetransakcje;
     @Inject
     private TransakcjaDAO transakcjaDAO;

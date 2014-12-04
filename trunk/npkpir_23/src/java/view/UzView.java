@@ -16,11 +16,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIPanel;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
+import org.bouncycastle.cert.ocsp.Req;
+import org.primefaces.component.panel.Panel;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import params.Params;
@@ -49,6 +52,7 @@ public class UzView implements Serializable {
     private String nowedrugiehaslo;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private Panel panelrejestracji;
 
     public UzView() {
         obiektUZjsf = new ArrayList<>();
@@ -87,6 +91,9 @@ public class UzView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
         }
+        panelrejestracji.setRendered(false);
+        RequestContext.getCurrentInstance().reset("pole");
+        RequestContext.getCurrentInstance().update("pole");
     }
 
     public void edytuj() {
@@ -241,6 +248,15 @@ public class UzView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public Panel getPanelrejestracji() {
+        return panelrejestracji;
+    }
+
+    public void setPanelrejestracji(Panel panelrejestracji) {
+        this.panelrejestracji = panelrejestracji;
+    }
+
     public String getNowymail() {
         return nowymail;
     }

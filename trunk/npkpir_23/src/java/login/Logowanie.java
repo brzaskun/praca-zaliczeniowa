@@ -12,6 +12,7 @@ import dao.RejestrlogowanDAO;
 import dao.SesjaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import entity.Podatnik;
 import entity.Sesja;
 import entity.Uz;
 import entity.Wpis;
@@ -105,13 +106,23 @@ public class Logowanie implements Serializable {
                 navto = "BookkeeperFK";
             } else if (request.isUserInRole("Guest")) {
                 String nip = uzDAO.find(uzytk).getFirma();
-                String firma = podatnikDAO.findPodatnikByNIP(nip).getNazwapelna();
+                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                if (p == null) {
+                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
+                    return "failure";
+                }
+                String firma = p.getNazwapelna();
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
             } else if (request.isUserInRole("GuestFK")) {
                 String nip = uzDAO.find(uzytk).getFirma();
-                String firma = podatnikDAO.findPodatnikByNIP(nip).getNazwapelna();
+                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                if (p == null) {
+                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
+                    return "failure";
+                }
+                String firma = p.getNazwapelna();
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "GuestFK";

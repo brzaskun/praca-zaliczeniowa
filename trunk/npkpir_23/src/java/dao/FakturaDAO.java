@@ -33,6 +33,9 @@ public class FakturaDAO extends DAO implements Serializable {
         }
    }
    
+   public Faktura findFaktura(Faktura f) {
+       return fakturaFacade.findfaktura(f);
+   }
    public void dodaj(Faktura faktura){
         fakturaFacade.create(faktura);
    }
