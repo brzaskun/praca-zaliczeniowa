@@ -201,6 +201,13 @@ var czydodackontoShow = function (){
     setTimeout($(document.getElementById("formczydodackonto:czydodackontookbutton")).focus(),5000);
 };
 
+var sprawdzczywyborkontaniejestshown = function() {
+    var czydialogjestshown = $("#czydodackonto").hasClass("ui-overlay-visible");
+    if (czydialogjestshown) {
+        $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+    }
+};
+
 var focusNaNowoDodanym = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();

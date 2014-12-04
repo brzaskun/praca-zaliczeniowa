@@ -3,8 +3,11 @@
 var zachowajnumerwiersza = function(zmienna ,numer) {
         MYAPP.zmienna = zmienna;
         MYAPP[MYAPP.zmienna] = numer;
-        var source = event.target || event.srcElement;
-        MYAPP.sourceid = source.parentNode.parentNode.id;
+        var parent = event.target || event.srcElement;
+        do {
+            parent = parent.parentNode;
+        } while (parent.className !== "ui-datatable-data ui-widget-content");
+        MYAPP.sourceid = parent.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
         if (MYAPP.sourceid === "tabelanowerozrachunki:tabela_data") {
             MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
             MYAPP.tabela = "tabelanowerozrachunki:tabela";
@@ -19,6 +22,11 @@ var zachowajnumerwiersza = function(zmienna ,numer) {
             MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
             MYAPP.tabela = "zestawieniedokumentow:dataList";
             MYAPP.zmienna = "zmiennazaksiegowane";
+            MYAPP.wyliczaj = false;
+        } else if (MYAPP.sourceid === "formwpisdokument:tablicavat_data") {
+            MYAPP.tabeladata = "formwpisdokument:tablicavat_data";
+            MYAPP.tabela = "formwpisdokument:tablicavat";
+            MYAPP.zmienna = "zmiennavat";
             MYAPP.wyliczaj = false;
         }
 };
