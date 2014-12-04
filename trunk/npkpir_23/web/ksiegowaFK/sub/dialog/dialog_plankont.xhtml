@@ -6,6 +6,11 @@
         
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+        .tablicaplankont .ui-treetable-data .ui-widget-content td {
+            height : 40px !important;
+        }
+    </style>
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
@@ -44,11 +49,11 @@
                 <p:treeTable id="dataList" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
                              scrollable="true" style="width: 1190px; max-height: 600px;">
-                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}"/>
+                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nazwapelna eq 'Słownik kontrahenci' ? false : true}"/> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 150px;">
+                    <p:column headerText="nazwa pełna" style="width: 200px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column headerText="nazwa skrócona" style="width: 100px;">
@@ -83,11 +88,11 @@
                      <p:column headerText="pozycja Ma" style="width: 100px;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
-                    <p:column headerText="zablokowane" style="width: 100px;">
-                        <h:outputText value="#{loop.blokada eq 'true' ? 'zablokowane' : null}" /> 
+                    <p:column headerText="blokada" style="width: 60px;">
+                        <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column headerText="słownikowe" style="width: 100px;">
-                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownikowe' : null}" /> 
+                    <p:column headerText="słownik" style="width: 60px;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
                 </p:treeTable>
             </p:panelGrid>
