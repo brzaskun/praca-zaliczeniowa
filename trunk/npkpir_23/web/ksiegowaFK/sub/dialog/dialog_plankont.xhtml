@@ -21,10 +21,10 @@
                 <p:menuitem id="noweedycjanazwy" value="Edycja nazw konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.root)}" icon="ui-icon-trash" update=":form"/>
                 <p:separator/>
-                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form"/>
-                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" icon="ui-icon-tag" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" icon="ui-icon-note" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" global="false"  update=":form"/>
+                <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" icon="ui-icon-tag" update=":form" global="false" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" icon="ui-icon-note" update=":form" global="false"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" icon="ui-icon-trash" update=":form" global="false"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
 <!--            <script>
 
