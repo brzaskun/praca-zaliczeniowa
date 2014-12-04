@@ -39,8 +39,6 @@ var odtworzwierszVATRK = function(data) {
 var wpisywanieOnShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',1100,700);
-        //drugi.hide();
-        //przygotujdokumentdoedycji();
         pozazieleniajNoweTransakcje();
         $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
