@@ -198,7 +198,7 @@ var czydodackontoShow = function (){
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
     }
-    $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+    setTimeout($(document.getElementById("formczydodackonto:czydodackontookbutton")).focus(),5000);
 };
 
 var focusNaNowoDodanym = function(source) {
