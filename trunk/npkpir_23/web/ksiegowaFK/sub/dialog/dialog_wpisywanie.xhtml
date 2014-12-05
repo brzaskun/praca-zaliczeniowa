@@ -163,7 +163,7 @@
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
-                                    :formwpisdokument:dataList, :formwpisdokument:paneldaneogolnefaktury"/>
+                                    :formwpisdokument:dataList"/>
                         </h:selectOneMenu>
                         
                        
@@ -172,10 +172,9 @@
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');
                                                  "
-                                     onkeyup="r('formwpisdokument:wpiszdokbutton').show();"
                                      onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');">
-                            <f:ajax />
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </h:inputText>
                          <h:selectOneMenu id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 60px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -209,7 +208,7 @@
                         <h:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
+                                                 $(this).addClass('ui-state-focus');r('formwpisdokument:wpiszdokbutton').show();"
                                      onblur="$(this).removeClass('ui-state-focus');
                                          $(this).addClass('ui-state-default');" style="height: 19px;"
                                      >
@@ -303,7 +302,7 @@
                         <p:column headerText="brutto" style="width: 80px;">
                             <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                                <p:ajax event="keyup" listener="#{dokfkView.dolaczWierszZKwotami(item)}"/>
+                                <p:ajax event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="op/zw" style="width: 40px;">

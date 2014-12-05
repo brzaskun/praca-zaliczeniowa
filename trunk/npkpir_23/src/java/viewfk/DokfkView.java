@@ -478,31 +478,37 @@ private static final long serialVersionUID = 1L;
     public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
-        if (kwotastara != kwotanowa) {
-            try {
-                String clientID = ((InputNumber) e.getSource()).getClientId();
-                String indexwiersza = clientID.split(":")[2];
-                Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
-                if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
-                    ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
-                }
-                Konto kontown = wiersz.getStronaWn().getKonto();
-                wiersz.getStronaWn().setKwota(kwotanowa);
-                boolean sprawdzczworki = wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki();
-                boolean sprawdzpiatki = wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7;
-                if ( sprawdzczworki || sprawdzpiatki) {
-                    dodajNowyWierszStronaWnPiatka(wiersz);
-                } else if ((wiersz.getTypWiersza() == 5) && piatka(wiersz)) {
+        String clientID = ((InputNumber) e.getSource()).getClientId();
+        String indexwiersza = clientID.split(":")[2];
+        Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+        if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
+            ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
+            RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        }
+        if (wiersz.getTypWiersza() != 0) {
+            if (kwotastara != kwotanowa) {
+                try {
+                    
+                    Konto kontown = wiersz.getStronaWn().getKonto();
+                    wiersz.getStronaWn().setKwota(kwotanowa);
+                    boolean sprawdzczworki = wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki();
+                    boolean sprawdzpiatki = wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7;
+                    if ( sprawdzczworki || sprawdzpiatki) {
+                        dodajNowyWierszStronaWnPiatka(wiersz);
+                    } else if ((wiersz.getTypWiersza() == 5) && piatka(wiersz)) {
+                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                        return;
+                    } else {
+                        dodajNowyWierszStronaWn(wiersz);
+                    }
+                    selected.przeliczKwotyWierszaDoSumyDokumentu();
+                    RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                    return;
-                } else {
-                    dodajNowyWierszStronaWn(wiersz);
-                }
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            } catch (Exception e1) {
+                } catch (Exception e1) {
 
+                }
             }
         }
     }
@@ -826,7 +832,7 @@ private static final long serialVersionUID = 1L;
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
-            Rodzajedok rodzajdok = selected.getRodzajedok();
+        Rodzajedok rodzajdok = selected.getRodzajedok();
         HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
         if (rodzajdok.getKategoriadokumentu()==1) {
             rozliczVatKoszt(wartosciVAT);
