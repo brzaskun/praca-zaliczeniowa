@@ -2594,7 +2594,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         double kwota = 0;
         List<StronaWiersza> strony = new ArrayList<>();
         for (int i = 0; i < lpwiersza; i++) {
-            strony.addAll(listawierszy.get(i).getStronyWiersza());
+            strony.addAll(listawierszy.get(i).getStronyWierszaKonto());
         }
         for (StronaWiersza r : strony) {
             if (r.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
@@ -2628,13 +2628,11 @@ public void updatenetto(EVatwpisFK e, String form) {
     private double obliczsaldopoczatkowe(Wiersz wiersz) {
         List<StronaWiersza> kontozapisy  = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
         if  (kontozapisy != null && !kontozapisy.isEmpty()) {
-            if (wiersz.getIdwiersza() != null) {
                 for (Iterator<StronaWiersza> p = kontozapisy.iterator(); p.hasNext();) {
                     if (p.next().getWiersz().getDokfk().getDokfkPK().equals(wiersz.getDokfk().getDokfkPK())) {
                         p.remove();
                     }
                 }
-            }
             return saldo(kontozapisy);
         } else {
             return 0.0;

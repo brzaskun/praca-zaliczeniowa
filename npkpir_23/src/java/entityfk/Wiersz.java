@@ -192,6 +192,17 @@ public class Wiersz implements Serializable {
         return strony;
     }
     
+    public List<StronaWiersza> getStronyWierszaKonto() {
+        List<StronaWiersza> strony = new ArrayList<>();
+        if (this.strona.get("Wn") != null && this.strona.get("Wn").getKonto() != null) {
+            strony.add(this.strona.get("Wn"));
+        }
+        if (this.strona.get("Ma") != null && this.strona.get("Ma").getKonto() != null) {
+            strony.add(this.strona.get("Ma"));
+        }
+        return strony;
+    }
+    
     public String getDataksiegowania() {
         return dataksiegowania;
     }
