@@ -145,13 +145,13 @@
                             <f:ajax event="blur" execute="@this"/>
                         </h:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid id="paneldaneogolnefaktury" columns="5"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="paneldaneogolnefaktury" columns="6"  styleClass="uipanelGrid0">
                         <h:outputText value="symbol"/>
                         <h:outputText value="numer własny"/>
-                       <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'rok VAT' : ''}"/>
-                        <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2 ? 'mc VAT' : ''}"/>
+                        <h:outputText value="rok VAT"/>
+                        <h:outputText value="mc VAT"/>
                         <h:outputText value="numer"/>
-                         
+                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
                          <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
@@ -163,11 +163,11 @@
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
-                                    :formwpisdokument:dataList"/>
+                                    :formwpisdokument:dataList, :formwpisdokument:paneldaneogolnefaktury"/>
                         </h:selectOneMenu>
                         
                        
-                        <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 180px;"
+                        <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                      onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');
@@ -199,10 +199,12 @@
                         </h:selectOneMenu>
                         <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
                         />
+                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
+                                      style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontovat eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
                         <h:outputText value="treść dok."/>
-                        <h:outputText value="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 'kontrahent' : ''}"/>
+                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 'kontrahent' : ''}"/>
                         <h:outputText value="wartość dokumentu"/>
                         <h:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -424,6 +426,10 @@
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
                         <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"/>
                     </p:column>
+                <p:column>
+                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkV : 'b/k') : null }"
+                                      style="margin-left: 5px;"/>
+                </p:column>
                     <p:column width="1" >
                         <h:outputText id="idwiersza" value="#{loop.typWiersza}" style="display: none;" />
                     </p:column><!--
