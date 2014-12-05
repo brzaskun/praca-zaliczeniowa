@@ -92,7 +92,6 @@ public class Dokfk implements Serializable {
     private String datawplywu;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
     @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true, fetch = FetchType.EAGER)
