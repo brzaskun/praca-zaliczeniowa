@@ -383,7 +383,7 @@
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}"
+                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
 <!--                            <p:ajax event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
@@ -415,7 +415,7 @@
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" 
+                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         >
 <!--                            <p:ajax event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
                             <p:ajax event="focus" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}"/>
@@ -442,10 +442,10 @@
                 <p:panel id="panelwpisbutton" style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
-                                     onfocus="focusNaNowoDodanym();"
+                                     onfocus="focusNaNowoDodanymEnter();"
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (e)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="s" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanym();"
+                                     accesskey="s" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanymEnter();"
                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>

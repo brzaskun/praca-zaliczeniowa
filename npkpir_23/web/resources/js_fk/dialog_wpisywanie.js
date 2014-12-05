@@ -9,6 +9,9 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
     $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
+    if (source.value === null) {
+        MYAPP.liczydloWcisnietychEnter = 1;
+    }
     setTimeout(focusNaNowoDodanym(source),5000);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
@@ -210,16 +213,62 @@ var focusNaNowoDodanym = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
         for (var rzad in rzedy) {
-            var wybrany = $(rzedy[rzad]).children().get(1);
+            var wybrany = $(rzedy[rzad]).find('td').get(1);
             console.log(wybrany);
-            if ($(wybrany.firstChild).val() == "") {
-                $(wybrany.firstChild).focus();
+            if (typeof wybrany !== 'undefined') {
+                if ($(wybrany.firstChild).val() == "") {
+                    $(wybrany.firstChild).focus();
+                    return;
+                }
+            } else {
                 break;
             }
         }
     } catch (e) {
-        
-    };
+
+    }
+    ;
+};
+
+var focusNaNowoDodanymEnter = function(source) {
+    try {
+        var rzedy = r("formwpisdokument:dataList_data").children();
+        for (var rzad in rzedy) {
+            var wybrany = $(rzedy[rzad]).find('td').get(1);
+            console.log(wybrany);
+            if (typeof wybrany !== 'undefined') {
+                if ($(wybrany.firstChild).val() == "") {
+                    $(wybrany.firstChild).focus();
+                    return;
+                }
+            } else {
+                break;
+            }
+        }
+        rzedy = r("formwpisdokument:dataList_data").children();
+        for (var i = 0; i < rzedy.length; i++) {
+            for (var n in $(rzedy[i]).find('td')) {
+                var kolejnetd = $(rzedy[i]).find('td').get(n);
+                if (kolejnetd.localName === "td") {
+                    try {
+                        if ($(kolejnetd.firstChild.firstChild).hasClass("ui-autocomplete-input ui-inputfield")) {
+                            if ($(kolejnetd.firstChild.firstChild).val() === "") {
+                                $(kolejnetd.firstChild.firstChild).focus();
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        ;
+    } catch (e) {
+
+    }
+    ;
 };
 
 var kopiujnazwepelna = function () {

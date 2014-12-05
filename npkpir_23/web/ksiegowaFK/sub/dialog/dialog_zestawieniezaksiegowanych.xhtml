@@ -70,7 +70,8 @@
                 <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
             </p:column>         
             <p:column width="90" style="text-align: center;" >
-                <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  oncomplete="" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  
+                                 onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
             </p:column>
             <p:column width="90" style="text-align: center;">
                 <p:commandButton value="usuń" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList" style="width: 70px;"/>
