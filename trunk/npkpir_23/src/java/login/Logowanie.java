@@ -134,8 +134,12 @@ public class Logowanie implements Serializable {
                 navto = "nowehaslo";
             }
             Wpis wpisX = wpisDAO.find(uzytk);
-            wpisX.setBiezacasesja(dodajInfoDoSesji());
-            wpisDAO.edit(wpisX);
+            try {
+                wpisX.setBiezacasesja(dodajInfoDoSesji());
+                wpisDAO.edit(wpisX);
+            } catch (Exception e) {
+                //to kiedys trzeba usunac :)
+            }
             Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             return navto;
         } catch (ServletException e) {
@@ -168,9 +172,13 @@ public class Logowanie implements Serializable {
                 
             }
         }
-        Uz wpr = uzDAO.find(uzytk);
-        wpr.setBiezacasesja(nrsesji);
-        uzDAO.edit(wpr);
+        try {
+            Uz wpr = uzDAO.find(uzytk);
+            wpr.setBiezacasesja(nrsesji);
+            uzDAO.edit(wpr);
+        } catch (Exception e) {
+            
+        }
         return nrsesji;
     }
 
