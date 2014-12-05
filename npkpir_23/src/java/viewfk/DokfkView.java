@@ -23,8 +23,10 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
+import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Parametr;
+import embeddablefk.TreeNodeExtended;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -39,6 +41,7 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,6 +64,7 @@ import org.joda.time.DateTime;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 import view.ParametrView;
@@ -96,6 +100,8 @@ private static final long serialVersionUID = 1L;
     private KliencifkDAO kliencifkDAO;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    @Inject
+    private WierszBODAO wierszBODAO;
     private boolean zapisz0edytuj1;
 //    private String wierszid;
 //    private String wnlubma;
@@ -2579,7 +2585,77 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().update("formCH");
     }
     
+    
+    public double obliczsaldo(Wiersz w) {
+        double saldoinnedok = obliczsaldopoczatkowe(w);
+        double saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+        int lpwiersza = w.getIdporzadkowy();
+        List<Wiersz> listawierszy = selected.getListawierszy();
+        double kwota = 0;
+        List<StronaWiersza> strony = new ArrayList<>();
+        for (int i = 0; i < lpwiersza; i++) {
+            strony.addAll(listawierszy.get(i).getStronyWiersza());
+        }
+        for (StronaWiersza r : strony) {
+            if (r.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
+                if (r.getWnma().equals("Wn")) {
+                    kwota += r.getKwota();
+                } else {
+                    kwota -= r.getKwota();
+                }
+            }
+        }
+        return saldoBO + saldoinnedok + kwota;
+    }
+    
+    private double pobierzwartosczBO(Konto kontorozrachunkowe) {
+        List<WierszBO> wierszBOlista = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontorozrachunkowe);
+        double kwota = 0.0;
+        if (wierszBOlista != null && !wierszBOlista.isEmpty()) {
+
+            for (WierszBO p : wierszBOlista) {
+                if (p.getKwotaWn() != 0) {
+                    kwota += p.getKwotaWn();
+                } else {
+                    kwota += p.getKwotaMa();
+                }
+            }
+
+        }
+        return kwota;
+    }
+    
+    private double obliczsaldopoczatkowe(Wiersz wiersz) {
+        List<StronaWiersza> kontozapisy  = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
+        if  (kontozapisy != null && !kontozapisy.isEmpty()) {
+            if (wiersz.getIdwiersza() != null) {
+                for (Iterator<StronaWiersza> p = kontozapisy.iterator(); p.hasNext();) {
+                    if (p.next().getWiersz().getDokfk().getDokfkPK().equals(wiersz.getDokfk().getDokfkPK())) {
+                        p.remove();
+                    }
+                }
+            }
+            return saldo(kontozapisy);
+        } else {
+            return 0.0;
+        }
+    }
    
+    private double saldo(List<StronaWiersza> kontozapisy) {
+        double sumaWn = 0.0;
+        double sumaMa = 0.0;
+        for(StronaWiersza p : kontozapisy){
+            switch (p.getWnma()) {
+                case "Wn":
+                    sumaWn += p.getKwota();
+                    break;
+                case "Ma":
+                    sumaMa += p.getKwota();
+                    break;
+            }
+        }
+        return sumaWn-sumaMa;
+    }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
     public StronaWiersza getStronaWierszaCechy() {
@@ -2857,6 +2933,8 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        kwota = kwota / 100;
 //}        
 //</editor-fold>
+
+    
 
     
     

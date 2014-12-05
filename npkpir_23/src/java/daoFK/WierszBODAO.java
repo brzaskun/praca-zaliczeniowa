@@ -49,7 +49,7 @@ public class WierszBODAO extends DAO implements Serializable {
     public List<WierszBO> findPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
         return wierszBOFacade.findWierszBOPodatnikRokRozrachunkowe(podatnik, rok);
     }
-
+    //jets lista bo w BO moze byc klika wierszy z tym samym kontem
     public List<WierszBO> findPodatnikRokKonto(Podatnik podatnikObiekt, String rokWpisuSt, Konto konto) {
         return wierszBOFacade.findWierszBOPodatnikRokKonto(podatnikObiekt, rokWpisuSt, konto);
     }

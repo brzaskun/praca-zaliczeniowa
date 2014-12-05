@@ -2,8 +2,10 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -177,6 +179,17 @@ public class Wiersz implements Serializable {
     
     public StronaWiersza getStronaMa() {
         return this.strona.get("Ma");
+    }
+    
+    public List<StronaWiersza> getStronyWiersza() {
+        List<StronaWiersza> strony = new ArrayList<>();
+        if (this.strona.get("Wn") != null) {
+            strony.add(this.strona.get("Wn"));
+        }
+        if (this.strona.get("Ma") != null) {
+            strony.add(this.strona.get("Ma"));
+        }
+        return strony;
     }
     
     public String getDataksiegowania() {
