@@ -1,0 +1,37 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+      <p:tab id="grafika" title="Dodatkowe elementy graficzne">
+          <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako logo"/>
+                <h:form>
+                  <p:fileUpload fileUploadListener="#{fakturaelementygraficzneView.zachowajZaladowanyPlik}"
+                                mode="advanced" dragDropSupport="true" fileLimit="3"
+                                update="messages1" sizeLimit="100000"  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
+                                validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
+                                fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"
+                                style="height: 200px;"/>
+                    <p:growl id="messages1" showDetail="true"/>
+                </h:form>
+<!--              <p:dataTable value="#{fakturaelementygraficzneView.fakturadodelementy}" var="wpis" style="width: 1000px;">
+                  <f:facet name="header">
+                      <h:outputText value="Wybierze elementy opcjonalne faktury"/>
+                  </f:facet>
+                  <p:column headerText="wybierz" width="60">
+                      <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%"/>
+                  </p:column>
+                  <p:column headerText="nazwa elementu" width="200">
+                      <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
+                  </p:column>
+                  <p:column headerText="tresc elementu">
+                      <p:inputTextarea value="#{wpis.trescelementu}" cols="80"/>
+                  </p:column>
+              </p:dataTable>
+              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor"
+                               style="margin-top: 5px;"/>-->
+        </p:tab>
+</ui:composition>   
+
