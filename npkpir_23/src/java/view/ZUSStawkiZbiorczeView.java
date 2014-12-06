@@ -36,7 +36,7 @@ import params.Params;
 @ViewScoped
 public class ZUSStawkiZbiorczeView  implements Serializable{
     //tak sie sklada ze to jest glowna lista z podatnikami :)
-    private static List<Podatnik> listapodatnikow;
+    private List<Podatnik> listapodatnikow;
     @Inject
     private Zusstawki zusstawki;
     @Inject
@@ -273,9 +273,10 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
 
     public void setListapodatnikow(List<Podatnik> listapodatnikow) {
-        ZUSStawkiZbiorczeView.listapodatnikow = listapodatnikow;
+        this.listapodatnikow = listapodatnikow;
     }
 
+    
     public String getBiezacyRok() {
         return biezacyRok;
     }

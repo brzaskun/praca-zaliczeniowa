@@ -38,7 +38,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScope
 public class StornoDokView implements Serializable {
-    private static String stornonadzien;
+    private String stornonadzien;
 
     public static void main(String[] args) {
         //

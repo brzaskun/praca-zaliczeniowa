@@ -47,7 +47,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScope
 public class Vat7DKView implements Serializable {
-    private static PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
+    private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
 
     //</editor-fold>
     public static void main(String args[]) {
@@ -558,14 +558,16 @@ public class Vat7DKView implements Serializable {
     public void setPozycjeDeklaracjiVAT(Vatpoz pozycjeDeklaracjiVAT) {
         this.pozycjeDeklaracjiVAT = pozycjeDeklaracjiVAT;
     }
-    
+
     public PozycjeSzczegoloweVAT getPozycjeSzczegoloweVAT() {
         return pozycjeSzczegoloweVAT;
     }
-    
+
     public void setPozycjeSzczegoloweVAT(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT) {
-        Vat7DKView.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
+        this.pozycjeSzczegoloweVAT = pozycjeSzczegoloweVAT;
     }
+    
+   
     
     public Deklaracjevat getNowadeklaracja() {
         return nowadeklaracja;

@@ -24,7 +24,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScope
 public class EvopisView {
-    private static List<Evopis> lista;
+    private List<Evopis> lista;
 
     @Inject
     private Evopis selected;
@@ -93,8 +93,10 @@ public class EvopisView {
     }
 
     public void setLista(List<Evopis> lista) {
-        EvopisView.lista = lista;
+        this.lista = lista;
     }
+
+   
 
     public EvopisDAO getEvopisDAO() {
         return eopisDAO;

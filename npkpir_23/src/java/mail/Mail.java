@@ -22,7 +22,6 @@ import javax.mail.internet.MimeMessage;
 @Named
 @Singleton
 public class Mail {
-    private static Session session;
     protected static final String stopka;
     protected static final String reklama;
     protected static final String fake;
@@ -62,10 +61,8 @@ public class Mail {
     
     
     public static void nadajMailRejestracjaNowegoUzera(String adres, String login) {
-        logintoMail();
         try {
-
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(logintoMail());
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -86,10 +83,8 @@ public class Mail {
     }
     
     public static void udanazmianaHasla(String adres, String login) {
-        logintoMail();
         try {
-
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(logintoMail());
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -108,13 +103,9 @@ public class Mail {
         }
     }
     
-      public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
-       
-        logintoMail();
-        
+    public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
         try {
-
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(logintoMail());
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -139,12 +130,8 @@ public class Mail {
     }
       
        public static void resetowaniehasla(String adres, String login) {
-       
-        logintoMail();
-        
         try {
-
-            MimeMessage message = new MimeMessage(session);
+            MimeMessage message = new MimeMessage(logintoMail());
             message.setFrom(new InternetAddress("info@e-taxman.pl"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
@@ -167,7 +154,7 @@ public class Mail {
     }
       
       
-    private static void logintoMail(){
+    private static Session logintoMail(){
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -179,13 +166,13 @@ public class Mail {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
         
-        session = Session.getInstance(props,
+        Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(username, password);
                     }
                 });
-
+        return session;
     }
 }

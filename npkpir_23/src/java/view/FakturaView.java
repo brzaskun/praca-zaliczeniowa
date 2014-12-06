@@ -224,8 +224,8 @@ public class FakturaView implements Serializable {
             Msg.msg("i", "Dokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
-        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");  
-        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
+//        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
 
     private void ewidencjavat(Faktura selected) throws Exception {
@@ -292,9 +292,11 @@ public class FakturaView implements Serializable {
         selected = serialclone.SerialClone.clone(faktura);
         aktywnytab = 0;
         pokazfakture = true;
-        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
-        RequestContext.getCurrentInstance().execute(funkcja);
-        }
+//        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+//        funkcja = "PF('tworzenieklientapolenazwy').activate();";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+       }
 
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
         kwotaprzedwaloryzacja = faktura.getBrutto();

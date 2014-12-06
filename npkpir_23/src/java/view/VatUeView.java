@@ -40,13 +40,11 @@ import pdf.PdfVatUE;
 public class VatUeView implements Serializable {
 
     //lista gdzie beda podsumowane wartosci
-    private static List<VatUe> klienciWDTWNT;
-    private static List<VatUe> listawybranych;
-    private static List<Danezdekalracji> danezdeklaracji;
+    private List<VatUe> klienciWDTWNT;
+    private List<VatUe> listawybranych;
+    private List<Danezdekalracji> danezdeklaracji;
 
-    public static List<VatUe> getKlienciWDTWNTS() {
-        return klienciWDTWNT;
-    }
+  
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -215,13 +213,7 @@ public class VatUeView implements Serializable {
           
       }
     } 
-    public List<Danezdekalracji> getDanezdeklaracji() {
-        return danezdeklaracji;
-    }
-
-    public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
-        VatUeView.danezdeklaracji = danezdeklaracji;
-    }
+   
 
     public WpisView getWpisView() {
         return wpisView;
@@ -231,21 +223,31 @@ public class VatUeView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public List<VatUe> getListawybranych() {
-        return listawybranych;
-    }
-
-    public void setListawybranych(List<VatUe> listawybranych) {
-        VatUeView.listawybranych = listawybranych;
-    }
-
     public List<VatUe> getKlienciWDTWNT() {
         return klienciWDTWNT;
     }
 
     public void setKlienciWDTWNT(List<VatUe> klienciWDTWNT) {
-        VatUeView.klienciWDTWNT = klienciWDTWNT;
+        this.klienciWDTWNT = klienciWDTWNT;
     }
+
+    public List<VatUe> getListawybranych() {
+        return listawybranych;
+    }
+
+    public void setListawybranych(List<VatUe> listawybranych) {
+        this.listawybranych = listawybranych;
+    }
+
+    public List<Danezdekalracji> getDanezdeklaracji() {
+        return danezdeklaracji;
+    }
+
+    public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
+        this.danezdeklaracji = danezdeklaracji;
+    }
+
+ 
 
     public static class Danezdekalracji {
         private String  nazwa;

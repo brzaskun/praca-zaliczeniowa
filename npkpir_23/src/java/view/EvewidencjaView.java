@@ -28,7 +28,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @SessionScoped
 public class EvewidencjaView {
-    private static List<Evewidencja> lista;
+    private List<Evewidencja> lista;
 
     @Inject
     private Evewidencja selected;
@@ -101,8 +101,10 @@ public class EvewidencjaView {
     }
 
     public void setLista(List<Evewidencja> lista) {
-        EvewidencjaView.lista = lista;
+        this.lista = lista;
     }
+
+   
 
     public EvewidencjaDAO getEvewidencjaDAO() {
         return eewidencjaDAO;

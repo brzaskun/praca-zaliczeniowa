@@ -36,14 +36,11 @@ public class KlView implements Serializable{
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;
-    private static ArrayList<Klienci> kl1;
-    private static ArrayList<Klienci> klienciFiltered;
-    private static Klienci doUsuniecia;
+    private ArrayList<Klienci> kl1;
+    private ArrayList<Klienci> klienciFiltered;
+    private Klienci doUsuniecia;
 
-    public static ArrayList<Klienci> getKl1S() {
-        return kl1;
-    }
-
+   
     public static void main(String[] args) {
         String mse = "XX0000000001";
         mse = mse.substring(2);
@@ -375,22 +372,24 @@ public class KlView implements Serializable{
     public ArrayList<Klienci> getKl1() {
         return kl1;
     }
-    
-    public Klienci getDoUsuniecia() {
-        return doUsuniecia;
-    }
-
-    public void setDoUsuniecia(Klienci doUsuniecia) {
-        KlView.doUsuniecia = doUsuniecia;
-    }
 
     public ArrayList<Klienci> getKlienciFiltered() {
         return klienciFiltered;
     }
 
     public void setKlienciFiltered(ArrayList<Klienci> klienciFiltered) {
-        KlView.klienciFiltered = klienciFiltered;
+        this.klienciFiltered = klienciFiltered;
     }
+
+    public Klienci getDoUsuniecia() {
+        return doUsuniecia;
+    }
+
+    public void setDoUsuniecia(Klienci doUsuniecia) {
+        this.doUsuniecia = doUsuniecia;
+    }
+    
+  
 
     
    

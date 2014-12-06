@@ -24,7 +24,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScope
 public class EvpozycjaView {
-    private static List<Evpozycja> lista;
+    private List<Evpozycja> lista;
 
     @Inject
     private Evpozycja selected;
@@ -89,7 +89,16 @@ public class EvpozycjaView {
     }
 
     public void setLista(List<Evpozycja> lista) {
-        EvpozycjaView.lista = lista;
+        this.lista = lista;
+    }
+
+   
+    public EvpozycjaDAO getEpozycjaDAO() {
+        return epozycjaDAO;
+    }
+
+    public void setEpozycjaDAO(EvpozycjaDAO epozycjaDAO) {
+        this.epozycjaDAO = epozycjaDAO;
     }
 
     public EvpozycjaDAO getEvpozycjaDAO() {

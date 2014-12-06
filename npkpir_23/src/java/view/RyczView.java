@@ -21,7 +21,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class RyczView implements Serializable {
-    private static List<Ryczpoz> lista;
+    private List<Ryczpoz> lista;
     @Inject private RyczDAO ryczDAO;
     @Inject private PodatnikDAO podatnikDAO;
     @ManagedProperty(value="#{WpisView}")
@@ -55,14 +55,14 @@ public class RyczView implements Serializable {
          Msg.msg("i", "Pobrano dane miesiąca");
      }
 
-
     public List<Ryczpoz> getLista() {
         return lista;
     }
 
     public void setLista(List<Ryczpoz> lista) {
-        RyczView.lista = lista;
+        this.lista = lista;
     }
+
 
     public RyczDAO getRyczDAO() {
         return ryczDAO;

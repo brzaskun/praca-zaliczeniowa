@@ -25,10 +25,10 @@ import msg.Msg;
 @ViewScoped
 public class STRSprzedazView extends STRTabView implements Serializable {
     //do sprzedawania srodko trwalych
-    private static List<SrodekTrw> wybranesrodkitrwale;
-    private static List<SrodekTrw> grupausun;
-    private static String data;
-    private static String nrwlasny;
+    private List<SrodekTrw> wybranesrodkitrwale;
+    private List<SrodekTrw> grupausun;
+    private String data;
+    private String nrwlasny;
     private STRTabView sTRTabView;
     
    
@@ -113,19 +113,23 @@ public class STRSprzedazView extends STRTabView implements Serializable {
       }
 
     }
-     
-
-
-  
 
     public List<SrodekTrw> getWybranesrodkitrwale() {
         return wybranesrodkitrwale;
     }
 
     public void setWybranesrodkitrwale(List<SrodekTrw> wybranesrodkitrwale) {
-        STRSprzedazView.wybranesrodkitrwale = wybranesrodkitrwale;
+        this.wybranesrodkitrwale = wybranesrodkitrwale;
     }
 
+    public List<SrodekTrw> getGrupausun() {
+        return grupausun;
+    }
+
+    public void setGrupausun(List<SrodekTrw> grupausun) {
+        this.grupausun = grupausun;
+    }
+  
     public STRTabView getsTRTabView() {
         return sTRTabView;
     }

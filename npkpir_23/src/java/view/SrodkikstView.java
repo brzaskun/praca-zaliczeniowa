@@ -24,11 +24,9 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class SrodkikstView implements Serializable {
-    private static List<Srodkikst> lista;
+    private List<Srodkikst> lista;
 
-    public static List<Srodkikst> getListaS() {
-        return lista;
-    }
+
     @Inject private SrodkikstDAO srodkikstDAO;
 
     public SrodkikstView() {
@@ -98,14 +96,15 @@ public class SrodkikstView implements Serializable {
                 srodkikstDAO.dodaj(w);
         }
     }
-    
+
     public List<Srodkikst> getLista() {
         return lista;
     }
 
     public void setLista(List<Srodkikst> lista) {
-        SrodkikstView.lista = lista;
+        this.lista = lista;
     }
     
+   
     
 }
