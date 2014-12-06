@@ -276,28 +276,36 @@ public class PdfFaktura extends Pdf implements Serializable {
                         // write the table to an absolute position
                         table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
                         break;
+                    case "akordeon:formwzor:nrzamowienia":
+                        //Dane do modulu przewłaszczenie
+                        if (czydodatkowyelementjestAktywny("nr zamówienia", fdod)) {
+                            pobrane = zwrocpozycje(lista, "nrzamowienia");
+                            prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:nrzamowienia") - 5, 180, 15);
+                            absText(writer, "nr zamówienia: "+selected.getNumerzamowienia() , (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
+                        }
+                        break;
                     case "akordeon:formwzor:przewłaszczenie":
                         //Dane do modulu przewłaszczenie
-                        if (fdod.get(2).getAktywny()) {
+                        if (czydodatkowyelementjestAktywny("przewłaszczenie", fdod)) {
                             pobrane = zwrocpozycje(lista, "przewłaszczenie");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:przewłaszczenie") - 5, 230, 15);
-                            absText(writer, fdod.get(2).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:przewłaszczenie"), 8);
+                            absText(writer, pobierzelementdodatkowy("przewłaszczenie", fdod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:przewłaszczenie"), 8);
                         }
                         break;
                     case "akordeon:formwzor:warunkidostawy":
                         //Dane do modulu przewłaszczenie
-                        if (fdod.get(1).getAktywny()) {
+                        if (czydodatkowyelementjestAktywny("warunki dostawy", fdod)) {
                             pobrane = zwrocpozycje(lista, "warunkidostawy");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 360, 15);
-                            absText(writer, fdod.get(1).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
+                            absText(writer, pobierzelementdodatkowy("warunki dostawy", fdod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
                         }
                         break;
                     case "akordeon:formwzor:wezwaniedozapłaty":
                         //Dane do modulu przewłaszczenie
-                        if (fdod.get(0).getAktywny()) {
+                        if (czydodatkowyelementjestAktywny("wezwanie do zapłaty", fdod)) {
                             pobrane = zwrocpozycje(lista, "wezwaniedozapłaty");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wezwaniedozapłaty") - 5, 230, 15);
-                            absText(writer, fdod.get(0).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
+                            absText(writer, pobierzelementdodatkowy("wezwanie do zapłaty", fdod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
                         }
                         break;
                 }
@@ -309,6 +317,24 @@ public class PdfFaktura extends Pdf implements Serializable {
             RequestContext.getCurrentInstance().execute(funkcja);
         }
         }
+    }
+    
+    private boolean czydodatkowyelementjestAktywny (String element, List<Fakturadodelementy> fdod) {
+        for (Fakturadodelementy p : fdod) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
+                return p.getAktywny();
+            }
+        }
+        return false;
+    }
+    
+    private String pobierzelementdodatkowy (String element, List<Fakturadodelementy> fdod) {
+        for (Fakturadodelementy p : fdod) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
+                return p.getTrescelementu();
+            }
+        }
+        return "nie odnaleziono";
     }
     
     private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> fdod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
@@ -422,6 +448,14 @@ public class PdfFaktura extends Pdf implements Serializable {
                     wygenerujtablice(table, selected.getPozycjenafakturze(), selected);
                     // write the table to an absolute position
                     table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
+                    break;
+                case "akordeon:formwzor:nrzamowienia":
+                    //Dane do modulu przewłaszczenie
+                    if (fdod.get(2).getAktywny()) {
+                        pobrane = zwrocpozycje(lista, "nrzamowienia");
+                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:nrzamowienia") - 5, 180, 15);
+                        absText(writer, selected.getNumerzamowienia() , (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
+                    }
                     break;
                 case "akordeon:formwzor:przewłaszczenie":
                     //Dane do modulu przewłaszczenie

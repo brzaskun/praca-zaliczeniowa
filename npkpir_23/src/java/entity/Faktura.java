@@ -176,6 +176,8 @@ public class Faktura implements Serializable {
     private String rok;
     @Column
     private String mc;
+    @Column
+    private String numerzamowienia;
 
     public Faktura() {
     }
@@ -207,6 +209,7 @@ public class Faktura implements Serializable {
         this.ewidencjavat =  stara.ewidencjavat;
         this.rok = stara.rok;
         this.mc = stara.mc;
+        this.numerzamowienia = stara.numerzamowienia;
     }
 
     
@@ -215,7 +218,11 @@ public class Faktura implements Serializable {
         this.fakturaPK = fakturaPK;
     }
 
-    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, List<EVatwpis> ewidencjavat, String rok, String mc) {
+    public Faktura(FakturaPK fakturaPK, Podatnik wystawca, String rodzajdokumentu, String rodzajtransakcji, Klienci kontrahent, 
+            String datawystawienia, String datasprzedazy, String miejscewystawienia, String terminzaplaty, String sposobzaplaty, 
+            String nrkontabankowego, String walutafaktury, String podpis, List<Pozycjenafakturzebazadanych> pozycjenafakturze, 
+            boolean zatwierdzona, boolean wyslana, boolean zaksiegowana, String autor, double netto, double vat, double brutto, 
+            List<EVatwpis> ewidencjavat, String rok, String mc, String numerzamowienia) {
         this.fakturaPK = fakturaPK;
         this.wystawca = wystawca;
         this.rodzajdokumentu = rodzajdokumentu;
@@ -240,230 +247,242 @@ public class Faktura implements Serializable {
         this.ewidencjavat = ewidencjavat;
         this.rok = rok;
         this.mc = mc;
+        this.numerzamowienia = numerzamowienia;
     }
 
     public Faktura(String wystawcanazwa, String numerkolejny) {
         this.fakturaPK = new FakturaPK(wystawcanazwa, numerkolejny);
     }
 
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public FakturaPK getFakturaPK() {
         return fakturaPK;
     }
-
+    
     public void setFakturaPK(FakturaPK fakturaPK) {
         this.fakturaPK = fakturaPK;
     }
-
+    
     public Podatnik getWystawca() {
         return wystawca;
     }
-
+    
     public void setWystawca(Podatnik wystawca) {
         this.wystawca = wystawca;
     }
-
+    
     public String getRodzajdokumentu() {
         return rodzajdokumentu;
     }
-
+    
     public void setRodzajdokumentu(String rodzajdokumentu) {
         this.rodzajdokumentu = rodzajdokumentu;
     }
-
+    
     public String getRodzajtransakcji() {
         return rodzajtransakcji;
     }
-
+    
     public void setRodzajtransakcji(String rodzajtransakcji) {
         this.rodzajtransakcji = rodzajtransakcji;
     }
-
+    
     public Klienci getKontrahent() {
         return kontrahent;
     }
-
+    
     public void setKontrahent(Klienci kontrahent) {
         this.kontrahent = kontrahent;
     }
-
+    
     public String getKontrahent_nip() {
         return kontrahent_nip;
     }
-
+    
     public void setKontrahent_nip(String kontrahent_nip) {
         this.kontrahent_nip = kontrahent_nip;
     }
-
+    
     
     public String getDatawystawienia() {
         return datawystawienia;
     }
-
+    
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
-
+    
     public String getDatasprzedazy() {
         return datasprzedazy;
     }
-
+    
     public void setDatasprzedazy(String datasprzedazy) {
         this.datasprzedazy = datasprzedazy;
     }
-
+    
     public String getMiejscewystawienia() {
         return miejscewystawienia;
     }
-
+    
     public void setMiejscewystawienia(String miejscewystawienia) {
         this.miejscewystawienia = miejscewystawienia;
     }
-
+    
     public String getTerminzaplaty() {
         return terminzaplaty;
     }
-
+    
     public void setTerminzaplaty(String terminzaplaty) {
         this.terminzaplaty = terminzaplaty;
     }
-
+    
     public String getSposobzaplaty() {
         return sposobzaplaty;
     }
-
+    
     public void setSposobzaplaty(String sposobzaplaty) {
         this.sposobzaplaty = sposobzaplaty;
     }
-
+    
     public String getNrkontabankowego() {
         return nrkontabankowego;
     }
-
+    
     public void setNrkontabankowego(String nrkontabankowego) {
         this.nrkontabankowego = nrkontabankowego;
     }
-
+    
     public String getWalutafaktury() {
         return walutafaktury;
     }
-
+    
     public void setWalutafaktury(String walutafaktury) {
         this.walutafaktury = walutafaktury;
     }
-
+    
     public String getPodpis() {
         return podpis;
     }
-
+    
     public void setPodpis(String podpis) {
         this.podpis = podpis;
     }
-
+    
     public List<Pozycjenafakturzebazadanych> getPozycjenafakturze() {
         return pozycjenafakturze;
     }
-
+    
     public void setPozycjenafakturze(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
         this.pozycjenafakturze = pozycjenafakturze;
     }
-
+    
     public boolean getZatwierdzona() {
         return zatwierdzona;
     }
-
+    
     public void setZatwierdzona(boolean zatwierdzona) {
         this.zatwierdzona = zatwierdzona;
     }
-
+    
     public boolean getWyslana() {
         return wyslana;
     }
-
+    
     public void setWyslana(boolean wyslana) {
         this.wyslana = wyslana;
     }
-
+    
     public boolean getZaksiegowana() {
         return zaksiegowana;
     }
-
+    
     public void setZaksiegowana(boolean zaksiegowana) {
         this.zaksiegowana = zaksiegowana;
     }
-
+    
     public String getAutor() {
         return autor;
     }
-
+    
     public void setAutor(String autor) {
         this.autor = autor;
     }
-
+    
     public String getSchemat() {
         return schemat;
     }
-
+    
     public void setSchemat(String schemat) {
         this.schemat = schemat;
     }
-
+    
     public double getNetto() {
         return netto;
     }
-
+    
     public void setNetto(double netto) {
         this.netto = netto;
     }
-
+    
     public double getVat() {
         return vat;
     }
-
+    
     public void setVat(double vat) {
         this.vat = vat;
     }
-
+    
     public double getBrutto() {
         return brutto;
     }
-
+    
     public void setBrutto(double brutto) {
         this.brutto = brutto;
     }
-
+    
     public List<EVatwpis> getEwidencjavat() {
         return ewidencjavat;
     }
-
+    
     public void setEwidencjavat(List<EVatwpis> ewidencjavat) {
         this.ewidencjavat = ewidencjavat;
     }
-
-  
-
+    
+    
+    
     public boolean isWygenerowanaautomatycznie() {
         return wygenerowanaautomatycznie;
     }
-
+    
     public void setWygenerowanaautomatycznie(boolean wygenerowanaautomatycznie) {
         this.wygenerowanaautomatycznie = wygenerowanaautomatycznie;
     }
-
+    
     public String getRok() {
         return rok;
     }
-
+    
     public void setRok(String rok) {
         this.rok = rok;
     }
-
+    
     public String getMc() {
         return mc;
     }
-
+    
     public void setMc(String mc) {
         this.mc = mc;
     }
+    
+    public String getNumerzamowienia() {
+        return numerzamowienia;
+    }
+    
+    public void setNumerzamowienia(String numerzamowienia) {
+        this.numerzamowienia = numerzamowienia;
+    }
+    
+//</editor-fold>
     
     
     

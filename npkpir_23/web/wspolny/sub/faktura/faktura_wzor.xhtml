@@ -25,7 +25,7 @@
                     var gora = $("#formXY\\:goraTablica").val().split(",");
                     var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty'];
+                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
                         var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
@@ -86,11 +86,17 @@
                         <h:outputText value="data sprzedaży 21-05-2013" />
                     </p:panelGrid>
                 </p:panel>
+                <p:draggable for="nrzamowienia" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                <p:panel id="nrzamowienia"  style="width: 240px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}" >  
+                    <p:panelGrid columns="2">
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('nr zamówienia')}"  />
+                    </p:panelGrid>
+                </p:panel>
                 <p:draggable for="datasprzedazy" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
-                <p:panel id="towary" style="width: 980px; height: 170px;"  >  
+                <p:panel id="towary" style="width: 980px; height: 160px;"  >  
                     <p:dataTable value="#{pozycjeNaFakturzeView.zestaw}" var="wpis">
-                        <p:column headerText="lp"><h:outputText value="#{wpis.lp}"/></p:column>
-                        <p:column headerText="Nazwa towaru/usługi"><h:outputText value="#{wpis.nazwa}"/></p:column>
+                        <p:column headerText="lp" width="30"><h:outputText value="#{wpis.lp}"/></p:column>
+                        <p:column headerText="Nazwa towaru/usługi" width="80"><h:outputText value="#{wpis.nazwa}"/></p:column>
                         <p:column headerText="Symbol PKWiU"><h:outputText value="#{wpis.PKWiU}"/></p:column>
                         <p:column headerText="j.m."><h:outputText value="#{wpis.jednostka}"/></p:column>
                         <p:column headerText="il."><h:outputText value="#{wpis.ilosc}"/></p:column>
@@ -118,21 +124,21 @@
                     </p:panelGrid>
                     <p:draggable for="podpis" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                <p:panel id="przewłaszczenie" style="width: 450px;" rendered="#{fakturadodelementyView.fakturadodelementy.get(2).getAktywny()}" >  
+                <p:panel id="przewłaszczenie" style="width: 450px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('przewłaszczenie')}" >  
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{fakturadodelementyView.fakturadodelementy.get(2).getTrescelementu()}" />
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('przewłaszczenie')}" />
                     </p:panelGrid>
                     <p:draggable for="przewłaszczenie" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                <p:panel id="warunkidostawy" style="width: 650px;" rendered="#{fakturadodelementyView.fakturadodelementy.get(1).getAktywny()}" >  
+                <p:panel id="warunkidostawy" style="width: 650px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('warunki dostawy')}" >  
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{fakturadodelementyView.fakturadodelementy.get(1).getTrescelementu()}" />
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('warunki dostawy')}" />
                     </p:panelGrid>
                     <p:draggable for="warunkidostawy" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
-                 <p:panel id="wezwaniedozapłaty" style="width: 450px;" rendered="#{fakturadodelementyView.fakturadodelementy.get(0).getAktywny()}" >  
+                <p:panel id="wezwaniedozapłaty" style="width: 450px;" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('wezwanie do zapłaty')}" >  
                     <p:panelGrid columns="1">
-                        <h:outputText value="#{fakturadodelementyView.fakturadodelementy.get(0).getTrescelementu()}" />
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('wezwanie do zapłaty')}" />
                     </p:panelGrid>
                     <p:draggable for="wezwaniedozapłaty" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>

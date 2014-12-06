@@ -9,7 +9,9 @@ import entity.Fakturadodelementy;
 import entity.FakturadodelementyPK;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -23,76 +25,94 @@ import msg.Msg;
  */
 @ManagedBean
 @ViewScoped
-public class FakturadodelementyView implements Serializable{
-    private static final List<String> elementynazwa;
-    private static final List<String> trescelementu;
+public class FakturadodelementyView implements Serializable {
+
+    private static final Map<String, String> elementy;
+
     static {
-        elementynazwa = new ArrayList<>();
-        elementynazwa.add("wezwaniedozapłaty");
-        elementynazwa.add("warunkidostawy");
-        elementynazwa.add("przewłaszczenie");
-        trescelementu = new ArrayList<>();
-        trescelementu.add("Niniejsza faktura jest jednocześnie wezwaniem do zapłaty");
-        trescelementu.add("Dostawa na warunkach exworks");
-        trescelementu.add("Do momentu zapłaty towar jest własnością sprzedawcy");
+        elementy = new HashMap<String, String>();
+        elementy.put("wezwanie do zapłaty","Niniejsza faktura jest jednocześnie wezwaniem do zapłaty");
+        elementy.put("warunki dostawy","Dostawa na warunkach exworks");
+        elementy.put("przewłaszczenie","Do momentu zapłaty towar jest własnością sprzedawcy");
+        elementy.put("nr zamówienia","Podaj numer zamowienia");
     }
     private List<Fakturadodelementy> fakturadodelementy;
-    @Inject private FakturadodelementyDAO fakturadodelementyDAO;
-    @ManagedProperty(value="#{WpisView}")
+    @Inject
+    private FakturadodelementyDAO fakturadodelementyDAO;
+    @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    
 
     public FakturadodelementyView() {
     }
-    
+
     @PostConstruct
-    private void init(){
-        try{
-            fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
-            if(fakturadodelementy.isEmpty()){
-                int index = 0;
-                for (String p : elementynazwa){
-                    String podatnik = wpisView.getPodatnikWpisu();
-                    FakturadodelementyPK fPK = new FakturadodelementyPK(podatnik, p);
-                    Fakturadodelementy f = new Fakturadodelementy(fPK, trescelementu.get(index), false);
-                    index++;
-                    fakturadodelementy.add(f);
-            }
-            }
-        } catch (Exception e){}
-    }
-    
-    public void zachowajzmiany(){
+    private void init() {
         try {
-            for (Fakturadodelementy p : fakturadodelementy){
+            fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
+                fakturadodelementy = new ArrayList<>();
+            }
+            for (String p : elementy.keySet()) {
+                String podatnik = wpisView.getPodatnikWpisu();
+                FakturadodelementyPK fPK = new FakturadodelementyPK(podatnik, p);
+                Fakturadodelementy f = new Fakturadodelementy(fPK, elementy.get(p), false);
+                if (!fakturadodelementy.contains(f)) {
+                    fakturadodelementyDAO.dodaj(f);
+                    fakturadodelementy.add(f);
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public void zachowajzmiany() {
+        try {
+            for (Fakturadodelementy p : fakturadodelementy) {
                 fakturadodelementyDAO.dodaj(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
         } catch (Exception e) {
-            for (Fakturadodelementy p : fakturadodelementy){
+            for (Fakturadodelementy p : fakturadodelementy) {
                 fakturadodelementyDAO.edit(p);
             }
             Msg.msg("i", "Wyedytowano dodatkowe elementy faktury.");
         }
+    }
+    
+    public boolean czydodatkowyelementjestAktywny (String element) {
+        for (Fakturadodelementy p : fakturadodelementy) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
+                return p.getAktywny();
+            }
+        }
+        return false;
+    }
+    
+    public String pobierzelementdodatkowy (String element) {
+        for (Fakturadodelementy p : fakturadodelementy) {
+            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
+                return p.getTrescelementu();
+            }
+        }
+        return "nie odnaleziono";
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Fakturadodelementy> getFakturadodelementy() {
         return fakturadodelementy;
     }
-    
+
     public void setFakturadodelementy(List<Fakturadodelementy> fakturadodelementy) {
         this.fakturadodelementy = fakturadodelementy;
     }
-    
+
     public WpisView getWpisView() {
         return wpisView;
     }
-    
+
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
     //</editor-fold>
-    
-    
+
 }
