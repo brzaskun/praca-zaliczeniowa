@@ -136,6 +136,14 @@
                             </p:autoComplete>
                             </div>
                      </div>
+                    <div class="ui-grid-row" style="height: 40px;">
+                        <div class="ui-grid-col-2">
+                            <h:outputText value="nr zamówienia"/>
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:inputText value="#{fakturaView.selected.numerzamowienia}"/>
+                        </div>
+                    </div>
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
                     <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 70%;">

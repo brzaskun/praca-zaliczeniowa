@@ -222,6 +222,8 @@ public class FakturaView implements Serializable {
             fakturaDAO.edit(selected);
             init();
             Msg.msg("i", "Dokonano edycji faktury.");
+            pokazfakture = false;
+            selected = new Faktura();
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
