@@ -44,16 +44,8 @@ import params.Params;
 @RequestScoped
 public class STRTabView implements Serializable {
 
-    private static SrodekTrw dokdoUsuniecia;
-    private static boolean napewnousunac;
-
-    public static SrodekTrw getDokdoUsuniecia() {
-        return dokdoUsuniecia;
-    }
-
-    public static void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
-        STRTabView.dokdoUsuniecia = dokdoUsuniecia;
-    }
+    private SrodekTrw dokdoUsuniecia;
+    private boolean napewnousunac;
 
     @Inject
     protected STRDAO sTRDAO;
@@ -508,13 +500,23 @@ public class STRTabView implements Serializable {
         this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
     }
 
+    public SrodekTrw getDokdoUsuniecia() {
+        return dokdoUsuniecia;
+    }
+
+    public void setDokdoUsuniecia(SrodekTrw dokdoUsuniecia) {
+        this.dokdoUsuniecia = dokdoUsuniecia;
+    }
+
     public boolean isNapewnousunac() {
         return napewnousunac;
     }
 
     public void setNapewnousunac(boolean napewnousunac) {
-        STRTabView.napewnousunac = napewnousunac;
+        this.napewnousunac = napewnousunac;
     }
+
+   
 
     public int getIloscsrodkow() {
         return iloscsrodkow;

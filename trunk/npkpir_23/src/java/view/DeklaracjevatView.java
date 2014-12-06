@@ -36,7 +36,7 @@ import pdf.PdfVAT7;
 @ManagedBean
 @ViewScoped
 public class DeklaracjevatView implements Serializable {
-    private static Deklaracjevat selected;
+    private Deklaracjevat selected;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
     private List<Deklaracjevat> wyslane;
     private List<Deklaracjevat> wyslanenormalne;
@@ -219,8 +219,10 @@ public class DeklaracjevatView implements Serializable {
     }
 
     public void setSelected(Deklaracjevat selected) {
-        DeklaracjevatView.selected = selected;
+        this.selected = selected;
     }
+
+   
 
     public List<Deklaracjevat> getWyslanenormalne() {
         return wyslanenormalne;

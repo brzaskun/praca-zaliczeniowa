@@ -31,7 +31,7 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class RodzajedokView implements Serializable {
 
-    private static Rodzajedok doUsuniecia;
+    private Rodzajedok doUsuniecia;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject

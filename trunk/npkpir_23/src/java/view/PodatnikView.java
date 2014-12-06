@@ -53,13 +53,13 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @ViewScoped
 public class PodatnikView implements Serializable {
-    private static ArrayList<Podatnik> listapodatnikow;
+    private ArrayList<Podatnik> listapodatnikow;
     //
     private String nazwaWybranegoPodatnika;
     //tak sie sklada ze to jest glowna lista z podatnikami :)
-    private static List<Podatnik> li;
+    private List<Podatnik> li;
     //tak sie sklada ze to jest glowna lista z podatnikami :)
-    private static List<Podatnik> listaPodatnikowFK;
+    private List<Podatnik> listaPodatnikowFK;
 
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -136,14 +136,7 @@ public class PodatnikView implements Serializable {
         
     }
 
-    public List<Podatnik> getLi() {
-        return li;
-    }
-
-    public void setLi(List<Podatnik> li) {
-        PodatnikView.li = li;
-    }
-
+   
     @PostConstruct
     public void init() {
         li.addAll(podatnikDAO.findAll());
@@ -1197,13 +1190,7 @@ public class PodatnikView implements Serializable {
         this.biezacadata = biezacadata;
     }
     
-    public List<Podatnik> getListaPodatnikowFK() {
-        return listaPodatnikowFK;
-    }
-    
-    public void setListaPodatnikowFK(List<Podatnik> listaPodatnikowFK) {
-        PodatnikView.listaPodatnikowFK = listaPodatnikowFK;
-    }
+  
     
     
     public WpisView getWpisView() {
@@ -1229,15 +1216,32 @@ public class PodatnikView implements Serializable {
     public void setZusstawki(Zusstawki zusstawki) {
         this.zusstawki = zusstawki;
     }
-    
+
     public ArrayList<Podatnik> getListapodatnikow() {
         return listapodatnikow;
     }
-    
+
     public void setListapodatnikow(ArrayList<Podatnik> listapodatnikow) {
-        PodatnikView.listapodatnikow = listapodatnikow;
+        this.listapodatnikow = listapodatnikow;
+    }
+
+    public List<Podatnik> getLi() {
+        return li;
+    }
+
+    public void setLi(List<Podatnik> li) {
+        this.li = li;
+    }
+
+    public List<Podatnik> getListaPodatnikowFK() {
+        return listaPodatnikowFK;
+    }
+
+    public void setListaPodatnikowFK(List<Podatnik> listaPodatnikowFK) {
+        this.listaPodatnikowFK = listaPodatnikowFK;
     }
     
+   
     public Parametr getParametr() {
         return parametr;
     }

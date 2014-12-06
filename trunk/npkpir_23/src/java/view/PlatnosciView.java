@@ -51,7 +51,7 @@ import org.primefaces.context.RequestContext;
 @ManagedBean(name = "PlatnosciView")
 @ViewScoped
 public class PlatnosciView implements Serializable {
-    private static Platnosci selectedZob;
+    private Platnosci selectedZob;
 
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -471,8 +471,10 @@ public class PlatnosciView implements Serializable {
     }
 
     public void setSelectedZob(Platnosci selectedZob) {
-        PlatnosciView.selectedZob = selectedZob;
+        this.selectedZob = selectedZob;
     }
+
+    
 
     public PlatnosciDAO getPlatnosciDAO() {
         return platnosciDAO;

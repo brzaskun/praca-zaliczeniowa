@@ -54,7 +54,7 @@ import pdf.PdfZestRok;
 @ViewScoped
 public class ZestawienieRyczaltView implements Serializable {
     //dane niezbedne do wyliczania pit
-    private static String wybranyudzialowiec;
+    private String wybranyudzialowiec;
 
     @Inject
     private DokDAO dokDAO;
@@ -952,8 +952,10 @@ public class ZestawienieRyczaltView implements Serializable {
     }
 
     public void setWybranyudzialowiec(String wybranyudzialowiec) {
-        ZestawienieRyczaltView.wybranyudzialowiec = wybranyudzialowiec;
+        this.wybranyudzialowiec = wybranyudzialowiec;
     }
+
+   
 
     public String getWybranyprocent() {
         return wybranyprocent;
