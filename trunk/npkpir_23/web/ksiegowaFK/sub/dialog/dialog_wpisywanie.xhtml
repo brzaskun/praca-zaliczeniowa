@@ -151,7 +151,7 @@
                         <h:outputText value="rok VAT"/>
                         <h:outputText value="mc VAT"/>
                         <h:outputText value="numer"/>
-                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
+                        <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
                          <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
@@ -163,7 +163,7 @@
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
-                                    :formwpisdokument:dataList"/>
+                                    :formwpisdokument:dataList, :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
                         </h:selectOneMenu>
                         
                        
@@ -198,7 +198,7 @@
                         </h:selectOneMenu>
                         <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
                         />
-                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
+                        <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontovat eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
