@@ -18,11 +18,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.tools.Executable;
 import comparator.Pozycjenafakturzecomparator;
 import dao.FakturadodelementyDAO;
+import dao.FakturaelementygraficzneDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
 import entity.Fakturadodelementy;
+import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
 import java.io.File;
@@ -59,6 +61,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     private PozycjenafakturzeDAO pozycjeDAO;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
+    @Inject
+    private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
 
     public void drukujmail(List<Faktura> fakturydruk, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         int i = 0;
@@ -191,11 +195,11 @@ public class PdfFaktura extends Pdf implements Serializable {
                 int wymiargora = (p.getGora() / 2);
                 wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
             }
-            Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
-            // Set the position of image
-            image.setAbsolutePosition(500f, 40f); //e
-            // Add paragraph to PDF document.
-            document.add(image);
+//            Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
+//            // Set the position of image
+//            image.setAbsolutePosition(500f, 40f); //e
+//            // Add paragraph to PDF document.
+//            document.add(image);
             //naglowek
             absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
             prost(writer.getDirectContent(), 12, 817, 560, 10);
@@ -275,6 +279,20 @@ public class PdfFaktura extends Pdf implements Serializable {
                         wygenerujtablice(table, selected.getPozycjenafakturze(), selected);
                         // write the table to an absolute position
                         table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
+                        break;
+                    case "akordeon:formwzor:logo":
+                        //Dane do modulu przewłaszczenie
+                        if (czydodatkowyelementjestAktywny("logo", fdod)) {
+                            pobrane = zwrocpozycje(lista, "logo");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
+                            Image logo = Image.getInstance(nazwaplikuzbazy);
+                            // Set the position of image
+                            logo.scaleToFit(160f, 160f);
+                            logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 40, wymiary.get("akordeon:formwzor:logo")-100); //e
+                            // Add paragraph to PDF document.
+                            document.add(logo);
+                        }
                         break;
                     case "akordeon:formwzor:nrzamowienia":
                         //Dane do modulu przewłaszczenie
@@ -364,11 +382,11 @@ public class PdfFaktura extends Pdf implements Serializable {
             int wymiargora = (p.getGora() / 2);
             wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
         }
-        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
-        // Set the position of image
-        image.setAbsolutePosition(500f, 40f); //e
-        // Add paragraph to PDF document.
-        document.add(image);
+//        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
+//        // Set the position of image
+//        image.setAbsolutePosition(400f, 40f); //e
+//        // Add paragraph to PDF document.
+//        document.add(image);
         //naglowek
         absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
         prost(writer.getDirectContent(), 12, 817, 560, 10);
@@ -457,6 +475,20 @@ public class PdfFaktura extends Pdf implements Serializable {
                         absText(writer, selected.getNumerzamowienia() , (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
                     }
                     break;
+                case "akordeon:formwzor:logo":
+                        //Dane do modulu przewłaszczenie
+                        if (czydodatkowyelementjestAktywny("logo", fdod)) {
+                            pobrane = zwrocpozycje(lista, "logo");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
+                            Image logo = Image.getInstance(nazwaplikuzbazy);
+                            // Set the position of image
+                            logo.scaleToFit(160f, 160f);
+                            logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 40, wymiary.get("akordeon:formwzor:logo")-100); //e
+                            // Add paragraph to PDF document.
+                            document.add(logo);
+                        }
+                        break;
                 case "akordeon:formwzor:przewłaszczenie":
                     //Dane do modulu przewłaszczenie
                     if (fdod.get(2).getAktywny()) {

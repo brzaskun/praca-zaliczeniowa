@@ -35,6 +35,7 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("warunki dostawy","Dostawa na warunkach exworks");
         elementy.put("przewłaszczenie","Do momentu zapłaty towar jest własnością sprzedawcy");
         elementy.put("nr zamówienia","Podaj numer zamowienia");
+        elementy.put("logo","Plik graficzny");
     }
     private List<Fakturadodelementy> fakturadodelementy;
     @Inject

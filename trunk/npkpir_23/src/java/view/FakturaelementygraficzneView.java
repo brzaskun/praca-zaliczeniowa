@@ -4,15 +4,15 @@
  */
 package view;
 
+import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
+import entity.Fakturadodelementy;
+import entity.FakturadodelementyPK;
 import entity.Fakturaelementygraficzne;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,11 +24,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -47,6 +45,10 @@ public class FakturaelementygraficzneView implements Serializable {
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{fakturadodelementyView}")
+    private FakturadodelementyView fakturadodelementyView;
+    @Inject
+    private FakturadodelementyDAO fakturadodelementyDAO;
 
     public FakturaelementygraficzneView() {
     }
@@ -143,7 +145,48 @@ public class FakturaelementygraficzneView implements Serializable {
         f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
         f.getFakturaelementygraficznePK().setNazwaelementu(nazwakrotka);
         fakturaelementygraficzneDAO.dodaj(f);
+        RequestContext.getCurrentInstance().update("akordeon:formelementy");
         RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+    }
+    
+    public void usunlogo() {
+        Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+        if (element != null) {
+            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
+            File oldfile = new File(nazwaplikuzbazy);
+            if (oldfile.isFile()) {
+                oldfile.delete();
+                Fakturaelementygraficzne f = new Fakturaelementygraficzne();
+                f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
+                f.getFakturaelementygraficznePK().setNazwaelementu(element.getFakturaelementygraficznePK().getNazwaelementu());
+                fakturaelementygraficzneDAO.destroy(f);
+                odhaczuzycieloga();
+            }
+        }
+        RequestContext.getCurrentInstance().update("akordeon:formelementygraficzne:panellogo");
+    }
+    
+    public void odhaczuzycieloga() {
+        try {
+            List<Fakturadodelementy> fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
+                fakturadodelementy = new ArrayList<>();
+            }
+            for (Fakturadodelementy p : fakturadodelementy) {
+                if (p.getFakturadodelementyPK().getNazwaelementu().equals("logo")) {
+                    p.setAktywny(false);
+                    fakturadodelementyDAO.edit(p);
+                }
+            }
+            List<Fakturadodelementy> listaelementow = fakturadodelementyView.getFakturadodelementy();
+            for (Fakturadodelementy p : listaelementow) {
+                if (p.getFakturadodelementyPK().getNazwaelementu().equals("logo")) {
+                    p.setAktywny(false);
+                }
+            }
+            RequestContext.getCurrentInstance().update("akordeon:formelementy");
+        } catch (Exception e) {
+        }
     }
     
     public static void main(String[] args) {
@@ -161,6 +204,14 @@ public class FakturaelementygraficzneView implements Serializable {
    
     //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public FakturadodelementyView getFakturadodelementyView() {
+        return fakturadodelementyView;
+    }
+
+    public void setFakturadodelementyView(FakturadodelementyView fakturadodelementyView) {
+        this.fakturadodelementyView = fakturadodelementyView;
+    }
+
     public UploadedFile getUploadedFile() {
         return uploadedFile;
     }
