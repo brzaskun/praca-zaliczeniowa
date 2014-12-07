@@ -25,7 +25,7 @@
                     var gora = $("#formXY\\:goraTablica").val().split(",");
                     var co = $("#formXY\\:coTablica").val().split(",");
                     petlawywolujaca(lewy, gora, co);
-                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia'];
+                    var moduly = ['odbiorca','wystawca','data','fakturanumer','platnosc','datasprzedazy','towary','dozaplaty','podpis','przewłaszczenie','warunkidostawy','wezwaniedozapłaty','nrzamowienia','logo'];
                     for(var modul in moduly){
                         var nazwa = moduly[modul];
                         var nazwaakordeon = "#akordeon\\:formwzor\\:"+nazwa;
@@ -141,6 +141,12 @@
                         <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('wezwanie do zapłaty')}" />
                     </p:panelGrid>
                     <p:draggable for="wezwaniedozapłaty" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
+                </p:panel>
+                <p:panel id="logo" style="width: 250px; height: 250px" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('logo')}" >  
+                    <p:panelGrid columns="1">
+                        <h:outputText value="#{fakturadodelementyView.pobierzelementdodatkowy('logo')}" />
+                    </p:panelGrid>
+                    <p:draggable for="logo" cursor="move" opacity="0.9" containment="parent" grid="4, 4"/>
                 </p:panel>
             </div>
               </h:form>
