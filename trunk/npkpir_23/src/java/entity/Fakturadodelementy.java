@@ -36,8 +36,7 @@ public class Fakturadodelementy implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Size(min = 1, max = 65535)
-    @Column(nullable = false, length = 65535)
+    @Column
     private String trescelementu;
     @Basic(optional = false)
     @NotNull
