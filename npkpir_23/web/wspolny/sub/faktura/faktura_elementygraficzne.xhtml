@@ -5,15 +5,19 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
       <p:tab id="grafika" title="Dodatkowe elementy graficzne">
-          <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako logo"/>
-                <h:form>
-                  <p:fileUpload fileUploadListener="#{fakturaelementygraficzneView.zachowajZaladowanyPlik}"
+          <h:form id="formelementygraficzne">
+              <p:panel header="aktualne logo" id="panellogo">
+                  <p:graphicImage value="#{fakturaelementygraficzneView.aktualnelogo()}" height="100" width="100" />
+                </p:panel>
+                <p:panel header="Wczytaj plik graficzny, który będzie umieszczony na fakturze jako logo"/>
+                <p:fileUpload fileUploadListener="#{fakturaelementygraficzneView.zachowajZaladowanyPlik}" 
                                 mode="advanced" dragDropSupport="true" fileLimit="3"
                                 update="messages1" sizeLimit="100000"  allowTypes="/(\.|\/)(gif|jpe?g|png)$/" 
                                 validatorMessage="Nieprawidłowy typ pliku" invalidFileMessage="Nieprawidłowy typ pliku" invalidSizeMessage="Plik za duży"
                                 fileLimitMessage="Można załadować tylko jeden plik na jedno ładowanie"
-                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj"
-                                style="height: 200px;"/>
+                                uploadLabel="Wczytaj" label="Wybierz" cancelLabel="Rezygnuj" 
+                                style="height: 200px;">
+                </p:fileUpload>
                     <p:growl id="messages1" showDetail="true"/>
                 </h:form>
 <!--              <p:dataTable value="#{fakturaelementygraficzneView.fakturadodelementy}" var="wpis" style="width: 1000px;">

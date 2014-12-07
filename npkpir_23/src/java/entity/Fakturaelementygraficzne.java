@@ -9,7 +9,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,19 +23,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(catalog = "pkpir", schema = "")
 @XmlRootElement
-//@NamedQueries({
-//    @NamedQuery(name = "Fakturadodelementy.findAll", query = "SELECT f FROM Fakturadodelementy f"),
-//    @NamedQuery(name = "Fakturadodelementy.findByPodatnik", query = "SELECT f FROM Fakturadodelementy f WHERE f.fakturaelementygraficznePK.podatnik = :podatnik"),
-//    @NamedQuery(name = "Fakturadodelementy.findByNazwaelementu", query = "SELECT f FROM Fakturadodelementy f WHERE f.fakturaelementygraficznePK.nazwaelementu = :nazwaelementu"),
-//    @NamedQuery(name = "Fakturadodelementy.findByAktywny", query = "SELECT f FROM Fakturadodelementy f WHERE f.aktywny = :aktywny")})
+@NamedQueries({
+    @NamedQuery(name = "Fakturaelementygraficzne.findAll", query = "SELECT f FROM Fakturaelementygraficzne f"),
+    @NamedQuery(name = "Fakturaelementygraficzne.findByPodatnik", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.podatnik = :podatnik"),
+    @NamedQuery(name = "Fakturaelementygraficzne.findByNazwaelementu", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.fakturaelementygraficznePK.nazwaelementu = :nazwaelementu"),
+    @NamedQuery(name = "Fakturaelementygraficzne.findByAktywny", query = "SELECT f FROM Fakturaelementygraficzne f WHERE f.aktywny = :aktywny")
+})
 public class Fakturaelementygraficzne implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FakturaelementygraficznePK fakturaelementygraficznePK;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 65535)
-    @Column(nullable = false, length = 65535)
+    @Column
     private String trescelementu;
     @Basic(optional = false)
     @NotNull
@@ -44,6 +43,7 @@ public class Fakturaelementygraficzne implements Serializable {
     private boolean aktywny;
 
     public Fakturaelementygraficzne() {
+        this.setFakturaelementygraficznePK(new FakturaelementygraficznePK());
     }
 
     public Fakturaelementygraficzne(FakturaelementygraficznePK fakturaelementygraficznePK) {

@@ -14,6 +14,7 @@ import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Faktura;
 import entity.Fakturadodelementy;
+import entity.Fakturaelementygraficzne;
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
@@ -1046,6 +1047,10 @@ public class SessionFacade<T> implements Serializable{
 
     public Faktura findfaktura(Faktura f) {
         return em.find(Faktura.class, f.getFakturaPK());
+    }
+
+    public Fakturaelementygraficzne findFaktElementyGraficzne(String podatnik) {
+        return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
     }
   
 }
