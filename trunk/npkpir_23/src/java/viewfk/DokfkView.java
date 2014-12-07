@@ -255,7 +255,7 @@ private static final long serialVersionUID = 1L;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:dataDialogWpisywanie')).select();");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
     }
 
 //    //dodaje wiersze do dokumentu
@@ -599,8 +599,10 @@ private static final long serialVersionUID = 1L;
                     try {
                         wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
                         dolaczNowyWiersz(indexwTabeli, true);
+                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                     } catch (Exception e) {
                         dolaczNowyWiersz(indexwTabeli, false);
+                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                     }
                 } else if (kwotaWn == kwotaMa) {
                     try {
@@ -613,12 +615,14 @@ private static final long serialVersionUID = 1L;
 
                                 } else if (sprawdzczworki){
                                     selected.getListawierszy().remove(wiersznastepny);
+                                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                                     RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602\");");
                                     System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
                                     Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
                                 }
                             } else {
                                 selected.getListawierszy().remove(wiersznastepny);
+                                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                                 RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606\");");
                                 System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
                                 Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
@@ -631,7 +635,6 @@ private static final long serialVersionUID = 1L;
             } catch (Exception e) {
 
             }
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
         //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
     }
@@ -2400,7 +2403,8 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void skopiujKwoteZWierszaWyzej(int numerwiersza, String wnma) {
-        if (numerwiersza > 1) {
+        //jak nie bylo tego zastrzezenia z opisem to przyprzechodzeniu po polach usuwal ostatni wiersz po dojsciu do konta wn
+        if (numerwiersza > 1 && !selected.getListawierszy().get(numerwiersza-1).getOpisWiersza().equals("")) {
             int numerpoprzedni = numerwiersza - 2;
             int numeraktualny = numerwiersza - 1;
             StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());

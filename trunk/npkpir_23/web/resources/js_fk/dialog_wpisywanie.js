@@ -263,12 +263,10 @@ var focusNaNowoDodanymEnter = function(source) {
                     break;
                 }
             }
-        }
-        ;
+        };
     } catch (e) {
 
-    }
-    ;
+    };
 };
 
 var kopiujnazwepelna = function () {
