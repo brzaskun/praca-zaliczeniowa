@@ -69,7 +69,7 @@
                     </p:dataTable>
                 </p:tab>
                 <p:tab title="1">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable id="tabelakasa" value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 440px;">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -82,29 +82,72 @@
                                             ><!--to teraz powoduje blad-->
                             </p:autoComplete>
                         </p:column>
-                        <p:column>
+                        <p:column >
                             <f:facet name="header">
                                 <h:outputText value="opis"/>
                             </f:facet>
-                            <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
+                            <p:inputText value="#{item.wierszBOPK.opis}" style="width: 90%;" >
                                 <p:ajax event="blur" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista1)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column>
+                        <p:column width="60">
+                            <f:facet name="header">
+                                <h:outputText value="kurs"/>
+                            </f:facet>
+                            <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                             style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000" 
+                                             styleClass="kurswaluta"> 
+                                <p:ajax event="blur" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
+                            </pe:inputNumber>
+                        </p:column>
+                        <p:column width="70">
+                            <f:facet name="header">
+                                <h:outputText value="waluta"/>
+                            </f:facet>
+                            <h:selectOneMenu id="wybranawaluta" value="#{item.waluta}"
+                                             styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
+                                             onfocus="$(this).removeClass('ui-state-default');
+                                                     $(this).addClass('ui-state-focus');"
+                                             onblur="$(this).removeClass('ui-state-focus');
+                                                     $(this).addClass('ui-state-default');"
+                                             >
+                                <f:ajax />
+                                <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                      <p:column>
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tabelakasa"/>
                             </pe:inputNumber>
+                        </p:column>
+                        <p:column width="90">
+                            <f:facet name="header">
+                                <h:outputText value="KwotaWn PLN"/>
+                            </f:facet>
+                             <h:outputText value="#{item.kwotaWnPLN}" style="float: right;">
+                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
+                              </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tabelakasa"/>
                             </pe:inputNumber>
+                        </p:column>
+                        <p:column width="90">
+                            <f:facet name="header">
+                                <h:outputText value="KwotaMa PLN"/>
+                            </f:facet>
+                              <h:outputText value="#{item.kwotaMaPLN}" style="float: right;">
+                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
+                              </h:outputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">

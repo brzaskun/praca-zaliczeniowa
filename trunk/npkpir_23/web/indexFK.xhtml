@@ -9,22 +9,15 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-             
-                <f:view contentType="text/html">
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
-<!--                       
--->                         <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
-                            <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
-                           
-                        <p:layoutUnit position="center" >
-                            <h:form id="form">
-                                <ui:include src="sub/wyborpodatnikaFK.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
-                            </h:form>
-                        </p:layoutUnit>
-                               
-                    </p:layout>
-                </f:view>
-            
+            <f:view contentType="text/html">
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj"> 
+                    <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layout/south.xhtml"/>   <!-- panel poludniowy-->
+                    <p:layoutUnit position="center" >
+                        <ui:include src="sub/wyborpodatnikaFK.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>

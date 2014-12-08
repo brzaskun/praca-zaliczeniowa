@@ -890,17 +890,17 @@ private static final long serialVersionUID = 1L;
     }
     // tu oblicza sie vaty i dodaje wiersze
     public void rozliczVatKoszt(HashMap<String,Double> wartosciVAT) {
-        double nettovat = wartosciVAT.get("netto");
-        double kwotavat = wartosciVAT.get("vat");
+        double nettoEwidVat = wartosciVAT.get("netto");
+        double vatEwidVat = wartosciVAT.get("vat");
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
-        double kwotawPLN = 0.0;
+        double nettowPLN = 0.0;
         double vatwWalucie = 0.0;
         if (!w.getSymbolwaluty().equals("PLN") && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
             double kurs = selected.getTabelanbp().getKurssredni();
-            kwotawPLN = Math.round((nettovat*kurs) * 100.0);
-            kwotawPLN /= 100.0;
-            vatwWalucie = Math.round((kwotavat/kurs) * 100.0);
+            nettowPLN = Math.round((nettoEwidVat*kurs) * 100.0);
+            nettowPLN /= 100.0;
+            vatwWalucie = Math.round((vatEwidVat/kurs) * 100.0);
             vatwWalucie /= 100.0;
             for (EVatwpisFK p : selected.getEwidencjaVAT()) {
                 double kPLN = Math.round((p.getNetto()*kurs) * 100.0);
@@ -918,40 +918,57 @@ private static final long serialVersionUID = 1L;
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
                 wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
                 wierszpierwszy.setTabelanbp(selected.getTabelanbp());
-                if (w.getSymbolwaluty().equals("PLN")) {
-                    wn.setKwota(nettovat);
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                        ma.setKwota(nettovat);
+                if (nettoEwidVat == 0.0) {
+                     if (w.getSymbolwaluty().equals("PLN")) {
+                        wn.setKwota(vatEwidVat);
+                        ma.setKwota(vatEwidVat);
                     } else {
-                        ma.setKwota(nettovat+kwotavat);
+                        wn.setKwota(vatwWalucie);
+                        ma.setKwota(vatwWalucie);
+                    }
+                    if (kontoRozrachunkowe != null) {
+                        wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
+                    }
+                    Konto kontovat = selected.getRodzajedok().getKontovat();
+                    if (kontovat != null) {
+                        wierszpierwszy.getStronaWn().setKonto(kontovat);
                     }
                 } else {
-                    wn.setKwota(nettovat);
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                        ma.setKwota(nettovat);
+                    if (w.getSymbolwaluty().equals("PLN")) {
+                        wn.setKwota(nettoEwidVat);
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                            ma.setKwota(nettoEwidVat);
+                        } else {
+                            ma.setKwota(nettoEwidVat+vatEwidVat);
+                        }
                     } else {
-                        ma.setKwota(nettovat+vatwWalucie);
+                        wn.setKwota(nettoEwidVat);
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                            ma.setKwota(nettoEwidVat);
+                        } else {
+                            ma.setKwota(nettoEwidVat+vatwWalucie);
+                        }
+                    }
+                    if (kontoRozrachunkowe != null) {
+                        wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
+                    }
+                    Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
+                    if (kontonetto != null) {
+                        wierszpierwszy.getStronaWn().setKonto(kontonetto);
                     }
                 }
-                if (kontoRozrachunkowe != null) {
-                    wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
-                }
-                Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
-                if (kontonetto != null) {
-                    wierszpierwszy.getStronaWn().setKonto(kontonetto);
-                }
             }
-            double przechowajnettovat = nettovat;
+            double przechowajnettovat = nettoEwidVat;
             if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
-                nettovat = kwotawPLN;
+                nettoEwidVat = nettowPLN;
             }
-            if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+            if (!wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && vatEwidVat != 0.0 && nettoEwidVat != 0.0) {
                 Wiersz wierszdrugi;
                 if (w.getSymbolwaluty().equals("PLN")) {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, kwotavat, 1);
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWNT(selected, 2, vatEwidVat, 1);
                     } else {
-                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, kwotavat, 1);
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected, 2, vatEwidVat, 1);
                     }
                 } else {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
@@ -976,7 +993,7 @@ private static final long serialVersionUID = 1L;
                     }
                 }
                 selected.getListawierszy().add(wierszdrugi);
-            } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && kwotavat != 0.0) {
+            } else if (wpisView.isFKpiatki() && selected.getListawierszy().size()==1 && vatEwidVat != 0.0 && nettoEwidVat != 0.0) {
                 Wiersz wierszdrugi;
                 wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, przechowajnettovat, 1);
                 wierszdrugi.setTabelanbp(selected.getTabelanbp());
@@ -990,9 +1007,9 @@ private static final long serialVersionUID = 1L;
                 Wiersz wiersztrzeci;
                 if (w.getSymbolwaluty().equals("PLN")) {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
-                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, kwotavat, 1);
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWNT(selected, 3, vatEwidVat, 1);
                     } else {
-                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, kwotavat, 1);
+                        wiersztrzeci = ObslugaWiersza.utworzNowyWierszWn(selected, 3, vatEwidVat, 1);
                     }
                 } else {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
