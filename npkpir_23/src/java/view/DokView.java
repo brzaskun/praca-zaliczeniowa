@@ -452,20 +452,23 @@ public final class DokView implements Serializable {
     }
 
     public void updatevat(EwidencjaAddwiad e) {
-        int lp = e.getLp();
-        ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
-        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-        if (skrotRT.contains("ZZP")) {
-            sumbrutto = e.getNetto()+ (e.getVat()*2);
-        } else {
-            sumbruttoAddwiad();
+        try {
+            int lp = e.getLp();
+            ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
+            String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+            if (skrotRT.contains("ZZP")) {
+                sumbrutto = e.getNetto()+ (e.getVat()*2);
+            } else {
+                sumbruttoAddwiad();
+            }
+            String update = "dodWiad:tablicavat:" + lp + ":brutto";
+            RequestContext.getCurrentInstance().update(update);
+            update = "dodWiad:tabelapkpir2:0:sumbrutto";
+            RequestContext.getCurrentInstance().update(update);
+            String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":brutto_input').select();";
+            RequestContext.getCurrentInstance().execute(activate);
+        } catch (Exception ex) {
         }
-        String update = "dodWiad:tablicavat:" + lp + ":brutto";
-        RequestContext.getCurrentInstance().update(update);
-        update = "dodWiad:tabelapkpir2:0:sumbrutto";
-        RequestContext.getCurrentInstance().update(update);
-        String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":brutto_input').select();";
-        RequestContext.getCurrentInstance().execute(activate);
     }
 
     private void sumbruttoAddwiad() {
