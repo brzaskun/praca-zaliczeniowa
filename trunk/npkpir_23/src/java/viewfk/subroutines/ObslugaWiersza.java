@@ -90,7 +90,7 @@ public class ObslugaWiersza {
                 }
             }
         }
-        return stronalewa == stronaprawa;
+        return Math.round(stronalewa *100.0) /100.0 == Math.round(stronaprawa *100.0) /100.0;
     }
     
     public static Wiersz utworzNowyWiersz(Dokfk selected, int liczbawierszyWDokumencie)  {

@@ -764,7 +764,7 @@ public class PodatnikView implements Serializable {
     }
 
     public void dodajDokKsi() {
-        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getSkrot() != null) {
+        if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok() != null) {
             try {
                 selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
                 selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok());
@@ -775,6 +775,8 @@ public class PodatnikView implements Serializable {
             } catch (Exception ex) {
                 Msg.msg("e", "Niedodano nowego wzoru dokumentu, wystąpił błąd", "akordeon:form6");
             }
+        } else {
+             Msg.msg("e", "Brak nazwy i skrótu dokumentu", "akordeon:form6");
         }
     }
 

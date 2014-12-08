@@ -1275,7 +1275,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     double kwotawPLN = Math.round((e.getNetto()*kurs) * 10000.0) / 10000.0;
                     e.setVat(kwotawPLN * stawkaint);
                 } else {
-                    e.setVat(e.getNetto() * stawkaint);
+                    e.setVat(Math.round((e.getNetto()*stawkaint) * 100.0) / 100.0);
                 }
             
         } catch (Exception ex) {
@@ -1288,22 +1288,23 @@ public void updatenetto(EVatwpisFK e, String form) {
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
                     double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
-                    l.get(0).setVat((kwotawPLN * 0.23) / 2);
+                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0 /2);
                 } else {
-                    l.get(0).setVat((l.get(0).getNetto() * 0.23) / 2);
+                    l.get(0).setVat(Math.round((l.get(0).getNetto()* 0.23) * 100.0) / 100.0);
                 }
             } else {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
                     double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
-                    l.get(0).setVat((kwotawPLN * 0.23));
+                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0);
                 } else {
-                    l.get(0).setVat((l.get(0).getNetto() * 0.23));
+                    l.get(0).setVat(Math.round((l.get(0).getNetto()* 0.23) * 100.0) / 100.0);
                 }
             }
         }
-        e.setBrutto(e.getNetto() + e.getVat());
+        double suma = e.getNetto() + e.getVat();
+        e.setBrutto(Math.round(suma *100.0) /100.0);
         String update = form+":tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
         update = form+":tablicavat:" + lp + ":brutto";
@@ -1317,7 +1318,8 @@ public void updatenetto(EVatwpisFK e, String form) {
         int lp = e.getLp();
         String update = form+":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
-        e.setBrutto(e.getNetto() + e.getVat());
+        double suma = e.getNetto() + e.getVat();
+        e.setBrutto(Math.round(suma *100.0) /100.0);
         update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
@@ -1341,9 +1343,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
                     double kwotawPLN = Math.round((e.getNetto()*kurs) * 10000.0) / 10000.0;
-                    e.setVat(kwotawPLN * stawkaint);
+                    e.setVat(Math.round((kwotawPLN*stawkaint) * 100.0) / 100.0);
                 } else {
-                    e.setVat(e.getNetto() * stawkaint);
+                    e.setVat(Math.round((e.getNetto()*stawkaint) * 100.0) / 100.0);
                 }
             
         } catch (Exception ex) {
@@ -1356,22 +1358,23 @@ public void updatenetto(EVatwpisFK e, String form) {
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
                     double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
-                    l.get(0).setVat((kwotawPLN * 0.23) / 2);
+                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0 / 2);
                 } else {
-                    l.get(0).setVat((l.get(0).getNetto() * 0.23) / 2);
+                    l.get(0).setVat(Math.round((l.get(0).getNetto() * 0.23) * 100.0) / 100.0 / 2);
                 }
             } else {
                 Waluty w = selected.getWalutadokumentu();
                 if (!w.getSymbolwaluty().equals("PLN")) {
                     double kurs = selected.getTabelanbp().getKurssredni();
                     double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 10000.0) / 10000.0;
-                    l.get(0).setVat((kwotawPLN * 0.23));
+                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0);
                 } else {
-                    l.get(0).setVat((l.get(0).getNetto() * 0.23));
+                    l.get(0).setVat(Math.round((l.get(0).getNetto() * 0.23) * 100.0) / 100.0 );
                 }
             }
         }
-        e.setBrutto(e.getNetto() + e.getVat());
+        double suma = e.getNetto() + e.getVat();
+        e.setBrutto(Math.round(suma *100.0) /100.0);
         String update = "ewidencjavatRK:vat";
         RequestContext.getCurrentInstance().update(update);
         update = "ewidencjavatRK:brutto";
