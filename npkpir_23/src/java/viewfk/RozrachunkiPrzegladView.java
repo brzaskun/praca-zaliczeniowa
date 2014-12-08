@@ -61,7 +61,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     
     @PostConstruct
     private void init() {
-        listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkowe(wpisView.getPodatnikWpisu()));
+        listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView.getPodatnikWpisu()));
         if (listaKontRozrachunkowych != null) {
             wybranekonto = listaKontRozrachunkowych.get(0);
         }
