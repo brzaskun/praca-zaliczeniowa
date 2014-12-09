@@ -13,7 +13,8 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Parametr implements Serializable {
-
+    private static final long serialVersionUID = -3861404301478825762L;
+    
     private String mcOd;
     private String rokOd;
     private String mcDo;

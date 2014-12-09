@@ -2647,7 +2647,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 if (p.getKwotaWn() != 0) {
                     kwota += p.getKwotaWn();
                 } else {
-                    kwota += p.getKwotaMa();
+                    kwota -= p.getKwotaMa();
                 }
             }
 

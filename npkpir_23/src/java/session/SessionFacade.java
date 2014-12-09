@@ -1056,5 +1056,9 @@ public class SessionFacade<T> implements Serializable{
     public Fakturaelementygraficzne findFaktElementyGraficzne(String podatnik) {
         return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
     }
+
+    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
+    }
   
 }

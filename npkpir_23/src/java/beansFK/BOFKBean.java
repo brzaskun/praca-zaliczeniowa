@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package beansFK;
 
-import dao.StronaWierszaDAO;
-import daoFK.KontoDAOfk;
+import daoFK.WierszBODAO;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.WierszBO;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
@@ -22,38 +22,30 @@ import view.WpisView;
 @Named
 @Singleton
 public class BOFKBean {
-    
-//    public static void resetujBO(KontoDAOfk kontoDAOfk, String podatnik) {
-//        ArrayList<Konto> konta = new ArrayList<>();
-//        konta.addAll(kontoDAOfk.findWszystkieKontaBilansowePodatnika(podatnik));
-//        for (Konto p: konta) {
-//            p.setBoWn(0.0);
-//            p.setBoMa(0.0);
-//            p.setBlokada(false);
-//            kontoDAOfk.edit(p);
-//        }
-//    }
-//    
-//    public static void generujBO(KontoDAOfk kontoDAOfk, StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-//        ArrayList<StronaWiersza> kontozapisy = new ArrayList<>();
-//        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokWalutaBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), "PLN"));
-//        ArrayList<Konto> konta = new ArrayList<>();
-//        konta.addAll(kontoDAOfk.findAll());
-//        for (StronaWiersza p : kontozapisy) {
-//            for (Konto r : konta) {
-//                if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
-//                    r.setBoMa(r.getBoMa()+p.getKwota());
-//                    r.setBlokada(true);
-//                    kontoDAOfk.edit(r);
-//                    break;
-//                } else if (p.getKonto().equals(r.getPelnynumer())&&p.getKwota()>0) {
-//                    r.setBoWn(r.getBoWn()+p.getKwota());
-//                    r.setBlokada(true);
-//                    kontoDAOfk.edit(r);
-//                    break;
-//                }
-//            }
-//            
-//        }
-//    }
+
+    public static List<StronaWiersza> pobierzZapisyBO(Konto konto, WierszBODAO wierszBODAO, WpisView wpisView) {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+        for (WierszBO p : wierszeBO) {
+            if (p.getKwotaWnPLN() > 0) {
+                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+            } else {
+                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+            }
+        }
+        return zapisy;
+    }
+
+    public static List<StronaWiersza> pobierzZapisyBO(Konto konto, String waluta, WierszBODAO wierszBODAO, WpisView wpisView) {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKontoWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto, waluta);
+        for (WierszBO p : wierszeBO) {
+            if (p.getKwotaWnPLN() > 0) {
+                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+            } else {
+                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+            }
+        }
+        return zapisy;
+    }
 }
