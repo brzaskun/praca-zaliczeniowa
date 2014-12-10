@@ -159,7 +159,7 @@
                                                      $(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                              <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
-                            <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" />
+                             <p:ajax event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
                             <p:ajax event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
@@ -202,7 +202,7 @@
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontovat eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
-                        <h:outputText value="treść dok."/>
+                        <h:outputText value="treść dokumentu"/>
                         <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 'kontrahent' : ''}"/>
                         <h:outputText value="wartość dokumentu"/>
                         <h:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
@@ -213,7 +213,8 @@
                                          $(this).addClass('ui-state-default');" style="height: 19px;"
                                      >
                             <f:ajax />
-                            <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}"/>
+                            <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true" 
+                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}"  update=":formwpisdokument:dataList"/>
                             <p:ajax event="blur" listener="#{dokfkView.pokazZapisButton()}" update=":formwpisdokument:panelwpisbutton"/>
                         </h:inputText>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"

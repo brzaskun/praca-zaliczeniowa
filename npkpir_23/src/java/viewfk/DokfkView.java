@@ -88,6 +88,8 @@ private static final long serialVersionUID = 1L;
     @Inject
     private KlienciDAO klDAO;
     @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
@@ -1569,7 +1571,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
                 Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
-                Msg.msg("i", "Go on Master");
+                Msg.msg("i", "Nie znaleziono duplikatu");
+            }
+            try {
+                Wiersz w = selected.getListawierszy().get(0);
+                w.setOpisWiersza(selected.getOpisdokfk());
+            } catch (Exception e) {
+                
             }
         }
     }
@@ -1654,6 +1662,14 @@ public void updatenetto(EVatwpisFK e, String form) {
             pokazPanelWalutowy = false;
         }
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+        try {
+            if (selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
+                Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                selected.setKontr(k);
+            }
+        } catch (Exception e) {
+            
+        }
     }
     
     private Rodzajedok odnajdzZZ() {
@@ -2684,6 +2700,20 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
         }
         return sumaWn-sumaMa;
+    }
+    
+    public void uzupelnijdokumentyodkontrahenta() {
+        try {
+            for (Dokfk p : wykazZaksiegowanychDokumentow) {
+                if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2 && p.getKontr() == null) {
+                    Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                    p.setKontr(k);
+                    dokDAOfk.edit(p);
+                }
+            }
+        } catch (Exception e) {
+            
+        }
     }
 //<editor-fold defaultstate="collapsed" desc="comment">
     
