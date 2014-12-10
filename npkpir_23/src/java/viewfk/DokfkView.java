@@ -544,7 +544,7 @@ private static final long serialVersionUID = 1L;
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
-        if (kwotastara != kwotanowa) {
+        if (Math.round(kwotastara *100.0) /100.0 != Math.round(kwotanowa *100.0) /100.0) {
             try {
                 String clientID = ((InputNumber) e.getSource()).getClientId();
                 String indexwiersza = clientID.split(":")[2];
@@ -661,6 +661,7 @@ private static final long serialVersionUID = 1L;
     public void dodajPustyWierszNaKoncu() {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
         if (lpWierszaWpisywanie > 0) {
+            Msg.msg("Dodaje pusty wiersz na koncu");
             Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie - 1);
             int indexwTabeli = wiersz.getIdporzadkowy() - 1;
             Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
