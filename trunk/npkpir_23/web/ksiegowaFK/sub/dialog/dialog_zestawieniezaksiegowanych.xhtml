@@ -7,7 +7,9 @@
     >
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
-
+        <h:form>
+            <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+        </h:form>
     
          <h:form id="zestawieniedokumentow">
                
@@ -49,8 +51,8 @@
             <p:column headerText="symbol" width="90" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
             </p:column>
-            <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr}" filterBy="#{item.kontr}" >
-                <h:outputText value="#{item.kontr}"/>
+                     <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                         <h:outputText value="#{item.kontr.npelna}"/>
             </p:column>
             <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
