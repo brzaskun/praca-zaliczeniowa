@@ -48,7 +48,7 @@ public class PdfPIT28 {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
-        document.addTitle("PIT5");
+        document.addTitle("PIT28");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk PIT28");
         document.addKeywords("PIT28, PDF");
@@ -110,16 +110,24 @@ public class PdfPIT28 {
                 table.addCell(ustawfrazeAlign("","center",10));
                 
                 table.addCell(ustawfrazeAlign("ZUS 51","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                if (selected.getZus51() != null) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(0.0)),"right",10));
+                }
                 table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
                 table.addCell(ustawfrazeAlign("podstawa op.","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
-               table.addCell(ustawfrazeAlign("podatek za miesiąc","center",10));
+                table.addCell(ustawfrazeAlign("podatek za miesiąc","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
                 table.addCell(ustawfrazeAlign("ZUS 52","center",10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
+                if (selected.getZus52() != null) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52())),"right",10));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(0.0)),"right",10));
+                }
                 table.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
 

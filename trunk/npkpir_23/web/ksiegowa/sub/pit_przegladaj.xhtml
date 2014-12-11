@@ -171,6 +171,11 @@
                         <h:outputText value="przelano"/><h:outputText value="#{ryczView.biezacyPit.przelano}"/>
                         <h:outputText value="zamknięty"/><h:outputText value="#{ryczView.biezacyPit.zamkniety}"/>
                     </p:panelGrid>
+                    <p:panelGrid  columns="3" style="margin-left: 50px; width: 350px">
+                        <p:commandButton  value="Pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ryczView.drukujRyczalt()}" onsuccess="wydrukpit5('#{WpisView.podatnikWpisu}');" oncomplete="$('#formpi3\\:pitwysylka').show();" style="width: 150px;">
+                        </p:commandButton>
+                        <p:commandButton id="pitwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; width: 150px;"/>
+                </p:panelGrid>
                 </h:form>
             </p:panelGrid>
 </ui:composition>   

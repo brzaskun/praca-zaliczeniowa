@@ -486,10 +486,14 @@ public class ZestawienieRyczaltView implements Serializable {
              try {
                 rozliczstrate(tmpP);
                 obliczpodatek();
-                if(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
-                    biezacyPit.setNaleznazal(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()));
+                if(biezacyPit.getZus52() != null) {
+                    if (biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
+                        biezacyPit.setNaleznazal(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()));
+                    } else {
+                        biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                    }
                 } else {
-                    biezacyPit.setNaleznazal(BigDecimal.ZERO);
+                    biezacyPit.setNaleznazal(biezacyPit.getPodatek());
                 }
                 if (biezacyPit.getNaleznazal().compareTo(BigDecimal.ZERO) == 1) {
                     biezacyPit.setDozaplaty(biezacyPit.getNaleznazal());
@@ -671,13 +675,22 @@ public class ZestawienieRyczaltView implements Serializable {
     private void wyliczodliczenieZmniejszenia(){
         for(RyczaltPodatek p : biezacyPit.getListapodatkow()){
             BigDecimal wartosc = new BigDecimal(p.getUdzialprocentowy());
-            BigDecimal zus51 = wartosc.multiply(biezacyPit.getZus51());
-            zus51 = zus51.setScale(2, RoundingMode.HALF_EVEN);
-            BigDecimal tmp = zus51;
-            BigDecimal strata = wartosc.multiply(biezacyPit.getStrata());
-            strata = strata.setScale(2, RoundingMode.HALF_EVEN);
-            tmp = tmp.add(strata);
-            p.setZmniejszenie(tmp.doubleValue());
+            BigDecimal tmp = new BigDecimal(0.0);
+            try {
+                BigDecimal zus51 = wartosc.multiply(biezacyPit.getZus51());
+                zus51 = zus51.setScale(2, RoundingMode.HALF_EVEN);
+                tmp = zus51;
+            } catch (Exception e1) {
+                
+            }
+            try {
+                BigDecimal strata = wartosc.multiply(biezacyPit.getStrata());
+                strata = strata.setScale(2, RoundingMode.HALF_EVEN);
+                tmp = tmp.add(strata);
+                p.setZmniejszenie(tmp.doubleValue());
+            } catch (Exception e1) {
+                
+            }
         }
     }
     
