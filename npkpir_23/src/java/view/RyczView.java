@@ -13,6 +13,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfPIT28;
 
 /**
  *
@@ -49,6 +50,14 @@ public class RyczView implements Serializable {
         lista.remove(selected);
         RequestContext.getCurrentInstance().update("formpi1:tablicapit");
         Msg.msg("i", "Usunieto ostatni PIT ryczałt"+selected.getUdzialowiec()+" za m-c: "+selected.getPkpirM(),"formpi:messages");
+    }
+     
+    public void drukujRyczalt() {
+        try {
+            PdfPIT28.drukuj(biezacyPit, wpisView, podatnikDAO);
+        } catch (Exception e) {
+            
+        }
     }
      
      public void inforryczalt() {
