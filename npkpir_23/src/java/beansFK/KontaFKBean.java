@@ -60,4 +60,9 @@ public class KontaFKBean implements Serializable{
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(wpisView.getPodatnikObiekt(), konto, wpisView.getRokWpisuSt());
         return pobranezapisy;
     }
+    
+    public static List<StronaWiersza> pobierzZapisyRokMc(Konto konto, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcWszystkie(wpisView.getPodatnikObiekt(), konto, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        return pobranezapisy;
+    }
 }
