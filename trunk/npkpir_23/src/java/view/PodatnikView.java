@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -767,7 +768,9 @@ public class PodatnikView implements Serializable {
         if (selectedDokKsi.getNazwa() != null && selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok() != null) {
             try {
                 selectedDokKsi.setPodatnikObj(wpisView.getPodatnikObiekt());
-                selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok());
+                selectedDokKsi.setSkrot(selectedDokKsi.getRodzajedokPK().getSkrotNazwyDok().toUpperCase(new Locale("pl")));
+                selectedDokKsi.getRodzajedokPK().setSkrotNazwyDok(selectedDokKsi.getSkrot().toUpperCase(new Locale("pl")));
+                selectedDokKsi.setNazwa(selectedDokKsi.getNazwa().toLowerCase(new Locale("pl")));
                 rodzajedokDAO.dodaj(selectedDokKsi);
                 rodzajeDokumentowLista.add(selectedDokKsi);
                 selectedDokKsi = new Rodzajedok();
