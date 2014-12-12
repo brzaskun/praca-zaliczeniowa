@@ -31,6 +31,12 @@ public class SaldoKonto implements Serializable {
 
     public SaldoKonto() {
     }
+    
+    public SaldoKonto (Konto konto, double saldoWn, double saldoMa) {
+        this.konto = konto;
+        this.saldoWn = saldoWn;
+        this.saldoMa = saldoMa;
+    }
 
     @Override
     public int hashCode() {

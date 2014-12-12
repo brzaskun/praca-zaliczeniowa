@@ -32,10 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Rodzajedok.findAll", query = "SELECT r FROM Rodzajedok r"),
     @NamedQuery(name = "Rodzajedok.findBySkrot", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrotNazwyDok = :skrot"),
+    @NamedQuery(name = "Rodzajedok.findBySkrotPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.skrotNazwyDok = :skrot AND r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByNazwa", query = "SELECT r FROM Rodzajedok r WHERE r.nazwa = :nazwa"),
     @NamedQuery(name = "Rodzajedok.findByRodzajtransakcji", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajtransakcji = :rodzajtransakcji"),
     @NamedQuery(name = "Rodzajedok.findByWzorzec", query = "SELECT r FROM Rodzajedok r WHERE r.wzorzec = :wzorzec"),
-    @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik AND r.niepokazuj = '0'"),
+    @NamedQuery(name = "Rodzajedok.findByPodatnik", query = "SELECT r FROM Rodzajedok r WHERE r.podatnikObj = :podatnik"),
     @NamedQuery(name = "Rodzajedok.findByListaWspolna", query = "SELECT r FROM Rodzajedok r WHERE r.rodzajedokPK.podatnik = '0001005008'"),
     @NamedQuery(name = "Rodzajedok.findByKategoriaDokumentu", query = "SELECT r FROM Rodzajedok r WHERE r.kategoriadokumentu = :kategoriadokumentu")
 })

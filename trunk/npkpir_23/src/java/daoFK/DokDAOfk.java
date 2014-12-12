@@ -111,6 +111,14 @@ public class DokDAOfk extends DAO implements Serializable {
         return dokFacade.findDokfkBKVAT(podatnik,rok);
     }
 
+    public Dokfk findDokfofaType(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+        try {
+           return dokFacade.findDokfofaTypeKontrahent(podatnikWpisu,vat, rokWpisuSt, mc);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+
    
     
 }
