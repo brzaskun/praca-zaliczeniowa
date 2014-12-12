@@ -13,6 +13,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddablefk.SaldoKonto;
+import entity.Rodzajedok;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
@@ -129,5 +130,8 @@ public class KontaVatFKView implements Serializable {
         }
     }
 
+    public void generowanieDokumentuVAT() {
+        Rodzajedok rodzajedok = new Rodzajedok();
+    }
    
 }

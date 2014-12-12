@@ -34,6 +34,9 @@
                 <p:column headerText="kategoria" style="text-align: center;">
                     <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': 'płatność')))}" />
                 </p:column>
+                 <p:column headerText="automat" style="text-align: center;">
+                     <h:outputText value="#{loop.niepokazuj eq true ? 'n/p' : null}" />
+                </p:column>
                 <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                     <p:commandButton actionListener="#{rodzajedokView.destroy(loop)}" onclick="PF('confirmation').show()" id="delete" icon="ui-icon ui-icon-trash" type="submit" />
                 </p:column>
@@ -62,8 +65,11 @@
                 <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                 <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
                 <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+                <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                 <f:selectItem itemLabel="płatności" itemValue="0"/>
             </h:selectOneMenu>
+            <h:outputText value=" dokument automatyczny: " />
+            <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
         </p:panelGrid>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
             <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update=":form:dokLista"/>

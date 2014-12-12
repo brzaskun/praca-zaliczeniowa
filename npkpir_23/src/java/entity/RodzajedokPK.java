@@ -16,6 +16,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class RodzajedokPK implements Serializable {
+    private static final long serialVersionUID = 766671343308317524L;
     private String skrotNazwyDok;
     private String podatnik;
 
@@ -25,6 +26,13 @@ public class RodzajedokPK implements Serializable {
     public RodzajedokPK(String skrot) {
         this.skrotNazwyDok = skrot;
     }
+
+    public RodzajedokPK(String skrot, String podatnik) {
+        this.skrotNazwyDok = skrot;
+        this.podatnik = podatnik;
+    }
+    
+    
 
     @Override
     public int hashCode() {
