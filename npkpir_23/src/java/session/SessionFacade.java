@@ -305,6 +305,12 @@ public class SessionFacade<T> implements Serializable{
         wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot", skrot).getSingleResult();
         return wynik;
     }
+    
+    public Rodzajedok findRodzajedokPodatnik(String skrot, Podatnik podatnik) {
+        Rodzajedok wynik = null;
+        wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
+        return wynik;
+    }
 
     public List<Amodok> findAmodok(String podatnik) {
         List<Amodok> tmp = em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -1063,6 +1069,10 @@ public class SessionFacade<T> implements Serializable{
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+    }
+
+    public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
+        return (Dokfk) em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
     }
   
 }

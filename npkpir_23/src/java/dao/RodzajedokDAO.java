@@ -30,6 +30,10 @@ public class RodzajedokDAO extends DAO implements Serializable{
         return rodzajedokFacade.findRodzajedok(skrot);
     }
     
+    public Rodzajedok find(String skrot, Podatnik podatnik){
+        return rodzajedokFacade.findRodzajedokPodatnik(skrot, podatnik);
+    }
+    
     public  List<Rodzajedok> findAll(){
         try {
             return rodzajedokFacade.findAll(Rodzajedok.class);
