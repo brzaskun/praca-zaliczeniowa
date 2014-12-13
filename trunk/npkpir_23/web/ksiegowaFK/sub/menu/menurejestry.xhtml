@@ -6,14 +6,21 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menurejestry" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
-                <p:tab title="wrowadzanie">
+                <p:tab title="rejestry vat">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Ewidencje vat" oncomplete="PF('dialogewidencjevat').show();" >
+                            <p:menuitem value="przeglądanie" oncomplete="PF('dialogewidencjevat').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
                                 <f:actionListener binding="#{ewidencjaVatView.drukujPdfEwidencje()}"/>
                                 <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>
                             </p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+                <p:tab title="różnice kursowe">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przeglądanie" onclick="PF('dialogroznicekursowe').show();"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  
