@@ -39,6 +39,8 @@ public class RozniceKursoweFKView implements Serializable {
     @PostConstruct
     private void init() {
         pobranetransakcje = transakcjaDAO.findPodatnikRok(wpisView);
+        pobranetransakcje.addAll(transakcjaDAO.findPodatnikBO(wpisView));
+        
     }
 
     public List<Transakcja> getPobranetransakcje() {

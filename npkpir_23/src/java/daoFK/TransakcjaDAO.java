@@ -95,4 +95,8 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         return sessionFacade.findByPodatniRok(wpisView);
     }
     
+    public List<Transakcja> findPodatnikBO(WpisView wpisView) {
+        return sessionFacade.findByPodatnikBO(wpisView);
+    }
+    
 }
