@@ -131,19 +131,21 @@ public class KontaVatFKView implements Serializable {
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
         List<StronaWiersza> zapisyRok  = null;
-        if (kontonastepnymc(p)) {
-            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
-                zapisyRok = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
-            }
-        } else  {
-            zapisyRok = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-        }
-        for (StronaWiersza r : zapisyRok) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
-            } else {
-                saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
+//        if (kontonastepnymc(p)) {
+//            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
+//                zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
+//            }
+//        } else  {
+            zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
+//        }
+        if (zapisyRok != null) {
+            for (StronaWiersza r : zapisyRok) {
+                if (r.getWnma().equals("Wn")) {
+                    saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
+                } else {
+                    saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
+                }
             }
         }
     }
@@ -181,7 +183,7 @@ public class KontaVatFKView implements Serializable {
     }
     
     private int oblicznumerkolejny() {
-        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikWpisu(), "VAT", wpisView.getRokWpisuSt());
+        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "VAT", wpisView.getRokWpisuSt());
         return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii()+1;
     }
 
@@ -234,6 +236,8 @@ public class KontaVatFKView implements Serializable {
         Rodzajedok rodzajedok = rodzajedokDAO.find("VAT", wpisView.getPodatnikObiekt());
         if (rodzajedok != null) {
             nd.setRodzajedok(rodzajedok);
+        } else {
+            Msg.msg("e", "Brak zdefiniowanego dokumentu VAT");
         }
     }
 

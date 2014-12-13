@@ -723,7 +723,7 @@ public class SessionFacade<T> implements Serializable{
     }
 
    
-    public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk, String rok) {
+    public Dokfk findDokfkLastofaType(Podatnik podatnik, String seriadokfk, String rok) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
@@ -1069,6 +1069,10 @@ public class SessionFacade<T> implements Serializable{
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoRokMcVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
