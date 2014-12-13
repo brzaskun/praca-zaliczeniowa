@@ -8,6 +8,7 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
@@ -61,8 +62,8 @@ public class KontaFKBean implements Serializable{
         return pobranezapisy;
     }
     
-    public static List<StronaWiersza> pobierzZapisyRokMc(Konto konto, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO) {
-        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcWszystkie(wpisView.getPodatnikObiekt(), konto, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+    public static List<StronaWiersza> pobierzZapisyRokMc(Konto konto, Podatnik podatnik, String rok, String mc, StronaWierszaDAO stronaWierszaDAO) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcWszystkie(podatnik, konto, rok, mc);
         return pobranezapisy;
     }
 }

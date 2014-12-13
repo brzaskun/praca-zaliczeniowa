@@ -17,6 +17,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -129,7 +130,15 @@ public class KontaVatFKView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyRok = KontaFKBean.pobierzZapisyRokMc(p, wpisView, stronaWierszaDAO);
+        List<StronaWiersza> zapisyRok  = null;
+        if (kontonastepnymc(p)) {
+            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
+                zapisyRok = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
+            }
+        } else  {
+            zapisyRok = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
+        }
         for (StronaWiersza r : zapisyRok) {
             if (r.getWnma().equals("Wn")) {
                 saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
@@ -137,6 +146,13 @@ public class KontaVatFKView implements Serializable {
                 saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
             }
         }
+    }
+    
+    private boolean kontonastepnymc(Konto p) {
+        if (p.getNazwapelna().contains("następny")) {
+            return true;
+        }
+        return false;
     }
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
@@ -325,6 +341,8 @@ public class KontaVatFKView implements Serializable {
         zaokr /= 100;
         System.out.println(zaokr);
     }
+
+   
 
    
 
