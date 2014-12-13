@@ -1649,7 +1649,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         //zeby nadawal nowy numer tylko przy edycji
         if (zapisz0edytuj1 == false) {
             try {
-                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), skrotnazwydokumentu, wpisView.getRokWpisuSt());
+                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), skrotnazwydokumentu, wpisView.getRokWpisuSt());
                 selected.getDokfkPK().setNrkolejnywserii(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejnywserii() + 1);
             } catch (Exception e) {
                 selected.getDokfkPK().setNrkolejnywserii(1);
@@ -2490,7 +2490,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             String[] elementy;
             try {
                 elementy = wzorzec.split(separator);
-                Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt().getNip(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+                Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
                 String[] elementyold;
                 elementyold = ostatnidokument.getNumerwlasnydokfk().split(separator);
                 for (int i = 0; i < elementy.length; i++) {

@@ -83,7 +83,7 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
 
-    public Dokfk findDokfkLastofaType(String podatnik, String seriadokfk, String rok) {
+    public Dokfk findDokfkLastofaType(Podatnik podatnik, String seriadokfk, String rok) {
        try {
            return dokFacade.findDokfkLastofaType(podatnik,seriadokfk, rok);
        } catch (Exception e ){
