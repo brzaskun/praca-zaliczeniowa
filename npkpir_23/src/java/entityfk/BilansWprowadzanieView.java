@@ -425,6 +425,7 @@ public class BilansWprowadzanieView implements Serializable {
                     st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
                     st.setOpisBO(p.getWierszBOPK().getOpis());
                     st.setKwotaPLN(p.getKwotaWnPLN());
+                    st.setTypStronaWiersza(9);
                     w.setStronaWn(st);
                 } else if (p.getKwotaMa() != 0){
                     StronaWiersza st = new StronaWiersza(w, "Ma", p.getKwotaMa(), p.getKonto());
@@ -435,6 +436,7 @@ public class BilansWprowadzanieView implements Serializable {
                     st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
                     st.setOpisBO(p.getWierszBOPK().getOpis());
                     st.setKwotaPLN(p.getKwotaMaPLN());
+                    st.setTypStronaWiersza(9);
                     w.setStronaMa(st);
                 }
                 nd.getListawierszy().add(w);
