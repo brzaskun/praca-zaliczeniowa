@@ -92,14 +92,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 
+                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoBOWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                  kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
              }
              //Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             
+             kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoBOWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
              kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
              // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }
@@ -108,19 +108,7 @@ public class KontoObrotyFKView implements Serializable{
         }
      }
       
-      private List<StronaWiersza> pobierzZapisyBO(Konto konto) {
-          List<StronaWiersza> zapisy = new ArrayList<>();
-          List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
-          for (WierszBO p : wierszeBO) {
-              if (p.getKwotaWnPLN()>0) {
-                zapisy.add(new StronaWiersza(p,"Wn","zapisy"));
-              } else {
-                zapisy.add(new StronaWiersza(p,"Ma","zapisy"));
-              }
-          }
-          return zapisy;
-      }
-      
+            
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
               return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), macierzyste.getPelnynumer());
