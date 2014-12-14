@@ -24,6 +24,7 @@ public class Mce implements Serializable{
     private static final List<String> mceList;
     private static final Map<Integer, String> numberToMiesiac;
     private static final Map<Integer, String> numberToNazwamiesiaca;
+    private static final Map<String, String> stringToNazwamiesiaca;
     private static final Map<String,Integer> miesiacToNumber;
     private static final Map<String,Integer> mapamcyCalendar;
 
@@ -70,6 +71,20 @@ public class Mce implements Serializable{
         numberToNazwamiesiaca.put(10, "październik");
         numberToNazwamiesiaca.put(11, "listopad");
         numberToNazwamiesiaca.put(12, "grudzień");
+        
+        stringToNazwamiesiaca = new HashMap<>();
+        stringToNazwamiesiaca.put("01", "styczeń");
+        stringToNazwamiesiaca.put("02", "luty");
+        stringToNazwamiesiaca.put("03", "marzec");
+        stringToNazwamiesiaca.put("04", "kwiecień");
+        stringToNazwamiesiaca.put("05", "maj");
+        stringToNazwamiesiaca.put("06", "czerwiec");
+        stringToNazwamiesiaca.put("07", "lipiec");
+        stringToNazwamiesiaca.put("08", "sierpień");
+        stringToNazwamiesiaca.put("09", "wrzesień");
+        stringToNazwamiesiaca.put("10", "październik");
+        stringToNazwamiesiaca.put("11", "listopad");
+        stringToNazwamiesiaca.put("12", "grudzień");
         
         miesiacToNumber = new HashMap<>();
         miesiacToNumber.put("01",1);
@@ -182,7 +197,12 @@ public class Mce implements Serializable{
     public static List<String> getMceListS() {
         return mceList;
     }
+
+
+    public static Map<String, String> getStringToNazwamiesiaca() {
+        return stringToNazwamiesiaca;
+    }
+        
     
 //</editor-fold>
-    
 }

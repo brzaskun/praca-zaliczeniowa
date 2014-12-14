@@ -22,13 +22,13 @@ var zrobFloat = function (kwota){
     }
 };
 
- 
-var t;
-var startTimer = function (){
-   t = setTimeout("PF('dialogAjaxCzekaj').show()", 1100);
-};
-var stopTimer = function (){
-   clearTimeout(t);
-   PF('dialogAjaxCzekaj').hide();
-};
+// 
+//var t;
+//var startTimer = function (){
+//   t = setTimeout("PF('dialogAjaxCzekaj').show()", 1100);
+//};
+//var stopTimer = function (){
+//   clearTimeout(t);
+//   PF('dialogAjaxCzekaj').hide();
+//};
  

@@ -12,7 +12,8 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
-import embeddablefk.SaldoKonto;
+import embeddablefk.SaldoKontoNarastajaco;
+import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
@@ -32,7 +33,7 @@ import view.WpisView;
 @ManagedBean
 @ViewScoped
 public class SaldoAnalitykaNarastajacoView implements Serializable {
-    private List<SaldoKonto> listaSaldoKonto;
+    private List<SaldoKontoNarastajaco> listaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -52,28 +53,28 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
     
-     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
-        List<SaldoKonto> przygotowanalista = new ArrayList<>();
+     private List<SaldoKontoNarastajaco> przygotowanalistasald(List<Konto> kontaklienta) {
+        List<SaldoKontoNarastajaco> przygotowanalista = new ArrayList<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
-            SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setId(licznik++);
-            saldoKonto.setKonto(p);
-            naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p);
-            saldoKonto.sumujBOZapisy();
-            saldoKonto.wyliczSaldo();
-            dodajdolisty(saldoKonto, przygotowanalista);
+            SaldoKontoNarastajaco saldoKontoNarastajaco = new SaldoKontoNarastajaco();
+            saldoKontoNarastajaco.setId(licznik++);
+            saldoKontoNarastajaco.setKonto(p);
+            naniesBOnaKonto(saldoKontoNarastajaco, p);
+            naniesZapisyNaKonto(saldoKontoNarastajaco, p);
+            saldoKontoNarastajaco.sumujBOZapisy();
+            saldoKontoNarastajaco.wyliczSaldo();
+            dodajdolisty(saldoKontoNarastajaco, przygotowanalista);
         }
         return przygotowanalista;
     }
 
      //<editor-fold defaultstate="collapsed" desc="comment">
-     public List<SaldoKonto> getListaSaldoKonto() {
+     public List<SaldoKontoNarastajaco> getListaSaldoKonto() {
          return listaSaldoKonto;
      }
      
-     public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
+     public void setListaSaldoKonto(List<SaldoKontoNarastajaco> listaSaldoKonto) {
          this.listaSaldoKonto = listaSaldoKonto;
      }
      
@@ -86,7 +87,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
      }
 //</editor-fold>
 
-    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
+    private void naniesBOnaKonto(SaldoKontoNarastajaco saldoKonto, Konto p) {
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
@@ -97,18 +98,27 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy(p);
-        for (StronaWiersza r : zapisyRok) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
-            } else {
-                saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
+    private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p) {
+        for (String m : Mce.getMceListS()) {
+            List<StronaWiersza> zapisyRok = pobierzzapisy(p, m);
+            double obrotyWn = 0.0;
+            double obrotyMa = 0.0;
+            for (StronaWiersza r : zapisyRok) {
+                if (r.getWnma().equals("Wn")) {
+                    obrotyWn += r.getKwotaPLN();
+                } else {
+                    obrotyMa += r.getKwotaPLN();
+                }
             }
+            SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
+            o.setNazwamca(m);
+            o.setObrotyWn(obrotyWn);
+            o.setObrotyMa(obrotyMa);
+            saldoKonto.getObrotymiesiecy().add(o);
         }
     }
 
-    private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
+    private void dodajdolisty(SaldoKontoNarastajaco saldoKonto, List<SaldoKontoNarastajaco> przygotowanalista) {
         if (saldoKonto.getObrotyBoWn() > 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
@@ -119,13 +129,8 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private List<StronaWiersza> pobierzzapisy(Konto p) {
-        List<String> poprzedniemce = Mce.poprzedniemce(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-        for (String r : poprzedniemce) {
-            zapisy.addAll(KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
-        }
-        return zapisy;
+    private List<StronaWiersza> pobierzzapisy(Konto p, String mc) {
+        return KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, stronaWierszaDAO);
     }
    
     
