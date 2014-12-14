@@ -33,12 +33,12 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column >
-                    <p:commandButton  style="width: 150px; margin-left: 10%;"  actionListener="#{saldoAnalitykaView.init()}" value="zmień m-c" update="@form">
+                    <p:commandButton  style="width: 150px; margin-left: 10%;"  actionListener="#{saldoAnalitykaNarastajacoView.init()}" value="zmień m-c" update="@form">
                         <p:ajax event="click" listener="#{WpisView.wpisAktualizuj()}" />
                     </p:commandButton>
                 </p:column>
             </p:panelGrid>
-            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym"
                          styleClass="grid1"  style="overflow-y: scroll; height: 640px;" widgetVar="tablicasaldaanalityczne"
                          >

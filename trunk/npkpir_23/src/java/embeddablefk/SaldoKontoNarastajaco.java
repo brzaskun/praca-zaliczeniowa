@@ -6,10 +6,13 @@
 
 package embeddablefk;
 
+import embeddable.Mce;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.PostConstruct;
 import javax.persistence.Embeddable;
 
 /**
@@ -30,12 +33,21 @@ public class SaldoKontoNarastajaco implements Serializable {
     private double saldoMa;
 
     public SaldoKontoNarastajaco() {
+        this.obrotymiesiecy = new ArrayList<>();
     }
     
     public SaldoKontoNarastajaco (Konto konto, double saldoWn, double saldoMa) {
+        this.obrotymiesiecy = new ArrayList<>();
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
+    }
+    
+    @PostConstruct
+    private void init() {
+        for (String p : Mce.getMceListS()) {
+            this.obrotymiesiecy.add(new Obrotymca(p));
+        }
     }
 
     @Override
@@ -152,6 +164,12 @@ public class SaldoKontoNarastajaco implements Serializable {
     
         public Obrotymca() {
         }
+
+        public Obrotymca(String nazwamca) {
+            this.nazwamca = nazwamca;
+        }
+        
+        
 
         public String getNazwamca() {
             return nazwamca;
