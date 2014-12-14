@@ -66,7 +66,7 @@ public class KontaVatFKView implements Serializable {
     private TabelanbpDAO tabelanbpDAO;
     @Inject
     private WalutyDAOfk walutyDAOfk;
-    boolean dodajBO;
+//    boolean dodajBO;
     
     @PostConstruct
     private void init() {
@@ -74,12 +74,12 @@ public class KontaVatFKView implements Serializable {
        kontavat = przygotowanalistasald(kontaklienta);
     }
     
-    public void dodajBOdoKont() {
-        dodajBO = true;
-        init();
-        RequestContext.getCurrentInstance().update("form:akorderonbis:saldokontvat");
-        Msg.msg("Dodano zapisy z BO");
-    }
+//    public void dodajBOdoKont() {
+//        //dodajBO = true;
+//        init();
+//        RequestContext.getCurrentInstance().update("form:akorderonbis:saldokontvat");
+//        Msg.msg("Dodano zapisy z BO");
+//    }
     
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
@@ -88,7 +88,7 @@ public class KontaVatFKView implements Serializable {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setId(licznik++);
             saldoKonto.setKonto(p);
-            naniesBOnaKonto(saldoKonto, p);
+            //naniesBOnaKonto(saldoKonto, p);
             naniesZapisyNaKonto(saldoKonto, p);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
@@ -116,18 +116,18 @@ public class KontaVatFKView implements Serializable {
     }
 //</editor-fold>
 
-    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        if (dodajBO) {
-            List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
-            for (StronaWiersza r : zapisyBO) {
-                if (r.getWnma().equals("Wn")) {
-                    saldoKonto.setBoWn(saldoKonto.getBoWn() + r.getKwotaPLN());
-                } else {
-                    saldoKonto.setBoMa(saldoKonto.getBoMa() + r.getKwotaPLN());
-                }
-            }
-        }
-    }
+//    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
+//        if (dodajBO) {
+//            List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+//            for (StronaWiersza r : zapisyBO) {
+//                if (r.getWnma().equals("Wn")) {
+//                    saldoKonto.setBoWn(saldoKonto.getBoWn() + r.getKwotaPLN());
+//                } else {
+//                    saldoKonto.setBoMa(saldoKonto.getBoMa() + r.getKwotaPLN());
+//                }
+//            }
+//        }
+//    }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
         List<StronaWiersza> zapisyRok  = null;

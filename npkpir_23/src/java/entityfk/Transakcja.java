@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Transakcja.findByKonto", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.konto = :konto"),
     @NamedQuery(name = "Transakcja.findByPodatnikRok", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz.dokfk.dokfkPK.rok = :rok AND t.nowaTransakcja.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "Transakcja.findByPodatnikBO", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz IS NULL AND t.nowaTransakcja.konto.podatnik = :podatnik"),
-    @NamedQuery(name = "Transakcja.findByPodatnikRokRozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz.dokfk.dokfkPK.rok = :rok AND t.nowaTransakcja.wiersz.dokfk.miesiac = :mc AND t.nowaTransakcja.wiersz.dokfk.podatnikObj = :podatnikObj AND t.roznicekursowe != 0"),
+    @NamedQuery(name = "Transakcja.findByPodatnikRokRozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy.wiersz.dokfk.dokfkPK.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc AND t.rozliczajacy.wiersz.dokfk.podatnikObj = :podatnikObj AND t.roznicekursowe != 0"),
     @NamedQuery(name = "Transakcja.findByPodatnikBORozniceKursowe", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja.wiersz IS NULL AND t.nowaTransakcja.konto.podatnik = :podatnik AND t.roznicekursowe != 0 AND t.rozliczajacy.wiersz.dokfk.dokfkPK.rok = :rok AND t.rozliczajacy.wiersz.dokfk.miesiac = :mc")
 })
 public class Transakcja  implements Serializable {
