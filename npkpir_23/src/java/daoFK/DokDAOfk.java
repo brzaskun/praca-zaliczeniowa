@@ -16,6 +16,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -51,9 +52,9 @@ public class DokDAOfk extends DAO implements Serializable {
         dokFacade.remove(selected);
     }
 
-    public List<Dokfk> findDokfkPodatnik(Podatnik podatnik, String rok) {
+    public List<Dokfk> findDokfkPodatnik(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnik(podatnik, rok);
+           return dokFacade.findDokfkPodatnik(wpisView);
        } catch (Exception e ){
            return null;
        }

@@ -178,7 +178,7 @@ private static final long serialVersionUID = 1L;
         try {
             resetujDokument();
             obsluzcechydokumentu();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -1482,7 +1482,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //dolaczEwidencjeVATDoDokumentu();
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.clear();
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
                 resetujDokument();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
@@ -1500,7 +1500,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
             dokDAOfk.edit(selected);
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
@@ -1511,7 +1511,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObj(dousuniecia));
             wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
@@ -1873,6 +1873,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 
 //    //</editor-fold>
     
+    public void odswiezzaksiegowane() {
+        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
+    }
 
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
