@@ -41,15 +41,10 @@ public class SaldoKontoNarastajaco implements Serializable {
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
+        
     }
     
-    @PostConstruct
-    private void init() {
-        for (String p : Mce.getMceListS()) {
-            this.obrotymiesiecy.add(new Obrotymca(p));
-        }
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -157,7 +152,19 @@ public class SaldoKontoNarastajaco implements Serializable {
         this.saldoMa = this.obrotyBoMa > this.obrotyBoWn ? this.obrotyBoMa - this.obrotyBoWn : 0.0;
     }
 
-    private static class Obrotymca {
+    public void sumujBOZapisy() {
+        List<Obrotymca> l = this.obrotymiesiecy;
+        double obrotyWn = 0.0;
+        double obrotyMa = 0.0;
+        for (Obrotymca p : l) {
+            obrotyWn += p.getObrotyWn();
+            obrotyMa += p.getObrotyMa();
+        }
+        this.obrotyBoWn = this.boWn + obrotyWn;
+        this.obrotyBoMa = this.boMa + obrotyMa;
+    }
+
+    public static class Obrotymca {
         private String nazwamca;
         private double obrotyWn;
         private double obrotyMa;
