@@ -20,7 +20,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean(name="Mce")
 @SessionScoped
 public class Mce implements Serializable{
-
+    
     private static final List<String> mceList;
     private static final Map<Integer, String> numberToMiesiac;
     private static final Map<Integer, String> numberToNazwamiesiaca;
@@ -176,6 +176,10 @@ public class Mce implements Serializable{
     }
     
     public List<String> getMceList() {
+        return mceList;
+    }
+    
+    public static List<String> getMceListS() {
         return mceList;
     }
     
