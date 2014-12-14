@@ -21,4 +21,14 @@ var zrobFloat = function (kwota){
         polezespacja.value = "";  
     }
 };
+
+ 
+var t;
+var startTimer = function (){
+   t = setTimeout("PF('dialogAjaxCzekaj').show()", 1100);
+};
+var stopTimer = function (){
+   clearTimeout(t);
+   PF('dialogAjaxCzekaj').hide();
+};
  
