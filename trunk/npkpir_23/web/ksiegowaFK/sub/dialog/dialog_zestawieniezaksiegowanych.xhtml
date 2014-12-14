@@ -12,7 +12,24 @@
         </h:form>
     
          <h:form id="zestawieniedokumentow">
-               
+                <p:panelGrid columns="4" style="margin-left: 2%;" >
+                <!--            <p:column>
+                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                    <f:param name="rokWpisu" value="2012" />
+                                </p:selectOneMenu>
+                            </p:column>-->
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column >
+                    <p:commandButton  style="width: 150px; margin-left: 10%;"  actionListener="#{dokfkView.odswiezzaksiegowane()}" value="zmień m-c" update="@form">
+                        <p:ajax event="click" listener="#{WpisView.wpisAktualizuj()}" />
+                    </p:commandButton>
+                </p:column>
+            </p:panelGrid>
          <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
                  <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
          </p:contextMenu>
@@ -38,11 +55,11 @@
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" 
-                              style="width: 1200px; height: 580px; overflow-y: scroll" 
+                              style="width: 1250px; height: 580px; overflow-y: scroll" 
                               emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
                      <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
                
-            <p:column headerText="lp." width="30" style="text-align: center; height: 35px;">
+            <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
                 <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
             </p:column>
             <p:column headerText="data" width="90" style="text-align: center;"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
@@ -57,7 +74,7 @@
             <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
             </p:column>
-                <p:column headerText="opis" width="90" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                <p:column headerText="opis" width="110" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                 <h:outputText value="#{item.opisdokfk}"/>
             </p:column>
             <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
