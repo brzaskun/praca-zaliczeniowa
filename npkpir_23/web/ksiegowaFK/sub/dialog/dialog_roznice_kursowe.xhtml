@@ -37,9 +37,9 @@
                 </p:column>
                 
             </p:dataTable>
-            <div style="padding: 10px;">
-                <p:commandButton id="walutynowabutton" value="pobierz" actionListener="#{walutyViewFK.pobierzkursy}" update=":transakcje:tabelaroznicekursowe" style="width: 120px;"/>
-            </div>
+             <p:outputPanel style="margin-top: 10px">
+                            <p:commandButton value="zaksięguj różnice" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                        </p:outputPanel>
         </h:form>
     </p:dialog>
 </ui:composition>
