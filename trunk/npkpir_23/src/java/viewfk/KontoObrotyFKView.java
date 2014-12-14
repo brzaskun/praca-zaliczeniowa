@@ -92,14 +92,14 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(pobierzZapisyBO(p));
+                 
                  kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                  //tu jest BO, to nie podwojnie wpisana linia
              }
              //Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy.addAll(pobierzZapisyBO(wybranekonto));
+             
              kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
              // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
          }

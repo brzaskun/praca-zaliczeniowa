@@ -428,7 +428,9 @@
                 <p:column>
                     <p:commandButton value="zapisz kwoty i konta" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>
-                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
+<!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
+                    </p:commandButton>-->
+                    <p:commandButton value="generuj dokument BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>
                 </p:column>
                 <p:column>

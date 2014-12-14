@@ -94,7 +94,7 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView));
+                    
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
                     } else {
@@ -104,7 +104,7 @@ public class KontoZapisFKView implements Serializable{
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(BOFKBean.pobierzZapisyBO(wybranekonto, wierszBODAO, wpisView));
+                
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
                 } else {
@@ -131,7 +131,7 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView));
+                    
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
                     } else {
@@ -141,7 +141,7 @@ public class KontoZapisFKView implements Serializable{
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(BOFKBean.pobierzZapisyBO(wybranekonto, wierszBODAO, wpisView));
+                
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
                 } else {
@@ -170,7 +170,7 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    kontozapisy.addAll(BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView));
+                    
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
                         kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
                     } else {
@@ -180,7 +180,7 @@ public class KontoZapisFKView implements Serializable{
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
 
             } else {
-                kontozapisy.addAll(BOFKBean.pobierzZapisyBO(wybranekonto, wierszBODAO, wpisView));
+                
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
                 } else {

@@ -147,7 +147,7 @@
                             </p:column>
                         </p:dataTable>
                         <p:outputPanel style="margin-top: 10px">
-                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>
+<!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
                             <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 50%;" id="saldokontvat">
                                 <p:column headerText="nr konta" width="50">
                                     <h:outputText value="#{item.konto.pelnynumer}"/>
