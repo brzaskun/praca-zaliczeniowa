@@ -142,9 +142,13 @@ public class KontaVatFKView implements Serializable {
         if (zapisyRok != null) {
             for (StronaWiersza r : zapisyRok) {
                 if (r.getWnma().equals("Wn")) {
-                    saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
+                    double suma = Math.round((saldoKonto.getObrotyWn() + r.getKwotaPLN())*100);
+                    suma /= 100;
+                    saldoKonto.setObrotyWn(suma);
                 } else {
-                    saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
+                    double suma = Math.round((saldoKonto.getObrotyMa() + r.getKwotaPLN())*100);
+                    suma /= 100;
+                    saldoKonto.setObrotyMa(suma);
                 }
             }
         }

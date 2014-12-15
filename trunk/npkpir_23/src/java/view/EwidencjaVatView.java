@@ -308,13 +308,14 @@ public class EwidencjaVatView implements Serializable {
             }
             listatmp.add(wierszogolny);
             EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
-            BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(0, RoundingMode.HALF_EVEN));
+            BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
             ew.setNetto(sumanetto);
-            BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(0, RoundingMode.HALF_EVEN));
+            BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN));
             ew.setVat(sumavat);
             sumaewidencji.put(nazwaewidencji, ew);
             listaewidencji.put(nazwaewidencji, listatmp);
         }
+        
     }
 
     private void transferujDokdoEVatwpis1() {

@@ -67,6 +67,13 @@ public class DokFKTransakcjeBean implements Serializable{
         }
         List<StronaWiersza> stronywierszaBO = stronaWierszaDAO.findStronaByKontoWnMaWalutaBO(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
         if (stronywierszaBO != null && !stronywierszaBO.isEmpty()) {
+            Iterator it = stronywierszaBO.iterator();
+                while(it.hasNext()) {
+                    StronaWiersza p = (StronaWiersza) it.next();
+                    if (p.getPozostalo() == 0.0) {
+                        it.remove();
+                    }
+                }
             listaNowychRozrachunkow.addAll(stronywierszaBO);
         }
         if (listaNowychRozrachunkow == null) {
