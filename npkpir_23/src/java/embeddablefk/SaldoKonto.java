@@ -146,13 +146,21 @@ public class SaldoKonto implements Serializable {
     }
 
     public void sumujBOZapisy() {
-        this.obrotyBoWn = this.boWn + this.obrotyWn;
-        this.obrotyBoMa = this.boMa + this.obrotyMa;
+        double obrotyWn = Math.round((this.boWn + this.obrotyWn)*100);
+        obrotyWn /= 100;
+        this.obrotyBoWn = obrotyWn;
+        double obrotyMa = Math.round((this.boMa + this.obrotyMa)*100);
+        obrotyMa /= 100;
+        this.obrotyBoMa = obrotyMa;
     }
 
     public void wyliczSaldo() {
-        this.saldoWn = this.obrotyBoWn > this.obrotyBoMa ? this.obrotyBoWn - this.obrotyBoMa : 0.0;
-        this.saldoMa = this.obrotyBoMa > this.obrotyBoWn ? this.obrotyBoMa - this.obrotyBoWn : 0.0;
+        double Wn_Ma = Math.round((this.obrotyBoWn - this.obrotyBoMa)*100);
+        Wn_Ma /= 100;
+        double Ma_Wn = Math.round((this.obrotyBoMa - this.obrotyBoWn)*100);
+        Ma_Wn /= 100;
+        this.saldoWn = this.obrotyBoWn > this.obrotyBoMa ? Wn_Ma : 0.0;
+        this.saldoMa = this.obrotyBoMa > this.obrotyBoWn ? Ma_Wn : 0.0;
     }
     
     
