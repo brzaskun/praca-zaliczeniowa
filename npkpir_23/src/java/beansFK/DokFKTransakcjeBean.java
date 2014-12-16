@@ -46,7 +46,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 Iterator it = listaNowychRozrachunkow.iterator();
                 while(it.hasNext()) {
                     StronaWiersza p = (StronaWiersza) it.next();
-                    if (p.getPozostalo() == 0.0) {
+                    if (p.getPozostalo() <= 0.0) {
                         it.remove();
                     } else {
                         String dataplatnosci;
@@ -70,7 +70,7 @@ public class DokFKTransakcjeBean implements Serializable{
             Iterator it = stronywierszaBO.iterator();
                 while(it.hasNext()) {
                     StronaWiersza p = (StronaWiersza) it.next();
-                    if (p.getPozostalo() == 0.0) {
+                    if (p.getPozostalo() <= 0.0) {
                         it.remove();
                     }
                 }

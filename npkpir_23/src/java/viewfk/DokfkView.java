@@ -1929,7 +1929,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 //    //</editor-fold>
     
     public void odswiezzaksiegowane() {
+        wpisView.wpisAktualizuj();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnik(wpisView);
+        RequestContext.getCurrentInstance().update("zestawieniedokumentow");
     }
 
     //************************
@@ -2225,26 +2227,6 @@ public void updatenetto(EVatwpisFK e, String form) {
             stronaWiersza = stronaMa;
             potraktujjakoNowaTransakcje = stronaMa.isNowatransakcja();
         }
-        //archeo dziwny kod przewalutowanie jest robione teraz przy kazdym blur na kwocie
-//        if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-//            if (stronawiersza.equals("Wn")) {
-//                stronaWn.setKwotaPLN(stronaWn.getKwota());
-//                stronaWn.setPozostalo(stronaWn.getKwota());
-//            } else {
-//                stronaMa.setKwotaPLN(stronaMa.getKwota());
-//                stronaMa.setPozostalo(stronaMa.getKwota());
-//            }
-//        } else {
-//            if (stronawiersza.equals("Wn")) {
-//                stronaWn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-//                stronaWn.setKwotaWaluta(stronaWn.getKwota());
-//                stronaWn.setPozostalo(stronaWn.getKwota());
-//            } else {
-//                stronaMa.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-//                stronaMa.setKwotaWaluta(stronaMa.getKwota());
-//                stronaMa.setPozostalo(stronaMa.getKwota());
-//            }
-//        }
         stronaWiersza.setWiersz(wiersz);
         //Msg.msg("Rozrachunek zainicjalizowany");
         return stronaWiersza;

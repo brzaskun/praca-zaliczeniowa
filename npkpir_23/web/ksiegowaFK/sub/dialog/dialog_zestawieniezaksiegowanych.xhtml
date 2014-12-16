@@ -5,29 +5,27 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
+    <style>
+        .waluta input{
+            width: 40px !important;
+        }
+    </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
-        <h:form>
+<!--        <h:form>
             <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
-        </h:form>
+        </h:form>-->
     
          <h:form id="zestawieniedokumentow">
                 <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <!--            <p:column>
-                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                    <f:selectItems value="#{Roki.rokiList}"/>
-                                    <f:param name="rokWpisu" value="2012" />
-                                </p:selectOneMenu>
-                            </p:column>-->
+                <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
-                </p:column>
-                <p:column >
-                    <p:commandButton  style="width: 150px; margin-left: 10%;"  actionListener="#{dokfkView.odswiezzaksiegowane()}" value="zmień m-c" update="@form">
-                        <p:ajax event="click" listener="#{WpisView.wpisAktualizuj()}" />
-                    </p:commandButton>
                 </p:column>
             </p:panelGrid>
          <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
@@ -54,7 +52,7 @@
                  <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
                     <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                              selection="#{dokfkView.selected}" rowKey="#{item.dokfkPK}" selectionMode="single" 
+                              selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
                               style="width: 1250px; height: 580px; overflow-y: scroll" 
                               emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
                      <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
@@ -82,7 +80,7 @@
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
             </h:outputText>
             </p:column>
-            <p:column headerText="waluta" width="100" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                     <p:column headerText="waluta" styleClass="waluta" width="50" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
             </p:column>
             <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
