@@ -28,6 +28,11 @@ var zachowajnumerwiersza = function(zmienna ,numer) {
             MYAPP.tabela = "formwpisdokument:tablicavat";
             MYAPP.zmienna = "zmiennavat";
             MYAPP.wyliczaj = false;
+        } else if (MYAPP.sourceid === "formtablicaanalityczne:tablicasaldaanalityczne_data") {
+            MYAPP.tabeladata = "formtablicaanalityczne:tablicasaldaanalityczne_data";
+            MYAPP.tabela = "formtablicaanalityczne:tablicasaldaanalityczne";
+            MYAPP.zmienna = "zmiennatablicaanalityczne";
+            MYAPP.wyliczaj = false;
         }
 };
 

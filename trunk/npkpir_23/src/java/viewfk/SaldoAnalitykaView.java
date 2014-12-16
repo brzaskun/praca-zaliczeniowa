@@ -54,16 +54,17 @@ public class SaldoAnalitykaView implements Serializable {
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
-        int licznik = 0;
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setId(licznik++);
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
             naniesZapisyNaKonto(saldoKonto, p);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
+        }
+        for (int i = 1; i < przygotowanalista.size(); i++) {
+            przygotowanalista.get(i-1).setId(i);
         }
         return przygotowanalista;
     }
