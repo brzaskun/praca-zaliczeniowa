@@ -163,15 +163,29 @@ public class RozniceKursoweFKView implements Serializable {
             Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu());
             double roznicakursowa = Math.abs(p.getRoznicekursowe());
             if (p.getNowaTransakcja().getWnma().equals("Wn")) {
-                StronaWiersza wn = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
-                StronaWiersza ma = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
-                w.setStronaWn(wn);
-                w.setStronaMa(ma);
+                if (p.getRoznicekursowe() < 0) {
+                    StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
+                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
+                    w.setStronaWn(konto755);
+                    w.setStronaMa(kontoRozrachunku);
+                } else {
+                    StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
+                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
+                    w.setStronaWn(kontoRozrachunku);
+                    w.setStronaMa(konto755);
+                }
             } else {
-                StronaWiersza wn = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
-                StronaWiersza ma = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
-                w.setStronaWn(wn);
-                w.setStronaMa(ma);
+                if (p.getRoznicekursowe() > 0) {
+                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
+                    StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
+                    w.setStronaWn(konto755);
+                    w.setStronaMa(kontoRozrachunku);
+                } else {
+                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
+                    StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
+                    w.setStronaWn(kontoRozrachunku);
+                    w.setStronaMa(konto755);
+                }
             }
             nd.getListawierszy().add(w);
         }

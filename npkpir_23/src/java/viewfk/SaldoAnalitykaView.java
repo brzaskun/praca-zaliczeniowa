@@ -51,6 +51,10 @@ public class SaldoAnalitykaView implements Serializable {
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
+    public void odswiezsaldoanalityczne() {
+         wpisView.wpisAktualizuj();
+         init();
+    }
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();

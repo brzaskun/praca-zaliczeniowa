@@ -10,6 +10,8 @@
             width: 40px !important;
         }
     </style>
+         <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
+                 <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
 <!--        <h:form>
@@ -48,14 +50,14 @@
                         });
                         /* ]]> */
                     </script>
-             <div style="height: 600px;">
-                 <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
+             <div style="height: 600px;"> 
+        
+            
                  <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
                               style="width: 1250px; height: 580px; overflow-y: scroll" 
                               emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
-                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />
+<!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                
             <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
                 <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
