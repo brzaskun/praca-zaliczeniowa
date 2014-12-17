@@ -1054,7 +1054,7 @@ public class SessionFacade<T> implements Serializable{
 
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList();
-    }
+    } 
 
     public List<Transakcja> findByPodatniRok(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
@@ -1077,7 +1077,11 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Fakturaelementygraficzne findFaktElementyGraficzne(String podatnik) {
-        return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
+        try {
+            return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {

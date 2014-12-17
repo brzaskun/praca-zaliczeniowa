@@ -96,7 +96,7 @@ public class MailOther implements Serializable{
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();
                  // attach the file to the message
-                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
+                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf");
                  mbp2.setDataHandler(new DataHandler(fds));
                  mbp2.setFileName(fds.getName());
                  
@@ -113,7 +113,7 @@ public class MailOther implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf");
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
