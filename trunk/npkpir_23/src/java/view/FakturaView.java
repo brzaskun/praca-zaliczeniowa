@@ -1067,7 +1067,8 @@ public class FakturaView implements Serializable {
             pdfFaktura.drukujmail(gosciwybral, wpisView);
             MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa);
         } catch (Exception e) {
-            
+            Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
+            System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());
         }
     }
     
