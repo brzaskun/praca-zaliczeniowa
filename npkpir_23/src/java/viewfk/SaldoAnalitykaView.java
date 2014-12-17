@@ -63,7 +63,7 @@ public class SaldoAnalitykaView implements Serializable {
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
         }
-        for (int i = 1; i < przygotowanalista.size(); i++) {
+        for (int i = 1; i < przygotowanalista.size()+1; i++) {
             przygotowanalista.get(i-1).setId(i);
         }
         return przygotowanalista;
