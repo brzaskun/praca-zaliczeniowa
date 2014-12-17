@@ -8,9 +8,9 @@
     >
 
     <p:dialog id="zapisy" header="Zapisy na kontach" widgetVar="zapisynakoncie"  dynamic="true"
-              resizable="false" onShow="ustawdialog('zapisy','menuraporty',1500,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('zapisy','menuraporty',1550,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="width: 1400px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
@@ -91,9 +91,9 @@
                 </h:form>
             </p:layoutUnit>  
 
-            <p:layoutUnit position="center" style="min-width: 1100px;">
+            <p:layoutUnit position="center" style="min-width: 1200px;">
                 <h:form id="tabelazzapisami">
-                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 1080px;"
+                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 1130px;"
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop.wiersz.idwiersza}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
                                  >
@@ -160,28 +160,28 @@
             </p:layoutUnit>  
             <p:layoutUnit position="south" style="height: 70px;">  
                 <p:panelGrid id="sumy" columns="16" style="float: right; margin-left: 80px; width: 1050px; height: 50px;">
-                    <h:outputText value="suma Wn"/><h:outputText value="#{kontoZapisFKView.sumaWn}" style="float: right; font-weight: 900;">
+                    <h:outputText value="suma Wn"/><h:outputText value="#{kontoZapisFKView.sumaWn}" style="float: right; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="suma Ma"/><h:outputText value="#{kontoZapisFKView.sumaMa}" style="float: right; font-weight: 900;">
+                    <h:outputText value="suma Ma"/><h:outputText value="#{kontoZapisFKView.sumaMa}" style="float: right; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="saldo Wn"/><h:outputText value="#{kontoZapisFKView.saldoWn}" style="float: right; font-weight: 900;">
+                    <h:outputText value="saldo Wn"/><h:outputText value="#{kontoZapisFKView.saldoWn}" style="float: right; font-weight: 900; color: green;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="saldo Ma"/><h:outputText value="#{kontoZapisFKView.saldoMa}" style="float: right; font-weight: 900;">
+                    <h:outputText value="saldo Ma"/><h:outputText value="#{kontoZapisFKView.saldoMa}" style="float: right; font-weight: 900; color: green;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="suma Wn PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.sumaWnPLN}" style="float: right; font-weight: 900;">
+                    <h:outputText value="suma Wn PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.sumaWnPLN}" style="float: right; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="suma Ma PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.sumaMaPLN}" style="float: right; font-weight: 900;">
+                    <h:outputText value="suma Ma PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.sumaMaPLN}" style="float: right; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="saldo Wn PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.saldoWnPLN}" style="float: right; font-weight: 900;">
+                    <h:outputText value="saldo Wn PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.saldoWnPLN}" style="float: right; font-weight: 900; color: green;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="saldo Ma PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.saldoMaPLN}" style="float: right; font-weight: 900;">
+                    <h:outputText value="saldo Ma PLN" style="font-style: italic;"/><h:outputText value="#{kontoZapisFKView.saldoMaPLN}" style="float: right; font-weight: 900; color: green;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:panelGrid>
