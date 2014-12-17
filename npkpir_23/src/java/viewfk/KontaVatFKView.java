@@ -278,6 +278,8 @@ public class KontaVatFKView implements Serializable {
     }
 
     private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        w.setTabelanbp(t);
         w.setDokfk(nd);
         w.setLpmacierzystego(0);
         w.setTabelanbp(w.getTabelanbp());
