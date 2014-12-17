@@ -32,6 +32,10 @@
         });
         /* ]]> */
     </script>
+    <h:form>
+    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
+    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
+    </h:form>
     <bcf:ajaxs/>
     <p:dialog id="saldakontanalitycznych" header="Obroty i salda na kontach na koniec miesiąca" widgetVar="saldakontanalitycznych"  maximizable="true"  dynamic="true"
               resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuraporty',1450,750);" onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
@@ -46,17 +50,12 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:column >
-                    <p:commandButton  style="width: 150px; margin-left: 10%;"  actionListener="#{saldoAnalitykaView.init()}" value="zmień m-c" update="@form">
-                        <p:ajax event="click" listener="#{WpisView.wpisAktualizuj()}" />
-                    </p:commandButton>
-                </p:column>
             </p:panelGrid>
-            <p:hotkey bind="down" global="false"  onstart="przejdzwiersz(this);"/>
-            <p:hotkey bind="up" global="false"  onstart="wrocwiersz(this);"/>
+           
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single"
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 640px;" widgetVar="tablicasaldaanalityczne"

@@ -2352,24 +2352,19 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {
-        double kursAktualny = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-        double kursSparowany;
-        if (loop.getNowaTransakcja().getSymbolWalutyBO() == null) {
-            kursSparowany = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
-        } else {
-            kursSparowany = loop.getNowaTransakcja().getKursBO();
-        }
-        if (kursAktualny != 0.0 && kursSparowany != 0.0) {
+        double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
+        double kursRachunku = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+        if (kursPlatnosci != 0.0 && kursRachunku != 0.0) {
             String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
-            String zwartywiersz = (String) Params.params(wiersz);
-            zwartywiersz = zwartywiersz.replaceAll("\\s", "");
-            if (zwartywiersz.length() > 0) {
-                double kwotarozrachunku = Double.parseDouble(zwartywiersz);
-                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * kursAktualny * 100);
-                kwotaAktualnywPLN /= 100;
-                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * kursSparowany * 100);
-                kwotaSparowanywPLN /= 100;
-                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN) * 100;
+            String kwotazwiersza = (String) Params.params(wiersz);
+            kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
+            if (kwotazwiersza.length() > 0) {
+                double placonakwota = Double.parseDouble(kwotazwiersza);
+                double kwotaPlatnosciwPLN = Math.round(placonakwota * kursPlatnosci * 100);
+                kwotaPlatnosciwPLN /= 100;
+                double kwotaRachunkuwPLN = Math.round(placonakwota * kursRachunku * 100);
+                kwotaRachunkuwPLN /= 100;
+                double roznicakursowa = (kwotaPlatnosciwPLN - kwotaRachunkuwPLN) * 100;
                 roznicakursowa = Math.round(roznicakursowa);
                 roznicakursowa /= 100;
                 Transakcja analizowanatransakcja = biezacetransakcje.get(row);

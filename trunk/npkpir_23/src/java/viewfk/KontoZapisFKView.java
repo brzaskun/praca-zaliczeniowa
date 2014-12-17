@@ -102,7 +102,6 @@ public class KontoZapisFKView implements Serializable{
                     }
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
-
             } else {
                 
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
