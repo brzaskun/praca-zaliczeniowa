@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
@@ -63,6 +64,7 @@ public class KontoZapisFKView implements Serializable{
     @ManagedProperty(value = "#{planKontView}")
     private PlanKontView planKontView;
     private String wybranaWalutaDlaKont;
+    private List<ListaSum> listasum;
 
     
 
@@ -70,6 +72,9 @@ public class KontoZapisFKView implements Serializable{
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";
+        listasum = new ArrayList<>();
+        ListaSum l = new ListaSum();
+        listasum.add(l);
     }
     
     @PostConstruct
@@ -195,6 +200,7 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowtotal() {
         sumazapisow();
         sumazapisowpln();
+        odszukajsparowanerozrachunki();
     }
     
     private TreeNode odnajdzNode(Konto kontoPoszukiwane) {
@@ -255,6 +261,10 @@ public class KontoZapisFKView implements Serializable{
         } else {
             saldoMa = sumaMa-sumaWn;
         }
+        listasum.get(0).setSumaWn(sumaWn);
+        listasum.get(0).setSumaMa(sumaMa);
+        listasum.get(0).setSaldoWn(saldoWn);
+        listasum.get(0).setSaldoMa(saldoMa);
     }
     
     public void sumazapisowpln(){
@@ -274,26 +284,50 @@ public class KontoZapisFKView implements Serializable{
         } else {
             saldoMaPLN = sumaMaPLN-sumaWnPLN;
         }
+        listasum.get(0).setSumaWnPLN(sumaWnPLN);
+        listasum.get(0).setSumaMaPLN(sumaMaPLN);
+        listasum.get(0).setSaldoWnPLN(saldoWnPLN);
+        listasum.get(0).setSaldoMaPLN(saldoMaPLN);
     }
     
     //poszukuje rozrachunkow do sparowania
     public void odszukajsparowanerozrachunki() {
-        StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
-        List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
-        List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
-        zapisydopodswietlenia = new ArrayList<>();
-        if (!listytransakcjiNT.isEmpty()) {
-            for (Transakcja p :listytransakcjiNT) {
-                zapisydopodswietlenia.add(p.getRozliczajacy().getId());
+        try {
+            StronaWiersza wybranyrozrachunek = wybranekontadosumowania.get(0);
+            List<Transakcja> listytransakcjiNT = transakcjaDAO.findByNowaTransakcja(wybranyrozrachunek);
+            List<Transakcja> listytransakcjiR = transakcjaDAO.findByRozliczajacy(wybranyrozrachunek);
+            zapisydopodswietlenia = new ArrayList<>();
+            if (!listytransakcjiNT.isEmpty()) {
+                for (Transakcja p :listytransakcjiNT) {
+                    zapisydopodswietlenia.add(p.getRozliczajacy().getId());
+                }
             }
-        }
-        if (!listytransakcjiR.isEmpty()) {
-            for (Transakcja p :listytransakcjiR) {
-                zapisydopodswietlenia.add(p.getNowaTransakcja().getId());
+            if (!listytransakcjiR.isEmpty()) {
+                for (Transakcja p :listytransakcjiR) {
+                    zapisydopodswietlenia.add(p.getNowaTransakcja().getId());
+                }
             }
+            //wyszukujemy roznice kursowe do podswietlenia
+            for (StronaWiersza r : kontozapisy) {
+                    if (r.getWnma().equals("Wn")) {
+                    if (r.getWiersz().getStronaMa() != null && r.getWiersz().getStronaMa().getKonto().getPelnynumer().equals("755")) {
+                        if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
+                            zapisydopodswietlenia.add(r.getId());
+                        }
+                    }
+                } else {
+                    if (r.getWiersz().getStronaWn() != null && r.getWiersz().getStronaWn().getKonto().getPelnynumer().equals("755")) {
+                        if (r.getKonto().equals(wybranyrozrachunek.getKonto()) && r.getWiersz().getOpisWiersza().contains(String.valueOf(wybranyrozrachunek.getId()))) {
+                            zapisydopodswietlenia.add(r.getId());
+                        }
+                    }
+                }
+            }
+            RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
+            RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+        } catch (Exception e) {
+            
         }
-        RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
-        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -352,6 +386,14 @@ public class KontoZapisFKView implements Serializable{
 //        RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
 //    }
     
+    public List<ListaSum> getListasum() {
+        return listasum;    
+    }
+
+    public void setListasum(List<ListaSum> listasum) {
+        this.listasum = listasum;
+    }
+
     public Double getSumaWnPLN() {
         return sumaWnPLN;    
     }
@@ -500,6 +542,89 @@ public class KontoZapisFKView implements Serializable{
         this.wybranyzapis = wybranyzapis;
     }
 //</editor-fold>
+
+    public static class ListaSum {
+
+        double sumaWn;
+        double sumaMa;
+        double saldoWn;
+        double saldoMa;
+        double sumaWnPLN;
+        double sumaMaPLN;
+        double saldoWnPLN;
+        double saldoMaPLN;
+        
+        public ListaSum() {
+        }
+
+        //<editor-fold defaultstate="collapsed" desc="comment">
+        public double getSumaWn() {
+            return sumaWn;
+        }
+        
+        public void setSumaWn(double sumaWn) {
+            this.sumaWn = sumaWn;
+        }
+        
+        public double getSumaMa() {
+            return sumaMa;
+        }
+        
+        public void setSumaMa(double sumaMa) {
+            this.sumaMa = sumaMa;
+        }
+        
+        public double getSaldoWn() {
+            return saldoWn;
+        }
+        
+        public void setSaldoWn(double saldoWn) {
+            this.saldoWn = saldoWn;
+        }
+        
+        public double getSaldoMa() {
+            return saldoMa;
+        }
+        
+        public void setSaldoMa(double saldoMa) {
+            this.saldoMa = saldoMa;
+        }
+        
+        public double getSumaWnPLN() {
+            return sumaWnPLN;
+        }
+        
+        public void setSumaWnPLN(double sumaWnPLN) {
+            this.sumaWnPLN = sumaWnPLN;
+        }
+        
+        public double getSumaMaPLN() {
+            return sumaMaPLN;
+        }
+        
+        public void setSumaMaPLN(double sumaMaPLN) {
+            this.sumaMaPLN = sumaMaPLN;
+        }
+        
+        public double getSaldoWnPLN() {
+            return saldoWnPLN;
+        }
+        
+        public void setSaldoWnPLN(double saldoWnPLN) {
+            this.saldoWnPLN = saldoWnPLN;
+        }
+        
+        public double getSaldoMaPLN() {
+            return saldoMaPLN;
+        }
+        
+        public void setSaldoMaPLN(double saldoMaPLN) {
+            this.saldoMaPLN = saldoMaPLN;
+        }
+        
+        
+//</editor-fold>
+    }
    
 }
 

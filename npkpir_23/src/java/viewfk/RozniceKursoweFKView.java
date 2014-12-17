@@ -158,7 +158,7 @@ public class RozniceKursoweFKView implements Serializable {
             uzupelnijwiersz(w, nd);
             String rozliczajacy = p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
             String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: "+p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii(); 
-            String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy; 
+            String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy+" "+p.getNowaTransakcja().getId()+"/"+p.getRozliczajacy().getId(); 
             w.setOpisWiersza(opiswiersza);
             Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu());
             double roznicakursowa = Math.abs(p.getRoznicekursowe());
@@ -174,6 +174,7 @@ public class RozniceKursoweFKView implements Serializable {
                     w.setStronaWn(kontoRozrachunku);
                     w.setStronaMa(konto755);
                 }
+                
             } else {
                 if (p.getRoznicekursowe() > 0) {
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());

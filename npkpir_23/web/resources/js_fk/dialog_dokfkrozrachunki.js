@@ -330,7 +330,7 @@ var podswietlrozrachunki = function() {
         znaleziono = $.inArray(nrpolazapisu, listawierszy);
         if (znaleziono > -1) {
             for (var kom = 0; kom < 15; kom++) {
-                $(komorki[kom]).css("font-weight", "900");
+                $(komorki[kom]).css("font-weight", "800");
                 $(komorki[kom]).css("color", "green");
             }
         }
