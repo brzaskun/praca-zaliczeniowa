@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,10 +36,10 @@ public class VATDeklaracja implements Serializable {
             try {
                 String nrpolanetto = ew.getEwidencja().getNrpolanetto();
                 String nrpolavat = ew.getEwidencja().getNrpolavat();
-                String netto = String.valueOf(ew.getNetto());
-                int nettoI = Integer.parseInt(ew.getNetto().toString());
-                String vat = String.valueOf(ew.getVat().toString());
-                int vatI = Integer.parseInt(ew.getVat().toString());
+                String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
+                int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
+                String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
+                int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                 Class[] paramString = new Class[1];
                 paramString[0] = String.class;
                 Method met;
@@ -69,6 +70,7 @@ public class VATDeklaracja implements Serializable {
                     pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
                 }
             } catch (Exception ex) {
+                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
     }
