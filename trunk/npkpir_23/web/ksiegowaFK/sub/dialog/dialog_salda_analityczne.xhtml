@@ -20,10 +20,10 @@
         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
         $(document).on("click", '.gridtablicaanalityczne tr', function(e) {
             var pierwszywiersz = $("#formtablicaanalityczne\\:tablicasaldaanalityczne_data").children("tr");
-            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
             try {
                 e.stopPropagation(); // will prevent double click events from link being clicked within row
-                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
                 var liczbadokalkulacji = numerkliknietegowiersza- numerpierwszegowiersza;
                 zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
             } catch (e) {
@@ -55,8 +55,8 @@
                     </p:commandButton>
                 </p:column>
             </p:panelGrid>
-            <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-            <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
+            <p:hotkey bind="down" global="false"  onstart="przejdzwiersz(this);"/>
+            <p:hotkey bind="up" global="false"  onstart="wrocwiersz(this);"/>
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single"
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 640px;" widgetVar="tablicasaldaanalityczne"
@@ -67,7 +67,7 @@
                 <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
                 <!--            <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>-->
                 <p:column headerText="id" width="20" sortBy="#{loop.id}" >
-                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{loop.id}"/>
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
                 <p:column headerText="konto" width="50" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
