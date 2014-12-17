@@ -2277,7 +2277,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
             if (!nazwawaluty.equals("PLN")) {
-                String datadokumentu = selected.getDatawystawienia();
+                String datadokumentu = selected.getDataoperacji();
                 DateTime dzienposzukiwany = new DateTime(datadokumentu);
                 boolean znaleziono = false;
                 int zabezpieczenie = 0;
