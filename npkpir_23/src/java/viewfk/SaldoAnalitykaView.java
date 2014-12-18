@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -33,6 +34,7 @@ import view.WpisView;
 @ViewScoped
 public class SaldoAnalitykaView implements Serializable {
     private List<SaldoKonto> listaSaldoKonto;
+    private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -43,6 +45,7 @@ public class SaldoAnalitykaView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
 
     public SaldoAnalitykaView() {
+        sumaSaldoKonto = new ArrayList<>();
     }
     
     @PostConstruct
@@ -70,13 +73,42 @@ public class SaldoAnalitykaView implements Serializable {
         for (int i = 1; i < przygotowanalista.size()+1; i++) {
             przygotowanalista.get(i-1).setId(i);
         }
+        SaldoKonto p = new SaldoKonto();
+        for (SaldoKonto r : przygotowanalista) {
+            p.setBoWn(Z.z(p.getBoWn()+r.getBoWn()));
+            p.setBoMa(Z.z(p.getBoMa()+r.getBoMa()));
+            p.setObrotyWn(Z.z(p.getObrotyWn()+r.getObrotyWn()));
+            p.setObrotyMa(Z.z(p.getObrotyMa()+r.getObrotyMa()));
+            p.setObrotyBoWn(Z.z(p.getObrotyBoWn()+r.getObrotyBoWn()));
+            p.setObrotyBoMa(Z.z(p.getObrotyBoMa()+r.getObrotyBoMa()));
+            p.setSaldoWn(Z.z(p.getSaldoWn()+r.getSaldoWn()));
+            p.setSaldoMa(Z.z(p.getSaldoMa()+r.getSaldoMa()));
+        }
+        p.setBoWn(Z.z(p.getBoWn()));
+        p.setBoMa(Z.z(p.getBoMa()));
+        p.setObrotyWn(Z.z(p.getObrotyWn()));
+        p.setObrotyMa(Z.z(p.getObrotyMa()));
+        p.setObrotyBoWn(Z.z(p.getObrotyBoWn()));
+        p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
+        p.setSaldoWn(Z.z(p.getSaldoWn()));
+        p.setSaldoMa(Z.z(p.getSaldoMa()));
+        sumaSaldoKonto.add(p);
         return przygotowanalista;
     }
 
      //<editor-fold defaultstate="collapsed" desc="comment">
-     public List<SaldoKonto> getListaSaldoKonto() {
-         return listaSaldoKonto;
-     }
+     
+    public List<SaldoKonto> getSumaSaldoKonto() {
+        return sumaSaldoKonto;
+    }
+
+    public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
+        this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public List<SaldoKonto> getListaSaldoKonto() {
+        return listaSaldoKonto;
+    }
      
      public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
          this.listaSaldoKonto = listaSaldoKonto;

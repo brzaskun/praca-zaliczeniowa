@@ -12,7 +12,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     if (source.value === null) {
         MYAPP.liczydloWcisnietychEnter = 1;
     }
-    setTimeout(focusNaNowoDodanym(source),5000);
+    setTimeout(focusNaNowoDodanym(source),1000);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -212,12 +212,27 @@ var sprawdzczywyborkontaniejestshown = function() {
 var focusNaNowoDodanym = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
-        for (var rzad in rzedy) {
-            var wybrany = $(rzedy[rzad]).find('td').get(1);
-            console.log(wybrany);
+        for (var nrkolejny in rzedy) {
+            var wybrany = $(rzedy[nrkolejny]).find('td').get(1);
+            //console.log(wybrany);
             if (typeof wybrany !== 'undefined') {
                 if ($(wybrany.firstChild).val() == "") {
                     $(wybrany.firstChild).focus();
+                    document.return
+//                    var poprzednie = $(rzedy[parseInt(nrkolejny-1)]).find('td');
+//                    try {
+//                        for (var i = 0; i < poprzednie.length; i++) {
+//                            if (typeof $(poprzednie[i]).find("input").get(0) !== 'undefined') {
+//                                if ($($(poprzednie[i]).find("input").get(0)).hasClass("ui-state-focus")){
+//                                    $(poprzednie[i]).find("input").get(0).removeClass("ui-state-focus");
+//                                }   
+//                            }
+//                            //alert("robie "+poprzednie[i]);
+//                            //console.log("robie "+wybrany[pole]);
+//                        }
+//                    } catch (ex) {
+//                        
+//                    }
                     return;
                 }
             } else {
@@ -228,6 +243,26 @@ var focusNaNowoDodanym = function(source) {
 
     }
     ;
+};
+
+var usunpodswietlenie = function(source) {
+    try {
+        var rzedy = r("formwpisdokument:dataList_data").children();
+        var poprzednie = $(rzedy[parseInt(rzedy.length - 2)]).find('td');
+        try {
+            for (var i = 0; i < poprzednie.length; i++) {
+                if (typeof $(poprzednie[i]).find("input").get(0) !== 'undefined') {
+                    if ($($(poprzednie[i]).find("input").get(0)).hasClass("ui-state-focus")) {
+                        $($(poprzednie[i]).find("input").get(0)).removeClass("ui-state-focus");
+                    }
+                }
+            }
+        } catch (ex) {
+
+        }
+    } catch (e) {
+
+    };
 };
 
 var focusNaNowoDodanymEnter = function(source) {
