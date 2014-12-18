@@ -333,7 +333,7 @@
                                      onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" 
                                      onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                      >
-                            <p:ajax event="focus" listener="#{dokfkView.dataTableTest}" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});"/>
+                            <p:ajax event="focus" listener="#{dokfkView.dataTableTest}" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});" onstart="usunpodswietlenie();" />
                             <p:ajax event="blur" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
