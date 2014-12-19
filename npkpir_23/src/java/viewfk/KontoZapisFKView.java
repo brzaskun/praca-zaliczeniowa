@@ -9,12 +9,16 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
+import embeddablefk.SaldoKonto;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -28,6 +32,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -241,28 +246,32 @@ public class KontoZapisFKView implements Serializable{
     
       
     public void sumazapisow(){
-        sumaWn = 0.0;
-        sumaMa = 0.0;
-        for(StronaWiersza p : wybranekontadosumowania){
-            if (!p.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                if (p.getWnma().equals("Wn")) {
-                    sumaWn = sumaWn + p.getKwota();
-                } else if (p.getWnma().equals("Ma")){
-                    sumaMa = sumaMa + p.getKwota();
+        try {
+            sumaWn = 0.0;
+            sumaMa = 0.0;
+            for(StronaWiersza p : wybranekontadosumowania){
+                if (!p.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                    if (p.getWnma().equals("Wn")) {
+                        sumaWn = Z.z(sumaWn + p.getKwota());
+                    } else if (p.getWnma().equals("Ma")){
+                        Z.z(sumaMa = sumaMa + p.getKwota());
+                    }
                 }
             }
+            saldoWn = 0.0;
+            saldoMa = 0.0;
+            if(sumaWn>sumaMa){
+                saldoWn = Z.z(sumaWn-sumaMa);
+            } else {
+                saldoMa = Z.z(sumaMa-sumaWn);
+            }
+            listasum.get(0).setSumaWn(sumaWn);
+            listasum.get(0).setSumaMa(sumaMa);
+            listasum.get(0).setSaldoWn(saldoWn);
+            listasum.get(0).setSaldoMa(saldoMa);
+        } catch (Exception e) {
+            Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
         }
-        saldoWn = 0.0;
-        saldoMa = 0.0;
-        if(sumaWn>sumaMa){
-            saldoWn = sumaWn-sumaMa;
-        } else {
-            saldoMa = sumaMa-sumaWn;
-        }
-        listasum.get(0).setSumaWn(sumaWn);
-        listasum.get(0).setSumaMa(sumaMa);
-        listasum.get(0).setSaldoWn(saldoWn);
-        listasum.get(0).setSaldoMa(saldoMa);
     }
     
     public void sumazapisowpln(){
@@ -270,17 +279,17 @@ public class KontoZapisFKView implements Serializable{
         sumaMaPLN = 0.0;
         for(StronaWiersza p : wybranekontadosumowania){
             if (p.getWnma().equals("Wn")) {
-                sumaWnPLN = sumaWnPLN + p.getKwotaPLN();
+                Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
             } else if (p.getWnma().equals("Ma")){
-                sumaMaPLN = sumaMaPLN + p.getKwotaPLN();
+                Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
             }
         }
         saldoWnPLN = 0.0;
         saldoMaPLN = 0.0;
         if(sumaWnPLN>sumaMaPLN){
-            saldoWnPLN = sumaWnPLN-sumaMaPLN;
+            Z.z(saldoWnPLN = sumaWnPLN-sumaMaPLN);
         } else {
-            saldoMaPLN = sumaMaPLN-sumaWnPLN;
+            Z.z(saldoMaPLN = sumaMaPLN-sumaWnPLN);
         }
         listasum.get(0).setSumaWnPLN(sumaWnPLN);
         listasum.get(0).setSumaMaPLN(sumaMaPLN);
@@ -325,6 +334,62 @@ public class KontoZapisFKView implements Serializable{
             RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
         } catch (Exception e) {
             
+        }
+    }
+    
+    public int sortZapisynaKoncie(Object o1, Object o2) {
+        String datao1 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();
+        String datao2 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();
+        DateFormat formatter;
+        formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date datao1date = null;
+        Date datao2date = null;
+        try {
+            datao1date = formatter.parse(datao1);
+            datao2date = formatter.parse(datao2);
+            if (datao1date.before(datao2date)) {
+                return -1;
+            } else if (datao1date.after(datao2date)) {
+                return 1;
+            } else {
+                return porownajseriedok(((StronaWiersza) o1),((StronaWiersza) o2));
+            }
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+    
+    private int porownajseriedok(StronaWiersza o1, StronaWiersza o2) {
+        String seriao1 = o1.getWiersz().getDokfk().getDokfkPK().getSeriadokfk();
+        String seriao2 = o2.getWiersz().getDokfk().getDokfkPK().getSeriadokfk();
+        if (seriao1.equals(seriao2)) {
+            return porownajnrserii(o1,o2);
+        } else {
+            return seriao1.compareTo(seriao2);
+        }
+    }
+    
+    private int porownajnrserii(StronaWiersza o1, StronaWiersza o2) {
+        int seriao1 = o1.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
+        int seriao2 = o2.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
+        if (seriao1 == seriao2) {
+            return porownajnumerwiersza(o1,o2);
+        } else if (seriao1 < seriao2){
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+    
+    private int porownajnumerwiersza(StronaWiersza o1, StronaWiersza o2) {
+        int seriao1 = o1.getWiersz().getIdporzadkowy();
+        int seriao2 = o2.getWiersz().getIdporzadkowy();
+        if (seriao1 == seriao2) {
+            return 0;
+        } else if (seriao1 < seriao2){
+            return -1;
+        } else {
+            return 1;
         }
     }
     
@@ -540,6 +605,8 @@ public class KontoZapisFKView implements Serializable{
         this.wybranyzapis = wybranyzapis;
     }
 //</editor-fold>
+
+    
 
 }
 

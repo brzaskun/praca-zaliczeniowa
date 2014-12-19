@@ -92,6 +92,7 @@ public class SaldoAnalitykaView implements Serializable {
         p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
         p.setSaldoWn(Z.z(p.getSaldoWn()));
         p.setSaldoMa(Z.z(p.getSaldoMa()));
+        sumaSaldoKonto = new ArrayList<>();
         sumaSaldoKonto.add(p);
         return przygotowanalista;
     }
@@ -127,9 +128,9 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
-                saldoKonto.setBoWn(saldoKonto.getBoWn() + r.getKwotaPLN());
+                saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
             } else {
-                saldoKonto.setBoMa(saldoKonto.getBoMa() + r.getKwotaPLN());
+                saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
             }
         }
     }
@@ -138,19 +139,19 @@ public class SaldoAnalitykaView implements Serializable {
         List<StronaWiersza> zapisyRok = pobierzzapisy(p);
         for (StronaWiersza r : zapisyRok) {
             if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(saldoKonto.getObrotyWn() + r.getKwotaPLN());
+                saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
             } else {
-                saldoKonto.setObrotyMa(saldoKonto.getObrotyMa() + r.getKwotaPLN());
+                saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
             }
         }
     }
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
-        if (saldoKonto.getObrotyBoWn() > 0.0) {
+        if (saldoKonto.getObrotyBoWn() > 0.0 || saldoKonto.getBoWn() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }
-        if (saldoKonto.getObrotyBoMa() > 0.0) {
+        if (saldoKonto.getObrotyBoMa() > 0.0 || saldoKonto.getBoMa() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }

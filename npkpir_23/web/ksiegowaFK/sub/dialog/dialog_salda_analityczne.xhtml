@@ -53,7 +53,7 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form"/>
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form, :tabelazsumamianalityka"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
