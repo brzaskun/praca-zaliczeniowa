@@ -8,6 +8,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
+import embeddablefk.ListaSum;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -25,6 +26,7 @@ import msg.Msg;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -53,6 +55,7 @@ public class KontoObrotyFKView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
+    private List<ListaSum> listasum;
     
     
 
@@ -60,7 +63,10 @@ public class KontoObrotyFKView implements Serializable{
         this.lista = new ArrayList<>();
         this.kontozapisy = new ArrayList<>();
         this.wybranekontadosumowania = new ArrayList<>();
-        wybranaWalutaDlaKont = "PLN";
+        wybranaWalutaDlaKont = "wszystkie";
+        listasum = new ArrayList<>();
+        ListaSum l = new ListaSum();
+        listasum.add(l);
     }
     
     @PostConstruct
@@ -70,14 +76,23 @@ public class KontoObrotyFKView implements Serializable{
             wybranekonto = wykazkont.get(0);
         }
     }
-     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
+    
+    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
+        wybranekontadosumowania = new ArrayList<>();
+        listasum = new ArrayList<>();
+        ListaSum l = new ListaSum();
+        listasum.add(l);
         pobierzZapisyNaKoncie();
     }
      
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
         lista.clear();
+        wybranekontadosumowania = new ArrayList<>();
+        listasum = new ArrayList<>();
+        ListaSum l = new ListaSum();
+        listasum.add(l);
     }
     
       public void pobierzZapisyNaKoncie() {
@@ -92,19 +107,26 @@ public class KontoObrotyFKView implements Serializable{
                  znajdzkontazpotomkami(kontamacierzyste);
              }
              for(Konto p : kontaprzejrzane) {
-                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoBOWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
-                 kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                  if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
+                    } else {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    }
+                 
                  //tu jest BO, to nie podwojnie wpisana linia
              }
              //Collections.sort(kontozapisy, new Kontozapisycomparator());
              
          } else {
-             kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoBOWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
-             kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
-             // zbedne bo to wyzej pobiera wszytskie kontozapisy.addAll(kontoZapisyFKDAO.findZapisyKontoBOPodatnik(wpisView.getPodatnikWpisu(), wybranekonto.getPelnynumer()));
+             if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
+                    } else {
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    }
          }
          sumamiesiecy();
          sumazapisow();
+         sumazapisowpln();
         }
      }
       
@@ -133,22 +155,49 @@ public class KontoObrotyFKView implements Serializable{
           }
           wykaz.addAll(listakontposrednia);
       }
-    
+    public void sumazapisowtotal() {
+        sumazapisow();
+        sumazapisowpln();
+    }
       
     public void sumazapisow(){
         sumaWn = 0.0;
         sumaMa = 0.0;
         for(ObrotykontaTabela p : wybranekontadosumowania){
-            sumaWn = sumaWn + p.getKwotaWn();
-            sumaMa = sumaMa + p.getKwotaMa();
+            sumaWn = Z.z(sumaWn + p.getKwotaWn());
+            sumaMa = Z.z(sumaMa + p.getKwotaMa());
         }
         saldoWn = 0.0;
         saldoMa = 0.0;
         if(sumaWn>sumaMa){
-            saldoWn = sumaWn-sumaMa;
+            saldoWn = Z.z(sumaWn-sumaMa);
         } else {
-            saldoMa = sumaMa-sumaWn;
+            saldoMa = Z.z(sumaMa-sumaWn);
         }
+        listasum.get(0).setSumaWn(sumaWn);
+        listasum.get(0).setSumaMa(sumaMa);
+        listasum.get(0).setSaldoWn(saldoWn);
+        listasum.get(0).setSaldoMa(saldoMa);
+    }
+    
+    public void sumazapisowpln(){
+        sumaWn = 0.0;
+        sumaMa = 0.0;
+        for(ObrotykontaTabela p : wybranekontadosumowania){
+            sumaWn = Z.z(sumaWn + p.getKwotaWnPLN());
+            sumaMa = Z.z(sumaMa + p.getKwotaMaPLN());
+        }
+        saldoWn = 0.0;
+        saldoMa = 0.0;
+        if(sumaWn>sumaMa){
+            saldoWn = Z.z(sumaWn-sumaMa);
+        } else {
+            saldoMa = Z.z(sumaMa-sumaWn);
+        }
+        listasum.get(0).setSumaWnPLN(sumaWn);
+        listasum.get(0).setSumaMaPLN(sumaMa);
+        listasum.get(0).setSaldoWnPLN(saldoWn);
+        listasum.get(0).setSaldoMaPLN(saldoMa);
     }
     
      private void sumamiesiecy() {
@@ -162,7 +211,8 @@ public class KontoObrotyFKView implements Serializable{
                     int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
                     obrotyMiesiac = lista.get(numermiesiaca);
                 }
-                obrotyMiesiac.setKwotaWn(obrotyMiesiac.getKwotaWn()+p.getKwota());
+                obrotyMiesiac.setKwotaWn(Z.z(obrotyMiesiac.getKwotaWn()+p.getKwota()));
+                obrotyMiesiac.setKwotaWnPLN(Z.z(obrotyMiesiac.getKwotaWnPLN()+p.getKwotaPLN()));
             } else {
                 if (p.getTypStronaWiersza() == 9) {
                     obrotyMiesiac = lista.get(0);
@@ -170,18 +220,24 @@ public class KontoObrotyFKView implements Serializable{
                     int numermiesiaca = Mce.getMiesiacToNumber().get((p.getWiersz().getDokfk().getMiesiac()));
                     obrotyMiesiac = lista.get(numermiesiaca);
                 }
-                obrotyMiesiac.setKwotaMa(obrotyMiesiac.getKwotaMa()+p.getKwota());
+                obrotyMiesiac.setKwotaMa(Z.z(obrotyMiesiac.getKwotaMa()+p.getKwota()));
+                obrotyMiesiac.setKwotaMaPLN(Z.z(obrotyMiesiac.getKwotaMa()+p.getKwotaPLN()));
             }
             
         }
         //a teraz czas na sumowanie narastajaco i wyliczanie sald
         double sumaWn = 0.0;
         double sumaMa = 0.0;
+        double sumaWnPLN = 0.0;
+        double sumaMaPLN = 0.0;
         for (ObrotykontaTabela tmp: lista) {
-            sumaWn += tmp.getKwotaWn();
+            sumaWn = Z.z(sumaWn + tmp.getKwotaWn());
+            sumaWnPLN = Z.z(sumaWnPLN + tmp.getKwotaWnPLN());
             tmp.setKwotaWnnarastajaco(sumaWn);
-            sumaMa += tmp.getKwotaMa();
-            tmp.setKwotaManarastajaco(sumaMa);
+            tmp.setKwotaWnnarastajacoPLN(sumaWnPLN);
+            sumaMa = Z.z(tmp.getKwotaMa());
+            sumaMaPLN = Z.z(tmp.getKwotaMaPLN());
+            tmp.setKwotaManarastajacoPLN(sumaMaPLN);
             double kwota = tmp.getKwotaWnnarastajaco()-tmp.getKwotaManarastajaco();
             if (kwota > 0) {
                 tmp.setKwotaWnsaldo(kwota);
@@ -192,6 +248,17 @@ public class KontoObrotyFKView implements Serializable{
             } else {
                 tmp.setKwotaWnsaldo(0);
                 tmp.setKwotaMasaldo(0);
+            }
+            kwota = tmp.getKwotaWnnarastajacoPLN()-tmp.getKwotaManarastajacoPLN();
+            if (kwota > 0) {
+                tmp.setKwotaWnsaldoPLN(kwota);
+                tmp.setKwotaMasaldoPLN(0);
+            } else if (kwota < 0 ) {
+                tmp.setKwotaWnsaldoPLN(0);
+                tmp.setKwotaMasaldoPLN(-kwota);
+            } else {
+                tmp.setKwotaWnsaldoPLN(0);
+                tmp.setKwotaMasaldoPLN(0);
             }
         }
         
@@ -310,6 +377,16 @@ public class KontoObrotyFKView implements Serializable{
     public void setLista(List<ObrotykontaTabela> lista) {
         this.lista = lista;
     }
+
+    public List<ListaSum> getListasum() {
+        return listasum;
+    }
+
+    public void setListasum(List<ListaSum> listasum) {
+        this.listasum = listasum;
+    }
+    
+    
     
    
     //</editor-fold>
@@ -326,6 +403,12 @@ public class KontoObrotyFKView implements Serializable{
          private double kwotaManarastajaco;
          private double kwotaWnsaldo;
          private double kwotaMasaldo;
+         private double kwotaWnPLN;
+         private double kwotaMaPLN;
+         private double kwotaWnnarastajacoPLN;
+         private double kwotaManarastajacoPLN;
+         private double kwotaWnsaldoPLN;
+         private double kwotaMasaldoPLN;
             
         public ObrotykontaTabela() {
         }
@@ -339,6 +422,12 @@ public class KontoObrotyFKView implements Serializable{
             this.kwotaManarastajaco = 0.0;
             this.kwotaWnsaldo = 0.0;
             this.kwotaMasaldo = 0.0;
+            this.kwotaWnPLN = 0.0;
+            this.kwotaMaPLN = 0.0;
+            this.kwotaWnnarastajacoPLN = 0.0;
+            this.kwotaManarastajacoPLN = 0.0;
+            this.kwotaWnsaldoPLN = 0.0;
+            this.kwotaMasaldoPLN = 0.0;
         }
         
         public static List<ObrotykontaTabela> wygenerujlisteObrotow(String rok) {
@@ -425,6 +514,54 @@ public class KontoObrotyFKView implements Serializable{
         
         public void setKwotaMasaldo(double kwotaMasaldo) {
             this.kwotaMasaldo = kwotaMasaldo;
+        }
+
+        public double getKwotaWnPLN() {
+            return kwotaWnPLN;
+        }
+
+        public void setKwotaWnPLN(double kwotaWnPLN) {
+            this.kwotaWnPLN = kwotaWnPLN;
+        }
+
+        public double getKwotaMaPLN() {
+            return kwotaMaPLN;
+        }
+
+        public void setKwotaMaPLN(double kwotaMaPLN) {
+            this.kwotaMaPLN = kwotaMaPLN;
+        }
+
+        public double getKwotaWnnarastajacoPLN() {
+            return kwotaWnnarastajacoPLN;
+        }
+
+        public void setKwotaWnnarastajacoPLN(double kwotaWnnarastajacoPLN) {
+            this.kwotaWnnarastajacoPLN = kwotaWnnarastajacoPLN;
+        }
+
+        public double getKwotaManarastajacoPLN() {
+            return kwotaManarastajacoPLN;
+        }
+
+        public void setKwotaManarastajacoPLN(double kwotaManarastajacoPLN) {
+            this.kwotaManarastajacoPLN = kwotaManarastajacoPLN;
+        }
+
+        public double getKwotaWnsaldoPLN() {
+            return kwotaWnsaldoPLN;
+        }
+
+        public void setKwotaWnsaldoPLN(double kwotaWnsaldoPLN) {
+            this.kwotaWnsaldoPLN = kwotaWnsaldoPLN;
+        }
+
+        public double getKwotaMasaldoPLN() {
+            return kwotaMasaldoPLN;
+        }
+
+        public void setKwotaMasaldoPLN(double kwotaMasaldoPLN) {
+            this.kwotaMasaldoPLN = kwotaMasaldoPLN;
         }
         
         
