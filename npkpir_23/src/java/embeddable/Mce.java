@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -171,6 +172,7 @@ public class Mce implements Serializable{
         }
         return listamiesiecy;
     }
+   
    
     public Mce() {
     }
