@@ -279,13 +279,11 @@ public class KontoZapisFKView implements Serializable{
             sumaWn = 0.0;
             sumaMa = 0.0;
             for(StronaWiersza p : wybranekontadosumowania){
-                if (!p.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
                     if (p.getWnma().equals("Wn")) {
                         sumaWn = Z.z(sumaWn + p.getKwota());
                     } else if (p.getWnma().equals("Ma")){
                         Z.z(sumaMa = sumaMa + p.getKwota());
                     }
-                }
             }
             saldoWn = 0.0;
             saldoMa = 0.0;
