@@ -19,7 +19,7 @@
         </h:form>-->
     
          <h:form id="zestawieniedokumentow">
-                <p:panelGrid columns="4" style="margin-left: 2%;" >
+            <p:panelGrid columns="4" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -56,14 +56,15 @@
              <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                               selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
                               style="width: 1250px; height: 580px; overflow-y: scroll" 
-                              emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane">
+                              emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
+                              sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                
             <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
                 <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
             </p:column>
-            <p:column headerText="data" width="90" style="text-align: center;"  sortBy="#{item.datawystawienia}" filterBy="#{item.datawystawienia}" filterMatchMode="contains" >
-                <h:outputText value="#{item.datawystawienia}"/>
+            <p:column headerText="data dok" width="90" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                <h:outputText value="#{item.datadokumentu}"/>
             </p:column>
             <p:column headerText="symbol" width="90" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                   <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>

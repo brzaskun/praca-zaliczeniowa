@@ -366,7 +366,7 @@ public class KontoZapisFKView implements Serializable{
     
     public int sortZapisynaKoncie(Object o1, Object o2) {
         String datao1 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();
-        String datao2 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();
+        String datao2 = ((StronaWiersza) o2).getWiersz().getDokfk().getDatadokumentu();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;

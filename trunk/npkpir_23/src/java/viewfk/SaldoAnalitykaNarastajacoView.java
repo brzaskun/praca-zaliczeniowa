@@ -104,21 +104,33 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
 
     private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p) {
         for (String m : Mce.getMceListS()) {
-            List<StronaWiersza> zapisyRok = pobierzzapisy(p, m);
-            double obrotyWn = 0.0;
-            double obrotyMa = 0.0;
-            for (StronaWiersza r : zapisyRok) {
-                if (r.getWnma().equals("Wn")) {
-                    obrotyWn += Z.z(r.getKwotaPLN());
+            if (m.equals(wpisView.getMiesiacNastepny())) {
+                break;
+            } else {
+                List<StronaWiersza> zapisyRok = pobierzzapisy(p, m);
+                if (zapisyRok != null && zapisyRok.size() > 0) {
+                    double obrotyWn = 0.0;
+                    double obrotyMa = 0.0;
+                    for (StronaWiersza r : zapisyRok) {
+                        if (r.getWnma().equals("Wn")) {
+                            obrotyWn += Z.z(r.getKwotaPLN());
+                        } else {
+                            obrotyMa += Z.z(r.getKwotaPLN());
+                        }
+                    }
+                    SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
+                    o.setNazwamca(m);
+                    o.setObrotyWn(Z.z(obrotyWn));
+                    o.setObrotyMa(Z.z(obrotyMa));
+                    saldoKonto.getObrotymiesiecy().add(o);
                 } else {
-                    obrotyMa += Z.z(r.getKwotaPLN());
+                    SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
+                    o.setNazwamca(m);
+                    o.setObrotyWn(0.0);
+                    o.setObrotyMa(0.0);
+                    saldoKonto.getObrotymiesiecy().add(o);
                 }
             }
-            SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
-            o.setNazwamca(m);
-            o.setObrotyWn(Z.z(obrotyWn));
-            o.setObrotyMa(Z.z(obrotyMa));
-            saldoKonto.getObrotymiesiecy().add(o);
         }
     }
 
@@ -137,6 +149,14 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         return KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, stronaWierszaDAO);
     }
    
+     public boolean czywyswietlic(String kolumna) {
+        int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        int mc = Mce.getMiesiacToNumber().get(kolumna);
+        if (mc <= granica) {
+            return true;
+        }
+        return false;
+    }
     
     
 }

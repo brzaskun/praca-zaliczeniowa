@@ -26,11 +26,19 @@
             width: 60px !important;
         }
         .ui-datatable-frozen-container .ui-datatable-scrollable-body {
-            height: 606px !important;
+            height: 620px !important;
         }
         .ui-datatable-scrollable-container .ui-datatable-scrollable-body {
-            height: 625px !important;
+            height: 639px !important;
         }
+        .ui-datatable-scrollable-header-box {
+            height: 47px !important;
+        }
+        
+         .ui-datatable-scrollable-header-box th {
+            height: 47px !important;
+        }
+        
        
         </style>
     <bcf:ajaxs/>
@@ -38,25 +46,22 @@
               resizable="true" onShow="ustawdialog('saldakontanalitycznychnarastajaco','menuraporty',1450,750);" onHide="resetujdialog('saldakontanalitycznychnarastajaco');"  closeOnEscape="true" 
               >
         <h:form id="formanalitykanar">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <!--            <p:column>
-                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                    <f:selectItems value="#{Roki.rokiList}"/>
-                                    <f:param name="rokWpisu" value="2012" />
-                                </p:selectOneMenu>
-                            </p:column>-->
-<!--                <p:column>
+            <p:panelGrid columns="2" style="margin-left: 2%;" >
+                 <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
+                <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
-                </p:column>-->
+                </p:column>
               
             </p:panelGrid>
             <p:dataTable id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym"
                          styleClass="grid1"  widgetVar="tablicasaldaanalitycznenarastajaco"
-                         frozenColumns="3" scrollable="true" scrollHeight="625" selectionMode="single"
+                         frozenColumns="3" scrollable="true" scrollHeight="625" selectionMode="single" style="max-width: 100%"
                          >
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
@@ -66,84 +71,84 @@
                 <p:column id="idcolumn" styleClass="idfrozen" headerText="id" width="20" sortBy="#{loop.id}" >
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
-                <p:column styleClass="kontofrozen" headerText="konto pełny numer" width="50" >
+                <p:column styleClass="kontofrozen" headerText="konto pełny numer" width="55" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  styleClass="opisfrozen" headerText="opis" width="100" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
-                <p:column headerText="boWn" width="60" >
+                <p:column headerText="boWn" width="50" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="boMa" width="60" >
+                <p:column headerText="boMa" width="50" >
                     <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyWn styczeń" width="60" >
+                <p:column headerText="obrotyWn styczeń" width="55" >
                     <h:outputText value="#{loop.obrotymiesiecy.get(0).obrotyWn != 0.0 ? loop.obrotymiesiecy.get(0).obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyMa styczeń" width="60" >
+                <p:column headerText="obrotyMa styczeń" width="55" >
                     <h:outputText value="#{loop.obrotymiesiecy.get(0).obrotyMa != 0.0 ? loop.obrotymiesiecy.get(0).obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyWn luty" width="60" >
+                <p:column headerText="obrotyWn luty" width="55" rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('02')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(1).obrotyWn != 0.0 ? loop.obrotymiesiecy.get(1).obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyMa luty" width="60" >
+                <p:column headerText="obrotyMa luty" width="55"  rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('02')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(1).obrotyMa != 0.0 ? loop.obrotymiesiecy.get(1).obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyWn marzec" width="60" >
+                <p:column headerText="obrotyWn marzec" width="55"  rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('03')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(2).obrotyWn != 0.0 ? loop.obrotymiesiecy.get(2).obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyMa marzec" width="60" >
+                <p:column headerText="obrotyMa marzec" width="55"  rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('03')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(2).obrotyMa != 0.0 ? loop.obrotymiesiecy.get(2).obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyWn kwiecień" width="60" >
+                <p:column headerText="obrotyWn kwiecień" width="55" rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('04')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(3).obrotyWn != 0.0 ? loop.obrotymiesiecy.get(3).obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyMa kwiecień" width="60" >
+                <p:column headerText="obrotyMa kwiecień" width="55"  rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('04')}">
                     <h:outputText value="#{loop.obrotymiesiecy.get(3).obrotyMa != 0.0 ? loop.obrotymiesiecy.get(3).obrotyMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyBO Wn" width="60" >
+                <p:column headerText="obrotyBO Wn" width="55" >
                     <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="obrotyBO Ma" width="60" >
+                <p:column headerText="obrotyBO Ma" width="55" >
                     <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="saldoWn" width="60" >
+                <p:column headerText="saldoWn" width="55" >
                     <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="saldoMa" width="60" >
+                <p:column headerText="saldoMa" width="55" >
                     <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="konto" width="50" >
-                    <h:outputText value="#{loop.konto.pelnynumer}" style="color: green; font-weight: 700;"/>
+                <p:column headerText="konto" width="55" >
+                    <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
             </p:dataTable>
         </h:form>
