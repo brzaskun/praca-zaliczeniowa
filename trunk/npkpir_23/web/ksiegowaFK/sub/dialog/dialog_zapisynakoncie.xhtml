@@ -12,7 +12,7 @@
               >
         <p:layout fullPage="false" style="width: 1450px; height: 720px;">  
             <p:layoutUnit position="north" >
-                <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid columns="3" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="wybierz konto: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoView.complete}"
@@ -35,6 +35,24 @@
                             <f:selectItem itemValue="wszystkie" itemLabel="wszystkie"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
+                    </h:form>
+                    <h:form>
+                        <p:panelGrid columns="4" style="margin-left: 15px;">
+                            <h:outputText value="miesiąc Od"/>
+                            <p:column>
+                                <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                                    <f:selectItems value="#{Mce.mceList}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <h:outputText value="miesiąc Do"/>
+                            <p:column>
+                                <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
+                                    <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                                    <f:selectItems value="#{Mce.mceList}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:panelGrid>
                     </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  style="display: none;"/>

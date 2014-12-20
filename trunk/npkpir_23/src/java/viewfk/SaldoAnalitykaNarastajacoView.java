@@ -13,7 +13,6 @@ import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKontoNarastajaco;
-import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
@@ -25,6 +24,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -95,9 +95,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
-                saldoKonto.setBoWn(saldoKonto.getBoWn() + r.getKwotaPLN());
+                saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
             } else {
-                saldoKonto.setBoMa(saldoKonto.getBoMa() + r.getKwotaPLN());
+                saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
             }
         }
     }
@@ -109,15 +109,15 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             double obrotyMa = 0.0;
             for (StronaWiersza r : zapisyRok) {
                 if (r.getWnma().equals("Wn")) {
-                    obrotyWn += r.getKwotaPLN();
+                    obrotyWn += Z.z(r.getKwotaPLN());
                 } else {
-                    obrotyMa += r.getKwotaPLN();
+                    obrotyMa += Z.z(r.getKwotaPLN());
                 }
             }
             SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
             o.setNazwamca(m);
-            o.setObrotyWn(obrotyWn);
-            o.setObrotyMa(obrotyMa);
+            o.setObrotyWn(Z.z(obrotyWn));
+            o.setObrotyMa(Z.z(obrotyMa));
             saldoKonto.getObrotymiesiecy().add(o);
         }
     }

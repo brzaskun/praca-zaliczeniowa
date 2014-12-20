@@ -9,6 +9,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
+import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -118,12 +119,17 @@ public class KontoZapisFKView implements Serializable{
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
             }
+            usunzapisyzinnychmcy();
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
     
+    public void zapisykontmiesiace() {
+         wpisView.wpisAktualizuj();
+         pobierzZapisyZmianaWaluty();
+    }
     
     
     public void pobierzZapisyZmianaWaluty() {
@@ -155,6 +161,7 @@ public class KontoZapisFKView implements Serializable{
                     kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
             }
+            usunzapisyzinnychmcy();
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
@@ -163,6 +170,28 @@ public class KontoZapisFKView implements Serializable{
      
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
         kontozapisy.clear();
+    }
+    
+    private void usunzapisyzinnychmcy() {
+        List<String> mce = null;
+            try {
+                mce = Mce.zakresmiesiecy(wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
+            } catch (Exception e) {
+                Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
+            }
+            for (Iterator it = kontozapisy.iterator(); it.hasNext();) {
+                boolean pasuje = false;
+                StronaWiersza p = (StronaWiersza) it.next();
+                for (String r : mce) {
+                    if (p.getWiersz().getDokfk().getMiesiac().equals(r)) {
+                        pasuje = true;
+                        break;
+                    } 
+                }
+                if (pasuje == false) {
+                    it.remove();
+                }
+            }
     }
     
     public void pobierzZapisyNaKoncie() {

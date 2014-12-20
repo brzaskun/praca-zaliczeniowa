@@ -592,7 +592,11 @@ public class STRTabView implements Serializable {
             if (listaparametrow.size() > 0) {
                 List<String> miesiacezawieszeniawroku = new ArrayList<>();
                 for (Parametr s : listaparametrow) {
-                    miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
+                    try {
+                        miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
+                    } catch (Exception e) {
+                       Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
+                    }
                 }
                 String ostatnimiesiaczlisty = miesiacezawieszeniawroku.get(miesiacezawieszeniawroku.size() - 1);
                 if (miesiacezawieszeniawroku.contains(Mce.getNumberToMiesiac().get(badanymiesiac))) {

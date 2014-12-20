@@ -10,8 +10,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import msg.Msg;
 
 /**
  *
@@ -160,6 +163,9 @@ public class Mce implements Serializable{
         List<String> listamiesiecy = new ArrayList<>();
         int mcod = Mce.miesiacToNumber.get(mcOd);
         int mcdo = Mce.miesiacToNumber.get(mcDo);
+        if (mcod > mcdo) {
+            Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
+        }
         for (int i = mcod; i < mcdo+1; i++) {
             listamiesiecy.add(Mce.numberToMiesiac.get(i));
         }
@@ -170,7 +176,11 @@ public class Mce implements Serializable{
     }
     
     public static void main (String[] args) {
-        List<String> lista = zakresmiesiecy("01", "05");
+        try {
+            List<String> lista = zakresmiesiecy("01", "05");
+        } catch (Exception ex) {
+            Logger.getLogger(Mce.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
