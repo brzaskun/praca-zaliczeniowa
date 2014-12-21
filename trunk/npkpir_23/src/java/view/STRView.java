@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -41,13 +42,22 @@ public class STRView implements Serializable {
     private Srodkikst srodekkategoria;
     @Inject
     private SrodekTrw selectedSTR;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
   
-
+    public void dodajSTR() {
+        String podatnik = wpisView.getPodatnikWpisu();
+        selectedSTR.setPodatnik(podatnik);
+        RequestContext.getCurrentInstance().execute("PF('dialogwpissrodkitrwale').hide();");
+        dodajSrodekTrwaly(selectedSTR);
+        Msg.msg("Dodaje srodek");
+    }
+    
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
-    public void dodajSrodekTrwaly(SrodekTrw STR) {
+    public void dodajSrodekTrwaly(SrodekTrw dodawanysrodektrwaly) {
         try {
-            Double netto = STR.getNetto()-STR.getNiepodlegaamortyzacji();
-            Double stawkaamortyzacji = STR.getStawka();
+            Double netto = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji();
+            Double stawkaamortyzacji = dodawanysrodektrwaly.getStawka();
             BigDecimal tmp1 = BigDecimal.valueOf(stawkaamortyzacji);
             tmp1 = tmp1.setScale(2, RoundingMode.HALF_EVEN);
             tmp1 = tmp1.multiply(BigDecimal.valueOf(netto));
@@ -57,18 +67,18 @@ public class STRView implements Serializable {
             tmp2 = tmp2.setScale(2, RoundingMode.HALF_EVEN);
             Double odpisrok = Double.parseDouble(tmp1.toString());
             Double odpismiesiac = Double.parseDouble(tmp2.toString());
-            STR.setOdpisrok(odpisrok);
+            dodawanysrodektrwaly.setOdpisrok(odpisrok);
             if (stawkaamortyzacji == 100) {
-                STR.setOdpismc(odpisrok);
+                dodawanysrodektrwaly.setOdpismc(odpisrok);
             } else {
-                STR.setOdpismc(odpismiesiac);
+                dodawanysrodektrwaly.setOdpismc(odpismiesiac);
             }
             //oblicza planowane umorzenia
-            Double opm = STR.getOdpismc();
-            Double max = STR.getNetto()-STR.getNiepodlegaamortyzacji();
+            Double opm = dodawanysrodektrwaly.getOdpismc();
+            Double max = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji();
             //uwzglednia umorzenie poczatkowe przy odpisach
             try{
-            max = max - STR.getUmorzeniepoczatkowe();
+            max = max - dodawanysrodektrwaly.getUmorzeniepoczatkowe();
             } catch (Exception et){}
             Double nar = 0.0;
             List<Double> listaplanum = new ArrayList<Double>();
@@ -87,12 +97,12 @@ public class STRView implements Serializable {
                 listaplanum.add(odp.doubleValue());
                 nar = nar + odp;
             }
-            STR.setUmorzPlan(listaplanum);
-            sTRDAO.dodaj(STR);
+            dodawanysrodektrwaly.setUmorzPlan(listaplanum);
+            sTRDAO.dodaj(dodawanysrodektrwaly);
             RequestContext.getCurrentInstance().update("srodki:panelekXA");
-            Msg.msg("i", "Środek trwały "+STR.getNazwa()+" dodany", "formSTR:messages");
+            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nowy srodek nie zachowany", STR.getNazwa());
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nowy srodek nie zachowany", dodawanysrodektrwaly.getNazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
 
@@ -170,6 +180,14 @@ public class STRView implements Serializable {
 
     public void setSelectedSTR(SrodekTrw selectedSTR) {
         this.selectedSTR = selectedSTR;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
     
     

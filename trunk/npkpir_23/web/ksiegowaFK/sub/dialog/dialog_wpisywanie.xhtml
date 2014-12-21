@@ -40,11 +40,12 @@
             width: 70px !important;
         }
         .ui-inputNum .ui-widget {
-            width: 100px !important;
+            width: 90px !important;
         }
         .ilosci .pe-inputNumber{
             width: 70px !important;
         }
+        
         
             
 
@@ -290,7 +291,7 @@
                         </p:column>
                         <p:column headerText="netto" style="width: 80px;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000000" styleClass="wiersznetto"> 
+                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -328,7 +329,7 @@
                     <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
-                    <p:column headerText="opis transakcji" width="150" style="text-align: center;">
+                    <p:column headerText="opis transakcji" width="130" style="text-align: center;">
                         <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
                                      onkeypress="wywolajdok('#{planKontJSView.opiskonta}', '#{planKontJSView.pelnynumerkonta}', '#{loop.idporzadkowy}');" 
                                      onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
