@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import msg.Msg;
 import view.WpisView;
 
 /**
@@ -41,15 +42,19 @@ public class PlanKontJSView implements Serializable {
     @PostConstruct
     private void init() {
             if (wpisView instanceof WpisView) {
-            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             opiskonta = "";
             pelnynumerkonta = "";
-            for (Konto t : wykazkont) {
-                if (!t.getNrkonta().equals("0")) {
-                    opisKontaLista.add(t.getNazwaskrocona());
-                    opiskonta = opiskonta + t.getNazwaskrocona() + ",";
-                    pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+            if (wykazkont != null) {
+                for (Konto t : wykazkont) {
+                    if (!t.getNrkonta().equals("0")) {
+                        opisKontaLista.add(t.getNazwaskrocona());
+                        opiskonta = opiskonta + t.getNazwaskrocona() + ",";
+                        pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+                    }
                 }
+            } else {
+                Msg.msg("e", "Nie zdefiniowanu planu kont dla firmy");
             }
         }
     }

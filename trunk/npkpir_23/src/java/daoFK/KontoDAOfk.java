@@ -108,9 +108,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
    
-    public List<Konto> findWszystkieKontaPodatnika(String podatnik){
+    public List<Konto> findWszystkieKontaPodatnika(String podatnik, String rok){
        try {
-            return kontoFacade.findKontoPodatnik(podatnik);
+            return kontoFacade.findKontoPodatnik(podatnik, rok); 
         } catch (Exception e) {
             return null;
         }
@@ -267,6 +267,22 @@ public class KontoDAOfk extends DAO implements Serializable{
 
     public List<Konto> findlistaKontKasaBank(String p) {
         return kontoFacade.findlistaKontKasaBank(p);
+    }
+
+    public List<Konto> findWszystkieKontaWzorcowy() {
+        try {
+            return kontoFacade.findKontaWzorcowy();
+        } catch (Exception e) {
+            return null;
+        } 
+    }
+
+    public List<Konto> findWszystkieKontaPodatnikaBez0(String podatnikWpisu, String rokWpisuSt) {
+        try {
+            return kontoFacade.findKontoPodatnikBez0(podatnikWpisu, rokWpisuSt);
+        } catch (Exception e) {
+            return null;
+        } 
     }
 
    

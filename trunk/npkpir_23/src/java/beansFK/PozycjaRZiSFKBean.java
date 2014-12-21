@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import view.WpisView;
 
 /**
  *
@@ -109,8 +110,8 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaDAO kontopozycjarzisDAO, UkladBR uklad) {
-        List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik());
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaDAO kontopozycjarzisDAO, UkladBR uklad, WpisView wpisView) {
+        List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(wpisView.getRokWpisuSt(), uklad.getPodatnik());
         for (Konto p : kontapobrane) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);

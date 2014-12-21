@@ -818,10 +818,13 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
     }
 
-    public List<Konto> findKontoPodatnik(String podatnik) {
-        return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    public List<Konto> findKontoPodatnik(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
     
+    public List<Konto> findKontoPodatnikBez0(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok",  Integer.parseInt(rok)).getResultList();
+    }
     
     public List<Konto> findWszystkieKontaPodatnikaBO(String podatnik, String kategoriaKonta) {
         return em.createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", podatnik).setParameter("wzorzec", kategoriaKonta).getResultList();
@@ -1102,6 +1105,10 @@ public class SessionFacade<T> implements Serializable{
 
     public Dokfk findDokfofaTypeKontrahent(Podatnik podatnikWpisu, String vat, String rokWpisuSt, String mc) {
         return (Dokfk) em.createNamedQuery("Dokfk.findBySeriaNumerRokdokfk").setParameter("seriadokfk", vat).setParameter("rok", rokWpisuSt).setParameter("podatnik", podatnikWpisu).setParameter("mc", mc).getSingleResult();
+    }
+
+    public List<Konto> findKontaWzorcowy() {
+        return em.createNamedQuery("Konto.findWzorcowe").getResultList();
     }
   
 }

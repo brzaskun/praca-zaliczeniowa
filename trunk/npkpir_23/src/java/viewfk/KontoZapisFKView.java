@@ -83,7 +83,7 @@ public class KontoZapisFKView implements Serializable{
     
     @PostConstruct
     private void init(){
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
         }

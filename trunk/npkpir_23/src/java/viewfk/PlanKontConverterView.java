@@ -37,7 +37,7 @@ public class PlanKontConverterView implements Serializable{
     
     @PostConstruct
     private void init() {
-        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
