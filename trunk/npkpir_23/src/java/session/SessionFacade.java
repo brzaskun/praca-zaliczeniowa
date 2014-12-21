@@ -654,8 +654,8 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public List<Konto> findKontaOstAlityka(String podatnik) {
-        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).getResultList();
+    public List<Konto> findKontaOstAlityka(String podatnik, Integer rok) {
+        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
     public List<Konto> findKontaOstAlityka5(String podatnik) {
@@ -987,6 +987,10 @@ public class SessionFacade<T> implements Serializable{
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutaWszystkie(Podatnik podatnik, Konto konto, String rok, String mc) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {

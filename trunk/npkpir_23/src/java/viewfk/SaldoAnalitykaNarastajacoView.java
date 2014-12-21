@@ -48,7 +48,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
     @PostConstruct
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView.getPodatnikWpisu());
+       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     

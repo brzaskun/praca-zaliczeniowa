@@ -17,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.metamodel.SingularAttribute;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -64,6 +65,9 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     }
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return sessionFacade.findStronaByPodatnikKontoRokWalutaWszystkie(podatnik, konto, rok);
+    }
+    public List<StronaWiersza> findStronaByPodatnikKontoRokMCWalutaWszystkie(Podatnik podatnik, Konto konto, WpisView wpisView) {
+        return sessionFacade.findStronaByPodatnikKontoRokMcWalutaWszystkie(podatnik, konto, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
     
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {

@@ -40,7 +40,7 @@ import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class KontoZapisFKView implements Serializable{
+public class ZapisyKontaPodatnikFKView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<StronaWiersza> kontozapisy;
     @Inject private StronaWiersza wybranyzapis;
@@ -71,7 +71,7 @@ public class KontoZapisFKView implements Serializable{
 
     
 
-    public KontoZapisFKView() {
+    public ZapisyKontaPodatnikFKView() {
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";
@@ -82,17 +82,17 @@ public class KontoZapisFKView implements Serializable{
     
     @PostConstruct
     private void init(){
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        if (wykazkont != null) {
-            wybranekonto = wykazkont.get(0);
+        List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView);
+        wybranaWalutaDlaKont = "wszystkie";
+        kontozapisy = new ArrayList<>();
+        if (wykazkont != null && wykazkont.size() > 0) {
+            for (Konto p : wykazkont) {
+                pobierzZapisyNaKoncieNode(p);
+            }
         }
     }
     
-    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        Konto wybraneKontoNode = (Konto) node.getData();
-        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-        kontozapisy = new ArrayList<>();
+    public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
             List<Konto> kontapotomne = new ArrayList<>();
             if (wybraneKontoNode.isMapotomkow() == true) {
                 List<Konto> kontamacierzyste = new ArrayList<>();
@@ -102,32 +102,26 @@ public class KontoZapisFKView implements Serializable{
                     znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
                 }
                 for (Konto p : kontapotomne) {
-                    
                     if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
-                    } else {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokMCWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView));
                     }
                 }
                 //Collections.sort(kontozapisy, new Kontozapisycomparator());
             } else {
-                
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
-                } else {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokMCWalutaWszystkie(wpisView.getPodatnikObiekt(), wybraneKontoNode, wpisView));
                 }
             }
-            usunzapisyzinnychmcy();
-            sumazapisow();
-            sumazapisowpln();
+            //usunzapisyzinnychmcy();
+            //sumazapisow();
+            //sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem");
     }
     
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
-         pobierzZapisyZmianaWaluty();
+         init();
     }
     
     
@@ -363,9 +357,19 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    public int sortZapisynaKoncie(Object o1, Object o2) {
-        String datao1 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();
-        String datao2 = ((StronaWiersza) o2).getWiersz().getDokfk().getDatadokumentu();
+   public int sortZapisynaKoncie(Object o1, Object o2) {
+        String numer1 = ((StronaWiersza) o1).getKonto().getPelnynumer();
+        String numer2 = ((StronaWiersza) o2).getKonto().getPelnynumer();
+        if (numer1.equals(numer2)) {
+            return porownajdatadok((StronaWiersza) o1, (StronaWiersza) o2);
+        } else {
+            return numer1.compareTo(numer2);
+        }
+   }
+    
+   private int porownajdatadok(StronaWiersza o1, StronaWiersza o2) {
+        String datao1 =  o1.getWiersz().getDokfk().getDatadokumentu();
+        String datao2 = o2.getWiersz().getDokfk().getDatadokumentu();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
@@ -378,7 +382,7 @@ public class KontoZapisFKView implements Serializable{
             } else if (datao1date.after(datao2date)) {
                 return 1;
             } else {
-                return porownajseriedok(((StronaWiersza) o1),((StronaWiersza) o2));
+                return porownajseriedok(o1,o2);
             }
         } catch (Exception e) {
             return 0;

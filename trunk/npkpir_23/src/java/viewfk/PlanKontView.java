@@ -74,7 +74,7 @@ public class PlanKontView implements Serializable {
         root = rootInit(wykazkont);
         wykazkontwzor = kontoDAO.findWszystkieKontaWzorcowy();
         rootwzorcowy = rootInit(wykazkontwzor);
-        listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView.getPodatnikWpisu());
+        listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView);
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 

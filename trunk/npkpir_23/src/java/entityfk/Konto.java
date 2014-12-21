@@ -73,7 +73,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByNazwaPodatnik", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),
     @NamedQuery(name = "Konto.findByMapotomkowMaSlownik", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0'"),
-    @NamedQuery(name = "Konto.findByMapotomkowMaSlownikPodatnik", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0' AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByMapotomkowMaSlownikPodatnik", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0' AND k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMapotomkowMaSlownikPodatnik5", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0' AND k.podatnik = :podatnik AND k.pelnynumer LIKE '5%'"),
     @NamedQuery(name = "Konto.findByMaSlownik", query = "SELECT k FROM Konto k WHERE k.maslownik = :maslownik  AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin"),
