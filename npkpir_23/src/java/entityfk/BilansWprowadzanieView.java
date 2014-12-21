@@ -236,7 +236,7 @@ public class BilansWprowadzanieView implements Serializable {
             }
         }
         List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         for (Konto p : listakont) {
             p.setBoWn(0.0);
             p.setBoMa(0.0);

@@ -71,7 +71,7 @@ public class KontoObrotyFKView implements Serializable{
     
     @PostConstruct
     private void init(){
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu());
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
         }

@@ -18,6 +18,7 @@ import javax.ejb.Singleton;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
+import view.WpisView;
 
 /**
  *
@@ -27,36 +28,36 @@ import org.primefaces.model.TreeNode;
 @Singleton
 public class PlanKontFKBean {
    
-     public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
+     public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setSyntetyczne("syntetyczne");
-         nowekonto.setPodatnik(podatnik);
+         nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(2014);
          nowekonto.setMacierzyste("0");
          nowekonto.setLevel(0);
          nowekonto.setMacierzysty(0);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
+         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
      }
      
-     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
+     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik(podatnik);
+         nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(2014);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
-         nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, podatnik));
+         nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, wpisView.getPodatnikWpisu()));
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
+         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta, String podatnik, Integer rok) {
+    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta,WpisView wpisView, Integer rok) {
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik(podatnik);
+         nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(rok);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
@@ -66,15 +67,15 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
+         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
     }
      
-    public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String podatnik) {
+    public static int dodajslownik(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setNazwapelna("Słownik kontrahenci");
          nowekonto.setNazwaskrocona("Kontrahenci");
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
-         nowekonto.setPodatnik(podatnik);
+         nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(2014);
          nowekonto.setSlownikowe(true);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
@@ -85,11 +86,11 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, podatnik);
+         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, Podatnik podatnik, Integer rok) {
-        List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient(podatnik.getNip());
+    public static int dodajelementyslownika(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, WpisView wpisView, Integer rok) {
+        List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         if (listaprzyporzadkowanychklientow != null) {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
                 Konto nowekonto = new Konto();
@@ -97,7 +98,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), podatnik.getNazwapelna(), rok);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView, rok);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -107,15 +108,15 @@ public class PlanKontFKBean {
             return 0;
         }
     }
-    public static int aktualizujslownik(Kliencifk kliencifk, KontoDAOfk kontoDAO, String podatnik, Integer rok) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(podatnik);
+    public static int aktualizujslownik(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView, Integer rok) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu());
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(kliencifk.getNazwa());
             nowekonto.setNazwaskrocona(kliencifk.getNip());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), podatnik, rok);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView, rok);
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -123,15 +124,15 @@ public class PlanKontFKBean {
         return 0;
     }
     
-    public static void porzadkujslowniki(Kliencifk kliencifk, KontoDAOfk kontoDAO, String podatnik, Integer rok) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(podatnik);
+    public static void porzadkujslowniki(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView, Integer rok) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu());
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(kliencifk.getNazwa());
             nowekonto.setNazwaskrocona(kliencifk.getNip());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), podatnik, rok);
+            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView, rok);
         }
     }
             
@@ -159,13 +160,13 @@ public class PlanKontFKBean {
         kontoDAOfk.edit(macierzyste);
     }
     
-    public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, String podatnik) {
+    public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, WpisView wpisView) {
         if (czywzorcowe(r.getChildren().get(0))) {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaPodatnika("Wzorcowy"));
+            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaWzorcowy());
         } else {
             r.reset();
-            List<Konto> listakontpodatnika = kontoDAO.findWszystkieKontaPodatnika(podatnik);
+            List<Konto> listakontpodatnika = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             if (listakontpodatnika != null && !listakontpodatnika.isEmpty()) {
                 r.createTreeNodesForElement(listakontpodatnika);
             }
@@ -184,8 +185,8 @@ public class PlanKontFKBean {
          return i;
     }
      
-    private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, String podatnik) {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnik);
+    private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
         if (wykazkont.contains(nowe)) {
             return 1;
         } else {
@@ -193,8 +194,8 @@ public class PlanKontFKBean {
         }
     }
 
-    private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk, String podatnik) {
-        if (0 == znajdzduplikat(nowekonto, kontoDAOfk, podatnik)) {
+    private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        if (0 == znajdzduplikat(nowekonto, kontoDAOfk, wpisView)) {
             kontoDAOfk.dodaj(nowekonto);
             return 0;
         } else {
