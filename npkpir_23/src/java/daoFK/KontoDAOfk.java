@@ -13,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -153,9 +154,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
    
-   public List<Konto> findKontaOstAlityka (String podatnik) {
+   public List<Konto> findKontaOstAlityka (WpisView wpisView) {
       try {
-            return kontoFacade.findKontaOstAlityka(podatnik);
+            return kontoFacade.findKontaOstAlityka(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         } catch (Exception e) {
             return null;
         } 
