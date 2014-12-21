@@ -13,11 +13,13 @@
             <f:view>
                 <h:form>
                     <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
-                                     header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" >
+                                     header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
+                                     >
                         <c:choose>
                             <c:when test="#{listenerPresent}">
-                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm#{lp != null ? lp : '1'}').hide()" style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
-                                    <f:actionListener binding="#{listener}"/>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm#{lp != null ? lp : '1'}').hide()"
+                                                 actionListener="#{listener}"
+                                                 style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
                                 </p:commandButton>
                             </c:when>
                             <c:otherwise>
