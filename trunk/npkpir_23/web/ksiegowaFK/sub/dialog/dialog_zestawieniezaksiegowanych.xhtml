@@ -10,8 +10,7 @@
             width: 40px !important;
         }
     </style>
-         <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
-                 <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
+       
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
 <!--        <h:form>
@@ -26,6 +25,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}"/>
+                        <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>

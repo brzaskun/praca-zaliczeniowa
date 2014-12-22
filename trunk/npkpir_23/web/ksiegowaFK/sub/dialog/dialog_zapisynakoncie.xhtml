@@ -64,8 +64,6 @@
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
                 <h:form id="form">
-                    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
                     <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -115,10 +113,10 @@
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
                                  >
-                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->
+                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
+                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
+                        <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
+                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>-->
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                         <p:column headerText="id" width="30"  >
                             <h:outputText value="#{loop.id}"/>

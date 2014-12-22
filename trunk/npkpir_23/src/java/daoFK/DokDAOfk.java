@@ -52,9 +52,17 @@ public class DokDAOfk extends DAO implements Serializable {
         dokFacade.remove(selected);
     }
 
-    public List<Dokfk> findDokfkPodatnik(WpisView wpisView) {
+    public List<Dokfk> findDokfkPodatnikRokMc(WpisView wpisView) {
         try {
-           return dokFacade.findDokfkPodatnik(wpisView);
+           return dokFacade.findDokfkPodatnikRokMc(wpisView);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public List<Dokfk> findDokfkPodatnikRok(WpisView wpisView) {
+        try {
+           return dokFacade.findDokfkPodatnikRok(wpisView);
        } catch (Exception e ){
            return null;
        }
