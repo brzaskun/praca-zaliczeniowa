@@ -1159,7 +1159,7 @@ private static final long serialVersionUID = 1L;
                         ma.setKwota(nettoEwidVat);
                         ma.setKwotaPLN(nettowPLN);
                         wn.setKwota(nettoEwidVat+vatwWalucie);
-                        wn.setKwota(nettowPLN+vatEwidVat);
+                        wn.setKwotaPLN(nettowPLN+vatEwidVat);
                     }
                     if (kontoRozrachunkowe != null) {
                         wierszpierwszy.getStronaWn().setKonto(kontoRozrachunkowe);
