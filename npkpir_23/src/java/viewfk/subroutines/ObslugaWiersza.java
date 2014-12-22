@@ -597,7 +597,8 @@ public class ObslugaWiersza {
             Wiersz p = lWiersz.next();
             Konto kWn = p.getStronaWn() != null? p.getStronaWn().getKonto() : null;
             Konto kMa = p.getStronaMa() != null? p.getStronaMa().getKonto() : null;
-            if (kWn == null && kMa == null) {
+            boolean pustyopiswiersza = p.getOpisWiersza().equals("");
+            if (kWn == null && kMa == null && pustyopiswiersza) {
                 lWiersz.remove();
             }
         }

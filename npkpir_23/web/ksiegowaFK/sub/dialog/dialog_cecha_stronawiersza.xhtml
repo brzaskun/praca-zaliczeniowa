@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyStronaWiersza" header="Wykaz bieżących cech bieżącego zapisu" widgetVar="dialogCechyStronaWiersza" resizable="false" 
-              onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,400);" focus=":formCHW" 
+              onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,400);" focus=":formCHW"  modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCHW" >
             <p:dataTable  value="#{dokfkView.pobranecechy}" var="item" rows="6" style="height: 170px;"
