@@ -5,6 +5,7 @@
 package view;
 
 import dao.STRDAO;
+import entity.EVatwpis1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import java.io.Serializable;
@@ -150,6 +151,18 @@ public class STRView implements Serializable {
         }
     }
     
+     
+     private void dodajSrodekTrwaly() {
+        try {
+            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+            selectedSTR.setZlikwidowany(0);
+            selectedSTR.setDatasprzedazy("");
+            selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
+            dodajSTR();
+
+        } catch (Exception e) {
+        }
+    }
     public Integer getIlesrodkow() {
         return ilesrodkow;
     }
