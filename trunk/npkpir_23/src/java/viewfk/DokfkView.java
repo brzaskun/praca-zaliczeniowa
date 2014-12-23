@@ -2405,6 +2405,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         pobierzkursNBPwiersz(datawiersza, wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
         String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
+        przepiszWaluty(wierszbiezacy);
         RequestContext.getCurrentInstance().update(update);
     }
 
