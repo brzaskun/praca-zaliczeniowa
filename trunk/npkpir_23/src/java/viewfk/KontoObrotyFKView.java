@@ -221,7 +221,7 @@ public class KontoObrotyFKView implements Serializable{
                     obrotyMiesiac = lista.get(numermiesiaca);
                 }
                 obrotyMiesiac.setKwotaMa(Z.z(obrotyMiesiac.getKwotaMa()+p.getKwota()));
-                obrotyMiesiac.setKwotaMaPLN(Z.z(obrotyMiesiac.getKwotaMa()+p.getKwotaPLN()));
+                obrotyMiesiac.setKwotaMaPLN(Z.z(obrotyMiesiac.getKwotaMaPLN()+p.getKwotaPLN()));
             }
             
         }
@@ -235,8 +235,9 @@ public class KontoObrotyFKView implements Serializable{
             sumaWnPLN = Z.z(sumaWnPLN + tmp.getKwotaWnPLN());
             tmp.setKwotaWnnarastajaco(sumaWn);
             tmp.setKwotaWnnarastajacoPLN(sumaWnPLN);
-            sumaMa = Z.z(tmp.getKwotaMa());
-            sumaMaPLN = Z.z(tmp.getKwotaMaPLN());
+            sumaMa = Z.z(sumaMa + tmp.getKwotaMa());
+            sumaMaPLN = Z.z(sumaMaPLN + tmp.getKwotaMaPLN());
+            tmp.setKwotaManarastajaco(sumaMa);
             tmp.setKwotaManarastajacoPLN(sumaMaPLN);
             double kwota = tmp.getKwotaWnnarastajaco()-tmp.getKwotaManarastajaco();
             if (kwota > 0) {
