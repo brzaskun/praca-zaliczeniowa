@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
+import waluty.Z;
 
 /**
  *
@@ -46,7 +47,7 @@ public class DokFKTransakcjeBean implements Serializable{
                 Iterator it = listaNowychRozrachunkow.iterator();
                 while(it.hasNext()) {
                     StronaWiersza p = (StronaWiersza) it.next();
-                    if (p.getPozostalo() <= 0.0) {
+                    if (Z.z(p.getPozostalo()) <= 0.0) {
                         it.remove();
                     } else {
                         String dataplatnosci;
@@ -70,7 +71,7 @@ public class DokFKTransakcjeBean implements Serializable{
             Iterator it = stronywierszaBO.iterator();
                 while(it.hasNext()) {
                     StronaWiersza p = (StronaWiersza) it.next();
-                    if (p.getPozostalo() <= 0.0) {
+                    if (Z.z(p.getPozostalo()) <= 0.0) {
                         it.remove();
                     }
                 }
