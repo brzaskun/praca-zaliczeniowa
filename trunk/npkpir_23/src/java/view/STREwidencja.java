@@ -20,7 +20,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import mail.MailOther;
 import pdf.PdfSTR;
 
@@ -47,15 +49,26 @@ public class STREwidencja implements Serializable {
      */
     private int iloscsrodkow;
     private int zakupionewbiezacyrok;
+    private String west;
 
     public STREwidencja() {
         listaSrodkiTrwale = new ArrayList<>();
         listaWyposazenia = new ArrayList<>();
         strtabela = new ArrayList<>();
     }
+  
 
     @PostConstruct
     public void init() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (request.isUserInRole("Guest")) {
+            west = "sub/layoutTablicaSrodkiGuest/west.xhtml";
+        } else if (request.isUserInRole("Bookkeeper")) {
+            west = "sub/layoutTablicaSrodkiKsiegowa/west.xhtml";
+        }
+//        } else if (request.isUserInRole("GuestFK")) {
+//            west = "sub/layoutFakturaGuestFK/west.xhtml";
+//        }
         String rokdzisiejszyS = wpisView.getRokWpisuSt();
         int rokdzisiejszyI = wpisView.getRokWpisu();
         String podatnikwpisu = wpisView.getPodatnikWpisu();
@@ -294,4 +307,13 @@ public class STREwidencja implements Serializable {
     public int getZakupionewbiezacyrok() {
         return zakupionewbiezacyrok;
     }
+
+    public String getWest() {
+        return west;
+    }
+
+    public void setWest(String west) {
+        this.west = west;
+    }
+    
 }
