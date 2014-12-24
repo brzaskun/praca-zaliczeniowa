@@ -119,8 +119,8 @@ public final class DokView implements Serializable {
     private WpisView wpisView;
     @ManagedProperty(value = "#{KlView}")
     private KlView klView;
-    @ManagedProperty(value = "#{SrodkiTrwaleView}")
-    private STRView sTRView;
+    @ManagedProperty(value = "#{srodkiTrwaleView}")
+    private SrodkiTrwaleView sTRView;
     @ManagedProperty(value = "#{DokTabView}")
     private DokTabView dokTabView;
     @Inject
@@ -1558,11 +1558,11 @@ public final class DokView implements Serializable {
         this.sumbrutto = sumbrutto;
     }
 
-    public STRView getsTRView() {
+    public SrodkiTrwaleView getsTRView() {
         return sTRView;
     }
 
-    public void setsTRView(STRView sTRView) {
+    public void setsTRView(SrodkiTrwaleView sTRView) {
         this.sTRView = sTRView;
     }
 

@@ -8,6 +8,7 @@ import dao.STRDAO;
 import entity.EVatwpis1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,9 +32,9 @@ import org.primefaces.context.RequestContext;
  *
  * @author Osito
  */
-@ManagedBean(name = "SrodkiTrwaleView")
+@ManagedBean
 @ViewScoped
-public class STRView implements Serializable {
+public class SrodkiTrwaleView implements Serializable {
 
 
     @Inject
@@ -43,8 +44,16 @@ public class STRView implements Serializable {
     private Srodkikst srodekkategoria;
     @Inject
     private SrodekTrw selectedSTR;
+    @Inject
+    private Dokfk dokfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+
+    public SrodkiTrwaleView() {
+        
+    }
+    
+    
   
     public void dodajSTR() {
         String podatnik = wpisView.getPodatnikWpisu();
@@ -54,6 +63,26 @@ public class STRView implements Serializable {
         Msg.msg("Dodaje srodek");
     }
     
+    public void dodajSrodekTrwalyDokfk(Dokfk wybranydok) {
+        try {
+            this.dokfk = wybranydok;
+        } catch (Exception e) {
+        }
+    }
+    
+    public void dodajSrodekTrwalyFK() {
+        try {
+            selectedSTR.setDatazak(dokfk.getDataoperacji());
+            selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
+            selectedSTR.setDatazak(dokfk.getDataoperacji());
+            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
+            selectedSTR.setNrwldokzak(dokfk.getNumerwlasnydokfk());
+            selectedSTR.setZlikwidowany(0);
+            selectedSTR.setDatasprzedazy("");
+            dodajSrodekTrwaly(selectedSTR);
+        } catch (Exception e) {
+        }
+    }
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
     public void dodajSrodekTrwaly(SrodekTrw dodawanysrodektrwaly) {
         try {
@@ -152,17 +181,7 @@ public class STRView implements Serializable {
     }
     
      
-     private void dodajSrodekTrwaly() {
-        try {
-            selectedSTR.setUmorzeniezaksiegowane(Boolean.FALSE);
-            selectedSTR.setZlikwidowany(0);
-            selectedSTR.setDatasprzedazy("");
-            selectedSTR.setPodatnik(wpisView.getPodatnikWpisu());
-            dodajSTR();
-
-        } catch (Exception e) {
-        }
-    }
+    
     public Integer getIlesrodkow() {
         return ilesrodkow;
     }

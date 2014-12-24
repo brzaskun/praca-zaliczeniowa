@@ -10,14 +10,14 @@
             width: 40px !important;
         }
     </style>
-       
+
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');PF('wiersze').hide();" >
-<!--        <h:form>
-            <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
-        </h:form>-->
-    
-         <h:form id="zestawieniedokumentow">
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+
+        <h:form id="zestawieniedokumentow">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
@@ -30,77 +30,74 @@
                     </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>
-         <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
-         </p:contextMenu>
-              <script>
-                        /* <![CDATA[ */
-                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.gridZaksiegowane tr', function(e) {
-                            var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
-                            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
-                            try {
-                                e.stopPropagation(); // will prevent double click events from link being clicked within row
-                                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var liczbadokalkulacji = numerkliknietegowiersza- numerpierwszegowiersza;
-                                zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
-                            } catch (e) {
-                                //alert('error');
-                            }
-                        });
-                        /* ]]> */
-                    </script>
-             <div style="height: 600px;"> 
-        
-            
-             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                              selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
-                              style="width: 1250px; height: 580px; overflow-y: scroll" 
-                              emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
-                              sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
-<!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
-               
-            <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
-                <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
-            </p:column>
-            <p:column headerText="data dok" width="90" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
-                <h:outputText value="#{item.datadokumentu}"/>
-            </p:column>
-            <p:column headerText="symbol" width="90" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
-                  <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
-            </p:column>
-                     <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
-                         <h:outputText value="#{item.kontr.npelna}"/>
-            </p:column>
-            <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.numerwlasnydokfk}"/>
-            </p:column>
-                <p:column headerText="opis" width="110" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
-                <h:outputText value="#{item.opisdokfk}"/>
-            </p:column>
-            <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
-            <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
-                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-            </h:outputText>
-            </p:column>
-                     <p:column headerText="waluta" styleClass="waluta" width="50" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
-                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
-            </p:column>
-            <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
-                <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
-            </p:column>         
-            <p:column width="90" style="text-align: center;" >
-                <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  
-                                 onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
-            </p:column>
-            <p:column width="90" style="text-align: center;">
-                <p:commandButton value="usuń" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList" style="width: 70px;"/>
-            </p:column>
-           
-        </p:dataTable>
-                    </div>
+            <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
+                <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
+            </p:contextMenu>
+            <script>
+                /* <![CDATA[ */
+                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                    var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
+                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+                    try {
+                        e.stopPropagation(); // will prevent double click events from link being clicked within row
+                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                        zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
+                    } catch (e) {
+                        //alert('error');
+                    }
+                });
+                /* ]]> */
+            </script>
+            <p:contextMenu for="dataList" style="width: 200px;">
+                <p:menuitem value="dodaj środek trw." icon="ui-icon-circle-plus" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selected)}" oncomplete="PF('dialogwpissrodkitrwale').show();"/>
+            </p:contextMenu>
 
-            </h:form>
-        
+            <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
+                         selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" 
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
+                         sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+
+                <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="data dok" width="90" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="symbol" width="90" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
+                    <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
+                </p:column>
+                <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}"/>
+                </p:column>
+                <p:column headerText="opis" width="110" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk}"/>
+                </p:column>
+                <p:column headerText="wartość" width="100" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="waluta" styleClass="waluta" width="50" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
+                    <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
+                </p:column>         
+                <p:column width="90" style="text-align: center;" >
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  
+                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                </p:column>
+                <p:column width="90" style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList" style="width: 70px;"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </p:dialog>
 </ui:composition>
