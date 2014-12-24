@@ -9,7 +9,7 @@
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
-            <bcf:confirm wiadomosc="Dodać środek trwały?" listenerPresent="true" listener="#{SrodkiTrwaleView.dodajSTR()}"/>
+            <bcf:confirm wiadomosc="Dodać środek trwały?" listenerPresent="true" listener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}"/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >

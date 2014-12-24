@@ -14,13 +14,13 @@
         }
     </style>
     <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogwpissrodkitrwale','dialogpierwszy',900,300);" 
+              resizable="false"  onShow="ustawdialogrk('dialogwpissrodkitrwale','dialogpierwszy',1000,250);" 
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
             <p:panel id="panelwyszukiwarki" style="width: 300px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
-                <p:autoComplete id="acForce1" value="#{SrodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                <p:autoComplete id="acForce1" value="#{srodkiTrwaleView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="25" itemtipMyPosition="rightbottom"
                                 queryDelay="10" size="50" placeholder="wpisz nazwę rodzaju środka trwałego">
@@ -37,37 +37,41 @@
                             <h:outputText id="klumna1" value="#{pa.symbol}" /> 
                         </h:panelGrid>
                     </f:facet>
-                    <p:ajax event="itemSelect" listener="#{SrodkiTrwaleView.skopiujSTR}"/>
+                    <p:ajax event="itemSelect" listener="#{srodkiTrwaleView.skopiujSTR}"/>
                 </p:autoComplete>
             </p:panel><!--
 -->            <p:panel id="nowypanelsrodki" >
                 <f:ajax>
-                <p:dataTable id="tabelasrodkitrwaleOT" value="#{SrodkiTrwaleView.selectedSTR}" var="loops"> 
-                    <p:column headerText="nazwa środka" style="text-align: center;">
-                        <p:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
+                <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop"> 
+                    <p:column headerText="nazwa środka" style="text-align: center;" width="120">
+                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}"/>
                     </p:column>
                     <p:column headerText="data przyjecia" width="65" style="text-align: center;">
-                        <p:inputText id="dataprz" value="#{loops.dataprzek}"  placeholder="rrrr-mm-dd" size="10"
+                        <p:inputText id="dataprz" value="#{loop.dataprzek}"  placeholder="rrrr-mm-dd" size="10"
                                       onblur="weryfikujsporzadzfakture(this);" style="text-align: center;"/>
                     </p:column>
                     <p:column headerText="symbol KST" width="50" style="text-align: center;">
-                        <p:inputText value="#{loops.kst}" style="text-align: center;" size="3"/>
+                        <p:inputText value="#{loop.kst}" style="text-align: center;" size="3"/>
                     </p:column>
                     <p:column headerText="stawka amort" width="50" style="text-align: center;">
-                        <p:inputText value="#{loops.stawka}" style="text-align: center;" size="3"/>
+                        <p:inputText value="#{loop.stawka}" style="text-align: center;" size="3"/>
                     </p:column>
                     <p:column headerText="cena zakupu" style="text-align: center;">
-                         <pe:inputNumber value="#{loops.netto}" symbol=" zł" required="true" 
+                         <pe:inputNumber value="#{loop.netto}" symbol=" zł" required="true" 
+                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="pod.VAT" style="text-align: center;">
+                        <pe:inputNumber value="#{loop.vat}" symbol=" zł" required="true" 
                                          requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="dotychczasowe umorzenie" style="text-align: center;">
-                         <pe:inputNumber value="#{loops.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                         <pe:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="nie podlega umorzeniu" style="text-align: center;">
-                         <pe:inputNumber value="#{loops.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                         <pe:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="środek trw/wyposazenie" style="text-align: center;">
-                        <h:selectOneMenu value="#{loops.typ}"
+                        <h:selectOneMenu value="#{loop.typ}"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -79,8 +83,9 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>
+                   
                     </f:ajax>
-                <p:commandButton value="dodaj środek" style="margin-top: 10px; width: 120px;" type="button" onclick="PF('confirm1').show();"/>
+            <p:commandButton value="dodaj środek" style="margin-top: 15px; width: 120px;" onclick="PF('confirm1').show();"/>
             </p:panel>
         </h:form>
     </p:dialog>
