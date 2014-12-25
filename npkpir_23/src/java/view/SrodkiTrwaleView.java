@@ -5,7 +5,6 @@
 package view;
 
 import dao.STRDAO;
-import entity.EVatwpis1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entityfk.Dokfk;
@@ -15,15 +14,12 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -79,6 +75,8 @@ public class SrodkiTrwaleView implements Serializable {
             selectedSTR.setNrwldokzak(dokfk.getNumerwlasnydokfk());
             selectedSTR.setZlikwidowany(0);
             selectedSTR.setDatasprzedazy("");
+            selectedSTR.setDokfk(dokfk);
+            selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
             dodajSrodekTrwaly(selectedSTR);
         } catch (Exception e) {
         }

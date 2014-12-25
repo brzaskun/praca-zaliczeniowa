@@ -12,18 +12,27 @@
         <ui:composition>
             <f:view>
                 <h:form>
+                    <script>
+                        var zamknijdialog = function(nazwadialogu) {
+                            try {
+                                PF(nazwadialogu).hide();
+                            } catch (e) {
+                                alert(e);
+                            }
+                        }
+                    </script>
                     <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
                                      header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
                                      >
                         <c:choose>
                             <c:when test="#{listenerPresent}">
-                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm#{lp != null ? lp : '1'}').hide()"
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"
                                                  actionListener="#{listener}"
                                                  style="float: left; width: 120px; margin-left: 2%;" update="#{update}">
                                 </p:commandButton>
                             </c:when>
                             <c:otherwise>
-                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm#{lp != null ? lp : '1'}').hide()"  style="float: left; width: 120px; margin-left: 2%;"/>
+                                <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"  style="float: left; width: 120px; margin-left: 2%;"/>
                             </c:otherwise>
                         </c:choose>
                         <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm#{lp != null ? lp : '1'}').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   

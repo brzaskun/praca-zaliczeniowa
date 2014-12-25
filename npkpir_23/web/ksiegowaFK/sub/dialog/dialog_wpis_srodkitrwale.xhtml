@@ -14,7 +14,7 @@
         }
     </style>
     <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogwpissrodkitrwale','dialogpierwszy',1000,250);" 
+              resizable="false"  onShow="ustawdialogrk('dialogwpissrodkitrwale','dialogpierwszy',1000,300);" 
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="srodkiwpis"> 
             <!--pola ewidencji SRODKOW TRWALYCH-->
@@ -83,10 +83,20 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>
-                   
-                    </f:ajax>
-            <p:commandButton value="dodaj środek" style="margin-top: 15px; width: 120px;" onclick="PF('confirm1').show();"/>
+                </f:ajax>
+            
             </p:panel>
+        <p:panelGrid columns="4" style="padding: 5px; margin-left: 5px;">
+            <h:outputText value="konto środka"/>
+            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 200px;" converter="KontoConv">
+                <f:selectItems value="#{kontoView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+            </p:selectOneMenu>
+            <h:outputText value="konto umorzeń"/>
+            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 200px;" converter="KontoConv">
+                <f:selectItems value="#{kontoView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+            <p:commandButton value="dodaj środek" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('confirm1').show();"/>
         </h:form>
     </p:dialog>
 </ui:composition>
