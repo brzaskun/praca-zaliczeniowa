@@ -5,13 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <p:growl id="mess_add" autoUpdate="true"/>
+    <h:form id="formSTRUmorzenie">
   <p:outputPanel id="wrapper2" deferred="true">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
-          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false" update=":formSTR:dokumsrodkiLista"/>  
+          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false" update=":formSTRUmorzenie:dokumsrodkiLista"/>  
           </p:panel>
        <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
-           <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTR:dokumsrodkiLista" icon="ui-icon-locked" />
+           <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
             </p:contextMenu>
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
                     paginator="true" paginatorAlwaysVisible="true" rows="12" selection="#{STRTableView.amodoklistselected}"
@@ -60,9 +60,8 @@
              <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" width="140">  
                  <h:outputText value="#{wpis.zaksiegowane eq true ? 'dokument zaksięgowany' : ''}" />
             </p:column>
-             
         </p:dataTable>
-          
     </p:outputPanel>
+        </h:form>
 </ui:composition>   
 
