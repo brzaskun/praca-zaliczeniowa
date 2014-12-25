@@ -30,6 +30,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -41,7 +42,7 @@ import params.Params;
  * @author Osito
  */
 @ManagedBean(name = "STRTableView")
-@RequestScoped
+@ViewScoped
 public class STRTabView implements Serializable {
 
     private SrodekTrw dokdoUsuniecia;
@@ -241,8 +242,7 @@ public class STRTabView implements Serializable {
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
         amoDokDAO.destroy(pod, rokOd, mcOd);
         Roki roki = new Roki();
-        int ostatni = roki.getRokiList().size();
-        while (rokOd <= roki.getRokiList().get(ostatni - 1)) {
+        while (rokOd <= roki.getRokiList().get(0)) {
             Amodok amoDok = new Amodok();
             AmodokPK amodokPK = new AmodokPK();
             amodokPK.setPodatnik(pod);
