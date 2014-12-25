@@ -44,7 +44,7 @@ import params.Params;
 @ManagedBean(name = "STRTableView")
 @ViewScoped
 public class STRTabView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private SrodekTrw dokdoUsuniecia;
     private boolean napewnousunac;
 
@@ -77,6 +77,7 @@ public class STRTabView implements Serializable {
     private SrodekTrw wybranysrodektrwalyPosiadane;
     @Inject
     private SrodekTrw wybranysrodektrwalySprzedane;
+    private List<SrodekTrw> listaWyposazenia;
     /**
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
@@ -174,8 +175,16 @@ public class STRTabView implements Serializable {
         Iterator it;
         it = lista.iterator();
         while (it.hasNext()) {
-            try {
-                SrodekTrw srodek = (SrodekTrw) it.next();
+            SrodekTrw srodek = (SrodekTrw) it.next();
+            odpisypojedynczysrodek(srodek);
+        }
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
+    
+    public void odpisypojedynczysrodek(SrodekTrw srodek) {
+        try {
                 if (srodek.getZlikwidowany() == 0) {
                     List<Double> planowane = new ArrayList<>();
                     planowane.addAll(srodek.getUmorzPlan());
@@ -228,13 +237,10 @@ public class STRTabView implements Serializable {
             } catch (Exception e) {
 
             }
-        }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
     }
 
     public void generujamodokumenty() {
+        generujodpisy();
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(obiektDOKjsfSel);
         String pod = wpisView.getPodatnikWpisu();
@@ -651,4 +657,13 @@ public class STRTabView implements Serializable {
         }
     }
 
+    public List<SrodekTrw> getListaWyposazenia() {
+        return listaWyposazenia;
+    }
+
+    public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
+        this.listaWyposazenia = listaWyposazenia;
+    }
+
+    
 }
