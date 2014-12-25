@@ -45,5 +45,8 @@
         <attribute>
             <name>update</name>
         </attribute>
+        <attribute>
+            <name>closeDialog</name>
+        </attribute>
     </tag>
 </facelet-taglib>

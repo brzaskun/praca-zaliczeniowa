@@ -5,6 +5,8 @@
 package entity;
 
 import embeddable.Umorzenie;
+import entityfk.Dokfk;
+import entityfk.Konto;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
@@ -13,7 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -127,7 +131,14 @@ public class SrodekTrw implements Serializable {
     @Size(max = 255)
     @Column(name = "styl")
     private String styl;
-            
+    @ManyToOne
+    @JoinColumn(name = "kontonetto", referencedColumnName = "id")
+    private Konto kontonetto;
+    @ManyToOne
+    @JoinColumn(name = "kontoumorzenie", referencedColumnName = "id")
+    private Konto kontoumorzenie;
+    @ManyToOne
+    private Dokfk dokfk;
             
             
     public SrodekTrw() {
@@ -356,7 +367,33 @@ public class SrodekTrw implements Serializable {
     public void setNiepodlegaamortyzacji(Double niepodlegaamortyzacji) {
         this.niepodlegaamortyzacji = niepodlegaamortyzacji;
     }
+
+    public Konto getKontonetto() {
+        return kontonetto;
+    }
+
+    public void setKontonetto(Konto kontonetto) {
+        this.kontonetto = kontonetto;
+    }
+
+    public Konto getKontoumorzenie() {
+        return kontoumorzenie;
+    }
+
+    public void setKontoumorzenie(Konto kontoumorzenie) {
+        this.kontoumorzenie = kontoumorzenie;
+    }
+
+    public Dokfk getDokfk() {
+        return dokfk;
+    }
+
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
+    }
    
+    
+    
     
 
     @Override

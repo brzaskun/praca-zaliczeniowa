@@ -34,14 +34,17 @@ public class KontoView  implements Serializable {
     private WpisView wpisView;
     @Inject private KontoDAOfk kontoDAO;
     private List<Konto> listakont;
+    private List<Konto> listakontSrodkiTrwale;
     
     public KontoView() {
         this.listakont = new ArrayList<>();
+        this.listakontSrodkiTrwale = new ArrayList<>();
     }
     
     @PostConstruct
     public void init() {
         listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        listakontSrodkiTrwale = kontoDAO.findKontaGrupa0(wpisView.getPodatnikWpisu());
     }
     
      public List<Konto> complete(String query) {  
@@ -74,6 +77,15 @@ public class KontoView  implements Serializable {
 //    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+     
+    public List<Konto> getListakontSrodkiTrwale() {
+        return listakontSrodkiTrwale;
+    }
+
+    public void setListakontSrodkiTrwale(List<Konto> listakontSrodkiTrwale) {
+        this.listakontSrodkiTrwale = listakontSrodkiTrwale;
+    }
+
     public WpisView getWpisView() {
         return wpisView;
     }
