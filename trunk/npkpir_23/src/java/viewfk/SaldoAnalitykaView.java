@@ -33,6 +33,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class SaldoAnalitykaView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
     private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")

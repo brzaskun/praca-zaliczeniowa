@@ -24,6 +24,7 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class STRSprzedazView extends STRTabView implements Serializable {
+    private static final long serialVersionUID = 1L;
     //do sprzedawania srodko trwalych
     private List<SrodekTrw> wybranesrodkitrwale;
     private List<SrodekTrw> grupausun;

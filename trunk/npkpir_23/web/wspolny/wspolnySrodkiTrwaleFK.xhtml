@@ -8,20 +8,32 @@
             <h:outputText value="Podatkowa księga przychodów i rozchodów"></h:outputText>
         </ui:define>
         <ui:define name="body">
-                <f:view contentType="text/html">
-                    <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                         <ui:include src="sub/layoutFK/north.xhtml"/>  <!-- panel polnocny-->
-                        <p:layoutUnit position="center">
-                                <ui:include src="sub/menu/menu_srodkitrwale.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
-                                <ui:include src="sub/dialogi/dialog_srodkitrwalefk_zestawienie.xhtml"/>
-                                <ui:include src="sub/dialogi/dialog_srodkitrwale_dodawanie.xhtml"/>
-                                <ui:include src="sub/dialogi/dialog_srodkitrwalefk_ewidencja.xhtml"/>
-                                <ui:include src="sub/dialogi/dialog_srodkitrwalefk_umorzenia.xhtml"/>
-                                <ui:include src="sub/dialogi/dialog_srodkitrwalefk_wyposazenie.xhtml"/>
-                                <ui:include src="sub/dialogi/dialog_srodkitrwalefk_inwestycja.xhtml"/>
-                        </p:layoutUnit>
-                    </p:layout>
-                </f:view>
+            <f:view contentType="text/html">
+                <h:form>
+                    <p:growl id="fifi"/>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć wybrany środek trwały?"  
+                                     header="Initiating destroy process" severity="alert" widgetVar="confirmation">  
+                        <h:outputLabel for="powerusun" value="twarde usuwanie"/>
+                        <h:selectBooleanCheckbox id="powerusun" value="#{STRTableView.napewnousunac}" title="napewno usunac"/>
+                        <p:separator/>
+                        <p:commandButton id="confirm" value="Tak, usunąć" update="fifi :formSTR:akordeon" oncomplete="PF('confirmation').hide()"  
+                                         actionListener="#{STRTableView.destroy2()}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+                    </p:confirmDialog>  
+                </h:form>
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutFK/north.xhtml"/>  <!-- panel polnocny-->
+                    <p:layoutUnit position="center">
+                        <ui:include src="sub/menu/menu_srodkitrwale.xhtml"/>  <!--  menu contextowe i pole wiadomosci growl-->
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_zestawienie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwale_dodawanie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_ewidencja.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_umorzenia.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_wyposazenie.xhtml"/>
+                        <ui:include src="sub/dialogi/dialog_srodkitrwalefk_inwestycja.xhtml"/>
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
         </ui:define>
     </ui:composition>
 </html>
