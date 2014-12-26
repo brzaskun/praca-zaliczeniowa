@@ -1,0 +1,57 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogsrodkitrwaleadmodok" header="Zestawienie dla dokumentów AMO" widgetVar="dialogsrodkitrwaleadmodok"  
+              resizable="false"  onShow="ustawdialog('dialogsrodkitrwaleadmodok','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwaleadmodok');" >
+        <bcf:ajaxs/>
+         <h:form id="transakcje">
+            <p:dataTable id="tabelakontasrodkitrwale" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" 
+                         scrollable="true" style="width: 1100px;" scrollHeight="500" widgetVar="tabelaroznicekursowe" rowIndexVar="index">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('tabelaroznicekursowe').filter();" style="width:150px" />  
+                </f:facet>
+                <p:column headerText="lp" width="30"  >
+                    <h:outputText value="#{index+1}" />
+                </p:column>
+                <p:column headerText="rachunek" width="250">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}/#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}"/>
+                </p:column>
+                <p:column headerText="kurs rachunku" width="60">
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.tabelanbp.kurssredni}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="płatność" width="250">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.opisWiersza}/#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}"/>
+                </p:column>
+                <p:column headerText="kurs płatności" width="60">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="data zapłaty">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}"/>
+                </p:column>
+                <p:column headerText="różnica kursowa">
+                    <h:outputText value="#{wpis.roznicekursowe}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto rozrachunkowe">
+                    <h:outputText value="#{wpis.nowaTransakcja.konto.pelnynumer}" >
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+            <p:outputPanel style="margin-top: 10px">
+                <p:commandButton value="zaksięguj różnice" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+            </p:outputPanel>
+        </h:form>
+    </p:dialog>
+</ui:composition>
