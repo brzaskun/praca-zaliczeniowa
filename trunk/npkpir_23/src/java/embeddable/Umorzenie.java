@@ -4,10 +4,12 @@
  */
 package embeddable;
 
+import entity.SrodekTrw;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import javax.inject.Named;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -16,11 +18,16 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class Umorzenie implements Serializable{
+    private static final long serialVersionUID = 3357210341387891311L;
     private String nazwaSrodka;
     private Integer nrUmorzenia;
     private Integer rokUmorzenia;
     private Integer mcUmorzenia;
     private BigDecimal kwota;
+    private int srodekTrwID;
+    private String kontonetto;
+    private String kontoumorzenie;
+    
 
     public String getNazwaSrodka() {
         return nazwaSrodka;
@@ -61,5 +68,31 @@ public class Umorzenie implements Serializable{
     public void setKwota(BigDecimal kwota) {
         this.kwota = kwota;
     }
+
+    public int getSrodekTrwID() {
+        return srodekTrwID;
+    }
+
+    public void setSrodekTrwID(int srodekTrwID) {
+        this.srodekTrwID = srodekTrwID;
+    }
+
+    public String getKontonetto() {
+        return kontonetto;
+    }
+
+    public void setKontonetto(String kontonetto) {
+        this.kontonetto = kontonetto;
+    }
+
+    public String getKontoumorzenie() {
+        return kontoumorzenie;
+    }
+
+    public void setKontoumorzenie(String kontoumorzenie) {
+        this.kontoumorzenie = kontoumorzenie;
+    }
+    
+    
     
 }

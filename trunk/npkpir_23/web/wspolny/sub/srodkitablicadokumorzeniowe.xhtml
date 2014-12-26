@@ -5,10 +5,15 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+    <style>
+        .ui-datatable .ui-column-filter {
+            width: 50px !important;
+        }
+    </style>
     <h:form id="formSTRUmorzenie">
   <p:outputPanel id="wrapper2" deferred="true">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
-          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" global="false" update=":formSTRUmorzenie:dokumsrodkiLista"/>  
+          <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" update=":formSTRUmorzenie:dokumsrodkiLista"/>  
           </p:panel>
        <p:contextMenu for="dokumsrodkiLista" style="width: 250px;">
            <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
@@ -16,44 +21,50 @@
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
                     paginator="true" paginatorAlwaysVisible="true" rows="12" selection="#{STRTableView.amodoklistselected}"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="6,12,24,50,100" style="width: 1200px;" rowKey="#{wpis.amodokPK.mc}"
+                      rowsPerPageTemplate="12,24,50,100" style="width: 1100px;" rowKey="#{wpis.amodokPK.mc}"
                       rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
-                        
+          <p:ajax event="filter" global="false"/>
             <f:facet name="header">  
                 <h:outputText value="Wykaz dokumentów umorzeń gotowych do zaksięgowania" />  
             </f:facet>
-          <p:column selectionMode="multiple" width="50" />
+          <p:column selectionMode="multiple" width="50"  style="text-align: center;"/>
          
-             <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" width="100">  
+          <p:column id="Column2" headerText="rok" filterBy="#{wpis.amodokPK.rok}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.rok}" width="50" style="text-align: center;">  
                 <f:facet name="header">  
                     <h:outputText value="rok" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.amodokPK.rok}"/>
 
             </p:column>
-             <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" width="100">  
+             <p:column id="Column3" headerText="mc" filterBy="#{wpis.amodokPK.mc}" filterMatchMode="contains" sortBy="#{wpis.amodokPK.mc}" width="50" style="text-align: center;">  
           
                 <h:outputText value="#{wpis.amodokPK.mc}"  />
             </p:column>
              <p:column id="Column4" headerText="zaksięgowane odpisy">  
            
                  <p:dataTable var="subwpisX" value="#{wpis.umorzenia}" emptyMessage="Brak środków trwałych do umorzenia">
-                    <p:column id="SubColumn1X" headerText="id" >  
+                     <p:column id="SubColumn1X" headerText="id"  style="text-align: center;" width="40">  
                         <h:outputText value="#{subwpisX.nrUmorzenia}" />
                     </p:column>
-                    <p:column id="SubColumn1aX" headerText="nazwa" >  
+                     <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: center;" width="150">  
                         <h:outputText value="#{subwpisX.nazwaSrodka}" />
                     </p:column>
-                      <p:column id="SubColumn2X" headerText="rok" >  
+                     <p:column id="SubColumn2X" headerText="rok"  style="text-align: center;" width="40">  
                         <h:outputText value="#{subwpisX.rokUmorzenia}" />
                     </p:column>
-                    <p:column id="SubColumn3X" headerText="mc" >  
+                     <p:column id="SubColumn3X" headerText="mc"  style="text-align: center;" width="40">  
                         <h:outputText value="#{subwpisX.mcUmorzenia}" />
                     </p:column>
                     <p:column id="SubColumn4X" headerText="kwota" >  
                         <h:outputText value="#{subwpisX.kwota}" style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                           </h:outputText>
+                    </p:column>
+                     <p:column id="SubColumn5X" headerText="wartość" style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">  
+                        <h:outputText value="#{subwpisX.kontonetto}" />
+                    </p:column>
+                     <p:column id="SubColumn6X" headerText="umorzenie" style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">  
+                        <h:outputText value="#{subwpisX.kontoumorzenie}" />
                     </p:column>
                 </p:dataTable>
             </p:column>

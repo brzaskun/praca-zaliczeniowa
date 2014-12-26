@@ -24,7 +24,7 @@
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="10"
                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                             rowsPerPageTemplate="15,20,40,80"  widgetVar="srodkiLista1" style="max-width: 1200px;"
+                             rowsPerPageTemplate="15,20,40,80"  widgetVar="srodkiLista1" style="max-width: 1400px;"
                               rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -102,6 +102,16 @@
                     <p:column id="odpismcColumn" headerText="odpis miesięczny" filterBy="#{wpis.odpismc}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.odpismc}" width="70">  
 
                         <h:outputText value="#{wpis.odpismc}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="kontonetto" headerText="konto netto" filterBy="#{wpis.kontonetto.pelnynumer}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontonetto.pelnynumer}" width="70">  
+                        <h:outputText value="#{wpis.kontonetto.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                          <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column id="kontoumorzenie" headerText="konto umorzenie" filterBy="#{wpis.kontoumorzenie.pelnynumer}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kontoumorzenie.pelnynumer}" width="70">  
+                        <h:outputText value="#{wpis.kontoumorzenie.pelnynumer}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>

@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Amodok.findByPMR", query = "SELECT a FROM Amodok a WHERE a.amodokPK.podatnik = :podatnik AND a.amodokPK.rok = :rok AND a.amodokPK.mc = :mc"),
     @NamedQuery(name = "Amodok.findByZaksiegowane", query = "SELECT a FROM Amodok a WHERE a.zaksiegowane = :zaksiegowane")})
 public class Amodok implements Serializable {
-    private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected AmodokPK amodokPK;
     @Lob
