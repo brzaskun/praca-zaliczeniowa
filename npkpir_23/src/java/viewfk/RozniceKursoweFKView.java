@@ -13,7 +13,6 @@ import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import data.Data;
-import embeddablefk.SaldoKonto;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -139,7 +138,7 @@ public class RozniceKursoweFKView implements Serializable {
         if (rodzajedok != null) {
             nd.setRodzajedok(rodzajedok);
         } else {
-            Msg.msg("e", "Brak zdefiniowanego dokumentu VAT");
+            Msg.msg("e", "Brak zdefiniowanego dokumentu RKK");
         }
     }
 

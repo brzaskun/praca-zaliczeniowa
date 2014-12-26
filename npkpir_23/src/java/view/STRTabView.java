@@ -4,18 +4,16 @@
  */
 package view;
 
+import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.SrodekTrwcomparator;
 import dao.AmoDokDAO;
 import dao.STRDAO;
 import dao.SrodkikstDAO;
 import data.Data;
-import embeddable.Mce;
-import embeddable.Parametr;
 import embeddable.Roki;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.AmodokPK;
-import entity.Podatnik;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import java.io.Serializable;
@@ -29,7 +27,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -63,6 +60,7 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> obiektDOKjsfSel;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
+    private double posiadanesumanetto;
     private List<SrodekTrw> sprzedane;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     protected List<SrodekTrw> obiektDOKmrjsfSel;
@@ -124,6 +122,7 @@ public class STRTabView implements Serializable {
                             obiektDOKjsfSel.add(tmp);
                             if (tmp.getZlikwidowany() == 0) {
                                 posiadane.add(tmp);
+                                posiadanesumanetto += tmp.getNetto();
                             } else {
                                 sprzedane.add(tmp);
                             }
@@ -185,58 +184,11 @@ public class STRTabView implements Serializable {
     
     public void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
-                if (srodek.getZlikwidowany() == 0) {
-                    List<Double> planowane = new ArrayList<>();
-                    planowane.addAll(srodek.getUmorzPlan());
-                    List<Umorzenie> umorzenia = new ArrayList<>();
-                    Integer rokOd = Integer.parseInt(srodek.getDataprzek().substring(0, 4));
-                    Integer mcOd = 0;
-                    if (srodek.getStawka() == 100) {
-                        mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7));
-                    } else {
-                        String pob = srodek.getDataprzek().substring(5, 7);
-                        // bo jest od miesiaca nastepnego po miesiacu
-                        mcOd = Integer.parseInt(pob) + 1;
-                        if (mcOd == 13) {
-                            rokOd++;
-                            mcOd = 1;
-                        } else {
-                            mcOd = Integer.parseInt(srodek.getDataprzek().substring(5, 7)) + 1;
-                        }
-                    }
+            srodek.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
+            sTRDAO.edit(srodek);
+        } catch (Exception e) {
 
-                    Iterator itX;
-                    itX = planowane.iterator();
-                    int i = 1;
-                    while (itX.hasNext()) {
-                        Integer[] mcrok = new Integer[2];
-                        mcrok[0] = mcOd;
-                        mcrok[1] = rokOd;
-                        danymiesiacniejestzawieszenie(mcrok);
-                        mcOd = mcrok[0];
-                        rokOd = mcrok[1];
-                        Double kwotaodpisMC = (Double) itX.next();
-                        Umorzenie odpisZaDanyOkres = new Umorzenie();
-                        odpisZaDanyOkres.setKwota(BigDecimal.valueOf(kwotaodpisMC.doubleValue()));
-                        odpisZaDanyOkres.setRokUmorzenia(rokOd);
-                        odpisZaDanyOkres.setMcUmorzenia(mcOd);
-                        odpisZaDanyOkres.setNrUmorzenia(i);
-                        odpisZaDanyOkres.setNazwaSrodka(srodek.getNazwa());
-                        i++;
-                        if (mcOd == 12) {
-                            rokOd++;
-                            mcOd = 1;
-                        } else {
-                            mcOd++;
-                        }
-                        umorzenia.add(odpisZaDanyOkres);
-                    }
-                    srodek.setUmorzWyk(umorzenia);
-                    sTRDAO.edit(srodek);
-                }
-            } catch (Exception e) {
-
-            }
+        }
     }
 
     public void generujamodokumenty() {
@@ -266,6 +218,7 @@ public class STRTabView implements Serializable {
                                 umAkt.setSrodekTrwID(srodek.getId());
                                 umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
                                 umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
+                                umAkt.setRodzaj(srodek.getTyp());
                             }
                             amoDok.getUmorzenia().add(umAkt);
                         }
@@ -518,7 +471,13 @@ public class STRTabView implements Serializable {
         this.napewnousunac = napewnousunac;
     }
 
-   
+    public double getPosiadanesumanetto() {
+        return posiadanesumanetto;
+    }
+
+    public void setPosiadanesumanetto(double posiadanesumanetto) {
+        this.posiadanesumanetto = posiadanesumanetto;
+    }
 
     public int getIloscsrodkow() {
         return iloscsrodkow;
@@ -577,42 +536,7 @@ public class STRTabView implements Serializable {
     }
     //</editor-fold>
 
-    private void danymiesiacniejestzawieszenie(Integer[] mcrok) {
-        Integer badanymiesiac = mcrok[0];
-        Integer badanyrok = mcrok[1];
-        Podatnik pod = wpisView.getPodatnikObiekt();
-        List<Parametr> listaparametrow = new ArrayList<>();
-        if (pod.getZawieszeniedzialalnosci() != null) {
-            listaparametrow.addAll(pod.getZawieszeniedzialalnosci());
-            Iterator it = listaparametrow.iterator();
-            while (it.hasNext()) {
-                Parametr par = (Parametr) it.next();
-                if (!par.getRokOd().equals(wpisView.getRokWpisuSt())) {
-                    it.remove();
-                }
-            }
-            if (listaparametrow.size() > 0) {
-                List<String> miesiacezawieszeniawroku = new ArrayList<>();
-                for (Parametr s : listaparametrow) {
-                    try {
-                        miesiacezawieszeniawroku.addAll(Mce.zakresmiesiecy(s.getMcOd(), s.getMcDo()));
-                    } catch (Exception e) {
-                       Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
-                    }
-                }
-                String ostatnimiesiaczlisty = miesiacezawieszeniawroku.get(miesiacezawieszeniawroku.size() - 1);
-                if (miesiacezawieszeniawroku.contains(Mce.getNumberToMiesiac().get(badanymiesiac))) {
-                    if (ostatnimiesiaczlisty.equals("12")) {
-                        mcrok[0] = 1;
-                        mcrok[1] += 1;
-                    } else {
-                        int ostatnimiesiacint = Mce.getMiesiacToNumber().get(ostatnimiesiaczlisty) + 1;
-                        mcrok[0] = ostatnimiesiacint;
-                    }
-                }
-            }
-        }
-    }
+    
 
     public void skopiujSTR() {
         String nazwa = (String) Params.params("formdialogsrodki:acForce1_input");

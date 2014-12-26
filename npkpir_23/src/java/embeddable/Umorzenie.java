@@ -27,6 +27,8 @@ public class Umorzenie implements Serializable{
     private int srodekTrwID;
     private String kontonetto;
     private String kontoumorzenie;
+    //chodzi o to czy środek trwały czy wnip
+    private String rodzaj;
     
 
     public String getNazwaSrodka() {
@@ -92,6 +94,16 @@ public class Umorzenie implements Serializable{
     public void setKontoumorzenie(String kontoumorzenie) {
         this.kontoumorzenie = kontoumorzenie;
     }
+
+    public String getRodzaj() {
+        return rodzaj;
+    }
+
+    public void setRodzaj(String rodzaj) {
+        this.rodzaj = rodzaj;
+    }
+    
+    
 
     @Override
     public String toString() {

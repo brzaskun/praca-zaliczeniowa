@@ -4,6 +4,7 @@
  */
 package view;
 
+import beansSrodkiTrwale.SrodkiTrwBean;
 import dao.STRDAO;
 import entity.SrodekTrw;
 import entity.Srodkikst;
@@ -79,6 +80,8 @@ public class SrodkiTrwaleView implements Serializable {
             selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
             dodajSrodekTrwaly(selectedSTR);
         } catch (Exception e) {
+            System.out.println("StrodkiTrwaleView - dodajSrodekTrwalyFK() blad");
+            Msg.msg("e", "Blad podczas dodawanie srodkow trwalych");
         }
     }
     //tutaj oblicza ilosc odpisow przed przyporzadkowaniem do miesiecy
@@ -110,7 +113,6 @@ public class SrodkiTrwaleView implements Serializable {
             } catch (Exception et){}
             Double nar = 0.0;
             List<Double> listaplanum = new ArrayList<Double>();
-
             while (max - nar > 0) {
                 Double odp = (max - nar) > opm ? opm : max - nar;
                 if((max - nar) < opm){
@@ -126,6 +128,7 @@ public class SrodkiTrwaleView implements Serializable {
                 nar = nar + odp;
             }
             dodawanysrodektrwaly.setUmorzPlan(listaplanum);
+            dodawanysrodektrwaly.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
             sTRDAO.dodaj(dodawanysrodektrwaly);
             RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
