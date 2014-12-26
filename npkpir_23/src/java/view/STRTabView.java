@@ -262,6 +262,11 @@ public class STRTabView implements Serializable {
                 for (Umorzenie umAkt : umorzeniaWyk) {
                     if ((umAkt.getRokUmorzenia().equals(rokOd)) && (umAkt.getMcUmorzenia().equals(mcOd))) {
                         if (umAkt.getKwota().signum() > 0) {
+                            if (srodek.getKontonetto() != null) {
+                                umAkt.setSrodekTrwID(srodek.getId());
+                                umAkt.setKontonetto(srodek.getKontonetto().getPelnynumer());
+                                umAkt.setKontoumorzenie(srodek.getKontoumorzenie().getPelnynumer());
+                            }
                             amoDok.getUmorzenia().add(umAkt);
                         }
                     }
