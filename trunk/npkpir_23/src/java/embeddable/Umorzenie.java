@@ -92,6 +92,11 @@ public class Umorzenie implements Serializable{
     public void setKontoumorzenie(String kontoumorzenie) {
         this.kontoumorzenie = kontoumorzenie;
     }
+
+    @Override
+    public String toString() {
+        return "Umorzenie{" + "nazwaSrodka=" + nazwaSrodka + ", rokUmorzenia=" + rokUmorzenia + ", mcUmorzenia=" + mcUmorzenia + ", kwota=" + kwota + ", kontonetto=" + kontonetto + ", kontoumorzenie=" + kontoumorzenie + '}';
+    }
     
     
     

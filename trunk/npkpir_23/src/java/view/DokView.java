@@ -7,6 +7,7 @@ package view;
 import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansDok.VAT;
+import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
 import dao.DokDAO;
@@ -878,28 +879,20 @@ public final class DokView implements Serializable {
 
     public void dodajNowyWpisAutomatyczny() {
         double kwotaumorzenia = 0.0;
-        List<Amodok> lista = new ArrayList<Amodok>();
-        lista.addAll(amoDokDAO.amodokklient(wpisView.getPodatnikWpisu()));
         Amodok amodokBiezacy = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisu());
         Dok znalezionyBiezacy = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokBiezacy.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokBiezacy.getAmodokPK().getMc()));
         if (znalezionyBiezacy == null) {
             String [] poprzedniOkres = Data.poprzedniOkres(wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             Amodok amodokPoprzedni = amoDokDAO.amodokBiezacy(wpisView.getPodatnikWpisu(), poprzedniOkres[0], Integer.parseInt(poprzedniOkres[1]));
             //wyliczam kwote umorzenia
-            List<Umorzenie> umorzenia = new ArrayList<>();
-            umorzenia.addAll(amodokBiezacy.getUmorzenia());
-            Iterator it;
-            it = umorzenia.iterator();
-            while (it.hasNext()) {
-                Umorzenie tmp = (Umorzenie) it.next();
-                kwotaumorzenia = kwotaumorzenia + tmp.getKwota().doubleValue();
-            }
+            kwotaumorzenia = SrodkiTrwBean.sumujumorzenia(amodokBiezacy.getUmorzenia());
             try {
                 if (amodokPoprzedni != null) {
                     if (amodokPoprzedni.getZaksiegowane() != true && amodokPoprzedni.getUmorzenia().size() > 0) {
                         //szukamy w dokumentach a nuz jest. jak jest to naprawiam ze nie naniesiono ze zaksiegowany
                         Dok znaleziony = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), String.valueOf(amodokPoprzedni.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodokPoprzedni.getAmodokPK().getMc()));
-                        if (znaleziony instanceof Dok && znaleziony.getNetto() == kwotaumorzenia) {
+                        double umorzeniepoprzedni = SrodkiTrwBean.sumujumorzenia(amodokPoprzedni.getUmorzenia());
+                        if (znaleziony instanceof Dok && znaleziony.getNetto() == umorzeniepoprzedni) {
                             amodokPoprzedni.setZaksiegowane(true);
                             amoDokDAO.edit(amodokPoprzedni);
                         } else {

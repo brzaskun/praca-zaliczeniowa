@@ -315,19 +315,10 @@ public class STRTabView implements Serializable {
 //    }
 
     private void nowalistadokamo() {
-        amodoklist.clear();
         if (wpisView.getPodatnikWpisu() != null) {
-            List<Amodok> c = new ArrayList<>();
             try {
-                c = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
+                amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
             } catch (Exception e) {
-            }
-            if (c != null) {
-                int ie = 1;
-                for (Amodok tmp : c) {
-                    amodoklist.add(tmp);
-                }
-
             }
         }
     }
