@@ -281,9 +281,13 @@
             <from-outcome>ewidvat</from-outcome>
             <to-view-id>/manager/managerEwVat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-          <navigation-case>
+        <navigation-case>
             <from-outcome>kasa</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKRK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>rmkFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaFKRMK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
             <from-outcome>dokument</from-outcome>

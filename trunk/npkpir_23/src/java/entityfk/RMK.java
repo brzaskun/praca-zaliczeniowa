@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "RMK.findAll", query = "SELECT t FROM RMK t")
+    @NamedQuery(name = "RMK.findAll", query = "SELECT t FROM RMK t"),
+    @NamedQuery(name = "RMK.findByPodatnikRok", query = "SELECT t FROM RMK t WHERE t.dokfk.podatnikObj = :podatnikObj AND t.rokkosztu = :rok")
 })
 public class RMK  implements Serializable{
     private static final long serialVersionUID = 1L;

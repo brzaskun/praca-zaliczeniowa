@@ -1,0 +1,84 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialogrmk" header="Wykaz rozliczeń międzyokresowych" widgetVar="dialogrmk" 
+              resizable="false"  onShow="ustawdialog('dialogrmk','menurmk',1200,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmk');" >
+       
+        <h:form id="kontoformLista">
+            <p:dataTable id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+                         style="margin-top: 2%;height: 650px;" sortBy="#{item.id}" paginator="true" rows="10">
+                <f:facet name="header">
+                    <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>
+                </f:facet>
+                <p:column width="20">
+                        <f:facet name="header">
+                            <h:outputText value="id"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column width="80">
+                        <f:facet name="header">
+                            <h:outputText value="opis kosztu"/>
+                        </f:facet>
+                        <h:outputText value="#{item.opiskosztu}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="dokument"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dokfk.dokfkPK.seriadokfk}/#{item.dokfk.dokfkPK.nrkolejnywserii}/#{item.dokfk.dokfkPK.rok}"/>
+                    </p:column>
+                    <p:column width="80">
+                        <f:facet name="header">
+                            <h:outputText value="kwota całkowita"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kwotacalkowita}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                <p:column  width="40" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="liczba mcy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.liczbamiesiecy}"/>
+                    </p:column>
+                    <p:column width="80">
+                        <f:facet name="header">
+                            <h:outputText value="odpis miesięczny"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kwotamiesieczna}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    </p:column>
+                    <p:column width="140">
+                        <f:facet name="header">
+                            <h:outputText value="konto rmk"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kontormk.pelnynumer}/#{item.kontormk.nazwapelna}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="data księgowania"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dataksiegowania}"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;" >
+                        <f:facet name="header" >
+                            <h:outputText value="rok kosztu"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rokkosztu}"/>
+                    </p:column>
+                    <p:column width="50" style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="mc kosztu"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mckosztu}"/>
+                    </p:column>
+        </p:dataTable>
+         </h:form>
+    </p:dialog>
+</ui:composition>
