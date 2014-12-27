@@ -80,7 +80,7 @@
                         <f:facet name="header">
                             <h:outputText value="konto rmk"/>
                         </f:facet>
-                        <h:outputText value="#{item.kontormk.pelnynumer}/#{item.kontormk.nazwapelna}"/>
+                        <h:outputText value="#{item.kontokosztowe.pelnynumer}/#{item.kontokosztowe.nazwapelna}"/>
                     </p:column>
                     <p:column style="text-align: center;">
                         <f:facet name="header">
@@ -113,7 +113,7 @@
                 </h:outputText>
             </p:panelGrid>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięguj RMK" style="width: 120px; margin-bottom: 10px;" actionListener="#{rMKDokView.generowanieDokumentuAMO()}" 
+                <p:commandButton value="zaksięguj RMK" style="width: 120px; margin-bottom: 10px;" actionListener="#{rMKView.generowanieDokumentuRMK()}" 
                                  rendered="#{rMKDokView.obrotyWn eq rMKView.sumarmk}"/>
                 <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie można zaksięgować dokumentu rozliczeń międzyokresowych" rendered="#{rMKDokView.obrotyWn ne rMKView.sumarmk}"/>
             </p:outputPanel>

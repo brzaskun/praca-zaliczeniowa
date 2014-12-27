@@ -173,16 +173,74 @@ public class Mce implements Serializable{
         return listamiesiecy;
     }
    
+   public static int odlegloscMcy(String mcOd, String rokOd, String mcAkt, String rokAkt) {
+        int mcod = Mce.miesiacToNumber.get(mcOd);
+        int rokod = Integer.parseInt(rokOd);
+        int mcakt = Mce.miesiacToNumber.get(mcAkt);
+        int rokakt = Integer.parseInt(rokAkt);
+        int iloscmcy = 0;
+        if (rokod > rokakt) {
+            return -1;
+        }
+        int rokgraniczny = rokakt;
+        if (rokod < rokgraniczny) {
+            iloscmcy += mcakt;
+            rokgraniczny -= 1;
+            while (rokod < rokgraniczny) {
+                iloscmcy += 12;
+                rokgraniczny--;
+            }
+            if (rokod == rokgraniczny) {
+                iloscmcy += 12 - mcod;
+                return iloscmcy;
+            }
+        } else if (rokod == rokakt) {
+            if (mcod < mcakt) {
+                iloscmcy += 12 - mcod;
+                return iloscmcy;
+            } else if (mcod == mcakt) {
+                return iloscmcy;
+            }else {
+                return -1;
+            }
+        }
+        return -1;
+    }
    
+    
     public Mce() {
     }
     
     public static void main (String[] args) {
-        try {
-            List<String> lista = zakresmiesiecy("01", "05");
-        } catch (Exception ex) {
-            Logger.getLogger(Mce.class.getName()).log(Level.SEVERE, null, ex);
+        int mcod = 05;
+        int rokod = 2013;
+        int mcakt = 01;
+        int rokakt = 2015;
+        int iloscmcy = 0;
+        if (rokod > rokakt) {
+            //return -1;
         }
+        int rokgraniczny = rokakt;
+        if (rokod < rokgraniczny) {
+            iloscmcy += mcakt;
+            rokgraniczny -= 1;
+            while (rokod < rokgraniczny) {
+                iloscmcy += 12;
+                rokgraniczny--;
+            }
+            if (rokod == rokgraniczny) {
+                iloscmcy += 12 - mcod;
+                //return iloscmcy;
+            }
+        } else if (rokod == rokakt) {
+            if (mcod < rokakt) {
+                iloscmcy += 12 - mcod;
+                //return iloscmcy;
+            } else {
+                //return -1;
+            }
+        }
+        //return -1;
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

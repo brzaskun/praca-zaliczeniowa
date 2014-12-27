@@ -6,11 +6,27 @@
 
 package viewfk;
 
+import dao.KlienciDAO;
+import dao.RodzajedokDAO;
+import dao.StronaWierszaDAO;
+import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.RMKDAO;
+import daoFK.TabelanbpDAO;
+import daoFK.WalutyDAOfk;
+import data.Data;
+import embeddable.Mce;
+import embeddable.Umorzenie;
+import entity.Amodok;
+import entity.Klienci;
+import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.RMK;
+import entityfk.StronaWiersza;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
+import entityfk.Wiersz;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,12 +52,24 @@ public class RMKView  implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject
     private RMK rmk;
-    private List<Konto> listakontRMK;
+    private List<Konto> listakontkosztowych;
     private List<RMK> listarmk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAO;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
     @Inject
     private Dokfk dokfk;
     @Inject
@@ -49,13 +77,13 @@ public class RMKView  implements Serializable {
     private double sumarmk;
 
     public RMKView() {
-        this.listakontRMK = new ArrayList<>();
+        this.listakontkosztowych = new ArrayList<>();
         this.listarmk = new ArrayList<>();
     }
     
     @PostConstruct
     public void init() {
-        listakontRMK = kontoDAO.findKontaGrupa6(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
     }
@@ -108,6 +136,130 @@ public class RMKView  implements Serializable {
             
         }
     }
+    
+    public void generowanieDokumentuRMK() {
+        usundokumentztegosamegomiesiaca();
+        Dokfk dokumentRMK = stworznowydokument(oblicznumerkolejny());
+        try {
+            dokDAOfk.dodaj(dokumentRMK);
+            Msg.msg("Zaksięgowano dokument RMK");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RMK");
+        }
+    }
+
+    private int oblicznumerkolejny() {
+        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "RMK", wpisView.getRokWpisuSt());
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+    }
+
+    private void usundokumentztegosamegomiesiaca() {
+        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "RMK", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        if (popDokfk != null) {
+            dokDAOfk.destroy(popDokfk);
+        }
+    }
+
+    private Dokfk stworznowydokument(int nrkolejny) {
+        Dokfk nd = new Dokfk("RMK", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        ustawdaty(nd);
+        ustawkontrahenta(nd);
+        ustawnumerwlasny(nd);
+        nd.setOpisdokfk("rozliczenia rmk za: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt());
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        ustawrodzajedok(nd);
+        ustawtabelenbp(nd);
+        ustawwiersze(nd);
+        return nd;
+    }
+    
+     private void ustawdaty(Dokfk nd) {
+        String datadokumentu = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        nd.setDatadokumentu(datadokumentu);
+        nd.setDataoperacji(datadokumentu);
+        nd.setDatawplywu(datadokumentu);
+        nd.setDatawystawienia(datadokumentu);
+        nd.setMiesiac(wpisView.getMiesiacWpisu());
+        nd.setVatM(wpisView.getMiesiacWpisu());
+        nd.setVatR(wpisView.getRokWpisuSt());
+    }
+
+    private void ustawkontrahenta(Dokfk nd) {
+        try {
+            Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            nd.setKontr(k);
+        } catch (Exception e) {
+            
+        }
+    }
+
+    private void ustawnumerwlasny(Dokfk nd) {
+        String numer = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/RMK";
+        nd.setNumerwlasnydokfk(numer);
+    }
+    
+    private void ustawrodzajedok(Dokfk nd) {
+        Rodzajedok rodzajedok = rodzajedokDAO.find("RMK", wpisView.getPodatnikObiekt());
+        if (rodzajedok != null) {
+            nd.setRodzajedok(rodzajedok);
+        } else {
+            Msg.msg("e", "Brak zdefiniowanego dokumentu RMK");
+        }
+    }
+
+    private void ustawtabelenbp(Dokfk nd) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        nd.setTabelanbp(t);
+        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        nd.setWalutadokumentu(w);
+    }
+    
+    private void ustawwiersze(Dokfk nd) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        for (RMK p : listarmk) {
+            if (p.isRozliczony() == false) {
+                Wiersz w = new Wiersz(idporzadkowy++, 0);
+                uzupelnijwiersz(w, nd);
+                String opiswiersza = "odpis amortyzacyjny dla: "+p.getOpiskosztu(); 
+                w.setOpisWiersza(opiswiersza);
+                Konto kontoRMK = kontoDAO.findKonto("641", wpisView.getPodatnikWpisu());
+                double kwota = wyliczkwotedopobrania(p);
+                StronaWiersza kosztrmk = new StronaWiersza(w, "Wn", kwota, p.getKontokosztowe());
+                StronaWiersza emk = new StronaWiersza(w, "Ma", kwota, kontoRMK);
+                w.setStronaWn(kosztrmk);
+                w.setStronaMa(emk);
+                nd.getListawierszy().add(w);
+            }
+        }
+    }
+    
+     private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        w.setTabelanbp(t);
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setTabelanbp(w.getTabelanbp());
+        w.setDataksiegowania(nd.getDatawplywu());
+    }
+     
+    private double wyliczkwotedopobrania(RMK p) {
+        String rok;
+         int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        double kwota = 0.0;
+        try {
+           kwota = p.getPlanowane().get(odelgloscwmcach);
+           p.setUjetewksiegach(new ArrayList<Double>());
+           for (int i = 0;i < odelgloscwmcach+1;i++){
+               p.getUjetewksiegach().add(p.getPlanowane().get(i));
+           }
+        } catch (Exception e) {
+            p.setRozliczony(true);
+        }
+        return kwota;
+    }
+     
+     
     public RMK getRmk() {
         return rmk;
     }
@@ -116,12 +268,12 @@ public class RMKView  implements Serializable {
         this.rmk = rmk;
     }
 
-    public List<Konto> getListakontRMK() {
-        return listakontRMK;
+    public List<Konto> getListakontkosztowych() {
+        return listakontkosztowych;
     }
 
-    public void setListakontRMK(List<Konto> listakontRMK) {
-        this.listakontRMK = listakontRMK;
+    public void setListakontkosztowych(List<Konto> listakontkosztowych) {
+        this.listakontkosztowych = listakontkosztowych;
     }
 
     public WpisView getWpisView() {
@@ -163,6 +315,8 @@ public class RMKView  implements Serializable {
     public void setSumarmk(double sumarmk) {
         this.sumarmk = sumarmk;
     }
+
+    
 
    
 

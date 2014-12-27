@@ -108,6 +108,14 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
     
+    public List<Konto> findKontaGrupa4(String p, String rok) {
+        try {
+            return kontoFacade.findlistaKontGrupa4(p, rok);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
      public List<Konto> findKontaGrupa6(String p, String rok) {
         try {
             return kontoFacade.findlistaKontGrupa6(p, rok);

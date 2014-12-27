@@ -39,6 +39,8 @@ public class WpisView implements Serializable {
     private String rokWpisuSt;
     private Integer rokUprzedni;
     private String rokUprzedniSt;
+    private Integer rokNastepny;
+    private String rokNastepnySt;
     private String miesiacWpisu;
     private String miesiacNastepny;
     private String miesiacUprzedni;
@@ -112,6 +114,11 @@ public class WpisView implements Serializable {
             try {
                 this.rokUprzedni = wpis.getRokWpisu() - 1;
                 this.rokUprzedniSt = String.valueOf(this.rokUprzedni);
+            } catch (Exception er) {
+            }
+            try {
+                this.rokNastepny = wpis.getRokWpisu() + 1;
+                this.rokNastepnySt = String.valueOf(this.rokNastepny);
             } catch (Exception er) {
             }
             this.rokWpisuSt = String.valueOf(wpis.getRokWpisu());
@@ -272,6 +279,22 @@ public class WpisView implements Serializable {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
+    public Integer getRokNastepny() {
+        return rokNastepny;
+    }
+
+    public void setRokNastepny(Integer rokNastepny) {
+        this.rokNastepny = rokNastepny;
+    }
+
+    public String getRokNastepnySt() {
+        return rokNastepnySt;
+    }
+
+    public void setRokNastepnySt(String rokNastepnySt) {
+        this.rokNastepnySt = rokNastepnySt;
+    }
+    
     
     public boolean isKsiegirachunkowe() {
         return ksiegirachunkowe;
