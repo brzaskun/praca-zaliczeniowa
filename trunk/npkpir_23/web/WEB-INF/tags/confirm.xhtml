@@ -10,17 +10,17 @@
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:body>
         <ui:composition>
+        <script>
+            var zamknijdialog = function(nazwadialogu) {
+                try {
+                    PF(nazwadialogu).hide();
+                } catch (e) {
+                    // alert(e);
+                }
+            }
+        </script>
             <f:view>
                 <h:form>
-                    <script>
-                        var zamknijdialog = function(nazwadialogu) {
-                            try {
-                                PF(nazwadialogu).hide();
-                            } catch (e) {
-                                alert(e);
-                            }
-                        }
-                    </script>
                     <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
                                      header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
                                      >
