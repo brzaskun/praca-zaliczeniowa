@@ -77,6 +77,14 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
     
+    public List<Konto> findKontaRMK(String podatnik, int rok){
+       try {
+            return kontoFacade.findKontaRMK(podatnik, rok);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
     public List<Konto> findKontaRZiS(String p) {
         try {
             return kontoFacade.findKontaRZiS(p);
