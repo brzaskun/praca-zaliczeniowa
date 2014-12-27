@@ -57,8 +57,8 @@ public class RMK  implements Serializable{
     @Column(name = "kwotamiesieczna")
     private double kwotamiesieczna;
     @ManyToOne
-    @JoinColumn(name = "kontormk", referencedColumnName = "id")
-    private Konto kontormk;
+    @JoinColumn(name = "kontokosztowe", referencedColumnName = "id")
+    private Konto kontokosztowe;
     @Size(max = 255)
     @Column(name = "dataksiegowania")
     private String dataksiegowania;
@@ -130,12 +130,12 @@ public class RMK  implements Serializable{
         this.kwotamiesieczna = kwotamiesieczna;
     }
 
-    public Konto getKontormk() {
-        return kontormk;
+    public Konto getKontokosztowe() {
+        return kontokosztowe;
     }
 
-    public void setKontormk(Konto kontormk) {
-        this.kontormk = kontormk;
+    public void setKontokosztowe(Konto kontokosztowe) {
+        this.kontokosztowe = kontokosztowe;
     }
 
     public String getDataksiegowania() {

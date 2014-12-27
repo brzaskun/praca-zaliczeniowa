@@ -309,7 +309,11 @@ public class SessionFacade<T> implements Serializable{
     
     public Rodzajedok findRodzajedokPodatnik(String skrot, Podatnik podatnik) {
         Rodzajedok wynik = null;
-        wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
+        try {
+            wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
+        } catch (Exception e) {
+            
+        }
         return wynik;
     }
 
@@ -1078,6 +1082,11 @@ public class SessionFacade<T> implements Serializable{
     public List<Konto> findlistaKontGrupa0(String podatnik) {
         return em.createNamedQuery("Konto.findlistaKontGrupa0").setParameter("podatnik", podatnik).getResultList();
     }
+    
+    public List<Konto> findlistaKontGrupa4(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
+    }
+    
     public List<Konto> findlistaKontGrupa6(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
