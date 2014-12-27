@@ -539,6 +539,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Konto.findBySrodkiTrwPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
+    public List<Konto> findKontaRMK(String podatnik, int rok) {
+        return em.createNamedQuery("Konto.findByRMKPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+    
     public List<Konto> findKontaRZiS(String podatnik) {
         return em.createNamedQuery("Konto.findByBilansowewynikowePodatnik").setParameter("bilansowewynikowe", "wynikowe").setParameter("podatnik", podatnik).getResultList();
     }

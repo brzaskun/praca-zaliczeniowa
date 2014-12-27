@@ -46,6 +46,7 @@ public class RMKView  implements Serializable {
     private Dokfk dokfk;
     @Inject
     private RMKDAO rmkdao;
+    private double sumarmk;
 
     public RMKView() {
         this.listakontRMK = new ArrayList<>();
@@ -56,6 +57,7 @@ public class RMKView  implements Serializable {
     public void init() {
         listakontRMK = kontoDAO.findKontaGrupa6(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
+        this.sumarmk = podsumujrmk(listarmk);
     }
     
     public void dodajNoweRMKDokfk(Dokfk wybranydok) {
@@ -90,7 +92,22 @@ public class RMKView  implements Serializable {
         Msg.msg("Dodano rozliczenie międzyokresowe");
     }
     
+    private double podsumujrmk(List<RMK> listarmk) {
+        double sumaWn = 0.0;
+        for (RMK p : listarmk) {
+            sumaWn += p.getKwotacalkowita();
+        }
+        return sumaWn;
+    }
    
+    public void destroy(RMK rmk) {
+        try {
+            rmkdao.destroy(rmk);
+            listarmk.remove(rmk);
+        } catch (Exception e) {
+            
+        }
+    }
     public RMK getRmk() {
         return rmk;
     }
@@ -138,6 +155,16 @@ public class RMKView  implements Serializable {
     public void setListarmk(List<RMK> listarmk) {
         this.listarmk = listarmk;
     }
+
+    public double getSumarmk() {
+        return sumarmk;
+    }
+
+    public void setSumarmk(double sumarmk) {
+        this.sumarmk = sumarmk;
+    }
+
+   
 
     
     

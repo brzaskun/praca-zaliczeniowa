@@ -4,13 +4,35 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
-    <p:dialog id="dialogrmk" header="Wykaz rozliczeń międzyokresowych" widgetVar="dialogrmk" 
-              resizable="false"  onShow="ustawdialog('dialogrmk','menurmk',1200,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmk');" >
-       
-        <h:form id="kontoformLista">
-            <p:dataTable id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
-                         style="margin-top: 2%;height: 650px;" sortBy="#{item.id}" paginator="true" rows="10">
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogrmkdok" header="Zestawienie dla dokumentów RMK" widgetVar="dialogrmkdok"  
+              resizable="false"  onShow="ustawdialog('dialogrmkdok','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmkdok');" >
+        <bcf:ajaxs/>
+        <h:form id="formrmk">
+            <p:outputPanel style="margin-top: 10px">
+                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 50%;" id="saldokontasrodkitrw">
+                    <p:column headerText="nr konta" width="50">
+                        <h:outputText value="#{item.konto.pelnynumer}"/>
+                    </p:column>
+                    <p:column headerText="nazwa konta">
+                        <h:outputText value="#{item.konto.nazwapelna}"/>
+                    </p:column>
+                    <p:column headerText="obroty Bo Wn">
+                        <h:outputText value="#{item.obrotyBoWn}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="obroty Bo Ma">
+                        <h:outputText value="#{item.obrotyBoMa}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:outputPanel>
+            <p:outputPanel style="margin-top: 10px">
+                <p:dataTable id="infokontarmk" value="#{rMKView.listarmk}" var="item"  emptyMessage="Brak rozrachunków międzyokresowych"
+                         style="margin-top: 2%;" sortBy="#{item.id}" paginator="true" rows="10">
                 <f:facet name="header">
                     <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>
                 </f:facet>
@@ -78,13 +100,23 @@
                         </f:facet>
                         <h:outputText value="#{item.mckosztu}"/>
                     </p:column>
-                    <p:column id="deleteColumnrmk" headerText="usuń" width="30" style="text-align: center;">
-                        <p:commandButton actionListener="#{rMKView.destroy(item)}" id="delete" 
-                                         update="@form" icon="ui-icon ui-icon-trash" type="submit" >
-                            <p:ajax event="click" global="false"/>
-                        </p:commandButton>
-                    </p:column>
         </p:dataTable>
-         </h:form>
+            </p:outputPanel>
+            <p:panelGrid columns="2" style="margin-top: 10px">
+                <h:outputText value="Wartość RMK do rozliczenia:"/>
+                <h:outputText value="#{rMKDokView.obrotyWn}" style="text-align: center;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+                <h:outputText value="Wartość rmk ewidencja:"/>
+                <h:outputText value="#{rMKView.sumarmk}" style="text-align: center;">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:panelGrid>
+            <p:outputPanel style="margin-top: 10px">
+                <p:commandButton value="zaksięguj RMK" style="width: 120px; margin-bottom: 10px;" actionListener="#{rMKDokView.generowanieDokumentuAMO()}" 
+                                 rendered="#{rMKDokView.obrotyWn eq rMKView.sumarmk}"/>
+                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie można zaksięgować dokumentu rozliczeń międzyokresowych" rendered="#{rMKDokView.obrotyWn ne rMKView.sumarmk}"/>
+            </p:outputPanel>
+        </h:form>
     </p:dialog>
 </ui:composition>
