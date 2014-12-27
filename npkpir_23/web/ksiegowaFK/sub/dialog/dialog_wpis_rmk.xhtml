@@ -1,0 +1,51 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
+
+    <style>
+        .ui-autocomplete input[id="srodkiwpis:acForce1_input"] {
+            width: 300px;
+        }
+    </style>
+    <p:dialog id="dialogwpisrmk" header="Wpisywanie nowej pozycji RMK" widgetVar="dialogwpisrmk"  modal="true" appendTo="@(body)"
+              resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1000,300);" 
+              closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
+        <h:form id="formrmk"> 
+            <f:ajax>
+                <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="loop"> 
+                    <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="120">
+                        <p:inputText id="opiswydatku" value="#{loop.opiskosztu}" style="width: 120px;"/>
+                    </p:column>
+                    <p:column headerText="data ksiegowania" width="70" style="text-align: center;">
+                        <p:inputText id="dataksiegowania" value="#{loop.dataksiegowania}"  placeholder="rrrr-mm-dd" size="10"
+                                     onblur="weryfikujsporzadzfakture(this);" style="text-align: center;"/>
+                    </p:column>
+                    <p:column headerText="kwota kosztu" width="100"  style="text-align: center;">
+                        <pe:inputNumber value="#{loop.kwotacalkowita}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column headerText="liczba miesięcy" width="70" style="text-align: center;">
+                        <p:inputText value="#{loop.liczbamiesiecy}" style="text-align: center;" size="3"/>
+                    </p:column>
+                    <p:column headerText="konto rmk" width="200" style="text-align: center;">
+                        <h:selectOneMenu value="#{loop.kontormk}" converter="KontoConv"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');"
+                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                         onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         >
+                            <f:selectItems value="#{rMKView.listakontRMK}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </f:ajax>
+            <p:commandButton value="dodaj rmk" style="margin-top: 15px; width: 120px; margin-left: 10px;" actionListener="#{rMKView.dodajRMK()}" onclick="PF('dialogwpisrmk').hide();"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

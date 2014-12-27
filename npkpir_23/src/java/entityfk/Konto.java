@@ -82,6 +82,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%'"),
     @NamedQuery(name = "Konto.findlistaKontGrupa3", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '3%'"),
     @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '0%'"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa6", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '6%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.updateZablokowane", query = "UPDATE Konto k SET k.blokada = '0' WHERE k.podatnik = :podatnik")})
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
