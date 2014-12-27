@@ -7,10 +7,12 @@
 package viewfk;
 
 import daoFK.KontoDAOfk;
+import daoFK.RMKDAO;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.RMK;
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
@@ -22,6 +24,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -34,20 +37,25 @@ public class RMKView  implements Serializable {
     @Inject
     private RMK rmk;
     private List<Konto> listakontRMK;
+    private List<RMK> listarmk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
     private Dokfk dokfk;
+    @Inject
+    private RMKDAO rmkdao;
 
     public RMKView() {
         this.listakontRMK = new ArrayList<>();
+        this.listarmk = new ArrayList<>();
     }
     
     @PostConstruct
     public void init() {
         listakontRMK = kontoDAO.findKontaGrupa6(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
     }
     
     public void dodajNoweRMKDokfk(Dokfk wybranydok) {
@@ -59,9 +67,27 @@ public class RMKView  implements Serializable {
     
     
     public void dodajRMK() {
-        listakontRMK = kontoDAO.findKontaGrupa6(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        System.out.println("lolo");
-        Msg.msg("Dodaje msg "+dokfk.getDokfkPK().toString());
+        rmk.setDokfk(dokfk);
+        double kwotamiesieczna = Z.z(rmk.getKwotacalkowita()/rmk.getLiczbamiesiecy());
+        rmk.setKwotamiesieczna(kwotamiesieczna);
+        rmk.setDataksiegowania(dokfk.getDataoperacji());
+        rmk.setMckosztu(dokfk.getMiesiac());
+        rmk.setRokkosztu(dokfk.getDokfkPK().getRok());
+        double kwotamax = rmk.getKwotacalkowita();
+        Double narastajaco = 0.0;
+        while (kwotamax - narastajaco > 0) {
+            double odpisbiezacy = (kwotamax - narastajaco) > rmk.getKwotamiesieczna() ? rmk.getKwotamiesieczna() : kwotamax - narastajaco;
+            if((kwotamax - narastajaco) < rmk.getKwotamiesieczna()){
+                rmk.getPlanowane().add(Z.z(kwotamax - narastajaco));
+                break;
+            } else {
+                rmk.getPlanowane().add(odpisbiezacy);
+            }
+            narastajaco = narastajaco + odpisbiezacy;
+        }
+        rmkdao.dodaj(rmk);
+        System.out.println("rmk dodaje");
+        Msg.msg("Dodano rozliczenie międzyokresowe");
     }
     
    
@@ -105,6 +131,15 @@ public class RMKView  implements Serializable {
         this.dokfk = dokfk;
     }
 
+    public List<RMK> getListarmk() {
+        return listarmk;
+    }
+
+    public void setListarmk(List<RMK> listarmk) {
+        this.listarmk = listarmk;
+    }
+
+    
     
    
     

@@ -11,7 +11,7 @@
         </ui:define>
         <ui:define name="body">
             <bcf:confirm lp="1" wiadomosc="Dodać środek trwały?" listenerPresent="true" listener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}" closeDialog="dialogwpissrodkitrwale"/>
-<!--            <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>-->
+            <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >

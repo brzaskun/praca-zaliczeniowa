@@ -10,20 +10,22 @@
       xmlns:bcf="http://brzaskun.com/facelets">
     <h:body>
         <ui:composition>
-        <script>
-            var zamknijdialog = function(nazwadialogu) {
-                try {
-                    PF(nazwadialogu).hide();
-                } catch (e) {
-                    // alert(e);
-                }
-            }
-        </script>
             <f:view>
-                <h:form>
-                    <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
-                                     header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
-                                     >
+
+                <script>
+                    var zamknijdialog = function(nazwadialogu) {
+                        try {
+                            PF(nazwadialogu).hide();
+                        } catch (e) {
+                            // alert(e);
+                        }
+                    }
+                </script>
+                <p:confirmDialog id="confirmDialog#{lp != null ? lp : '1'}" message="#{wiadomosc != null ? wiadomosc : 'Potwierdz przetwarzanie danych'}"  
+                                 header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
+                                 >
+                    <h:form>
+                        <p:growl autoUpdate="true"/>
                         <c:choose>
                             <c:when test="#{listenerPresent}">
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"
@@ -36,8 +38,8 @@
                             </c:otherwise>
                         </c:choose>
                         <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm#{lp != null ? lp : '1'}').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
-                    </p:confirmDialog>  
-                </h:form>
+                    </h:form>
+                </p:confirmDialog>  
             </f:view>
         </ui:composition>
     </h:body>

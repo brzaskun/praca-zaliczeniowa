@@ -46,6 +46,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
 import entityfk.PozycjaRZiS;
+import entityfk.RMK;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
@@ -1127,6 +1128,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<Konto> findKontaWzorcowy() {
         return em.createNamedQuery("Konto.findWzorcowe").getResultList();
+    }
+
+    public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
+        return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }
   
 }
