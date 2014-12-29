@@ -6,33 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menufirma" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
-                <p:tab title="wybor firmy">
-                    <h:form id="dialog1menu1">
-                            <p:panelGrid columns="4"  >
-                                <p:column >
-                                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 130px;">
-                                        <f:selectItems value="#{podatnikView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                        <f:selectItems value="#{Roki.rokiList}"/>
-                                        <f:param name="rokWpisu" value="2012" />
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                                        <f:selectItems value="#{Mce.mceList}"/>
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
-                                                      style="width: 150px;"
-                                                      actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
-                                </p:column>
-                            </p:panelGrid>
-                    </h:form>
-                </p:tab>  
+<!--                <p:tab title="wybor firmy">
+                   
+                </p:tab>  -->
                 <p:tab title="dodawanie firmy">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
