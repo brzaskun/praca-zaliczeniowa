@@ -167,9 +167,13 @@ public class SrodkiTrwaleAMOView implements Serializable {
     }
 
     private void usundokumentztegosamegomiesiaca() {
-        Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        if (popDokfk != null) {
-            dokDAOfk.destroy(popDokfk);
+        try {
+            Dokfk popDokfk = dokDAOfk.findDokfofaType(wpisView.getPodatnikObiekt(), "AMO", wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+            if (popDokfk != null) {
+                dokDAOfk.destroy(popDokfk);
+            }
+        } catch (Exception e) {
+            
         }
     }
 
