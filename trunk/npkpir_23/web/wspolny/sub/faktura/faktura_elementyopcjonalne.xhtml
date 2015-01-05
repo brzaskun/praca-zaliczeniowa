@@ -17,11 +17,15 @@
                   <p:column headerText="nazwa elementu" width="200">
                       <h:outputText value="#{wpis.fakturadodelementyPK.nazwaelementu}"/>
                   </p:column>
-                  <p:column headerText="tresc elementu">
-                      <p:inputTextarea value="#{wpis.trescelementu}" cols="80"/>
+                  <p:column headerText="tresc elementu" style="height: 60px;">
+                      <p:inputTextarea value="#{wpis.trescelementu}" cols="80" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
+                      <h:outputText value="Na fakturze zostanie umieszczony załadowany plik graficzny" 
+                                    rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
+                      <h:outputText value="Brak pliku graficznego do umieszczenia na fakturze" 
+                                    rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() eq ''}"/>
                   </p:column>
               </p:dataTable>
-              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor"
+              <p:commandButton value="Użyj wybrane na fakturze" actionListener="#{fakturadodelementyView.zachowajzmiany()}" update=":akordeon:formwzor, :akordeon:formstworz:panelfaktury"
                                style="margin-top: 5px;"/>
           </h:form>
         </p:tab>
