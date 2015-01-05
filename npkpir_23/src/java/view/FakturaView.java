@@ -504,6 +504,7 @@ public class FakturaView implements Serializable {
                         p.setM12(p.getM12() > 0 ? p.getM12() - 1 : 0);
                         break;
                 }
+                break;
             }
         }
         Msg.msg("i", "Zaktualizowano okresowa");
@@ -619,7 +620,7 @@ public class FakturaView implements Serializable {
             } catch (Exception er) {
             }
             if (selected.getKontrahent().getNskrocona() == null) {
-                Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane.");
+                Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
                 pokazfakture = false;
                 RequestContext.getCurrentInstance().update("akordeon:formstworz");
             } else {
@@ -668,6 +669,8 @@ public class FakturaView implements Serializable {
                     //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
                     if (fakturatmp == null) {
                         fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
+                    } else {
+                        Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + kwotaprzedwaloryzacja + " już istnienie!");
                     }
                 } else {
                     fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
@@ -679,8 +682,6 @@ public class FakturaView implements Serializable {
                     } else {
                         Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + p.getBrutto() + " już istnienie!");
                     }
-                } else {
-                    throw new Exception();
                 }
             } catch (Exception ef) {
                 Msg.msg("w", "Błąd podczas wyszukiwania poprzedniej faktury");

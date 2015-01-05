@@ -11,6 +11,7 @@
         </ui:define>
         <ui:define name="body">
             <f:view contentType="text/html">
+                <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
                         <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="#{pozycjeNaFakturzeView.west}"/>   <!-- panel zachodni-->

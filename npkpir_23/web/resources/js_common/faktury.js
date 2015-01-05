@@ -31,7 +31,8 @@ var kopiujnazwepelna = function () {
   }
 };
 
-var kliknij = function (nip) {
-//    PF('tworzenieklientapolenazwy').search(nip);
-//    PF('tworzenieklientapolenazwy').close();
+var kliknijpolekontrahenta = function (nip) {
+    PF('tworzenieklientapolenazwy').search(nip);
+    PF('tworzenieklientapolenazwy').activate();
+    PF('tworzenieklientapolenazwy').close();
 };

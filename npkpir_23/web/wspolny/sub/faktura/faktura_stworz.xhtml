@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
      <p:tab id="nowa" title="Sporządź nową fakturę" >
-        <h:form id="formprzygotuj">
+         <h:form id="formprzygotuj">
             <p:outputPanel style="padding: 5px;">
                 <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz" style="margin-bottom: 25px; margin-top: 10px" />
             </p:outputPanel>
@@ -114,9 +114,10 @@
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                             minQueryLength="3" maxResults="10" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                             autocomplete="true" forceSelection="true" widgetVar="tworzenieklientapolenazwy"
-                                            required="true" requiredMessage="Dane klienta niedawno edytowane" queryDelay="10"
+                                            required="true" requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10"   
                                             >
-                                <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"/>
+                                <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
+                                <p:ajax event="query"  global="false"/>
                                 <f:facet name="itemtip">  
                                     <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                         <f:facet name="header">  
@@ -138,10 +139,10 @@
                      </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
-                            <h:outputText value="nr zamówienia"/>
+                            <h:outputText value="nr zamówienia" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}"/>
                         </div>
                         <div class="ui-grid-col-2">
-                            <p:inputText value="#{fakturaView.selected.numerzamowienia}"/>
+                            <p:inputText value="#{fakturaView.selected.numerzamowienia}" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}"/>
                         </div>
                     </div>
                 </div>

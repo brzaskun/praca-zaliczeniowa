@@ -317,7 +317,9 @@ public class Fakturywystokresowe implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Fakturywystokresowe[ id=" + id + " ]";
+        return "Fakturywystokresowe{" + "id=" + id + ", podatnik=" + podatnik + ", rok=" + rok + ", nipodbiorcy=" + nipodbiorcy + ", brutto=" + brutto + '}';
     }
+
+   
     
 }

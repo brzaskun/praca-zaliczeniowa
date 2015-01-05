@@ -87,12 +87,12 @@ body {
     background-color: silver;
 }
 
-.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
+/*.ui-datatable thead th,.ui-datatable tbody td,.ui-datatable tfoot td{
     padding: 4px 10px;
     overflow: auto !important;
     white-space: normal !important;
     border-width: 0px;
-    border-style: solid;}
+    border-style: solid;}*/
 
 
 /*@page {
