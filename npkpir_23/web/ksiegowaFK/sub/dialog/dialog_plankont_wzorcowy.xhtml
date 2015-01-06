@@ -13,7 +13,7 @@
             <p:contextMenu id="contextforplankontwzorcowy" for="dataListwzorcowy" style="width: 200px;">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontosyntetyczne').show();" />
                 <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" actionListener="#{planKontView.dodajdowzorca()}" onclick="PF('nowekontoanalityczne').show();" />
-                <p:menuitem value="Analityka kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
+                <p:menuitem value="Słownik kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem id="noweedycjanazwy" value="Edycja nazw konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
                 <p:separator/>

@@ -76,7 +76,7 @@ public class PlanKontFKBean {
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
-         nowekonto.setRok(2014);
+         nowekonto.setRok(wpisView.getRokWpisu());
          nowekonto.setSlownikowe(true);
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());

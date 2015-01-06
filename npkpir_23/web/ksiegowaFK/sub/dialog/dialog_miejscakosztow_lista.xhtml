@@ -5,11 +5,11 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_lista" 
-              resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
+    <p:dialog id="dialog_miejscakosztow_lista" header="Przyporządkowanie klientów do kont" widgetVar="dialog_miejscakosztow_lista" 
+              resizable="false"  onShow="ustawdialog('dialog_miejscakosztow_lista','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_miejscakosztow_lista');" >
        
-        <h:form id="kontoformLista">
-            <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="wpis"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+        <h:form id="miejscakosztowLista">
+            <p:dataTable id="miejscakosztowtabela" value="#{kliencifkView.listawszystkichklientowFk}" var="wpis"  emptyMessage="Klient nie posiada zdefiniowanych miejsc powstawania kosztów"
                          style="margin-top: 2%;" sortBy="#{wpis.nrkonta}" paginator="true" rows="15"
                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                      rowsPerPageTemplate="15,32,50,100,250">

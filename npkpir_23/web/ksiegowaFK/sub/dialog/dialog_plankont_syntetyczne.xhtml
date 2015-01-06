@@ -11,20 +11,20 @@
         <p:focus for="dkp">
         <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
                         <h:outputLabel value="Nrkonta:" for="nrkonta" />
-                        <p:inputText id="nrkonta" value="#{planKontView.nowe.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
+                        <p:inputText id="nrkonta" value="#{planKontView.noweKonto.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
                             <f:validateRegex pattern="\d+"/>
                         </p:inputText>
                        <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.nowe.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontnoweKonto.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
                         <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
-                        <p:inputText id="nazwaskrocona" value="#{planKontView.nowe.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+                        <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         <h:outputLabel value="Bilansowewynikowe:" for="bilansowewynikowe" />
-                        <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.nowe.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <p:selectOneMenu id="bilansowewynikowe" value="#{planoweKontotView.noweKonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
                             <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
                             <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
                         </p:selectOneMenu>
                         <h:outputLabel value="Zwyklerozrachszczegolne:" for="zwyklerozrachszczegolne" />
-                        <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.nowe.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                        <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.noweKonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
                             <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                             <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                             <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>

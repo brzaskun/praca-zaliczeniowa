@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -45,6 +46,8 @@ public class WalutyViewFK implements Serializable {
     private Waluty nowawaluta;
     @ManagedProperty(value = "#{walutyFKBean}")
     private WalutyFKBean walutyFKBean;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
     public WalutyViewFK() {
         pobranewaluty = new ArrayList<>();
@@ -57,7 +60,7 @@ public class WalutyViewFK implements Serializable {
     private void init() {
         pobranewaluty = walutyDAOfk.findAll();
         pobranekursy = tabelanbpDAO.findAll();
-        pobranekursyRok = tabelanbpDAO.findKursyRok();
+        pobranekursyRok = tabelanbpDAO.findKursyRok(wpisView.getRokWpisuSt());
         for (Waluty w : pobranewaluty) {
             symboleWalut.add(w.getSymbolwaluty());
             if (!w.getSymbolwaluty().equals("PLN")) {
@@ -179,6 +182,16 @@ public class WalutyViewFK implements Serializable {
     }
     
     
-    //</editor-fold>
 
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    
+    
+    //</editor-fold>
 }
