@@ -38,6 +38,7 @@ import javax.persistence.Table;
 @Table(name = "stronawiersza")
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
+    @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWalutaKorekta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.kwota < 0 AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWalutaBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.symbolWalutyBO = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '9'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoBOWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.symbolWalutyBO = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
@@ -226,12 +227,12 @@ public class StronaWiersza implements Serializable{
             for (Transakcja p : this.platnosci) {
                     this.rozliczono += p.getKwotatransakcji();
             }
-            this.pozostalo = this.kwota - this.rozliczono;
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
             for (Transakcja p : this.nowetransakcje) {
                 this.rozliczono += p.getKwotatransakcji();
             }
-            this.pozostalo = this.kwota - this.rozliczono;
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
         return this.rozliczono;
     }
@@ -246,12 +247,12 @@ public class StronaWiersza implements Serializable{
             for (Transakcja p : this.platnosci) {
                 this.rozliczono += p.getKwotatransakcji();
             }
-            this.pozostalo = this.kwota - this.rozliczono;
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
             for (Transakcja p : this.nowetransakcje) {
                 this.rozliczono += p.getKwotatransakcji();
             }
-            this.pozostalo = this.kwota - this.rozliczono;
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
         return this.pozostalo;
     }
@@ -280,13 +281,22 @@ public class StronaWiersza implements Serializable{
     public double getKwota() {
         return kwota;
     }
+    
+    public double getKwotaR() {
+        return Math.abs(kwota);
+    }
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
     }
+    
 
     public double getKwotaPLN() {
         return kwotaPLN;
+    }
+    
+    public double getKwotaPLNR() {
+        return Math.abs(kwotaPLN);
     }
 
     public void setKwotaPLN(double kwotaPLN) {

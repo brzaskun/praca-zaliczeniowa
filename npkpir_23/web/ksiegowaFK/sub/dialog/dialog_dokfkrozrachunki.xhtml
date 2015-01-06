@@ -99,18 +99,18 @@
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="kwota transakcji" width="50">
-                                <h:outputText value="#{loop.nowaTransakcja.kwota}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.nowaTransakcja.kwotaR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
-                                <h:outputText value="#{loop.rozliczajacy.kwota}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.rozliczajacy.kwotaR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
                             <p:column headerText="kwota trans. w PLN" width="50" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty != 'PLN'}">
-                                <h:outputText value="#{loop.nowaTransakcja.kwotaPLN}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.nowaTransakcja.kwotaPLNR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
-                                <h:outputText value="#{loop.rozliczajacy.kwotaPLN}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <h:outputText value="#{loop.rozliczajacy.kwotaPLNR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>

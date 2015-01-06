@@ -100,7 +100,12 @@ public class RozrachunkiPrzegladView implements Serializable{
         stronyWiersza = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
-        stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+        if (wybranaWalutaDlaKont.equals("wszystkie")) {
+            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+        } else {
+            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+        }
+        filtrrozrachunkow();
     }
     
     public void pobierzZapisyZmianaWaluty() {
@@ -109,6 +114,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         } else {
             stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
         }
+        filtrrozrachunkow();
     }
     
     public void pobierzZapisyZmianaZakresu() {
@@ -117,28 +123,34 @@ public class RozrachunkiPrzegladView implements Serializable{
         } else {
             stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
         }
+       filtrrozrachunkow();
+    }
+    
+    private void filtrrozrachunkow() {
+        if (coWyswietlacRozrachunkiPrzeglad != null) {
         for (Iterator<StronaWiersza> p = stronyWiersza.iterator(); p.hasNext();) {
-            switch (coWyswietlacRozrachunkiPrzeglad) {
-                case "rozliczone":
-                    if (p.next().getPozostalo() != 0) {
-                        p.remove();
-                    }
-                    break;
-                case "częściowo":
-                    StronaWiersza px = p.next();
-                    if (px.getPozostalo() == 0 || px.getRozliczono() == 0) {
-                        p.remove();
-                    }
-                    break;
-                case "nowe":
-                    if (p.next().getRozliczono() != 0) {
-                        p.remove();
-                    }
-                    break;
-                default:
-                    p.next();
-                    break;
-            }
+             switch (coWyswietlacRozrachunkiPrzeglad) {
+                 case "rozliczone":
+                     if (p.next().getPozostalo() != 0) {
+                         p.remove();
+                     }
+                     break;
+                 case "częściowo":
+                     StronaWiersza px = p.next();
+                     if (px.getPozostalo() == 0 || px.getRozliczono() == 0) {
+                         p.remove();
+                     }
+                     break;
+                 case "nowe":
+                     if (p.next().getRozliczono() != 0) {
+                         p.remove();
+                     }
+                     break;
+                 default:
+                     p.next();
+                     break;
+             }
+         } 
         }
     }
     
