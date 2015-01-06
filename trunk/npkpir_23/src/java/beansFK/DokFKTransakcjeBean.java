@@ -93,9 +93,15 @@ public class DokFKTransakcjeBean implements Serializable{
                         listaNowychRozrachunkowDokument.add(p.getStronaMa());
                     }
                 }
+                 if (p.getTypWiersza()==1 && p.getStronaWn().getKwota() < 0) {
+                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
+                }
             } else if (wnma.equals("Ma")){
                 if (p.getTypWiersza()==1 || p.getTypWiersza()==0) {
                     listaNowychRozrachunkowDokument.add(p.getStronaWn());
+                }
+                if (p.getTypWiersza()==2 && p.getStronaMa().getKwota() < 0) {
+                    listaNowychRozrachunkowDokument.add(p.getStronaMa());
                 }
             }
         }
