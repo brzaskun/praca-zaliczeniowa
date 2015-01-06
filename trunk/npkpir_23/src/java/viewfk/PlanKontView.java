@@ -46,7 +46,7 @@ public class PlanKontView implements Serializable {
     @Inject
     private Konto selected;
     @Inject
-    private Konto nowe;
+    private Konto noweKonto;
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
@@ -142,21 +142,21 @@ public class PlanKontView implements Serializable {
             podatnik = wpisView.getPodatnikWpisu();
         }
         Konto kontomacierzyste = (Konto) selectednode.getData();
-        if (nowe.getBilansowewynikowe() != null) {
-            int wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(nowe, kontomacierzyste, kontoDAO, wpisView);
+        if (noweKonto.getBilansowewynikowe() != null) {
+            int wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
             if (wynikdodaniakonta == 0) {
-                nowe = new Konto();
+                noweKonto = new Konto();
                 PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
                 Msg.msg("i", "Dodano konto syntetyczne", "formX:messages");
             } else {
-                nowe = new Konto();
+                noweKonto = new Konto();
                 Msg.msg("e", "Konto syntetyczne o takim numerze juz istnieje!", "formX:messages");
             }
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
             try {
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
-                if (nowe.getNrkonta().equals("kontr")) {
+                if (noweKonto.getNrkonta().equals("kontr")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
                     int czysatylkoslownikowe = 0;
                     List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
@@ -168,18 +168,18 @@ public class PlanKontView implements Serializable {
                     if (kontomacierzyste.isMapotomkow() == true && czysatylkoslownikowe == 1) {
                         Msg.msg("e", "Konto już ma analitykę, nie można dodać słownika");
                     } else {
-                        int wynikdodaniakonta = PlanKontFKBean.dodajslownik(nowe, kontomacierzyste, kontoDAO, wpisView);
+                        int wynikdodaniakonta = PlanKontFKBean.dodajslownik(noweKonto, kontomacierzyste, kontoDAO, wpisView);
                         if (wynikdodaniakonta == 0) {
                             PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
                             Msg.msg("i", "Dodaje słownik", "formX:messages");
                         } else {
-                            nowe = new Konto();
+                            noweKonto = new Konto();
                             Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
                             return;
                         }
                         wynikdodaniakonta = PlanKontFKBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView, wpisView.getRokWpisu());
                         if (wynikdodaniakonta == 0) {
-                            nowe = new Konto();
+                            noweKonto = new Konto();
                             PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
                             Msg.msg("Dodano elementy słownika");
                         } else {
@@ -189,14 +189,14 @@ public class PlanKontView implements Serializable {
                 }
             } catch (Exception e) {
                 if (kontomacierzyste.isBlokada() == false) {
-                    int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(nowe, kontomacierzyste, kontoDAO, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAO);
-                        nowe = new Konto();
+                        noweKonto = new Konto();
                         PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
                         Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
                     } else {
-                        nowe = new Konto();
+                        noweKonto = new Konto();
                         Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
                     }
                 } else {
@@ -527,12 +527,12 @@ public class PlanKontView implements Serializable {
         this.selected = selected;
     }
 
-    public Konto getNowe() {
-        return nowe;
+    public Konto getNoweKonto() {
+        return noweKonto;
     }
 
-    public void setNowe(Konto nowe) {
-        this.nowe = nowe;
+    public void setNoweKonto(Konto noweKonto) {
+        this.noweKonto = noweKonto;
     }
 
     public String getWewy() {

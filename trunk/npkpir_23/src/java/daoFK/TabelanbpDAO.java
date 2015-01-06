@@ -44,10 +44,8 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
    }
-    public  List<Tabelanbp> findKursyRok(){
+    public  List<Tabelanbp> findKursyRok(String rok){
         try {
-            DateTime dzisiejszadata = new DateTime();
-            String rok = String.valueOf(dzisiejszadata.getYear());
             List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
             List<Tabelanbp> nowalista = new ArrayList<>();
             Iterator it = kursyrok.iterator();
