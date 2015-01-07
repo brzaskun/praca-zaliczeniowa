@@ -47,23 +47,27 @@ public class AdminMailView implements Serializable {
 
     @PostConstruct
     private void init() {
-        DateTime dt = new DateTime();  // current time
-        int month = dt.getMonthOfYear();
-        String mc = Mce.getNumberToMiesiac().get(month);
-        List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
-        if (wykazfaktur == null) {
-            mc = Mce.getNumberToMiesiac().get(month-1);
-            wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+        try {
+            DateTime dt = new DateTime();  // current time
+            int month = dt.getMonthOfYear();
+            String mc = Mce.getNumberToMiesiac().get(month);
+            List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+            if (wykazfaktur == null) {
+                mc = Mce.getNumberToMiesiac().get(month-1);
+                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+            }
+            if (wykazfaktur.isEmpty()) {
+                month = dt.getMonthOfYear();
+                mc = Mce.getNumberToMiesiac().get(--month);
+                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+            }
+            for (Fakturywystokresowe p : wykazfaktur) {
+                klientList.add(p.getDokument().getKontrahent());
+            }
+            wyslanemaile = adminmailDAO.findAll();
+        } catch (Exception e) {
+            Msg.msg("e", "Brak wystawionych faktur okresowych w bieżącym miesiącu");
         }
-        if (wykazfaktur.isEmpty()) {
-            month = dt.getMonthOfYear();
-            mc = Mce.getNumberToMiesiac().get(--month);
-            wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
-        }
-        for (Fakturywystokresowe p : wykazfaktur) {
-            klientList.add(p.getDokument().getKontrahent());
-        }
-        wyslanemaile = adminmailDAO.findAll();
     }
 
     public void zachowajMaila() {
