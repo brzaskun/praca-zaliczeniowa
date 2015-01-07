@@ -16,8 +16,9 @@
                 <p:separator/>
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-trash" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-trash" />
+                <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-trash" />
             </p:contextMenu>
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="6">
                 <h:outputText value="Suma wartości brutto wybranych dokumentów zł: "/> 
                 <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}" style="float: right;">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
