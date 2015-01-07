@@ -1268,6 +1268,9 @@ private static final long serialVersionUID = 1L;
             //to znajdujemy polaczenie konta z klientem nazwa tego polaczenia to Kliencifk
             Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
             List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+            if (listakont == null || listakont.size() == 0) {
+                throw new Exception();
+            }
             Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
             Konto konto = null;
             for (Konto p : listakont) {
@@ -1277,7 +1280,7 @@ private static final long serialVersionUID = 1L;
             }
             return konto;
         } catch (Exception e) {
-            Msg.msg("e", "Brak przyporządkowanego konta rozrachunkowego do danego dokumentu. Nie można wygenerować zapisów");
+            Msg.msg("e", "Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont");
             return null;
         }
     }
