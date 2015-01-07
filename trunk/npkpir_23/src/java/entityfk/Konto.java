@@ -25,6 +25,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import session.SessionFacade;
 
 /**
@@ -189,6 +190,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean maslownik;
     @OneToMany(mappedBy = "konto")
     private List<StronaWiersza> stronaWiersza;
+	@OneToMany(mappedBy = "kONTOid")
+    private List<MiejsceKosztow> miejsceKosztowList;
     
 
     public Konto() {
@@ -460,6 +463,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.saldoMa = saldoMa;
     }
     
+    @XmlTransient
+    public List<MiejsceKosztow> getMiejsceKosztowList() {
+        return miejsceKosztowList;
+    }
+
+    public void setMiejsceKosztowList(List<MiejsceKosztow> miejsceKosztowList) {
+        this.miejsceKosztowList = miejsceKosztowList;
+    }
     
     
 

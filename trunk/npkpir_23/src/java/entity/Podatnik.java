@@ -8,6 +8,7 @@ import embeddable.Parametr;
 import embeddable.Pozycjenafakturzebazadanych;
 import embeddable.Straty1;
 import embeddable.Udzialy;
+import entityfk.MiejsceKosztow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,13 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -198,6 +201,8 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "FKpiatki")
     private List<Parametr> FKpiatki;
+    @OneToMany(mappedBy = "podatnikObj")
+    private List<MiejsceKosztow> miejsceKosztowList;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -578,7 +583,15 @@ public class Podatnik implements Serializable {
     public void setStratyzlatub1(List<Straty1> stratyzlatub1) {
         this.stratyzlatub1 = stratyzlatub1;
     }
-    
+    @XmlTransient
+    public List<MiejsceKosztow> getMiejsceKosztowList() {
+        return miejsceKosztowList;
+    }
+
+    public void setMiejsceKosztowList(List<MiejsceKosztow> miejsceKosztowList) {
+        this.miejsceKosztowList = miejsceKosztowList;
+    }
+
     
     
     

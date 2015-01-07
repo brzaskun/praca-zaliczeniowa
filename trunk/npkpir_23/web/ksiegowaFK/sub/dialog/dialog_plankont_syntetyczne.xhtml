@@ -30,8 +30,8 @@
                             <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
                             <f:selectItem itemLabel="vat" itemValue="vat"/>
                        </p:selectOneMenu>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}"  type="submit" update=":formX, :form, :formwzorcowy" style="display: none;" onclick="PF('nowekontosyntetyczne').hide()"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" update=":formX, :form, :formwzorcowy" 
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}"  type="submit" update=":formX, :form, :formwzorcowy" style="display: none;" onclick="PF('nowekontosyntetyczne').hide()"/>
+                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" update=":formX, :form, :formwzorcowy" 
                                          style="float: right;" onclick="PF('nowekontosyntetyczne').hide()">
 <!--                            <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
                                 <f:facet name="error">

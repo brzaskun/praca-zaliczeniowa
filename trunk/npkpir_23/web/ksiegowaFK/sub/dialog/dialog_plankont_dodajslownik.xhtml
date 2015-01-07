@@ -13,7 +13,7 @@
                 <f:selectItem itemValue="miejsce" itemLabel="Miejsca kosztów"/>
             </p:selectOneMenu>
             <p:panelGrid id="dkp" columns="2" style="width: 400px;">
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodaj()}" accesskey="d" type="submit" 
+                <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" accesskey="d" type="submit" 
                                          update=":formY, :form" style="float: right;" oncomplete="PF('nowekontoslownik').hide();"/>
             </p:panelGrid>
             </p:focus>

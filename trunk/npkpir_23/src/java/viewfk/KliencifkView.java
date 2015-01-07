@@ -96,7 +96,7 @@ public class KliencifkView implements Serializable{
     public void przyporzadkujdokonta(){
         try {
             klienciDAO.dodaj(klientBezKonta);
-            int wynik = PlanKontFKBean.aktualizujslownik(klientBezKonta, kontoDAOfk, wpisView, wpisView.getRokWpisu());
+            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(klientBezKonta, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {

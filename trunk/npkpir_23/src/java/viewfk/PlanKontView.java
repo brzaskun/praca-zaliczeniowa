@@ -9,6 +9,7 @@ import beansFK.PlanKontFKBean;
 import dao.PodatnikDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import daoFK.MiejsceKosztowDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
@@ -38,10 +39,8 @@ public class PlanKontView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int levelBiezacy = 0;
-    private int levelMaksymalny = 0;
     private List<Konto> wykazkont;
     private List<Konto> wykazkontwzor;
-    private List<Konto> wykazkontanalityczne;
     private List<Konto> listakontOstatniaAnalitykaklienta;
     @Inject
     private Konto selected;
@@ -56,7 +55,6 @@ public class PlanKontView implements Serializable {
     private TreeNodeExtended<Konto> selectednode;
     private Konto selectednodekonto;
     private String wewy;
-    private String listajs;
     private boolean czyoddacdowzorca;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -64,6 +62,8 @@ public class PlanKontView implements Serializable {
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private MiejsceKosztowDAO miejsceKosztowDAO;
 
     public PlanKontView() {
     }
@@ -94,7 +94,6 @@ public class PlanKontView implements Serializable {
         } else {
             level = r.ustaldepthDT(wykazkont);
         }
-        levelMaksymalny = level;
         return level;
     }
 
@@ -131,7 +130,7 @@ public class PlanKontView implements Serializable {
         czyoddacdowzorca = true;
     }
 
-    public void dodaj() {
+    public void dodajsyntetyczne() {
         TreeNodeExtended<Konto> r;
         String podatnik;
         if (czyoddacdowzorca == true) {
@@ -143,7 +142,12 @@ public class PlanKontView implements Serializable {
         }
         Konto kontomacierzyste = (Konto) selectednode.getData();
         if (noweKonto.getBilansowewynikowe() != null) {
-            int wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            int wynikdodaniakonta = 1;
+            if (podatnik.equals("Wzorcowy")) {
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            } else {
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            }
             if (wynikdodaniakonta == 0) {
                 noweKonto = new Konto();
                 PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
@@ -152,56 +156,94 @@ public class PlanKontView implements Serializable {
                 noweKonto = new Konto();
                 Msg.msg("e", "Konto syntetyczne o takim numerze juz istnieje!", "formX:messages");
             }
+        }
+    }
+    
+    public void dodajanalityczne() {
+        TreeNodeExtended<Konto> r;
+        String podatnik;
+        if (czyoddacdowzorca == true) {
+            r = rootwzorcowy;
+            podatnik = "Wzorcowy";
+        } else {
+            r = root;
+            podatnik = wpisView.getPodatnikWpisu();
+        }
+        Konto kontomacierzyste = (Konto) selectednode.getData();
+        if (kontomacierzyste.isBlokada() == false) {
+            int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            if (wynikdodaniakonta == 0) {
+                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAO);
+                noweKonto = new Konto();
+                PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
+            } else {
+                noweKonto = new Konto();
+                Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+            }
+        } else {
+            Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
+        }
+    }
+    
+    public void dodajslownik() {
+        TreeNodeExtended<Konto> r;
+        String podatnik;
+        if (czyoddacdowzorca == true) {
+            r = rootwzorcowy;
+            podatnik = "Wzorcowy";
+        } else {
+            r = root;
+            podatnik = wpisView.getPodatnikWpisu();
+        }
+        Konto kontomacierzyste = (Konto) selectednode.getData();
+        List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
+        if (kontapodpiete != null || kontapodpiete.size() > 0) {
+            Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
             try {
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (noweKonto.getNrkonta().equals("kontr")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int czysatylkoslownikowe = 0;
-                    List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
-                    for (Konto t : kontapodpiete) {
-                        if (t.isSlownikowe()==false) {
-                            czysatylkoslownikowe = 1;
-                        }
-                    }
-                    if (kontomacierzyste.isMapotomkow() == true && czysatylkoslownikowe == 1) {
-                        Msg.msg("e", "Konto już ma analitykę, nie można dodać słownika");
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
+                        Msg.msg("i", "Dodaje słownik kontrahentów", "formX:messages");
                     } else {
-                        int wynikdodaniakonta = PlanKontFKBean.dodajslownik(noweKonto, kontomacierzyste, kontoDAO, wpisView);
-                        if (wynikdodaniakonta == 0) {
-                            PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
-                            Msg.msg("i", "Dodaje słownik", "formX:messages");
-                        } else {
-                            noweKonto = new Konto();
-                            Msg.msg("e", "Nie można dodać słownika!", "formX:messages");
-                            return;
-                        }
-                        wynikdodaniakonta = PlanKontFKBean.dodajelementyslownika(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView, wpisView.getRokWpisu());
-                        if (wynikdodaniakonta == 0) {
-                            noweKonto = new Konto();
-                            PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
-                            Msg.msg("Dodano elementy słownika");
-                        } else {
-                            Msg.msg("e", "Wystąpił błąd przy dodawani elementów słownika");
-                        }
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika kontrahentów!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        Msg.msg("Dodano elementy słownika kontrahentów");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika kontrahentów");
+                    }
+                } else if (noweKonto.getNrkonta().equals("miejsce")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
+                        Msg.msg("i", "Dodaje słownik miejsc powstawania kosztów", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika miejsc powstawania kosztów!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(kontomacierzyste, kontoDAO, miejsceKosztowDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
                     }
                 }
             } catch (Exception e) {
-                if (kontomacierzyste.isBlokada() == false) {
-                    int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
-                    if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAO);
-                        noweKonto = new Konto();
-                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
-                        Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
-                    } else {
-                        noweKonto = new Konto();
-                        Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
-                    }
-                } else {
-                    Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
-                }
             }
         }
     }
@@ -489,7 +531,7 @@ public class PlanKontView implements Serializable {
         if (obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty()) {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
-                    PlanKontFKBean.porzadkujslowniki(p, kontoDAOfk, wpisView, wpisView.getRokWpisu());
+                    PlanKontFKBean.porzadkujslownikKontrahenci(p, kontoDAOfk, wpisView, wpisView.getRokWpisu());
                 } catch (Exception e) {
                     
                 }
