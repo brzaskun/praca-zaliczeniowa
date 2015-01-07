@@ -19,6 +19,7 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
+import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
@@ -1010,6 +1011,27 @@ public class FakturaView implements Serializable {
             }
             fakturywystokresoweDAO.edit(okresowe);
         }
+    }
+    
+    public void skopiujdoNowegoroku() {
+        for (Fakturywystokresowe stara : gosciwybralokres) {
+            Fakturywystokresowe p = SerialClone.clone(stara);
+            p.setRok(wpisView.getRokNastepnySt());
+            p.setM1(0);
+            p.setM2(0);
+            p.setM3(0);
+            p.setM4(0);
+            p.setM5(0);
+            p.setM6(0);
+            p.setM7(0);
+            p.setM8(0);
+            p.setM9(0);
+            p.setM10(0);
+            p.setM11(0);
+            p.setM12(0);
+            fakturywystokresoweDAO.dodaj(p);
+        }
+        Msg.msg("Skopiowano okresowe do nowego roku");
     }
 
     public void sumawartosciwybranych() {
