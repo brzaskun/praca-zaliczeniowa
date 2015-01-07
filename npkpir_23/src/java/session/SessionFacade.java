@@ -45,6 +45,7 @@ import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
+import entityfk.MiejsceKosztow;
 import entityfk.PozycjaRZiS;
 import entityfk.RMK;
 import entityfk.StronaWiersza;
@@ -1153,6 +1154,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    }
+
+    public List<MiejsceKosztow> findMiejscaKosztowPodatnik(Podatnik podatnik) {
+        return em.createNamedQuery("MiejsceKosztow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
   
 }
