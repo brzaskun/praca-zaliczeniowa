@@ -186,7 +186,7 @@ public class PlanKontFKBean {
     }
      
     private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (wykazkont.contains(nowe)) {
             return 1;
         } else {
