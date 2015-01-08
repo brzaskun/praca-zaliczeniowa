@@ -154,24 +154,6 @@ public class Zusstawki implements Serializable {
         if (!Objects.equals(this.zusstawkiPK, other.zusstawkiPK)) {
             return false;
         }
-        if (!Objects.equals(this.zus51ch, other.zus51ch)) {
-            return false;
-        }
-        if (!Objects.equals(this.zus51bch, other.zus51bch)) {
-            return false;
-        }
-        if (!Objects.equals(this.zus52, other.zus52)) {
-            return false;
-        }
-        if (!Objects.equals(this.zus52odl, other.zus52odl)) {
-            return false;
-        }
-        if (!Objects.equals(this.zus53, other.zus53)) {
-            return false;
-        }
-        if (!Objects.equals(this.pit4, other.pit4)) {
-            return false;
-        }
         return true;
     }
 
