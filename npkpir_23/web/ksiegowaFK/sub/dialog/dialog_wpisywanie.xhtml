@@ -85,7 +85,7 @@
                         <h:outputText value="rok"/>
                         <h:outputText value="miesiąc"/>
                         <h:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie');
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
                                                  $(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
@@ -95,7 +95,7 @@
                             <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                         <h:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie');
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
                                                  $(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
@@ -106,7 +106,7 @@
                             <p:ajax event="blur" partialSubmit="true"/>
                         </h:inputText>
                         <h:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie');
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
                                                  $(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
@@ -117,7 +117,7 @@
                             <p:ajax event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                         </h:inputText>
                         <h:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie');
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
                                                  $(this).removeClass('ui-state-focus');
                                                  $(this).addClass('ui-state-default');"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
