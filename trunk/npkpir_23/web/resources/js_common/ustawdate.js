@@ -52,7 +52,15 @@ function ustawDateSprzedazy(rok,mc){
    };
 
 function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
-    if (zapisz0edytuj1 === false) {
+    var coswpisanowpoledaty;
+    if (koncowkaadresu === "data1DialogWpisywanie") {
+        var adres = "formwpisdokument:data1DialogWpisywanie";
+        var dataWyst = document.getElementById(adres);
+        if (dataWyst.value !== "") {
+            coswpisanowpoledaty = true;
+        }
+    } 
+    if (zapisz0edytuj1 === false && coswpisanowpoledaty) {
         try {
             var adres = "formwpisdokument:"+koncowkaadresu;
             var dataWyst = document.getElementById(adres);

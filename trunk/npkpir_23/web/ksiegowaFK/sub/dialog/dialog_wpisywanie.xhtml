@@ -69,11 +69,12 @@
                     </script>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" modal="true" appendTo="@(body)"
-              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true" focus="formwpisdokument:data1DialogWpisywanie"
+              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true" focus=":formwpisdokument:data1DialogWpisywanie"
               >
         <p:ajax event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
+        <p:focus for="formwpisdokument">
         <h:form id="formwpisdokument" >
-            <p:focus id="focuselement"/>
+            
             <!--                nagłówek dokumentu-->
             <p:panelGrid id="panelzkwotami" columns="2" >
                 <p:panelGrid  columns="1"  >
@@ -454,6 +455,7 @@
             <p:commandButton id="vatRKhidden" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 150px; margin-left: 10px; display: none;" 
                              oncomplete="pokazewidencjevatRK();"/>
         </h:form>
+            </p:focus>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
