@@ -98,6 +98,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
               Msg.msg("e","Nie wprowadzono stawek. Nie można zachować miesiąca");
             }
         } catch (Exception e) {
+            Msg.msg("e","Wystąpił nieokreślony błąd podczas dodawania stawek. "+e.getMessage());
         }
     }
       
