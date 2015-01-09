@@ -626,7 +626,8 @@ public class FakturaView implements Serializable {
                 RequestContext.getCurrentInstance().update("akordeon:formstworz");
             } else {
                 if (rozpoznaj == 0) {
-                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona();
+                    int maxindex = selected.getKontrahent().getNskrocona().length() > 4 ? 4 : selected.getKontrahent().getNskrocona().length();
+                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona().substring(0, maxindex);
                     selected.getFakturaPK().setNumerkolejny(numer);
                     Msg.msg("i", "Generuje nową serie numerów faktury");
                 } else {
