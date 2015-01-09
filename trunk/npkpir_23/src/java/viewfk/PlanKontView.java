@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
@@ -188,17 +189,10 @@ public class PlanKontView implements Serializable {
     
     public void dodajslownik() {
         TreeNodeExtended<Konto> r;
-        String podatnik;
-        if (czyoddacdowzorca == true) {
-            r = rootwzorcowy;
-            podatnik = "Wzorcowy";
-        } else {
-            r = root;
-            podatnik = wpisView.getPodatnikWpisu();
-        }
+        r = root;
         Konto kontomacierzyste = (Konto) selectednode.getData();
         List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
-        if (kontapodpiete != null || kontapodpiete.size() > 0) {
+        if (kontapodpiete.size() > 0) {
             Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
             //jezeli to nie slownik to wyrzuca blad i dodaje analityke
@@ -223,7 +217,7 @@ public class PlanKontView implements Serializable {
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika kontrahentów");
                     }
-                } else if (noweKonto.getNrkonta().equals("miejsce")) {
+                } else if (noweKonto.getNrkonta().equals("miejs")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
                     int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
@@ -444,6 +438,7 @@ public class PlanKontView implements Serializable {
                         }
                     }
                     PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, wpisView);
+                    RequestContext.getCurrentInstance().update("form");
                     Msg.msg("i", "Usuwam konto", "formX:messages");
                 } catch (Exception e) {
                     Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");

@@ -37,27 +37,30 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejsceKosztow.findById", query = "SELECT m FROM MiejsceKosztow m WHERE m.id = :id"),
     @NamedQuery(name = "MiejsceKosztow.findByAktywny", query = "SELECT m FROM MiejsceKosztow m WHERE m.aktywny = :aktywny"),
     @NamedQuery(name = "MiejsceKosztow.findByOpismiejsca", query = "SELECT m FROM MiejsceKosztow m WHERE m.opismiejsca = :opismiejsca"),
-    @NamedQuery(name = "MiejsceKosztow.findByPodatnik", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik")
+    @NamedQuery(name = "MiejsceKosztow.findByPodatnik", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik"),
+    @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik")
 })
 public class MiejsceKosztow implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "aktywny", nullable = false)
     private boolean aktywny;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Column(name = "opismiejsca", nullable = false, length = 255)
     private String opismiejsca;
-    @JoinColumn(name = "KONTO_id", referencedColumnName = "id")
-    @ManyToOne
-    private Konto kONTOid;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
+    @Column(name = "opisskrocony", nullable = false, length = 255)
+    private String opisskrocony;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
@@ -78,6 +81,11 @@ public class MiejsceKosztow implements Serializable {
         this.id = id;
         this.aktywny = aktywny;
         this.opismiejsca = opismiejsca;
+    }
+    
+    public void uzupelnij(Podatnik podatnik, String numer) {
+        this.podatnikObj = podatnik;
+        this.nrkonta = numer;
     }
 
     public Integer getId() {
@@ -112,14 +120,6 @@ public class MiejsceKosztow implements Serializable {
         this.podatnikObj = podatnikObj;
     }
 
-    public Konto getkONTOid() {
-        return kONTOid;
-    }
-
-    public void setkONTOid(Konto kONTOid) {
-        this.kONTOid = kONTOid;
-    }
-
     public String getNrkonta() {
         return nrkonta;
     }
@@ -127,6 +127,15 @@ public class MiejsceKosztow implements Serializable {
     public void setNrkonta(String nrkonta) {
         this.nrkonta = nrkonta;
     }
+
+    public String getOpisskrocony() {
+        return opisskrocony;
+    }
+
+    public void setOpisskrocony(String opisskrocony) {
+        this.opisskrocony = opisskrocony;
+    }
+    
     
     
 
@@ -152,9 +161,9 @@ public class MiejsceKosztow implements Serializable {
 
     @Override
     public String toString() {
-        return "MiejsceKosztow{" + "id=" + id + ", opismiejsca=" + opismiejsca + ", kONTOid=" + kONTOid + ", podatnikObj=" + podatnikObj + '}';
+        return "MiejsceKosztow{" + "id=" + id + ", aktywny=" + aktywny + ", opismiejsca=" + opismiejsca + ", podatnikObj=" + podatnikObj + ", nrkonta=" + nrkonta + '}';
     }
 
-   
+  
     
 }

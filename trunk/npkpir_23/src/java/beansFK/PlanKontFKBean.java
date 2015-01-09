@@ -134,18 +134,20 @@ public class PlanKontFKBean {
     }
     
     public static int dodajelementyslownikaMiejscaKosztow(Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejsceKosztowDAO miejsceKosztowDAO, WpisView wpisView) {
-        List<MiejsceKosztow> listamiejsckosztow = miejsceKosztowDAO.findMiejscaKosztowPodatnik(wpisView.getPodatnikObiekt());
+        List<MiejsceKosztow> listamiejsckosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         if (listamiejsckosztow != null) {
             for (MiejsceKosztow p : listamiejsckosztow) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p.getOpismiejsca());
-                nowekonto.setNazwaskrocona(p.getOpismiejsca());
+                nowekonto.setNazwaskrocona(p.getOpisskrocony());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                p.setAktywny(true);
+                miejsceKosztowDAO.edit(p);
             }
             return 0;
         } else {

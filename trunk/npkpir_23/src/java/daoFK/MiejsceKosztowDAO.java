@@ -36,7 +36,16 @@ public class MiejsceKosztowDAO extends DAO implements Serializable{
         super(entityClass);
     }
     
-    public List<MiejsceKosztow> findMiejscaKosztowPodatnik(Podatnik podatnik) {
-        return sessionFacade.findMiejscaKosztowPodatnik(podatnik);
+
+    public List<MiejsceKosztow> findAll() {
+        return sessionFacade.findAll(MiejsceKosztow.class);
+    }
+
+    public List<MiejsceKosztow> findMiejscaPodatnik(Podatnik podatnikObiekt) {
+        return sessionFacade.findMiejscaPodatnik(podatnikObiekt);
+    }
+
+    public int countMiejscaKosztow(Podatnik podatnikObiekt) {
+        return (int) sessionFacade.countMiejscaKosztow(podatnikObiekt);
     }
 }
