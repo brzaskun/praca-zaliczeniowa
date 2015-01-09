@@ -190,9 +190,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private boolean maslownik;
     @OneToMany(mappedBy = "konto")
     private List<StronaWiersza> stronaWiersza;
-	@OneToMany(mappedBy = "kONTOid")
-    private List<MiejsceKosztow> miejsceKosztowList;
-    
+
 
     public Konto() {
         this.slownikowe = false;
@@ -462,17 +460,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setSaldoMa(double saldoMa) {
         this.saldoMa = saldoMa;
     }
-    
-    @XmlTransient
-    public List<MiejsceKosztow> getMiejsceKosztowList() {
-        return miejsceKosztowList;
-    }
-
-    public void setMiejsceKosztowList(List<MiejsceKosztow> miejsceKosztowList) {
-        this.miejsceKosztowList = miejsceKosztowList;
-    }
-    
-    
+       
 
     @Override
     public int hashCode() {

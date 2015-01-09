@@ -1156,8 +1156,14 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }
 
-    public List<MiejsceKosztow> findMiejscaKosztowPodatnik(Podatnik podatnik) {
+    public List<MiejsceKosztow> findMiejscaPodatnik(Podatnik podatnik) {
         return em.createNamedQuery("MiejsceKosztow.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+
+    public long countMiejscaKosztow(Podatnik podatnikObiekt) {
+        return (long) em.createNamedQuery("MiejsceKosztow.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
+    }
+
+    
   
 }

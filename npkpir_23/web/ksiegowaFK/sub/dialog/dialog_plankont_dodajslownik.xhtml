@@ -8,13 +8,13 @@
     <p:dialog header="Wybierz słownik jako analitykę:" widgetVar="nowekontoslownik" resizable="false">  
         <h:form id="dialog_plankont_dodajslownik">  
         <p:focus for="wybierzslownik">
-            <p:selectOneMenu id="wybierzslownik" value="#{planKontView.noweKonto.nrkonta}">
+            <p:selectOneMenu id="wybierzslownik" value="#{planKontView.noweKonto.nrkonta}" style="width: 150px;">
                 <f:selectItem itemValue="kontr" itemLabel="Kontrahenci"/>
-                <f:selectItem itemValue="miejsce" itemLabel="Miejsca kosztów"/>
+                <f:selectItem itemValue="miejs" itemLabel="Miejsca kosztów"/>
             </p:selectOneMenu>
             <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                 <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" accesskey="d" type="submit" 
-                                         update=":formY, :form" style="float: right;" oncomplete="PF('nowekontoslownik').hide();"/>
+                                         update=":formY, :form" style="float: right; width: 120px;" oncomplete="PF('nowekontoslownik').hide();"  />
             </p:panelGrid>
             </p:focus>
     </h:form>  
