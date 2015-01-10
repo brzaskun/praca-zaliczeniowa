@@ -11,13 +11,13 @@ var sprawdzczybrakklienta = function () {
 };
 
 var skopiujdanenowegoklientafk = function () {
-    var szukana = document.getElementById('formX:nazwaPole').value;
+    var szukana = document.getElementById('formXNowyKlient:nazwaPole').value;
     PF('dlgwprowadzanieklienta').hide();
     try {
         if ($("#dialog_kliencifk_dolaczanie").hasClass('ui-overlay-visible')){
             var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
-            $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formX:nazwaPole').value);
-            $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#kliencifk\\:wyborkontrahenta_input').focus();
             $('#kliencifk\\:wyborkontrahenta_input').select();
             PF('dialogklient').search(szukana);
@@ -27,8 +27,8 @@ var skopiujdanenowegoklientafk = function () {
     try {
         if ($("#dialogpierwszy").hasClass('ui-overlay-visible')){
             var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
-            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formX:nazwaPole').value);
-            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#formwpisdokument\\:acForce_input').focus();
             $('#formwpisdokument\\:acForce_input').select();
             PF('poleklientawpisywaniefk').search(szukana);
@@ -38,8 +38,8 @@ var skopiujdanenowegoklientafk = function () {
     try {
         if ($("#dialogewidencjavatRK").hasClass('ui-overlay-visible')){
             var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
-            $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formX:nazwaPole').value);
-            $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formX:nazwaPole').value);
+            $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#ewidencjavatRK\\:klientRK_input').focus();
             $('#ewidencjavatRK\\:klientRK_input').select();
             PF('poleklientawpisywaniefkRK').search(szukana);
