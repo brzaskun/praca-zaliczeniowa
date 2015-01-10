@@ -6,19 +6,23 @@
 
 package viewfk;
 
+import beansFK.MiejsceKosztowBean;
+import dao.StronaWierszaDAO;
+import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
+import embeddablefk.MiejsceKosztowZest;
+import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.security.auth.message.callback.PrivateKeyCallback;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
-import serialclone.SerialClone;
 import view.WpisView;
 
 /**
@@ -37,6 +41,11 @@ public class MiejsceKosztowView  implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
+    private Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow;
 
     public MiejsceKosztowView() {
     }
@@ -44,6 +53,15 @@ public class MiejsceKosztowView  implements Serializable{
     @PostConstruct
     private void init() {
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        listasummiejsckosztow = new HashMap<>();
+        obliczsumymiejsc();
+    }
+    
+    public void obliczsumymiejsc() {
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 2);
+        for (MiejsceKosztow p : miejscakosztow) {
+            MiejsceKosztowBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow);
+        }
     }
 
     public void dodaj() {
@@ -114,4 +132,13 @@ public class MiejsceKosztowView  implements Serializable{
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
+    public Map<MiejsceKosztow, List<MiejsceKosztowZest>> getListasummiejsckosztow() {
+        return listasummiejsckosztow;
+    }
+
+    public void setListasummiejsckosztow(Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow) {
+        this.listasummiejsckosztow = listasummiejsckosztow;
+    }
+
+    
 }

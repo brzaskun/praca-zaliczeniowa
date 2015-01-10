@@ -8,6 +8,7 @@ package dao;
 
 import entity.Podatnik;
 import entityfk.Konto;
+import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
@@ -68,6 +69,14 @@ public class StronaWierszaDAO extends DAO implements Serializable {
     public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
         return sessionFacade.findStronaByPodatnikKontoRokWaluta(podatnik, konto, rok, skrotWaluty);
     }
+    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty, MiejsceKosztow p) {
+        return sessionFacade.findStronaByPodatnikKontoMacierzysteRokWaluta(podatnik, konto, rok, skrotWaluty,p);
+    }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWaluta(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, MiejsceKosztow p) {
+        return sessionFacade.findStronaByPodatnikKontoMacierzysteMcWaluta(podatnik, konto, mc, skrotWaluty,p);
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return sessionFacade.findStronaByPodatnikKontoRokWalutaWszystkie(podatnik, konto, rok);
     }
