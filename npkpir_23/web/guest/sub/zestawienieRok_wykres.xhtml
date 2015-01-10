@@ -12,10 +12,9 @@
                 };
             }
         </script>-->
-        <p:lineChart value="#{ZestawienieView.linearModel}" legendPosition="e" zoom="true" breakOnNull="true" xaxisLabel="miesiące" yaxisLabel="kwota"
-                     title="Zestawienie za rok" minY="#{ZestawienieView.minliczbadowykresu}" maxY="#{ZestawienieView.maxliczbadowykresu}" style="width:1000px; height: 600px;" 
-                     shadow="true" id="chart" animate="true"
-                     /> 
+      <p:chart type="line" model="#{ZestawienieView.linearModel}" 
+                     style="width:1000px; height: 600px;" 
+                     id="chart"  rendered="#{WpisView.ksiegaryczalt}"/> 
        
     </p:tab>
 </ui:composition>   

@@ -284,7 +284,7 @@ public class KlView implements Serializable{
     
      public void poszukajDuplikatNipWTrakcie() throws Exception {
          String nippoczatkowy = (String) Params.params("formX:nipPole");
-         if(!nippoczatkowy.equals("0000000000")){
+         if(!nippoczatkowy.equals("0000000000") && !nippoczatkowy.equals("")){
          List<String> kliencitmp  = klDAO.findNIP();
          if (!kliencitmp.isEmpty()) {
              if (kliencitmp.contains(nippoczatkowy)) {
