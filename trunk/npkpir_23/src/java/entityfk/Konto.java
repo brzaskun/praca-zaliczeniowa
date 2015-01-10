@@ -55,7 +55,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByBilansowewynikowe", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.findByBilansowewynikowePodatnik", query = "SELECT k FROM Konto k WHERE k.bilansowewynikowe = :bilansowewynikowe AND k.podatnik = :podatnik AND k.mapotomkow = false AND k.nrkonta != 0"),
     @NamedQuery(name = "Konto.findByZwyklerozrachszczegolne", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne"),
-    @NamedQuery(name = "Konto.findByRozrachunkowePodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik  AND k.nrkonta != 0 AND k.maslownik = true"),
+    @NamedQuery(name = "Konto.findByRozrachunkowePodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik  AND k.nrkonta != 0 AND k.idslownika = 1"),
     @NamedQuery(name = "Konto.findByRozrachunkiPodatnikWszystkie", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = 'rozrachunkowe' AND k.podatnik = :podatnik  AND k.nrkonta != 0"),
     @NamedQuery(name = "Konto.findByVATPodatnik", query = "SELECT k FROM Konto k WHERE k.zwyklerozrachszczegolne = :zwyklerozrachszczegolne AND k.podatnik = :podatnik AND k.mapotomkow = false AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findBySrodkiTrwPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.rok = :rok AND  k.mapotomkow = false AND k.pelnynumer LIKE '010%'"),
@@ -78,7 +78,7 @@ import session.SessionFacade;
     @NamedQuery(name = "Konto.findByMapotomkowMaSlownik", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0'"),
     @NamedQuery(name = "Konto.findByMapotomkowMaSlownikPodatnik", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0' AND k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMapotomkowMaSlownikPodatnik5", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow AND k.nrkonta != '0' AND k.podatnik = :podatnik AND k.pelnynumer LIKE '5%'"),
-    @NamedQuery(name = "Konto.findByMaSlownik", query = "SELECT k FROM Konto k WHERE k.maslownik = :maslownik  AND k.podatnik = :podatnik"),
+    @NamedQuery(name = "Konto.findByMaSlownik", query = "SELECT k FROM Konto k WHERE k.idslownika = :idslownika  AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin"),
     @NamedQuery(name = "Konto.updateMapotomkow", query = "UPDATE Konto k SET k.mapotomkow = '0' WHERE k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%'"),
@@ -186,15 +186,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Column(name = "slownikowe")
     private boolean slownikowe;
     @Basic(optional = false)
-    @Column(name = "maslownik")
-    private boolean maslownik;
+    @Column(name = "idslownika")
+    private int idslownika;
     @OneToMany(mappedBy = "konto")
     private List<StronaWiersza> stronaWiersza;
 
 
     public Konto() {
         this.slownikowe = false;
-        this.maslownik = false;
+        this.idslownika = 0;
     }
 
     public Konto(Integer id) {
@@ -219,7 +219,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boWn = 0.0;
         this.boMa = 0.0;
         this.slownikowe = false;
-        this.maslownik = false;
+        this.idslownika = 0;
     }   
     
     public void getAllChildren(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
@@ -375,7 +375,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.rok = rok;
     }
 
-   
+    public int getIdslownika() {
+        return idslownika;
+    }
+
+    public void setIdslownika(int idslownika) {
+        this.idslownika = idslownika;
+    }
 
 
     public double getBoWn() {
@@ -411,15 +417,6 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setSlownikowe(boolean slownikowe) {
         this.slownikowe = slownikowe;
     }
-
-    public boolean isMaslownik() {
-        return maslownik;
-    }
-
-    public void setMaslownik(boolean maslownik) {
-        this.maslownik = maslownik;
-    }
-
   
     public List<StronaWiersza> getStronaWiersza() {
         return stronaWiersza;

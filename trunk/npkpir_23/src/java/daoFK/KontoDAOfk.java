@@ -250,9 +250,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
     }
     
-    public List<Konto> findKontaMaSlownik(String podatnik) {
+    public List<Konto> findKontaMaSlownik(String podatnik, int idslownika) {
         try {
-            return kontoFacade.findKontaMaSlownik(podatnik);
+            return kontoFacade.findKontaMaSlownik(podatnik, idslownika);
         } catch (Exception e) {
             return null;
         } 
@@ -286,7 +286,7 @@ public class KontoDAOfk extends DAO implements Serializable{
 
     public List<Konto> findListaKontRozrachunkowych(String podatnik) {
          try {
-            return kontoFacade.findKontaMaSlownik(podatnik);
+            return kontoFacade.findKontaMaSlownik(podatnik, 1);
         } catch (Exception e) {
             return null;
         } 
