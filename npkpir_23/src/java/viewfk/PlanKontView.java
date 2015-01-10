@@ -14,6 +14,7 @@ import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import entityfk.MiejsceKosztow;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -202,7 +203,7 @@ public class PlanKontView implements Serializable {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
                     int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(noweKonto, kontomacierzyste, kontoDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 1);
                         Msg.msg("i", "Dodaje słownik kontrahentów", "formX:messages");
                     } else {
                         noweKonto = new Konto();
@@ -221,7 +222,7 @@ public class PlanKontView implements Serializable {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
                     int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
                         Msg.msg("i", "Dodaje słownik miejsc powstawania kosztów", "formX:messages");
                     } else {
                         noweKonto = new Konto();
@@ -409,19 +410,19 @@ public class PlanKontView implements Serializable {
         if (selectednode != null) {
             Konto kontoDoUsuniecia = (Konto) selectednode.getData();
             if (kontoDoUsuniecia.isBlokada() == true) {
-                Msg.msg("e", "Na koncie istnieją zapisy. Nie można go usunąć");
-            } else if (kontoDoUsuniecia.isMapotomkow() == true) {
+                Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
+            } else if (kontoDoUsuniecia.isMapotomkow() == true && !kontoDoUsuniecia.getNrkonta().equals("0")) {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 try {
                     kontoDAO.destroy(kontoDoUsuniecia);
-                    if (kontoDoUsuniecia.getNazwapelna().equals("Słownik kontrahenci")) {
+                    if (kontoDoUsuniecia.getNrkonta().equals("0")) {
                         int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAO, podatnik);
                         if (wynik == 0) {
                             Konto kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
                             kontomacierzyste.setMapotomkow(false);
-                            kontomacierzyste.setMaslownik(false);
+                            kontomacierzyste.setIdslownika(0);
                             kontoDAO.edit(kontomacierzyste);
                             Msg.msg("Usunięto elementy słownika");
                         } else {
@@ -523,18 +524,32 @@ public class PlanKontView implements Serializable {
     
      public void porzadkujSlowniki() {
         List<Kliencifk> obecniprzyporzadkowaniklienci = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
-        if (obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty()) {
+        boolean sakliencifk = obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty();
+        if (sakliencifk) {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
-                    PlanKontFKBean.porzadkujslownikKontrahenci(p, kontoDAOfk, wpisView, wpisView.getRokWpisu());
+                    PlanKontFKBean.porzadkujslownikKontrahenci(p, kontoDAOfk, wpisView);
                 } catch (Exception e) {
                     
                 }
             }
+        }
+        List<MiejsceKosztow> miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        boolean samiejscakosztow = miejscakosztow != null && !miejscakosztow.isEmpty();
+        if (samiejscakosztow) {
+            for (MiejsceKosztow r : miejscakosztow) {
+                try {
+                    PlanKontFKBean.porzadkujslownikMiejscaKosztow(r, kontoDAOfk, wpisView);
+                } catch (Exception e1) {
+                    
+                }
+            }
+        }
+        if (sakliencifk || samiejscakosztow) {
             wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            root = rootInit(wykazkont);
-            rozwinwszystkie(root);
-            Msg.msg("Zakonczono aktualizowanie słowników");
+                root = rootInit(wykazkont);
+                rozwinwszystkie(root);
+                Msg.msg("Zakonczono aktualizowanie słowników");
         }
     }
 

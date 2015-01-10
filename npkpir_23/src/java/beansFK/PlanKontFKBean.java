@@ -157,7 +157,7 @@ public class PlanKontFKBean {
     
     
     public static int aktualizujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu());
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 1);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(kliencifk.getNazwa());
@@ -172,8 +172,8 @@ public class PlanKontFKBean {
         return 0;
     }
     
-    public static void porzadkujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView, Integer rok) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu());
+    public static void porzadkujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 1);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
             nowekonto.setNazwapelna(kliencifk.getNazwa());
@@ -181,6 +181,18 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+        }
+    }
+    
+    public static void porzadkujslownikMiejscaKosztow(MiejsceKosztow r, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(),2);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(r.getOpismiejsca());
+            nowekonto.setNazwaskrocona(r.getOpisskrocony());
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, p.getNrkonta(), wpisView);
         }
     }
             
@@ -196,10 +208,10 @@ public class PlanKontFKBean {
         }
     }
     
-    public static void zablokujKontoMacierzysteSlownik(Konto macierzyste, KontoDAOfk kontoDAOfk) {
+    public static void zablokujKontoMacierzysteSlownik(Konto macierzyste, KontoDAOfk kontoDAOfk, int idslownika) {
         macierzyste.setBlokada(true);
         macierzyste.setMapotomkow(true);
-        macierzyste.setMaslownik(true);
+        macierzyste.setIdslownika(idslownika);
         kontoDAOfk.edit(macierzyste);
     }
     
@@ -266,4 +278,8 @@ public class PlanKontFKBean {
         kontapotomne.remove(doUsuniecia);
         return !kontapotomne.isEmpty();
     }
+
+    
+
+    
 }
