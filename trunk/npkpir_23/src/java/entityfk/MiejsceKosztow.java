@@ -161,7 +161,7 @@ public class MiejsceKosztow implements Serializable {
 
     @Override
     public String toString() {
-        return "MiejsceKosztow{" + "id=" + id + ", aktywny=" + aktywny + ", opismiejsca=" + opismiejsca + ", podatnikObj=" + podatnikObj + ", nrkonta=" + nrkonta + '}';
+        return opismiejsca;
     }
 
   

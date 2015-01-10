@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menuzapisykont" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
-                <p:tab title="konta">
+                <p:tab title="konta indywidualne">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                             <p:menuitem value="Obroty konta" onclick="PF('obrotynakoncie').show();"></p:menuitem>
@@ -20,6 +20,13 @@
                             <p:menuitem value="zapisy na kontach w m-cu" onclick="PF('zapisynakontachwmcu').show();"></p:menuitem>
                             <p:menuitem value="salda analityczne" onclick="PF('saldakontanalitycznych').show();"></p:menuitem>
                             <p:menuitem value="salda analityczne narastajaco" onclick="PF('saldakontanalitycznychnarastajaco').show();"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>
+                <p:tab title="miejsca pow. kosz.">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="zestawienie miesięczne" onclick="PF('zapisymiejscakosztowwmcu').show();"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  

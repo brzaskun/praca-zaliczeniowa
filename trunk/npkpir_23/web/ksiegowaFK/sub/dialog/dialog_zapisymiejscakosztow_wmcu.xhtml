@@ -1,0 +1,118 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+<!--    <style>
+        .ui-widget-content .ui-datatable-odd td{
+            height : 20px !important;
+            padding: 0px 1px  !important;
+        }
+        .ui-widget-content .ui-datatable-even td{
+            height : 20px !important;
+            padding: 0px 1px  !important;
+        }
+        .tabelazapisymiejscakosztowwmcu .ui-datatable-even td {
+            height : 30px !important;
+            padding: 0px 0px !important;
+        }
+        .tabelazapisymiejscakosztowwmcu .ui-datatable-odd td {
+            height : 30px !important;
+            padding: 0px 0px !important;
+        }
+    </style>-->
+<!--    <script>
+        /* <![CDATA[ */
+        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+        $(document).on("click", '.tabelazapisymiejscakosztowwmcu tr', function(e) {
+            var pierwszywiersz = $("#formzapisymiejscakosztowwmcu\\:tabelazapisymiejscakosztowwmcu_data").children("tr");
+            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
+            try {
+                e.stopPropagation(); // will prevent double click events from link being clicked within row
+                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
+                var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
+            } catch (e) {
+                //alert('error');
+            }
+        });
+        /* ]]> */
+    </script>-->
+
+    <bcf:ajaxs/>
+    <p:dialog id="zapisymiejscakosztowwmcu" header="Zapisy na kontach w miesiącu" widgetVar="zapisymiejscakosztowwmcu"  maximizable="true"  dynamic="true"
+              resizable="true" onShow="ustawdialog('zapisymiejscakosztowwmcu','menuzapisykont',1350,750);" onHide="resetujdialog('zapisymiejscakosztowwmcu');"  closeOnEscape="true" 
+              >
+        <h:form id="formzapisymiejscakosztowwmcu">
+            <p:panelGrid columns="4" style="margin-left: 2%;" >
+                <!--            <p:column>
+                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                    <f:param name="rokWpisu" value="2012" />
+                                </p:selectOneMenu>
+                            </p:column>-->
+                <p:column>
+                    <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" update="@form"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:panelGrid>
+            <p:tabView>
+            <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
+                <p:tab  title="#{miejsceKosztowView.listasummiejsckosztow.keySet().toArray()[numer.index]}">
+                    <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
+                          emptyMessage="Nie ma zapisów na koncie"
+                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 500px; width: 800px;" 
+                                 >
+                        <p:column width="20">
+                            <p:rowToggler/>
+                        </p:column>
+                        <p:column headerText="nazwa konta" width="250">
+                            <h:outputText value="#{loop.konto.nazwapelna}"/>
+                        </p:column>
+                        <p:column headerText="numer konta">
+                            <h:outputText value="#{loop.konto.pelnynumer}"/>
+                        </p:column>
+                        <p:column headerText="suma">
+                            <bcf:outputpl value="#{loop.sumaokres}"/>
+                        </p:column>
+                        <p:column headerText="suma narast.">
+                            <bcf:outputpl value="#{loop.sumanarastajaco}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <p:dataTable value="#{loop.stronywiersza}" var="loopik">
+                                <p:column headerText="dokument" width="60">
+                                    <h:outputText value="#{loopik.dokfkS}"/>
+                                </p:column>
+                                <p:column headerText="data" width="50">
+                                    <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                                </p:column>
+                                <p:column headerText="nr" width="50">
+                                    <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                                </p:column>
+                                <p:column headerText="kontrahent">
+                                    <h:outputText value="#{loopik.dokfk.kontr.npelna}"/>
+                                </p:column>
+                                <p:column headerText="wiersz">
+                                    <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                                </p:column>
+                                <p:column headerText="kwota">
+                                    <bcf:outputpl value="#{loopik.kwota}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
+                    </p:dataTable>
+                        </p:tab>
+            </c:forEach>
+                </p:tabView>
+        </h:form>
+       
+    </p:dialog>
+</ui:composition>
+

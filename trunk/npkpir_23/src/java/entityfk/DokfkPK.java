@@ -120,6 +120,9 @@ public class DokfkPK implements Serializable {
         return "seriadokfk: " + seriadokfk + ", nrkolejnywserii: " + nrkolejnywserii + ", podatnik: " + podatnik + ", rok: " + rok +" ";
     }
 
+    public String toString2() {
+        return seriadokfk + "/" + nrkolejnywserii + "/" + rok;
+    }
     
 
     
