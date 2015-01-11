@@ -28,7 +28,7 @@
             </p:panel>
             <p:dataTable id="dokumentyLista" value="#{fakturaView.faktury}" var="wpis" rowIndexVar="row" filteredValue="#{fakturaView.fakturyFiltered}"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="dokTableFaktury" rowSelectMode="add" style="max-width: 1200px;"
-                         sortBy="#{wpis.kontrahent.npelna}">
+                         sortBy="#{wpis.kontrahent.npelna}" emptyMessage="Nie sporządzono faktur w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wygenerowancyh faktur: " />  
                     <h:outputText value="- wyszukiwanie: " />  
