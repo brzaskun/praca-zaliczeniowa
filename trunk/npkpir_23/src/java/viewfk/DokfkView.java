@@ -160,6 +160,7 @@ private static final long serialVersionUID = 1L;
     @Inject private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
     private StronaWiersza stronaWierszaCechy;
+    private List<Dokfk> filteredValue;
     
 
     public DokfkView() {
@@ -1573,6 +1574,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dousuniecia));
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+            if (filteredValue != null) {
+                filteredValue.remove(dousuniecia);
+            }
             resetujDokument();
             RequestContext.getCurrentInstance().update("formwpisdokument");
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
@@ -2819,6 +2823,14 @@ public void updatenetto(EVatwpisFK e, String form) {
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     
+    public List<Dokfk> getFilteredValue() {
+        return filteredValue;
+    }
+
+    public void setFilteredValue(List<Dokfk> filteredValue) {
+        this.filteredValue = filteredValue;
+    }
+
     public StronaWiersza getStronaWierszaCechy() {
         return stronaWierszaCechy;
     }

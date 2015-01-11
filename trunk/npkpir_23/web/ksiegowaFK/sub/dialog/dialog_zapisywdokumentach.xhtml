@@ -15,7 +15,7 @@
             </p:contextMenu>
             <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1200px;" widgetVar="dokwpisTable"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" >
-                <p:ajax event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}"/>
+                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
