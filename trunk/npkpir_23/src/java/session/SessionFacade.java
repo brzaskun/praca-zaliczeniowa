@@ -655,6 +655,10 @@ public class SessionFacade<T> implements Serializable{
         }
     }
     
+    public Dokfk findDokfkObject(Dokfk selected) {
+        return em.find(Dokfk.class, selected.getDokfkPK());
+    }
+    
     public Dokfk findDokfkKontrahent(Dokfk selected) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
