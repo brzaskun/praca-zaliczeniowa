@@ -57,11 +57,11 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
-                         style="width: 1250px; height: 580px; overflow-y: scroll" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
-
+                <p:ajax event="filter" global="false"/>
                 <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
@@ -74,7 +74,7 @@
                 <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
-                <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{wpis.numer}" filterMatchMode="contains" >
+                <p:column headerText="numer" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="opis" width="110" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >

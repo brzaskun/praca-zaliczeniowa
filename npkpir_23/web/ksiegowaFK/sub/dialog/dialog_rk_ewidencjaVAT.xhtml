@@ -23,7 +23,7 @@
                              onfocus="$(this).removeClass('ui-state-default');
                                              $(this).addClass('ui-state-focus');" style="height: 19px;"
                              >
-                    <p:ajax event="blur" partialSubmit="true" />
+                    <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
                 <h:inputText id="data2DialogVAT" value="#{dokfkView.ewidencjaVatRK.dataoperacji}" 
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogVAT');
@@ -34,7 +34,7 @@
                              onfocus="$(this).removeClass('ui-state-default');
                                              $(this).addClass('ui-state-focus');" style="height: 19px;"
                              >
-                    <p:ajax event="blur" partialSubmit="true" />
+                    <p:ajax global="false" event="blur" partialSubmit="true" />
                 </h:inputText>
 
                 <p:autoComplete id="klientRK" value="#{dokfkView.ewidencjaVatRK.klient}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefkRK"
@@ -78,13 +78,13 @@
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right; height: 19px;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                    <p:ajax event="change" listener="#{dokfkView.updatenettoRK()}" />
+                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" />
                 </pe:inputNumber>
                 <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                    <p:ajax event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />
+                    <p:ajax global="false" event="change" listener="#{dokfkView.updatevatRK()}"  partialSubmit="true" />
                 </pe:inputNumber>
                 <pe:inputNumber id="brutto" value="#{dokfkView.ewidencjaVatRK.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                 style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto" 

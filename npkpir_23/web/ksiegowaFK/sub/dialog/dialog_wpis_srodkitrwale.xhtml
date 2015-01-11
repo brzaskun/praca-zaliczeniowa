@@ -37,7 +37,7 @@
                             <h:outputText id="klumna1" value="#{pa.symbol}" /> 
                         </h:panelGrid>
                     </f:facet>
-                    <p:ajax event="itemSelect" listener="#{srodkiTrwaleView.skopiujSTR}"/>
+                    <p:ajax global="false" event="itemSelect" listener="#{srodkiTrwaleView.skopiujSTR}"/>
                 </p:autoComplete>
             </p:panel><!--
 -->            <p:panel id="nowypanelsrodki" >
