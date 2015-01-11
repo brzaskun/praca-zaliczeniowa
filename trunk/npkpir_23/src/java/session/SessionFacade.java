@@ -645,7 +645,8 @@ public class SessionFacade<T> implements Serializable{
 
     public Dokfk findDokfk(Dokfk selected) {
         try {
-            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikat").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikat")
+                    .setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
                     .setParameter("rok", selected.getDokfkPK().getRok())
                     .setParameter("podatnikObj", selected.getPodatnikObj())
                     .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())
@@ -661,7 +662,8 @@ public class SessionFacade<T> implements Serializable{
     
     public Dokfk findDokfkKontrahent(Dokfk selected) {
         try {
-            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent").setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
+            return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent")
+                    .setParameter("seriadokfk", selected.getDokfkPK().getSeriadokfk())
                     .setParameter("rok", selected.getDokfkPK().getRok())
                     .setParameter("podatnikObj", selected.getPodatnikObj())
                     .setParameter("numerwlasnydokfk", selected.getNumerwlasnydokfk())

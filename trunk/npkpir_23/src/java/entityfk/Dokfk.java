@@ -44,7 +44,7 @@ import viewfk.subroutines.ObslugaWiersza;
 @Cacheable(false)
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"numerwlasnydokfk", "podatnikObj", "rok", "seriadokfk"})
+    @UniqueConstraint(columnNames = {"numerwlasnydokfk", "podatnikObj", "rok", "seriadokfk", "kontr"})
 })
 @XmlRootElement
 @NamedQueries({
