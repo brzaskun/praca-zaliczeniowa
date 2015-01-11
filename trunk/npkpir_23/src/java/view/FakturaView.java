@@ -242,6 +242,11 @@ public class FakturaView implements Serializable {
         selected.setMc(wpisView.getMiesiacWpisu());
         try {
             fakturaDAO.edit(selected);
+            if (selected.isWygenerowanaautomatycznie() == true) {
+                   zaktualizujokresowa(selected);
+                   selected.setWygenerowanaautomatycznie(false);
+            }
+            fakturaDAO.edit(selected);
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
@@ -264,7 +269,12 @@ public class FakturaView implements Serializable {
             } catch (Exception es) {
                 selected.setNrkontabankowego("");
             }
+            fakturaDAO.edit(selected);
             selected.setWystawca(podatnikobiekt);
+            if (selected.isWygenerowanaautomatycznie() == true) {
+                   zaktualizujokresowa(selected);
+                   selected.setWygenerowanaautomatycznie(false);
+            }
             fakturaDAO.edit(selected);
             init();
             Msg.msg("i", "Dokonano edycji faktury.");
@@ -436,6 +446,9 @@ public class FakturaView implements Serializable {
                 if (fakturyFiltered != null) {
                     fakturyFiltered.remove(p);
                 }
+                if (p.isWygenerowanaautomatycznie() == true) {
+                    zaktualizujokresowa(p);
+                }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
             } catch (Exception e) {
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
@@ -480,7 +493,7 @@ public class FakturaView implements Serializable {
         Double brutto = nowa.getBrutto();
         Podatnik wystawca = nowa.getWystawca();
         String rok = nowa.getRok();
-        Fakturywystokresowe fakturaokresowa = fakturywystokresoweDAO.findOkresowa(brutto, rok, klientnip, wystawca.getNazwapelna());
+        Fakturywystokresowe fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna());
         switch (nowa.getMc()) {
             case "01":
                 fakturaokresowa.setM1(fakturaokresowa.getM1() > 0 ? fakturaokresowa.getM1() - 1 : 0);
@@ -684,15 +697,15 @@ public class FakturaView implements Serializable {
             try {
                 Fakturywystokresowe fakturatmp = null;
                 if (kwotaprzedwaloryzacja > 0) {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(kwotaprzedwaloryzacja, rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
                     //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
                     if (fakturatmp == null) {
-                        fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
+                        fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
                     } else {
                         Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + kwotaprzedwaloryzacja + " już istnienie!");
                     }
                 } else {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
                 }
                 if (fakturatmp != null) {
                     if (kwotaprzedwaloryzacja > 0) {
@@ -770,13 +783,13 @@ public class FakturaView implements Serializable {
         try {
             Fakturywystokresowe fakturatmp = null;
             if (kwotaprzedwaloryzacja > 0) {
-                fakturatmp = fakturywystokresoweDAO.findOkresowa(kwotaprzedwaloryzacja, rok, p.getKontrahent_nip(), podatnik);
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
                 //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
                 if (fakturatmp == null) { 
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
                 }
             } else {
-                fakturatmp = fakturywystokresoweDAO.findOkresowa(p.getBrutto(), rok, p.getKontrahent_nip(), podatnik);
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
             }
             if (fakturatmp != null) {
                 if (kwotaprzedwaloryzacja > 0) {

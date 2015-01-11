@@ -202,7 +202,7 @@
                     <p:commandButton id="zachowajfakt" value="zachowaj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
                                      update=":akordeon:formstworz, :akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;" 
                                      rendered="#{fakturaView.zapis0edycja1 eq false}"/>
-                    <p:commandButton id="edytujfakt" value="edytuj fakture" actionListener="#{fakturaView.dodaj()}" title="zapisz fakturę w bazie danych"
+                    <p:commandButton id="edytujfakt" value="edytuj fakture" actionListener="#{fakturaView.edytuj()}" title="zapisz fakturę w bazie danych"
                                      update=":akordeon:formstworz, :akordeon:formsporzadzone" style="margin-bottom: 25px; width: 120px; height: 45px;"
                                      rendered="#{fakturaView.zapis0edycja1 eq true}"/>
                     <p:commandButton style="margin-left: 25px; width: 120px; height: 45px;" id="dodajwzorcowywiersz" value="wzorcowy wiersz" 
