@@ -1570,7 +1570,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void usundokument(Dokfk dousuniecia) {
         try {
-            dokDAOfk.usun(dokDAOfk.findDokfkObj(dousuniecia));
+            dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dousuniecia));
             wykazZaksiegowanychDokumentow.clear();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             resetujDokument();

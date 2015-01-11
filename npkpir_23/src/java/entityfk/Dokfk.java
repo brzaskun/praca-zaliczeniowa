@@ -29,6 +29,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,7 +43,9 @@ import viewfk.subroutines.ObslugaWiersza;
  */
 @Cacheable(false)
 @Entity
-@Table(catalog = "pkpir", schema = "")
+@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"numerwlasnydokfk", "podatnikObj", "rok", "seriadokfk"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Dokfk.findAll", query = "SELECT d FROM Dokfk d"),
