@@ -103,6 +103,7 @@ public class FakturaView implements Serializable {
     private WpisDAO wpisDAO;
     private String wiadomoscdodatkowa;
     private int aktywnytab;
+    private boolean zapis0edycja1;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -187,6 +188,7 @@ public class FakturaView implements Serializable {
         selected.setWystawca(podatnikobiekt);
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
 
@@ -199,6 +201,47 @@ public class FakturaView implements Serializable {
             fakturaDAO.dodaj(selected);
             init();
             Msg.msg("i", "Dodano fakturę.");
+            pokazfakture = false;
+            selected = new Faktura();
+            
+        } catch (Exception e) {
+            Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+            try {
+            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+            } catch (Exception et) {
+                selected.setMiejscewystawienia("nie ustawiono miejsca");
+            }
+            try {
+                String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
+                if (nrkonta != null) {
+                    selected.setNrkontabankowego(nrkonta);
+                } else {
+                    selected.setNrkontabankowego("");
+                }
+            } catch (Exception es) {
+                selected.setNrkontabankowego("");
+            }
+            selected.setWystawca(podatnikobiekt);
+            fakturaDAO.edit(selected);
+            init();
+            Msg.msg("i", "Dokonano edycji faktury.");
+            pokazfakture = false;
+            selected = new Faktura();
+        }
+        RequestContext.getCurrentInstance().update("akordeon:formstworz");
+        RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
+//        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
+    }
+    
+    public void edytuj() throws Exception {
+        ewidencjavat(selected);
+        selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        selected.setRok(String.valueOf(wpisView.getRokWpisu()));
+        selected.setMc(wpisView.getMiesiacWpisu());
+        try {
+            fakturaDAO.edit(selected);
+            init();
+            Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
             selected = new Faktura();
             
@@ -295,6 +338,7 @@ public class FakturaView implements Serializable {
         selected = serialclone.SerialClone.clone(faktura);
         aktywnytab = 0;
         pokazfakture = true;
+        zapis0edycja1 = true;
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        RequestContext.getCurrentInstance().execute(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -610,47 +654,49 @@ public class FakturaView implements Serializable {
     }
 
     public void wgenerujnumerfaktury() throws IOException {
+        if (zapis0edycja1 == false) {
             String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
-        if (!nazwaklienta.equals("nowy klient")) {
-            List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
-            int rozpoznaj = 0;
-            try {
-                if (wykazfaktur.size() > 0) {
-                    rozpoznaj = 1;
-                }
-            } catch (Exception er) {
-            }
-            if (selected.getKontrahent().getNskrocona() == null) {
-                Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
-                pokazfakture = false;
-                RequestContext.getCurrentInstance().update("akordeon:formstworz");
-            } else {
-                if (rozpoznaj == 0) {
-                    int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
-                    String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0,4) : selected.getKontrahent().getNskrocona();
-                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
-                    selected.getFakturaPK().setNumerkolejny(numer);
-                    Msg.msg("i", "Generuje nową serie numerów faktury");
-                } else {
-                    String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
-                    String separator = "/";
-                    String[] elementy;
-                    elementy = ostatniafaktura.split(separator);
-                    int starynumer = Integer.parseInt(elementy[0]);
-                    starynumer++;
-                    String numer = String.valueOf(starynumer);
-                    int i = 0;
-                    for (String p : elementy) {
-                        if (i > 0) {
-                            numer += "/" + p;
-                        }
-                        i++;
+            if (!nazwaklienta.equals("nowy klient")) {
+                List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+                int rozpoznaj = 0;
+                try {
+                    if (wykazfaktur.size() > 0) {
+                        rozpoznaj = 1;
                     }
-                    selected.getFakturaPK().setNumerkolejny(numer);
-                    Msg.msg("i", "Generuje kolejny numer faktury");
+                } catch (Exception er) {
                 }
-                RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-                RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+                if (selected.getKontrahent().getNskrocona() == null) {
+                    Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
+                    pokazfakture = false;
+                    RequestContext.getCurrentInstance().update("akordeon:formstworz");
+                } else {
+                    if (rozpoznaj == 0) {
+                        int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
+                        String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0, 4) : selected.getKontrahent().getNskrocona();
+                        String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
+                        selected.getFakturaPK().setNumerkolejny(numer);
+                        Msg.msg("i", "Generuje nową serie numerów faktury");
+                    } else {
+                        String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
+                        String separator = "/";
+                        String[] elementy;
+                        elementy = ostatniafaktura.split(separator);
+                        int starynumer = Integer.parseInt(elementy[0]);
+                        starynumer++;
+                        String numer = String.valueOf(starynumer);
+                        int i = 0;
+                        for (String p : elementy) {
+                            if (i > 0) {
+                                numer += "/" + p;
+                            }
+                            i++;
+                        }
+                        selected.getFakturaPK().setNumerkolejny(numer);
+                        Msg.msg("i", "Generuje kolejny numer faktury");
+                    }
+                    RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
+                    RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
+                }
             }
         }
     }
@@ -1262,4 +1308,15 @@ public class FakturaView implements Serializable {
     public void setWiadomoscdodatkowa(String wiadomoscdodatkowa) {
         this.wiadomoscdodatkowa = wiadomoscdodatkowa;
     }
+
+    public boolean isZapis0edycja1() {
+        return zapis0edycja1;
+    }
+
+    public void setZapis0edycja1(boolean zapis0edycja1) {
+        this.zapis0edycja1 = zapis0edycja1;
+    }
+    
+    
+    
 }
