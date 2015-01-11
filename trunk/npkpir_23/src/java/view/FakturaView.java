@@ -626,8 +626,9 @@ public class FakturaView implements Serializable {
                 RequestContext.getCurrentInstance().update("akordeon:formstworz");
             } else {
                 if (rozpoznaj == 0) {
-                    int maxindex = selected.getKontrahent().getNskrocona().length() > 4 ? 4 : selected.getKontrahent().getNskrocona().length();
-                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + selected.getKontrahent().getNskrocona().substring(0, maxindex);
+                    int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
+                    String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0,4) : selected.getKontrahent().getNskrocona();
+                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
                     selected.getFakturaPK().setNumerkolejny(numer);
                     Msg.msg("i", "Generuje nową serie numerów faktury");
                 } else {
@@ -808,7 +809,9 @@ public class FakturaView implements Serializable {
             List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(nowa.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             int fakturanowyrok = 0;
             if (wykazfaktur.isEmpty()) {
-                String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
+                int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
+                String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0,4) : selected.getKontrahent().getNskrocona();
+                String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
                 nowa.getFakturaPK().setNumerkolejny(numer);
             } else {
                 int nrkolejny = 0;
@@ -844,7 +847,9 @@ public class FakturaView implements Serializable {
                     nowa.getFakturaPK().setNumerkolejny(numer);
                     nowa.setWygenerowanaautomatycznie(true);
                 } else {
-                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nowa.getKontrahent().getNskrocona();
+                    int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
+                    String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0,4) : selected.getKontrahent().getNskrocona();
+                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
                     nowa.getFakturaPK().setNumerkolejny(numer);
                     nowa.setWygenerowanaautomatycznie(true);
                     dodajfaktureokresowanowyrok(nowa);
@@ -1058,32 +1063,24 @@ public class FakturaView implements Serializable {
      public void aktualizujTabeleTabelaGuest(AjaxBehaviorEvent e) throws IOException {
         fakturyarchiwum.clear();
         aktualizuj();
-        aktualizujGuest();
         init();
         Msg.msg("i", "Udana zamiana klienta. Aktualny klient to: " + wpisView.getPodatnikWpisu() + " okres rozliczeniowy: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), "form:messages");
     }
      
      
 
-    private void aktualizujGuest(){
-        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String user = (String) sessionX.getAttribute("user");
-        Wpis wpistmp = wpisDAO.find(user);
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
-        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
-        wpistmp.setRokWpisu(wpisView.getRokWpisu());
-        wpisDAO.edit(wpistmp);
-    }
+   
     private void aktualizuj() {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
+        wpisView.findWpis();
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
-        wpisView.findWpis();
     }
     
     public void mailfaktura() {
