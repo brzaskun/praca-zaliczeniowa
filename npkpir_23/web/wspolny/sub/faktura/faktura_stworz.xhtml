@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 70%;">
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 1000px;">
                         <p:column headerText="nazwa" width="255">
                             <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 250px;"
                                          styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
@@ -174,7 +174,8 @@
                             <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
                         </p:column>
                         <p:column headerText="cena jedn. netto">
-                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" style=""
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
                         <p:column headerText="stawka podatku VAT">
                             <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 100px;" 
