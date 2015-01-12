@@ -226,7 +226,7 @@ public class PodatnikView implements Serializable {
             s.setWojewodztwo(s.getWojewodztwo().substring(0, 1).toUpperCase() + s.getWojewodztwo().substring(1).toLowerCase());
             s.setGmina(s.getGmina().substring(0, 1).toUpperCase() + s.getGmina().substring(1).toLowerCase());
             if (!s.getUlica().isEmpty()) {
-                s.setUlica(s.getUlica().substring(0, 1).toUpperCase() + s.getUlica().substring(1).toLowerCase());
+                s.setUlica(s.getUlica().substring(0, 1).toUpperCase() + s.getUlica().substring(1));
             }
             s.setPowiat(s.getPowiat().substring(0, 1).toUpperCase() + s.getPowiat().substring(1).toLowerCase());
             s.setMiejscowosc(s.getMiejscowosc().substring(0, 1).toUpperCase() + s.getMiejscowosc().substring(1).toLowerCase());
