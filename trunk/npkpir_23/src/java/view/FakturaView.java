@@ -119,11 +119,12 @@ public class FakturaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         faktury = new ArrayList<>();
         fakturyarchiwum = new ArrayList<>();
         fakturyokresoweFiltered = null;
         fakturyFiltered = null;
+        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        List<Faktura> fakturytmp = fakturaDAO.findbyPodatnikRokMc(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
         for (Faktura fakt : fakturytmp) {
             if (fakt.getWyslana() == true && fakt.getZaksiegowana() == true) {
                 fakturyarchiwum.add(fakt);
@@ -131,7 +132,6 @@ public class FakturaView implements Serializable {
                 faktury.add(fakt);
             }
         }
-        fakturyokresowe = fakturywystokresoweDAO.findPodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
 
     public void przygotujfakture() {

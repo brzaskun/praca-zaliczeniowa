@@ -113,8 +113,8 @@ public class Faktura implements Serializable {
     private String sposobzaplaty;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 31)
-    @Column(nullable = false, length = 31)
+    @Size(min = 1, max = 34)
+    @Column(nullable = false, length = 34)
     private String nrkontabankowego;
     @Basic(optional = false)
     @NotNull

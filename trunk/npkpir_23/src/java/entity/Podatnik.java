@@ -175,7 +175,7 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "numerpkpir")
     private List<Parametr> numerpkpir;
-    @Size(max = 31)
+    @Size(max = 34)
     @Column(name = "nrkontabankowego")
     private String nrkontabankowego;
     @Size (max = 3)

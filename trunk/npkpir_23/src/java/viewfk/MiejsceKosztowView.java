@@ -52,9 +52,13 @@ public class MiejsceKosztowView  implements Serializable{
     
     @PostConstruct
     private void init() {
-        miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        try {
+            miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+             obliczsumymiejsc();
+        } catch (Exception e) {
+            
+        }
         listasummiejsckosztow = new HashMap<>();
-        obliczsumymiejsc();
     }
     
     public void obliczsumymiejsc() {
