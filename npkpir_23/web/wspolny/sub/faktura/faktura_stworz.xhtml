@@ -148,20 +148,22 @@
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
                     <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 70%;">
-                        <p:column headerText="nazwa">
-                            <p:inputText id="nazwa" value="#{row.nazwa}" styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
+                        <p:column headerText="nazwa" width="255">
+                            <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 250px;"
+                                         styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
                         </p:column>
                         <p:column headerText="pkwiu">
                             <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>    
                         </p:column>
                         <p:column headerText="jednosta miary">
-                            <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 150px;"
+                            <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 100px;"
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
                                              onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');" >
                                 <f:selectItem itemLabel="szt." itemValue="szt."/>
+                                <f:selectItem itemLabel="godz." itemValue="godz."/>
                                 <f:selectItem itemLabel="kg" itemValue="kg"/>
                                 <f:selectItem itemLabel="kpl" itemValue="kpl"/>
                                 <f:selectItem itemLabel="m-c" itemValue="m-c"/>
@@ -175,7 +177,7 @@
                             <pe:inputNumber id="cena" value="#{row.cena}" required="true" requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
                         <p:column headerText="stawka podatku VAT">
-                            <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 150px;" 
+                            <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 100px;" 
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
