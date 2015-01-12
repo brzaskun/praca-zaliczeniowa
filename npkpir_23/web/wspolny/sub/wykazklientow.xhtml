@@ -45,7 +45,7 @@
                
                 <p:inputText id="ulicaPole" value="#{KlView.selected.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"/>
                 <p:inputText id="domPole" value="#{KlView.selected.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
-                <p:inputText id="lokalPole" value="#{KlView.selected.lokal}"  style="width: 200px"/>
+                <p:inputText id="lokalPole" value="#{KlView.selected.lokal}" requiredMessage="Pole dom nie może byc puste"  style="width: 200px"/>
 
                <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
