@@ -192,6 +192,9 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "miejscewystawienia")
     private String miejscewystawienia;
+    @Size (max = 512)
+    @Column(name = "wystawcafaktury")
+    private String wystawcafaktury;
     @Column(name = "firmafk")
     private boolean firmafk;
     @Column(name = "podmiotaktywny")
@@ -219,6 +222,14 @@ public class Podatnik implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     
+    public String getWystawcafaktury() {
+        return wystawcafaktury;
+    }
+
+    public void setWystawcafaktury(String wystawcafaktury) {
+        this.wystawcafaktury = wystawcafaktury;
+    }
+
     public List<Parametr> getFKpiatki() {
         return FKpiatki;
     }

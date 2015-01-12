@@ -30,6 +30,10 @@
                         <p:inputText id="adresdlafaktury" value="#{WpisView.podatnikObiekt.adresdlafaktury}" maxlength="512" style="width: 400px;">
                             <f:validateLength minimum="10"/>
                         </p:inputText>
+                        <h:outputLabel value="wystawca faktury (imię i nazwisko)"/>
+                        <p:inputText id="wystawcafaktury" value="#{WpisView.podatnikObiekt.wystawcafaktury}" maxlength="512" style="width: 400px;">
+                            <f:validateLength minimum="10"/>
+                        </p:inputText>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
                         <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update=":akordeon" type="submit"/>

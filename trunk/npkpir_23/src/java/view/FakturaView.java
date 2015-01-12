@@ -171,8 +171,11 @@ public class FakturaView implements Serializable {
             Msg.msg("w", "Brak numeru konta bankowego");
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
-
-        selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+            selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
+        } else {
+            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
+        }
         selected.setPozycjenafakturze(new ArrayList());
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
@@ -240,6 +243,11 @@ public class FakturaView implements Serializable {
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+            selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
+        } else {
+            selected.setPodpis(wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko());
+        }
         try {
             fakturaDAO.edit(selected);
             if (selected.isWygenerowanaautomatycznie() == true) {

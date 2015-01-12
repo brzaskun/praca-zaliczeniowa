@@ -36,6 +36,9 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("przewłaszczenie","Do momentu zapłaty towar jest własnością sprzedawcy");
         elementy.put("nr zamówienia","Podaj numer zamowienia");
         elementy.put("logo","Plik graficzny");
+        elementy.put("nagłówek", "Biuro Rachunkowe Taxman - program księgowy online");
+        elementy.put("stopka", "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. "
+                + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
     }
     private List<Fakturadodelementy> fakturadodelementy;
     @Inject
