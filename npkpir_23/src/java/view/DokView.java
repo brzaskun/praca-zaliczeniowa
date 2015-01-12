@@ -7,6 +7,7 @@ package view;
 import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansDok.VAT;
+import beansFaktura.FakturaBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.Rodzajedokcomparator;
 import dao.AmoDokDAO;
@@ -531,43 +532,10 @@ public final class DokView implements Serializable {
                 }
             }
             String wzorzec = rodzajdok.getWzorzec();
-            //odnajdywanie podzielnika;
-            String separator = null;
-            if (wzorzec.contains("/")) {
-                separator = "/";
-            }
-            String[] elementy;
             try {
-                elementy = wzorzec.split(separator);
-                Dok ostatnidokument = dokDAO.find(skrot, podatnikString, rok);
-                String[] elementyold;
-                elementyold = ostatnidokument.getNrWlDk().split(separator);
-                for (int i = 0; i < elementy.length; i++) {
-                    String typ = elementy[i];
-                    switch (typ) {
-                        case "n":
-                            String tmp = elementyold[i];
-                            Integer tmpI = Integer.parseInt(tmp);
-                            tmpI++;
-                            nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
-                            break;
-                        case "m":
-                            nowynumer = nowynumer.concat(mc).concat(separator);
-                            break;
-                        case "r":
-                            nowynumer = nowynumer.concat(rok.toString()).concat(separator);
-                            break;
-                        //to jest wlasna wstawka typu FVZ
-                        case "s":
-                            nowynumer = nowynumer.concat(elementyold[i]).concat(separator);
-                            break;
-                    }
-                }
-                if (nowynumer.endsWith(separator)) {
-                    nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
-                }
+               nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
             } catch (Exception e) {
-                nowynumer = wzorzec;
+               nowynumer = wzorzec;
             }
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);

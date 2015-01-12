@@ -598,6 +598,10 @@ public class SessionFacade<T> implements Serializable{
     public List<Faktura> findFakturyByRokPodatnik(String rok, String wystawcanazwa) {
         return em.createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList();
     }
+    
+    public Faktura findOstatniaFakturaByRokPodatnik(String rok, String wystawcanazwa) {
+        return (Faktura) em.createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
+    }
 
     public List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();

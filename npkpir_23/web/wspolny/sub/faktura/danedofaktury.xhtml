@@ -34,6 +34,13 @@
                         <p:inputText id="wystawcafaktury" value="#{WpisView.podatnikObiekt.wystawcafaktury}" maxlength="512" style="width: 400px;">
                             <f:validateLength minimum="10"/>
                         </p:inputText>
+                        <h:outputLabel value="schemat numeracji faktur"/>
+                        <p:inputText id="schematnumeracji" value="#{WpisView.podatnikObiekt.schematnumeracji}" maxlength="512" style="width: 400px;">
+                            <f:validateLength minimum="10"/>
+                        </p:inputText>
+                        <h:outputText value="n - numer kolejny w roku, N - numer kolejny w miesiącu,"/>
+                        <h:outputText value=" m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                        <h:outputText value="jako separatora elem. składowych należy użyć symbolu /"/>
                     </p:panelGrid>   
                     <p:panelGrid columns="1">
                         <p:commandButton actionListener="#{fakturaView.edytujdanepodatnika()}" value="edytuj podatnika" update=":akordeon" type="submit"/>
