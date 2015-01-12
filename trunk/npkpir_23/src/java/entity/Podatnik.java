@@ -195,6 +195,9 @@ public class Podatnik implements Serializable {
     @Size (max = 512)
     @Column(name = "wystawcafaktury")
     private String wystawcafaktury;
+    @Size (max = 512)
+    @Column(name = "schematnumeracji")
+    private String schematnumeracji;
     @Column(name = "firmafk")
     private boolean firmafk;
     @Column(name = "podmiotaktywny")
@@ -220,8 +223,15 @@ public class Podatnik implements Serializable {
     
     
     //<editor-fold defaultstate="collapsed" desc="comment">
-    
-    
+        
+    public String getSchematnumeracji() {
+        return schematnumeracji;
+    }
+
+    public void setSchematnumeracji(String schematnumeracji) {
+        this.schematnumeracji = schematnumeracji;
+    }
+
     public String getWystawcafaktury() {
         return wystawcafaktury;
     }
