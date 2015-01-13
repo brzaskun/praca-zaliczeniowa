@@ -208,9 +208,9 @@ public class PdfFaktura extends Pdf implements Serializable {
             if (czydodatkowyelementjestAktywny("stopka", elementydod)) {
                 //stopka
                 absText(writer, pobierzelementdodatkowy("stopka", elementydod), 15, 26, 6);
+                prost(writer.getDirectContent(), 12, 15, 560, 20);
 //                absText(writer, "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.", 15, 18, 6);
             }
-            prost(writer.getDirectContent(), 12, 15, 560, 20);
             Pozycjenafakturze pobrane = new Pozycjenafakturze();
             String adres = "";
             float dzielnik = 2;
