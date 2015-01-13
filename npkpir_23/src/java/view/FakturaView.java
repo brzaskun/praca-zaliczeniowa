@@ -172,9 +172,11 @@ public class FakturaView implements Serializable {
             Msg.msg("w", "Brak numeru konta bankowego");
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+            selected.setPodpis("");
+        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
-        } else {
+        }  else {
             selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
         }
         selected.setPozycjenafakturze(new ArrayList());
@@ -244,10 +246,13 @@ public class FakturaView implements Serializable {
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+            selected.setPodpis("");
+        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
-        } else {
-            selected.setPodpis(wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko());
+        }  else {
+            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
         }
         try {
             fakturaDAO.edit(selected);
@@ -262,7 +267,6 @@ public class FakturaView implements Serializable {
             selected = new Faktura();
             
         } catch (Exception e) {
-            Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
             try {
             selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
             } catch (Exception et) {
