@@ -614,8 +614,9 @@ public class PdfFaktura extends Pdf implements Serializable {
         table.addCell(ustawfrazeAlign("wartość brutto", "center", 8));
         table.addCell(ustawfrazeAlign("uwagi", "center", 8));
         table.setHeaderRows(1);
+        int lp = 1;
         for (Pozycjenafakturzebazadanych pozycje : poz) {
-            table.addCell(ustawfrazeAlign("1", "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
             table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 8));
             table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 8));
