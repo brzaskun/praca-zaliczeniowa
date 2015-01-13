@@ -457,7 +457,8 @@
             </p:focus>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
-                <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
+                <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
+                                 styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" accesskey="r" />
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" />
@@ -469,7 +470,8 @@
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}" style="display: none;" update=":formwpisdokument:dataList" oncomplete="pozazieleniajNoweTransakcje();"/>
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
+                                 global="false" style="display: none;" update=":formwpisdokument:dataList" />
             </h:form>
         </f:facet>
 
