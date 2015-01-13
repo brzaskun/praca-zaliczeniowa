@@ -12,6 +12,7 @@ import entityfk.DokfkPK;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
@@ -25,6 +26,16 @@ import viewfk.subroutines.ObslugaWiersza;
 @Singleton
 public class DokFKBean {
 
+    public static void usunpuste(Dokfk dokfk) {
+        List<Wiersz> wierszedokumentu = dokfk.getListawierszy();
+        for (Iterator<Wiersz> it = wierszedokumentu.iterator(); it.hasNext();) {
+            Wiersz p = it.next();
+            if (p.getOpisWiersza() == null || p.getOpisWiersza().equals("")) {
+                it.remove();
+            }
+        }
+    }
+    
     public static String pobierzSymbolPoprzedniegoDokfk(Dokfk selected) {
         String symbolPoprzedniegoDokumentu = "";
         try {

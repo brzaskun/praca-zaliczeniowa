@@ -12,7 +12,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     if (source.value === null) {
         MYAPP.liczydloWcisnietychEnter = 1;
     }
-    setTimeout(focusNaNowoDodanym(source),1000);
+    setTimeout(focusNaNowoDodanym(source),100);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }

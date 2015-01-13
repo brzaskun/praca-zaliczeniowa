@@ -208,13 +208,15 @@ private static final long serialVersionUID = 1L;
 
     public void resetujDokument() {
         //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
-        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
+            String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
         try {
             selected.setwTrakcieEdycji(false);
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         } catch (Exception e1) {
         }
+        DokFKBean.usunpuste(selected);
         selected = null;
+        RequestContext.getCurrentInstance().update("formwpisdokument");
         selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
         try {
             Rodzajedok rodzajDokPoprzedni = selected.getRodzajedok();
@@ -237,7 +239,7 @@ private static final long serialVersionUID = 1L;
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
+        //RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
     }
 
     public void resetujDokumentWpis() {
@@ -394,7 +396,6 @@ private static final long serialVersionUID = 1L;
                     ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, przenumeruj, roznica, 0);
                     selected.uzupelnijwierszeodane();
                     selected.przeliczKwotyWierszaDoSumyDokumentu();
-                    Msg.msg("Dodajenowypustywiersz");
                 } else if (roznica != 0 && czyWszystkoWprowadzono == true) {
                     dodajNowyWierszStronaMa(wierszbiezacy);
                 }
@@ -671,7 +672,6 @@ private static final long serialVersionUID = 1L;
     public void dodajPustyWierszNaKoncu() {
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
         if (lpWierszaWpisywanie > 0) {
-            Msg.msg("Dodaje pusty wiersz na koncu");
             Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie - 1);
             int indexwTabeli = wiersz.getIdporzadkowy() - 1;
             Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
