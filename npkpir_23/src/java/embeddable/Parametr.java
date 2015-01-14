@@ -21,6 +21,12 @@ public class Parametr implements Serializable {
     private String rokDo;
     private String parametr;
 
+    @Override
+    public String toString() {
+        return "Parametr{" + "mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';
+    }
+
+    
    
 //<editor-fold defaultstate="collapsed" desc="comment">
 
