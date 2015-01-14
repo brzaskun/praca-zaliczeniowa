@@ -587,11 +587,10 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setRemanent(lista);
             podatnikDAO.edit(selected);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr remanent do podatnika.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            parametr = new Parametr();
+            Msg.msg("Dodatno parametr remanent do podatnika: "+selected.getNazwapelna());
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru remanent. Niedopasowane okresy.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Niedodatno parametru remanent. Niedopasowane okresy: "+selected.getNazwapelna());
         }
     }
 
