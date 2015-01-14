@@ -27,12 +27,18 @@ import viewfk.subroutines.ObslugaWiersza;
 public class DokFKBean {
 
     public static void usunpuste(Dokfk dokfk) {
+        try {
         List<Wiersz> wierszedokumentu = dokfk.getListawierszy();
-        for (Iterator<Wiersz> it = wierszedokumentu.iterator(); it.hasNext();) {
-            Wiersz p = it.next();
-            if (p.getOpisWiersza() == null || p.getOpisWiersza().equals("")) {
-                it.remove();
+        if (wierszedokumentu.size() > 1) {
+            for (Iterator<Wiersz> it = wierszedokumentu.iterator(); it.hasNext();) {
+                Wiersz p = it.next();
+                if (p.getOpisWiersza() == null || p.getOpisWiersza().equals("")) {
+                    it.remove();
+                }
             }
+        }
+        } catch (Exception e) {
+            
         }
     }
     
