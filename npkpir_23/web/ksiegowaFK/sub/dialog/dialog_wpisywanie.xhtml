@@ -136,6 +136,7 @@
                                                      $(this).addClass('ui-state-default');"
                                          >
                             <f:selectItems value="#{Roki.rokiList}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </h:selectOneMenu>
                         <h:selectOneMenu id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 50px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
@@ -352,11 +353,10 @@
                     </p:column>
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
                         <p:inputText id="minmax" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
-                            <p:ajax global="false" event="keyup" partialSubmit="true"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.obsluzDataWiersza(loop.dataWalutyWiersza, loop)}" update="@this"/>
+                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.obsluzDataWiersza(loop)}" update="@this"/>
                         </p:inputText>
                     </p:column>
-                    <p:column headerText="kwota"  style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                    <p:column headerText="kwota"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}"
@@ -364,7 +364,7 @@
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}"  update="@this"/>
                         </pe:inputNumber>
                     </p:column>
-                     <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                     <p:column headerText="kwota PLN" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
                         <pe:inputNumber id="wnpln" value="#{loop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
@@ -386,10 +386,11 @@
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
-                            <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
+                            <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" 
+                                    update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                    <p:column headerText="kwota" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
@@ -398,7 +399,7 @@
                             <p:ajax global="false" event="blur" partialSubmit="true"/>
                         </pe:inputNumber> 
                     </p:column>
-                    <p:column headerText="kwota PLN" style="text-align: center;" width="60" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
+                    <p:column headerText="kwota PLN" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
                         <pe:inputNumber id="mapln" value="#{loop.stronaMa.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
@@ -419,7 +420,7 @@
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         >
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
-                            <p:ajax global="false" event="focus" partialSubmit="true" listener="#{dokfkView.skopiujWndoMa(loop)}"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
                             <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 
                                     update=":formwpisdokument:wartoscdokumentu" oncomplete="pozazieleniajNoweTransakcje();" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>

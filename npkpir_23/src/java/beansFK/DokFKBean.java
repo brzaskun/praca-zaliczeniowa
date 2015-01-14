@@ -7,6 +7,7 @@ package beansFK;
 
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
+import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Tabelanbp;
@@ -26,31 +27,8 @@ import viewfk.subroutines.ObslugaWiersza;
 @Singleton
 public class DokFKBean {
 
-    public static void usunpuste(Dokfk dokfk) {
-        try {
-        List<Wiersz> wierszedokumentu = dokfk.getListawierszy();
-        if (wierszedokumentu.size() > 1) {
-            for (Iterator<Wiersz> it = wierszedokumentu.iterator(); it.hasNext();) {
-                Wiersz p = it.next();
-                if (p.getOpisWiersza() == null || p.getOpisWiersza().equals("")) {
-                    it.remove();
-                }
-            }
-        }
-        } catch (Exception e) {
-            
-        }
-    }
     
-    public static String pobierzSymbolPoprzedniegoDokfk(Dokfk selected) {
-        String symbolPoprzedniegoDokumentu = "";
-        try {
-            symbolPoprzedniegoDokumentu = new String(selected.getDokfkPK().getSeriadokfk());
-        } catch (Exception e) {
-        }
-        return symbolPoprzedniegoDokumentu;
-    }
-
+   
     public static void dodajWalutyDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dokfk selected) {
         selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
         Tabelanbp tabelanbpPLN = null;
@@ -68,4 +46,14 @@ public class DokFKBean {
             p.setTabelanbp(tabelanbpPLN);
         }
     }
+    
+    public static Rodzajedok odnajdzZZ(List<Rodzajedok> rodzajedokKlienta) {
+         for (Rodzajedok p : rodzajedokKlienta) {
+             if (p.getSkrot().equals("ZZ")) {
+                 return p;
+             }
+         }
+         return null;
+    }
+    
 }

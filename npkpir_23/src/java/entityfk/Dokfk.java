@@ -9,6 +9,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -35,6 +36,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.jboss.weld.util.collections.ArraySet;
+import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
  
 /**
@@ -192,14 +194,14 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
     }
 
-    public Dokfk(String symbolPoprzedniegoDokumentu, Podatnik podatnik) {
+    public Dokfk(String symbolPoprzedniegoDokumentu, WpisView wpisView) {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        ustawNoweSelected(symbolPoprzedniegoDokumentu, podatnik);
+        ustawNoweSelected(symbolPoprzedniegoDokumentu, wpisView);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -493,12 +495,17 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Podatnik podatnik) {
+    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, WpisView wpisView) {
         this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
-        this.dokfkPK.setPodatnik(podatnik.getNip());
-        this.setPodatnikObj(podatnik);
-        this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+        this.dokfkPK.setPodatnik(wpisView.getPodatnikObiekt().getNip());
+        this.setPodatnikObj(wpisView.getPodatnikObiekt());
+        if (symbolPoprzedniegoDokumentu != null) {
+            this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+        } else {
+            this.dokfkPK.setSeriadokfk("ZZ");
+        }
+        this.dokfkPK.setRok(wpisView.getRokWpisuSt());
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }
@@ -521,5 +528,30 @@ public class Dokfk implements Serializable {
                 }
             }
          return null;
+    }
+    
+    public void usunpuste() {
+        try {
+            List<Wiersz> wierszedokumentu = this.getListawierszy();
+            if (wierszedokumentu.size() > 1) {
+                for (Iterator<Wiersz> it = wierszedokumentu.iterator(); it.hasNext();) {
+                    Wiersz p = it.next();
+                    if (p.getOpisWiersza() == null || p.getOpisWiersza().equals("")) {
+                        it.remove();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            
+        }
+    }
+    
+     public String pobierzSymbolPoprzedniegoDokfk() {
+        String symbolPoprzedniegoDokumentu = "";
+        try {
+            symbolPoprzedniegoDokumentu = new String(this.getDokfkPK().getSeriadokfk());
+        } catch (Exception e) {
+        }
+        return symbolPoprzedniegoDokumentu;
     }
 }
