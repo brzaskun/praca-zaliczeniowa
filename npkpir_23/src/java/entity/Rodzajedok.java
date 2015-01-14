@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -71,8 +72,8 @@ public class Rodzajedok implements Serializable {
     @ManyToOne
     @JoinColumn(name = "kontoRZiS", referencedColumnName = "id")
     private Konto kontoRZiS;
-    @OneToMany(mappedBy = "rodzajedok")
-    private List<Dokfk> dokumentyfk;
+//    @OneToMany(mappedBy = "rodzajedok")
+//    private List<Dokfk> dokumentyfk;
     @Column(name = "pokazkg")
     private boolean pokazkg;
     @Column(name = "pokazszt")
@@ -100,14 +101,15 @@ public class Rodzajedok implements Serializable {
     public void setSkrot(String skrot) {
         this.skrot = skrot;
     }
-
-    public List<Dokfk> getDokumentyfk() {
-        return dokumentyfk;
-    }
-
-    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
-        this.dokumentyfk = dokumentyfk;
-    }
+//    @XmlTransient
+//    public List<Dokfk> getDokumentyfk() {
+//        return dokumentyfk;
+//    }
+//
+//    @XmlTransient
+//    public void setDokumentyfk(List<Dokfk> dokumentyfk) {
+//        this.dokumentyfk = dokumentyfk;
+//    }
     
 
     public RodzajedokPK getRodzajedokPK() {
