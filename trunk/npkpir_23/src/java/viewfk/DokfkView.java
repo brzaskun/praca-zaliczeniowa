@@ -180,22 +180,14 @@ private static final long serialVersionUID = 1L;
     @PostConstruct
     private void init() {
         try {
+            rodzajedokKlienta = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            Collections.sort(rodzajedokKlienta, new Rodzajedokcomparator());
             resetujDokument();
             obsluzcechydokumentu();
             wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
-            rodzajedokKlienta.addAll(rodzajedokumentow);
-            selected.setRodzajedok(odnajdzZZ());
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             stworzlisteewidencjiRK();
-            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
-        } catch (Exception e) {
-        }
-        try {
-            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            selected.setKontr(klient);
-            RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
         } catch (Exception e) {
         }
         wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
@@ -207,64 +199,46 @@ private static final long serialVersionUID = 1L;
 //    //RESETUJ DOKUMNETFK
 
     public void resetujDokument() {
-        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
-            String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
-        try {
-            selected.setwTrakcieEdycji(false);
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-        } catch (Exception e1) {
-        }
-        DokFKBean.usunpuste(selected);
-        selected = null;
-        RequestContext.getCurrentInstance().update("formwpisdokument");
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
-        try {
-            Rodzajedok rodzajDokPoprzedni = selected.getRodzajedok();
+        //pobieram dane ze starego dokumentu, jeżeli jest
+        String symbolPoprzedniegoDokumentu = null;
+        Rodzajedok rodzajDokPoprzedni = null;
+        if (selected != null) {
+            selected.pobierzSymbolPoprzedniegoDokfk();
+            selected.usunpuste();
+            rodzajDokPoprzedni = selected.getRodzajedok();
             selected.setRodzajedok(rodzajDokPoprzedni);
-        } catch (Exception e2) {
-        }   
+            selected = null;
+        }
+        //tworze nowy dokument
+        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView);
+        selected.setRodzajedok(DokFKBean.odnajdzZZ(rodzajedokKlienta));
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
-            selected.getDokfkPK().setRok(wpisView.getRokWpisuSt());
-            RequestContext.getCurrentInstance().update("formwpisdokument:rok");
             pokazPanelWalutowy = false;
             pokazRzadWalutowy = false;
             biezacetransakcje = null;
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
+            wlaczZapiszButon = false;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
-        selected.setRodzajedok(odnajdzZZ());
+        try {
+            selected.setwTrakcieEdycji(false);
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+        } catch (Exception e1) {
+        }
+        try {
+            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            selected.setKontr(klient);
+        } catch (Exception e) {
+        }
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         //RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
     }
 
-    public void resetujDokumentWpis() {
-        //kopiuje symbol dokumentu bo nie odkladam go w zmiennej pliku ale dokumentu
-        String symbolPoprzedniegoDokumentu = DokFKBean.pobierzSymbolPoprzedniegoDokfk(selected);
-        try {
-            Rodzajedok rodzajDokPoprzedni = selected.getRodzajedok();
-            selected = null;
-            selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView.getPodatnikObiekt());
-            selected.setRodzajedok(rodzajDokPoprzedni);
-            wlaczZapiszButon = false;
-        } catch (Exception e2) {
-        } 
-        try {
-            DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
-            pokazPanelWalutowy = false;
-            pokazRzadWalutowy = false;
-            biezacetransakcje = null;
-            zapisz0edytuj1 = false;
-            zablokujprzyciskrezygnuj = false;
-        } catch (Exception e) {
-            Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
-        }
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
-    }
 
 //    //dodaje wiersze do dokumentu
     public void dolaczNowyWiersz(int wierszbiezacyIndex, boolean przenumeruj) {
@@ -1468,7 +1442,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow");
                 RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
-                resetujDokumentWpis();
+                resetujDokument();
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -1737,14 +1711,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
-    private Rodzajedok odnajdzZZ() {
-         for (Rodzajedok p : rodzajedokKlienta) {
-             if (p.getSkrot().equals("ZZ")) {
-                 return p;
-             }
-         }
-         return null;
-    }
+    
 
     public void przygotujDokumentEdycja() {
         selected.setwTrakcieEdycji(true);
@@ -2409,11 +2376,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 System.out.println("roznica " +roznicakursowa);
     }
     
-    public void obsluzDataWiersza(String datawiersza, Wiersz wierszbiezacy) {
+    public void obsluzDataWiersza(Wiersz wierszbiezacy) {
         if (wierszbiezacy.getDataWalutyWiersza().isEmpty()) {
             skopiujDateZWierszaWyzej(wierszbiezacy);
+        } else if (wierszbiezacy.getDataWalutyWiersza().length()== 1) {
+            wierszbiezacy.setDataWalutyWiersza("0"+wierszbiezacy.getDataWalutyWiersza());
         }
-        pobierzkursNBPwiersz(datawiersza, wierszbiezacy);
+        pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
         String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
         przepiszWaluty(wierszbiezacy);
@@ -2459,7 +2428,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
 
-    public void skopiujWndoMa(Wiersz wiersz) {
+    public void skopiujKwoteWndoMa(Wiersz wiersz) {
         try {
             int wierszlp = wiersz.getIdporzadkowy()-1;
             String coupdate = "formwpisdokument:dataList:"+wierszlp+":ma";
