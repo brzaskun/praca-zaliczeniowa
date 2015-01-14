@@ -7,78 +7,80 @@ package view;
 import dao.SesjaDAO;
 import entity.Sesja;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Osito
  */
-@Named
+@ManagedBean
 @ViewScoped
-public class SesjaView implements Serializable{
-    @Inject private Sesja sesja;
-    @Inject private SesjaDAO sesjaDAO;
+public class SesjaView implements Serializable {
+
+    @Inject
+    private Sesja sesja;
+    @Inject
+    private SesjaDAO sesjaDAO;
     private List<Sesja> wykazsesji;
 
     public SesjaView() {
-        wykazsesji = new ArrayList<>();
+
     }
-    
+
     @PostConstruct
-    private void init(){
-       try{
-       wykazsesji.addAll(sesjaDAO.findAll()); 
-       } catch (Exception e){}
+    private void init() {
+
     }
-    
-    
-    
-    public void dodajwydruk(){
+
+    public void pobierzsesje() {
+        try {
+            wykazsesji = sesjaDAO.findAll();
+        } catch (Exception e) {
+        }
+    }
+
+    public void dodajwydruk() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
             sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscwydrukow();
-            ilosc = ilosc+1;
+            ilosc = ilosc + 1;
             sesja.setIloscwydrukow(ilosc);
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
         }
     }
-    
-     public void dodajmail(){
+
+    public void dodajmail() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
             sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscmaili();
-            ilosc = ilosc+1;
+            ilosc = ilosc + 1;
             sesja.setIloscmaili(ilosc);
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
         }
     }
-    
-    
-    public void dodajdokument(){
+
+    public void dodajdokument() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         try {
             sesja = sesjaDAO.find(session.getId());
             int ilosc = sesja.getIloscdokumentow();
-            ilosc = ilosc+1;
+            ilosc = ilosc + 1;
             sesja.setIloscdokumentow(ilosc);
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
         }
-        
-    }
 
-    
+    }
 
     public Sesja getSesja() {
         return sesja;
@@ -105,5 +107,5 @@ public class SesjaView implements Serializable{
     }
 
     
-    
+
 }
