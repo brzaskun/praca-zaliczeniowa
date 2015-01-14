@@ -71,7 +71,7 @@ public class KlView implements Serializable{
         String formatka = selected.getNskrocona().toUpperCase();
         selected.setNskrocona(formatka);
         formatka = selected.getUlica().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
+        formatka = formatka.concat(selected.getUlica().substring(1));
         selected.setUlica(formatka);
         try {
             selected.getKrajnazwa();

@@ -172,7 +172,7 @@ public class FakturaView implements Serializable {
             Msg.msg("w", "Brak numeru konta bankowego");
             selected.setNrkontabankowego("brak numeru konta bankowego");
         }
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
             selected.setPodpis("");
         } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
@@ -247,7 +247,7 @@ public class FakturaView implements Serializable {
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
             selected.setPodpis("");
         } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
             selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
