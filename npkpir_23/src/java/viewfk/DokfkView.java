@@ -1634,9 +1634,11 @@ public void updatenetto(EVatwpisFK e, String form) {
             } catch (Exception e) {
             }
             if (dokument != null) {
+                wlaczZapiszButon = false;
                 RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
                 Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
+                wlaczZapiszButon = true;
                 Msg.msg("i", "Go on Master");
             }
         }
