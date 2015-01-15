@@ -85,49 +85,31 @@
                         <h:outputText value="data wpływu"/>
                         <h:outputText value="rok"/>
                         <h:outputText value="miesiąc"/>
-                        <h:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
-                                                 $(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');"
+                        <p:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');odtworzwierszVATRK(this);" style="height: 19px;"
+                                     onfocus="odtworzwierszVATRK(this);" style="height: 19px;"
                                      >
                             <p:ajax global="false" event="blur" partialSubmit="true"/>
-                        </h:inputText>
-                        <h:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
-                                                 $(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');"
+                        </p:inputText>
+                        <p:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
                                      >
                             <p:ajax global="false" event="blur" partialSubmit="true"/>
-                        </h:inputText>
-                        <h:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
-                                                 $(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');"
+                        </p:inputText>
+                        <p:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
                                      >
                             <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
-                        </h:inputText>
-                        <h:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
-                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie', #{dokfkView.zapisz0edytuj1});
-                                                 $(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');"
+                        </p:inputText>
+                        <p:inputText id="data4DialogWpisywanie" value="#{dokfkView.selected.datawplywu}" 
+                                     onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data4DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                      title="wpisz numer dnia, lub miesiąc i dzień"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');"
                                      >
                             <p:ajax global="false" event="blur" partialSubmit="true"/>
-                        </h:inputText>
+                        </p:inputText>
                          <h:selectOneMenu id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 60px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -155,30 +137,24 @@
                         <h:outputText value="mc VAT"/>
                         <h:outputText value="numer"/>
                         <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
-                         <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                        <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
                                          onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
-                             <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
-                             <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
+                            <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
+                            <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVat}"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
-                                    :formwpisdokument:dataList, :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
+                                    :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
                         </h:selectOneMenu>
                         
                        
-                        <h:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');
-                                                 "
-                                     onblur="$(this).removeClass('ui-state-focus');
-                                                 $(this).addClass('ui-state-default');">
+                        <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
                             <p:ajax global="false" event="blur" partialSubmit="true" />
-                        </h:inputText>
+                        </p:inputText>
                          <h:selectOneMenu id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 60px;"
                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -208,17 +184,14 @@
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 'kontrahent' : ''}"/>
                         <h:outputText value="wartość dokumentu"/>
-                        <h:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
-                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                     onfocus="$(this).removeClass('ui-state-default');
-                                                 $(this).addClass('ui-state-focus');r('formwpisdokument:wpiszdokbutton').show();"
-                                     onblur="$(this).removeClass('ui-state-focus');
-                                         $(this).addClass('ui-state-default');" style="height: 19px;"
+                        <p:inputText value="#{dokfkView.selected.opisdokfk}" size="40"
+                                     onfocus="r('formwpisdokument:wpiszdokbutton').show();"
+                                     style="height: 19px;"
                                      >
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true" 
-                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}"  update=":formwpisdokument:dataList"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.pokazZapisButton()}" update=":formwpisdokument:panelwpisbutton"/>
-                        </h:inputText>
+                            <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton"
+                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}" />
+                            <p:ajax global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
+                        </p:inputText>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 

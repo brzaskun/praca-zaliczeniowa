@@ -1607,18 +1607,23 @@ public void updatenetto(EVatwpisFK e, String form) {
             } catch (Exception e) {
             }
             if (dokument != null) {
+                wlaczZapiszButon = false;
                 RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
                 Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
+                wlaczZapiszButon = true;
                 Msg.msg("i", "Nie znaleziono duplikatu");
             }
+        }
+    }
+    
+    public void skopiujopisdopierwszegowiersza() {
             try {
                 Wiersz w = selected.getListawierszy().get(0);
                 w.setOpisWiersza(selected.getOpisdokfk());
             } catch (Exception e) {
                 
             }
-        }
     }
     
     public void znajdzduplicatdokumentuKontrahent() {
@@ -1640,7 +1645,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
-            String data = (String) Params.params("formwpisdokument:data3DialogWpisywanie");
+            String data = selected.getDataoperacji();
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
                 selected.getDokfkPK().setRok(rok);
@@ -1654,31 +1659,22 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
             }
         }
-        RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
     }
     
     public void skorygujokreswpisudokumentu(AjaxBehaviorEvent event) {
-        String skrotRT = (String) Params.params("formwpisdokument:symbol");
-        int kategoriadokumentu = 0;
-        for (Rodzajedok temp : rodzajedokKlienta) {
-            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
-                kategoriadokumentu = temp.getKategoriadokumentu();
-                break;
-            }
-        }
-        if (kategoriadokumentu == 1) {
+        if (selected.getRodzajedok().getKategoriadokumentu()==1) {
             //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
             if (zapisz0edytuj1 == false) {
-                String data = (String) Params.params("formwpisdokument:data4DialogWpisywanie");
+                String data = selected.getDatawplywu();
                 if (data.length() == 10) {
                     String rok = data.split("-")[0];
                     selected.getDokfkPK().setRok(rok);
                     String mc = data.split("-")[1];
                     selected.setVatM(mc);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
                     RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
                 }
             }
-            RequestContext.getCurrentInstance().execute("pozazieleniajNoweTransakcje();");
         }
     }
 
@@ -2621,9 +2617,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
 
-    public void pokazZapisButton() {
-        wlaczZapiszButon = true;
-    }
+
     
     public void zmienwalutezapisow() {
         if (pokazzapisywzlotowkach == true) {
