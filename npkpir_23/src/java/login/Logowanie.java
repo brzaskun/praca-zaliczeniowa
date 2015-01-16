@@ -126,6 +126,17 @@ public class Logowanie implements Serializable {
                 wpis.setPodatnikWpisu(firma);
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "GuestFK";
+            } else if (request.isUserInRole("GuestFaktura")) {
+                String nip = uzDAO.find(uzytk).getFirma();
+                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                if (p == null) {
+                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
+                    return "failure";
+                }
+                String firma = p.getNazwapelna();
+                wpis.setPodatnikWpisu(firma);
+                message = "Username : " + principal.getName() + " You're wasting my resources...";
+                navto = "GuestFaktura";
             } else if (request.isUserInRole("Noobie")) {
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Noobie";

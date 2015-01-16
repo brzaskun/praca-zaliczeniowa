@@ -397,6 +397,14 @@
             <from-outcome>gfkFaktura</from-outcome>
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>GuestFaktura</from-outcome>
+            <to-view-id>/guestFaktura/guestFakturaIndex.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfakturaFaktura</from-outcome>
+            <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <application>
         <locale-config>
