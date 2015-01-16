@@ -89,6 +89,9 @@
         <role-name>Guest</role-name>
     </security-role>
     <security-role>
+        <role-name>GuestFaktura</role-name>
+    </security-role>
+    <security-role>
         <role-name>GuestFK</role-name>
     </security-role>
     <security-constraint>
@@ -182,6 +185,7 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
+            <role-name>GuestFaktura</role-name>
             <role-name>GuestFK</role-name>
             <role-name>Manager</role-name>
             <role-name>Administrator</role-name>

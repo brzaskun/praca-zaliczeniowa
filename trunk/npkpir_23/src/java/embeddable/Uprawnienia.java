@@ -26,6 +26,7 @@ public class Uprawnienia implements Serializable{
         listaUprawnien.add("Bookkeeper");
         listaUprawnien.add("BookkeeperFK");
         listaUprawnien.add("GuestFK");
+        listaUprawnien.add("GuestFaktura");
         listaUprawnien.add("Guest");
     }
 

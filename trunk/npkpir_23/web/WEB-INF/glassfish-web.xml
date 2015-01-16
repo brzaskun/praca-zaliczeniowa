@@ -26,6 +26,11 @@
     <principal-name>Guest</principal-name>
     <group-name>Guest</group-name>
   </security-role-mapping>
+   <security-role-mapping>
+    <role-name>GuestFaktura</role-name>
+    <principal-name>GuestFaktura</principal-name>
+    <group-name>GuestFaktura</group-name>
+  </security-role-mapping>
   <security-role-mapping>
     <role-name>GuestFK</role-name>
     <principal-name>GuestFK</principal-name>
