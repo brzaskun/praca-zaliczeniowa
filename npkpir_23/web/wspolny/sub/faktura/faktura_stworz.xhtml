@@ -142,7 +142,9 @@
                             <h:outputText value="nr zamówienia" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}"/>
                         </div>
                         <div class="ui-grid-col-2">
-                            <p:inputText value="#{fakturaView.selected.numerzamowienia}" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}"/>
+                            <p:inputText value="#{fakturaView.selected.numerzamowienia}" rendered="#{fakturadodelementyView.czydodatkowyelementjestAktywny('nr zamówienia')}">
+                                <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                            </p:inputText>
                         </div>
                     </div>
                 </div>
@@ -150,7 +152,9 @@
                     <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 1000px;">
                         <p:column headerText="nazwa" width="255">
                             <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 250px;"
-                                         styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" /></p:inputText>   
+                                         styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" />
+                                <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
+                            </p:inputText>   
                         </p:column>
                         <p:column headerText="pkwiu">
                             <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>    

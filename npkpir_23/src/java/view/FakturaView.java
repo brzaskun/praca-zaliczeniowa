@@ -107,6 +107,7 @@ public class FakturaView implements Serializable {
     private String wiadomoscdodatkowa;
     private int aktywnytab;
     private boolean zapis0edycja1;
+    private String nazwaskroconafaktura;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -652,7 +653,19 @@ public class FakturaView implements Serializable {
         if (zapis0edycja1 == false) {
             String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
             if (!nazwaklienta.equals("nowy klient")) {
-                List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+                if (selected.getKontrahent().getNskrocona() == null) {
+                    Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
+                    RequestContext.getCurrentInstance().execute("PF('nazwaskroconafaktura').show();");
+                    RequestContext.getCurrentInstance().execute("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
+                } else {
+                   wygenerujnumerfakturycd();
+                }
+            }
+        }
+    }
+    
+    private void wygenerujnumerfakturycd() {
+         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
                 int istniejafakturykontrahenta = 0;
                 try {
                     if (wykazfaktur.size() > 0) {
@@ -668,12 +681,7 @@ public class FakturaView implements Serializable {
                     }
                 } catch (Exception er) {
                 }
-                if (selected.getKontrahent().getNskrocona() == null) {
-                    Msg.msg("e", "Brak nazwy skróconej kontrahenta " + selected.getKontrahent().getNpelna() + ", nie mogę poprawnie wygenerować numeru faktury. Uzupełnij dane odbiorcy faktury.");
-                    pokazfakture = false;
-                    RequestContext.getCurrentInstance().update("akordeon:formstworz");
-                } else {
-                    if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
+         if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
                         if (istniejafakturyrok == 0) {
                             selected.getFakturaPK().setNumerkolejny(wpisView.getPodatnikObiekt().getSchematnumeracji());
                             selected.setLp(1);
@@ -715,9 +723,6 @@ public class FakturaView implements Serializable {
                         RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
                         RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
                     }
-                }
-            }
-        }
     }
 
     public void dodajfaktureokresowa() {
@@ -1237,6 +1242,13 @@ public class FakturaView implements Serializable {
         Msg.msg("Naniesiono dane do faktur.");
     }
     
+    public void edytujnazwaskroconapodatnika() {
+        selected.getKontrahent().setNskrocona(nazwaskroconafaktura.toUpperCase());
+        podatnikDAO.edit(selected.getKontrahent());
+        Msg.msg("Dopisano nazwę skróconą podatnika");
+        wygenerujnumerfakturycd();
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public int getAktywnytab() {
@@ -1377,6 +1389,14 @@ public class FakturaView implements Serializable {
 
     public void setZapis0edycja1(boolean zapis0edycja1) {
         this.zapis0edycja1 = zapis0edycja1;
+    }
+
+    public String getNazwaskroconafaktura() {
+        return nazwaskroconafaktura;
+    }
+
+    public void setNazwaskroconafaktura(String nazwaskroconafaktura) {
+        this.nazwaskroconafaktura = nazwaskroconafaktura;
     }
 
    
