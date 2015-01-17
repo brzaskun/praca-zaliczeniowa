@@ -59,6 +59,25 @@ public class CechazapisuBean {
         return listazcecha;
     }
 
+    public static double sumujcecha(List<StronaWiersza> zapisycechakoszt, String nazwacechy) {
+        double suma = 0;
+        for (StronaWiersza p : zapisycechakoszt) {
+            if (nazwacechy.equals("NKUP")) {
+                if (p.getWnma().equals("Wn")) {
+                    suma -= p.getKwotaPLN();
+                } else {
+                    suma += p.getKwotaPLN();
+                }
+            } else {
+                if (p.getWnma().equals("Wn")) {
+                    suma += p.getKwotaPLN();
+                } else {
+                    suma -= p.getKwotaPLN();
+                }
+            }
+        }
+        return suma;
+    }
     
     
 }
