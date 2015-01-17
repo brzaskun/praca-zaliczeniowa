@@ -38,10 +38,16 @@ import waluty.Z;
 public class CitView implements Serializable {
     private List<CitBiezacyPozycja> listaPrzychody;
     private List<CitBiezacyPozycja> listaKoszty;
-    private List<StronaWiersza> zapisycechakoszt;
-    private List<StronaWiersza> zapisycechaprzychod;
     private double razemprzychody;
     private double razemkoszty;
+    private double wynikprzedkorektami;
+    private List<StronaWiersza> zapisycechakoszt;
+    private List<StronaWiersza> zapisycechaprzychod;
+    private double przychodypokorekcie;
+    private double kosztypokorekcie;
+    private double wynikpokorektach;
+    private double razemzapisycechakoszt;
+    private double razemzapisycechaprzychod;
     @Inject
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
@@ -59,7 +65,44 @@ public class CitView implements Serializable {
     public void obliczcitbiezacy() {
         this.listaPrzychody = new ArrayList<>();
         this.listaKoszty = new ArrayList<>();
-        TreeNodeExtended rootProjektRZiS = pobierzukladprzegladRZiS();
+        rozbijprzychodyikoszty(pobierzukladprzegladRZiS());
+        this.przychodypokorekcie = this.razemprzychody + this.razemzapisycechaprzychod;
+        this.kosztypokorekcie = this.razemkoszty + this.razemzapisycechakoszt;
+        this.wynikpokorektach = this.przychodypokorekcie - this.kosztypokorekcie;
+        System.out.println("pobralem");
+    }
+    
+    private TreeNodeExtended pobierzukladprzegladRZiS() {
+       ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+       try {
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad("Podstawowy", "Wzorcowy", wpisView.getRokWpisuSt()));
+            if (pozycje.isEmpty()) {
+                Msg.msg("i", "Brak zdefiniowanych pozycjiw RZiS");
+            }
+        } catch (Exception e) {
+        }
+        TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP");
+        razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
+        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
+        razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP");
+        List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
+        try {
+            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
+                PozycjaRZiS p = (PozycjaRZiS) it.next();
+                p.setPrzyporzadkowanestronywiersza(null);
+            }
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e){
+            rootProjektRZiS.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+        return rootProjektRZiS;
+    }
+    
+    private void rozbijprzychodyikoszty(TreeNodeExtended rootProjektRZiS) {
         int i = 1;
         for(Iterator<TreeNode> it = rootProjektRZiS.getChildren().iterator(); it.hasNext();) {
             PozycjaRZiS p = (PozycjaRZiS) it.next().getData();
@@ -79,35 +122,7 @@ public class CitView implements Serializable {
                 }
             }
         }
-        System.out.println("pobralem");
-    }
-    
-    private TreeNodeExtended pobierzukladprzegladRZiS() {
-       ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
-       try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad("Podstawowy", "Wzorcowy", wpisView.getRokWpisuSt()));
-            if (pozycje.isEmpty()) {
-                Msg.msg("i", "Brak zdefiniowanych pozycjiw RZiS");
-            }
-        } catch (Exception e) {
-        }
-        TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP");
-        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
-        List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
-        try {
-            for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
-                PozycjaRZiS p = (PozycjaRZiS) it.next();
-                p.setPrzyporzadkowanestronywiersza(null);
-            }
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e){
-            rootProjektRZiS.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
-        }
-        return rootProjektRZiS;
+        wynikprzedkorektami = razemprzychody - razemkoszty;
     }
 
     public List<CitBiezacyPozycja> getListaPrzychody() {
@@ -148,6 +163,70 @@ public class CitView implements Serializable {
 
     public void setRazemkoszty(double razemkoszty) {
         this.razemkoszty = razemkoszty;
+    }
+
+    public double getRazemzapisycechakoszt() {
+        return razemzapisycechakoszt;
+    }
+
+    public void setRazemzapisycechakoszt(double razemzapisycechakoszt) {
+        this.razemzapisycechakoszt = razemzapisycechakoszt;
+    }
+
+    public double getRazemzapisycechaprzychod() {
+        return razemzapisycechaprzychod;
+    }
+
+    public void setRazemzapisycechaprzychod(double razemzapisycechaprzychod) {
+        this.razemzapisycechaprzychod = razemzapisycechaprzychod;
+    }
+
+    public List<StronaWiersza> getZapisycechakoszt() {
+        return zapisycechakoszt;
+    }
+
+    public void setZapisycechakoszt(List<StronaWiersza> zapisycechakoszt) {
+        this.zapisycechakoszt = zapisycechakoszt;
+    }
+
+    public List<StronaWiersza> getZapisycechaprzychod() {
+        return zapisycechaprzychod;
+    }
+
+    public void setZapisycechaprzychod(List<StronaWiersza> zapisycechaprzychod) {
+        this.zapisycechaprzychod = zapisycechaprzychod;
+    }
+
+    public double getWynikprzedkorektami() {
+        return Z.z(wynikprzedkorektami);
+    }
+
+    public void setWynikprzedkorektami(double wynikprzedkorektami) {
+        this.wynikprzedkorektami = wynikprzedkorektami;
+    }
+
+    public double getWynikpokorektach() {
+        return Z.z(wynikpokorektach);
+    }
+
+    public void setWynikpokorektach(double wynikpokorektach) {
+        this.wynikpokorektach = wynikpokorektach;
+    }
+
+    public double getPrzychodypokorekcie() {
+        return Z.z(przychodypokorekcie);
+    }
+
+    public void setPrzychodypokorekcie(double przychodypokorekcie) {
+        this.przychodypokorekcie = przychodypokorekcie;
+    }
+
+    public double getKosztypokorekcie() {
+        return Z.z(kosztypokorekcie);
+    }
+
+    public void setKosztypokorekcie(double kosztypokorekcie) {
+        this.kosztypokorekcie = kosztypokorekcie;
     }
     
     
