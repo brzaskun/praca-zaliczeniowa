@@ -22,9 +22,9 @@ public class KontoKwota implements Serializable {
     private double kwota;
     private PozycjaRZiS pozycjaRZiS;
 
-    public KontoKwota(Konto konto, double Kwota) {
+    public KontoKwota(Konto konto, double kwotakonto) {
         this.konto = konto;
-        this.kwota = Kwota;
+        this.kwota = kwotakonto;
     }
 
     public KontoKwota() {
