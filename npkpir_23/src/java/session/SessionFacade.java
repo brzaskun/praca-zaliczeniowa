@@ -39,6 +39,7 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
+import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.EVatwpisFK;
@@ -804,6 +805,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
+    public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
+        return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+    
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
@@ -1181,6 +1186,6 @@ public class SessionFacade<T> implements Serializable{
         return (long) em.createNamedQuery("MiejsceKosztow.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
 
-    
+        
   
 }
