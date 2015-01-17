@@ -64,7 +64,7 @@
                     <bcf:outputpl value="#{citView.wynikprzedkorektami}"  style="font-weight: 900; float: right;"/>
                 </p:outputPanel>
                 <p:dataTable value="#{citView.zapisycechaprzychod}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
-                             sortBy="#{item.dokfk.datadokumentu}" rendered="#{citView.zapisycechaprzychod.size() gt 0}">
+                             sortBy="#{item.dokfk.datadokumentu}" rendered="#{citView.zapisycechaprzychod.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
                         <h:outputText value="NPUP"/>
                     </f:facet>
@@ -87,7 +87,7 @@
                     </f:facet>
                 </p:dataTable>
                 <p:dataTable value="#{citView.zapisycechakoszt}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
-                             sortBy="#{item.dokfk.datadokumentu}"  rendered="#{citView.zapisycechakoszt.size() gt 0}">
+                             sortBy="#{item.dokfk.datadokumentu}"  rendered="#{citView.zapisycechakoszt.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
                         <h:outputText value="NKUP"/>
                     </f:facet>
