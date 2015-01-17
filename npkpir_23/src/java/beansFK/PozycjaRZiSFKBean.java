@@ -111,7 +111,7 @@ public class PozycjaRZiSFKBean {
     }
     
     public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaDAO kontopozycjarzisDAO, UkladBR uklad, WpisView wpisView) {
-        List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(wpisView.getRokWpisuSt(), uklad.getPodatnik());
+        List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
         for (Konto p : kontapobrane) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);

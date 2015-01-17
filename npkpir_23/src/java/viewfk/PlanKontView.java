@@ -246,15 +246,19 @@ public class PlanKontView implements Serializable {
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
-                p.setMapotomkow(false);
-                p.setBlokada(false);
-                p.setPodatnik(wpisView.getPodatnikWpisu());
-                try {
-                    kontoDAO.dodaj(p);
-                } catch (PersistenceException e) {
-                    Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + p.getPelnynumer());
-                } catch (Exception ef) {
-                    Msg.msg("e", "Wystąpił błąd podczas dodawania konta. Nie dodano: " + p.getPelnynumer());
+                if (wpisView.isFKpiatki() == false && p.getNazwapelna().startsWith("5")){
+                    System.out.println("Nie implementuje konta 5");
+                } else {
+                    p.setMapotomkow(false);
+                    p.setBlokada(false);
+                    p.setPodatnik(wpisView.getPodatnikWpisu());
+                    try {
+                        kontoDAO.dodaj(p);
+                    } catch (PersistenceException e) {
+                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + p.getPelnynumer());
+                    } catch (Exception ef) {
+                        Msg.msg("e", "Wystąpił błąd podczas dodawania konta. Nie dodano: " + p.getPelnynumer());
+                    }
                 }
             }
             List<Konto> wykazkonttmp = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
