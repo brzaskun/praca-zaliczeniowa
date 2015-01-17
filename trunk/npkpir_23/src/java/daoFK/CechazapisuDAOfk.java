@@ -14,6 +14,7 @@ import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -34,5 +35,6 @@ public class CechazapisuDAOfk extends DAO implements Serializable {
     public List<Cechazapisu> findAll() {
         return sessionFacade.findAll(Cechazapisu.class);
     }
+
     
 }

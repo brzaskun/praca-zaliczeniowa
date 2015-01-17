@@ -51,6 +51,12 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
         }
    }
 
-    
+    public  List<PozycjaRZiS> findRzisuklad(String uklad, String podatnik, String rok){
+        try {
+            return sessionFacade.findUkladBR(uklad, podatnik, rok);
+        } catch (Exception e) {
+            return null;
+        }
+   }
     
 }

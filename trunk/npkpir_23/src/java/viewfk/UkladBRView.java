@@ -55,9 +55,9 @@ public class UkladBRView implements Serializable{
             ukladBR.setPodatnik("Wzorcowy");
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nowy);
-            nowy = "";
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
+            nowy = "";
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
