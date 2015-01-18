@@ -7,6 +7,7 @@ package viewfk;
 
 import beansFK.CechazapisuBean;
 import beansFK.PozycjaRZiSFKBean;
+import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaRZiSDAO;
@@ -82,7 +83,7 @@ public class CitView implements Serializable {
         } catch (Exception e) {
         }
         TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
         zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP");
         razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");

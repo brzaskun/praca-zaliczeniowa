@@ -94,6 +94,9 @@
     <security-role>
         <role-name>GuestFK</role-name>
     </security-role>
+    <security-role>
+        <role-name>Multiuser</role-name>
+    </security-role>
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin Area</web-resource-name>

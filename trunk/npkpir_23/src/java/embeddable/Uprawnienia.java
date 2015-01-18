@@ -28,6 +28,7 @@ public class Uprawnienia implements Serializable{
         listaUprawnien.add("GuestFK");
         listaUprawnien.add("GuestFaktura");
         listaUprawnien.add("Guest");
+        listaUprawnien.add("Multiuser");
     }
 
     public List<String> getListaUprawnien() {

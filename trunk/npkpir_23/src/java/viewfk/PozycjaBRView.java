@@ -5,11 +5,13 @@
 package viewfk;
 
 import beansFK.PozycjaRZiSFKBean;
+import beansFK.StronaWierszaBean;
 import converter.RomNumb;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import embeddable.Mce;
 import embeddablefk.KontoKwota;
 import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
@@ -175,7 +177,7 @@ public class PozycjaBRView implements Serializable {
         } catch (Exception e) {
         }
         rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
         List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
@@ -190,6 +192,7 @@ public class PozycjaBRView implements Serializable {
             Msg.msg("e", e.getLocalizedMessage());
         }
     }
+    
     
     public void pobierzukladprzegladBilans(String aktywapasywa) {
         if (aktywapasywa.equals("aktywa")) {
@@ -283,13 +286,12 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    public void zwinwszystkie() {
-        root.createTreeNodesForElement(pozycje);
+    public void zwinwszystkie(TreeNodeExtended root) {
         root.foldAll();
         level = 0;
     }
 
-    public void zwin() {
+    public void zwin(TreeNodeExtended root) {
         root.foldLevel(--level);
     }
     
@@ -305,18 +307,7 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    public void zwinwszystkie(TreeNodeExtended root) {
-        root.foldAll();
-        level = 0;
-    }
-
-    public void zwin(TreeNodeExtended root) {
-        root.foldLevel(--level);
-    }
-
-    
-    
-   
+      
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
