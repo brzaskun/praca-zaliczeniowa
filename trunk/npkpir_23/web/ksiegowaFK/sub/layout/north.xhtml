@@ -7,49 +7,49 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="north" size="10 0" resizable="true" closable="true" collapsible="true">
-            <h:form>
-                <p:menubar autoDisplay="true">
-                    <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
-                    <p:menuitem icon="ui-icon-document" value="dokumenty" outcome="menudokumentyFK"/>
-                    <p:menuitem icon="ui-icon-pencil" value="zapisy kont" outcome="raportyFK"/>
-                    <p:menuitem icon="ui-icon-contact" value="rejestry" outcome="rejestryFK"/>
-                    <p:menuitem icon="ui-icon-search" value="rozrachunki" outcome="menurozrachunkiFK" />
-                    <p:menuitem icon="ui-icon-note" value="słowniki" outcome="kartotekiFK"/>
-                    <p:menuitem icon="ui-icon-gear" value="ustawienia" outcome="menuustawieniaFK"/>
-                    <p:menuitem icon="ui-icon-star" value="bilanse" outcome="bilanseFK"/>
-                    <p:menuitem icon="ui-icon-calendar" value="deklaracje" />
-                    <p:menuitem icon="ui-icon-note" value="środki trw." outcome="srodkitrwaleFK"/>
-                    <p:menuitem icon="ui-icon-note" value="rmk" outcome="rmkFK"/>
-                    <p:menuitem icon="ui-icon-help" value="pomoc" />
-                    <p:menuitem  value=" | " />
-                    <p:menuitem icon="ui-icon-arrowrefresh-1-n" value="wyloguj" action="#{Logowanie.logout()}" />
-                </p:menubar>
-            </h:form>
-            <h:form id="dialog1menu1">
-                            <p:panelGrid columns="4"  >
-                                <p:column >
-                                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
-                                        <f:selectItems value="#{podatnikView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                        <f:selectItems value="#{Roki.rokiList}"/>
-                                        <f:param name="rokWpisu" value="2012" />
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                                        <f:selectItems value="#{Mce.mceList}"/>
-                                    </p:selectOneMenu>
-                                </p:column>
-                                <p:column>
-                                    <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
-                                                      style="width: 150px;"
-                                                      actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
-                                </p:column>
-                            </p:panelGrid>
-            </h:form>
+        <h:form>
+            <p:menubar autoDisplay="true">
+                <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
+                <p:menuitem icon="ui-icon-document" value="dokumenty" outcome="menudokumentyFK"/>
+                <p:menuitem icon="ui-icon-pencil" value="zapisy kont" outcome="raportyFK"/>
+                <p:menuitem icon="ui-icon-contact" value="rejestry" outcome="rejestryFK"/>
+                <p:menuitem icon="ui-icon-search" value="rozrachunki" outcome="menurozrachunkiFK" />
+                <p:menuitem icon="ui-icon-note" value="słowniki" outcome="kartotekiFK"/>
+                <p:menuitem icon="ui-icon-gear" value="ustawienia" outcome="menuustawieniaFK"/>
+                <p:menuitem icon="ui-icon-star" value="bilanse" outcome="bilanseFK"/>
+                <p:menuitem icon="ui-icon-calendar" value="deklaracje" />
+                <p:menuitem icon="ui-icon-note" value="środki trw." outcome="srodkitrwaleFK"/>
+                <p:menuitem icon="ui-icon-note" value="rmk" outcome="rmkFK"/>
+                <p:menuitem icon="ui-icon-help" value="pomoc" />
+                <p:menuitem  value=" | " />
+                <p:menuitem icon="ui-icon-arrowrefresh-1-n" value="wyloguj" action="#{Logowanie.logout()}" />
+            </p:menubar>
+        </h:form>
+        <h:form id="dialog1menu1">
+            <p:panelGrid columns="4"  >
+                <p:column >
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
+                        <f:selectItems value="#{podatnikView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                        <f:selectItems value="#{Roki.rokiList}"/>
+                        <f:param name="rokWpisu" value="2012" />
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+<!--                    <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" -->
+                <p:commandButton style="width: 150px;"
+                                 actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" ajax="false"/>
+                </p:column>
+            </p:panelGrid>
+        </h:form>
     </p:layoutUnit>
 </ui:composition>   
 

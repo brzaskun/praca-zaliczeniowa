@@ -37,15 +37,15 @@
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update=":formprzeglad:dataList"/>
                 </p:panelGrid>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzeglad:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzeglad:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzeglad:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzeglad:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji RZiS"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Nie wybrano RZiS lub brak pozycji w wybranym RZiS"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
                         <f:facet  name="header">
                                 <h:outputText value="rachunek zysków i strat"/>
