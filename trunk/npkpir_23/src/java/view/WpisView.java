@@ -277,6 +277,23 @@ public class WpisView implements Serializable {
         }
         return -1;
     }
+    
+    public String skierujmultisuera() {
+        Podatnik podatnik = podatnikDAO.find(podatnikWpisu);
+        List<Parametr> pod = podatnik.getPodatekdochodowy();
+        if ( pod != null && (!pod.isEmpty())) {
+            for (Parametr p : pod) {
+                if (p.getRokOd().equals(rokWpisuSt)) {
+                    if (p.getParametr().contains("księgi rachunkowe")) {
+                        return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
+                    } else {
+                        return "/guest/guestTablica.xhtml?faces-redirect=true";
+                    }
+                }
+            }
+        }
+        return "";
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getRokNastepny() {

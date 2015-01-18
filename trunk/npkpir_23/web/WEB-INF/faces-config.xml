@@ -38,6 +38,10 @@
             <to-view-id>/admin/adminMail.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>multiuser</from-outcome>
+            <to-view-id>/admin/adminMultiuser.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>ipobsluga</from-outcome>
             <to-view-id>/admin/adminIPobsluga.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -100,6 +104,10 @@
           <navigation-case>
             <from-outcome>ginwestycje</from-outcome>
             <to-view-id>/guest/ksiegowaInwestycje.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfktablica</from-outcome>
+            <to-view-id>/guestFK/guestFKTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>ksiegowa</from-outcome>
@@ -368,6 +376,10 @@
         <navigation-case>
             <from-outcome>BookkeeperFK</from-outcome>
             <to-view-id>/indexFK.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Multiuser</from-outcome>
+            <to-view-id>/indexMulti.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>menudokumentyFK</from-outcome>

@@ -57,6 +57,8 @@ public class PozycjeNaFakturzeView implements Serializable {
             west = "../wspolny/sub/layoutFakturaGuestFK/west.xhtml";
         } else if (request.isUserInRole("GuestFaktura")) {
             west = "../wspolny/sub/layoutFakturaGuestFaktura/west.xhtml";
+        } else if (request.isUserInRole("Multiuser")) {
+            west = "../wspolny/sub/layoutFakturaMultiuser/west.xhtml";
         }
     }
 

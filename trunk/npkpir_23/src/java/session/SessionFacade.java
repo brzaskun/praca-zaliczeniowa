@@ -19,6 +19,7 @@ import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.Inwestycje;
 import entity.Klienci;
+import entity.MultiuserSettings;
 import entity.Pismoadmin;
 import entity.Pitpoz;
 import entity.Platnosci;
@@ -1188,6 +1189,14 @@ public class SessionFacade<T> implements Serializable{
 
     public long countMiejscaKosztow(Podatnik podatnikObiekt) {
         return (long) em.createNamedQuery("MiejsceKosztow.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
+    }
+
+    public List<Uz> findMultiuser() {
+        return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", "Multiuser").getResultList();
+    }
+
+    public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {
+        return em.createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList();
     }
 
         

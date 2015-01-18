@@ -104,6 +104,9 @@ public class Logowanie implements Serializable {
             } else if (request.isUserInRole("BookkeeperFK")) {
                 message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
                 navto = "BookkeeperFK";
+            } else if (request.isUserInRole("Multiuser")) {
+                message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
+                navto = "Multiuser";
             } else if (request.isUserInRole("Guest")) {
                 String nip = uzDAO.find(uzytk).getFirma();
                 Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
