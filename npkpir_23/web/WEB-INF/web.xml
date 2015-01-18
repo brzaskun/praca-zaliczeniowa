@@ -151,6 +151,7 @@
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
+            <role-name>Multiuser</role-name>
         </auth-constraint>
     </security-constraint>
       <security-constraint>
@@ -164,6 +165,7 @@
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
+            <role-name>Multiuser</role-name>
         </auth-constraint>
     </security-constraint>
     <security-constraint>
@@ -179,6 +181,7 @@
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
+            <role-name>Multiuser</role-name>
         </auth-constraint>
     </security-constraint>
      <security-constraint>
@@ -194,6 +197,7 @@
             <role-name>Administrator</role-name>
             <role-name>Bookkeeper</role-name>
             <role-name>BookkeeperFK</role-name>
+            <role-name>Multiuser</role-name>
         </auth-constraint>
     </security-constraint>
     <error-page>

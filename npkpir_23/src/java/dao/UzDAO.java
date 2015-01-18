@@ -29,9 +29,11 @@ public class UzDAO extends DAO implements Serializable{
          return uzFacade.findUzNP(np);
      }
     
-    
+    public List<Uz> findMultiuser() {
+        return uzFacade.findMultiuser();
+    }
    
-       public  List<Uz> findAll(){
+    public  List<Uz> findAll(){
         try {
             return uzFacade.findAll(Uz.class);
         } catch (Exception e) {
