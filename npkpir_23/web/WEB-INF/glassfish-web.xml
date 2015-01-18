@@ -41,6 +41,11 @@
     <principal-name>Noobie</principal-name>
     <group-name>Noobie</group-name>
   </security-role-mapping>
+  <security-role-mapping>
+    <role-name>Multiuser</role-name>
+    <principal-name>Multiuser</principal-name>
+    <group-name>Multiuser</group-name>
+  </security-role-mapping>
   <resource-ref>
     <res-ref-name>jms/pkpirQueueFactory</res-ref-name>
     <jndi-name>jms/pkpirQueueFactory</jndi-name>

@@ -6,12 +6,15 @@
 
 package beansFK;
 
+import dao.StronaWierszaDAO;
 import data.Data;
+import embeddable.Mce;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
@@ -32,8 +35,6 @@ public class StronaWierszaBean {
                 return (aktualnyWierszDlaRozrachunkow).getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             }
     }
-    
-   
        
     public static double przeliczWalutyWn(Wiersz wiersz) {
             wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
@@ -52,6 +53,18 @@ public class StronaWierszaBean {
             kwotazlotowki /= 100;
             return kwotazlotowki;
         }
+     
+     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        List<StronaWiersza> lista = new ArrayList<>();
+        for (String p : Mce.getMceListS()) {
+            if (p.equals(wpisView.getMiesiacNastepny())) {
+                break;
+            } else {
+                lista.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), p));
+            }
+        }
+        return lista;
+    }
      
      public static void main(String[] args) {
             double kwotawaluta = 6851.63;
