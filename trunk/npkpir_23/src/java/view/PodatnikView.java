@@ -359,6 +359,7 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setPodatekdochodowy(lista);
             podatnikDAO.edit(selected);
+            parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr pod.dochodowy do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -378,6 +379,7 @@ public class PodatnikView implements Serializable {
         lista.add(parametr);
         selected.setZawieszeniedzialalnosci(lista);
         podatnikDAO.edit(selected);
+        parametr = new Parametr();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr zawieszenie działalności do podatnika.", selected.getNazwapelna());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -431,6 +433,7 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setVatokres(lista);
             podatnikDAO.edit(selected);
+            parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -617,6 +620,7 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setKwotaautoryzujaca(lista);
             podatnikDAO.edit(selected);
+            parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota autoryzująca do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -648,6 +652,7 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setNumerpkpir(lista);
             podatnikDAO.edit(selected);
+            parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno numer początkowy w pkpir dla podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } else {
@@ -675,6 +680,7 @@ public class PodatnikView implements Serializable {
             lista.add(parametr);
             selected.setFKpiatki(lista);
             podatnikDAO.edit(selected);
+            parametr = new Parametr();
             Msg.msg("Dodano ustawienie piątek");
         } else {
             Msg.msg("e", "Nie udało się zmienić ustawienie piątek");
