@@ -683,7 +683,8 @@ public class FakturaView implements Serializable {
                 }
          if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
                         if (istniejafakturyrok == 0) {
-                            selected.getFakturaPK().setNumerkolejny(wpisView.getPodatnikObiekt().getSchematnumeracji());
+                            String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView);
+                            selected.getFakturaPK().setNumerkolejny(numer);
                             selected.setLp(1);
                             Msg.msg("i", "Generuje nową serie numerów faktury");
                         } else {
