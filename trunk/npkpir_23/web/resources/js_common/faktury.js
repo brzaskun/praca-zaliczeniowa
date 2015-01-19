@@ -36,3 +36,28 @@ var kliknijpolekontrahenta = function (nip) {
     PF('tworzenieklientapolenazwy').activate();
     PF('tworzenieklientapolenazwy').close();
 };
+
+var walidacjadatyzaplaty = function () {
+    var cowpisano = rj("formdatazaplaty:datazaplaty").value;
+    var czyjest = cowpisano.indexOf("_");
+    if (czyjest === -1) {
+        r("formdatazaplaty:datazaplatybutton").show();
+        r("formdatazaplaty:datazaplatycancelbutton").hide();
+    } else {
+        r("formdatazaplaty:datazaplatybutton").hide();
+        r("formdatazaplaty:datazaplatycancelbutton").show();
+    }
+};
+
+ var weryfikujdatazaplaty = function () {
+       var dataWyst = document.getElementById("formdatazaplaty:datazaplaty");
+       var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
+       var testw = dataWyst.value;
+         if (!testw.match(re)){
+             dataWyst.value = "b\u0142ędna data";
+             r('formdatazaplaty:datazaplaty').focus();
+             r("formdatazaplaty:datazaplatybutton").hide();
+             r("formdatazaplaty:datazaplatycancelbutton").show();
+         }
+   };
+   

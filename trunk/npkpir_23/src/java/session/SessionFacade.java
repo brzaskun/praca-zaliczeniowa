@@ -621,7 +621,14 @@ public class SessionFacade<T> implements Serializable{
 }
     public List<Faktura> findByPodatnikRokMc(String podatnik, String rok, String mc) {
         return em.createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
-}
+    }
+    public List<Faktura> findByPodatnikRokMcPlatnosci(String podatnik, String rok, String mc,  boolean niezaplacone0zaplacone1) {
+        if (niezaplacone0zaplacone1 == false) {
+            return em.createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        } else {
+            return em.createNamedQuery("Faktura.findByWystawcanazwaRokMcZaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
+        }
+    }
 
     public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna) {
         return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
