@@ -40,6 +40,16 @@ public class FakturaBean {
             return generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 1);
     }
     
+    public static String uzyjwzorcagenerujpierwszynumerFaktura(String wzorzec, WpisView wpisView) {
+        String separator = znajdzseparator(wzorzec);
+        return generowaniepierwszynumer(wzorzec, separator, wpisView);
+    }
+    
+      private static String generowaniepierwszynumer(String wzorzec, String separator, WpisView wpisView) {
+        String[] elementywzorca = elementywzorca(wzorzec, separator);
+        String nowynumer = pierwszynumer(elementywzorca, wpisView, separator);
+        return trimmnowynumer(nowynumer, separator);
+    }
         
     private static String generowanie (String wzorzec, String separator, String[] elementypoprzedniafakt, WpisView wpisView, int nowanumeracjamc) {
         String[] elementywzorca = elementywzorca(wzorzec, separator);
@@ -106,9 +116,37 @@ public class FakturaBean {
         }
         return nowynumer;
     }
-    
-    
-    
+ 
+  
+    private static String pierwszynumer(String[] elementywzorca, WpisView wpisView, String separator) {
+        String nowynumer = "";
+        for (int i = 0; i < elementywzorca.length; i++) {
+            String typ = elementywzorca[i];
+            switch (typ) {
+                case "n":
+                    nowynumer = nowynumer.concat("1").concat(separator);
+                    break;
+                case "N":
+                    nowynumer = nowynumer.concat("1").concat(separator);
+                    break;
+                case "m":
+                    nowynumer = nowynumer.concat(wpisView.getMiesiacWpisu()).concat(separator);
+                    break;
+                case "r":
+                    nowynumer = nowynumer.concat(wpisView.getRokWpisuSt()).concat(separator);
+                    break;
+                //to jest wlasna wstawka typu FVZ
+                case "s":
+                    nowynumer = nowynumer.concat(elementywzorca[i]).concat(separator);
+                    break;
+                default:
+                    nowynumer = nowynumer.concat(elementywzorca[i]).concat(separator);
+                    break;
+            }
+        }
+        return nowynumer;
+    }
+
     private static String trimmnowynumer(String nowynumer, String separator) {
         String numer = null;
         if (nowynumer.endsWith(separator)) {
@@ -116,4 +154,6 @@ public class FakturaBean {
         }
         return numer;
     }
+
+  
 }
