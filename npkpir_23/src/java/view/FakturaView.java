@@ -5,6 +5,7 @@
 package view;
 
 import beansFaktura.FakturaBean;
+import static com.sun.faces.el.ELUtils.createValueExpression;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
@@ -36,6 +37,8 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -47,6 +50,9 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
+import org.primefaces.component.column.Column;
+import org.primefaces.component.datatable.DataTable;
+import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfFaktura;
@@ -108,6 +114,8 @@ public class FakturaView implements Serializable {
     private int aktywnytab;
     private boolean zapis0edycja1;
     private String nazwaskroconafaktura;
+    private DataTable dataTablepozycjenafakturze;
+    private List<ColumnModel> columns;
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -1250,6 +1258,20 @@ public class FakturaView implements Serializable {
         wygenerujnumerfakturycd();
     }
     
+    public void dodajkolumne() {
+        Column dodkolumna = new Column();
+        dodkolumna.setHeaderText("cena netto");
+        InputText t = new InputText();
+        t.setValueExpression("value", createValueExpression("#{row.nowakolumna}", String.class));
+        dodkolumna.getChildren().add(t);
+        dataTablepozycjenafakturze.getChildren().add(dodkolumna);
+        Msg.msg("Dodaję kolumnę");
+    }
+    public void createDynamicColumns() {
+        columns = new ArrayList<ColumnModel>(); 
+        columns.add(new ColumnModel("nowakolumna", "nowakolumna"));
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     
     public int getAktywnytab() {
@@ -1374,7 +1396,6 @@ public class FakturaView implements Serializable {
         this.fakturyokresoweFiltered = fakturyokresoweFiltered;
     }
 
-    //</editor-fold>
 
     public String getWiadomoscdodatkowa() {
         return wiadomoscdodatkowa;
@@ -1400,7 +1421,41 @@ public class FakturaView implements Serializable {
         this.nazwaskroconafaktura = nazwaskroconafaktura;
     }
 
-   
+    public DataTable getDataTablepozycjenafakturze() {
+        return dataTablepozycjenafakturze;
+    }
+
+    public void setDataTablepozycjenafakturze(DataTable dataTablepozycjenafakturze) {
+        this.dataTablepozycjenafakturze = dataTablepozycjenafakturze;
+    }
+//</editor-fold>
+    
+    public List<ColumnModel> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<ColumnModel> columns) {
+        this.columns = columns;
+    }
+
+   static public class ColumnModel implements Serializable {
+ 
+        private String header;
+        private String property;
+ 
+        public ColumnModel(String header, String property) {
+            this.header = header;
+            this.property = property;
+        }
+ 
+        public String getHeader() {
+            return header;
+        }
+ 
+        public String getProperty() {
+            return property;
+        }
+    }
     
     
 }

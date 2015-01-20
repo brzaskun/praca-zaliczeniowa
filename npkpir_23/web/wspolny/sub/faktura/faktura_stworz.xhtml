@@ -8,14 +8,28 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
      <p:tab id="nowa" title="Sporządź nową fakturę" >
+          <style>
+
+        .kwotarozrachunku .pe-inputNumber{
+            width: 80px !important;
+        }
+    </style>
          <h:form id="formprzygotuj">
             <p:outputPanel style="padding: 5px;">
-                <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz" style="margin-bottom: 25px; margin-top: 10px" />
+                <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" 
+                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz, :akordeon:formprzygotuj2"
+                                 style="margin-bottom: 5px; margin-top: 5px; width: 140px;" />
+            </p:outputPanel>
+        </h:form>
+         <h:form id="formprzygotuj2">
+            <p:outputPanel style="padding: 5px;">
+                <p:commandButton value="dodat. kolumna" actionListener="#{fakturaView.dodajkolumne()}"  rendered="#{fakturaView.pokazfakture ? true : false}"
+                                 style="margin-bottom: 5px; width: 140px;" global="false" update=":akordeon:formstworz"/>
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
             <p:outputPanel id="panelfaktury"  rendered="#{fakturaView.pokazfakture ? true : false}">
-                <div class="ui-grid ui-grid-responsive" style="height: 250px; max-width: 1000px;">
+                <div class="ui-grid ui-grid-responsive" style="height: 250px; max-width: 900px;">
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="miejsce wystawienia faktury: " />
@@ -149,18 +163,19 @@
                     </div>
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 1000px;">
-                        <p:column headerText="nazwa" width="255">
-                            <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 250px;"
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 1000px;"
+                                 binding="#{fakturaView.dataTablepozycjenafakturze}">
+                        <p:column headerText="nazwa" width="230">
+                            <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 220px;"
                                          styleClass="komorka"  label="text" title="nazwa towaru lub usługi" ><p:watermark for="nazwa" value="nazwa towaru lub usługi" />
                                 <p:ajax global="false" event="focus" onstart="sprawdzczynazwaskroconafakturaniejestshown();"/>
                             </p:inputText>   
                         </p:column>
-                        <p:column headerText="pkwiu">
-                            <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" title="jednostka miary"><p:watermark for="pkwiu" value="symbol PKWiU" /></p:inputText>    
+                        <p:column headerText="pkwiu" width="80">
+                            <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
                         </p:column>
-                        <p:column headerText="jednosta miary">
-                            <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 100px;"
+                        <p:column headerText="jedn. miary" width="65">
+                            <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"
@@ -174,15 +189,21 @@
                                 <f:selectItem itemLabel="osb." itemValue="osb."/>
                             </h:selectOneMenu>
                         </p:column>
-                        <p:column headerText="ilość">
-                            <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
+                        <p:column headerText="ilość" width="60">
+                            <p:inputText id="ilosc" value="#{row.ilosc}" label="text" title="ilość" style="text-align:  right; width: 50px;"><p:watermark for="ilosc" value="ilość" /></p:inputText>
                         </p:column>
-                        <p:column headerText="cena jedn. netto">
-                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" style=""
+                        <p:column headerText="cena jedn. netto" width="90">
+                            <pe:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                             requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
-                        <p:column headerText="stawka podatku VAT">
-                            <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 100px;" 
+                        <p:columns value="#{fakturaView.columns}" var="column">
+                            <f:facet name="header">
+                                <h:outputText value="#{column.header}" />
+                            </f:facet>
+                            <h:inputText value="#{row[column.property]}" />
+                        </p:columns>
+                        <p:column headerText="stawka VAT" width="50">
+                            <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 50px;" 
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                              onfocus="$(this).removeClass('ui-state-default');
                                                      $(this).addClass('ui-state-focus');"

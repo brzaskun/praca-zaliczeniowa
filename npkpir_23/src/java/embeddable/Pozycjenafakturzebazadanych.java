@@ -5,6 +5,8 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import javax.persistence.Embeddable;
 
 /**
@@ -13,16 +15,19 @@ import javax.persistence.Embeddable;
  */
 @Embeddable
 public class Pozycjenafakturzebazadanych implements Serializable{
-        int lp;
-        String nazwa = "";
-        String PKWiU = "";
-        String jednostka = "";
-        double ilosc = 0;
-        double cena = 0;
-        double netto = 0;
-        double podatek = 0;
-        double podatekkwota = 0;
-        double brutto = 0;
+        private static final long serialVersionUID = 6017591291599259063L;
+        private int lp;
+        private String nazwa = "";
+        private String nowakolumna = "";
+        private Map<String, String> dodatkowekolumny = new HashMap<>();
+        private String PKWiU = "";
+        private String jednostka = "";
+        private double ilosc = 0;
+        private double cena = 0;
+        private double netto = 0;
+        private double podatek = 0;
+        private double podatekkwota = 0;
+        private double brutto = 0;
 
     public Pozycjenafakturzebazadanych() {
     }
@@ -56,6 +61,15 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         this.nazwa = nazwa;
     }
 
+    public Map<String, String> getDodatkowekolumny() {
+        return dodatkowekolumny;
+    }
+
+    public void setDodatkowekolumny(Map<String, String> dodatkowekolumny) {
+        this.dodatkowekolumny = dodatkowekolumny;
+    }
+
+    
     public String getPKWiU() {
         return PKWiU;
     }
@@ -118,6 +132,14 @@ public class Pozycjenafakturzebazadanych implements Serializable{
 
     public void setBrutto(double brutto) {
         this.brutto = brutto;
+    }
+
+    public String getNowakolumna() {
+        return nowakolumna;
+    }
+
+    public void setNowakolumna(String nowakolumna) {
+        this.nowakolumna = nowakolumna;
     }
         
     
