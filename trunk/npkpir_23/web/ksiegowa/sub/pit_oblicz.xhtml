@@ -11,7 +11,7 @@
     <p:tab id="tab2" title="Oblicz PIT" rendered="#{WpisView.ksiegaryczalt}" >
                 <h:form id="formpit">
                    <p:growl id="messages" autoUpdate="true" />
-                    <p:panelGrid  columns="2">
+                    <p:panelGrid id="danedopit" columns="2">
                         <p:panelGrid  columns="1" >
                             <p:panel header="rozliczenie remanentów: " style="width: 250px;" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
                             <p:panelGrid  columns="2" rendered="#{WpisView.miesiacWpisu eq '12'}">
@@ -31,7 +31,11 @@
                                 <f:selectItems value="#{ZestawienieView.listawybranychudzialowcow}"/>
                                 <p:ajax event="change" update=":akordeon:formpit" listener="#{ZestawienieView.obliczPit()}"/>
                             </p:selectOneMenu>
-                            <h:outputText value="#{WpisView.rodzajopodatkowania}"/>
+                            <h:outputText value="#{WpisView.rodzajopodatkowania}" style="margin-top: 10px;"/>
+                            <h:outputText id="pole1" value="czy to jest pierwszy PIT w roku?" rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}"/>
+                            <h:selectBooleanCheckbox id="pole2" value="${ZestawienieView.pierwszypitwroku}"  rendered="#{ZestawienieView.pierwszypitwrokuzaznacz}">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
+                            </h:selectBooleanCheckbox>
                         </p:panelGrid>
                         <p:panelGrid  columns="1" >
                             <p:panel header="dane nowego PIT-u: #{ZestawienieView.wybranyudzialowiec} #{ZestawienieView.wybranyprocent}%" style="width: 450px;"/>

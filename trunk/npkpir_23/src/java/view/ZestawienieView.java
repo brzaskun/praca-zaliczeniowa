@@ -38,6 +38,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
@@ -58,7 +59,7 @@ import pdf.PdfZestRok;
  * @author Osito
  */
 @ManagedBean(name = "ZestawienieView")
-@RequestScoped
+@ViewScoped
 public class ZestawienieView implements Serializable {
 
     private static List<Double> styczen;
@@ -109,6 +110,8 @@ public class ZestawienieView implements Serializable {
     private boolean zus51zreki;
     private boolean zus52zreki;
     @Inject private WpisDAO wpisDAO;
+    private boolean pierwszypitwroku;
+    private boolean pierwszypitwrokuzaznacz;
     
     private int flaga = 0;
 
@@ -836,9 +839,13 @@ public class ZestawienieView implements Serializable {
         if (wybranyudzialowiec.equals("wybierz osobe")) {
             Msg.msg("e", "Nie wybrałeś podatnika");
         } else {
-            if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
-                return;
-            }
+            if (pierwszypitwrokuzaznacz == false) {
+                if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
+                    wybranyudzialowiec = "wybierz osobe";
+                    RequestContext.getCurrentInstance().update("formpit:");
+                    return;
+                }
+            } else {
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
@@ -896,12 +903,14 @@ public class ZestawienieView implements Serializable {
                     }
 
                     sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
-                    if (selected.getOdliczaczus51() == true) {
+                    if (selected.getOdliczaczus51() == true && pierwszypitwroku == false) {
                         biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                     }
                     rozliczstrate(tmpP);
                     BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
-                    tmp = tmp.subtract(biezacyPit.getZus51());
+                    if (biezacyPit.getZus51() != null) {
+                        tmp = tmp.subtract(biezacyPit.getZus51());
+                    }
                     tmp = tmp.setScale(0, RoundingMode.HALF_EVEN);
                     if (tmp.signum() == -1) {
                         biezacyPit.setPodstawa(BigDecimal.ZERO);
@@ -913,6 +922,9 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
+                    pierwszypitwroku = false;
+                    pierwszypitwrokuzaznacz = false;
+                    RequestContext.getCurrentInstance().update("formpit:");
                     return;
                 }
                 Podstawki skalaPodatkowaZaDanyRok;
@@ -921,6 +933,9 @@ public class ZestawienieView implements Serializable {
                 } catch (Exception e) {
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
+                    pierwszypitwroku = false;
+                    pierwszypitwrokuzaznacz = false;
+                    RequestContext.getCurrentInstance().update("formpit:");
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
@@ -963,6 +978,9 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
+                    pierwszypitwroku = false;
+                    pierwszypitwrokuzaznacz = false;
+                    RequestContext.getCurrentInstance().update("formpit:");
                     return;
                 }
                 if (podatek.signum() == 1) {
@@ -970,8 +988,10 @@ public class ZestawienieView implements Serializable {
                 } else {
                     biezacyPit.setPodatek(BigDecimal.ZERO);
                 }
-                if (zus52zreki == false) {
+                if (zus52zreki == false && biezacyPit.getZus52() != null) {
                     biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                } else {
+                    biezacyPit.setZus52(sumapoprzednichmcy.getZus52());
                 }
                 BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
                 tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
@@ -996,14 +1016,19 @@ public class ZestawienieView implements Serializable {
                 try {
                     Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                     biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
+                    pierwszypitwroku = false;
+                    pierwszypitwrokuzaznacz = false;
                     RequestContext.getCurrentInstance().update("formpit:");
                 } catch (Exception e) {
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
+                    pierwszypitwroku = false;
+                    pierwszypitwrokuzaznacz = false;
                     RequestContext.getCurrentInstance().update("formpit:");
                 }
 
+            }
             }
         }
     }
@@ -1671,7 +1696,28 @@ private void aktualizujGuest(){
         this.zus52zreki = zus52zreki;
     }
 
+    public boolean isPierwszypitwroku() {
+        return pierwszypitwroku;
+    }
+
+    public void setPierwszypitwroku(boolean pierwszypitwroku) {
+        this.pierwszypitwroku = pierwszypitwroku;
+    }
+
+    public boolean isPierwszypitwrokuzaznacz() {
+        return pierwszypitwrokuzaznacz;
+    }
+
+    public void setPierwszypitwrokuzaznacz(boolean pierwszypitwrokuzaznacz) {
+        this.pierwszypitwrokuzaznacz = pierwszypitwrokuzaznacz;
+    }
+    
+    
+
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
+        if (pierwszypitwroku == true) {
+            return 0;
+        }
         if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
             if (!wpisView.getMiesiacWpisu().equals("03") || wybranyudzialowiec.equals("wybierz osobe")) {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
@@ -1680,6 +1726,7 @@ private void aktualizujGuest(){
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
                 } catch (Exception e) {
                     Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
+                    pierwszypitwrokuzaznacz = true;
                     return 1;
                 }
             }
@@ -1690,6 +1737,7 @@ private void aktualizujGuest(){
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
                 } catch (Exception e) {
                     Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
+                    pierwszypitwrokuzaznacz = true;
                     return 1;
                 }
             }
