@@ -132,6 +132,8 @@ public class Faktura implements Serializable {
     @Lob
     @Column(nullable = false)
     private List<Pozycjenafakturzebazadanych> pozycjenafakturze;
+    @Lob
+    private List<String> dodatkowekolumny;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -397,6 +399,14 @@ public class Faktura implements Serializable {
     
     public void setPozycjenafakturze(List<Pozycjenafakturzebazadanych> pozycjenafakturze) {
         this.pozycjenafakturze = pozycjenafakturze;
+    }
+
+    public List<String> getDodatkowekolumny() {
+        return dodatkowekolumny;
+    }
+
+    public void setDodatkowekolumny(List<String> dodatkowekolumny) {
+        this.dodatkowekolumny = dodatkowekolumny;
     }
     
     public boolean getZatwierdzona() {
