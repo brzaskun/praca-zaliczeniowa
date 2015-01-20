@@ -124,10 +124,8 @@ public class Faktura implements Serializable {
     @Size(min = 1, max = 3)
     @Column(nullable = false, length = 3)
     private String walutafaktury;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(nullable = false, length = 255)
+    @Basic(optional = true)
+    @Column(nullable = true, length = 255)
     private String podpis;
     @Basic(optional = false)
     @NotNull

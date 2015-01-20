@@ -272,7 +272,8 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "akordeon:formwzor:podpis":
                         //Dane do modulu platnosc
                         pobrane = zwrocpozycje(lista, "podpis");
-                        absText(writer, selected.getPodpis(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
+                        String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
+                        absText(writer, podpis, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
                         absText(writer, "..........................................", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis") - 20, 8);
                         absText(writer, "wystawca faktury", (int) (pobrane.getLewy() / dzielnik) + 15, wymiary.get("akordeon:formwzor:podpis") - 40, 8);
                         break;
@@ -459,7 +460,8 @@ public class PdfFaktura extends Pdf implements Serializable {
                 case "akordeon:formwzor:podpis":
                     //Dane do modulu platnosc
                     pobrane = zwrocpozycje(lista, "podpis");
-                    absText(writer, selected.getPodpis(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
+                    String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
+                    absText(writer, podpis, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
                     absText(writer, "..........................................", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis") - 20, 8);
                     absText(writer, "wystawca faktury", (int) (pobrane.getLewy() / dzielnik) + 15, wymiary.get("akordeon:formwzor:podpis") - 40, 8);
                     break;
