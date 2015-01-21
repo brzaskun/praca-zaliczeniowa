@@ -845,7 +845,7 @@ public class ZestawienieView implements Serializable {
                     RequestContext.getCurrentInstance().update("formpit:");
                     return;
                 }
-            } else {
+            }
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
@@ -1028,7 +1028,6 @@ public class ZestawienieView implements Serializable {
                     RequestContext.getCurrentInstance().update("formpit:");
                 }
 
-            }
             }
         }
     }
