@@ -687,39 +687,49 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         Font font = new Font(helvetica, 8);
         Font fontL = new Font(helvetica, 10);
         Font fontXL = new Font(helvetica, 12);
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        Rectangle rect = new Rectangle(523, 200);
-        PdfPTable table = new PdfPTable(11);
-        table.setWidthPercentage(new float[]{20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30}, rect);
+        Rectangle rect = new Rectangle(923, 350);
+        PdfPTable table = new PdfPTable(15);
+        table.setTotalWidth(new float[]{20, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
+        //table.setWidthPercentage(new float[]{20, 90, 40, 30, 30, 70, 70, 70, 70, 70, 70, 80, 30, 80, 80}, rect);
         // set the total width of the table
-        table.setTotalWidth(500);
-        table.addCell(ustawfrazeAlign("lp", "center", 8));
-        table.addCell(ustawfrazeAlign("opis", "center", 8));
-        table.addCell(ustawfrazeAlign("PKWiU", "center", 8));
-        table.addCell(ustawfrazeAlign("ilość", "center", 8));
-        table.addCell(ustawfrazeAlign("jedn.m.", "center", 8));
-        table.addCell(ustawfrazeAlign("cena netto", "center", 8));
-        table.addCell(ustawfrazeAlign("wartość netto", "center", 8));
-        table.addCell(ustawfrazeAlign("stawka vat", "center", 8));
-        table.addCell(ustawfrazeAlign("kwota vat", "center", 8));
-        table.addCell(ustawfrazeAlign("wartość brutto", "center", 8));
-        table.addCell(ustawfrazeAlign("uwagi", "center", 8));
+        table.setTotalWidth(560);
+        table.addCell(ustawfrazeAlign("lp", "center", 7));
+        table.addCell(ustawfrazeAlign("opis", "center", 7));
+        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+        table.addCell(ustawfrazeAlign("ilość", "center", 7));
+        table.addCell(ustawfrazeAlign("j.m.", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto1", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto2", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
+        table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
+        table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
+        table.addCell(ustawfrazeAlign("vat", "center", 7));
+        table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
+        table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
         table.setHeaderRows(1);
-            table.addCell(ustawfrazeAlign("1", "center", 8));
-            table.addCell(ustawfrazeAlign("lolo", "left", 8));
-            table.addCell(ustawfrazeAlign("pkwiu", "center", 8));
-            table.addCell(ustawfrazeAlign("10", "center", 8));
-            table.addCell(ustawfrazeAlign("kg", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(100)), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(1000)), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 8));
-            table.addCell(ustawfrazeAlign("", "center", 8));
-        table.addCell(ustawfraze("Razem", 6, 0));
+            table.addCell(ustawfrazeAlign("1", "center", 7));
+            table.addCell(ustawfrazeAlign("lolo", "left", 7));
+            table.addCell(ustawfrazeAlign("pkwiu", "center", 7));
+            table.addCell(ustawfrazeAlign("10", "center", 7));
+            table.addCell(ustawfrazeAlign("kg", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
+            table.addCell(ustawfrazeAlign("", "center", 7));
+        table.addCell(ustawfraze("Razem", 10, 0));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 8));
         table.addCell(ustawfrazeAlign("*", "center", 8));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 8));
@@ -731,7 +741,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
 //        if (ewidencja != null) {
 //            for (EVatwpis p : ewidencja) {
 //                if (ilerow > 0) {
-//                    table.addCell(ustawfraze(" ", 6, 0));
+//                    table.addCell(ustawfraze(" ", 10, 0));
 //                }
 //                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
 //                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
@@ -742,7 +752,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
 //            }
 //        }
         float dzielnik = 2;
-        table.writeSelectedRows(0, table.getRows().size(), (107 / dzielnik), 483, writer.getDirectContent());
+        table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
     }
 }
