@@ -534,6 +534,7 @@ public class Vat7DKView implements Serializable {
         try {
             vat713 = new VAT713(pozycjeDeklaracjiVAT, wpisView);
         } catch (Exception ex) {
+            Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }
         String wiersz = vat713.getWiersz();

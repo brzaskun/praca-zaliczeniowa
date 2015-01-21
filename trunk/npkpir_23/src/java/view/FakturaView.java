@@ -115,7 +115,8 @@ public class FakturaView implements Serializable {
     private boolean zapis0edycja1;
     private String nazwaskroconafaktura;
     private DataTable dataTablepozycjenafakturze;
-    private List<ColumnModel> columns;
+    private boolean fakturaxxl;
+    
 
     public FakturaView() {
         faktury = new ArrayList<>();
@@ -146,6 +147,9 @@ public class FakturaView implements Serializable {
 
     public void przygotujfakture() {
         selected = new Faktura();
+        if (fakturaxxl) {
+            selected.setFakturaxxl(true);
+        }
         String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
         String dzien = String.valueOf((new DateTime()).getDayOfMonth());
         dzien = dzien.length() == 1 ? "0" + dzien : dzien;
@@ -1267,12 +1271,25 @@ public class FakturaView implements Serializable {
         dataTablepozycjenafakturze.getChildren().add(dodkolumna);
         Msg.msg("Dodaję kolumnę");
     }
-    public void createDynamicColumns() {
-        columns = new ArrayList<ColumnModel>(); 
-        columns.add(new ColumnModel("nowakolumna", "nowakolumna"));
+    
+    public void przygotujfakturexxl() {
+        fakturaxxl = true;
+        przygotujfakture();
+    }
+
+//    public void createDynamicColumns() {
+//        columns = new ArrayList<ColumnModel>(); 
+//        columns.add(new ColumnModel("nowakolumna", "nowakolumna"));
+//    }
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public boolean isFakturaxxl() {
+        return fakturaxxl;
+    }
+
+    public void setFakturaxxl(boolean fakturaxxl) {
+        this.fakturaxxl = fakturaxxl;
     }
     
-    //<editor-fold defaultstate="collapsed" desc="comment">
     
     public int getAktywnytab() {
         return aktywnytab;
@@ -1430,13 +1447,7 @@ public class FakturaView implements Serializable {
     }
 //</editor-fold>
     
-    public List<ColumnModel> getColumns() {
-        return columns;
-    }
-
-    public void setColumns(List<ColumnModel> columns) {
-        this.columns = columns;
-    }
+   
 
    static public class ColumnModel implements Serializable {
  
