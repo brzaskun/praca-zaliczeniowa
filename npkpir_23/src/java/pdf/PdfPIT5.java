@@ -119,7 +119,11 @@ public class PdfPIT5 {
                 table.addCell(ustawfrazeAlign("","center",10));
                 
                 table1.addCell(ustawfrazeAlign("ZUS 51","center",10));
-                table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                if (selected.getZus51() != null) {
+                    table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
+                } else {
+                    table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(0)),"right",10));
+                }
                 table1.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 
@@ -129,7 +133,11 @@ public class PdfPIT5 {
                 table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
                 
                 table2.addCell(ustawfrazeAlign("ZUS 52","center",10));
-                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52   ())),"right",10));
+                if (selected.getZus52() != null) {
+                    table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52())),"right",10));
+                } else {
+                    table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(0)),"right",10));
+                }
                 table2.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
                 

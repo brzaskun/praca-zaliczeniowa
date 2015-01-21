@@ -16,15 +16,11 @@
     </style>
          <h:form id="formprzygotuj">
             <p:outputPanel style="padding: 5px;">
-                <p:commandButton id="przygotuj" value="przygotuj fakture" actionListener="#{fakturaView.przygotujfakture()}" 
-                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz, :akordeon:formprzygotuj2"
+                <p:commandButton id="przygotuj" value="faktura stand." actionListener="#{fakturaView.przygotujfakture()}" 
+                                 oncomplete="aktywujpolewyboruklientanafakturze();" update=":akordeon:formstworz"
                                  style="margin-bottom: 5px; margin-top: 5px; width: 140px;" />
-            </p:outputPanel>
-        </h:form>
-         <h:form id="formprzygotuj2">
-            <p:outputPanel style="padding: 5px;">
-                <p:commandButton value="dodat. kolumna" actionListener="#{fakturaView.dodajkolumne()}"  rendered="#{fakturaView.pokazfakture ? true : false}"
-                                 style="margin-bottom: 5px; width: 140px;" global="false" update=":akordeon:formstworz"/>
+                <p:commandButton value="faktura xxl" actionListener="#{fakturaView.przygotujfakturexxl()}" 
+                                 style="margin-bottom: 5px; width: 140px; margin-left: 5px;" global="false" update=":akordeon:formstworz"/>
             </p:outputPanel>
         </h:form>
         <h:form id="formstworz">
@@ -163,7 +159,7 @@
                     </div>
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 1000px;"
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 700px;"
                                  binding="#{fakturaView.dataTablepozycjenafakturze}">
                         <p:column headerText="nazwa" width="230">
                             <p:inputText id="nazwa" value="#{row.nazwa}" style="width: 220px;"
@@ -196,12 +192,26 @@
                             <pe:inputNumber id="cena" value="#{row.cena}" required="true" styleClass="kwotarozrachunku"
                                             requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
                         </p:column>
-                        <p:columns value="#{fakturaView.columns}" var="column">
-                            <f:facet name="header">
-                                <h:outputText value="#{column.header}" />
-                            </f:facet>
-                            <h:inputText value="#{row[column.property]}" />
-                        </p:columns>
+                        <p:column headerText="cena jedn. netto" width="90" rendered="#{fakturaView.fakturaxxl}">
+                             <pe:inputNumber id="cena1" value="#{row.cenajedn1}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
+                        <p:column headerText="cena jedn. netto" width="90" rendered="#{fakturaView.fakturaxxl}">
+                             <pe:inputNumber id="cena2" value="#{row.cenajedn2}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
+                        <p:column headerText="cena jedn. netto" width="90" rendered="#{fakturaView.fakturaxxl}">
+                             <pe:inputNumber id="cena3" value="#{row.cenajedn3}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
+                        <p:column headerText="cena jedn. netto" width="90" rendered="#{fakturaView.fakturaxxl}">
+                             <pe:inputNumber id="cena4" value="#{row.cenajedn4}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
+                        <p:column headerText="cena jedn. netto" width="90" rendered="#{fakturaView.fakturaxxl}">
+                             <pe:inputNumber id="cena5" value="#{row.cenajedn5}" required="true" styleClass="kwotarozrachunku"
+                                            requiredMessage="Brak kwoty - uzupełnij" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000"/> 
+                        </p:column>
                         <p:column headerText="stawka VAT" width="50">
                             <h:selectOneMenu id="podatek" value="#{row.podatek}" title="stawka podatku VAT" style="width: 50px;" 
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
