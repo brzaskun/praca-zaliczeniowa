@@ -55,8 +55,7 @@ import view.WpisView;
 @RequestScoped
 public class PdfFaktura extends Pdf implements Serializable {
 
-    public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException {
-    }
+ 
     @Inject
     private PozycjenafakturzeDAO pozycjeDAO;
     @Inject
@@ -278,7 +277,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         absText(writer, "wystawca faktury", (int) (pobrane.getLewy() / dzielnik) + 15, wymiary.get("akordeon:formwzor:podpis") - 40, 8);
                         break;
                     case "akordeon:formwzor:towary":
-                        //Dane do modulu towary
+                        //Dane do tablicy z wierszami
                         pobrane = zwrocpozycje(lista, "towary");
                         PdfPTable table = new PdfPTable(11);
                         wygenerujtablice(table, selected.getPozycjenafakturze(), selected);
@@ -666,4 +665,84 @@ public class PdfFaktura extends Pdf implements Serializable {
         return null;
     }
 
+
+
+
+public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
+        Document document = new Document();
+        String nazwapliku = "C:/testowa.pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        document.addTitle("Faktura");
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Wydruk faktury w formacie pdf");
+        document.addKeywords("Faktura, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
+        document.open();
+            //Rectangle rect = new Rectangle(0, 832, 136, 800);
+        //rect.setBackgroundColor(BaseColor.RED);
+        //document.add(rect);
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font fontXS = new Font(helvetica, 4);
+        Font fontS = new Font(helvetica, 6);
+        Font font = new Font(helvetica, 8);
+        Font fontL = new Font(helvetica, 10);
+        Font fontXL = new Font(helvetica, 12);
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        Rectangle rect = new Rectangle(523, 200);
+        PdfPTable table = new PdfPTable(11);
+        table.setWidthPercentage(new float[]{20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30}, rect);
+        // set the total width of the table
+        table.setTotalWidth(500);
+        table.addCell(ustawfrazeAlign("lp", "center", 8));
+        table.addCell(ustawfrazeAlign("opis", "center", 8));
+        table.addCell(ustawfrazeAlign("PKWiU", "center", 8));
+        table.addCell(ustawfrazeAlign("ilość", "center", 8));
+        table.addCell(ustawfrazeAlign("jedn.m.", "center", 8));
+        table.addCell(ustawfrazeAlign("cena netto", "center", 8));
+        table.addCell(ustawfrazeAlign("wartość netto", "center", 8));
+        table.addCell(ustawfrazeAlign("stawka vat", "center", 8));
+        table.addCell(ustawfrazeAlign("kwota vat", "center", 8));
+        table.addCell(ustawfrazeAlign("wartość brutto", "center", 8));
+        table.addCell(ustawfrazeAlign("uwagi", "center", 8));
+        table.setHeaderRows(1);
+            table.addCell(ustawfrazeAlign("1", "center", 8));
+            table.addCell(ustawfrazeAlign("lolo", "left", 8));
+            table.addCell(ustawfrazeAlign("pkwiu", "center", 8));
+            table.addCell(ustawfrazeAlign("10", "center", 8));
+            table.addCell(ustawfrazeAlign("kg", "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(100)), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(1000)), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 8));
+            table.addCell(ustawfrazeAlign("", "center", 8));
+        table.addCell(ustawfraze("Razem", 6, 0));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 8));
+        table.addCell(ustawfrazeAlign("*", "center", 8));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 8));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 8));
+        table.completeRow();
+        table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
+//        List<EVatwpis> ewidencja = selected.getEwidencjavat();
+//        int ilerow = 0;
+//        if (ewidencja != null) {
+//            for (EVatwpis p : ewidencja) {
+//                if (ilerow > 0) {
+//                    table.addCell(ustawfraze(" ", 6, 0));
+//                }
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+//                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+//                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
+//                table.completeRow();
+//                ilerow++;
+//            }
+//        }
+        float dzielnik = 2;
+        table.writeSelectedRows(0, table.getRows().size(), (107 / dzielnik), 483, writer.getDirectContent());
+        document.close();
+    }
 }

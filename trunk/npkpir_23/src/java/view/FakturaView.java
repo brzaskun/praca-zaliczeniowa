@@ -313,6 +313,7 @@ public class FakturaView implements Serializable {
     }
 
     private void ewidencjavat(Faktura selected) throws Exception {
+        //tu obliczamy wartosc netto wiersza
         List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
         double netto = 0.0;
         double vat = 0.0;
