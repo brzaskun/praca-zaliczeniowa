@@ -15,14 +15,17 @@ import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.tools.Executable;
 import comparator.Pozycjenafakturzecomparator;
+import dao.FakturaXXLKolumnaDAO;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import dao.PozycjenafakturzeDAO;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Faktura;
+import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
@@ -62,6 +65,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
     private FakturaelementygraficzneDAO fakturaelementygraficzneDAO;
+    @Inject
+    private FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO;
 
     public void drukujmail(List<Faktura> fakturydruk, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         int i = 0;
@@ -279,8 +284,12 @@ public class PdfFaktura extends Pdf implements Serializable {
                     case "akordeon:formwzor:towary":
                         //Dane do tablicy z wierszami
                         pobrane = zwrocpozycje(lista, "towary");
-                        PdfPTable table = new PdfPTable(11);
-                        wygenerujtablice(table, selected.getPozycjenafakturze(), selected);
+                        PdfPTable table = null;
+                        if (selected.isFakturaxxl()) {
+                            table = wygenerujtablicexxl(selected.getPozycjenafakturze(), selected);
+                        } else {
+                            table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
+                        }
                         // write the table to an absolute position
                         table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
                         break;
@@ -467,8 +476,12 @@ public class PdfFaktura extends Pdf implements Serializable {
                 case "akordeon:formwzor:towary":
                     //Dane do modulu towary
                     pobrane = zwrocpozycje(lista, "towary");
-                    PdfPTable table = new PdfPTable(11);
-                    wygenerujtablice(table, selected.getPozycjenafakturze(), selected);
+                    PdfPTable table = null;
+                    if (selected.isFakturaxxl()) {
+                        table = wygenerujtablicexxl(selected.getPozycjenafakturze(), selected);
+                    } else {
+                        table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
+                    }
                     // write the table to an absolute position
                     table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
                     break;
@@ -594,13 +607,13 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     }
 
-    private PdfPTable wygenerujtablice(PdfPTable table, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
+    private PdfPTable wygenerujtablice(List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        Rectangle rect = new Rectangle(523, 200);
-        table.setWidthPercentage(new float[]{20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30}, rect);
+        PdfPTable table = new PdfPTable(11);
+        table.setTotalWidth(new float[]{20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30});
         // set the total width of the table
         table.setTotalWidth(500);
         table.addCell(ustawfrazeAlign("lp", "center", 8));
@@ -655,6 +668,76 @@ public class PdfFaktura extends Pdf implements Serializable {
 
         return table;
     }
+    
+    private PdfPTable wygenerujtablicexxl(List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
+        FakturaXXLKolumna fakturaXXLKolumna = pobierzfakturaxxlkolumna();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        PdfPTable table =  new PdfPTable(15);
+        table.setTotalWidth(new float[]{20, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
+        table.setTotalWidth(560);
+        table.addCell(ustawfrazeAlign("lp", "center", 7));
+        table.addCell(ustawfrazeAlign("opis", "center", 7));
+        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+        table.addCell(ustawfrazeAlign("ilość", "center", 7));
+        table.addCell(ustawfrazeAlign("jedn.m.", "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis0(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis1(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis2(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis3(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis4(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis5(), "center", 7));
+        table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
+        table.addCell(ustawfrazeAlign("stawka vat", "center", 7));
+        table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
+        table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
+        table.setHeaderRows(1);
+        int lp = 1;
+        for (Pozycjenafakturzebazadanych pozycje : poz) {
+            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn1())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn2())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn3())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn4())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn5())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getBrutto())), "right", 7));
+        }
+        table.addCell(ustawfraze("Razem", 11, 0));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 7));
+        table.addCell(ustawfrazeAlign("*", "center", 7));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 7));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 7));
+        table.completeRow();
+        table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
+        List<EVatwpis> ewidencja = selected.getEwidencjavat();
+        int ilerow = 0;
+        if (ewidencja != null) {
+            for (EVatwpis p : ewidencja) {
+                if (ilerow > 0) {
+                    table.addCell(ustawfraze(" ", 10, 0));
+                }
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 8));
+                table.completeRow();
+                ilerow++;
+            }
+        }
+        // complete the table
+
+        return table;
+    }
 
     private Pozycjenafakturze zwrocpozycje(List<Pozycjenafakturze> lista, String data) {
         for (Pozycjenafakturze p : lista) {
@@ -665,7 +748,24 @@ public class PdfFaktura extends Pdf implements Serializable {
         return null;
     }
 
-
+private FakturaXXLKolumna pobierzfakturaxxlkolumna() {
+    FakturaXXLKolumna f = null;
+    try {
+        f = fakturaXXLKolumnaDAO.findXXLByPodatnik(wpisView.getPodatnikObiekt());
+    } catch (Exception e) {
+        
+    }
+    if (f == null) {
+        f = new FakturaXXLKolumna();
+        f.setNettoopis0("cena jedn.netto");
+        f.setNettoopis1("cena jedn.netto");
+        f.setNettoopis2("cena jedn.netto");
+        f.setNettoopis3("cena jedn.netto");
+        f.setNettoopis4("cena jedn.netto");
+        f.setNettoopis5("cena jedn.netto");
+    }
+    return f;
+}
 
 
 public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
@@ -694,7 +794,6 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         Rectangle rect = new Rectangle(923, 350);
         PdfPTable table = new PdfPTable(15);
         table.setTotalWidth(new float[]{20, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
-        //table.setWidthPercentage(new float[]{20, 90, 40, 30, 30, 70, 70, 70, 70, 70, 70, 80, 30, 80, 80}, rect);
         // set the total width of the table
         table.setTotalWidth(560);
         table.addCell(ustawfrazeAlign("lp", "center", 7));
