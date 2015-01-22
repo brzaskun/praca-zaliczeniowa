@@ -12,6 +12,7 @@ import embeddable.Mce;
 import entity.Dok;
 import entity.Podatnik;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -20,79 +21,63 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-
 /**
  *
  * @author Osito
  */
 @ManagedBean
 @ViewScoped
-public class InfoViewAll implements Serializable{
+public class InfoViewAll implements Serializable {
 
-    public static void main(String[] args) {
-        Calendar c = Calendar.getInstance();
-        int miesica = c.get(Calendar.MONTH);
-        int year = c.get(Calendar.YEAR);
-        String mc = Mce.getNumberToMiesiac().get(miesica);
-        String rok = String.valueOf(Calendar.getInstance().get(year));
-        System.out.println(c.get(Calendar.DAY_OF_MONTH));
-        System.out.println(c.get(Calendar.DAY_OF_WEEK));
-    }
-    @Inject private Podatnik pod;
-    private String podatnik;
-    @Inject private DokDAO dokDAO;
-    private List<Dok> dokumenty;
-    @Inject private Dok selectedDok;
+    @Inject
+    private DokDAO dokDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private String rok;
-    @Inject private PitDAO pitDAO;
-    @Inject private DeklaracjevatDAO deklaracjevatDAO;
-    private String rokdzisiejszy;
-    private String mcdzisiejszy;
-    @Inject PodatnikDAO podatnikDAO;
-    
-   
+    @Inject
+    private DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    PodatnikDAO podatnikDAO;
+
     /**
      * Zmienne
      */
-    
     private List<String> deklaracjeniewyslane;
     private List<String> deklaracjeniebezupo;
     private List<String> kliencinieruszeni;
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         Calendar c = Calendar.getInstance();
+        String rokdzisiejszy = null;
+        String mcdzisiejszy = null;
         if (c.get(c.MONTH) == 0) {
-            rokdzisiejszy = String.valueOf(c.get(c.YEAR)-1);
+            rokdzisiejszy = String.valueOf(c.get(c.YEAR) - 1);
             mcdzisiejszy = Mce.getNumberToMiesiac().get(12);
         } else {
             rokdzisiejszy = String.valueOf(c.get(c.YEAR));
             mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
         }
-        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy,mcdzisiejszy);
-        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy,mcdzisiejszy);
-        /**Klienci nie ruszeni zajmuja duzo czasu
-         **/
-//        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-//        String mc = Mce.getMapamcy().get(Calendar.getInstance().get(Calendar.MONTH));
-//        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-//        List<Podatnik> tmp = podatnikDAO.findAll();
-//        kliencinieruszeni = new ArrayList<>();
-//        for(Podatnik p : tmp){
-//            List<Dok> dok = dokDAO.zwrocBiezacegoKlientaRokMC(p.getNazwapelna(), rok, mc);
-//            if(dok.isEmpty()){
-//                if(day>14&&day<21){
-//                    kliencinieruszeni.add(p.getNazwapelna());
-//                }
-//            }
-//        }
-//        System.out.println(kliencinieruszeni);
+        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy);
+        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy);
+        /**
+         * Klienci nie ruszeni zajmuja duzo czasu
+         *
+         */
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        List<Podatnik> tmp = podatnikDAO.findAll();
+        kliencinieruszeni = new ArrayList<>();
+        for(Podatnik p : tmp){
+            Integer dok = Integer.parseInt(dokDAO.iledokumentowklienta(p.getNazwapelna(), rokdzisiejszy, mcdzisiejszy).toString());
+            if(dok == 0){
+                if(day>14&&day<25){
+                    kliencinieruszeni.add(p.getNazwapelna());
+                }
+            }
+        }
+        System.out.println(kliencinieruszeni);
     }
-    
-    
-    public List<String> getDeklaracjeniewyslane(){
+
+    public List<String> getDeklaracjeniewyslane() {
         return deklaracjeniewyslane;
     }
 
@@ -120,8 +105,12 @@ public class InfoViewAll implements Serializable{
         this.kliencinieruszeni = kliencinieruszeni;
     }
 
-  
-    
-    
-    
+    public static void main(String[] args) {
+        Calendar c = Calendar.getInstance();
+        int miesica = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        String mc = Mce.getNumberToMiesiac().get(miesica);
+        String rok = String.valueOf(Calendar.getInstance().get(year));
+    }
+
 }
