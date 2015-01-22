@@ -324,6 +324,13 @@ public class FakturaView implements Serializable {
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double ilosc = p.getIlosc();
             double cena = p.getCena();
+            if (selected.isFakturaxxl()) {
+                cena += p.getCenajedn1();
+                cena += p.getCenajedn2();
+                cena += p.getCenajedn3();
+                cena += p.getCenajedn4();
+                cena += p.getCenajedn5();
+            }
             double wartosc = ilosc * cena * 100;
             wartosc = Math.round(wartosc);
             wartosc = wartosc / 100;
@@ -375,6 +382,7 @@ public class FakturaView implements Serializable {
     public void skierujfakturedoedycji(Faktura faktura) {
         Msg.msg("edycja faktury");
         selected = serialclone.SerialClone.clone(faktura);
+        fakturaxxl = faktura.isFakturaxxl();
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;

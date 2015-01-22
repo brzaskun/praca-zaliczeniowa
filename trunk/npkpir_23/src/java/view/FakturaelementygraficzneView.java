@@ -116,9 +116,9 @@ public class FakturaelementygraficzneView implements Serializable {
     }
     
     public void zachowajZaladowanyPlik(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Sukces", "Plik "+event.getFile().getFileName() + " został skutecznie załadowany");
-        FacesContext.getCurrentInstance().addMessage(null, message);
         uploadedFile = event.getFile();
+        String filename = uploadedFile.getFileName();
+        Msg.msg("Sukces. Plik " + filename + " został skutecznie załadowany");
         String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
         Date d = new Date();
         String dt = String.valueOf(d.getTime());
@@ -160,6 +160,9 @@ public class FakturaelementygraficzneView implements Serializable {
                 f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
                 f.getFakturaelementygraficznePK().setNazwaelementu(element.getFakturaelementygraficznePK().getNazwaelementu());
                 fakturaelementygraficzneDAO.destroy(f);
+                odhaczuzycieloga();
+            } else {
+                fakturaelementygraficzneDAO.destroy(element);
                 odhaczuzycieloga();
             }
         }
