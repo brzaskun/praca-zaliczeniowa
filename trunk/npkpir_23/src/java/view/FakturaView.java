@@ -21,7 +21,6 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
-import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
@@ -37,12 +36,9 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
@@ -116,6 +112,7 @@ public class FakturaView implements Serializable {
     private String nazwaskroconafaktura;
     private DataTable dataTablepozycjenafakturze;
     private boolean fakturaxxl;
+    private boolean fakturakorekta;
     
 
     public FakturaView() {
@@ -147,6 +144,75 @@ public class FakturaView implements Serializable {
 
     public void przygotujfakture() {
         selected = new Faktura();
+        if (fakturaxxl) {
+            selected.setFakturaxxl(true);
+        }
+        String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
+        String dzien = String.valueOf((new DateTime()).getDayOfMonth());
+        dzien = dzien.length() == 1 ? "0" + dzien : dzien;
+        String pelnadata = rokmiesiac + dzien;
+        selected.setDatawystawienia(pelnadata);
+        selected.setDatasprzedazy(pelnadata);
+        fakturaPK.setNumerkolejny("wpisz numer");
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+        fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
+        selected.setFakturaPK(fakturaPK);
+        try {
+            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
+        } catch (Exception et) {
+            selected.setMiejscewystawienia("nie ustawiono miejsca");
+        }
+        DateTime dt = new DateTime(pelnadata);
+        LocalDate firstDate = dt.toLocalDate();
+        try {
+            LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
+            selected.setTerminzaplaty(terminplatnosci.toString());
+        } catch (Exception ep) {
+            LocalDate terminplatnosci = firstDate.plusDays(14);
+            selected.setTerminzaplaty(terminplatnosci.toString());
+        }
+        try {
+            String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
+            if (nrkonta != null) {
+                selected.setNrkontabankowego(nrkonta);
+            } else {
+                selected.setNrkontabankowego("brak numeru konta bankowego");
+            }
+        } catch (Exception es) {
+            Msg.msg("w", "Brak numeru konta bankowego");
+            selected.setNrkontabankowego("brak numeru konta bankowego");
+        }
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+            selected.setPodpis("");
+        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+            selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
+        }  else {
+            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
+        }
+        selected.setPozycjenafakturze(new ArrayList());
+        Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
+        poz.setPodatek(23);
+        if (podatnikobiekt.getWierszwzorcowy() != null) {
+            Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
+            poz.setNazwa(wierszwzorcowy.getNazwa());
+            poz.setPKWiU(wierszwzorcowy.getPKWiU());
+            poz.setJednostka(wierszwzorcowy.getJednostka());
+            poz.setIlosc(wierszwzorcowy.getIlosc());
+            poz.setPodatek(wierszwzorcowy.getPodatek());
+        }
+        selected.getPozycjenafakturze().add(poz);
+        selected.setAutor(wpisView.getWprowadzil().getLogin());
+        setPokazfakture(true);
+        selected.setWystawca(podatnikobiekt);
+        selected.setRodzajdokumentu("faktura");
+        selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
+        Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
+    }
+    
+     public void przygotujfakturekorekte() {
+        selected = new Faktura();
+        fakturakorekta = true;
         if (fakturaxxl) {
             selected.setFakturaxxl(true);
         }
@@ -1285,12 +1351,20 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         przygotujfakture();
     }
+    
+    public boolean isFakturakorekta() {
+        return fakturakorekta;
+    }
 
 //    public void createDynamicColumns() {
 //        columns = new ArrayList<ColumnModel>(); 
 //        columns.add(new ColumnModel("nowakolumna", "nowakolumna"));
 //    }
     //<editor-fold defaultstate="collapsed" desc="comment">
+    public void setFakturakorekta(boolean fakturakorekta) {    
+        this.fakturakorekta = fakturakorekta;
+    }
+
     public boolean isFakturaxxl() {
         return fakturaxxl;
     }
