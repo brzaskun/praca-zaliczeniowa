@@ -30,10 +30,11 @@ import javax.inject.Inject;
 public class InfoViewAll implements Serializable{
 
     public static void main(String[] args) {
-        int datadzisiejsza = Calendar.getInstance().get(Calendar.MONTH);
-        String mc = Mce.getNumberToMiesiac().get(datadzisiejsza);
-        String rok = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         Calendar c = Calendar.getInstance();
+        int miesica = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        String mc = Mce.getNumberToMiesiac().get(miesica);
+        String rok = String.valueOf(Calendar.getInstance().get(year));
         System.out.println(c.get(Calendar.DAY_OF_MONTH));
         System.out.println(c.get(Calendar.DAY_OF_WEEK));
     }
@@ -62,8 +63,14 @@ public class InfoViewAll implements Serializable{
     
     @PostConstruct
     private void init(){
-        rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        mcdzisiejszy = Mce.getNumberToMiesiac().get(Calendar.getInstance().get(Calendar.MONTH));
+        Calendar c = Calendar.getInstance();
+        if (c.get(c.MONTH) == 0) {
+            rokdzisiejszy = String.valueOf(c.get(c.YEAR)-1);
+            mcdzisiejszy = Mce.getNumberToMiesiac().get(12);
+        } else {
+            rokdzisiejszy = String.valueOf(c.get(c.YEAR));
+            mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
+        }
         deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy,mcdzisiejszy);
         deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy,mcdzisiejszy);
         /**Klienci nie ruszeni zajmuja duzo czasu
@@ -83,6 +90,7 @@ public class InfoViewAll implements Serializable{
 //        }
 //        System.out.println(kliencinieruszeni);
     }
+    
     
     public List<String> getDeklaracjeniewyslane(){
         return deklaracjeniewyslane;
