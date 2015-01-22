@@ -19,11 +19,11 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         private int lp;
         private String nazwa = "";
         private String nowakolumna = "";
-        private String cenajedn1;
-        private String cenajedn2;
-        private String cenajedn3;
-        private String cenajedn4;
-        private String cenajedn5;
+        private double cenajedn1 = 0;
+        private double cenajedn2 = 0;
+        private double cenajedn3 = 0;
+        private double cenajedn4 = 0;
+        private double cenajedn5 = 0;
         private String PKWiU = "";
         private String jednostka = "";
         private double ilosc = 0;
@@ -65,46 +65,46 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public String getCenajedn1() {
+    public double getCenajedn1() {
         return cenajedn1;
     }
 
-    public void setCenajedn1(String cenajedn1) {
+    public void setCenajedn1(double cenajedn1) {
         this.cenajedn1 = cenajedn1;
     }
 
-    public String getCenajedn2() {
+    public double getCenajedn2() {
         return cenajedn2;
     }
 
-    public void setCenajedn2(String cenajedn2) {
+    public void setCenajedn2(double cenajedn2) {
         this.cenajedn2 = cenajedn2;
     }
 
-    public String getCenajedn3() {
+    public double getCenajedn3() {
         return cenajedn3;
     }
 
-    public void setCenajedn3(String cenajedn3) {
+    public void setCenajedn3(double cenajedn3) {
         this.cenajedn3 = cenajedn3;
     }
 
-    public String getCenajedn4() {
+    public double getCenajedn4() {
         return cenajedn4;
     }
 
-    public void setCenajedn4(String cenajedn4) {
+    public void setCenajedn4(double cenajedn4) {
         this.cenajedn4 = cenajedn4;
     }
 
-    public String getCenajedn5() {
+    public double getCenajedn5() {
         return cenajedn5;
     }
 
-    public void setCenajedn5(String cenajedn5) {
+    public void setCenajedn5(double cenajedn5) {
         this.cenajedn5 = cenajedn5;
     }
- 
+
     public String getPKWiU() {
         return PKWiU;
     }

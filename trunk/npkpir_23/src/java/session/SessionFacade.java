@@ -13,6 +13,7 @@ import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Faktura;
+import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Fakturyokresowe;
@@ -1204,6 +1205,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {
         return em.createNamedQuery("MultiuserSettings.findByUser").setParameter("user", user).getResultList();
+    }
+
+    public FakturaXXLKolumna findXXLByPodatnik(Podatnik p) {
+        return (FakturaXXLKolumna) em.createNamedQuery("FakturaXXLKolumna.findByPodatnik").setParameter("podatnik", p).getSingleResult();
     }
 
         
