@@ -289,6 +289,7 @@ public class FakturaView implements Serializable {
         Msg.msg("edycja faktury");
         selected = serialclone.SerialClone.clone(faktura);
         fakturaxxl = faktura.isFakturaxxl();
+        fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;
