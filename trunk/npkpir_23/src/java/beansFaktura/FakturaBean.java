@@ -6,13 +6,26 @@
 package beansFaktura;
 
 import dao.DokDAO;
+import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import daoFK.DokDAOfk;
+import embeddable.EVatwpis;
+import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
+import entity.Evewidencja;
 import entity.Faktura;
+import entity.Podatnik;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.ejb.Singleton;
 import javax.inject.Named;
+import msg.Msg;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -155,5 +168,166 @@ public class FakturaBean {
         return numer;
     }
 
+    public static String obliczdatawystawienia(WpisView wpisView) {
+        String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
+        String dzien = String.valueOf((new DateTime()).getDayOfMonth());
+        dzien = dzien.length() == 1 ? "0" + dzien : dzien;
+        return rokmiesiac + dzien;
+    }
+
+    public static String obliczterminzaplaty(Podatnik podatnikobiekt, String pelnadata) {
+        DateTime dt = new DateTime(pelnadata);
+        LocalDate firstDate = dt.toLocalDate();
+        try {
+            LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
+            return terminplatnosci.toString();
+        } catch (Exception ep) {
+            LocalDate terminplatnosci = firstDate.plusDays(14);
+            return terminplatnosci.toString();
+        }
+    }
+
+    public static String pobierznumerkonta(Podatnik podatnikobiekt) {
+        try {
+            String nrkonta = podatnikobiekt.getNrkontabankowego();
+            if (nrkonta != null) {
+                return nrkonta;
+            } else {
+                return "brak numeru konta bankowego";
+            }
+        } catch (Exception es) {
+            Msg.msg("w", "Brak numeru konta bankowego");
+            return "brak numeru konta bankowego";
+        }
+    }
+
+    public static String pobierzpodpis(WpisView wpisView) {
+        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
+            return "";
+        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
+            return wpisView.getPodatnikObiekt().getWystawcafaktury();
+        }  else {
+            return wpisView.getPodatnikObiekt().getImie() + " " + wpisView.getPodatnikObiekt().getNazwisko();
+        }
+    }
+
+    public static List<Pozycjenafakturzebazadanych> inicjacjapozycji(Podatnik podatnikobiekt) {
+        List<Pozycjenafakturzebazadanych> lista = new ArrayList<>();
+        Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
+        poz.setPodatek(23);
+        if (podatnikobiekt.getWierszwzorcowy() != null) {
+            Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
+            poz.setNazwa(wierszwzorcowy.getNazwa());
+            poz.setPKWiU(wierszwzorcowy.getPKWiU());
+            poz.setJednostka(wierszwzorcowy.getJednostka());
+            poz.setIlosc(wierszwzorcowy.getIlosc());
+            poz.setPodatek(wierszwzorcowy.getPodatek());
+        }
+        lista.add(poz);
+        return lista;
+    }
+
+    public static String pobierzmiejscewyst(Podatnik podatnikobiekt) {
+         try {
+            return podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia();
+        } catch (Exception et) {
+            return "nie ustawiono miejsca";
+        }
+    }
+    
+    public static void ewidencjavat(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+        //tu obliczamy wartosc netto wiersza
+        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
+        ArrayList<Evewidencja> ew = new ArrayList<>();
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        List<EVatwpis> el = new ArrayList<>();
+        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+        selected.setEwidencjavat(el);
+        selected.setNetto(sumy.get("netto"));
+        selected.setVat(Z.z(sumy.get("vat")));
+        selected.setBrutto(Z.z(sumy.get("brutto")));
+    }
+    
+    public static void ewidencjavatkorekta(Faktura selected, EvewidencjaDAO evewidencjaDAO) throws Exception {
+        //tu obliczamy wartosc netto wiersza
+        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjepokorekcie();
+        List<Evewidencja> ew = new ArrayList<>();
+        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
+        List<EVatwpis> el = new ArrayList<>();
+        Map<String, Double> sumy = przetworzpozycje(ew, el, pozycje, selected);
+        selected.setEwidencjavatpk(el);
+        selected.setNettopk(sumy.get("netto"));
+        selected.setVatpk(Z.z(sumy.get("vat")));
+        selected.setBruttopk(Z.z(sumy.get("brutto")));
+    }
+    
+    private static Map<String, Double> przetworzpozycje(List<Evewidencja> ew, List<EVatwpis> el, List<Pozycjenafakturzebazadanych> pozycje, Faktura selected) {
+        Map<String, Double> sumy = new HashMap<>();
+        double netto = 0.0;
+        double vat = 0.0;
+        double brutto = 0.0;
+        for (Pozycjenafakturzebazadanych p : pozycje) {
+            double ilosc = p.getIlosc();
+            double cena = p.getCena();
+            if (selected.isFakturaxxl()) {
+                cena += p.getCenajedn1();
+                cena += p.getCenajedn2();
+                cena += p.getCenajedn3();
+                cena += p.getCenajedn4();
+                cena += p.getCenajedn5();
+            }
+            double wartosc = ilosc * cena * 100;
+            wartosc = Math.round(wartosc);
+            wartosc /= 100;
+            netto += wartosc;
+            p.setNetto(wartosc);
+            double podatekstawka = p.getPodatek();
+            double podatek = wartosc * podatekstawka;
+            podatek = Math.round(podatek);
+            podatek /= 100;
+            vat += podatek;
+            p.setPodatekkwota(podatek);
+            double bruttop = wartosc + podatek;
+            brutto += bruttop;
+            p.setBrutto(bruttop);
+            EVatwpis eVatwpis = new EVatwpis();
+            Evewidencja ewidencja = zwrocewidencje(ew, p);
+            //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
+            //jesli nie to dodaj nowy wiersz
+            if (el.size() > 0) {
+                for (EVatwpis r : el) {
+                    if (r.getEwidencja().equals(ewidencja)) {
+                        r.setNetto(r.getNetto() + p.getNetto());
+                        r.setVat(r.getVat() + p.getPodatekkwota());
+                    } else {
+                        eVatwpis.setEwidencja(ewidencja);
+                        eVatwpis.setNetto(p.getNetto());
+                        eVatwpis.setVat(p.getPodatekkwota());
+                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                        el.add(eVatwpis);
+                    }
+                }
+            } else {
+                eVatwpis.setEwidencja(ewidencja);
+                eVatwpis.setNetto(p.getNetto());
+                eVatwpis.setVat(p.getPodatekkwota());
+                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                el.add(eVatwpis);
+            }
+        }
+        sumy.put("netto", netto);
+        sumy.put("vat", vat);
+        sumy.put("brutto", brutto);
+        return sumy;
+    }
+    
+    private static Evewidencja zwrocewidencje(List<Evewidencja> ewidencje, Pozycjenafakturzebazadanych p) {
+        for (Evewidencja r : ewidencje) {
+            if (r.getNazwa().contains(String.valueOf((int) p.getPodatek()))) {
+                return r;
+            }
+        }
+        return null;
+    }
   
 }

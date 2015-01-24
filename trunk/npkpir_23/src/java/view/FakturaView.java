@@ -111,6 +111,7 @@ public class FakturaView implements Serializable {
     private boolean zapis0edycja1;
     private String nazwaskroconafaktura;
     private DataTable dataTablepozycjenafakturze;
+    private DataTable dataTablepozycjenafakturzekorekta;
     private boolean fakturaxxl;
     private boolean fakturakorekta;
     
@@ -143,177 +144,101 @@ public class FakturaView implements Serializable {
     }
 
     public void przygotujfakture() {
-        selected = new Faktura();
-        if (fakturaxxl) {
-            selected.setFakturaxxl(true);
-        }
-        String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
-        String dzien = String.valueOf((new DateTime()).getDayOfMonth());
-        dzien = dzien.length() == 1 ? "0" + dzien : dzien;
-        String pelnadata = rokmiesiac + dzien;
-        selected.setDatawystawienia(pelnadata);
-        selected.setDatasprzedazy(pelnadata);
-        fakturaPK.setNumerkolejny("wpisz numer");
+        fakturaxxl = false;
+        fakturakorekta = false;
+        inicjalizacjaczesciwspolne();
+        dataTablepozycjenafakturze.setStyle("width: 740px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
-        selected.setFakturaPK(fakturaPK);
-        try {
-            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
-        } catch (Exception et) {
-            selected.setMiejscewystawienia("nie ustawiono miejsca");
-        }
-        DateTime dt = new DateTime(pelnadata);
-        LocalDate firstDate = dt.toLocalDate();
-        try {
-            LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
-            selected.setTerminzaplaty(terminplatnosci.toString());
-        } catch (Exception ep) {
-            LocalDate terminplatnosci = firstDate.plusDays(14);
-            selected.setTerminzaplaty(terminplatnosci.toString());
-        }
-        try {
-            String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
-            if (nrkonta != null) {
-                selected.setNrkontabankowego(nrkonta);
-            } else {
-                selected.setNrkontabankowego("brak numeru konta bankowego");
-            }
-        } catch (Exception es) {
-            Msg.msg("w", "Brak numeru konta bankowego");
-            selected.setNrkontabankowego("brak numeru konta bankowego");
-        }
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
-            selected.setPodpis("");
-        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
-            selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
-        }  else {
-            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
-        }
-        selected.setPozycjenafakturze(new ArrayList());
-        Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
-        poz.setPodatek(23);
-        if (podatnikobiekt.getWierszwzorcowy() != null) {
-            Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
-            poz.setNazwa(wierszwzorcowy.getNazwa());
-            poz.setPKWiU(wierszwzorcowy.getPKWiU());
-            poz.setJednostka(wierszwzorcowy.getJednostka());
-            poz.setIlosc(wierszwzorcowy.getIlosc());
-            poz.setPodatek(wierszwzorcowy.getPodatek());
-        }
-        selected.getPozycjenafakturze().add(poz);
-        selected.setAutor(wpisView.getWprowadzil().getLogin());
-        setPokazfakture(true);
-        selected.setWystawca(podatnikobiekt);
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura");
         selected.setRodzajtransakcji("sprzedaż");
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
     
-     public void przygotujfakturekorekte() {
-        selected = new Faktura();
-        fakturakorekta = true;
-        if (fakturaxxl) {
-            selected.setFakturaxxl(true);
-        }
-        String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
-        String dzien = String.valueOf((new DateTime()).getDayOfMonth());
-        dzien = dzien.length() == 1 ? "0" + dzien : dzien;
-        String pelnadata = rokmiesiac + dzien;
-        selected.setDatawystawienia(pelnadata);
-        selected.setDatasprzedazy(pelnadata);
-        fakturaPK.setNumerkolejny("wpisz numer");
+    public void przygotujfakturexxl() {
+        fakturaxxl = true;
+        fakturakorekta = false;
+        inicjalizacjaczesciwspolne();
+        dataTablepozycjenafakturze.setStyle("width: 1280px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-        fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
-        selected.setFakturaPK(fakturaPK);
-        try {
-            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
-        } catch (Exception et) {
-            selected.setMiejscewystawienia("nie ustawiono miejsca");
-        }
-        DateTime dt = new DateTime(pelnadata);
-        LocalDate firstDate = dt.toLocalDate();
-        try {
-            LocalDate terminplatnosci = firstDate.plusDays(Integer.parseInt(podatnikobiekt.getPlatnoscwdni()));
-            selected.setTerminzaplaty(terminplatnosci.toString());
-        } catch (Exception ep) {
-            LocalDate terminplatnosci = firstDate.plusDays(14);
-            selected.setTerminzaplaty(terminplatnosci.toString());
-        }
-        try {
-            String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
-            if (nrkonta != null) {
-                selected.setNrkontabankowego(nrkonta);
-            } else {
-                selected.setNrkontabankowego("brak numeru konta bankowego");
-            }
-        } catch (Exception es) {
-            Msg.msg("w", "Brak numeru konta bankowego");
-            selected.setNrkontabankowego("brak numeru konta bankowego");
-        }
-        if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && wpisView.getPodatnikObiekt().getWystawcafaktury().equals("brak")) {
-            selected.setPodpis("");
-        } else if (wpisView.getPodatnikObiekt().getWystawcafaktury() != null && !wpisView.getPodatnikObiekt().getWystawcafaktury().equals("")) {
-            selected.setPodpis(wpisView.getPodatnikObiekt().getWystawcafaktury());
-        }  else {
-            selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
-        }
-        selected.setPozycjenafakturze(new ArrayList());
-        Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
-        poz.setPodatek(23);
-        if (podatnikobiekt.getWierszwzorcowy() != null) {
-            Pozycjenafakturzebazadanych wierszwzorcowy = podatnikobiekt.getWierszwzorcowy();
-            poz.setNazwa(wierszwzorcowy.getNazwa());
-            poz.setPKWiU(wierszwzorcowy.getPKWiU());
-            poz.setJednostka(wierszwzorcowy.getJednostka());
-            poz.setIlosc(wierszwzorcowy.getIlosc());
-            poz.setPodatek(wierszwzorcowy.getPodatek());
-        }
-        selected.getPozycjenafakturze().add(poz);
-        selected.setAutor(wpisView.getWprowadzil().getLogin());
-        setPokazfakture(true);
-        selected.setWystawca(podatnikobiekt);
-        selected.setRodzajdokumentu("faktura");
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setRodzajdokumentu("faktura xxl");
+        selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
+        Msg.msg("i", "Przygotowano wstępnie fakturę XXL. Należy uzupełnić pozostałe elementy.");
+    }
+    
+     public void przygotujfakturekorekte() {
+        fakturaxxl = false;
+        fakturakorekta = true;
+        inicjalizacjaczesciwspolne();
+        dataTablepozycjenafakturze.setStyle("width: 740px;");
+        dataTablepozycjenafakturzekorekta.setStyle("width: 740px;");
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setRodzajdokumentu("faktura korekta");
         selected.setRodzajtransakcji("sprzedaż");
         zapis0edycja1 = false;
         Msg.msg("i", "Przygotowano wstępnie fakturę. Należy uzupełnić pozostałe elementy.");
     }
-
-    public void dodaj() throws Exception {
-        ewidencjavat(selected);
-        selected.setKontrahent_nip(selected.getKontrahent().getNip());
+     
+    public void przygotujfakturekorektexxl() {
+        fakturaxxl = true;
+        fakturakorekta = true;
+        inicjalizacjaczesciwspolne();
+        dataTablepozycjenafakturze.setStyle("width: 1280px;");
+        dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+        selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
+        selected.setRodzajdokumentu("faktura xxl korekta");
+        selected.setRodzajtransakcji("sprzedaż");
+        zapis0edycja1 = false;
+        Msg.msg("i", "Przygotowano wstępnie fakturę XXL korektę. Należy uzupełnić pozostałe elementy.");
+    }
+    
+    private void inicjalizacjaczesciwspolne() {
+        selected = new Faktura();
+        if (fakturaxxl) {
+            selected.setFakturaxxl(true);
+        }
+        String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
+        selected.setDatawystawienia(pelnadata);
+        selected.setDatasprzedazy(pelnadata);
+        fakturaPK.setNumerkolejny("wpisz numer");
+        fakturaPK.setWystawcanazwa(wpisView.getPodatnikWpisu());
+        selected.setFakturaPK(fakturaPK);
+        Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
+        selected.setMiejscewystawienia(FakturaBean.pobierzmiejscewyst(podatnikobiekt));
+        selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(podatnikobiekt, pelnadata));
+        selected.setNrkontabankowego(FakturaBean.pobierznumerkonta(podatnikobiekt));
+        selected.setPodpis(FakturaBean.pobierzpodpis(wpisView));
+        selected.setAutor(wpisView.getWprowadzil().getLogin());
+        setPokazfakture(true);
+        selected.setWystawca(podatnikobiekt);
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
+    }
+
+    public void dodaj() throws Exception {
+        FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+        if (fakturakorekta) {
+            FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+        }
+        selected.setKontrahent_nip(selected.getKontrahent().getNip());
         try {
             fakturaDAO.dodaj(selected);
             init();
             Msg.msg("i", "Dodano fakturę.");
             pokazfakture = false;
+            fakturaxxl = false;
+            fakturakorekta = false;
             selected = new Faktura();
             
         } catch (Exception e) {
-            Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
-            try {
-            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
-            } catch (Exception et) {
-                selected.setMiejscewystawienia("nie ustawiono miejsca");
-            }
-            try {
-                String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
-                if (nrkonta != null) {
-                    selected.setNrkontabankowego(nrkonta);
-                } else {
-                    selected.setNrkontabankowego("");
-                }
-            } catch (Exception es) {
-                selected.setNrkontabankowego("");
-            }
-            selected.setWystawca(podatnikobiekt);
-            fakturaDAO.edit(selected);
-            init();
-            Msg.msg("i", "Dokonano edycji faktury.");
-            pokazfakture = false;
-            selected = new Faktura();
+            Msg.msg("e", "Błąd. Faktura o takim numerze i dla takiego kontrahenta już istnieje");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
@@ -321,7 +246,10 @@ public class FakturaView implements Serializable {
     }
     
     public void edytuj() throws Exception {
-        ewidencjavat(selected);
+        FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+        if (fakturakorekta) {
+            FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+        }
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
         selected.setMc(wpisView.getMiesiacWpisu());
@@ -343,107 +271,19 @@ public class FakturaView implements Serializable {
             init();
             Msg.msg("i", "Wyedytowano fakturę.");
             pokazfakture = false;
+            fakturaxxl = false;
+            fakturakorekta = false;
             selected = new Faktura();
             
         } catch (Exception e) {
-            try {
-            selected.setMiejscewystawienia(podatnikobiekt.getMiejscewystawienia().isEmpty() ? "nie ustawiono miejsca" : podatnikobiekt.getMiejscewystawienia());
-            } catch (Exception et) {
-                selected.setMiejscewystawienia("nie ustawiono miejsca");
-            }
-            try {
-                String nrkonta = wpisView.getPodatnikObiekt().getNrkontabankowego();
-                if (nrkonta != null) {
-                    selected.setNrkontabankowego(nrkonta);
-                } else {
-                    selected.setNrkontabankowego("");
-                }
-            } catch (Exception es) {
-                selected.setNrkontabankowego("");
-            }
-            fakturaDAO.edit(selected);
-            selected.setWystawca(podatnikobiekt);
-            if (selected.isWygenerowanaautomatycznie() == true) {
-                   zaktualizujokresowa(selected);
-                   selected.setWygenerowanaautomatycznie(false);
-            }
-            fakturaDAO.edit(selected);
-            init();
-            Msg.msg("i", "Dokonano edycji faktury.");
-            pokazfakture = false;
-            selected = new Faktura();
+            Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
         RequestContext.getCurrentInstance().update("akordeon:formsporzadzone");  
 //        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
 
-    private void ewidencjavat(Faktura selected) throws Exception {
-        //tu obliczamy wartosc netto wiersza
-        List<Pozycjenafakturzebazadanych> pozycje = selected.getPozycjenafakturze();
-        double netto = 0.0;
-        double vat = 0.0;
-        double brutto = 0.0;
-        ArrayList<Evewidencja> ew = new ArrayList<>();
-        ew.addAll(evewidencjaDAO.znajdzpotransakcji("sprzedaz"));
-        List<EVatwpis> el = new ArrayList<>();
-        for (Pozycjenafakturzebazadanych p : pozycje) {
-            double ilosc = p.getIlosc();
-            double cena = p.getCena();
-            if (selected.isFakturaxxl()) {
-                cena += p.getCenajedn1();
-                cena += p.getCenajedn2();
-                cena += p.getCenajedn3();
-                cena += p.getCenajedn4();
-                cena += p.getCenajedn5();
-            }
-            double wartosc = ilosc * cena * 100;
-            wartosc = Math.round(wartosc);
-            wartosc = wartosc / 100;
-            netto += wartosc;
-            p.setNetto(wartosc);
-            double podatekstawka = p.getPodatek();
-            double podatek = wartosc * podatekstawka;
-            podatek = Math.round(podatek);
-            podatek = podatek / 100;
-            vat += podatek;
-            p.setPodatekkwota(podatek);
-            double bruttop = wartosc + podatek;
-            brutto += bruttop;
-            p.setBrutto(bruttop);
-            EVatwpis eVatwpis = new EVatwpis();
-            Evewidencja ewidencja = zwrocewidencje(ew, p);
-            //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
-            //jesli nie to dodaj nowy wiersz
-            if (el.size() > 0) {
-                for (EVatwpis r : el) {
-                    if (r.getEwidencja().equals(ewidencja)) {
-                        r.setNetto(r.getNetto() + p.getNetto());
-                        r.setVat(r.getVat() + p.getPodatekkwota());
-                    } else {
-                        eVatwpis.setEwidencja(ewidencja);
-                        eVatwpis.setNetto(p.getNetto());
-                        eVatwpis.setVat(p.getPodatekkwota());
-                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
-                        el.add(eVatwpis);
-                    }
-                }
-            } else {
-                eVatwpis.setEwidencja(ewidencja);
-                eVatwpis.setNetto(p.getNetto());
-                eVatwpis.setVat(p.getPodatekkwota());
-                eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
-                el.add(eVatwpis);
-            }
-        }
-        selected.setEwidencjavat(el);
-        selected.setNetto(netto);
-        selected.setVat(vat);
-        double wartosc = brutto * 100;
-        wartosc = Math.round(wartosc);
-        wartosc = wartosc / 100;
-        selected.setBrutto(wartosc);
-    }
+    
     
     public void skierujfakturedoedycji(Faktura faktura) {
         Msg.msg("edycja faktury");
@@ -654,12 +494,28 @@ public class FakturaView implements Serializable {
         selected.getPozycjenafakturze().add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
     }
+    
+    public void dodajwierszk() {
+        Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
+        poz.setPodatek(23);
+        selected.getPozycjepokorekcie().add(poz);
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:panelkorekty");
+    }
 
     public void usunwiersz() {
         if (!selected.getPozycjenafakturze().isEmpty()) {
             selected.getPozycjenafakturze().remove(selected.getPozycjenafakturze().size() - 1);
             RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
             String nazwafunkcji = "wybierzrzadfaktury()";
+            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+        }
+    }
+    
+    public void usunwierszk() {
+        if (!selected.getPozycjepokorekcie().isEmpty()) {
+            selected.getPozycjepokorekcie().remove(selected.getPozycjepokorekcie().size() - 1);
+            RequestContext.getCurrentInstance().update("akordeon:formstworz:panelkorekty");
+            String nazwafunkcji = "wybierzrzadfakturykorekta()";
             RequestContext.getCurrentInstance().execute(nazwafunkcji);
         }
     }
@@ -974,7 +830,7 @@ public class FakturaView implements Serializable {
                 }
             } else if (waloryzajca == -1) {
                 try {
-                    ewidencjavat(nowa);
+                    FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
                 } catch (Exception e) {
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
@@ -1347,10 +1203,7 @@ public class FakturaView implements Serializable {
         Msg.msg("Dodaję kolumnę");
     }
     
-    public void przygotujfakturexxl() {
-        fakturaxxl = true;
-        przygotujfakture();
-    }
+    
     
     public boolean isFakturakorekta() {
         return fakturakorekta;
@@ -1528,7 +1381,17 @@ public class FakturaView implements Serializable {
     public void setDataTablepozycjenafakturze(DataTable dataTablepozycjenafakturze) {
         this.dataTablepozycjenafakturze = dataTablepozycjenafakturze;
     }
+    
+    
 //</editor-fold>
+
+    public DataTable getDataTablepozycjenafakturzekorekta() {
+        return dataTablepozycjenafakturzekorekta;
+    }
+
+    public void setDataTablepozycjenafakturzekorekta(DataTable dataTablepozycjenafakturzekorekta) {
+        this.dataTablepozycjenafakturzekorekta = dataTablepozycjenafakturzekorekta;
+    }
     
    
 

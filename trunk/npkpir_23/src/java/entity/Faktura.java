@@ -132,6 +132,9 @@ public class Faktura implements Serializable {
     @Lob
     @Column(nullable = false)
     private List<Pozycjenafakturzebazadanych> pozycjenafakturze;
+    @Lob
+    @Column
+    private List<Pozycjenafakturzebazadanych> pozycjepokorekcie;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -164,11 +167,20 @@ public class Faktura implements Serializable {
     @NotNull
     @Column(nullable = false)
     private double brutto;
+    @Column
+    private double nettopk;
+    @Column
+    private double vatpk;
+    @Column
+    private double bruttopk;
     @Basic(optional = false)
     @NotNull
     @Lob
     @Column(nullable = false)
     private List<EVatwpis> ewidencjavat;
+    @Lob
+    @Column
+    private List<EVatwpis> ewidencjavatpk;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -185,6 +197,8 @@ public class Faktura implements Serializable {
     private String datazaplaty;
     @Column
     private boolean fakturaxxl;
+    @Column(length = 512)
+    private String przyczynakorekty;
 
     public Faktura() {
     }
@@ -263,6 +277,48 @@ public class Faktura implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public double getNettopk() {
+        return nettopk;
+    }
+
+    public void setNettopk(double nettopk) {
+        this.nettopk = nettopk;
+    }
+
+    public double getVatpk() {
+        return vatpk;
+    }
+
+    public void setVatpk(double vatpk) {
+        this.vatpk = vatpk;
+    }
+
+    public double getBruttopk() {
+        return bruttopk;
+    }
+
+    public void setBruttopk(double bruttopk) {
+        this.bruttopk = bruttopk;
+    }
+
+    public List<EVatwpis> getEwidencjavatpk() {
+        return ewidencjavatpk;
+    }
+
+    public void setEwidencjavatpk(List<EVatwpis> ewidencjavatpk) {
+        this.ewidencjavatpk = ewidencjavatpk;
+    }
+    
+
+    public List<Pozycjenafakturzebazadanych> getPozycjepokorekcie() {
+        return pozycjepokorekcie;
+    }
+
+    public void setPozycjepokorekcie(List<Pozycjenafakturzebazadanych> pozycjepokorekcie) {
+        this.pozycjepokorekcie = pozycjepokorekcie;
+    }
+    
 
     public String getDatazaplaty() {
         return datazaplaty;
@@ -517,6 +573,15 @@ public class Faktura implements Serializable {
     public void setFakturaxxl(boolean fakturaxxl) {
         this.fakturaxxl = fakturaxxl;
     }
+
+    public String getPrzyczynakorekty() {
+        return przyczynakorekty;
+    }
+
+    public void setPrzyczynakorekty(String przyczynakorekty) {
+        this.przyczynakorekty = przyczynakorekty;
+    }
+    
     
     
     
