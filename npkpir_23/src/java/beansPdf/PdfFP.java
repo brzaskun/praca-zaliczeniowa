@@ -283,22 +283,6 @@ public class PdfFP {
                     absText(writer, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
                     absText(writer, "NIP: " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
                     break;
-                case "akordeon:formwzor:towary":
-                    //Dane do tablicy z wierszami
-                    pobrane = zwrocpozycje(lista, "towary");
-                    PdfPTable table = null;
-                    PdfPTable tablekorekta = null;
-                    if (selected.getPozycjepokorekcie() != null) {
-                        table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
-                    }
-                    if (selected.isFakturaxxl()) {
-                        table = wygenerujtablicexxl(selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
-                    } else {
-                        table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
-                    }
-                    // write the table to an absolute position
-                    table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
-                    break;
                 case "akordeon:formwzor:logo":
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
@@ -350,6 +334,24 @@ public class PdfFP {
                
             }
         }
+    }
+    
+    public static PdfPTable dolaczpozycjedofakturydlugacz2(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> lista, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        String adres = "";
+        float dzielnik = 2;
+        for (Pozycjenafakturze p : lista) {
+            switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:towary":
+                    //Dane do tablicy z wierszami
+                    pobrane = zwrocpozycje(lista, "towary");
+                    return wygenerujtablicexxl(selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
+                default:
+                    break;
+               
+            }
+        }
+        return null;
     }
     
     public static void dolaczpozycjedofakturydlugacz3(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> lista, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
