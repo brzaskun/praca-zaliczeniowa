@@ -11,6 +11,12 @@ var wybierzrzadfaktury = function (){
     $(nazwa).last().focus();
     $(nazwa).last().select();
 };
+
+var wybierzrzadfakturykorekta = function (){
+    var nazwa = ".komorkak";
+    $(nazwa).last().focus();
+    $(nazwa).last().select();
+};
                    
 var przeskoczdoceny = function (){
     if ($('#akordeon\\:formstworz\\:rzad\\:0\\:nazwa').val()) {
