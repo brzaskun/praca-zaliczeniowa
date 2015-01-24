@@ -9,15 +9,14 @@ import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
-import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -337,15 +336,9 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         System.out.println(finder.getLly());
         System.out.println(finder.getWidth());
         System.out.println(finder.getHeight());
-        PdfContentByte canvas = stamper.getImportedPage(reader, n);
-        canvas.saveState();
-        canvas.beginText(); // BTwdd
-        canvas.moveText(508, 150); // 36 788 Td
-        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
-        canvas.setFontAndSize(bf, 12); // /F1 12 Tf
-        canvas.showText("Hello Wowcwewd wd wdwd wd wd wd wdwd wdwdrld"); // (Hello World)Tj
-        canvas.endText();
-        canvas.restoreState();
+        //PdfContentByte canvas = stamper.getImportedPage(reader, n);
+        PdfContentByte canvas = stamper.getOverContent(3);
+        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), 25, 650, 0);
         stamper.close();
         reader.close();
         System.out.println("no ");
