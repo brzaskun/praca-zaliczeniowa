@@ -4,9 +4,11 @@
  */
 package pdf;
 
+import beansPdf.PdfFP;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
@@ -14,6 +16,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.tools.Executable;
@@ -31,6 +34,7 @@ import entity.Fakturaelementygraficzne;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -171,21 +175,16 @@ public class PdfFaktura extends Pdf implements Serializable {
         Document document = new Document();
         String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        int liczydlo = 0;
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+        writer.setBoxSize("art", new Rectangle(600, 1500, 0, 0));
+        writer.setPageEvent(headerfoter);
         document.addTitle("Faktura");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk faktury w formacie pdf");
         document.addKeywords("Faktura, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
-            //Rectangle rect = new Rectangle(0, 832, 136, 800);
-        //rect.setBackgroundColor(BaseColor.RED);
-        //document.add(rect);
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font fontXS = new Font(helvetica, 4);
-        Font fontS = new Font(helvetica, 6);
-        Font font = new Font(helvetica, 8);
-        Font fontL = new Font(helvetica, 10);
-        Font fontXL = new Font(helvetica, 12);
         List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
         if (lista.isEmpty()) {
             absText(writer, "Pozycje dokumentu nie zdefiniowane", 20, 20, 8);
@@ -199,26 +198,54 @@ public class PdfFaktura extends Pdf implements Serializable {
                 int wymiargora = (p.getGora() / 2);
                 wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
             }
-//            Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
-//            // Set the position of image
-//            image.setAbsolutePosition(500f, 40f); //e
-//            // Add paragraph to PDF document.
-//            document.add(image);
-            if (czydodatkowyelementjestAktywny("nagłówek", elementydod)) {
-                //naglowek
-                absText(writer, pobierzelementdodatkowy("nagłówek", elementydod), 15, 820, 6);
-                prost(writer.getDirectContent(), 12, 817, 560, 10);
-            }
-            if (czydodatkowyelementjestAktywny("stopka", elementydod)) {
-                //stopka
-                absText(writer, pobierzelementdodatkowy("stopka", elementydod), 15, 26, 6);
-                prost(writer.getDirectContent(), 12, 15, 560, 20);
-//                absText(writer, "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.", 15, 18, 6);
-            }
-            Pozycjenafakturze pobrane = new Pozycjenafakturze();
-            String adres = "";
-            float dzielnik = 2;
-            for (Pozycjenafakturze p : lista) {
+            PdfFP.dodajnaglowekstopka(writer, elementydod);
+            dolaczpozycjedofaktury(writer, selected, wymiary, lista, document, elementydod);
+            document.close();
+            if (przeznaczenie.equals("druk")) {
+            Msg.msg("i", "Wydrukowano Fakture", "form:messages");
+            String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma"+  wpisView.getPodatnikWpisu() + "');";
+            RequestContext.getCurrentInstance().execute(funkcja);
+        }
+        }
+    }
+    
+     private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+        Document document = new Document();
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        document.addTitle("Faktura");
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Wydruk faktury w formacie pdf");
+        document.addKeywords("Faktura, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
+        document.open();
+        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+        Collections.sort(lista, new Pozycjenafakturzecomparator());
+        Map<String, Integer> wymiary = new HashMap<>();
+        int gornylimit = 836;
+        for (Pozycjenafakturze p : lista) {
+            int wymiargora = (p.getGora() / 2);
+            wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
+        }
+        PdfFP.dodajnaglowekstopka(writer, elementydod);
+        //naglowek
+        absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
+        prost(writer.getDirectContent(), 12, 817, 560, 10);
+        //stopka
+        absText(writer, "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
+        absText(writer, "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.", 15, 18, 6);
+        prost(writer.getDirectContent(), 12, 15, 560, 20);
+        dolaczpozycjedofaktury(writer, selected, wymiary, lista, document, elementydod);
+        document.close();
+        return nazwapliku;
+
+    }
+    
+    private void dolaczpozycjedofaktury(PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> lista, Document document, List<Fakturadodelementy> elementydod) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        String adres = "";
+        float dzielnik = 2;
+        for (Pozycjenafakturze p : lista) {
                 switch (p.getPozycjenafakturzePK().getNazwa()) {
                     case "akordeon:formwzor:data":
                         //Dane do moudlu data
@@ -285,6 +312,10 @@ public class PdfFaktura extends Pdf implements Serializable {
                         //Dane do tablicy z wierszami
                         pobrane = zwrocpozycje(lista, "towary");
                         PdfPTable table = null;
+                        PdfPTable tablekorekta = null;
+                        if (selected.getPozycjepokorekcie() != null) {
+                            table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
+                        }
                         if (selected.isFakturaxxl()) {
                             table = wygenerujtablicexxl(selected.getPozycjenafakturze(), selected);
                         } else {
@@ -295,7 +326,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         break;
                     case "akordeon:formwzor:logo":
                         //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("logo", elementydod)) {
+                        if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
                             pobrane = zwrocpozycje(lista, "logo");
                             Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
                             String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
@@ -309,7 +340,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                         break;
                     case "akordeon:formwzor:nrzamowienia":
                         //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
+                        if (PdfFP.czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
                             pobrane = zwrocpozycje(lista, "nrzamowienia");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:nrzamowienia") - 5, 180, 15);
                             absText(writer, "nr zamówienia: "+selected.getNumerzamowienia() , (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
@@ -317,226 +348,32 @@ public class PdfFaktura extends Pdf implements Serializable {
                         break;
                     case "akordeon:formwzor:przewłaszczenie":
                         //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("przewłaszczenie", elementydod)) {
+                        if (PdfFP.czydodatkowyelementjestAktywny("przewłaszczenie", elementydod)) {
                             pobrane = zwrocpozycje(lista, "przewłaszczenie");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:przewłaszczenie") - 5, 230, 15);
-                            absText(writer, pobierzelementdodatkowy("przewłaszczenie", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:przewłaszczenie"), 8);
+                            absText(writer, PdfFP.pobierzelementdodatkowy("przewłaszczenie", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:przewłaszczenie"), 8);
                         }
                         break;
                     case "akordeon:formwzor:warunkidostawy":
                         //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("warunki dostawy", elementydod)) {
+                        if (PdfFP.czydodatkowyelementjestAktywny("warunki dostawy", elementydod)) {
                             pobrane = zwrocpozycje(lista, "warunkidostawy");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 360, 15);
-                            absText(writer, pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
+                            absText(writer, PdfFP.pobierzelementdodatkowy("warunki dostawy", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
                         }
                         break;
                     case "akordeon:formwzor:wezwaniedozapłaty":
                         //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
+                        if (PdfFP.czydodatkowyelementjestAktywny("wezwanie do zapłaty", elementydod)) {
                             pobrane = zwrocpozycje(lista, "wezwaniedozapłaty");
                             prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wezwaniedozapłaty") - 5, 230, 15);
-                            absText(writer, pobierzelementdodatkowy("wezwanie do zapłaty", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
+                            absText(writer, PdfFP.pobierzelementdodatkowy("wezwanie do zapłaty", elementydod), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
                         }
                         break;
                 }
             }
-            document.close();
-            if (przeznaczenie.equals("druk")) {
-            Msg.msg("i", "Wydrukowano Fakture", "form:messages");
-            String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma"+  wpisView.getPodatnikWpisu() + "');";
-            RequestContext.getCurrentInstance().execute(funkcja);
-        }
-        }
     }
     
-    private boolean czydodatkowyelementjestAktywny (String element, List<Fakturadodelementy> fdod) {
-        for (Fakturadodelementy p : fdod) {
-            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
-                return p.getAktywny();
-            }
-        }
-        return false;
-    }
-    
-    private String pobierzelementdodatkowy (String element, List<Fakturadodelementy> fdod) {
-        for (Fakturadodelementy p : fdod) {
-            if (p.getFakturadodelementyPK().getNazwaelementu().equals(element)) {
-                return p.getTrescelementu();
-            }
-        }
-        return "nie odnaleziono";
-    }
-    
-    private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> fdod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document();
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
-        document.addTitle("Faktura");
-        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Wydruk faktury w formacie pdf");
-        document.addKeywords("Faktura, PDF");
-        document.addCreator("Grzegorz Grzelczyk");
-        document.open();
-            //Rectangle rect = new Rectangle(0, 832, 136, 800);
-        //rect.setBackgroundColor(BaseColor.RED);
-        //document.add(rect);
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font fontXS = new Font(helvetica, 4);
-        Font fontS = new Font(helvetica, 6);
-        Font font = new Font(helvetica, 8);
-        Font fontL = new Font(helvetica, 10);
-        Font fontXL = new Font(helvetica, 12);
-        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
-        Collections.sort(lista, new Pozycjenafakturzecomparator());
-        Map<String, Integer> wymiary = new HashMap<>();
-        int gornylimit = 836;
-        for (Pozycjenafakturze p : lista) {
-            int wymiargora = (p.getGora() / 2);
-            wymiary.put(p.getPozycjenafakturzePK().getNazwa(), gornylimit - wymiargora);
-        }
-//        Image image = Image.getInstance("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/new-product.jpg");
-//        // Set the position of image
-//        image.setAbsolutePosition(400f, 40f); //e
-//        // Add paragraph to PDF document.
-//        document.add(image);
-        //naglowek
-        absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
-        prost(writer.getDirectContent(), 12, 817, 560, 10);
-        //stopka
-        absText(writer, "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman.", 15, 26, 6);
-        absText(writer, "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.", 15, 18, 6);
-        prost(writer.getDirectContent(), 12, 15, 560, 20);
-        Pozycjenafakturze pobrane = new Pozycjenafakturze();
-        String adres = "";
-        float dzielnik = 2;
-        for (Pozycjenafakturze p : lista) {
-            switch (p.getPozycjenafakturzePK().getNazwa()) {
-                case "akordeon:formwzor:data":
-                    //Dane do moudlu data
-                    pobrane = zwrocpozycje(lista, "data");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:data") - 5, 100, 15);
-                    absText(writer, selected.getMiejscewystawienia() + " dnia: " + selected.getDatawystawienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
-                    break;
-                case "akordeon:formwzor:datasprzedazy":
-                    //Dane do moudlu data
-                    pobrane = zwrocpozycje(lista, "datasprzedazy");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:datasprzedazy") - 5, 110, 15);
-                    absText(writer, "Data sprzedaży: " + selected.getDatasprzedazy(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:datasprzedazy"), 8);
-                    break;
-                case "akordeon:formwzor:fakturanumer":
-                    //Dane do modulu fakturanumer
-                    pobrane = zwrocpozycje(lista, "fakturanumer");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:fakturanumer") - 5, 190, 20);
-                    absText(writer, "Faktura nr " + selected.getFakturaPK().getNumerkolejny(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:fakturanumer"), 10);
-                    break;
-                case "akordeon:formwzor:wystawca":
-                    //Dane do modulu sprzedawca
-                    pobrane = zwrocpozycje(lista, "wystawca");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wystawca") - 65, 250, 80);
-                    absText(writer, "Sprzedawca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca"), 10);
-                    absText(writer, selected.getWystawca().getNazwadlafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 20, 8);
-                    adres = selected.getWystawca().getAdresdlafaktury();
-                    absText(writer, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 40, 8);
-                    absText(writer, "NIP: " + selected.getWystawca().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wystawca") - 60, 8);
-                    break;
-                case "akordeon:formwzor:odbiorca":
-                    //Dane do modulu odbiorca
-                    pobrane = zwrocpozycje(lista, "odbiorca");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:odbiorca") - 65, 250, 80);
-                    absText(writer, "Nabywca:", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca"), 10);
-                    absText(writer, selected.getKontrahent().getNpelna(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 20, 8);
-                    adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
-                    absText(writer, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
-                    absText(writer, "NIP: " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
-                    break;
-                case "akordeon:formwzor:platnosc":
-                    //Dane do modulu platnosc
-                    pobrane = zwrocpozycje(lista, "platnosc");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:platnosc") - 25, 250, 35);
-                    absText(writer, "Sposób zapłaty: " + selected.getSposobzaplaty(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:platnosc"), 8);
-                    absText(writer, "Termin płatności: " + selected.getTerminzaplaty(), (int) (pobrane.getLewy() / dzielnik) + 100, wymiary.get("akordeon:formwzor:platnosc"), 8);
-                    absText(writer, "Nr konta bankowego: " + selected.getNrkontabankowego(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:platnosc") - 20, 8);
-                    break;
-                case "akordeon:formwzor:dozaplaty":
-                    //Dane do modulu platnosc
-                    pobrane = zwrocpozycje(lista, "dozaplaty");
-                    prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:dozaplaty") - 25, 350, 35);
-                    absText(writer, "Do zapłaty: " + przerobkwote(selected.getBrutto()) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:dozaplaty"), 8);
-                    absText(writer, "Słownie: " + Slownie.slownie(String.valueOf(selected.getBrutto())), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:dozaplaty") - 20, 8);
-                    break;
-                case "akordeon:formwzor:podpis":
-                    //Dane do modulu platnosc
-                    pobrane = zwrocpozycje(lista, "podpis");
-                    String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
-                    absText(writer, podpis, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis"), 8);
-                    absText(writer, "..........................................", (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:podpis") - 20, 8);
-                    absText(writer, "wystawca faktury", (int) (pobrane.getLewy() / dzielnik) + 15, wymiary.get("akordeon:formwzor:podpis") - 40, 8);
-                    break;
-                case "akordeon:formwzor:towary":
-                    //Dane do modulu towary
-                    pobrane = zwrocpozycje(lista, "towary");
-                    PdfPTable table = null;
-                    if (selected.isFakturaxxl()) {
-                        table = wygenerujtablicexxl(selected.getPozycjenafakturze(), selected);
-                    } else {
-                        table = wygenerujtablice(selected.getPozycjenafakturze(), selected);
-                    }
-                    // write the table to an absolute position
-                    table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:towary"), writer.getDirectContent());
-                    break;
-                case "akordeon:formwzor:nrzamowienia":
-                    //Dane do modulu przewłaszczenie
-                    if (fdod.get(2).getAktywny()) {
-                        pobrane = zwrocpozycje(lista, "nrzamowienia");
-                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:nrzamowienia") - 5, 180, 15);
-                        absText(writer, selected.getNumerzamowienia() , (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
-                    }
-                    break;
-                case "akordeon:formwzor:logo":
-                        //Dane do modulu przewłaszczenie
-                        if (czydodatkowyelementjestAktywny("logo", fdod)) {
-                            pobrane = zwrocpozycje(lista, "logo");
-                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
-                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/"+element.getFakturaelementygraficznePK().getNazwaelementu();
-                            Image logo = Image.getInstance(nazwaplikuzbazy);
-                            // Set the position of image
-                            logo.scaleToFit(160f, 160f);
-                            logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 40, wymiary.get("akordeon:formwzor:logo")-100); //e
-                            // Add paragraph to PDF document.
-                            document.add(logo);
-                        }
-                        break;
-                case "akordeon:formwzor:przewłaszczenie":
-                    //Dane do modulu przewłaszczenie
-                    if (fdod.get(2).getAktywny()) {
-                        pobrane = zwrocpozycje(lista, "przewłaszczenie");
-                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:przewłaszczenie") - 5, 230, 15);
-                        absText(writer, fdod.get(2).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:przewłaszczenie"), 8);
-                    }
-                    break;
-                case "akordeon:formwzor:warunkidostawy":
-                    //Dane do modulu przewłaszczenie
-                    if (fdod.get(1).getAktywny()) {
-                        pobrane = zwrocpozycje(lista, "warunkidostawy");
-                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:warunkidostawy") - 5, 360, 15);
-                        absText(writer, fdod.get(1).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:warunkidostawy"), 8);
-                    }
-                    break;
-                case "akordeon:formwzor:wezwaniedozapłaty":
-                    //Dane do modulu przewłaszczenie
-                    if (fdod.get(0).getAktywny()) {
-                        pobrane = zwrocpozycje(lista, "wezwaniedozapłaty");
-                        prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:wezwaniedozapłaty") - 5, 230, 15);
-                        absText(writer, fdod.get(0).getTrescelementu(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:wezwaniedozapłaty"), 8);
-                    }
-                    break;
-            }
-        }
-        document.close();
-        return nazwapliku;
-
-    }
     
     private void silentPrintPdf(String nazwapliku) {
          try{
@@ -669,6 +506,8 @@ public class PdfFaktura extends Pdf implements Serializable {
         return table;
     }
     
+    
+    
     private PdfPTable wygenerujtablicexxl(List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
         FakturaXXLKolumna fakturaXXLKolumna = pobierzfakturaxxlkolumna();
         NumberFormat formatter = NumberFormat.getNumberInstance();
@@ -772,30 +611,26 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         Document document = new Document();
         String nazwapliku = "C:/testowa.pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        int liczydlo = 0;
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+        writer.setPageEvent(headerfoter);
+        document.setMargins(0, 0, 400, 20);
         document.addTitle("Faktura");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk faktury w formacie pdf");
         document.addKeywords("Faktura, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
-            //Rectangle rect = new Rectangle(0, 832, 136, 800);
-        //rect.setBackgroundColor(BaseColor.RED);
-        //document.add(rect);
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font fontXS = new Font(helvetica, 4);
-        Font fontS = new Font(helvetica, 6);
-        Font font = new Font(helvetica, 8);
-        Font fontL = new Font(helvetica, 10);
-        Font fontXL = new Font(helvetica, 12);
+        document.setMargins(0, 0, 40, 20);
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        Rectangle rect = new Rectangle(923, 350);
         PdfPTable table = new PdfPTable(15);
-        table.setTotalWidth(new float[]{20, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
+        table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
         // set the total width of the table
-        table.setTotalWidth(560);
+        table.setTotalWidth(600);
         table.addCell(ustawfrazeAlign("lp", "center", 7));
         table.addCell(ustawfrazeAlign("opis", "center", 7));
         table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
@@ -812,7 +647,8 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
         table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
         table.setHeaderRows(1);
-            table.addCell(ustawfrazeAlign("1", "center", 7));
+        for (int i = 0; i < 69; i++) {
+            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
             table.addCell(ustawfrazeAlign("lolo", "left", 7));
             table.addCell(ustawfrazeAlign("pkwiu", "center", 7));
             table.addCell(ustawfrazeAlign("10", "center", 7));
@@ -827,14 +663,15 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
             table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
-            table.addCell(ustawfrazeAlign("", "center", 7));
-        table.addCell(ustawfraze("Razem", 10, 0));
+            
+        }
+        table.addCell(ustawfraze("Razem", 11, 0));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 8));
         table.addCell(ustawfrazeAlign("*", "center", 8));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 8));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 8));
         table.completeRow();
-        table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
+        table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
 //        List<EVatwpis> ewidencja = selected.getEwidencjavat();
 //        int ilerow = 0;
 //        if (ewidencja != null) {
@@ -851,7 +688,12 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
 //            }
 //        }
         float dzielnik = 2;
-        table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
+        document.add(table);
+        //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
+        PdfReader reader = new PdfReader(nazwapliku);
+        byte[] pageContent = reader.getPageContent(3);
+        int lolo = reader.getNumberOfPages();
+        System.out.println("no "+lolo);
     }
 }
