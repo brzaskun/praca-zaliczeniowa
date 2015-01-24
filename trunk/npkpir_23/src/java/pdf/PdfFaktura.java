@@ -9,12 +9,20 @@ import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPage;
 import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.parser.PdfReaderContentParser;
+import com.itextpdf.text.pdf.parser.TextMarginFinder;
 import com.lowagie.tools.Executable;
 import comparator.Pozycjenafakturzecomparator;
 import dao.FakturaXXLKolumnaDAO;
@@ -165,9 +173,9 @@ public class PdfFaktura extends Pdf implements Serializable {
         String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         int liczydlo = 0;
-        PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+        //PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-        writer.setPageEvent(headerfoter);
+        //writer.setPageEvent(headerfoter);
         PdfFP.dodajopisdok(document);
         document.open();
         List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
@@ -181,6 +189,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             PdfFP.dodajnaglowekstopka(writer, elementydod);
             if (selected.getPozycjenafakturze().size() > 12) {
                 PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                 PdfFP.dolaczpozycjedofakturydlugacz3(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 document.close();
                 if (przeznaczenie.equals("druk")) {
@@ -317,9 +326,28 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         document.add(table);
         //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
+        writer.close();
         PdfReader reader = new PdfReader(nazwapliku);
-        byte[] pageContent = reader.getPageContent(3);
-        int lolo = reader.getNumberOfPages();
-        System.out.println("no "+lolo);
+        PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("c:/tparser.pdf"));
+        TextMarginFinder finder;
+        int n = reader.getNumberOfPages();
+        finder = parser.processContent(n, new TextMarginFinder());
+        System.out.println(finder.getLlx());
+        System.out.println(finder.getLly());
+        System.out.println(finder.getWidth());
+        System.out.println(finder.getHeight());
+        PdfContentByte canvas = stamper.getImportedPage(reader, n);
+        canvas.saveState();
+        canvas.beginText(); // BTwdd
+        canvas.moveText(508, 150); // 36 788 Td
+        BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.NOT_EMBEDDED);
+        canvas.setFontAndSize(bf, 12); // /F1 12 Tf
+        canvas.showText("Hello Wowcwewd wd wdwd wd wd wd wdwd wdwdrld"); // (Hello World)Tj
+        canvas.endText();
+        canvas.restoreState();
+        stamper.close();
+        reader.close();
+        System.out.println("no ");
     }
 }
