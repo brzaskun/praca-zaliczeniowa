@@ -168,43 +168,78 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     private void drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document();
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
-        int liczydlo = 0;
-        //PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-        writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
-        //writer.setPageEvent(headerfoter);
-        PdfFP.dodajopisdok(document);
-        document.open();
-        List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
-        if (lista.isEmpty()) {
-            absText(writer, "Pozycje dokumentu nie zdefiniowane", 20, 20, 8);
-            document.close();
+       
+        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+        if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
         } else {
-            Collections.sort(lista, new Pozycjenafakturzecomparator());
-            Map<String, Integer> wymiaryGora = PdfFP.pobierzwymiarGora(lista);
-            PdfFP.dodajnaglowekstopka(writer, elementydod);
-            if (selected.getPozycjenafakturze().size() > 12) {
-                PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
-                document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
-                PdfFP.dolaczpozycjedofakturydlugacz3(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+            Collections.sort(skladnikifaktury, new Pozycjenafakturzecomparator());
+            Map<String, Integer> wymiaryGora = PdfFP.pobierzwymiarGora(skladnikifaktury);
+            int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
+            if (wierszewtabelach > 12) {
+                Document document = new Document();
+                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+                writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                PdfFP.dodajopisdok(document);
+                document.setMargins(0, 0, 400, 20);
+                document.open();
+                PdfFP.dodajnaglowekstopka(writer, elementydod);
+                document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                document.add(PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                 document.close();
-                if (przeznaczenie.equals("druk")) {
-                    Msg.msg("i", "Wydrukowano Fakture", "form:messages");
-                    String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma"+  wpisView.getPodatnikWpisu() + "');";
-                    RequestContext.getCurrentInstance().execute(funkcja);
+                writer.close();
+                PdfReader reader = new PdfReader(nazwapliku);
+                PdfReaderContentParser parser = new PdfReaderContentParser(reader);
+                String nazwapliku1 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr1" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku1));
+                PdfContentByte canvas = stamper.getOverContent(1);
+                PdfFP.dolaczpozycjedofakturydlugacz1(fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                stamper.close();
+                reader.close();
+                PdfFP.usunplik(nazwapliku);
+                reader = new PdfReader(nazwapliku1);
+                parser = new PdfReaderContentParser(reader);
+                String nazwapliku2 = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                stamper = new PdfStamper(reader, new FileOutputStream(nazwapliku2));
+                TextMarginFinder finder;
+                int n = reader.getNumberOfPages();
+                System.out.println("liczba stron "+n);
+                finder = parser.processContent(n, new TextMarginFinder());
+                System.out.println(finder.getLlx());
+                System.out.println(finder.getLly());
+                System.out.println(finder.getWidth());
+                System.out.println(finder.getHeight());
+                if (finder.getLly() < 300) {
+                    stamper.insertPage(2, reader.getPageSize(1));
+                    canvas = stamper.getOverContent(2);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(true, fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                } else {
+                    canvas = stamper.getOverContent(2);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(false, fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 }
+                stamper.close();
+                reader.close();
+                PdfFP.usunplik(nazwapliku1);
+                System.out.println("no ");
             } else {
-                PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, lista, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                Document document = new Document();
+                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+                writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
+                writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
+                PdfFP.dodajopisdok(document);
+                document.open();
+                PdfFP.dodajnaglowekstopka(writer, elementydod);
+                PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 document.close();
-                if (przeznaczenie.equals("druk")) {
+            }
+             if (przeznaczenie.equals("druk")) {
                     Msg.msg("i", "Wydrukowano Fakture", "form:messages");
                     String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma"+  wpisView.getPodatnikWpisu() + "');";
                     RequestContext.getCurrentInstance().execute(funkcja);
                 }
-            }
         }
     }
     
@@ -249,6 +284,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
         writer.setPageEvent(headerfoter);
+        writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
         document.setMargins(0, 0, 400, 20);
         document.addTitle("Faktura");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -264,46 +300,46 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         PdfPTable table = new PdfPTable(15);
         table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
         // set the total width of the table
-        table.setTotalWidth(600);
-        table.addCell(ustawfrazeAlign("lp", "center", 7));
-        table.addCell(ustawfrazeAlign("opis", "center", 7));
-        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
-        table.addCell(ustawfrazeAlign("ilość", "center", 7));
-        table.addCell(ustawfrazeAlign("j.m.", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto1", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto2", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto3", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto4", "center", 7));
-        table.addCell(ustawfrazeAlign("cena netto5", "center", 7));
-        table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
-        table.addCell(ustawfrazeAlign("vat", "center", 7));
-        table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
-        table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
+        table.setTotalWidth(700);
+        table.addCell(ustawfrazeAlign("lp", "center", 6));
+        table.addCell(ustawfrazeAlign("opis", "center", 6));
+        table.addCell(ustawfrazeAlign("PKWiU", "center", 6));
+        table.addCell(ustawfrazeAlign("ilość", "center", 6));
+        table.addCell(ustawfrazeAlign("j.m.", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto1", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto2", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto3", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto4", "center", 6));
+        table.addCell(ustawfrazeAlign("cena netto5", "center", 6));
+        table.addCell(ustawfrazeAlign("wartość netto", "center", 6));
+        table.addCell(ustawfrazeAlign("vat", "center", 6));
+        table.addCell(ustawfrazeAlign("kwota vat", "center", 6));
+        table.addCell(ustawfrazeAlign("wartość brutto", "center", 6));
         table.setHeaderRows(1);
         for (int i = 0; i < 69; i++) {
-            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
-            table.addCell(ustawfrazeAlign("lolo", "left", 7));
-            table.addCell(ustawfrazeAlign("pkwiu", "center", 7));
-            table.addCell(ustawfrazeAlign("10", "center", 7));
-            table.addCell(ustawfrazeAlign("kg", "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 6));
+            table.addCell(ustawfrazeAlign("lolo", "left", 6));
+            table.addCell(ustawfrazeAlign("pkwiu", "center", 6));
+            table.addCell(ustawfrazeAlign("10", "center", 6));
+            table.addCell(ustawfrazeAlign("kg", "center", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11100)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11101)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11102)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11103)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11104)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(11105)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(22000)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(22) + "%", "center", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(123)), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(4000)), "right", 6));
             
         }
         table.addCell(ustawfraze("Razem", 11, 0));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 8));
-        table.addCell(ustawfrazeAlign("*", "center", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 8));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(200.0)), "right", 7));
+        table.addCell(ustawfrazeAlign("*", "center", 7));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(46.0)), "right", 7));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(246.0)), "right", 7));
         table.completeRow();
         table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
 //        List<EVatwpis> ewidencja = selected.getEwidencjavat();
@@ -337,8 +373,8 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         System.out.println(finder.getWidth());
         System.out.println(finder.getHeight());
         //PdfContentByte canvas = stamper.getImportedPage(reader, n);
-        PdfContentByte canvas = stamper.getOverContent(3);
-        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), 25, 650, 0);
+        PdfContentByte canvas = stamper.getOverContent(2);
+        ColumnText.showTextAligned(canvas,Element.ALIGN_LEFT, new Phrase("Hello people!"), finder.getLlx()+30, finder.getLly()-20, 0);
         stamper.close();
         reader.close();
         System.out.println("no ");
