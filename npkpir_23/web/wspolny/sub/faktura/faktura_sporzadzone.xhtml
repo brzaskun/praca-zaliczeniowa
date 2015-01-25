@@ -73,6 +73,10 @@
                 <p:column  headerText="PDF" style="text-align: center;"  width="50">
                     <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
+                <p:column  headerText="korekta" style="text-align: center;"  width="50">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
+                                      icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
+                </p:column>
             </p:dataTable>
         </h:form>
     </p:tab>

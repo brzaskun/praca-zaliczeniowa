@@ -9,6 +9,7 @@ import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -168,7 +169,6 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     private void drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-       
         List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
         if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
@@ -186,8 +186,16 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.setMargins(0, 0, 400, 20);
                 document.open();
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
-                document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                 document.add(PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                if (selected.getPozycjepokorekcie() != null) {
+                    document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                    document.setMargins(0, 0, 20, 20);
+                    document.add(Chunk.NEWLINE );
+                    document.add(Chunk.NEWLINE );
+                    document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                } else {
+                    document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                }
                 document.close();
                 writer.close();
                 PdfReader reader = new PdfReader(nazwapliku);
@@ -212,12 +220,12 @@ public class PdfFaktura extends Pdf implements Serializable {
                 System.out.println(finder.getWidth());
                 System.out.println(finder.getHeight());
                 if (finder.getLly() < 300) {
-                    stamper.insertPage(2, reader.getPageSize(1));
-                    canvas = stamper.getOverContent(2);
-                    PdfFP.dolaczpozycjedofakturydlugacz3(true, fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    stamper.insertPage(++n, reader.getPageSize(1));
+                    canvas = stamper.getOverContent(n);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(true, fakturaelementygraficzneDAO, canvas, selected, 800, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 } else {
-                    canvas = stamper.getOverContent(2);
-                    PdfFP.dolaczpozycjedofakturydlugacz3(false, fakturaelementygraficzneDAO, canvas, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                    canvas = stamper.getOverContent(n);
+                    PdfFP.dolaczpozycjedofakturydlugacz3(false, fakturaelementygraficzneDAO, canvas, selected, finder.getLly(), skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 }
                 stamper.close();
                 reader.close();
