@@ -298,6 +298,23 @@ public class FakturaView implements Serializable {
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
 //        RequestContext.getCurrentInstance().execute(funkcja);
        }
+    
+    public void skierujfakturedokorekty(Faktura faktura) {
+        Msg.msg("Tworzenie korekty faktury");
+        selected = serialclone.SerialClone.clone(faktura);
+        selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getFakturaPK().getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
+        fakturaxxl = faktura.isFakturaxxl();
+        fakturakorekta = true;
+        aktywnytab = 0;
+        pokazfakture = true;
+        zapis0edycja1 = false;
+        selected.getFakturaPK().setNumerkolejny(selected.getFakturaPK().getNumerkolejny()+"/KOR");
+        selected.setPozycjepokorekcie(SerialClone.clone(faktura.getPozycjenafakturze()));
+//        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+//        funkcja = "PF('tworzenieklientapolenazwy').activate();";
+//        RequestContext.getCurrentInstance().execute(funkcja);
+       }
 
     private void waloryzacjakwoty(Faktura faktura, double procent) throws Exception {
         kwotaprzedwaloryzacja = faktura.getBrutto();
@@ -594,7 +611,7 @@ public class FakturaView implements Serializable {
     }
 
     public void wgenerujnumerfaktury() throws IOException {
-        if (zapis0edycja1 == false) {
+        if (zapis0edycja1 == false && fakturakorekta == false) {
             String nazwaklienta = (String) Params.params("akordeon:formstworz:acForce_input");
             if (!nazwaklienta.equals("nowy klient")) {
                 if (selected.getKontrahent().getNskrocona() == null) {
