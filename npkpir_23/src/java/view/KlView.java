@@ -107,9 +107,9 @@ public class KlView implements Serializable{
 //        selected.setNpelna(formatka);
         String formatka = selected.getNskrocona().toUpperCase();
         selected.setNskrocona(formatka);
-        formatka = selected.getUlica().substring(0, 1).toUpperCase();
-        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
-        selected.setUlica(formatka);
+//        formatka = selected.getUlica().substring(0, 1).toUpperCase();
+//        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
+//        selected.setUlica(formatka);
         try {
             selected.getKrajnazwa();
         } catch (Exception e){
@@ -123,6 +123,7 @@ public class KlView implements Serializable{
         klDAO.dodaj(selected);
         kl1.add(selected);
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
+        selected = new Klienci();
         } catch (Exception e) {
         Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }

@@ -248,7 +248,12 @@ public class PdfFP {
                     //Dane do modulu platnosc
                     pobrane = zwrocpozycje(skladnikifaktury, "dozaplaty");
                     prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:dozaplaty") - 25, 350, 35);
-                    double wynik = selected.getBruttopk()-selected.getBrutto();
+                    double wynik = 0;
+                    if (selected.getPozycjepokorekcie() != null) {
+                        wynik = selected.getBruttopk()-selected.getBrutto();
+                    } else {
+                        wynik = selected.getBrutto();
+                    }
                     if (wynik > 0 ) {
                         absText(writer, "Do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
                     } else {
@@ -437,7 +442,12 @@ public class PdfFP {
                     wymiar = (int) gora -95;
                     pobrane = zwrocpozycje(skladnikifaktury, "dozaplaty");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 25, 350, 35);
-                    double wynik = selected.getBruttopk()-selected.getBrutto();
+                    double wynik = 0;
+                    if (selected.getPozycjepokorekcie() != null) {
+                        wynik = selected.getBruttopk()-selected.getBrutto();
+                    } else {
+                        wynik = selected.getBrutto();
+                    }
                     if (wynik > 0 ) {
                         absText(canvas, "Do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
                     } else {
