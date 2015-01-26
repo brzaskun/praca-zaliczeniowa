@@ -38,6 +38,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -1221,7 +1222,13 @@ public class FakturaView implements Serializable {
         Msg.msg("Dodaję kolumnę");
     }
     
-    
+    public void dopasujterminplatnosci(ValueChangeEvent e) {
+        String data = (String) e.getNewValue();
+        if (data.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), data));
+            RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
+        }
+    }
     
     public boolean isFakturakorekta() {
         return fakturakorekta;

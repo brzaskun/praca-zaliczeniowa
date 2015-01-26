@@ -61,3 +61,10 @@ var walidacjadatyzaplaty = function () {
          }
    };
    
+   var fakturaduplikatklienta = function () {
+       rj("formnkfaktura:nazwaPole").value = "";
+       rj("formnkfaktura:symbolPole").value = "";
+       rj("formnkfaktura:nazwaPole").focus();
+       rj("formnkfaktura:nazwaPole").selected();
+   };
+   
