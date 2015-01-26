@@ -62,13 +62,27 @@
                 <f:facet name="header">  
                     <h:outputText value="email" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.email}" />
+                  <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.email}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.email}"/>
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column id="firmaColumn" headerText="firma">  
                 <f:facet name="header">  
                     <h:outputText value="firma" />  
                 </f:facet> 
-                <h:outputText value="#{wpis.firma}" />
+                <p:cellEditor>
+                    <f:facet name="output">  
+                        <h:outputText value="#{wpis.firma}" />
+                    </f:facet>
+                    <f:facet name="input">  
+                        <p:inputText value="#{wpis.firma}"/>
+                    </f:facet>
+                </p:cellEditor>
             </p:column>
             <p:column id="editColumn" headerText="edytuj">
                 <p:rowEditor />  
