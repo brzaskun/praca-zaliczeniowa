@@ -19,6 +19,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -57,6 +59,24 @@ public class KlView implements Serializable{
     private void init(){
         kl1 = new ArrayList<>();
         kl1.addAll(klDAO.findAll());
+    }
+    
+    public void wyszukajduplikat(ValueChangeEvent e) {
+        String klient = (String) e.getNewValue();
+        Klienci klientznaleziony = null;
+        try {
+            klientznaleziony = klDAO.findKlientByNazwa(klient);
+        } catch (Exception e1) {
+            
+        }
+        if (klientznaleziony != null) {
+            selected.setNpelna("");
+            selected.setNskrocona("");
+            Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
+            RequestContext.getCurrentInstance().update("formnkfaktura");
+            RequestContext.getCurrentInstance().execute("fakturaduplikatklienta()");
+        }
+        
     }
   
     public void dodajKlienta(){

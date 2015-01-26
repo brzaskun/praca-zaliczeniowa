@@ -13,6 +13,7 @@ import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
@@ -176,7 +177,9 @@ public class PdfFaktura extends Pdf implements Serializable {
             Collections.sort(skladnikifaktury, new Pozycjenafakturzecomparator());
             Map<String, Integer> wymiaryGora = PdfFP.pobierzwymiarGora(skladnikifaktury);
             int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
-            if (wierszewtabelach > 12) {
+            boolean dlugiwiersz = selected.getPozycjenafakturze().get(0).getNazwa().length() > 100;
+            boolean jestkorekta = selected.getPozycjepokorekcie() != null;
+            if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 2 && jestkorekta)) {
                 Document document = new Document();
                 String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
@@ -186,7 +189,10 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.setMargins(0, 0, 400, 20);
                 document.open();
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
-                document.add(PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
+                if (logo != null) {
+                    document.add(logo);
+                }
                 if (selected.getPozycjepokorekcie() != null) {
                     document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                     document.setMargins(0, 0, 20, 20);

@@ -54,7 +54,9 @@
                         </div>
                         <div class="ui-grid-col-2">
                             <p:inputText value="#{fakturaView.selected.datawystawienia}" required="true" label="text" style="font-weight: bolder;"
-                                         onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd"/>
+                                         onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd" valueChangeListener="#{fakturaView.dopasujterminplatnosci}">
+                                <p:ajax event="blur" global="false" partialSubmit="true"/>
+                            </p:inputText>
                         </div>
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="data, albo miesiąc i rok dokonania czynności: " />
@@ -67,7 +69,7 @@
                             <h:outputLabel value="termin płatności: " />
                         </div>
                         <div class="ui-grid-col-2">
-                            <p:inputText value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"
+                            <p:inputText id="terminzaplaty" value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"
                                      onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd"/>
                         </div>
                     </div>
@@ -98,7 +100,7 @@
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="konto bankowe: " />
                         </div>
-                        <div class="ui-grid-col-2">
+                        <div class="ui-grid-col-4">
                             <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
                             </p:inplace>
