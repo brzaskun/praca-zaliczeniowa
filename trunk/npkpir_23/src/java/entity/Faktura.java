@@ -201,6 +201,8 @@ public class Faktura implements Serializable {
     private String przyczynakorekty;
     @Column
     private int dnizaplaty;
+    @Column
+    private String nazwa;
 
     public Faktura() {
     }
@@ -279,6 +281,15 @@ public class Faktura implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public String getNazwa() {
+        return nazwa;
+    }
+
+    public void setNazwa(String nazwa) {
+        this.nazwa = nazwa;
+    }
+    
 
     public int getDnizaplaty() {
         return dnizaplaty;

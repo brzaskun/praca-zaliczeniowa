@@ -51,6 +51,7 @@ public class FakturaXXLKolumna implements Serializable {
     private String nettoopis4;
     @Column(name = "nettoopis5")
     private String nettoopis5;
+ 
     
 
     public int getId() {
@@ -117,6 +118,5 @@ public class FakturaXXLKolumna implements Serializable {
         this.nettoopis5 = nettoopis5;
     }
 
-       
-    
+      
 }

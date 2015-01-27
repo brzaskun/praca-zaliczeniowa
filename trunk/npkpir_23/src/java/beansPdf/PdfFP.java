@@ -518,7 +518,8 @@ public class PdfFP {
             }
         }
         table.addCell(ustawfrazeAlign("lp", "center", 8));
-        table.addCell(ustawfrazeAlign("opis", "center", 8));
+        String opis = selected.getNazwa() != null ? selected.getNazwa() : "opis";
+        table.addCell(ustawfrazeAlign(opis, "center", 8));
         table.addCell(ustawfrazeAlign("PKWiU", "center", 8));
         table.addCell(ustawfrazeAlign("ilość", "center", 8));
         table.addCell(ustawfrazeAlign("jedn.m.", "center", 8));
@@ -636,7 +637,8 @@ public class PdfFP {
             }
         }
         table.addCell(ustawfrazeAlign("lp", "center", 6));
-        table.addCell(ustawfrazeAlign("opis", "center", 6));
+        String opis = selected.getNazwa() != null ? selected.getNazwa() : "opis";
+        table.addCell(ustawfrazeAlign(opis, "center", 6));
         table.addCell(ustawfrazeAlign("PKWiU", "center", 6));
         table.addCell(ustawfrazeAlign("ilość", "center", 6));
         table.addCell(ustawfrazeAlign("jedn.m.", "center", 6));
