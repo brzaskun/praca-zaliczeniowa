@@ -3,9 +3,10 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab id="gotowe" title="Faktury sporządzone">
-       
+
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
                 <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
@@ -39,23 +40,25 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto" global="false"/>      
                 <p:column selectionMode="multiple"  width="30" style="text-align: center;"/>
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
                 <p:column headerText="nr kolejny" width="80" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
                 <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="email" sortBy="#{wpis.kontrahent.email}" filterBy="#{wpis.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;">
-                    <h:outputText value="#{wpis.kontrahent.email}"/>
-                </p:column>
-                <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
+                <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <h:outputText value="#{wpis.datawystawienia}"/>
                 </p:column>
-                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="100">
-                    <h:outputText value="#{wpis.brutto}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                    <h:outputText value="#{wpis.walutafaktury}"/>
+                <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="70">
+                    <h:outputText value="#{wpis.terminzaplaty}"/>
+                </p:column>
+                <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.brutto}"/>
                 </p:column>
                 <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="50">
                     <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
@@ -66,17 +69,27 @@
                 <p:column headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="70">
                     <h:outputText value="#{wpis.rodzajdokumentu}"/>
                 </p:column>
-                <p:column  headerText="edytuj" style="text-align: center;"  width="50">
+                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
-                <p:column  headerText="PDF" style="text-align: center;"  width="50">
+                <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
-                <p:column  headerText="korekta" style="text-align: center;"  width="50">
+                <p:column  headerText="korekta" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
+                 <p:rowExpansion>
+                     <p:panelGrid  columns="2"  style="width:300px">
+                        <h:outputText value="email kontrahenta"/>
+                        <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                        <h:outputText value="kwota netto"/>
+                        <bcf:outputpl value="#{wpis.netto}"/>
+                        <h:outputText value="kwota vat"/>
+                        <bcf:outputpl value="#{wpis.vat}"/>
+                     </p:panelGrid>
+                </p:rowExpansion>
             </p:dataTable>
         </h:form>
     </p:tab>

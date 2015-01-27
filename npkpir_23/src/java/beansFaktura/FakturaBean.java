@@ -186,6 +186,18 @@ public class FakturaBean {
             return terminplatnosci.toString();
         }
     }
+    
+    public static String obliczterminzaplaty(Podatnik podatnikobiekt, String pelnadata, int dnizaplaty) {
+        DateTime dt = new DateTime(pelnadata);
+        LocalDate firstDate = dt.toLocalDate();
+        try {
+            LocalDate terminplatnosci = firstDate.plusDays(dnizaplaty);
+            return terminplatnosci.toString();
+        } catch (Exception ep) {
+            LocalDate terminplatnosci = firstDate.plusDays(14);
+            return terminplatnosci.toString();
+        }
+    }
 
     public static String pobierznumerkonta(Podatnik podatnikobiekt) {
         try {
