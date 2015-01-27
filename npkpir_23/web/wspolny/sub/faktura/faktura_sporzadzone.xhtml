@@ -38,8 +38,8 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formsporzadzone:podsumowaniewybrnetto" global="false"/>      
-                <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
-                <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column selectionMode="multiple"  width="30" style="text-align: center;"/>
+                <p:column headerText="nr kolejny" width="80" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
                 <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
