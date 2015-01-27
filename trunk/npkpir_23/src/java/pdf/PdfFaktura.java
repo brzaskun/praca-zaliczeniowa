@@ -188,6 +188,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 PdfFP.dodajopisdok(document);
                 document.setMargins(0, 0, 400, 20);
                 document.open();
+                document.setMargins(0, 0, 20, 20);
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
                 Image logo = PdfFP.dolaczpozycjedofakturydlugaczlogo(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 if (logo != null) {
@@ -195,7 +196,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
                 if (selected.getPozycjepokorekcie() != null) {
                     document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
-                    document.setMargins(0, 0, 20, 20);
+                    
                     document.add(Chunk.NEWLINE );
                     document.add(Chunk.NEWLINE );
                     document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));

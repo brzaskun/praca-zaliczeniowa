@@ -314,12 +314,6 @@ public class PdfFP {
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:data") - 5, 140, 15);
                     absText(canvas, selected.getMiejscewystawienia() + " dnia: " + selected.getDatawystawienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:data"), 8);
                     break;
-                case "akordeon:formwzor:datasprzedazy":
-                    //Dane do moudlu data
-                    pobrane = zwrocpozycje(skladnikifaktury, "datasprzedazy");
-                    prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:datasprzedazy") - 5, 110, 15);
-                    absText(canvas, "Data sprzedaży: " + selected.getDatasprzedazy(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:datasprzedazy"), 8);
-                    break;
                 case "akordeon:formwzor:fakturanumer":
                     //Dane do modulu fakturanumer
                     pobrane = zwrocpozycje(skladnikifaktury, "fakturanumer");
@@ -345,14 +339,6 @@ public class PdfFP {
                     adres = selected.getKontrahent().getKodpocztowy() + " " + selected.getKontrahent().getMiejscowosc() + " " + selected.getKontrahent().getUlica() + " " + selected.getKontrahent().getDom();
                     absText(canvas, adres, (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 40, 8);
                     absText(canvas, "NIP: " + selected.getKontrahent().getNip(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:odbiorca") - 60, 8);
-                    break;
-                case "akordeon:formwzor:nrzamowienia":
-                    //Dane do modulu przewłaszczenie
-                    if (PdfFP.czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
-                        pobrane = zwrocpozycje(skladnikifaktury, "nrzamowienia");
-                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:nrzamowienia") - 5, 180, 15);
-                        absText(canvas, "nr zamówienia: " + selected.getNumerzamowienia(), (int) (pobrane.getLewy() / dzielnik), wymiary.get("akordeon:formwzor:nrzamowienia"), 8);
-                    }
                     break;
                 case "akordeon:formwzor:przewłaszczenie":
                     //Dane do modulu przewłaszczenie
@@ -428,18 +414,34 @@ public class PdfFP {
         }
         for (Pozycjenafakturze p : skladnikifaktury) {
             switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:datasprzedazy":
+                    //Dane do moudlu data
+                    wymiar = (int) gora -45;
+                    pobrane = zwrocpozycje(skladnikifaktury, "datasprzedazy");
+                    prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 5, 110, 15);
+                    absText(canvas, "Data sprzedaży: " + selected.getDatasprzedazy(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                    break;
                 case "akordeon:formwzor:platnosc":
                     //Dane do modulu platnosc
-                    wymiar = (int) gora -45;
+                    wymiar = (int) gora -85;
                     pobrane = zwrocpozycje(skladnikifaktury, "platnosc");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 25, 250, 35);
                     absText(canvas, "Sposób zapłaty: " + selected.getSposobzaplaty(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
                     absText(canvas, "Termin płatności: " + selected.getTerminzaplaty(), (int) (pobrane.getLewy() / dzielnik) + 100, wymiar, 8);
                     absText(canvas, "Nr konta bankowego: " + selected.getNrkontabankowego(), (int) (pobrane.getLewy() / dzielnik), wymiar - 20, 8);
                     break;
+                case "akordeon:formwzor:nrzamowienia":
+                    //Dane do modulu przewłaszczenie
+                    wymiar = (int) gora -125;
+                    if (PdfFP.czydodatkowyelementjestAktywny("nr zamówienia", elementydod)) {
+                        pobrane = zwrocpozycje(skladnikifaktury, "nrzamowienia");
+                        prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 5, 180, 15);
+                        absText(canvas, "nr zamówienia: " + selected.getNumerzamowienia(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
+                    }
+                    break;
                 case "akordeon:formwzor:dozaplaty":
                     //Dane do modulu platnosc
-                    wymiar = (int) gora -95;
+                    wymiar = (int) gora -150;
                     pobrane = zwrocpozycje(skladnikifaktury, "dozaplaty");
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 25, 350, 35);
                     double wynik = 0;
@@ -457,7 +459,7 @@ public class PdfFP {
                     break;
                 case "akordeon:formwzor:podpis":
                     //Dane do modulu platnosc
-                    wymiar = (int) gora - 135;
+                    wymiar = (int) gora - 205;
                     pobrane = zwrocpozycje(skladnikifaktury, "podpis");
                     String podpis = selected.getPodpis() == null ? "" : selected.getPodpis();
                     absText(canvas, podpis, (int) (pobrane.getLewy() / dzielnik), wymiar - 25, 8);
