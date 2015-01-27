@@ -205,6 +205,7 @@ public class FakturaView implements Serializable {
         if (fakturaxxl) {
             selected.setFakturaxxl(true);
         }
+        selected.setDnizaplaty(Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni()));
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);
@@ -1225,9 +1226,15 @@ public class FakturaView implements Serializable {
     public void dopasujterminplatnosci(ValueChangeEvent e) {
         String data = (String) e.getNewValue();
         if (data.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), data));
+            selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), data, selected.getDnizaplaty()));
             RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
         }
+    }
+    
+     public void dopasujterminplatnoscidni(ValueChangeEvent e) {
+        int dnizaplaty = (int) e.getNewValue();
+        selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), selected.getDatawystawienia(), dnizaplaty));
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
     }
     
     public boolean isFakturakorekta() {

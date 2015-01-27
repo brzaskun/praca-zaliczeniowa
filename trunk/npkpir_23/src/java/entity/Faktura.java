@@ -199,6 +199,8 @@ public class Faktura implements Serializable {
     private boolean fakturaxxl;
     @Column(length = 512)
     private String przyczynakorekty;
+    @Column
+    private int dnizaplaty;
 
     public Faktura() {
     }
@@ -277,6 +279,15 @@ public class Faktura implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public int getDnizaplaty() {
+        return dnizaplaty;
+    }
+
+    public void setDnizaplaty(int dnizaplaty) {
+        this.dnizaplaty = dnizaplaty;
+    }
+    
 
     public double getNettopk() {
         return nettopk;

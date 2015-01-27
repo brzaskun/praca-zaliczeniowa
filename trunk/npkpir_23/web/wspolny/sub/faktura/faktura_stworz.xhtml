@@ -42,10 +42,23 @@
                         <div class="ui-grid-col-2">
                             <h:outputLabel value="wystawiający fakturę: " />
                         </div>
-                        <div class="ui-grid-col-6">   
+                        <div class="ui-grid-col-2">   
                             <p:inplace id="wystawiajacyfakt" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.podpis}" label="text" style="font-weight: bolder;"/>  
                             </p:inplace>
+                        </div>
+                         <div class="ui-grid-col-2">
+                            <h:outputLabel value="waluta faktury: " />
+                        </div>
+                        <div class="ui-grid-col-2">   
+                            <h:selectOneMenu value="#{fakturaView.selected.walutafaktury}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                                                     onfocus="$(this).removeClass('ui-state-default');
+                                                             $(this).addClass('ui-state-focus');"
+                                                     onblur="$(this).removeClass('ui-state-focus');
+                                                             $(this).addClass('ui-state-default');" >
+                                <f:selectItem itemLabel="PLN" itemValue="PLN"/>
+                                <f:selectItem itemLabel="EUR" itemValue="EUR"/>
+                            </h:selectOneMenu>
                         </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
@@ -65,13 +78,6 @@
                             <p:inputText value="#{fakturaView.selected.datasprzedazy}" required="true" label="text" style="font-weight: bolder;"
                                          onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd"/>  
                         </div>
-                        <div class="ui-grid-col-2">
-                            <h:outputLabel value="termin płatności: " />
-                        </div>
-                        <div class="ui-grid-col-2">
-                            <p:inputText id="terminzaplaty" value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"
-                                     onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd"/>
-                        </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
                         <div class="ui-grid-col-2">
@@ -81,6 +87,23 @@
                             <p:inplace id="nrfaktury" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.fakturaPK.numerkolejny}" required="true" label="text" style="font-weight: bolder;"/>  
                             </p:inplace>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row" style="height: 40px;">
+                         <div class="ui-grid-col-2">
+                            <h:outputLabel value="dni do zapłaty: " />
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:inputText id="dnizaplaty" value="#{fakturaView.selected.dnizaplaty}" required="true" label="text" style="font-weight: bolder;" valueChangeListener="#{fakturaView.dopasujterminplatnoscidni}">
+                                <p:ajax event="blur" global="false" partialSubmit="true"/>
+                            </p:inputText>
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <h:outputLabel value="termin płatności: " />
+                        </div>
+                        <div class="ui-grid-col-2">
+                            <p:inputText id="terminzaplaty" value="#{fakturaView.selected.terminzaplaty}" required="true" label="text" style="font-weight: bolder;"
+                                     onblur="weryfikujsporzadzfakture(this)" placeholder="rrrr-mm-dd"/>
                         </div>
                     </div>
                     <div class="ui-grid-row" style="height: 40px;">
@@ -104,21 +127,6 @@
                             <p:inplace id="kontobankowe" editor="true" saveLabel="zachowaj wprowadzoną wartość" cancelLabel="wycofaj wprowadzone zmiany">  
                                 <p:inputText value="#{fakturaView.selected.nrkontabankowego}" required="true" label="text" style="font-weight: bolder;" requiredMessage="Brakuje wpisanego numeru konta bankowego"/>  
                             </p:inplace>
-                        </div>
-                    </div>
-                    <div class="ui-grid-row" style="height: 40px;">
-                        <div class="ui-grid-col-2">
-                            <h:outputLabel value="waluta faktury: " />
-                        </div>
-                        <div class="ui-grid-col-2">   
-                            <h:selectOneMenu value="#{fakturaView.selected.walutafaktury}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                                     onfocus="$(this).removeClass('ui-state-default');
-                                                             $(this).addClass('ui-state-focus');"
-                                                     onblur="$(this).removeClass('ui-state-focus');
-                                                             $(this).addClass('ui-state-default');" >
-                                <f:selectItem itemLabel="PLN" itemValue="PLN"/>
-                                <f:selectItem itemLabel="EUR" itemValue="EUR"/>
-                            </h:selectOneMenu>
                         </div>
                     </div>
                      <div class="ui-grid-row" style="height: 40px;">
