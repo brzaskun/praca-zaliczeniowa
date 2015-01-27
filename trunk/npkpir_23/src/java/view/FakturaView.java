@@ -47,6 +47,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.MutableDateTime;
+import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.column.Column;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.inputtext.InputText;
@@ -99,7 +100,9 @@ public class FakturaView implements Serializable {
     //tego potrzebuje zeby zachowac wiersz wzorcowy
     @Inject
     private PodatnikDAO podatnikDAO;
-    private Double podsumowaniewybranych;
+    private Double podsumowaniewybranychbrutto;
+    private Double podsumowaniewybranychnetto;
+    private Double podsumowaniewybranychvat;
     //do usuuwania faktur zaksiegowanych
     private double waloryzajca;
     private double kwotaprzedwaloryzacja;
@@ -115,6 +118,7 @@ public class FakturaView implements Serializable {
     private DataTable dataTablepozycjenafakturzekorekta;
     private boolean fakturaxxl;
     private boolean fakturakorekta;
+    private AutoComplete kontrahentstworz;
     
 
     public FakturaView() {
@@ -294,8 +298,8 @@ public class FakturaView implements Serializable {
     
     
     public void skierujfakturedoedycji(Faktura faktura) {
-        Msg.msg("edycja faktury");
         selected = serialclone.SerialClone.clone(faktura);
+        selected.setKontrahent(faktura.getKontrahent());
         fakturaxxl = faktura.isFakturaxxl();
         if (fakturaxxl) {
             dataTablepozycjenafakturze.setStyle("width: 1280px;");
@@ -306,7 +310,7 @@ public class FakturaView implements Serializable {
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;
-        RequestContext.getCurrentInstance().update("akordeon:formstworz:acForce");
+        kontrahentstworz.findComponent(faktura.getKontrahent().getNpelna());
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        RequestContext.getCurrentInstance().execute(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
@@ -1130,14 +1134,24 @@ public class FakturaView implements Serializable {
     }
 
     public void sumawartosciwybranych() {
-        podsumowaniewybranych = 0.0;
+        podsumowaniewybranychbrutto = 0.0;
+        podsumowaniewybranychnetto = 0.0;
+        podsumowaniewybranychvat = 0.0;
         if (gosciwybral.size() > 0) {
             for (Faktura p : gosciwybral) {
-                podsumowaniewybranych += p.getBrutto();
+                if (p.getPozycjepokorekcie() == null) {
+                    podsumowaniewybranychnetto += p.getNetto();
+                    podsumowaniewybranychvat += p.getVat();
+                    podsumowaniewybranychbrutto += p.getBrutto();
+                } else {
+                    podsumowaniewybranychnetto += (p.getNettopk()-p.getNetto());
+                    podsumowaniewybranychvat += (p.getVatpk()-p.getVat());
+                    podsumowaniewybranychbrutto += (p.getBruttopk()-p.getBrutto());
+                }
             }
         } else {
             for (Fakturywystokresowe p : gosciwybralokres) {
-                podsumowaniewybranych += p.getBrutto();
+                podsumowaniewybranychbrutto += p.getBrutto();
             }
         }
     }
@@ -1361,12 +1375,28 @@ public class FakturaView implements Serializable {
         this.fakturyarchiwum = fakturyarchiwum;
     }
 
-    public Double getPodsumowaniewybranych() {
-        return podsumowaniewybranych;
+    public Double getPodsumowaniewybranychnetto() {
+        return podsumowaniewybranychnetto;
     }
 
-    public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
-        this.podsumowaniewybranych = podsumowaniewybranych;
+    public void setPodsumowaniewybranychnetto(Double podsumowaniewybranychnetto) {
+        this.podsumowaniewybranychnetto = podsumowaniewybranychnetto;
+    }
+
+    public Double getPodsumowaniewybranychvat() {
+        return podsumowaniewybranychvat;
+    }
+
+    public void setPodsumowaniewybranychvat(Double podsumowaniewybranychvat) {
+        this.podsumowaniewybranychvat = podsumowaniewybranychvat;
+    }
+
+    public Double getPodsumowaniewybranychbrutto() {
+        return podsumowaniewybranychbrutto;
+    }
+
+    public void setPodsumowaniewybranychbrutto(Double podsumowaniewybranychbrutto) {
+        this.podsumowaniewybranychbrutto = podsumowaniewybranychbrutto;
     }
 
     public String getDatawystawienia() {
@@ -1424,6 +1454,14 @@ public class FakturaView implements Serializable {
 
     public void setDataTablepozycjenafakturze(DataTable dataTablepozycjenafakturze) {
         this.dataTablepozycjenafakturze = dataTablepozycjenafakturze;
+    }
+
+    public AutoComplete getKontrahentstworz() {
+        return kontrahentstworz;
+    }
+
+    public void setKontrahentstworz(AutoComplete kontrahentstworz) {
+        this.kontrahentstworz = kontrahentstworz;
     }
     
     

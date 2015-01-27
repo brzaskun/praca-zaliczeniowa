@@ -20,7 +20,7 @@
             </p:contextMenu>
             <p:panelGrid columns="6">
                 <h:outputText value="Suma wartości brutto wybranych dokumentów zł: "/> 
-                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranych}" style="float: right;">
+                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychbrutto}" style="float: right;">
                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                 </h:outputText>
                 <h:outputText value="Kwota waloryzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>

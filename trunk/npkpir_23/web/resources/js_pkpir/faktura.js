@@ -1,9 +1,8 @@
 "use strict";
 
-var aktywujpolewyboruklientanafakturze = function (){
-    $(document.getElementById("akordeon:formstworz:acForce_input")).focus();
-    $(document.getElementById("akordeon:formstworz:acForce_input")).select();
-    $(document.getElementById("akordeon:formstworz:acForce_input")).trigger("keyup");
+var aktywujpolewyboruklientanafakturze = function (szukana){
+    $(document.getElementById("akordeon:formstworz:datawystawienia")).focus();
+    $(document.getElementById("akordeon:formstworz:datawystawienia")).select();
 };
  
 var wybierzrzadfaktury = function (){
