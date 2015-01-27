@@ -230,6 +230,9 @@ public class FakturaView implements Serializable {
             FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
         }
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
+        if (selected.getNazwa()!=null && selected.getNazwa().equals("")) {
+            selected.setNazwa(null);
+        }
         try {
             fakturaDAO.dodaj(selected);
             init();
@@ -263,6 +266,9 @@ public class FakturaView implements Serializable {
         }  else {
             selected.setPodpis(podatnikobiekt.getImie() + " " + podatnikobiekt.getNazwisko());
         }
+        if (selected.getNazwa()!=null && selected.getNazwa().equals("")) {
+            selected.setNazwa(null);
+        }
         try {
             fakturaDAO.edit(selected);
             if (selected.isWygenerowanaautomatycznie() == true) {
@@ -291,10 +297,16 @@ public class FakturaView implements Serializable {
         Msg.msg("edycja faktury");
         selected = serialclone.SerialClone.clone(faktura);
         fakturaxxl = faktura.isFakturaxxl();
+        if (fakturaxxl) {
+            dataTablepozycjenafakturze.setStyle("width: 1280px;");
+        } else {
+            dataTablepozycjenafakturze.setStyle("width: 740px;");
+        }
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
         pokazfakture = true;
         zapis0edycja1 = true;
+        RequestContext.getCurrentInstance().update("akordeon:formstworz:acForce");
 //        String funkcja = "PF('tworzenieklientapolenazwy').search('"+faktura.getKontrahent_nip()+"');";
 //        RequestContext.getCurrentInstance().execute(funkcja);
 //        funkcja = "PF('tworzenieklientapolenazwy').activate();";
