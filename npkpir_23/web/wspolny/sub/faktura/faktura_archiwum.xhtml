@@ -26,8 +26,8 @@
                 <bcf:outputpl value="#{fakturaView.podsumowaniewybranychbrutto}" style="text-align: right; font-weight: 800;"/>
             </p:panelGrid>
             <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFiltered}"
-                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1200px;"
-                         emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu">
+                         selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
+                         emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
@@ -47,7 +47,7 @@
                 <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="opis" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="opis" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="300">
                     <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
@@ -57,6 +57,9 @@
                 <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
                           filterMatchMode="contains" filterStyle="display : none;" width="70">
                     <h:outputText value="#{wpis.terminzaplaty}"/>
+                </p:column>
+                <p:column headerText="netto"  sortBy="#{wpis.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
+                    <bcf:outputpl value="#{wpis.netto}"/>
                 </p:column>
                 <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
                     <bcf:outputpl value="#{wpis.brutto}"/>
@@ -69,6 +72,10 @@
                 </p:column>
                 <p:column headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="70">
                     <h:outputText value="#{wpis.rodzajdokumentu}"/>
+                </p:column>
+                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis)}" 
+                                      icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
@@ -85,6 +92,8 @@
                         <bcf:outputpl value="#{wpis.netto}"/>
                         <h:outputText value="kwota vat"/>
                         <bcf:outputpl value="#{wpis.vat}"/>
+                        <h:outputText value="kwota brutto"/>
+                        <bcf:outputpl value="#{wpis.brutto}"/>
                      </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>
