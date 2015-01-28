@@ -601,7 +601,7 @@ public class PdfFP {
         formatter.setGroupingUsed(true);
         PdfPTable table = new PdfPTable(15);
         table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
-        table.setTotalWidth(560);
+        table.setWidthPercentage(95);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
@@ -637,22 +637,22 @@ public class PdfFP {
                 table.addCell(ustawfrazeAlign("", "center", 8));
             }
         }
-        table.addCell(ustawfrazeAlign("lp", "center", 6));
+        table.addCell(ustawfrazeAlign("lp", "center", 7));
         String opis = selected.getNazwa() != null ? selected.getNazwa() : "opis";
-        table.addCell(ustawfrazeAlign(opis, "center", 6));
-        table.addCell(ustawfrazeAlign("PKWiU", "center", 6));
-        table.addCell(ustawfrazeAlign("ilość", "center", 6));
-        table.addCell(ustawfrazeAlign("jedn.m.", "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis0(), "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis1(), "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis2(), "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis3(), "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis4(), "center", 6));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis5(), "center", 6));
-        table.addCell(ustawfrazeAlign("wartość netto", "center", 6));
-        table.addCell(ustawfrazeAlign("stawka vat", "center", 6));
-        table.addCell(ustawfrazeAlign("kwota vat", "center", 6));
-        table.addCell(ustawfrazeAlign("wartość brutto", "center", 6));
+        table.addCell(ustawfrazeAlign(opis, "center", 7));
+        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+        table.addCell(ustawfrazeAlign("ilość", "center", 7));
+        table.addCell(ustawfrazeAlign("jedn.m.", "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis0(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis1(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis2(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis3(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis4(), "center", 7));
+        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis5(), "center", 7));
+        table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
+        table.addCell(ustawfrazeAlign("stawka vat", "center", 7));
+        table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
+        table.addCell(ustawfrazeAlign("wartość brutto", "center", 7));
         if (selected.getPozycjepokorekcie() != null) {
             table.setHeaderRows(2);
         } else {
@@ -660,34 +660,34 @@ public class PdfFP {
         }
         int lp = 1;
         for (Pozycjenafakturzebazadanych pozycje : poz) {
-            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 6));
-            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 6));
-            table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 6));
-            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCena())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn1())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn2())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn3())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn4())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getCenajedn5())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getBrutto())), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 7));
+            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCena() == 0.0 ? "" : formatter.format(pozycje.getCena())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn1()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn2()== 0.0 ? "" : formatter.format(pozycje.getCenajedn2())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn3()== 0.0 ? "" : formatter.format(pozycje.getCenajedn3())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn4()== 0.0 ? "" : formatter.format(pozycje.getCenajedn4())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn5()== 0.0 ? "" : formatter.format(pozycje.getCenajedn5())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getBrutto())), "right", 7));
         }
         if (korekta) {
             table.addCell(ustawfraze("Razem", 11, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 6));
-            table.addCell(ustawfrazeAlign("*", "center", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()+selected.getVatpk())), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 7));
+            table.addCell(ustawfrazeAlign("*", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()+selected.getVatpk())), "right", 7));
         } else {
             table.addCell(ustawfraze("Razem", 11, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 6));
-            table.addCell(ustawfrazeAlign("*", "center", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 6));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto()+selected.getVat())), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 7));
+            table.addCell(ustawfrazeAlign("*", "center", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 7));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto()+selected.getVat())), "right", 7));
         }
         table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
         List<EVatwpis> ewidencja = null;
@@ -702,10 +702,10 @@ public class PdfFP {
                 if (ilerow > 0) {
                     table.addCell(ustawfraze(" ", 11, 0));
                 }
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 6));
-                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 6));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 6));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 6));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 7));
                 ilerow++;
             }
         }
