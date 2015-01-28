@@ -8,7 +8,6 @@ package beansFaktura;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
-import daoFK.DokDAOfk;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;

@@ -5,6 +5,7 @@
 package view;
 
 import beansFaktura.FakturaBean;
+import beansFaktura.FakturaSortBean;
 import static com.sun.faces.el.ELUtils.createValueExpression;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
@@ -1261,6 +1262,10 @@ public class FakturaView implements Serializable {
         int dnizaplaty = (int) e.getNewValue();
         selected.setTerminzaplaty(FakturaBean.obliczterminzaplaty(wpisView.getPodatnikObiekt(), selected.getDatawystawienia(), dnizaplaty));
         RequestContext.getCurrentInstance().update("akordeon:formstworz:terminzaplaty");
+    }
+     
+    public int sortZaksiegowaneFaktury(Object o1, Object o2) {
+        return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
     }
     
     public boolean isFakturakorekta() {
