@@ -34,6 +34,7 @@ import javax.ejb.Singleton;
 import javax.inject.Named;
 import slownie.Slownie;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -250,9 +251,9 @@ public class PdfFP {
                     prost(writer.getDirectContent(), (int) (pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:dozaplaty") - 25, 350, 35);
                     double wynik = 0;
                     if (selected.getPozycjepokorekcie() != null) {
-                        wynik = selected.getBruttopk()-selected.getBrutto();
+                        wynik = Z.z((selected.getNettopk()+selected.getVatpk()) - (selected.getNetto()+selected.getVat()));
                     } else {
-                        wynik = selected.getBrutto();
+                        wynik = Z.z(selected.getNetto()+selected.getVat());
                     }
                     if (wynik > 0 ) {
                         absText(writer, "Do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:dozaplaty"), 8);
@@ -446,16 +447,16 @@ public class PdfFP {
                     prost(canvas, (int) (pobrane.getLewy() / dzielnik) - 5, wymiar - 25, 350, 35);
                     double wynik = 0;
                     if (selected.getPozycjepokorekcie() != null) {
-                        wynik = selected.getBruttopk()-selected.getBrutto();
+                        wynik = Z.z((selected.getNettopk()+selected.getVatpk()) - (selected.getNetto()+selected.getVat()));
                     } else {
-                        wynik = selected.getBrutto();
+                        wynik = Z.z(selected.getNetto()+selected.getVat());
                     }
                     if (wynik > 0 ) {
                         absText(canvas, "Do zapłaty: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
                     } else {
                         absText(canvas, "Do zwrotu: " + przerobkwote(wynik) + " " + selected.getWalutafaktury(), (int) (pobrane.getLewy() / dzielnik), wymiar, 8);
                     }
-                    absText(canvas, "Słownie: " + Slownie.slownie(String.valueOf(selected.getBrutto())), (int) (pobrane.getLewy() / dzielnik), wymiar - 20, 8);
+                    absText(canvas, "Słownie: " + Slownie.slownie(String.valueOf(wynik)), (int) (pobrane.getLewy() / dzielnik), wymiar - 20, 8);
                     break;
                 case "akordeon:formwzor:podpis":
                     //Dane do modulu platnosc
@@ -553,14 +554,14 @@ public class PdfFP {
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 8));
             table.addCell(ustawfrazeAlign("*", "center", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()+selected.getVatpk())), "right", 8));
             table.addCell(ustawfrazeAlign("", "center", 8));
         } else {
             table.addCell(ustawfraze("Razem", 6, 0));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 8));
             table.addCell(ustawfrazeAlign("*", "center", 8));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto()+selected.getVat())), "right", 8));
             table.addCell(ustawfrazeAlign("", "center", 8));
         }
         table.addCell(ustawfraze("w tym wg stawek vat", 6, 0));
@@ -677,16 +678,16 @@ public class PdfFP {
         }
         if (korekta) {
             table.addCell(ustawfraze("Razem", 11, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 8));
-            table.addCell(ustawfrazeAlign("*", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 6));
+            table.addCell(ustawfrazeAlign("*", "center", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()+selected.getVatpk())), "right", 6));
         } else {
             table.addCell(ustawfraze("Razem", 11, 0));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 8));
-            table.addCell(ustawfrazeAlign("*", "center", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 8));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 8));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 6));
+            table.addCell(ustawfrazeAlign("*", "center", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 6));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto()+selected.getVat())), "right", 6));
         }
         table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
         List<EVatwpis> ewidencja = null;
@@ -701,10 +702,10 @@ public class PdfFP {
                 if (ilerow > 0) {
                     table.addCell(ustawfraze(" ", 11, 0));
                 }
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 6));
+                table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 6));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getVat())), "right", 6));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto() + p.getVat())), "right", 6));
                 ilerow++;
             }
         }
@@ -752,10 +753,10 @@ public class PdfFP {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         table.addCell(ustawfraze("Różnica", 11, 0));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()-selected.getNetto())), "right", 8));
-        table.addCell(ustawfrazeAlign("*", "center", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk()-selected.getVat())), "right", 8));
-        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk()-selected.getBrutto())), "right", 8));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()-selected.getNetto())), "right", 7));
+        table.addCell(ustawfrazeAlign("*", "center", 7  ));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk()-selected.getVat())), "right", 7));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk()-selected.getBrutto())), "right", 7));
         table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
         List<EVatwpis> ewidencja = selected.getEwidencjavat();
         List<EVatwpis> ewidencjapk = selected.getEwidencjavatpk();

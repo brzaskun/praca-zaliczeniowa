@@ -287,20 +287,16 @@ public class FakturaBean {
                 cena += p.getCenajedn4();
                 cena += p.getCenajedn5();
             }
-            double wartosc = ilosc * cena * 100;
-            wartosc = Math.round(wartosc);
-            wartosc /= 100;
-            netto += wartosc;
-            p.setNetto(wartosc);
+            double wartosc = ilosc * cena;
+            netto += Z.z(wartosc);
+            p.setNetto(Z.z(wartosc));
             double podatekstawka = p.getPodatek();
-            double podatek = wartosc * podatekstawka;
-            podatek = Math.round(podatek);
-            podatek /= 100;
-            vat += podatek;
-            p.setPodatekkwota(podatek);
-            double bruttop = wartosc + podatek;
-            brutto += bruttop;
-            p.setBrutto(bruttop);
+            double podatek = (wartosc * podatekstawka) / 100;
+            vat += Z.z(podatek);
+            p.setPodatekkwota(Z.z(podatek));
+            double bruttop = Z.z(wartosc + podatek);
+            brutto += Z.z(bruttop);
+            p.setBrutto(Z.z(bruttop));
             EVatwpis eVatwpis = new EVatwpis();
             Evewidencja ewidencja = zwrocewidencje(ew, p);
             //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
@@ -308,27 +304,27 @@ public class FakturaBean {
             if (el.size() > 0) {
                 for (EVatwpis r : el) {
                     if (r.getEwidencja().equals(ewidencja)) {
-                        r.setNetto(r.getNetto() + p.getNetto());
-                        r.setVat(r.getVat() + p.getPodatekkwota());
+                        r.setNetto(Z.z(r.getNetto() + p.getNetto()));
+                        r.setVat(Z.z(r.getVat() + p.getPodatekkwota()));
                     } else {
                         eVatwpis.setEwidencja(ewidencja);
-                        eVatwpis.setNetto(p.getNetto());
-                        eVatwpis.setVat(p.getPodatekkwota());
+                        eVatwpis.setNetto(Z.z(p.getNetto()));
+                        eVatwpis.setVat(Z.z(p.getPodatekkwota()));
                         eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
                         el.add(eVatwpis);
                     }
                 }
             } else {
                 eVatwpis.setEwidencja(ewidencja);
-                eVatwpis.setNetto(p.getNetto());
-                eVatwpis.setVat(p.getPodatekkwota());
+                eVatwpis.setNetto(Z.z(p.getNetto()));
+                eVatwpis.setVat(Z.z(p.getPodatekkwota()));
                 eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
                 el.add(eVatwpis);
             }
         }
-        sumy.put("netto", netto);
-        sumy.put("vat", vat);
-        sumy.put("brutto", brutto);
+        sumy.put("netto", Z.z(netto));
+        sumy.put("vat", Z.z(vat));
+        sumy.put("brutto", Z.z(brutto));
         return sumy;
     }
     
@@ -341,4 +337,11 @@ public class FakturaBean {
         return null;
     }
   
+    public static void main(String[] a) {
+        double netto = 1000.0/3.0;
+        double stawka = 0.23;
+        netto = Z.z(netto);
+        double vat = Z.z(netto*stawka);
+        System.out.println(vat);
+    }
 }
