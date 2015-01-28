@@ -421,6 +421,10 @@
             <from-outcome>gfakturaFakturaPlatnosci</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaPlatnosci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>gfakturaFakturaKontrahenci</from-outcome>
+            <to-view-id>/wspolny/wspolnyKontrahenci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <application>
         <locale-config>

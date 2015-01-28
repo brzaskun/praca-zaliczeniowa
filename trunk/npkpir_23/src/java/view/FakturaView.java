@@ -229,10 +229,15 @@ public class FakturaView implements Serializable {
         selected.setMc(wpisView.getMiesiacWpisu());
     }
 
-    public void dodaj() throws Exception {
-        FakturaBean.ewidencjavat(selected, evewidencjaDAO);
-        if (fakturakorekta) {
-            FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+    public void dodaj() {
+        try {
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            if (fakturakorekta) {
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
+            return;
         }
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         if (selected.getNazwa()!=null && selected.getNazwa().equals("")) {
@@ -255,10 +260,15 @@ public class FakturaView implements Serializable {
 //        RequestContext.getCurrentInstance().execute("PF('dokTableFaktury').sort();");
     }
     
-    public void edytuj() throws Exception {
-        FakturaBean.ewidencjavat(selected, evewidencjaDAO);
-        if (fakturakorekta) {
-            FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+    public void edytuj() {
+        try {
+            FakturaBean.ewidencjavat(selected, evewidencjaDAO);
+            if (fakturakorekta) {
+                FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
+            return;
         }
         selected.setKontrahent_nip(selected.getKontrahent().getNip());
         selected.setRok(String.valueOf(wpisView.getRokWpisu()));
@@ -528,6 +538,7 @@ public class FakturaView implements Serializable {
     public void dodajwiersz() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
+        poz.setIlosc(1);
         selected.getPozycjenafakturze().add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
     }
@@ -535,6 +546,7 @@ public class FakturaView implements Serializable {
     public void dodajwierszk() {
         Pozycjenafakturzebazadanych poz = new Pozycjenafakturzebazadanych();
         poz.setPodatek(23);
+        poz.setIlosc(1);
         selected.getPozycjepokorekcie().add(poz);
         RequestContext.getCurrentInstance().update("akordeon:formstworz:panelkorekty");
     }
