@@ -302,17 +302,20 @@ public class FakturaBean {
             //jezeli el bedzie juz wypelnione dana ewidencja to tylko zwieksz wartosc
             //jesli nie to dodaj nowy wiersz
             if (el.size() > 0) {
+                boolean jesttakaewiedencja = false;
                 for (EVatwpis r : el) {
                     if (r.getEwidencja().equals(ewidencja)) {
                         r.setNetto(Z.z(r.getNetto() + p.getNetto()));
                         r.setVat(Z.z(r.getVat() + p.getPodatekkwota()));
-                    } else {
-                        eVatwpis.setEwidencja(ewidencja);
-                        eVatwpis.setNetto(Z.z(p.getNetto()));
-                        eVatwpis.setVat(Z.z(p.getPodatekkwota()));
-                        eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
-                        el.add(eVatwpis);
+                        jesttakaewiedencja = true;
                     }
+                }
+                if (jesttakaewiedencja == false) {
+                    eVatwpis.setEwidencja(ewidencja);
+                    eVatwpis.setNetto(Z.z(p.getNetto()));
+                    eVatwpis.setVat(Z.z(p.getPodatekkwota()));
+                    eVatwpis.setEstawka(String.valueOf(p.getPodatek()));
+                    el.add(eVatwpis);
                 }
             } else {
                 eVatwpis.setEwidencja(ewidencja);

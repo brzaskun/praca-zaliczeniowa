@@ -31,6 +31,14 @@ var kopiujnazwepelna = function () {
   }
 };
 
+var kopiujnazwepelnakontrahenci = function () {
+  var skadkopiowac = rj("formX:nazwaPole").value;
+  var dokadkopiowac = rj("formX:symbolPole").value;
+  if (dokadkopiowac === "") {
+      rj("formX:symbolPole").value = skadkopiowac;
+  }
+};
+
 var kliknijpolekontrahenta = function (nip) {
     PF('tworzenieklientapolenazwy').search(nip);
     PF('tworzenieklientapolenazwy').activate();
@@ -64,7 +72,13 @@ var walidacjadatyzaplaty = function () {
    var fakturaduplikatklienta = function () {
        rj("formnkfaktura:nazwaPole").value = "";
        rj("formnkfaktura:symbolPole").value = "";
-       rj("formnkfaktura:nazwaPole").focus();
-       rj("formnkfaktura:nazwaPole").selected();
+       r("formnkfaktura:nazwaPole").focus();
+       r("formnkfaktura:nazwaPole").select();
    };
    
+   var fakturaduplikatklientakontrahent = function () {
+       rj("formX:symbolPole").value = "";
+       rj("formX:nazwaPole").value = "taki kontrahent już istnieje";
+       document.activeElement = rj("formX:nazwaPole");
+       r("formX:nazwaPole").focus();
+    };

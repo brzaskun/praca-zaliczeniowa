@@ -23,6 +23,7 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -42,7 +43,7 @@ public class KlView implements Serializable{
     private ArrayList<Klienci> kl1;
     private ArrayList<Klienci> klienciFiltered;
     private Klienci doUsuniecia;
-
+    
    
     public static void main(String[] args) {
         String mse = "XX0000000001";
@@ -75,6 +76,22 @@ public class KlView implements Serializable{
             Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
             RequestContext.getCurrentInstance().update("formnkfaktura");
             RequestContext.getCurrentInstance().execute("fakturaduplikatklienta()");
+        }
+        
+    }
+    
+    public void wyszukajduplikatkontrahent() {
+        String klient = selected.getNpelna();
+        Klienci klientznaleziony = null;
+        try {
+            klientznaleziony = klDAO.findKlientByNazwa(klient);
+        } catch (Exception e1) {
+            
+        }
+        if (klientznaleziony != null) {
+            selected = new Klienci();
+            Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
+            RequestContext.getCurrentInstance().execute("fakturaduplikatklientakontrahent()");
         }
         
     }
@@ -309,6 +326,7 @@ public class KlView implements Serializable{
          List<String> kliencitmp  = klDAO.findNIP();
          if (!kliencitmp.isEmpty()) {
              if (kliencitmp.contains(nippoczatkowy)) {
+                 RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
                  Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
              }
          }
@@ -410,9 +428,8 @@ public class KlView implements Serializable{
     public void setDoUsuniecia(Klienci doUsuniecia) {
         this.doUsuniecia = doUsuniecia;
     }
-    
-  
 
+    
     
    
 }

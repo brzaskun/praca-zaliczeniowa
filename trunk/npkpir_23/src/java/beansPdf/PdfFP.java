@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfTable;
 import dao.FakturaXXLKolumnaDAO;
 import dao.FakturaelementygraficzneDAO;
 import embeddable.EVatwpis;
@@ -388,6 +389,21 @@ public class PdfFP {
         return null;
     }
     
+    public static PdfPTable dolaczpozycjedofaktury2normal(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        for (Pozycjenafakturze p : skladnikifaktury) {
+            switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:towary":
+                    //Dane do tablicy z wierszami
+                    pobrane = zwrocpozycje(skladnikifaktury, "towary");
+                        return  wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
+                default:
+                    break;
+            }
+        }
+        return null;
+    }
+    
     public static PdfPTable dolaczpozycjedofakturydlugacz2korekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
@@ -398,7 +414,6 @@ public class PdfFP {
                     return wygenerujtablicexxl(true, selected.getPozycjepokorekcie(), selected, fakturaXXLKolumnaDAO, wpisView);
                 default:
                     break;
-               
             }
         }
         return null;
@@ -483,7 +498,7 @@ public class PdfFP {
     }
 
     private static PdfPTable wygenerujtablice(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected) throws DocumentException, IOException {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
