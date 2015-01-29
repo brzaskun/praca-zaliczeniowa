@@ -261,7 +261,7 @@ public class KontaVatFKView implements Serializable {
             uzupelnijwiersz(w, nd);
             String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
             w.setOpisWiersza(opiswiersza);
-            Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikWpisu());
+            Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView);
             if (p.getSaldoWn() != 0.0) {
                 StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
                 StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoWn(), p.getKonto());

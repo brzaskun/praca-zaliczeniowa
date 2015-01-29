@@ -159,7 +159,7 @@ public class RozniceKursoweFKView implements Serializable {
             String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: "+p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii(); 
             String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy+" "+p.getNowaTransakcja().getId()+"/"+p.getRozliczajacy().getId(); 
             w.setOpisWiersza(opiswiersza);
-            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu());
+            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView);
             double roznicakursowa = Math.abs(p.getRoznicekursowe());
             if (p.getNowaTransakcja().getWnma().equals("Wn")) {
                 if (p.getRoznicekursowe() < 0) {

@@ -984,7 +984,7 @@ private static final long serialVersionUID = 1L;
                         wierszdrugi.getStronaMa().setKonto(kontovat);
                     }
                 } else {
-                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                    Konto k = kontoDAOfk.findKonto("221", wpisView);
                     wierszdrugi.getStronaWn().setKonto(k);
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                         wierszdrugi.getStronaMa().setKonto(k);
@@ -999,7 +999,7 @@ private static final long serialVersionUID = 1L;
                 wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                 wierszdrugi.setCzworka(wierszpierwszy);
                 wierszpierwszy.getPiatki().add(wierszdrugi);
-                Konto k = kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu());
+                Konto k = kontoDAOfk.findKonto("490", wpisView);
                 wierszdrugi.getStronaMa().setKonto(k);
                 selected.getListawierszy().add(wierszdrugi);
                 Wiersz wiersztrzeci;
@@ -1024,7 +1024,7 @@ private static final long serialVersionUID = 1L;
                 }
                 wiersztrzeci.setTabelanbp(selected.getTabelanbp());
                 wiersztrzeci.setOpisWiersza("podatek vat");
-                k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                k = kontoDAOfk.findKonto("221", wpisView);
                 wiersztrzeci.getStronaWn().setKonto(k);
                 selected.getListawierszy().add(wiersztrzeci);
             }
@@ -1085,7 +1085,7 @@ private static final long serialVersionUID = 1L;
                     if (kontovat != null) {
                         wierszdrugi.getStronaWn().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                        Konto k = kontoDAOfk.findKonto("221", wpisView);
                         wierszdrugi.getStronaWn().setKonto(k);
                     }
                 }
@@ -1161,7 +1161,7 @@ private static final long serialVersionUID = 1L;
                     if (kontovat != null) {
                         wierszdrugi.getStronaMa().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                        Konto k = kontoDAOfk.findKonto("221", wpisView);
                         wierszdrugi.getStronaMa().setKonto(k);
                     }
                     selected.getListawierszy().add(wierszdrugi);
@@ -1229,7 +1229,7 @@ private static final long serialVersionUID = 1L;
                 if (kontovat != null) {
                     wierszdrugi.getStronaMa().setKonto(kontovat);
                 } else {
-                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu());
+                    Konto k = kontoDAOfk.findKonto("221", wpisView);
                     wierszdrugi.getStronaMa().setKonto(k);
                 }
             }

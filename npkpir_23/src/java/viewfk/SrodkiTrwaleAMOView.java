@@ -248,9 +248,9 @@ public class SrodkiTrwaleAMOView implements Serializable {
                 uzupelnijwiersz(w, nd);
                 String opiswiersza = "odpis amortyzacyjny dla: "+p.getNazwaSrodka(); 
                 w.setOpisWiersza(opiswiersza);
-                Konto kontoAmortyzacjaST = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu());
-                Konto kontoAmortyzacjaWNiP = kontoDAOfk.findKonto("401-2-1", wpisView.getPodatnikWpisu());
-                Konto kontoumorzenie = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu());
+                Konto kontoAmortyzacjaST = kontoDAOfk.findKonto("401-1-1", wpisView);
+                Konto kontoAmortyzacjaWNiP = kontoDAOfk.findKonto("401-2-1", wpisView);
+                Konto kontoumorzenie = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView);
                 if (p.getRodzaj().equals("wnip")) {
                     StronaWiersza kosztamortyzacji = new StronaWiersza(w, "Wn", Z.z(p.getKwota().doubleValue()), kontoAmortyzacjaWNiP);
                     StronaWiersza kwotaumorzenia = new StronaWiersza(w, "Ma", Z.z(p.getKwota().doubleValue()),kontoumorzenie);
