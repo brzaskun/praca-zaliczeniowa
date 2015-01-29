@@ -49,6 +49,7 @@ import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.Kontopozycja;
 import entityfk.MiejsceKosztow;
+import entityfk.Pojazdy;
 import entityfk.PozycjaRZiS;
 import entityfk.RMK;
 import entityfk.StronaWiersza;
@@ -1033,6 +1034,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList();
     }
     
+    public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Pojazdy p) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getNrrejestracyjny()).getResultList();
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikKontoBOWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
@@ -1199,6 +1204,14 @@ public class SessionFacade<T> implements Serializable{
         return (long) em.createNamedQuery("MiejsceKosztow.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
 
+    public List<Pojazdy> findPojazdyPodatnik(Podatnik podatnik) {
+        return em.createNamedQuery("Pojazdy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
+
+    public long countPojazdy(Podatnik podatnikObiekt) {
+        return (long) em.createNamedQuery("Pojazdy.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
+    }
+    
     public List<Uz> findMultiuser() {
         return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", "Multiuser").getResultList();
     }
