@@ -11,6 +11,7 @@
             <p:selectOneMenu id="wybierzslownik" value="#{planKontView.noweKonto.nrkonta}" style="width: 150px;">
                 <f:selectItem itemValue="kontr" itemLabel="Kontrahenci"/>
                 <f:selectItem itemValue="miejs" itemLabel="Miejsca kosztów"/>
+                <f:selectItem itemValue="samoc" itemLabel="Pojazdy i maszyny"/>
             </p:selectOneMenu>
             <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                 <p:commandButton value="dodaj" actionListener="#{planKontView.dodajslownik()}" accesskey="d" type="submit" 

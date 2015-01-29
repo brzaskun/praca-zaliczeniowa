@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
+    <p:dialog id="dialog_pojazdy_dolaczanie" header="Definiowanie wykazu pojazdów i maszyn" widgetVar="dialog_pojazdy_dolaczanie" 
+              resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
+       
+        <h:form id="pojazdy">
+            <p:panelGrid columns="2" >
+                <h:outputText value="nr rejestracyjny "/>
+                <p:inputText id="nazwamiejsca" value="#{pojazdyView.selected.nrrejestracyjny}" style="width: 180px;"/>
+                <h:outputText value="nazwa pojazdu"/>
+                <p:inputText id="nazwamiejscas" value="#{pojazdyView.selected.nazwapojazdu}" style="width: 180px;"/>
+            </p:panelGrid>
+            <p:commandButton value="dodaj" actionListener="#{pojazdyView.dodaj()}" style="margin: 2%; width: 120px;" 
+                             update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == false}"/>
+            <p:commandButton value="edytuj" actionListener="#{pojazdyView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
+                             update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
+        </h:form>
+        <h:form id="pojazdylista">
+            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 650px;" emptyMessage="brak zdefiniowanych pojazdów">
+                <p:column headerText="nr" width="30">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="nr rejestracyjny">
+                    <h:outputText value="#{item.nrrejestracyjny}"/>
+                </p:column>
+                <p:column headerText="nazwa pojazdu">
+                    <h:outputText value="#{item.nazwapojazdu}"/>
+                </p:column>
+                <p:column headerText="edytuj" width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, @form"/>
+                </p:column>
+                <p:column headerText="usuń" width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, @form" rendered="#{item.aktywny eq false}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
