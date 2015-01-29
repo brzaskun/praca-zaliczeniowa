@@ -36,12 +36,12 @@
                                 }
                         </script>-->
             <p:panelGrid columns="6">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" />
+                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left; width: 130px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" global="false"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataListwzorcowy" value="#{planKontView.rootwzorcowy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 

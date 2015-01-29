@@ -246,11 +246,12 @@ public class PlanKontView implements Serializable {
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
-                if (wpisView.isFKpiatki() == false && p.getNazwapelna().startsWith("5")){
+                if (wpisView.isFKpiatki() == false && p.getPelnynumer().startsWith("5")){
                     System.out.println("Nie implementuje konta 5");
                 } else {
                     p.setMapotomkow(false);
                     p.setBlokada(false);
+                    p.setRok(wpisView.getRokWpisu());
                     p.setPodatnik(wpisView.getPodatnikWpisu());
                     try {
                         kontoDAO.dodaj(p);
@@ -265,7 +266,7 @@ public class PlanKontView implements Serializable {
             //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
             for (Konto p : wykazkonttmp) {
                 if (!p.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu());
+                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView);
                     p.setMacierzysty(macierzyste.getId());
                     kontoDAO.edit(p);
                 }
@@ -288,7 +289,7 @@ public class PlanKontView implements Serializable {
                 Konto konto = ((Konto) selectednode.getData());
                 konto.setPodatnik(p.getNazwapelna());
                 if (!konto.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), p.getNazwapelna());
+                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
                     konto.setMacierzysty(macierzyste.getId());
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
@@ -345,7 +346,7 @@ public class PlanKontView implements Serializable {
      private void dodajpojedynczekoto(Konto konto, String podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), podatnik);
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
@@ -389,7 +390,7 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView.getPodatnikWpisu());
+        KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView);
         wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
