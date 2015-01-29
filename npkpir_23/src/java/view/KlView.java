@@ -43,6 +43,7 @@ public class KlView implements Serializable{
     private ArrayList<Klienci> kl1;
     private ArrayList<Klienci> klienciFiltered;
     private Klienci doUsuniecia;
+    private boolean edycja;
     
    
     public static void main(String[] args) {
@@ -89,9 +90,13 @@ public class KlView implements Serializable{
             
         }
         if (klientznaleziony != null) {
-            selected = new Klienci();
-            Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
-            RequestContext.getCurrentInstance().execute("fakturaduplikatklientakontrahent()");
+            if (edycja) {
+                Msg.msg("w", "Klient o takiej nazwie jest już w bazie");
+            } else {
+                selected = new Klienci();
+                Msg.msg("e", "Klient o takiej nazwie jest już w bazie");
+                RequestContext.getCurrentInstance().execute("fakturaduplikatklientakontrahent()");
+            }
         }
         
     }
@@ -268,18 +273,20 @@ public class KlView implements Serializable{
         try {
             //sformatuj();
             klDAO.edit(selected);
+            edycja = false;
             //refresh();
             kl1 = new ArrayList<>();
             kl1.addAll(klDAO.findAll());
-            FacesMessage msg = new FacesMessage("Klient zedytowany DAO",  selected.getNpelna());
+            FacesMessage msg = new FacesMessage("Zapisano zmienione dane klienta",  selected.getNpelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) {
-            FacesMessage msg = new FacesMessage("Klient nie zedytowany DAO", e.getStackTrace().toString());
+            FacesMessage msg = new FacesMessage("Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
      
     public void wybranodoedycji(SelectEvent ex) {
+        edycja = true;
         Klienci wybrany = (Klienci) ex.getObject();
         Msg.msg("Wybrano klienta do edycji: "+wybrany.getNpelna());
     }
@@ -326,8 +333,12 @@ public class KlView implements Serializable{
          List<String> kliencitmp  = klDAO.findNIP();
          if (!kliencitmp.isEmpty()) {
              if (kliencitmp.contains(nippoczatkowy)) {
-                 RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
-                 Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
+                 if (edycja)  {
+                    Msg.msg("w","Klient o takim numerze NIP juz istnieje!");   
+                 } else {
+                    RequestContext.getCurrentInstance().execute("rj('formX:nipPole').value = 'taki nip jest już w bazie';");
+                    Msg.msg("e","Klient o takim numerze NIP juz istnieje!");
+                 }
              }
          }
          }
@@ -427,6 +438,14 @@ public class KlView implements Serializable{
 
     public void setDoUsuniecia(Klienci doUsuniecia) {
         this.doUsuniecia = doUsuniecia;
+    }
+
+    public boolean isEdycja() {
+        return edycja;
+    }
+
+    public void setEdycja(boolean edycja) {
+        this.edycja = edycja;
     }
 
     
