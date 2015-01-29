@@ -275,6 +275,7 @@ public class PlanKontView implements Serializable {
             wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
+            RequestContext.getCurrentInstance().update("form:dataList");
             Msg.msg("Zakonczono z sukcesem implementacje kont wzorcowych u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
@@ -379,8 +380,9 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            wykazkont = new ArrayList<>();
-            root = new TreeNodeExtended("root", null);
+            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            root = rootInit(wykazkont);
+            RequestContext.getCurrentInstance().update("form:dataList");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
