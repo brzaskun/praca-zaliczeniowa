@@ -11,7 +11,7 @@
         }
     </style>
     <p:dialog id="dialog_pojazdy_dolaczanie" header="Definiowanie wykazu pojazdów i maszyn" widgetVar="dialog_pojazdy_dolaczanie" 
-              resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
+              resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
        
         <h:form id="pojazdy">
             <p:panelGrid columns="2" >
@@ -26,7 +26,7 @@
                              update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="pojazdylista">
-            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 650px;" emptyMessage="brak zdefiniowanych pojazdów">
+            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 650px;"  scrollable="true" scrollHeight="500" emptyMessage="brak zdefiniowanych pojazdów">
                 <p:column headerText="nr" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
