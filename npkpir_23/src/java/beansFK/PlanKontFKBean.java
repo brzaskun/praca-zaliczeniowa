@@ -9,11 +9,13 @@ package beansFK;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
+import daoFK.PojazdyDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
+import entityfk.Pojazdy;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -111,6 +113,12 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
+    public static int dodajslownikPojazdyiMaszyny(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        nowekonto.setNazwapelna("Słownik pojazdy i maszyny");
+        nowekonto.setNazwaskrocona("Pojazd");
+        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+    }
+    
     private static int uzupelnijdaneslownika(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
@@ -163,6 +171,28 @@ public class PlanKontFKBean {
                 }
                 p.setAktywny(true);
                 miejsceKosztowDAO.edit(p);
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+    
+    public static int dodajelementyslownikaPojazdy(Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
+        List<Pojazdy> listapojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
+        if (listapojazdy != null) {
+            for (Pojazdy p : listapojazdy) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(p.getNrrejestracyjny());
+                nowekonto.setNazwaskrocona(p.getNazwapojazdu());
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+                p.setAktywny(true);
+                pojazdyDAO.edit(p);
             }
             return 0;
         } else {

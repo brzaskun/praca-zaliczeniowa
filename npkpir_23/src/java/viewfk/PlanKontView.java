@@ -10,6 +10,7 @@ import dao.PodatnikDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
+import daoFK.PojazdyDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
@@ -64,6 +65,8 @@ public class PlanKontView implements Serializable {
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private PojazdyDAO pojazdyDAO;
     @Inject
     private MiejsceKosztowDAO miejsceKosztowDAO;
 
@@ -235,6 +238,25 @@ public class PlanKontView implements Serializable {
                         return;
                     }
                     wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(kontomacierzyste, kontoDAO, miejsceKosztowDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
+                    }
+                } else if (noweKonto.getNrkonta().equals("samoc")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikPojazdyiMaszyny(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
+                        Msg.msg("i", "Dodaje słownik pojazdy i maszyny", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika pojazdy i maszyny!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(kontomacierzyste, kontoDAO, pojazdyDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
