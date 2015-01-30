@@ -51,7 +51,7 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(0);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+         return zachowajkontowzorzec(nowekonto, kontoDAOfk, wpisView);
      }
      
      public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
@@ -67,6 +67,21 @@ public class PlanKontFKBean {
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
          return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+    }
+     
+     public static int dodajanalityczneWzorzec(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+         nowekonto.setSyntetyczne("analityczne");
+         nowekonto.setPodatnik("Wzorcowy");
+         nowekonto.setRok(wpisView.getRokWpisu());
+         nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
+         nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
+         nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, "Wzorcowy"));
+         nowekonto.setMapotomkow(false);
+         nowekonto.setMacierzyste(macierzyste.getPelnynumer());
+         nowekonto.setMacierzysty(macierzyste.getLp());
+         nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
+         nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
+         return zachowajkontowzorzec(nowekonto, kontoDAOfk, wpisView);
     }
     
     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta,WpisView wpisView) {
@@ -253,9 +268,27 @@ public class PlanKontFKBean {
             return 0;
         }
     }
+    
+    private static int znajdzduplikatwzorzec(Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", wpisView.getRokWpisuSt());
+        if (wykazkont.contains(nowe)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         if (0 == znajdzduplikat(nowekonto, kontoDAOfk, wpisView)) {
+            kontoDAOfk.dodaj(nowekonto);
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+    
+    private static int zachowajkontowzorzec(Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        if (0 == znajdzduplikatwzorzec(nowekonto, kontoDAOfk, wpisView)) {
             kontoDAOfk.dodaj(nowekonto);
             return 0;
         } else {

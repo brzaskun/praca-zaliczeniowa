@@ -173,7 +173,12 @@ public class PlanKontView implements Serializable {
         }
         Konto kontomacierzyste = (Konto) selectednode.getData();
         if (kontomacierzyste.isBlokada() == false) {
-            int wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            int wynikdodaniakonta = 1;
+            if (podatnik.equals("Wzorcowy")) {
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            } else {
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+            }
             if (wynikdodaniakonta == 0) {
                 PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAO);
                 noweKonto = new Konto();
