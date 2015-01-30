@@ -19,6 +19,7 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
+import waluty.Z;
 
 /**
  *
@@ -373,7 +374,7 @@ public class ObslugaWiersza {
             } catch (Exception e) {
                     
                     }
-        return kwotawielka-sumaczastowych;
+        return Z.z(kwotawielka-sumaczastowych);
     }
     
     public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double roznica, int lpmacierzystego) {
