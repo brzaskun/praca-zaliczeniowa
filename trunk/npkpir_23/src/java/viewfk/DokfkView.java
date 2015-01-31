@@ -854,9 +854,7 @@ private static final long serialVersionUID = 1L;
         }
         String update = "formwpisdokument:dataList";
         RequestContext.getCurrentInstance().update(update);
-        update = "formwpisdokument:focuselement";
-        RequestContext.getCurrentInstance().update(update);
-        ewidencjaVatRK = null;
+        ewidencjaVatRK = new EVatwpisFK();
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
@@ -2481,8 +2479,8 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
-    public void dataTableTest() {
-        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+    public void ewidencjaVatRKInit() {
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
             try {
                 DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
                 Object o = d.getLocalSelection();
