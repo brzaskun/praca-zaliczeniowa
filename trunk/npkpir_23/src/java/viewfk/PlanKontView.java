@@ -264,6 +264,25 @@ public class PlanKontView implements Serializable {
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
                     }
+                } else if (noweKonto.getNrkonta().equals("miesi")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiesiace(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
+                        Msg.msg("i", "Dodaje słownik miesięcy", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownika miesięcy!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(kontomacierzyste, kontoDAO, pojazdyDAO, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        Msg.msg("Dodano elementy słownika miesiące");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miesięcy");
+                    }
                 }
             } catch (Exception e) {
             }

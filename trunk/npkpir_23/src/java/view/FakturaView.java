@@ -5,7 +5,7 @@
 package view;
 
 import beansFaktura.FakturaBean;
-import beansFaktura.FakturaSortBean;
+import sortfunction.FakturaSortBean;
 import static com.sun.faces.el.ELUtils.createValueExpression;
 import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;

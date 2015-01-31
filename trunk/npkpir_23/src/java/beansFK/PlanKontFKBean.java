@@ -10,6 +10,7 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
+import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Kliencifk;
@@ -119,6 +120,12 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
+    public static int dodajslownikMiesiace(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        nowekonto.setNazwapelna("Słownik miesiące");
+        nowekonto.setNazwaskrocona("Miesiąc");
+        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+    }
+    
     private static int uzupelnijdaneslownika(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
@@ -200,6 +207,26 @@ public class PlanKontFKBean {
         }
     }
     
+    public static int dodajelementyslownikaMiesiace(Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
+        List<String> listamiesiace = Mce.getMcenazwaList();
+        if (listamiesiace != null) {
+            int i = 1;
+            for (String p : listamiesiace) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(p);
+                nowekonto.setNazwaskrocona(p);
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
     
     public static int aktualizujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 1);

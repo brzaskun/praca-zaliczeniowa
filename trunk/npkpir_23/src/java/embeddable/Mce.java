@@ -26,6 +26,7 @@ import view.WpisView;
 public class Mce implements Serializable{
     
     private static final List<String> mceList;
+    private static final List<String> mcenazwaList;
     private static final Map<Integer, String> numberToMiesiac;
     private static final Map<Integer, String> numberToNazwamiesiaca;
     private static final Map<String, String> stringToNazwamiesiaca;
@@ -46,6 +47,20 @@ public class Mce implements Serializable{
         mceList.add("10");
         mceList.add("11");
         mceList.add("12");
+        
+        mcenazwaList = new ArrayList<>();
+        mcenazwaList.add("styczeń");
+        mcenazwaList.add("luty");
+        mcenazwaList.add("marzec");
+        mcenazwaList.add("kwiecień");
+        mcenazwaList.add("maj");
+        mcenazwaList.add("czerwiec");
+        mcenazwaList.add("lipiec");
+        mcenazwaList.add("sierpień");
+        mcenazwaList.add("wrzesień");
+        mcenazwaList.add("październik");
+        mcenazwaList.add("listopad");
+        mcenazwaList.add("grudzień");
         
         numberToMiesiac = new HashMap<>();
         numberToMiesiac.put(1, "01");
@@ -272,7 +287,12 @@ public class Mce implements Serializable{
     public static Map<String, String> getStringToNazwamiesiaca() {
         return stringToNazwamiesiaca;
     }
-        
+    
+    public static List<String> getMcenazwaList() {
+        return mcenazwaList;
+    }
     
 //</editor-fold>
+
+    
 }

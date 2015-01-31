@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beansFaktura;
+package sortfunction;
 
 import entity.Faktura;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,48 +22,21 @@ import view.WpisView;
  * @author Osito
  */
 @Singleton
-public class FakturaSortBean {
-    public static int sortZaksiegowaneDok(Object o1, Object o2, WpisView wpisView) {
-        Map<String, Integer> mapa = rozbijwzor(wpisView.getPodatnikObiekt().getSchematnumeracji());
-        if (mapa != null) {
-            String nro1 = (String) o1;
-            String nro2 = (String) o2;
-            String[] nro1T = nro1.split("/");
-            String[] nro2T = nro2.split("/");
-           int dlugosc = nro1T.length;
-            int wynik = 0;
-            int ob1 = 0;
-            int ob2 = 0;
-            if (mapa.containsKey("rok")) {
-                int rok = mapa.get("rok");
-                ob1 = Integer.parseInt(nro1T[rok]);
-                ob2 = Integer.parseInt(nro2T[rok]);
-                wynik = porownaj(ob1, ob2);
-                System.out.println(wynik);
-            } 
-            if (mapa.containsKey("mc")){
-                if (wynik == 0 ) {
-                    int mc = mapa.get("mc");
-                    ob1 = Integer.parseInt(nro1T[mc]);
-                    ob2 = Integer.parseInt(nro2T[mc]);
-                    wynik = porownaj(ob1, ob2);
-                    System.out.println(wynik);
-                }
-            }
-            if (mapa.containsKey("nr")){
-                if (wynik == 0 ) {
-                int nr = mapa.get("nr");
-                    ob1 = Integer.parseInt(nro1T[nr]);
-                    ob2 = Integer.parseInt(nro2T[nr]);
-                    wynik = porownaj(ob1, ob2);
-                    System.out.println(wynik);
-                }
-            }
-            return wynik;
-        }
-       return 0;
+public class KontoSortBean {
+    public static int sortZaksiegowaneDok(Object o1, Object o2) {
+       String numer1 = ((Konto) o1).getPelnynumer();
+       int level1 = ((Konto) o1).getLevel();
+       String numer2 = ((Konto) o2).getPelnynumer();
+       int level2 = ((Konto) o2).getLevel();
+       int porownajlevele = porownaj(level1, level2);
+       if (porownajlevele==0) {
+           int porownajdlugosci = porownaj(numer1.length(), numer2.length());
+           return porownajdlugosci;
+       }
+        return porownajlevele;
     }
     
+//    
     private static int porownaj(int o1, int o2) {
         if (o1 < o2) {
             return -1;
@@ -134,6 +109,12 @@ public class FakturaSortBean {
        System.out.println("koniec "+wynik);
     }
 
-   
+   //public static int sortZaksiegowaneDok2(Object o1, Object o2) {
+//       String nazwa1 = (String) o1;
+//       String nazwa2 = (String) o2;
+//       int porownajlevele = nazwa1.compareTo(nazwa2);
+//       return porownajlevele;
+//    }
+//    
        
 }
