@@ -29,8 +29,8 @@ var zachowajwierszVATRK = function (source) {
 
 var odtworzwierszVATRK = function(data) {
     if (MYAPP.lpwiersza) {
-        $(data).removeClass('ui-state-focus');
-        $(data).addClass('ui-state-default');
+//        $(data).removeClass('ui-state-focus');
+//        $(data).addClass('ui-state-default');
         r(MYAPP.lpwiersza).focus();
         r(MYAPP.lpwiersza).select();
         r(MYAPP.lpwiersza).keyup();
