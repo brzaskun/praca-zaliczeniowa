@@ -48,8 +48,12 @@ public class EVatwpisFK implements Serializable {
     private Evewidencja ewidencja;
     @Column(name = "netto")
     private double netto;
+    @Column(name = "nettowwalucie")
+    private double nettowwalucie;
     @Column(name = "vat")
     private double vat;
+    @Column(name = "vatwwalucie")
+    private double vatwwalucie;
     @Column(name = "brutto")
     private double brutto;
     @Column(name = "estawka")
@@ -75,8 +79,25 @@ public class EVatwpisFK implements Serializable {
 
     public EVatwpisFK() {
     }
+    
+   
+    //<editor-fold defaultstate="collapsed" desc="getters & setters">\
+     public double getNettowwalucie() {
+        return nettowwalucie;
+    }
 
-    //<editor-fold defaultstate="collapsed" desc="getters & setters">
+    public void setNettowwalucie(double nettowwalucie) {    
+        this.nettowwalucie = nettowwalucie;
+    }
+
+    public double getVatwwalucie() {
+        return vatwwalucie;
+    }
+
+    public void setVatwwalucie(double vatwwalucie) {
+        this.vatwwalucie = vatwwalucie;
+    }
+
     public double getBrutto() {
         return brutto;
     }

@@ -7,6 +7,7 @@ package viewfk;
 import beansDok.ListaEwidencjiVat;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
+import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import comparator.Rodzajedokcomparator;
@@ -74,6 +75,7 @@ import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
+import waluty.Z;
 
 /**
  *
@@ -821,7 +823,7 @@ private static final long serialVersionUID = 1L;
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
         Rodzajedok rodzajdok = selected.getRodzajedok();
-        HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
+        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
         if (rodzajdok.getKategoriadokumentu()==1) {
             rozliczVatKoszt(wartosciVAT);
         } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
@@ -841,7 +843,7 @@ private static final long serialVersionUID = 1L;
         Wiersz w = e.getWiersz();
         //Msg.msg("dolaczWierszZKwotami");
         Rodzajedok rodzajdok = selected.getRodzajedok();
-        HashMap<String,Double> wartosciVAT = podsumujwartosciVAT();
+        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
         if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
             rozliczVatKosztRK(e, wartosciVAT);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
@@ -858,22 +860,11 @@ private static final long serialVersionUID = 1L;
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
-    private HashMap<String, Double> podsumujwartosciVAT() {
-        HashMap<String,Double> wartosciVAT = new HashMap<>();
-        double netto = 0.0;
-        double vat = 0.0;
-        for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-            netto += p.getNetto();
-            vat += p.getVat();
-        }
-        wartosciVAT.put("netto", netto);
-        wartosciVAT.put("vat", vat);
-        return wartosciVAT;
-    }
+    
     // tu oblicza sie vaty i dodaje wiersze
-    public void rozliczVatKoszt(HashMap<String,Double> wartosciVAT) {
-        double nettoEwidVat = wartosciVAT.get("netto");
-        double vatEwidVat = wartosciVAT.get("vat");
+    public void rozliczVatKoszt(double[] wartosciVAT) {
+        double nettoEwidVat = wartosciVAT[0];
+        double vatEwidVat = wartosciVAT[1];
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
         double nettowPLN = 0.0;
@@ -1040,7 +1031,7 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-    public void rozliczVatKosztRK(EVatwpisFK e, HashMap<String,Double> wartosciVAT) {
+    public void rozliczVatKosztRK(EVatwpisFK e, double[] wartosciVAT) {
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = e.getWiersz();
@@ -1095,29 +1086,13 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-    public void rozliczVatPrzychod(EVatwpisFK e, HashMap<String,Double> wartosciVAT) {
-        double nettoEwidVat = wartosciVAT.get("netto");
-        double vatEwidVat = wartosciVAT.get("vat");
-        if (nettoEwidVat != 0 || vatEwidVat != 0) {
+    public void rozliczVatPrzychod(EVatwpisFK wierszvatdoc, double[] wartosciVAT) {
+        if (wartosciVAT[0] != 0 || wartosciVAT[2] != 0) {
             Wiersz wierszpierwszy = selected.getListawierszy().get(0);
             Waluty w = selected.getWalutadokumentu();
             double nettowPLN = 0.0;
             double vatwWalucie = 0.0;
             //przeliczanie waluty na zlotowki dla netto
-            if (!w.getSymbolwaluty().equals("PLN")) {
-                double kurs = selected.getTabelanbp().getKurssredni();
-                nettowPLN = Math.round((nettoEwidVat*kurs) * 100.0);
-                nettowPLN /= 100.0;
-                vatwWalucie = Math.round((vatEwidVat/kurs) * 100.0);
-                vatwWalucie /= 100.0;
-                for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                    double kPLN = Math.round((p.getNetto()*kurs) * 100.0);
-                    kPLN /= 100.0;
-                    p.setNetto(kPLN);
-                    p.setBrutto(p.getNetto()+p.getVat());
-                }
-                symbolWalutyNettoVat = " zł";
-            }
             try {
             Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
             if (kontoRozrachunkowe != null) {
@@ -1126,15 +1101,15 @@ private static final long serialVersionUID = 1L;
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
                     wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
                     if (w.getSymbolwaluty().equals("PLN")) {
-                        ma.setKwota(nettoEwidVat);
-                        ma.setKwotaPLN(nettoEwidVat);
-                        wn.setKwota(nettoEwidVat+vatEwidVat);
-                        wn.setKwotaPLN(nettoEwidVat+vatEwidVat);
+                        ma.setKwota(wartosciVAT[0]);
+                        ma.setKwotaPLN(wartosciVAT[0]);
+                        wn.setKwota(wartosciVAT[0]+wartosciVAT[2]);
+                        wn.setKwotaPLN(wartosciVAT[0]+wartosciVAT[2]);
                     } else {
-                        ma.setKwota(nettoEwidVat);
+                        ma.setKwota(wartosciVAT[0]);
                         ma.setKwotaPLN(nettowPLN);
-                        wn.setKwota(nettoEwidVat+vatwWalucie);
-                        wn.setKwotaPLN(nettowPLN+vatEwidVat);
+                        wn.setKwota(wartosciVAT[0]+vatwWalucie);
+                        wn.setKwotaPLN(nettowPLN+wartosciVAT[2]);
                     }
                     if (kontoRozrachunkowe != null) {
                         wierszpierwszy.getStronaWn().setKonto(kontoRozrachunkowe);
@@ -1145,16 +1120,16 @@ private static final long serialVersionUID = 1L;
                     }
                 }
                 if (!w.getSymbolwaluty().equals("PLN") && selected.getListawierszy().size()==1) {
-                    nettoEwidVat = nettowPLN;
+                    wartosciVAT[0] = nettowPLN;
                 }
-               if (selected.getListawierszy().size()==1 && vatEwidVat != 0.0) {
+               if (selected.getListawierszy().size()==1 && wartosciVAT[2] != 0.0) {
                     Wiersz wierszdrugi;
                     if (w.getSymbolwaluty().equals("PLN")) {
-                        wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatEwidVat, 1);
-                        wierszdrugi.getStronaMa().setKwotaPLN(vatEwidVat);
+                        wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, wartosciVAT[2], 1);
+                        wierszdrugi.getStronaMa().setKwotaPLN(wartosciVAT[2]);
                     } else {
                         wierszdrugi = ObslugaWiersza.utworzNowyWierszMa(selected, 2, vatwWalucie, 1);
-                        wierszdrugi.getStronaMa().setKwotaPLN(vatEwidVat);
+                        wierszdrugi.getStronaMa().setKwotaPLN(wartosciVAT[2]);
                     }
                     wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" - podatek vat");
                     Konto kontovat = selected.getRodzajedok().getKontovat();
@@ -1165,16 +1140,16 @@ private static final long serialVersionUID = 1L;
                         wierszdrugi.getStronaMa().setKonto(k);
                     }
                     selected.getListawierszy().add(wierszdrugi);
-                } else if (vatEwidVat != 0.0) {
+                } else if (wartosciVAT[2] != 0.0) {
                     if (w.getSymbolwaluty().equals("PLN")) {
-                        selected.getListawierszy().get(1).getStronaMa().setKwota(vatEwidVat);
+                        selected.getListawierszy().get(1).getStronaMa().setKwota(wartosciVAT[2]);
                     } else {
                         selected.getListawierszy().get(1).getStronaMa().setKwota(vatwWalucie);
                     }
 
                 }
                 pobierzkontaZpoprzedniegoDokumentu();
-                int index = e.getLp()-1 < 0 ? 0 : e.getLp()-1;
+                int index = wierszvatdoc.getLp()-1 < 0 ? 0 : wierszvatdoc.getLp()-1;
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -1187,7 +1162,7 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-    public void rozliczVatPrzychodRK(EVatwpisFK e, HashMap<String,Double> wartosciVAT) {
+    public void rozliczVatPrzychodRK(EVatwpisFK e, double[] wartosciVAT) {
         double nettovat = ewidencjaVatRK.getNetto();
         double kwotavat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = e.getWiersz();
@@ -1289,53 +1264,30 @@ private static final long serialVersionUID = 1L;
 public void updatenetto(EVatwpisFK e, String form) {
         String skrotRT = selected.getDokfkPK().getSeriadokfk();
         int lp = e.getLp();
-        String stawkavat = null;
-        try {
-            stawkavat = e.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
-        } catch (Exception e1) {
-            if (form.equals("ewidencjavatRK")) {
-                stawkavat = "23";
+        double stawkavat = DokFKVATBean.pobierzstawke(e, form);
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String opis = e.getEwidencja().getNazwa();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            double obliczonenettowpln = Z.z(e.getNetto()/kurs);
+            if (e.getNettowwalucie()!= obliczonenettowpln || e.getNettowwalucie() == 0) {
+                e.setNettowwalucie(e.getNetto());
+                e.setNetto(Z.z(e.getNetto()*kurs));
             }
         }
-        try {
-            double stawkaint = Double.parseDouble(stawkavat) / 100;
-            Waluty w = selected.getWalutadokumentu();
-            if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 100.0) / 100.0;
-                    e.setVat(kwotawPLN * stawkaint);
-                } else {
-                    e.setVat(Math.round((e.getNetto()*stawkaint) * 100.0) / 100.0);
-                }
-            
-        } catch (Exception ex) {
-            List<EVatwpisFK> l = selected.getEwidencjaVAT();
-            String opis = e.getEwidencja().getNazwa();
-            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
-                l.get(0).setVat(0.0);
-            } else if (skrotRT.contains("ZZP")) {
-                Waluty w = selected.getWalutadokumentu();
-                if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
-                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0 /2);
-                } else {
-                    l.get(0).setVat(Math.round((l.get(0).getNetto()* 0.23) * 100.0) / 100.0);
-                }
-            } else {
-                Waluty w = selected.getWalutadokumentu();
-                if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
-                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0);
-                } else {
-                    l.get(0).setVat(Math.round((l.get(0).getNetto()* 0.23) * 100.0) / 100.0);
-                }
-            }
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+            e.setVat(0.0);
+        } else if (skrotRT.contains("ZZP")) {
+            e.setVat(Z.z((e.getNetto()* 0.23)/2));
+        } else {
+            e.setVat(Z.z(e.getNetto()* stawkavat));
         }
-        double suma = e.getNetto() + e.getVat();
-        e.setBrutto(Math.round(suma *100.0) /100.0);
-        String update = form+":tablicavat:" + lp + ":vat";
+        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+        symbolWalutyNettoVat = " zł";
+        String update = form+":tablicavat:" + lp + ":netto";
+        RequestContext.getCurrentInstance().update(update);
+        update = form+":tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
         update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
@@ -1344,13 +1296,14 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void updatevat(EVatwpisFK e, String form) {
-        //Msg.msg("updatevat");
         int lp = e.getLp();
-        String update = form+":tablicavat:" + lp + ":netto";
-        RequestContext.getCurrentInstance().update(update);
-        double suma = e.getNetto() + e.getVat();
-        e.setBrutto(Math.round(suma *100.0) /100.0);
-        update = form+":tablicavat:" + lp + ":brutto";
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            e.setVatwwalucie(Z.z(e.getVat()/kurs));
+        }
+        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+        String update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
@@ -1361,50 +1314,26 @@ public void updatenetto(EVatwpisFK e, String form) {
         EVatwpisFK e = ewidencjaVatRK;
         String skrotRT = selected.getDokfkPK().getSeriadokfk();
         int lp = e.getLp();
-        String stawkavat = null;
-        try {
-            stawkavat = e.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
-        } catch (Exception e1) {
-            stawkavat = "23";
-        }
-        try {
-            double stawkaint = Double.parseDouble(stawkavat) / 100;
-            Waluty w = selected.getWalutadokumentu();
-            if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((e.getNetto()*kurs) * 100.0) / 100.0;
-                    e.setVat(Math.round((kwotawPLN*stawkaint) * 100.0) / 100.0);
-                } else {
-                    e.setVat(Math.round((e.getNetto()*stawkaint) * 100.0) / 100.0);
-                }
-            
-        } catch (Exception ex) {
-            List<EVatwpisFK> l = selected.getEwidencjaVAT();
-            String opis = e.getEwidencja().getNazwa();
-            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
-                l.get(0).setVat(0.0);
-            } else if (skrotRT.contains("ZZP")) {
-                Waluty w = selected.getWalutadokumentu();
-                if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
-                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0 / 2);
-                } else {
-                    l.get(0).setVat(Math.round((l.get(0).getNetto() * 0.23) * 100.0) / 100.0 / 2);
-                }
-            } else {
-                Waluty w = selected.getWalutadokumentu();
-                if (!w.getSymbolwaluty().equals("PLN")) {
-                    double kurs = selected.getTabelanbp().getKurssredni();
-                    double kwotawPLN = Math.round((l.get(0).getNetto()*kurs) * 100.0) / 100.0;
-                    l.get(0).setVat(Math.round((kwotawPLN* 0.23) * 100.0) / 100.0);
-                } else {
-                    l.get(0).setVat(Math.round((l.get(0).getNetto() * 0.23) * 100.0) / 100.0 );
-                }
+        double stawkavat = 0.23;
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String opis = e.getEwidencja().getNazwa();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            double obliczonenettowpln = Z.z(e.getNetto()/kurs);
+            if (e.getNettowwalucie()!= obliczonenettowpln || e.getNettowwalucie() == 0) {
+                e.setNettowwalucie(e.getNetto());
+                e.setNetto(Z.z(e.getNetto()*kurs));
             }
         }
-        double suma = e.getNetto() + e.getVat();
-        e.setBrutto(Math.round(suma *100.0) /100.0);
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+            e.setVat(0.0);
+        } else if (skrotRT.contains("ZZP")) {
+            e.setVat(Z.z((e.getNetto()* 0.23)/2));
+        } else {
+            e.setVat(Z.z(e.getNetto()* stawkavat));
+        }
+        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
         String update = "ewidencjavatRK:vat";
         RequestContext.getCurrentInstance().update(update);
         update = "ewidencjavatRK:brutto";
@@ -1415,7 +1344,12 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void updatevatRK() {
         EVatwpisFK e = ewidencjaVatRK;
-        e.setBrutto(e.getNetto() + e.getVat());
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            e.setVatwwalucie(Z.z(e.getVat()/kurs));
+        }
+        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
         String update = "ewidencjavatRK:brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
