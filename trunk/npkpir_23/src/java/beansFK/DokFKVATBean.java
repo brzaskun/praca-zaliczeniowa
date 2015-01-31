@@ -30,12 +30,22 @@ public class DokFKVATBean {
     }
             
     public static double[] podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
-        double[] wartosciVAT = new double[3];
+        double[] wartosciVAT = new double[4];
         for (EVatwpisFK p : ewidencja) {
             wartosciVAT[0] += p.getNetto();
             wartosciVAT[1] += p.getVat();
             wartosciVAT[2] += p.getNettowwalucie();
+            wartosciVAT[3] += p.getVatwwalucie();
         }
+        return wartosciVAT;
+    }
+    
+    public static double[] podsumujwartosciVATRK(EVatwpisFK ewidencja) {
+        double[] wartosciVAT = new double[4];
+        wartosciVAT[0] += ewidencja.getNetto();
+        wartosciVAT[1] += ewidencja.getVat();
+        wartosciVAT[2] += ewidencja.getNettowwalucie();
+        wartosciVAT[3] += ewidencja.getVatwwalucie();
         return wartosciVAT;
     }
 }
