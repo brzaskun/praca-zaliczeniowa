@@ -1287,7 +1287,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             e.setVat(Z.z(e.getNetto()* stawkavat));
         }
         e.setBrutto(Z.z(e.getNetto() + e.getVat()));
-        String update = "ewidencjavatRK:vat";
+        String update = "ewidencjavatRK:netto";
+        RequestContext.getCurrentInstance().update(update);
+        update = "ewidencjavatRK:vat";
         RequestContext.getCurrentInstance().update(update);
         update = "ewidencjavatRK:brutto";
         RequestContext.getCurrentInstance().update(update);
@@ -2215,6 +2217,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat");
             RequestContext.getCurrentInstance().update("formwpisdokument:panelTabelaNBP");
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+            RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
         }
     }
 

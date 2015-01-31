@@ -73,12 +73,13 @@
                                    $(this).addClass('ui-state-focus');" style="height: 19px;width: 120px !important;"
                                  >
                     <f:selectItems value="#{dokfkView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
+                    <p:ajax event="blur" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
                 <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right; height: 19px;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" />
+                    <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
                 </pe:inputNumber>
                 <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" 
