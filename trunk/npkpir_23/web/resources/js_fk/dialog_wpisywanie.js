@@ -245,6 +245,7 @@ var focusNaNowoDodanym = function(source) {
     ;
 };
 
+//usuwa podswietlenie z wierszy tabeli wpisywania
 var usunpodswietlenie = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
