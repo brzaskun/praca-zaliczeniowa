@@ -50,8 +50,6 @@ public class PlanKontView implements Serializable {
     @Inject
     private Konto noweKonto;
     @Inject
-    private KontoDAOfk kontoDAO;
-    @Inject
     private KliencifkDAO kliencifkDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> rootwzorcowy;
@@ -75,11 +73,11 @@ public class PlanKontView implements Serializable {
 
     @PostConstruct
     private void init() {
-        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         root = rootInit(wykazkont);
-        wykazkontwzor = kontoDAO.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
         rootwzorcowy = rootInit(wykazkontwzor);
-        listakontOstatniaAnalitykaklienta = kontoDAO.findKontaOstAlityka(wpisView);
+        listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
@@ -149,13 +147,13 @@ public class PlanKontView implements Serializable {
         if (noweKonto.getBilansowewynikowe() != null) {
             int wynikdodaniakonta = 1;
             if (podatnik.equals("Wzorcowy")) {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (wynikdodaniakonta == 0) {
                 noweKonto = new Konto();
-                PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                 Msg.msg("i", "Dodano konto syntetyczne", "formX:messages");
             } else {
                 noweKonto = new Konto();
@@ -178,14 +176,14 @@ public class PlanKontView implements Serializable {
         if (kontomacierzyste.isBlokada() == false) {
             int wynikdodaniakonta = 1;
             if (podatnik.equals("Wzorcowy")) {
-                wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
-                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (wynikdodaniakonta == 0) {
-                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAO);
+                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
                 noweKonto = new Konto();
-                PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                 Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
             } else {
                 noweKonto = new Konto();
@@ -200,7 +198,7 @@ public class PlanKontView implements Serializable {
         TreeNodeExtended<Konto> r;
         r = root;
         Konto kontomacierzyste = (Konto) selectednode.getData();
-        List<Konto> kontapodpiete = kontoDAO.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
+        List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
         if (kontapodpiete.size() > 0) {
             Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
@@ -209,76 +207,76 @@ public class PlanKontView implements Serializable {
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (noweKonto.getNrkonta().equals("kontr")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 1);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 1);
                         Msg.msg("i", "Dodaje słownik kontrahentów", "formX:messages");
                     } else {
                         noweKonto = new Konto();
                         Msg.msg("e", "Nie można dodać słownika kontrahentów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(kontomacierzyste, kontoDAO, kliencifkDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                         Msg.msg("Dodano elementy słownika kontrahentów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika kontrahentów");
                     }
                 } else if (noweKonto.getNrkonta().equals("miejs")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
                         Msg.msg("i", "Dodaje słownik miejsc powstawania kosztów", "formX:messages");
                     } else {
                         noweKonto = new Konto();
                         Msg.msg("e", "Nie można dodać słownika miejsc powstawania kosztów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(kontomacierzyste, kontoDAO, miejsceKosztowDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
                     }
                 } else if (noweKonto.getNrkonta().equals("samoc")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikPojazdyiMaszyny(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikPojazdyiMaszyny(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
                         Msg.msg("i", "Dodaje słownik pojazdy i maszyny", "formX:messages");
                     } else {
                         noweKonto = new Konto();
                         Msg.msg("e", "Nie można dodać słownika pojazdy i maszyny!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(kontomacierzyste, kontoDAO, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                         Msg.msg("Dodano elementy słownika miejsc powstawania kosztów");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miejsc powstawania kosztów");
                     }
                 } else if (noweKonto.getNrkonta().equals("miesi")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiesiace(noweKonto, kontomacierzyste, kontoDAO, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiesiace(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
-                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAO, 2);
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
                         Msg.msg("i", "Dodaje słownik miesięcy", "formX:messages");
                     } else {
                         noweKonto = new Konto();
                         Msg.msg("e", "Nie można dodać słownika miesięcy!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(kontomacierzyste, kontoDAO, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
-                        PlanKontFKBean.odswiezroot(r, kontoDAO, wpisView);
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
                         Msg.msg("Dodano elementy słownika miesiące");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miesięcy");
@@ -300,7 +298,7 @@ public class PlanKontView implements Serializable {
                     p.setRok(wpisView.getRokWpisu());
                     p.setPodatnik(wpisView.getPodatnikWpisu());
                     try {
-                        kontoDAO.dodaj(p);
+                        kontoDAOfk.dodaj(p);
                     } catch (PersistenceException e) {
                         Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + p.getPelnynumer());
                     } catch (Exception ef) {
@@ -308,17 +306,17 @@ public class PlanKontView implements Serializable {
                     }
                 }
             }
-            List<Konto> wykazkonttmp = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            List<Konto> wykazkonttmp = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
             for (Konto p : wykazkonttmp) {
                 if (!p.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView);
+                    Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView);
                     p.setMacierzysty(macierzyste.getId());
-                    kontoDAO.edit(p);
+                    kontoDAOfk.edit(p);
                 }
             }
             porzadkowanieKontPodatnika();
-            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             RequestContext.getCurrentInstance().update("form:dataList");
@@ -336,17 +334,17 @@ public class PlanKontView implements Serializable {
                 Konto konto = ((Konto) selectednode.getData());
                 konto.setPodatnik(p.getNazwapelna());
                 if (!konto.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
+                    Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
                     konto.setMacierzysty(macierzyste.getId());
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
-                    kontoDAO.edit(macierzyste);
+                    kontoDAOfk.edit(macierzyste);
                 } else {
                     konto.setMapotomkow(false);
                     konto.setBlokada(false);
                 }
                 try {
-                    kontoDAO.dodaj(konto);
+                    kontoDAOfk.dodaj(konto);
                 } catch (RollbackException e) {
                     
                 } catch (PersistenceException x) {
@@ -354,7 +352,7 @@ public class PlanKontView implements Serializable {
                 } catch (Exception ef) {
                 }
             }
-            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
@@ -378,7 +376,7 @@ public class PlanKontView implements Serializable {
                     dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
                 }
             }
-            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             root = rootInit(wykazkont);
             rozwinwszystkie(root);
             Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego z analityką u wszystkich klientów FK");
@@ -393,17 +391,17 @@ public class PlanKontView implements Serializable {
      private void dodajpojedynczekoto(Konto konto, String podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
+            Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
-            kontoDAO.edit(macierzyste);
+            kontoDAOfk.edit(macierzyste);
         } else {
             konto.setMapotomkow(false);
             konto.setBlokada(false);
         }
         try {
-            kontoDAO.dodaj(konto);
+            kontoDAOfk.dodaj(konto);
         } catch (RollbackException e) {
 
         } catch (PersistenceException x) {
@@ -417,7 +415,7 @@ public class PlanKontView implements Serializable {
             for (Konto p : wykazkont) {
                 if (!p.getPodatnik().equals("Wzorcowy")) {
                     try {
-                        kontoDAO.destroy(p);
+                        kontoDAOfk.destroy(p);
                     } catch (Exception e) {
                         Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                     }
@@ -426,7 +424,7 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             root = rootInit(wykazkont);
             RequestContext.getCurrentInstance().update("form:dataList");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
@@ -436,19 +434,19 @@ public class PlanKontView implements Serializable {
     }
 
     public void porzadkowanieKontPodatnika() {
-        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkont, kontoDAO, wpisView);
-        wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView);
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         root = rootInit(wykazkont);
         rozwinwszystkie(root);
     }
 
     public void porzadkowanieKontWzorcowych() {
-        wykazkontwzor = kontoDAO.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAO, "Wzorcowy");
-        wykazkontwzor = kontoDAO.findWszystkieKontaWzorcowy();
+        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy");
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
         rootwzorcowy = rootInit(wykazkontwzor);
         rozwinwszystkie(rootwzorcowy);
     }
@@ -468,30 +466,30 @@ public class PlanKontView implements Serializable {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
             } else {
                 try {
-                    kontoDAO.destroy(kontoDoUsuniecia);
+                    kontoDAOfk.destroy(kontoDoUsuniecia);
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAO, podatnik);
+                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, podatnik);
                         if (wynik == 0) {
-                            Konto kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
+                            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
                             kontomacierzyste.setMapotomkow(false);
                             kontomacierzyste.setIdslownika(0);
-                            kontoDAO.edit(kontomacierzyste);
+                            kontoDAOfk.edit(kontomacierzyste);
                             Msg.msg("Usunięto elementy słownika");
                         } else {
                             Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                         }
                     } else {
-                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, kontoDoUsuniecia, kontoDAO);
+                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, kontoDoUsuniecia, kontoDAOfk);
                         //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
                         if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
-                            Konto kontomacierzyste = kontoDAO.findKonto(kontoDoUsuniecia.getMacierzysty());
+                            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
                             kontomacierzyste.setMapotomkow(false);
-                            kontoDAO.edit(kontomacierzyste);
+                            kontoDAOfk.edit(kontomacierzyste);
                         }
                     }
-                    PlanKontFKBean.odswiezroot(rootZNodem, kontoDAO, wpisView);
+                    PlanKontFKBean.odswiezroot(rootZNodem, kontoDAOfk, wpisView);
                     RequestContext.getCurrentInstance().update("form");
                     Msg.msg("i", "Usuwam konto", "formX:messages");
                 } catch (Exception e) {
@@ -508,11 +506,11 @@ public class PlanKontView implements Serializable {
             Konto konto = (Konto) selectednode.getData();
             if (konto.isBlokada() == false) {
                 konto.setBlokada(true);
-                kontoDAO.edit(konto);
+                kontoDAOfk.edit(konto);
                 Msg.msg("w", "Zabezpieczono konto przed edycją.");
             } else if (konto.getBoWn() == 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada() == true) {
                 konto.setBlokada(false);
-                kontoDAO.edit(konto);
+                kontoDAOfk.edit(konto);
                 Msg.msg("w", "Odblokowano edycję konta.");
             }
         } else {
@@ -522,7 +520,7 @@ public class PlanKontView implements Serializable {
 
     public void zmiananazwykonta() {
         try {
-            kontoDAO.edit(selectednodekonto);
+            kontoDAOfk.edit(selectednodekonto);
         } catch (Exception e) {
             
         }
@@ -565,13 +563,13 @@ public class PlanKontView implements Serializable {
     }
     
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
-        kontoDAO.edit(konto);
-        List<Konto> kontapotomne = kontoDAO.findKontaWszystkiePotomnePodatnik("Wzorcowy", konto);
+        kontoDAOfk.edit(konto);
+        List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik("Wzorcowy", konto);
         for (Konto p : kontapotomne) {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
-            kontoDAO.edit(p);
+            kontoDAOfk.edit(p);
         }
-        wykazkontwzor = kontoDAO.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
         rootwzorcowy = rootInit(wykazkontwzor);
     }
     
@@ -599,7 +597,7 @@ public class PlanKontView implements Serializable {
             }
         }
         if (sakliencifk || samiejscakosztow) {
-            wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
                 root = rootInit(wykazkont);
                 rozwinwszystkie(root);
                 Msg.msg("Zakonczono aktualizowanie słowników");

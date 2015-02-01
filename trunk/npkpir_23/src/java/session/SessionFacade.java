@@ -1228,6 +1228,10 @@ public class SessionFacade<T> implements Serializable{
         return (FakturaXXLKolumna) em.createNamedQuery("FakturaXXLKolumna.findByPodatnik").setParameter("podatnik", p).getSingleResult();
     }
 
+    public int findMaxLevelPodatnik(String podatnik, int rokWpisu) {
+        return (int) em.createNamedQuery("Konto.findByMaxLevelPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rokWpisu).getSingleResult();
+    }
+
         
   
 }

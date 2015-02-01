@@ -332,7 +332,10 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
-
+    
+    public int findMaxLevelPodatnik(String podatnikWpisu, int rokWpisu) {
+        return kontoFacade.findMaxLevelPodatnik(podatnikWpisu, rokWpisu);
+    }
    
  
 }
