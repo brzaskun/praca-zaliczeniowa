@@ -1,4 +1,4 @@
-<ui:composition 
+    <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -7,13 +7,14 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',600,200);" 
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',550,200);" 
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
-            <p:panelGrid id="paneldatydokumentu" columns="3" style="width: 300px;"  styleClass="uipanelGrid0">
+            <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 400px;"  styleClass="uipanelGrid0">
                 <h:outputText value="data dokumentu"/>
                 <h:outputText value="data operacji gosp."/>
                 <h:outputText value="dane kontrahenta"/>
+                <h:outputText value="50%" />
                 <h:inputText id="data1DialogVAT" value="#{dokfkView.ewidencjaVatRK.datadokumentu}" 
                              onblur="ustawDateFKRK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogVAT');
                                              $(this).removeClass('ui-state-focus');
@@ -58,6 +59,7 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
+                <p:selectBooleanCheckbox label="Paliwo" value="#{dokfkView.ewidencjaVatRK.paliwo}"/>
             </p:panelGrid>
             <p:panelGrid id="panelzewidencjavat" columns="5"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>

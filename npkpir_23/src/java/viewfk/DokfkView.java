@@ -988,6 +988,7 @@ private static final long serialVersionUID = 1L;
         Wiersz wierszpierwszy = e.getWiersz();
         Konto kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         if (kontoRozrachunkowe != null) {
+            //nie chodzi ze jest pierwszy, tylko ze jest zainicjalizowany
             if (wierszpierwszy != null ) {
                 StronaWiersza wn = wierszpierwszy.getStronaWn();
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -1018,17 +1019,29 @@ private static final long serialVersionUID = 1L;
                     }
                 }
                 if (jestjuzwierszvat == false) {
-                    wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatEwidVat, 1);
-                    //wierszdrugi = ObslugaWiersza.utworzNowyWierszWn(selected,  wierszRKindex+2, kwotavat, 1);
+                    if (ewidencjaVatRK.isPaliwo()) {
+                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, Z.z(vatEwidVat/2.0), 1);
+                        wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat podl. odlicz.");
+                    } else {
+                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatEwidVat, 1);
+                        wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
+                    }
                     wierszdrugi.setTabelanbp(selected.getTabelanbp());
                     wierszdrugi.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
-                    wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                     Konto kontovat = selected.getRodzajedok().getKontovat();
                     if (kontovat != null) {
                         wierszdrugi.getStronaWn().setKonto(kontovat);
                     } else {
                         Konto k = kontoDAOfk.findKonto("221", wpisView);
                         wierszdrugi.getStronaWn().setKonto(k);
+                    }
+                    if (ewidencjaVatRK.isPaliwo()) {
+                        Wiersz wiersztrzeci = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, Z.z(vatEwidVat/2.0), 1);
+                        wiersztrzeci.setTabelanbp(selected.getTabelanbp());
+                        wiersztrzeci.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
+                        wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
+                        Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                        wiersztrzeci.getStronaWn().setKonto(k);
                     }
                 }
             } 

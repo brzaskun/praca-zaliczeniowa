@@ -67,7 +67,8 @@ public class EVatwpisFK implements Serializable {
     private String datadokumentu;
     @Column(name = "dataoperacji")
     private String dataoperacji;
-    
+    @Column(name = "paliwo")
+    private boolean paliwo;
     
 
     public EVatwpisFK(Evewidencja ewidencja, double netto, double vat, String estawka) {
@@ -80,9 +81,16 @@ public class EVatwpisFK implements Serializable {
     public EVatwpisFK() {
     }
     
-   
+     public boolean isPaliwo() {   
+        return paliwo;
+    }
+
     //<editor-fold defaultstate="collapsed" desc="getters & setters">\
-     public double getNettowwalucie() {
+    public void setPaliwo(boolean paliwo) {
+        this.paliwo = paliwo;
+    }
+
+    public double getNettowwalucie() {
         return nettowwalucie;
     }
 
