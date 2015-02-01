@@ -976,9 +976,13 @@ private static final long serialVersionUID = 1L;
                 }
                 wiersz2_3.setTabelanbp(selected.getTabelanbp());
                 wiersz2_3.setOpisWiersza("podatek vat");
-                Konto k = kontoDAOfk.findKonto("221", wpisView);
-                k = kontoDAOfk.findKonto("221", wpisView);
-                wiersz2_3.getStronaWn().setKonto(k);
+                Konto kontovat = selected.getRodzajedok().getKontovat();
+                if (kontovat != null) {
+                    wiersz2_3.getStronaWn().setKonto(kontovat);
+                } else {
+                    Konto k = kontoDAOfk.findKonto("221", wpisView);
+                    wiersz2_3.getStronaWn().setKonto(k);
+                }
                 selected.getListawierszy().add(wiersz2_3);
     }
     
