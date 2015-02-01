@@ -441,7 +441,7 @@ private static final long serialVersionUID = 1L;
     }
 
     public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
-        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("20")) {
+        if (wiersz.getStronaWn().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
         int t = wiersz.getTypWiersza();
@@ -520,7 +520,7 @@ private static final long serialVersionUID = 1L;
     }
 
     public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
-        if (wiersz.getStronaMa().getKonto().getPelnynumer().startsWith("20")) {
+        if (wiersz.getStronaMa().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
         dodajNowyWierszStronaMa(wiersz);
