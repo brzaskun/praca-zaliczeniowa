@@ -5,44 +5,37 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-     <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false">  
+    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false">  
         <h:form id="formX">
-        <p:growl id="messages"/>
-        <p:focus for="dkp">
-        <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
-                        <h:outputLabel value="Nrkonta:" for="nrkonta" />
-                        <p:inputText id="nrkonta" value="#{planKontView.noweKonto.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
-                            <f:validateRegex pattern="\d+"/>
-                        </p:inputText>
-                       <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                       <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
-                        <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
-                        <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
-                        <h:outputLabel value="Bilansowewynikowe:" for="bilansowewynikowe" />
-                        <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.noweKonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
-                            <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
-                            <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
-                        </p:selectOneMenu>
-                        <h:outputLabel value="Zwyklerozrachszczegolne:" for="zwyklerozrachszczegolne" />
-                        <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.noweKonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
-                            <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
-                            <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
-                            <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                            <f:selectItem itemLabel="vat" itemValue="vat"/>
-                       </p:selectOneMenu>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}"  type="submit" update=":formX, :form, :formwzorcowy" style="display: none;" onclick="PF('nowekontosyntetyczne').hide()"/>
-                        <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" update=":formX, :form, :formwzorcowy" 
-                                         style="float: right;" onclick="PF('nowekontosyntetyczne').hide()">
-<!--                            <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
-                                <f:facet name="error">
-                                    <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
-                                                  style="color: red; font-weight: 900;"/>
-                                </f:facet>
-                           </p:ajaxStatus>-->
-                        </p:commandButton>
-        </p:panelGrid>
+            <p:growl id="messages"/>
+            <p:focus for="dkp">
+                <p:panelGrid id="dkp" columns="2" style=" width: 600px;">
+                    <h:outputLabel value="Nrkonta:" for="nrkonta" />
+                    <p:inputText id="nrkonta" value="#{planKontView.noweKonto.nrkonta}" title="Nrkonta" required="true" requiredMessage="Wprowadź numer konta" maxlength="4">
+                        <f:validateRegex pattern="\d+"/>
+                    </p:inputText>
+                    <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                    <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
+                    <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
+                    <h:outputLabel value="Bilansowewynikowe:" for="bilansowewynikowe" />
+                    <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.noweKonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Zwyklerozrachszczegolne:" for="zwyklerozrachszczegolne" />
+                    <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.noweKonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                        <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
+                        <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                        <f:selectItem itemLabel="vat" itemValue="vat"/>
+                    </p:selectOneMenu>
+                    <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" 
+                                     style="float: right;" onclick="PF('nowekontosyntetyczne').hide()">
+                    </p:commandButton>
+                </p:panelGrid>
             </p:focus>
-            </h:form>
-        </p:dialog> 
-   
+        </h:form>
+    </p:dialog> 
+
 </ui:composition>
