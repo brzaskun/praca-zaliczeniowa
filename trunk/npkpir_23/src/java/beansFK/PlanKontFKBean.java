@@ -393,7 +393,7 @@ public class PlanKontFKBean {
     public static void odswiezroot(TreeNodeExtended<Konto> r, KontoDAOfk kontoDAO, WpisView wpisView) {
         if (czywzorcowe(r.getChildren().get(0))) {
             r.reset();
-            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaWzorcowy());
+            r.createTreeNodesForElement(kontoDAO.findWszystkieKontaWzorcowy(wpisView));
         } else {
             r.reset();
             List<Konto> listakontpodatnika = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());

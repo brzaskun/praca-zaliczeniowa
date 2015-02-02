@@ -89,6 +89,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             for (Konto p : wykazkont) {
                 pobierzZapisyNaKoncieNode(p);
             }
+            System.out.println("dd");
         }
     }
     

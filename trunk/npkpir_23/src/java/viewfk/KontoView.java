@@ -45,7 +45,7 @@ public class KontoView  implements Serializable {
     @PostConstruct
     public void init() {
         listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        listakontSrodkiTrwale = kontoDAO.findKontaGrupa0(wpisView.getPodatnikWpisu());
+        listakontSrodkiTrwale = kontoDAO.findKontaGrupa0(wpisView);
     }
     
      public List<Konto> complete(String query) {  

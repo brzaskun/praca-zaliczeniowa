@@ -16,6 +16,7 @@
                 <p:menuitem value="Słownik kontrahenci" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem id="noweedycjanazwy" value="Edycja nazw konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();" />
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
+                <p:menuitem value="Usuń wszystkie" actionListener="#{planKontView.usunieciewszystkichKontWzorcowy()}" global="false" icon="ui-icon-trash" update=":formwzorcowy"/>
                 <p:separator/>
                 <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>

@@ -55,7 +55,7 @@ public class BilansPodgladView  implements Serializable{
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
+        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView));
         root.createTreeNodesForElement(kontadlanodes);
         
     }
@@ -65,7 +65,7 @@ public class BilansPodgladView  implements Serializable{
         try {
             getNodes();
             ArrayList<Konto> kontadlanodes = new ArrayList<>();
-            kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
+            kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView));
             level = root.ustaldepthDT(kontadlanodes)-1;
             root.expandAll();
             Msg.msg("Rozwinięto maksymalnie");
@@ -76,7 +76,7 @@ public class BilansPodgladView  implements Serializable{
     
     public void rozwin(){
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu()));
+        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView));
         int maxpoziom = root.ustaldepthDT(kontadlanodes);
         if (level < --maxpoziom) {
             root.expandLevel(level++);

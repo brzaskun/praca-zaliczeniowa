@@ -88,7 +88,7 @@ public class CitView implements Serializable {
         razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
         razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP");
-        List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
+        List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
