@@ -689,10 +689,10 @@ private static final long serialVersionUID = 1L;
                     double roznica = kwotaWn;
                     try {
                         Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, true, roznica, 5, wierszbiezacy, konto490);
                     } catch (Exception e) {
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, false, roznica, 5, wierszbiezacy, konto490);
                     }
                 }
@@ -713,10 +713,10 @@ private static final long serialVersionUID = 1L;
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacyIndex, false, roznica, 0);
                         }
                     } else if (kwotaWn > kwotaMa) {
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
                     } else if (kwotaMa > kwotaWn) {
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
                     }
                 }
@@ -726,7 +726,7 @@ private static final long serialVersionUID = 1L;
                     double roznica = ObslugaWiersza.obliczkwotepozostala5(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
                     if (roznica > 0.0) {
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 7, wierszbiezacy, konto490);
                     } else {
                         try {
@@ -742,7 +742,7 @@ private static final long serialVersionUID = 1L;
                     double roznica = ObslugaWiersza.obliczkwotepozostala5(selected, wierszbiezacy);
                     czyWszystkoWprowadzono = true;
                     if (roznica > 0.0) {
-                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView.getPodatnikWpisu());
+                        Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, przenumeruj, roznica, 6, wierszbiezacy, konto490);
                     } else {
                         try {

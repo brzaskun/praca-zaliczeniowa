@@ -78,7 +78,7 @@ public class PlanKontView implements Serializable {
     private void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         root = rootInit(wykazkont);
-        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         rootwzorcowy = rootInit(wykazkontwzor);
         listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
     }
@@ -473,6 +473,25 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
+    
+     public void usunieciewszystkichKontWzorcowy() {
+        if (!wykazkontwzor.isEmpty()) {
+            for (Konto p : wykazkontwzor) {
+                try {
+                    kontoDAOfk.destroy(p);
+                } catch (Exception e) {
+                    Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
+                }
+            }
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", wpisView.getRokWpisuSt());
+            rootwzorcowy = rootInit(wykazkontwzor);
+            RequestContext.getCurrentInstance().update("formwzorcowy");
+            Msg.msg("Zakonczono z sukcesem usuwanie kont wzorocwych");
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
+        }
+    }
+    
 
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -484,10 +503,10 @@ public class PlanKontView implements Serializable {
     }
 
     public void porzadkowanieKontWzorcowych() {
-        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         //resetuj kolumne macierzyste
         KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy");
-        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         rootwzorcowy = rootInit(wykazkontwzor);
         rozwinwszystkie(rootwzorcowy);
     }
@@ -610,7 +629,7 @@ public class PlanKontView implements Serializable {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
             kontoDAOfk.edit(p);
         }
-        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy();
+        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         rootwzorcowy = rootInit(wykazkontwzor);
     }
     

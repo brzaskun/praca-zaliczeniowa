@@ -46,22 +46,38 @@ public class PlanKontKopiujView implements Serializable{
             Msg.msg("e", "Podatnik oraz rok źródłowy i docelowy jest ten sam");
         } else {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(podatnikzrodlowy.getNazwapelna(), rokzrodlowy);
-            List<Konto> macierzyste = skopiujlevel0(wykazkont);
+            List<Konto> macierzyste = skopiujlevel0(podatnikdocelowy.getNazwapelna(),wykazkont);
             int maxlevel = kontoDAOfk.findMaxLevelPodatnik(podatnikzrodlowy.getNazwapelna(), Integer.parseInt(rokzrodlowy));
             for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevel(wykazkont, macierzyste,i);
+                macierzyste = skopiujlevel(podatnikdocelowy.getNazwapelna(), wykazkont, macierzyste,i);
             }
             System.out.println("Kopiuje");
         }
         System.out.println("Kopiuje");
     }
     
-    private List<Konto> skopiujlevel0(List<Konto> wykazkont) {
+    public void kopiujplankontWzorcowy() {
+        if (rokzrodlowy.equals(rokdocelowy)) {
+            Msg.msg("e", "Rok źródłowy i docelowy jest ten sam");
+        } else {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy);
+            List<Konto> macierzyste = skopiujlevel0("Wzorcowy", wykazkont);
+            int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy));
+            for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevelWzorcowy("Wzorcowy",wykazkont, macierzyste,i);
+            }
+            System.out.println("Kopiuje");
+        }
+    }
+    
+    
+    
+    private List<Konto> skopiujlevel0(String docelowy, List<Konto> wykazkont) {
         List<Konto> macierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel()==0) {
                 Konto r = serialclone.SerialClone.clone(p);
-                r.setPodatnik(podatnikdocelowy.getNazwapelna());
+                r.setPodatnik(docelowy);
                 r.setRok(Integer.parseInt(rokdocelowy));
                 try {
                     kontoDAOfk.dodaj(r);
@@ -73,7 +89,7 @@ public class PlanKontKopiujView implements Serializable{
         }
         return macierzyste;
     }
-     private List<Konto> skopiujlevel(List<Konto> wykazkont, List<Konto> macierzystelista, int i) {
+     private List<Konto> skopiujlevel(String docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i) {
         List<Konto> nowemacierzyste = new ArrayList<>();
         for (Konto p : wykazkont) {
             if (p.getLevel()==i) {
@@ -82,7 +98,7 @@ public class PlanKontKopiujView implements Serializable{
                         System.out.println("nie powielam słownikowego");
                     } else {
                         Konto r = serialclone.SerialClone.clone(p);
-                        r.setPodatnik(podatnikdocelowy.getNazwapelna());
+                        r.setPodatnik(docelowy);
                         r.setRok(Integer.parseInt(rokdocelowy));
                         Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
                         r.setMacierzyste(macierzyste.getPelnynumer());
@@ -97,6 +113,28 @@ public class PlanKontKopiujView implements Serializable{
         }
         return nowemacierzyste;
     }
+     
+      private List<Konto> skopiujlevelWzorcowy(String docelowy, List<Konto> wykazkont, List<Konto> macierzystelista, int i) {
+        List<Konto> nowemacierzyste = new ArrayList<>();
+        for (Konto p : wykazkont) {
+            if (p.getLevel()==i) {
+                try {
+                    Konto r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik(docelowy);
+                    r.setRok(Integer.parseInt(rokdocelowy));
+                    Konto macierzyste = wyszukajmacierzyste(r.getMacierzyste(), macierzystelista);
+                    r.setMacierzyste(macierzyste.getPelnynumer());
+                    r.setMacierzysty(macierzyste.getId());
+                    kontoDAOfk.dodaj(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {
+                    
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+     
 
     private Konto wyszukajmacierzyste(String macierzyste, List<Konto> macierzystelista) {
         for (Konto p : macierzystelista) {

@@ -62,11 +62,11 @@ public class RozrachunkiPrzegladView implements Serializable{
     @PostConstruct
     private void init() {
         listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView));
-        if (listaKontRozrachunkowych != null) {
+        if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {
             wybranekonto = listaKontRozrachunkowych.get(0);
+            root = rootInit(listaKontRozrachunkowych);
+            rozwinwszystkie(root);
         }
-        root = rootInit(listaKontRozrachunkowych);
-        rozwinwszystkie(root);
     }
 
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {

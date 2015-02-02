@@ -178,7 +178,7 @@ public class PozycjaBRView implements Serializable {
         }
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
@@ -229,7 +229,7 @@ public class PozycjaBRView implements Serializable {
         List<StronaWiersza> zapisy = new ArrayList<>();
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         try {
-            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView.getPodatnikWpisu());
+            List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             Konto kontowyniku = null;
             for (Konto p : plankont) {
                 if (p.getPelnynumer().equals("860")) {

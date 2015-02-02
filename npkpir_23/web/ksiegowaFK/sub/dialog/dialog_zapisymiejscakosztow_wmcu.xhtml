@@ -58,18 +58,19 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" update="@form"/>
+                        <p:ajax event="change" listener="#{miejsceKosztowView.zapisykontmiesiace}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
             </p:panelGrid>
-            <p:tabView>
+            <p:accordionPanel style="height: 700px; width: 1000px;">
             <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
                 <p:tab  title="#{miejsceKosztowView.listasummiejsckosztow.keySet().toArray()[numer.index]}">
                     <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
-                          emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 500px; width: 800px;" 
+                                 emptyMessage="Nie ma zapisów na koncie" lazy="true"
+                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 300px; width: 800px;" 
                                  >
+                        <p:ajax event="rowToggle" global="false"/>
                         <p:column width="20">
                             <p:rowToggler/>
                         </p:column>
@@ -86,7 +87,7 @@
                             <bcf:outputpl value="#{loop.sumanarastajaco}"/>
                         </p:column>
                         <p:rowExpansion>
-                            <p:dataTable value="#{loop.stronywiersza}" var="loopik">
+                            <p:dataTable value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
                                 <p:column headerText="dokument" width="60">
                                     <h:outputText value="#{loopik.dokfkS}"/>
                                 </p:column>
@@ -110,7 +111,7 @@
                     </p:dataTable>
                         </p:tab>
             </c:forEach>
-                </p:tabView>
+            </p:accordionPanel>>
         </h:form>
        
     </p:dialog>

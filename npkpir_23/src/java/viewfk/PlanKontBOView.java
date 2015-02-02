@@ -46,13 +46,13 @@ public class PlanKontBOView implements Serializable {
     @PostConstruct
     private void init() {
         if (wpisView instanceof WpisView) {
-            wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "0%");
-            wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "1%");
-            wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "2%");
-            wykazkont3 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "3%");
-            wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "6%");
-            wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView.getPodatnikWpisu(), "8%");
-            wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu());
+            wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
+            wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
+            wykazkont2 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "2%");
+            wykazkont3 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "3%");
+            wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
+            wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
+            wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
         }
     }
 
