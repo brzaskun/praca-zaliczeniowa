@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
@@ -71,6 +72,7 @@ public class PojazdyView  implements Serializable{
     public void dodaj() {
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         pojazdyDAO.dodaj(selected);
+        PlanKontFKBean.aktualizujslownikPojazdy(selected, kontoDAOfk, wpisView);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);

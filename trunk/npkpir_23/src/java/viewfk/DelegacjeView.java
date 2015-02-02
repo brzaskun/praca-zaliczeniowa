@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.DelegacjaBean;
+import beansFK.PlanKontFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.DelegacjaDAO;
@@ -80,8 +81,10 @@ public class DelegacjeView  implements Serializable{
         delegacjaDAO.dodaj(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
+            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(selected, kontoDAOfk, wpisView);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
+            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(selected, kontoDAOfk, wpisView);
         }
         selected.setOpisdlugi(null);
         selected.setOpiskrotki(null);
