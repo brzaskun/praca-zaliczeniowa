@@ -243,7 +243,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
       
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
-              return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(),macierzyste.getPelnynumer());
+              return kontoDAOfk.findKontaPotomnePodatnik(wpisView,macierzyste.getPelnynumer());
           } catch (Exception e) {
               Msg.msg("e", "nie udane pobierzpotomkow");
           }

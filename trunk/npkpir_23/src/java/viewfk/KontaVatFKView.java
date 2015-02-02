@@ -315,8 +315,8 @@ public class KontaVatFKView implements Serializable {
     }
    
     private SaldoKonto zrobSaldoKontoNalezny(double zaokraglenia) {
-        Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView.getPodatnikWpisu());
-        Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView.getPodatnikWpisu());
+        Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView);
+        Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView);
         if (zaokraglenia >= 0.5) {
             return new SaldoKonto(pozostalekosztyoperacyjne, 0.0, 1-zaokraglenia);
         } 
@@ -330,8 +330,8 @@ public class KontaVatFKView implements Serializable {
     }
     
     private SaldoKonto zrobSaldoKontoNaliczony(double zaokraglenia) {
-        Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView.getPodatnikWpisu());
-        Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView.getPodatnikWpisu());
+        Konto pozostaleprzychodyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe przych. operac.", wpisView);
+        Konto pozostalekosztyoperacyjne = kontoDAOfk.findKontoNazwaPodatnik("Pozostałe koszty operac.", wpisView);
         if (zaokraglenia >= 0.5) {
             return new SaldoKonto(pozostaleprzychodyoperacyjne, 1- zaokraglenia, 0.0);
         }

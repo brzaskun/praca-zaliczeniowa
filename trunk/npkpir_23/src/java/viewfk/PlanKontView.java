@@ -201,7 +201,7 @@ public class PlanKontView implements Serializable {
         TreeNodeExtended<Konto> r;
         r = root;
         Konto kontomacierzyste = (Konto) selectednode.getData();
-        List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), kontomacierzyste.getPelnynumer());
+        List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView, kontomacierzyste.getPelnynumer());
         if (kontapodpiete.size() > 0) {
             Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
@@ -412,7 +412,7 @@ public class PlanKontView implements Serializable {
             for (Podatnik p : listapodatnikowfk) {
                 Konto konto = (Konto) selectednode.getData();
                 dodajpojedynczekoto(konto, wpisView.getPodatnikWpisu());
-                List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", konto.getPelnynumer());
+                List<Konto> potomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView, konto.getPelnynumer());
                 for (Konto r : potomne) {
                     dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
                 }
@@ -509,7 +509,7 @@ public class PlanKontView implements Serializable {
                 try {
                     kontoDAOfk.destroy(kontoDoUsuniecia);
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, podatnik);
+                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView);
                         if (wynik == 0) {
                             Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
@@ -521,7 +521,7 @@ public class PlanKontView implements Serializable {
                             Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
                         }
                     } else {
-                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(podatnik, kontoDoUsuniecia, kontoDAOfk);
+                        boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView, kontoDoUsuniecia, kontoDAOfk);
                         //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
                         if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
                             Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
@@ -605,7 +605,7 @@ public class PlanKontView implements Serializable {
     
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
         kontoDAOfk.edit(konto);
-        List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik("Wzorcowy", konto);
+        List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, konto);
         for (Konto p : kontapotomne) {
             p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
             kontoDAOfk.edit(p);
