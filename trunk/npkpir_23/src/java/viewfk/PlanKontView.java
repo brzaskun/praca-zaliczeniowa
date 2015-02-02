@@ -7,6 +7,7 @@ package viewfk;
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
 import dao.PodatnikDAO;
+import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
@@ -67,6 +68,8 @@ public class PlanKontView implements Serializable {
     private PojazdyDAO pojazdyDAO;
     @Inject
     private MiejsceKosztowDAO miejsceKosztowDAO;
+    @Inject
+    private DelegacjaDAO delegacjaDAO;
 
     public PlanKontView() {
     }
@@ -280,6 +283,44 @@ public class PlanKontView implements Serializable {
                         Msg.msg("Dodano elementy słownika miesiące");
                     } else {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika miesięcy");
+                    }
+                } else if (noweKonto.getNrkonta().equals("deleK")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeKrajowe(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
+                        Msg.msg("i", "Dodaje słownik delegacji krajowych", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownik delegacji krajowych!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                        Msg.msg("Dodano elementy słownika delegacji krajowych");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji krajowych");
+                    }
+                } else if (noweKonto.getNrkonta().equals("deleZ")) {
+                    //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeZagraniczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    if (wynikdodaniakonta == 0) {
+                        PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
+                        Msg.msg("i", "Dodaje słownik delegacji zagranicznych", "formX:messages");
+                    } else {
+                        noweKonto = new Konto();
+                        Msg.msg("e", "Nie można dodać słownik delegacji zagranicznych!", "formX:messages");
+                        return;
+                    }
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true);
+                    if (wynikdodaniakonta == 0) {
+                        noweKonto = new Konto();
+                        PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                        Msg.msg("Dodano elementy słownika delegacji zagranicznych");
+                    } else {
+                        Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji zagranicznych");
                     }
                 }
             } catch (Exception e) {
