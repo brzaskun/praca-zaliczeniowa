@@ -205,15 +205,12 @@ private static final long serialVersionUID = 1L;
         String symbolPoprzedniegoDokumentu = null;
         Rodzajedok rodzajDokPoprzedni = null;
         if (selected != null) {
-            selected.pobierzSymbolPoprzedniegoDokfk();
-            selected.usunpuste();
+            symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
-            selected.setRodzajedok(rodzajDokPoprzedni);
-            selected = null;
         }
         //tworze nowy dokument
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, wpisView);
-        selected.setRodzajedok(DokFKBean.odnajdzZZ(rodzajedokKlienta));
+        selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView);
+        //selected.setRodzajedok(DokFKBean.odnajdzZZ(rodzajedokKlienta));
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             pokazPanelWalutowy = false;
@@ -238,7 +235,7 @@ private static final long serialVersionUID = 1L;
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        //RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
     }
 
 
@@ -1250,7 +1247,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
         //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
-        String opis = e.getEwidencja().getNazwa();
+        String rodzajdok = selected.getRodzajedok().getSkrot();
         if (!w.getSymbolwaluty().equals("PLN")) {
             double obliczonenettowpln = Z.z(e.getNetto()/kurs);
             if (e.getNettowwalucie()!= obliczonenettowpln || e.getNettowwalucie() == 0) {
@@ -1258,7 +1255,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 e.setNetto(Z.z(e.getNetto()*kurs));
             }
         }
-        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
             e.setVat(0.0);
         } else if (skrotRT.contains("ZZP")) {
             e.setVat(Z.z((e.getNetto()* 0.23)/2));
