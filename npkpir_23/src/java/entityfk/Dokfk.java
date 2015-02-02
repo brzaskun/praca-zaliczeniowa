@@ -194,14 +194,14 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = false;
     }
 
-    public Dokfk(String symbolPoprzedniegoDokumentu, WpisView wpisView) {
+    public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        ustawNoweSelected(symbolPoprzedniegoDokumentu, wpisView);
+        ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -495,13 +495,14 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, WpisView wpisView) {
+    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu,  Rodzajedok rodzajedok, WpisView wpisView) {
         this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
         this.dokfkPK.setPodatnik(wpisView.getPodatnikObiekt().getNip());
         this.setPodatnikObj(wpisView.getPodatnikObiekt());
         if (symbolPoprzedniegoDokumentu != null) {
             this.dokfkPK.setSeriadokfk(symbolPoprzedniegoDokumentu);
+            this.setRodzajedok(rodzajedok);
         } else {
             this.dokfkPK.setSeriadokfk("ZZ");
         }
