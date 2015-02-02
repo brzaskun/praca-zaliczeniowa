@@ -30,17 +30,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "nrrejestracyjny"})})
+    @UniqueConstraint(columnNames = {"podatnikObj", "opisdlugi", "rok", "krajowa0zagraniczna1"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pojazdy.findAll", query = "SELECT m FROM Pojazdy m"),
-    @NamedQuery(name = "Pojazdy.findById", query = "SELECT m FROM Pojazdy m WHERE m.id = :id"),
-    @NamedQuery(name = "Pojazdy.findByAktywny", query = "SELECT m FROM Pojazdy m WHERE m.aktywny = :aktywny"),
-    @NamedQuery(name = "Pojazdy.findByOpismiejsca", query = "SELECT m FROM Pojazdy m WHERE m.nrrejestracyjny = :nrrejestracyjny"),
-    @NamedQuery(name = "Pojazdy.findByPodatnik", query = "SELECT m FROM Pojazdy m WHERE m.podatnikObj = :podatnik"),
-    @NamedQuery(name = "Pojazdy.countByPodatnik", query = "SELECT COUNT(d) FROM Pojazdy d WHERE d.podatnikObj = :podatnik")
+    @NamedQuery(name = "Delegacja.findAll", query = "SELECT m FROM Delegacja m"),
+    @NamedQuery(name = "Delegacja.findById", query = "SELECT m FROM Delegacja m WHERE m.id = :id"),
+    @NamedQuery(name = "Delegacja.findByAktywny", query = "SELECT m FROM Delegacja m WHERE m.aktywny = :aktywny AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
+    @NamedQuery(name = "Delegacja.findByOpisdlugi", query = "SELECT m FROM Delegacja m WHERE m.opisdlugi = :opisdlugi AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
+    @NamedQuery(name = "Delegacja.findByPodatnik", query = "SELECT m FROM Delegacja m WHERE m.podatnikObj = :podatnik AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
+    @NamedQuery(name = "Delegacja.countByPodatnik", query = "SELECT COUNT(m) FROM Delegacja m WHERE m.podatnikObj = :podatnik AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1")
 })
-public class Pojazdy implements Serializable {
+public class Delegacja implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,13 +54,13 @@ public class Pojazdy implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "nrrejestracyjny", nullable = false, length = 255)
-    private String nrrejestracyjny;
+    @Column(name = "opisdlugi", nullable = false, length = 255)
+    private String opisdlugi;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "nazwapojazdu", nullable = false, length = 255)
-    private String nazwapojazdu;
+    @Column(name = "opiskrotki", nullable = false, length = 255)
+    private String opiskrotki;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
@@ -69,18 +69,22 @@ public class Pojazdy implements Serializable {
     @Size(min = 1, max = 5)
     @Column(name = "nrkonta", nullable = false, length = 5)
     private String nrkonta;
+    @Column
+    private int rok;
+    @Column
+    private boolean krajowa0zagraniczna1;
 
-    public Pojazdy() {
+    public Delegacja() {
     }
 
-    public Pojazdy(Integer id) {
+    public Delegacja(Integer id) {
         this.id = id;
     }
 
-    public Pojazdy(Integer id, boolean aktywny, String opismiejsca) {
+    public Delegacja(Integer id, boolean aktywny, String opisdlugi) {
         this.id = id;
         this.aktywny = aktywny;
-        this.nrrejestracyjny = opismiejsca;
+        this.opisdlugi = opisdlugi;
     }
     
     public void uzupelnij(Podatnik podatnik, String numer) {
@@ -104,12 +108,12 @@ public class Pojazdy implements Serializable {
         this.aktywny = aktywny;
     }
 
-    public String getNrrejestracyjny() {
-        return nrrejestracyjny;
+    public String getOpisdlugi() {
+        return opisdlugi;
     }
 
-    public void setNrrejestracyjny(String nrrejestracyjny) {
-        this.nrrejestracyjny = nrrejestracyjny;
+    public void setOpisdlugi(String opisdlugi) {
+        this.opisdlugi = opisdlugi;
     }
 
     public Podatnik getPodatnikObj() {
@@ -128,12 +132,28 @@ public class Pojazdy implements Serializable {
         this.nrkonta = nrkonta;
     }
 
-    public String getNazwapojazdu() {
-        return nazwapojazdu;
+    public String getOpiskrotki() {
+        return opiskrotki;
     }
 
-    public void setNazwapojazdu(String nazwapojazdu) {
-        this.nazwapojazdu = nazwapojazdu;
+    public void setOpiskrotki(String opiskrotki) {
+        this.opiskrotki = opiskrotki;
+    }
+
+    public int getRok() {
+        return rok;
+    }
+
+    public void setRok(int rok) {
+        this.rok = rok;
+    }
+
+    public boolean isKrajowa0zagraniczna1() {
+        return krajowa0zagraniczna1;
+    }
+
+    public void setKrajowa0zagraniczna1(boolean krajowa0zagraniczna1) {
+        this.krajowa0zagraniczna1 = krajowa0zagraniczna1;
     }
     
     
@@ -149,10 +169,10 @@ public class Pojazdy implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pojazdy)) {
+        if (!(object instanceof Delegacja)) {
             return false;
         }
-        Pojazdy other = (Pojazdy) object;
+        Delegacja other = (Delegacja) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -161,7 +181,7 @@ public class Pojazdy implements Serializable {
 
     @Override
     public String toString() {
-        return nrrejestracyjny;
+        return opisdlugi;
     }
 
   

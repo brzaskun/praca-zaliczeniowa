@@ -18,7 +18,7 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class PojazdyZest  implements Serializable{
+public class DelegacjaZest implements Serializable{
     private static final long serialVersionUID = 1L;
     
     private Konto konto;
@@ -45,7 +45,7 @@ public class PojazdyZest  implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PojazdyZest other = (PojazdyZest) obj;
+        final DelegacjaZest other = (DelegacjaZest) obj;
         if (!Objects.equals(this.konto, other.konto)) {
             return false;
         }

@@ -6,6 +6,7 @@
 
 package beansFK;
 
+import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.MiejsceKosztowDAO;
@@ -13,6 +14,7 @@ import daoFK.PojazdyDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
+import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
@@ -126,6 +128,17 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
+    public static int dodajslownikDelegacjeKrajowe(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        nowekonto.setNazwapelna("Słownik delegacji krajowych");
+        nowekonto.setNazwaskrocona("Delegacje krajowe");
+        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+    }
+    
+    public static int dodajslownikDelegacjeZagraniczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        nowekonto.setNazwapelna("Słownik delegacji zagranicznych");
+        nowekonto.setNazwaskrocona("Delegacje zagraniczne");
+        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+    }
     private static int uzupelnijdaneslownika(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
@@ -227,7 +240,28 @@ public class PlanKontFKBean {
             return 0;
         }
     }
-    
+     public static int dodajelementyslownikaDelegacje(Konto kontomacierzyste, KontoDAOfk kontoDAO, DelegacjaDAO delegacjaDAO, WpisView wpisView, boolean krajowa0zagraniczna1) {
+        List<Delegacja> listadelegacje = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
+        if (listadelegacje != null) {
+            for (Delegacja p : listadelegacje) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(p.getOpisdlugi());
+                nowekonto.setNazwaskrocona(p.getOpiskrotki());
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+                p.setAktywny(true);
+                delegacjaDAO.edit(p);
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+    }
+     
     public static int aktualizujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 1);
         for (Konto p : kontamacierzysteZeSlownikiem) {
