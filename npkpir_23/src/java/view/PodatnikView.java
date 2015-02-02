@@ -1091,7 +1091,7 @@ public class PodatnikView implements Serializable {
     
     private void uzupelnijListyKont() {
         String p = wpisView.getPodatnikWpisu();
-        listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(p);
+        listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(wpisView);
         listaKontVAT = kontoDAOfk.findKontaVAT(p, wpisView.getRokWpisu());
         listakontoRZiS = kontoDAOfk.findKontaRZiS(p);
         listakontoRZiS.addAll(kontoDAOfk.findKontaGrupa3(p));

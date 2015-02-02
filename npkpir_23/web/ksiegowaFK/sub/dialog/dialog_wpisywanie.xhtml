@@ -71,7 +71,7 @@
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" modal="true" appendTo="@(body)"
               resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true" focus=":formwpisdokument:data1DialogWpisywanie"
               >
-        <p:ajax global="false" event="close" listener="#{dokfkView.resetujDokument()}" update=":formwpisdokument "/>
+        <p:ajax global="false" event="close" listener="#{dokfkView.resetujDokument()}" />
         <p:focus for="formwpisdokument">
         <h:form id="formwpisdokument" >
             
@@ -299,7 +299,7 @@
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px; height: 300px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
-                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="270">
+                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="260">
                     <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
@@ -437,7 +437,9 @@
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" />
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" onclick="r('formwpisdokument:vatRKhidden').click();return false;" accesskey="x" />
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
-                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" actionListener="#{dokfkView.resetujDokument}" update=":wpisywaniefooter, :formwpisdokument"  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" 
+                                 actionListener="#{dokfkView.resetujDokument}"  
+                                 onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" update=":formwpisdokument" style="display: none;"/>
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
