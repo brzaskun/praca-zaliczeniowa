@@ -1023,8 +1023,10 @@ private static final long serialVersionUID = 1L;
                     }
                 }
                 if (jestjuzwierszvat == false) {
+                    double vatodlicznenie = Z.z(vatEwidVat/2.0);
+                    double vatkoszt = Z.z(vatEwidVat - vatodlicznenie);
                     if (ewidencjaVatRK.isPaliwo()) {
-                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, Z.z(vatEwidVat/2.0), 1);
+                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatodlicznenie, 1);
                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat podl. odlicz.");
                     } else {
                         wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatEwidVat, 1);
@@ -1040,7 +1042,7 @@ private static final long serialVersionUID = 1L;
                         wierszdrugi.getStronaWn().setKonto(k);
                     }
                     if (ewidencjaVatRK.isPaliwo()) {
-                        Wiersz wiersztrzeci = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, Z.z(vatEwidVat/2.0), 1);
+                        Wiersz wiersztrzeci = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatkoszt, 1);
                         wiersztrzeci.setTabelanbp(selected.getTabelanbp());
                         wiersztrzeci.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                         wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
