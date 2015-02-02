@@ -63,7 +63,7 @@ public class MiejsceKosztowView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
         for (MiejsceKosztow p : miejscakosztow) {
             MiejsceKosztowBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow);
         }

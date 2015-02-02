@@ -63,7 +63,7 @@ public class PojazdyView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
         for (Pojazdy p : pojazdy) {
             PojazdyBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listapojazdy);
         }

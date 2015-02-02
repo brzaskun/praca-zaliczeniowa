@@ -1196,7 +1196,7 @@ private static final long serialVersionUID = 1L;
         try {
             //to znajdujemy polaczenie konta z klientem nazwa tego polaczenia to Kliencifk
             Kliencifk symbolSlownikowyKonta = kliencifkDAO.znajdzkontofk(selected.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
-            List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView.getPodatnikObiekt().getNazwapelna());
+            List<Konto> listakont = kontoDAOfk.findKontaNazwaPodatnik(symbolSlownikowyKonta.getNip(), wpisView);
             if (listakont == null || listakont.size() == 0) {
                 throw new Exception();
             }
