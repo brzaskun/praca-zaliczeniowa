@@ -212,8 +212,8 @@ var sprawdzczywyborkontaniejestshown = function() {
 var focusNaNowoDodanym = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
-        for (var nrkolejny in rzedy) {
-            var wybrany = $(rzedy[nrkolejny]).find('td').get(1);
+        var dlugosc = rzedy.length;
+            var wybrany = $(rzedy[dlugosc-1]).find('td').get(1);
             //console.log(wybrany);
             if (typeof wybrany !== 'undefined') {
                 if ($(wybrany.firstChild).val() == "") {
@@ -235,10 +235,7 @@ var focusNaNowoDodanym = function(source) {
 //                    }
                     return;
                 }
-            } else {
-                break;
-            }
-        }
+            } 
     } catch (e) {
 
     }

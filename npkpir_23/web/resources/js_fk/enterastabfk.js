@@ -45,7 +45,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         return false;
                     }
                 } else if (isTabKey(event) && toJestPoleKonta === true && typwiersza === "0" && wnlubma === "Wn") {
@@ -54,7 +53,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         return false;
                     }
                 } else if (isTabKey(event) && ominjednoklikniecie) {
@@ -64,7 +62,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         ominjednoklikniecie = false;
                         return false;
                 } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
@@ -72,7 +69,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         return false;
                 } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
                         console.log("wierszMa");
@@ -81,7 +77,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         return false;
                 } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 2) {
                         var isTabSuccessful = tab(true, event.shiftKey, $target);
@@ -90,7 +85,6 @@ var TabKeyDown;
                         event.preventDefault();
                         event.stopPropagation();
                         event.stopImmediatePropagation();
-                        pozazieleniajNoweTransakcje();
                         return false;
                 }
             }
