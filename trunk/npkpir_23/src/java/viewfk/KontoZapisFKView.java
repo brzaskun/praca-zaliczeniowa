@@ -31,6 +31,8 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.TreeNode;
+import pdf.PdfKontoZapisy;
+import pdf.PdfVAT;
 import view.WpisView;
 import waluty.Z;
 
@@ -416,6 +418,14 @@ public class KontoZapisFKView implements Serializable{
             return -1;
         } else {
             return 1;
+        }
+    }
+    
+    public void drukujPdfZapisyNaKoncie() {
+        try {
+            PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekontoNode);
+        } catch (Exception e) {
+
         }
     }
     

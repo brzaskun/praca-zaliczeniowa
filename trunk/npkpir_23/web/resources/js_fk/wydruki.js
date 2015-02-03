@@ -10,6 +10,10 @@ var wydrukinwestycja = function(kto){
     //document.getElementById("form:pkpirwysylka").style.display='inline';
 };
 
+var wydrukzapisynakoncie = function(kto){
+    window.open('../wydruki/zapiskonto-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
+
 var wydrukzbiorcze = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
     document.getElementById("akordeon:form:pkpirwysylka").style.display='inline';

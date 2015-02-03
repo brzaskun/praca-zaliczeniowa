@@ -1,0 +1,265 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package pdf;
+
+import beansFK.DokFKTransakcjeBean;
+import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import beansPdf.PdfHeaderFooter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfTable;
+import dao.EwidencjeVatDAO;
+import embeddable.EVatViewPola;
+import embeddable.Kwartaly;
+import embeddable.Parametr;
+import embeddablefk.TreeNodeExtended;
+import entity.Ewidencjevat;
+import entity.Podatnik;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.Singleton;
+import view.WpisView;
+
+/**
+ *
+ * @author Osito
+ */
+@Singleton
+public class PdfKontoZapisy {
+
+    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, TreeNodeExtended<Konto> wybranekontoNode)  throws DocumentException, FileNotFoundException, IOException {
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        Konto konto = (Konto) wybranekontoNode.getData();
+        try {
+            List<Parametr> param = pod.getVatokres();
+            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            int liczydlo = 0;
+            PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+            writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
+            writer.setPageEvent(headerfoter);
+            document.addTitle("Zapisy na koncie "+konto.getPelnynumer());
+            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+            document.addSubject("Wydruk zapisów na koncie");
+            document.addKeywords("VAT, PDF");
+            document.addCreator("Grzegorz Grzelczyk");
+            document.open();
+            BaseFont helvetica = null;
+            try {
+                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            } catch (IOException ex) {
+                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+            font = new Font(helvetica, 8);
+            document.setPageSize(PageSize.A4);
+            PdfPTable table = new PdfPTable(14);
+            table.setWidths(new int[]{1, 2, 2, 2, 1, 4, 2, 2, 2, 2, 2, 2, 1, 2});
+            table.setWidthPercentage(98);
+            try {
+                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
+                table.addCell(ustawfraze("wydruk zapisów na koncie "+konto.getPelnynumer(), 3, 0));
+                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 5, 0));
+                table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
+
+                table.addCell(ustawfraze("lp", 0, 1));
+                table.addCell(ustawfraze("Data zdarz gosp.", 0, 1));
+                table.addCell(ustawfraze("Data dok gosp.", 0, 1));
+                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
+                table.addCell(ustawfraze("Wiersz", 0, 1));
+                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
+                table.addCell(ustawfraze("Kurs", 0, 1));
+                table.addCell(ustawfraze("Tabela", 0, 1));
+                table.addCell(ustawfraze("Wn", 0, 1));
+                table.addCell(ustawfraze("Wn PLN", 0, 1));
+                table.addCell(ustawfraze("Ma", 0, 1));
+                table.addCell(ustawfraze("Ma PLN", 0, 1));
+                table.addCell(ustawfraze("Waluta", 0, 1));
+                table.addCell(ustawfraze("Konto przec.", 0, 1));
+
+                table.addCell(ustawfrazeAlign("1", "center", 6));
+                table.addCell(ustawfrazeAlign("2", "center", 6));
+                table.addCell(ustawfrazeAlign("3", "center", 6));
+                table.addCell(ustawfrazeAlign("4", "center", 6));
+                table.addCell(ustawfrazeAlign("5", "center", 6));
+                table.addCell(ustawfrazeAlign("6", "center", 6));
+                table.addCell(ustawfrazeAlign("7", "center", 6));
+                table.addCell(ustawfrazeAlign("8", "center", 6));
+                table.addCell(ustawfrazeAlign("9", "center", 6));
+                table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
+                table.addCell(ustawfrazeAlign("12", "center", 6));
+                table.addCell(ustawfrazeAlign("13", "center", 6));
+                table.addCell(ustawfrazeAlign("14", "center", 6));
+
+                table.addCell(ustawfrazeAlign("1", "center", 6));
+                table.addCell(ustawfrazeAlign("2", "center", 6));
+                table.addCell(ustawfrazeAlign("3", "center", 6));
+                table.addCell(ustawfrazeAlign("4", "center", 6));
+                table.addCell(ustawfrazeAlign("5", "center", 6));
+                table.addCell(ustawfrazeAlign("6", "center", 6));
+                table.addCell(ustawfrazeAlign("7", "center", 6));
+                table.addCell(ustawfrazeAlign("8", "center", 6));
+                table.addCell(ustawfrazeAlign("9", "center", 6));
+                table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
+                table.addCell(ustawfrazeAlign("12", "center", 6));
+                table.addCell(ustawfrazeAlign("13", "center", 6));
+                table.addCell(ustawfrazeAlign("14", "center", 6));
+
+                table.setHeaderRows(3);
+                table.setFooterRows(1);
+            } catch (IOException ex) {
+                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Integer i = 1;
+            for (StronaWiersza rs : kontozapisy) {
+                table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
+                table.addCell(ustawfrazeAlign(rs.getWiersz().getDataWalutyWiersza(), "center", 7));
+                table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "center", 7));
+                table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(rs.getWiersz().getIdporzadkowy()), "center", 7));
+                table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
+                if (rs.getWiersz().getTabelanbp().getKurssredni()==0) {
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
+                    table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
+                }
+                if (rs.getWnma().equals("Wn")) {
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
+                }
+                table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), "center", 7));
+                if (rs.getWnma().equals("Wn") && rs.getWiersz().getStronaMa() != null) {
+                    table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "right", 7));
+                } else if (rs.getWnma().equals("Ma") && rs.getWiersz().getStronaWn() != null) {
+                    table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "right", 7));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                }
+                i++;
+            }
+            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+            document.add(table);
+            document.close();
+
+            //Msg.msg("i","Wydrukowano ewidencje","form:messages");
+        } catch (Exception e) {
+        }
+    }
+    
+    public static void main(String[] args) {
+        try {
+            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/zapiskonto.pdf"));
+            document.addTitle("Zapisy na koncie");
+            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+            document.addSubject("Wydruk zapisów na koncie");
+            document.addKeywords("VAT, PDF");
+            document.addCreator("Grzegorz Grzelczyk");
+            document.open();
+            BaseFont helvetica = null;
+            Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+            font = new Font(helvetica, 8);
+            document.setPageSize(PageSize.A4);
+            PdfPTable table = new PdfPTable(13);
+            table.setWidths(new int[]{1, 2, 2, 1, 4, 2, 2, 2, 2, 2, 2, 1, 2});
+            table.setWidthPercentage(98);
+            try {
+                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0));
+                table.addCell(ustawfraze("wydruk zapisów na koncie ", 3, 0));
+                table.addCell(ustawfraze("firma: nazwafirmy" , 5, 0));
+                table.addCell(ustawfraze("za okres: 12/2015", 2, 0));
+                
+                table.addCell(ustawfraze("lp", 0, 1));
+                table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 1));
+                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
+                table.addCell(ustawfraze("Wiersz", 0, 1));
+                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
+                table.addCell(ustawfraze("Kurs", 0, 1));
+                table.addCell(ustawfraze("Tabela", 0, 1));
+                table.addCell(ustawfraze("Wn", 0, 1));
+                table.addCell(ustawfraze("Wn PLN", 0, 1));
+                table.addCell(ustawfraze("Ma", 0, 1));
+                table.addCell(ustawfraze("Ma PLN", 0, 1));
+                table.addCell(ustawfraze("Waluta", 0, 1));
+                table.addCell(ustawfraze("Konto przec.", 0, 1));
+
+                
+                table.addCell(ustawfrazeAlign("1", "center", 6));
+                table.addCell(ustawfrazeAlign("2", "center", 6));
+                table.addCell(ustawfrazeAlign("3", "center", 6));
+                table.addCell(ustawfrazeAlign("4", "center", 6));
+                table.addCell(ustawfrazeAlign("5", "center", 6));
+                table.addCell(ustawfrazeAlign("6", "center", 6));
+                table.addCell(ustawfrazeAlign("7", "center", 6));
+                table.addCell(ustawfrazeAlign("8", "center", 6));
+                table.addCell(ustawfrazeAlign("9", "center", 6));
+                table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
+                table.addCell(ustawfrazeAlign("12", "center", 6));
+                table.addCell(ustawfrazeAlign("13", "center", 6));
+
+                table.addCell(ustawfrazeAlign("1", "center", 6));
+                table.addCell(ustawfrazeAlign("2", "center", 6));
+                table.addCell(ustawfrazeAlign("3", "center", 6));
+                table.addCell(ustawfrazeAlign("4", "center", 6));
+                table.addCell(ustawfrazeAlign("5", "center", 6));
+                table.addCell(ustawfrazeAlign("6", "center", 6));
+                table.addCell(ustawfrazeAlign("7", "center", 6));
+                table.addCell(ustawfrazeAlign("8", "center", 6));
+                table.addCell(ustawfrazeAlign("9", "center", 6));
+                table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
+                table.addCell(ustawfrazeAlign("12", "center", 6));
+                table.addCell(ustawfrazeAlign("13", "center", 6));
+
+                table.setHeaderRows(3);
+                table.setFooterRows(1);
+            } catch (Exception e) {
+
+            }
+            document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+            document.add(table);
+            document.close();
+        } catch (Exception e) {
+            
+        }
+    }
+  
+}

@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.lowagie.text.pdf.PdfTable;
+import comparator.EVatViewPolacomparator;
 import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
 import embeddable.Kwartaly;
@@ -57,7 +58,7 @@ public class PdfVAT {
             //problem kwartalu
             Ewidencjevat lista;
             try {
-                    lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
             } catch (Exception e) {
                 Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
@@ -153,11 +154,16 @@ public class PdfVAT {
                 }
 
                 ArrayList<EVatViewPola> ew = lista.getEwidencje().get(p);
+                int size = ew.size();
+                EVatViewPola polesuma = ew.get(size-1);
+                ew.remove(polesuma);
+                Collections.sort(ew, new EVatViewPolacomparator());
+                ew.add(polesuma);
                 Integer i = 1;
                 for (EVatViewPola rs : ew) {
                     table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
-                    table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 6));
-                    table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+                    table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
                     table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
                     try {
                         table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
@@ -172,9 +178,9 @@ public class PdfVAT {
                     }
 
                     table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 6));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 6));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 6));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 7));
                     i++;
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
@@ -313,8 +319,8 @@ public class PdfVAT {
             Integer i = 1;
             for (EVatViewPola rs : ew) {
                 table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
-                table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 6));
-                table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 6));
+                table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+                table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
                 table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
                 try {
                     table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
@@ -329,9 +335,9 @@ public class PdfVAT {
                 }
 
                 table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 6));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 6));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 6));
+                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 7));
                 i++;
             }
             return table;

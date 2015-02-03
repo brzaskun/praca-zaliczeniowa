@@ -1020,11 +1020,12 @@ private static final long serialVersionUID = 1L;
                     }
                 }
                 if (jestjuzwierszvat == false) {
-                    double vatodlicznenie = Z.z(vatEwidVat/2.0);
-                    double vatkoszt = Z.z(vatEwidVat - vatodlicznenie);
+                    double vatodliczenie = Z.z(vatEwidVat/2.0);
+                    double vatkoszt = Z.z(vatEwidVat - vatodliczenie);
                     if (ewidencjaVatRK.isPaliwo()) {
-                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatodlicznenie, 1);
+                        wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatodliczenie, 1);
                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat podl. odlicz.");
+                        ewidencjaVatRK.setVat(vatodliczenie);
                     } else {
                         wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatEwidVat, 1);
                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
