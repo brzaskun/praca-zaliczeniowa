@@ -299,7 +299,7 @@
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px; height: 300px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
-                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="260">
+                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" paginator="true" rows="10" paginatorPosition="top">
                     <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
@@ -351,7 +351,7 @@
                     <p:column headerText="konto Wn" width="90" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                        minQueryLength="1" converter="KontoConv" queryDelay="10" queryDeletionDelay="10" cache="true"
+                                        minQueryLength="1" converter="KontoConv" queryDelay="1" queryDeletionDelay="1"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
@@ -384,8 +384,8 @@
                     </p:column>-->
                     <p:column headerText="konto Ma" width="90" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontView.complete}" rendered="#{loop.stronaMa != null}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true"  
-                                        minQueryLength="1" converter="KontoConv"  queryDelay="10" queryDeletionDelay="10"  cache="true"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" queryDeletionDelay="1"
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
@@ -400,12 +400,12 @@
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
                         <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"/>
                     </p:column>
-                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
+<!--                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                     <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.obliczsaldo(loop) : null) : null }"
                                   style="margin-left: 5px; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                </p:column>
+                </p:column>-->
                     <p:column width="1" >
                         <h:outputText id="idwiersza" value="#{loop.typWiersza}" style="display: none;" />
                     </p:column><!--
