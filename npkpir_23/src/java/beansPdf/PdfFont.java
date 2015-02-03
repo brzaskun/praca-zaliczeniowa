@@ -62,6 +62,8 @@ public class PdfFont {
 
     public static String formatujliczby(Double wsad) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
         try {
             String moneyString = formatter.format(wsad);
             return moneyString;
