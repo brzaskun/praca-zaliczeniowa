@@ -26,12 +26,13 @@ import view.WpisView;
 public class UkladBRView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<UkladBR> lista;
+    private List<UkladBR> listaWzorcowy;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
    
     @Inject private UkladBR selected;
-    private String nowy;
+    private String nazwanowegoukladu;
     @Inject private UkladBRDAO ukladBRDAO;
 
     public UkladBRView() {
@@ -41,7 +42,8 @@ public class UkladBRView implements Serializable{
     @PostConstruct
     private void init() {
        try {
-            lista = ukladBRDAO.findAll();
+            lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+            listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
         } catch (Exception e) {} 
     }
     
@@ -54,15 +56,39 @@ public class UkladBRView implements Serializable{
             UkladBR ukladBR = new UkladBR();
             ukladBR.setPodatnik("Wzorcowy");
             ukladBR.setRok(wpisView.getRokWpisuSt());
-            ukladBR.setUklad(nowy);
+            ukladBR.setUklad(nazwanowegoukladu);
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
-            nowy = "";
+            nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
+    
+    public void implementuj() {
+        try {
+            UkladBR ukladBR = serialclone.SerialClone.clone(pobierzzlistyWzorcowy());
+            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+            ukladBR.setRok(wpisView.getRokWpisuSt());
+            ukladBRDAO.dodaj(ukladBR);
+            lista.add(ukladBR);
+            nazwanowegoukladu = null;
+            Msg.msg("i", "Dodano nowy układ");
+        } catch (Exception e) {
+            Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
+        }
+    }
+    
+    private UkladBR pobierzzlistyWzorcowy() {
+        for (UkladBR p : listaWzorcowy) {
+            if (p.getUklad().equals(nazwanowegoukladu)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 
     public void usun(UkladBR ukladBR) {
         try {
@@ -83,12 +109,12 @@ public class UkladBRView implements Serializable{
         this.selected = selected;
     }
     
-    public String getNowy() {
-        return nowy;
+    public String getNazwanowegoukladu() {
+        return nazwanowegoukladu;
     }
     
-    public void setNowy(String nowy) {
-        this.nowy = nowy;
+    public void setNazwanowegoukladu(String nazwanowegoukladu) {
+        this.nazwanowegoukladu = nazwanowegoukladu;
     }
 
     public List<UkladBR> getLista() {
@@ -116,7 +142,18 @@ public class UkladBRView implements Serializable{
         this.ukladBRDAO = ukladBRDAO;
     }
     
+    public List<UkladBR> getListaWzorcowy() {
+        return listaWzorcowy;
+    }
+
+    public void setListaWzorcowy(List<UkladBR> listaWzorcowy) {
+        this.listaWzorcowy = listaWzorcowy;
+    }
+    
     
 //</editor-fold>
+
+   
+    
     
 }

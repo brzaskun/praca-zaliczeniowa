@@ -41,7 +41,6 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
-import entityfk.Cechazapisu;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -52,6 +51,7 @@ import entityfk.Kontopozycja;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.PozycjaRZiS;
+import static entityfk.PozycjaRZiSBilans_.podatnik;
 import entityfk.RMK;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -64,7 +64,6 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.persistence.Cache;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import view.WpisView;
@@ -1255,6 +1254,10 @@ public class SessionFacade<T> implements Serializable{
 
     public int findMaxLevelPodatnik(String podatnik, int rokWpisu) {
         return (int) em.createNamedQuery("Konto.findByMaxLevelPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rokWpisu).getSingleResult();
+    }
+
+    public List<UkladBR> findUkladBRPodatnik(String nazwapelna) {
+        return em.createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", nazwapelna).getResultList();
     }
 
         

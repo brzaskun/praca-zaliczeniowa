@@ -76,7 +76,7 @@ public class CitView implements Serializable {
     private TreeNodeExtended pobierzukladprzegladRZiS() {
        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
        try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad("Podstawowy", "Wzorcowy", wpisView.getRokWpisuSt()));
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad("Podstawowy", wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt()));
             if (pozycje.isEmpty()) {
                 Msg.msg("i", "Brak zdefiniowanych pozycjiw RZiS");
             }
