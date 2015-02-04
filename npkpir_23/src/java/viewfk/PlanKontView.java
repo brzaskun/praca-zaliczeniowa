@@ -429,10 +429,53 @@ public class PlanKontView implements Serializable {
         }
     }
      
+    public void implementacjaJednegoKontadoWzorcowychZAnalitykom() {
+        if (selectednode != null) {
+            try {
+                Konto konto = (Konto) selectednode.getData();
+                dodajpojedynczekoto(konto, "Wzorcowy");
+                List<Konto> potomne = kontoDAOfk.findKontaPotomne(wpisView, konto.getPelnynumer(),konto.getBilansowewynikowe());
+                for (Konto r : potomne) {
+                    dodajpojedynczekotoWzorcowy(r, konto.getPelnynumer());
+                }
+                wykazkontwzor = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", wpisView.getRokWpisuSt());
+                rootwzorcowy = rootInit(wykazkontwzor);
+                rozwinwszystkie(rootwzorcowy);
+                Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta z analityką do Wzorcowych");
+            } catch (Exception e1) {
+                Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+            }
+        } else {
+            Msg.msg("w", "Coś poszło nie tak. Lista kont do zaimplementowania jest pusta.");
+        }
+    }
+     
      private void dodajpojedynczekoto(Konto konto, String podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
             Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
+            konto.setMacierzysty(macierzyste.getId());
+            macierzyste.setMapotomkow(true);
+            macierzyste.setBlokada(true);
+            kontoDAOfk.edit(macierzyste);
+        } else {
+            konto.setMapotomkow(false);
+            konto.setBlokada(false);
+        }
+        try {
+            kontoDAOfk.dodaj(konto);
+        } catch (RollbackException e) {
+
+        } catch (PersistenceException x) {
+            Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
+        } catch (Exception ef) {
+        }
+     }
+     
+     private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
+        konto.setPodatnik("Wzorcowy");
+        if (!konto.getMacierzyste().equals("0")) {
+            Konto macierzyste = kontoDAOfk.findKontoWzorcowy(pelnynumer);
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);

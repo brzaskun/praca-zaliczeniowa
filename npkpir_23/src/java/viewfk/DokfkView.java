@@ -207,6 +207,8 @@ private static final long serialVersionUID = 1L;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
+            selected.setwTrakcieEdycji(false);
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView);
@@ -221,11 +223,6 @@ private static final long serialVersionUID = 1L;
             wlaczZapiszButon = false;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
-        }
-        try {
-            selected.setwTrakcieEdycji(false);
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-        } catch (Exception e1) {
         }
         try {
             Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -1015,17 +1012,20 @@ private static final long serialVersionUID = 1L;
                         if (p.getLpmacierzystego() == wierszpierwszy.getIdporzadkowy()) {
                             if (p.getStronaWn().getKonto().getZwyklerozrachszczegolne().equals("vat")) {
                                 jestjuzwierszvat = true;
+                                break;
                             }
                         }
                     }
                 }
+                double vatodliczenie = Z.z(vatEwidVat/2.0);
+                double vatkoszt = Z.z(vatEwidVat - vatodliczenie);
+                if (ewidencjaVatRK.isPaliwo()) {
+                    ewidencjaVatRK.setVat(vatodliczenie);
+                }
                 if (jestjuzwierszvat == false) {
-                    double vatodliczenie = Z.z(vatEwidVat/2.0);
-                    double vatkoszt = Z.z(vatEwidVat - vatodliczenie);
                     if (ewidencjaVatRK.isPaliwo()) {
                         wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatodliczenie, 1);
                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat podl. odlicz.");
-                        ewidencjaVatRK.setVat(vatodliczenie);
                     } else {
                         wierszdrugi = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatEwidVat, 1);
                         wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
