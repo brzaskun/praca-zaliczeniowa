@@ -41,22 +41,22 @@ public class PlanKontJSView implements Serializable {
 
     @PostConstruct
     private void init() {
-            if (wpisView instanceof WpisView) {
-            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            opiskonta = "";
-            pelnynumerkonta = "";
-            if (wykazkont != null) {
-                for (Konto t : wykazkont) {
-                    if (!t.getNrkonta().equals("0")) {
-                        opisKontaLista.add(t.getNazwaskrocona());
-                        opiskonta = opiskonta + t.getNazwaskrocona() + ",";
-                        pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
-                    }
-                }
-            } else {
-                Msg.msg("e", "Nie zdefiniowanu planu kont dla firmy");
-            }
-        }
+//            if (wpisView instanceof WpisView) {
+//            List<Konto> wykazkont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+//            opiskonta = "";
+//            pelnynumerkonta = "";
+//            if (wykazkont != null) {
+//                for (Konto t : wykazkont) {
+//                    if (!t.getNrkonta().equals("0")) {
+//                        opisKontaLista.add(t.getNazwaskrocona());
+//                        opiskonta = opiskonta + t.getNazwaskrocona() + ",";
+//                        pelnynumerkonta = pelnynumerkonta + t.getPelnynumer() + ",";
+//                    }
+//                }
+//            } else {
+//                Msg.msg("e", "Nie zdefiniowanu planu kont dla firmy");
+//            }
+//        }
     }
     
     public List<String> complete(String query) {
