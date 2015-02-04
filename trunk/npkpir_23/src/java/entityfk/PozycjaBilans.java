@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @DiscriminatorValue(value = "PozycjaBilans")
 @NamedQueries({
     @NamedQuery(name = "PozycjaBilans.findAll", query = "SELECT p FROM PozycjaBilans p"),
+    @NamedQuery(name = "PozycjaBilans.Delete", query = "DELETE FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
+    @NamedQuery(name = "PozycjaBilans.findByMaxLevelPodatnikAktywa", query = "SELECT MAX(p.level) FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok  AND p.przychod0koszt1 = '0'"),
+    @NamedQuery(name = "PozycjaBilans.findByMaxLevelPodatnikPasywa", query = "SELECT MAX(p.level) FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok  AND p.przychod0koszt1 = '1'"),
     @NamedQuery(name = "PozycjaBilans.findByLp", query = "SELECT p FROM PozycjaBilans p WHERE p.lp = :lp"),
     @NamedQuery(name = "PozycjaBilans.findByFormula", query = "SELECT p FROM PozycjaBilans p WHERE p.formula = :formula"),
     @NamedQuery(name = "PozycjaBilans.findByKwota", query = "SELECT p FROM PozycjaBilans p WHERE p.kwota = :kwota"),

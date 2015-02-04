@@ -50,6 +50,7 @@ import entityfk.Konto;
 import entityfk.Kontopozycja;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
+import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import static entityfk.PozycjaRZiSBilans_.podatnik;
 import entityfk.RMK;
@@ -1260,6 +1261,32 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("UkladBR.findByPodatnik").setParameter("podatnik", nazwapelna).getResultList();
     }
 
-        
+    public void findRemoveRzisuklad(String uklad, String podatnik, String rok) {
+        em.createNamedQuery("PozycjaRZiS.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+    }
+
+    public void findRemoveBilansuklad(String uklad, String podatnik, String rok) {
+        em.createNamedQuery("PozycjaBilans.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+    }
+
+    public int findMaxLevelRzisuklad(String uklad, String podatnik, String rok) {
+        return (int) em.createNamedQuery("PozycjaRZiS.findByMaxLevelPodatnik").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    }
+    
+    public int findMaxLevelBilansukladAktywa(String uklad, String podatnik, String rok) {
+        return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    }
+
+    public int findMaxLevelBilansukladPasywa(String uklad, String podatnik, String rok) {
+        return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    }   
+
+    public PozycjaRZiS findPozycjaRZiSLP(int lp) {
+        return (PozycjaRZiS) em.createNamedQuery("PozycjaRZiS.findByLp").setParameter("lp", lp).getSingleResult();
+    }
+
+    public PozycjaBilans findPozycjaBilansLP(int lp) {
+        return (PozycjaBilans) em.createNamedQuery("PozycjaBilans.findByLp").setParameter("lp", lp).getSingleResult();
+    }
   
 }

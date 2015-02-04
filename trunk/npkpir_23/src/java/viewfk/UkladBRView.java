@@ -4,7 +4,13 @@
  */
 package viewfk;
 
+import daoFK.PozycjaBilansDAO;
+import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
+import entityfk.Konto;
+import entityfk.PozycjaBilans;
+import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,10 +36,16 @@ public class UkladBRView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
-   
-    @Inject private UkladBR selected;
+    @Inject
+    private UkladBR selected;
     private String nazwanowegoukladu;
-    @Inject private UkladBRDAO ukladBRDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    @Inject
+    private PozycjaRZiSDAO pozycjaRZiSDAO;
+    @Inject
+    private PozycjaBilansDAO pozycjaBilansDAO;
+    
 
     public UkladBRView() {
         lista = new ArrayList<>();
@@ -72,6 +84,8 @@ public class UkladBRView implements Serializable{
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBRDAO.dodaj(ukladBR);
+            implementujRZiS(pobierzzlistyWzorcowy());
+            implementujBilans(pobierzzlistyWzorcowy());
             lista.add(ukladBR);
             nazwanowegoukladu = null;
             Msg.msg("i", "Dodano nowy układ");
@@ -94,9 +108,36 @@ public class UkladBRView implements Serializable{
         try {
             ukladBRDAO.destroy(ukladBR);
             lista.remove(ukladBR);
+            pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
+            pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
             Msg.msg("i", "Usunięto wybrany układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
+        }
+    }
+    
+     private void implementujRZiS(UkladBR ukladBR) {
+        List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
+        List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje);
+        int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevel(pozycje, macierzyste,i);
+        }
+        System.out.println("Kopiuje");
+    }
+
+    private void implementujBilans(UkladBR ukladBR) {
+        List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
+        List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje);
+        int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladBR);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevelB(pozycje, macierzyste,i);
+        }
+        pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
+        macierzyste = skopiujlevel0B(pozycje);
+        maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevelB(pozycje, macierzyste,i);
         }
     }
     
@@ -153,6 +194,105 @@ public class UkladBRView implements Serializable{
     
 //</editor-fold>
 
+    private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje) {
+        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+        for (PozycjaRZiS p : pozycje) {
+            if (p.getLevel()==0) {
+                PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                r.setPodatnik(wpisView.getPodatnikWpisu());
+                r.setRok(wpisView.getRokWpisuSt());
+                try {
+                    pozycjaRZiSDAO.dodaj(r);
+                } catch (Exception e) {
+                    
+                }
+                macierzyste.add(r);
+            }
+        }
+        return macierzyste;
+    }
+
+    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i) {
+         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+        for (PozycjaRZiS p : pozycje) {
+            if (p.getLevel()==i) {
+                try {
+                    PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik(wpisView.getPodatnikWpisu());
+                    r.setRok(wpisView.getRokWpisuSt());
+                    r.setLp(null);
+                    PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
+                    r.setMacierzysty(macierzyste.getLp());
+                    pozycjaRZiSDAO.dodaj(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {
+                    
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+
+     private PozycjaRZiS wyszukajmacierzyste(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
+        PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
+        for (PozycjaRZiS p : macierzystelista) {
+            if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
+                return p;
+            }
+        }
+        return null;
+    }
+   
+    private List<PozycjaBilans> skopiujlevel0B(List<PozycjaBilans> pozycje) {
+        List<PozycjaBilans> macierzyste = new ArrayList<>();
+        for (PozycjaBilans p : pozycje) {
+            if (p.getLevel()==0) {
+                PozycjaBilans r = serialclone.SerialClone.clone(p);
+                r.setPodatnik(wpisView.getPodatnikWpisu());
+                r.setRok(wpisView.getRokWpisuSt());
+                try {
+                    pozycjaRZiSDAO.dodaj(r);
+                } catch (Exception e) {
+                    
+                }
+                macierzyste.add(r);
+            }
+        }
+        return macierzyste;
+    }
+
+    private List<PozycjaBilans> skopiujlevelB(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i) {
+         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+        for (PozycjaBilans p : pozycje) {
+            if (p.getLevel()==i) {
+                try {
+                    PozycjaBilans r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik(wpisView.getPodatnikWpisu());
+                    r.setRok(wpisView.getRokWpisuSt());
+                    r.setLp(null);
+                    PozycjaBilans macierzyste = wyszukajmacierzysteB(p, macierzystelista);
+                    r.setMacierzysty(macierzyste.getLp());
+                    pozycjaBilansDAO.dodaj(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {
+                    
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+    
+    
+    private PozycjaBilans wyszukajmacierzysteB(PozycjaBilans macierzyste, List<PozycjaBilans> macierzystelista) {
+        PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(macierzyste.getMacierzysty());
+        for (PozycjaBilans p : macierzystelista) {
+            if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
+                return p;
+            }
+        }
+        return null;
+    }
+   
    
     
     
