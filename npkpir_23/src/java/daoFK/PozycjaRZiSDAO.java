@@ -43,7 +43,16 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
             return null;
         }
    }
-     public  List<PozycjaRZiS> findRzisuklad(UkladBR rzisuklad){
+    
+    public  PozycjaRZiS findRzisLP(int lp){
+        try {
+            return sessionFacade.findPozycjaRZiSLP(lp);
+        } catch (Exception e) {
+            return null;
+        }
+   }
+      
+    public  List<PozycjaRZiS> findRzisuklad(UkladBR rzisuklad){
         try {
             return sessionFacade.findUkladBR(rzisuklad);
         } catch (Exception e) {
@@ -58,5 +67,21 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
             return null;
         }
    }
+
+    public void findRemoveRzisuklad(UkladBR ukladBR) {
+        try {
+            sessionFacade.findRemoveRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+        } catch (Exception e) {
+        }
+    }
+
+    public int findMaxLevelPodatnik(UkladBR ukladBR) {
+        try {
+            return sessionFacade.findMaxLevelRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
+        } catch (Exception e) {
+        }
+        return 0;
+    }
+    
     
 }
