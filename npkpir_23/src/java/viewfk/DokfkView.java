@@ -489,6 +489,11 @@ private static final long serialVersionUID = 1L;
 
                 }
             }
+        } else if (wiersz.getTypWiersza() == 0)  {
+            double roznicawwierszu = Z.z(kwotanowa - wiersz.getStronaMa().getKwota());
+            if (roznicawwierszu != 0) {
+                
+            }
         }
     }
     //sprawdza czy wiersz po stronie wn to piatka z kwotami takimi samymi po stronie wn i ma
@@ -1652,6 +1657,18 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void wybranoWierszMsg() {
         Msg.msg("Wybrano wiesz do edycji lp: " + wybranyWiersz.getIdporzadkowy());
+    }
+    
+    public void usunWskazanyWierszWymus() {
+        if (wybranyWiersz != null) {
+            for (Iterator it = selected.getEwidencjaVAT().iterator();it.hasNext();) {
+                EVatwpisFK p = (EVatwpisFK) it.next();
+                    if (p.getWiersz() == wybranyWiersz) {
+                        it.remove();
+                    }
+                }
+            selected.getListawierszy().remove(wybranyWiersz);
+        }
     }
 
     public void usunWskazanyWiersz() {

@@ -295,6 +295,8 @@
             <div style="height: 340px;">
                 <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
                     <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
+                    <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
+                                actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
                 <!--                poszczególne wiersze-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px; height: 300px;" 
@@ -368,7 +370,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}" valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}"
                                         >
-                            <p:ajax global="false" event="blur" partialSubmit="true"/>
+                            <p:ajax global="false" event="blur" partialSubmit="true"  />
                         </pe:inputNumber> 
                     </p:column>
                     <p:column headerText="kwota PLN" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
@@ -407,7 +409,7 @@
                     </h:outputText>
                 </p:column>-->
                     <p:column width="1" >
-                        <h:outputText id="idwiersza" value="#{loop.typWiersza}" style="display: none;" />
+                        <h:outputText id="idwiersza" value="#{loop.typWiersza}" />
                     </p:column><!--
                     <p:column  width="3">
                         <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
