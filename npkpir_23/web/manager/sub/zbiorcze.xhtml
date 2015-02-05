@@ -19,13 +19,13 @@
     <p:accordionPanel id="akordeon" value="#{zUSStawkiZbiorczeView.listapodatnikow}" var="podatnik" style="max-width: 700px;" >
 
         <p:tab title="#{podatnik.nazwisko} #{podatnik.imie}">
-            <h:form >
+            <h:form id="formzus">
                 <p:panelGrid columns="4" style="width: 100%; max-width: 700px;">
                     <p:dataTable value="#{podatnik.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" paginatorPosition="top" pageLinks="12" rows="12"
                                  sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 
                                  selection="#{zUSStawkiZbiorczeView.zusstawki}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                                  rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
-                        <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc(podatnik.zusparametr)}" update="@form"/>       
+                        <p:ajax event="rowSelect" listener="#{zUSStawkiZbiorczeView.wybranowiadomosc(podatnik.zusparametr)}" update=":akordeon:formwartosci, :akordeon:formbuttony"/>       
                         <f:facet name="header">
                             <h:outputText value="Lista wprowadzonych danych za okresy rozliczeniowe"/>
                         </f:facet>
@@ -68,18 +68,20 @@
                         <br/>
                     </p:dataTable>
                 </p:panelGrid>
+            </h:form>
+            <h:form id="formwartosci">
                 <p:panel header="Wprowadź parametry aktualne" style="width: 100%; max-width: 700px;"/>
                 <p:panelGrid id="parametryp" columns="4" >
                     <f:ajax>
                         <h:outputText value="rok: "/>
                         <p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.rok}" id="rokzus">
                             <f:selectItems value="#{Roki.rokiList}"/>
-                            <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update="@form"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update=":akordeon:formbuttony"/>
                         </p:selectOneMenu>
                         <h:outputText value="miesiąc: "/>
                         <p:selectOneMenu value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zusstawkiPK.miesiac}" id="miesiaczus">
                             <f:selectItems value="#{Mce.mceList}" />
-                            <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update="@form"/>
+                            <p:ajax event="change" partialSubmit="true" listener="#{zUSStawkiZbiorczeView.zonglerkaPrzyciskamiDodajEdytuj(podatnik.zusparametr)}" update=":akordeon:formbuttony"/>
                         </p:selectOneMenu>
                         <h:outputText value="kwota zus51 z chor.: "/>
                         <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.zus51ch}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="," thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
@@ -99,18 +101,21 @@
                         <h:outputText value="kwota PIT4: "/>
                         <pe:inputNumber value="#{zUSStawkiZbiorczeView.wprowadzaniezusstawki.pit4}" symbol=" zł" style="width: 120px; text-align: right;" symbolPosition="s" decimalSeparator="," thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" >
                         </pe:inputNumber>
+                        
                     </f:ajax>
                 </p:panelGrid>
+                </h:form>
+            <h:form id="formbuttony">
                 <br/>
                 <p:panelGrid columns="5" style="column-width: 350px; width: 100%; max-width: 700px;  text-align: center;">
                     <p:outputPanel layout="box">
-                        <p:commandButton action="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 100px;" update="@form" rendered="#{zUSStawkiZbiorczeView.pokazButtonUsun}"/>
-                        <p:commandButton id="dodajbutton" action="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 100px;" update="@form" rendered="#{!zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
-                        <p:commandButton id="edytujbutton" action="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 100px;" update="@form" rendered="#{zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
+                        <p:commandButton actionListener="#{zUSStawkiZbiorczeView.usunzusZbiorcze(podatnik)}" value="usun" style="width: 100px;" update=":akordeon:formzus" rendered="#{zUSStawkiZbiorczeView.pokazButtonUsun}"/>
+                        <p:commandButton id="dodajbutton" actionListener="#{zUSStawkiZbiorczeView.dodajzusZbiorcze(podatnik)}" value="dodaj" style="width: 100px;" update=":akordeon:formzus" rendered="#{!zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
+                        <p:commandButton id="edytujbutton" actionListener="#{zUSStawkiZbiorczeView.edytujzusZbiorcze(podatnik)}" value="edytuj" style="width: 100px;" update=":akordeon:formzus" rendered="#{zUSStawkiZbiorczeView.dodaj0edtuj1}"/>
                     </p:outputPanel>
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 110px;" update="@form"/>
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze()}" value="pobierz z wzorca" style="width: 110px;" update="@form"/>
-                    <p:commandButton action="#{zUSStawkiZbiorczeView.uzupełnijrok(podatnik)}" value="uzupełnij rok" style="width: 110px;" update="@form"/>
+                    <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusPoprzedniMiesiac(podatnik)}" value="skopiuj pop.mc" style="width: 110px;" update=":akordeon:formwartosci"/>
+                    <p:commandButton actionListener="#{zUSStawkiZbiorczeView.pobierzzusZbiorcze()}" value="pobierz z wzorca" style="width: 110px;" update=":akordeon:formwartosci"/>
+                    <p:commandButton actionListener="#{zUSStawkiZbiorczeView.uzupełnijrok(podatnik)}" value="uzupełnij rok" style="width: 110px;" update=":akordeon:formzus"/>
                 </p:panelGrid>
             </h:form>
         </p:tab>
