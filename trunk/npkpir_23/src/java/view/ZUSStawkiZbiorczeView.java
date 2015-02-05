@@ -35,11 +35,11 @@ import params.Params;
 @ManagedBean
 @ViewScoped
 public class ZUSStawkiZbiorczeView  implements Serializable{
+    private static final long serialVersionUID = 1L;
     //tak sie sklada ze to jest glowna lista z podatnikami :)
     private List<Podatnik> listapodatnikow;
     @Inject
     private Zusstawki zusstawki;
-    @Inject
     private Zusstawki wprowadzaniezusstawki;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -56,7 +56,6 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     @PostConstruct
     public void init() {
         listapodatnikow.addAll(podatnikDAO.findPodatnikZUS());
-        wprowadzaniezusstawki = new Zusstawki();
         Collections.sort(listapodatnikow, new Podatnikcomparator());
         ustawRokMc();
     }
@@ -64,6 +63,9 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private void ustawRokMc() {
         biezacyRok = String.valueOf(new DateTime().getYear());
         String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear()));
+        if (wprowadzaniezusstawki == null) {
+            wprowadzaniezusstawki = new Zusstawki();
+        }
         wprowadzaniezusstawki.getZusstawkiPK().setRok(biezacyRok);
         wprowadzaniezusstawki.getZusstawkiPK().setMiesiac(biezacyMc);
         dodaj0edtuj1 = false;
@@ -130,11 +132,12 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
                 Zusstawki p = (Zusstawki) it.next();
                 if (p.getZusstawkiPK().equals(wprowadzaniezusstawki.getZusstawkiPK())) {
                     it.remove();
-                    tmp.add(wprowadzaniezusstawki);
                     break;
                 }
             }
-            selected.setZusparametr(new ArrayList<Zusstawki>());
+            tmp.add(wprowadzaniezusstawki);
+            selected.setZusparametr(null);
+            podatnikDAO.edit(selected);
             selected.setZusparametr(tmp);
             podatnikDAO.edit(selected);
             wprowadzaniezusstawki = new Zusstawki();
@@ -156,23 +159,22 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
       
     public void pobierzzusZbiorcze() {
-        String rokzus = (String) Params.paramsContains("rokzus_input");
-        String mczus = (String) Params.paramsContains("miesiaczus_input");
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(zusDAO.findAll());
-        ZusstawkiPK key = new ZusstawkiPK();
-        key.setRok(rokzus);
-        key.setMiesiac(mczus);
-        Iterator it;
-        it = tmp.iterator();
+        Iterator it = tmp.iterator();
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
-            if (tmpX.getZusstawkiPK().equals(key)) {
-                wprowadzaniezusstawki = serialclone.SerialClone.clone(tmpX);
+            if (tmpX.getZusstawkiPK().equals(wprowadzaniezusstawki.getZusstawkiPK())) {
+                wprowadzaniezusstawki.setPit4(tmpX.getPit4());
+                wprowadzaniezusstawki.setZus51bch(tmpX.getZus51bch());
+                wprowadzaniezusstawki.setZus51ch(tmpX.getZus51ch());
+                wprowadzaniezusstawki.setZus52(tmpX.getZus52());
+                wprowadzaniezusstawki.setZus52odl(tmpX.getZus52odl());
+                wprowadzaniezusstawki.setZus53(tmpX.getZus53());
                 break;
             }
         }
-        Msg.msg("Pobrano parametr za wybrany okres rozliczeniowy: "+rokzus+"/"+mczus);
+        Msg.msg("Pobrano parametr za wybrany okres rozliczeniowy");
     }
     
     public void uzupełnijrok(Podatnik podatnik) {
@@ -195,31 +197,35 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
 
     public void pobierzzusPoprzedniMiesiac(Podatnik podatnik) {
-        String rokzus = (String) Params.paramsContains("rokzus_input");
-        String mczus = (String) Params.paramsContains("miesiaczus_input");
-        int mcpoprzedni = Mce.getMiesiacToNumber().get(mczus)-1;
+        int mcpoprzedni = Mce.getMiesiacToNumber().get(wprowadzaniezusstawki.getZusstawkiPK().getMiesiac())-1;
         String mczusnowy = Mce.getNumberToMiesiac().get(mcpoprzedni);
+        int rokpoprzedni = 0;
         if (mcpoprzedni==0) {
             mcpoprzedni = 12;
-            int rokpoprzedni = Integer.parseInt(rokzus) - 1;
-            rokzus = String.valueOf(rokpoprzedni);
+            rokpoprzedni = Integer.parseInt(wprowadzaniezusstawki.getZusstawkiPK().getRok()) - 1;
+        } else {
+            rokpoprzedni = Integer.parseInt(wprowadzaniezusstawki.getZusstawkiPK().getRok());
         }
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(podatnik.getZusparametr());
         ZusstawkiPK key = new ZusstawkiPK();
-        key.setRok(rokzus);
+        key.setRok(String.valueOf(rokpoprzedni));
         key.setMiesiac(mczusnowy);
         Iterator it;
         it = tmp.iterator();
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
             if (tmpX.getZusstawkiPK().equals(key)) {
-                wprowadzaniezusstawki = serialclone.SerialClone.clone(tmpX);
-                wprowadzaniezusstawki.getZusstawkiPK().setMiesiac(mczus);
+                wprowadzaniezusstawki.setPit4(tmpX.getPit4());
+                wprowadzaniezusstawki.setZus51bch(tmpX.getZus51bch());
+                wprowadzaniezusstawki.setZus51ch(tmpX.getZus51ch());
+                wprowadzaniezusstawki.setZus52(tmpX.getZus52());
+                wprowadzaniezusstawki.setZus52odl(tmpX.getZus52odl());
+                wprowadzaniezusstawki.setZus53(tmpX.getZus53());
                 break;
             }
         }
-        Msg.msg("Pobrano parametr podatnika za poprzeni okres rozliczeniowy: "+rokzus+"/"+mczus);
+        Msg.msg("Pobrano parametr podatnika za poprzeni okres rozliczeniowy");
     }
     
     public void wybranowiadomosc(List<Zusstawki> zusparametr) {
@@ -313,7 +319,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
     
     
-    
+   
     
     
 }
