@@ -52,7 +52,6 @@ import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
-import static entityfk.PozycjaRZiSBilans_.podatnik;
 import entityfk.RMK;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -1287,6 +1286,10 @@ public class SessionFacade<T> implements Serializable{
 
     public PozycjaBilans findPozycjaBilansLP(int lp) {
         return (PozycjaBilans) em.createNamedQuery("PozycjaBilans.findByLp").setParameter("lp", lp).getSingleResult();
+    }
+
+    public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
+        return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok",wpisView.getRokWpisu()).getResultList();
     }
   
 }

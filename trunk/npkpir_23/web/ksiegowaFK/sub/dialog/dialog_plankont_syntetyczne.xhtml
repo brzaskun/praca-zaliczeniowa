@@ -31,7 +31,7 @@
                         <f:selectItem itemLabel="vat" itemValue="vat"/>
                     </p:selectOneMenu>
                     <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" 
-                                     style="float: right;" onclick="PF('nowekontosyntetyczne').hide()">
+                                     style="float: right;" onclick="PF('nowekontosyntetyczne').hide()" update=":formY, :form, :formwzorcowy">
                     </p:commandButton>
                 </p:panelGrid>
             </p:focus>

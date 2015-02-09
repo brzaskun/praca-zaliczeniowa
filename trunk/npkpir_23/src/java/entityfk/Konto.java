@@ -75,6 +75,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByMacierzysteBilansowe", query = "SELECT k FROM Konto k WHERE k.macierzyste = :macierzyste AND NOT k.pelnynumer = '000' AND k.bilansowewynikowe = 'bilansowe' AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByPelnynumerPodatnik", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByLevelPodatnik", query = "SELECT k FROM Konto k WHERE k.level = :level AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPelnynumerWzorcowy", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByNazwaPodatnik", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),

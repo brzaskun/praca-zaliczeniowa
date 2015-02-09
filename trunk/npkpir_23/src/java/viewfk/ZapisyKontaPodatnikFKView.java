@@ -230,15 +230,15 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     }
     
     private TreeNode odnajdzNode(Konto kontoPoszukiwane) {
-        TreeNodeExtended<Konto> root = planKontView.getRoot();
-        List<TreeNode> konta = root.getChildren();
-        for (int i = 0; i < konta.size(); i++) {
-            if (((Konto) konta.get(i).getData()).equals(kontoPoszukiwane)) {
-                return konta.get(i);
-            } else {
-                odnajdzNode((Konto) konta.get(i).getData());
-            }
-        }
+//        TreeNodeExtended<Konto> root = planKontView.getRoot();
+//        List<TreeNode> konta = root.getChildren();
+//        for (int i = 0; i < konta.size(); i++) {
+//            if (((Konto) konta.get(i).getData()).equals(kontoPoszukiwane)) {
+//                return konta.get(i);
+//            } else {
+//                odnajdzNode((Konto) konta.get(i).getData());
+//            }
+//        }
         return null;
     }
       
