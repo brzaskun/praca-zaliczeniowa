@@ -366,11 +366,12 @@ public class PlanKontFKBean {
         }
     }
             
-    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, List<Konto> wykazkont) {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(wpisView, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
                 kontoDAO.destroy(p);
+                wykazkont.remove(p);
             }
             return 0;
         } else {

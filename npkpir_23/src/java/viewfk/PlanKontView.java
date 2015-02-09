@@ -30,16 +30,15 @@ import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.model.TreeNode;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@ViewScoped
+
 @ManagedBean
+@ViewScoped
 public class PlanKontView implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -564,7 +563,7 @@ public class PlanKontView implements Serializable {
                     }
                     kontoDAOfk.destroy(kontoDoUsuniecia);
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView);
+                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView, wykazkont);
                         if (wynik == 0) {
                             Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
