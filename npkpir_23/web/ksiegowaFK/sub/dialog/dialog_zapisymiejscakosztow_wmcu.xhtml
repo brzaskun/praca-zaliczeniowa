@@ -62,7 +62,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.init()}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
             </p:panelGrid>
             <p:panel style="height: 700px">
                 <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
