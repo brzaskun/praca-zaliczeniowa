@@ -53,9 +53,9 @@ import view.WpisView;
 @Singleton
 public class PdfKontoZapisy {
 
-    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, TreeNodeExtended<Konto> wybranekontoNode)  throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto)  throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
-        Konto konto = (Konto) wybranekontoNode.getData();
+        Konto konto = wybranekonto;
         try {
             List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);

@@ -26,30 +26,34 @@ import view.WpisView;
 @Singleton
 public class MiejsceKosztowBean {
 
-    public static void zsumujkwotyzkont(MiejsceKosztow p, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow) {
-        double total = 0;
-        for (Konto r : kontaslownikowe) {
-            List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWaluta(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
-            double suma = 0;
-            for (StronaWiersza s : kontozapisy) {
-                suma += sumuj(s,p);
+    public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow) {
+        for (MiejsceKosztow p : miejscakosztow) {
+            double total = 0;
+            for (Konto r : kontaslownikowe) {
+                List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWaluta(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
+                if (kontozapisy.size() > 0) {
+                    double suma = 0;
+                    for (StronaWiersza s : kontozapisy) {
+                        suma += sumuj(s);
+                    }
+                    total += suma;
+                    List<MiejsceKosztowZest> l = listasummiejsckosztow.get(p);
+                    if (l == null) {
+                        l = new ArrayList<>();
+                        l.add(new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy));
+                        listasummiejsckosztow.put(p, l);
+                    } else {
+                        
+                        MiejsceKosztowZest m = new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy);
+                        l.remove(m);
+                        l.add(m);
+                    }
+                }
             }
-            total += suma;
-            List<MiejsceKosztowZest> l = listasummiejsckosztow.get(p);
-            if (l == null) {
-                l = new ArrayList<>();
-                l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
-                listasummiejsckosztow.put(p, l);
-            } else {
-                MiejsceKosztowZest m = stworzmiejscekosztzest(r, suma, total, kontozapisy);
-                l.remove(m);
-                l.add(m);
-            }
-            
         }
     }
 
-    private static double sumuj(StronaWiersza s, MiejsceKosztow p) {
+    private static double sumuj(StronaWiersza s) {
         if (s.getWnma().equals("Wn")) {
             return s.getKwota();
         } else {
@@ -57,14 +61,6 @@ public class MiejsceKosztowBean {
         }
     }
 
-    private static MiejsceKosztowZest stworzmiejscekosztzest(Konto r, double suma, double total, List<StronaWiersza> kontozapisy) {
-        MiejsceKosztowZest t = new MiejsceKosztowZest();
-        t.setKonto(r);
-        t.setSumaokres(suma);
-        t.setSumanarastajaco(total);
-        t.setStronywiersza(kontozapisy);
-        return t;
-    }
-
+   
     
 }

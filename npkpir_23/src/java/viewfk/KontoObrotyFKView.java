@@ -12,7 +12,6 @@ import embeddablefk.ListaSum;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,7 +22,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
 import waluty.Z;
@@ -51,7 +49,6 @@ public class KontoObrotyFKView implements Serializable{
     private Double saldoWn;
     private Double saldoMa;
     List<ObrotykontaTabela> lista;
-    @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private String wybranaWalutaDlaKont;
@@ -77,9 +74,7 @@ public class KontoObrotyFKView implements Serializable{
         }
     }
     
-    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        wybranekonto = (Konto) node.getData();
+    public void pobierzZapisyNaKoncieNode() {
         wybranekontadosumowania = new ArrayList<>();
         listasum = new ArrayList<>();
         ListaSum l = new ListaSum();
@@ -87,7 +82,7 @@ public class KontoObrotyFKView implements Serializable{
         pobierzZapisyNaKoncie();
     }
      
-    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
+    public void pobierzZapisyNaKoncieNodeUnselect() {
         lista.clear();
         wybranekontadosumowania = new ArrayList<>();
         listasum = new ArrayList<>();
@@ -293,17 +288,7 @@ public class KontoObrotyFKView implements Serializable{
         this.kontozapisy = kontozapisy;
     }
      
-    
-
-    public TreeNodeExtended<Konto> getWybranekontoNode() {
-        return wybranekontoNode;
-    }
-
-    public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
-        this.wybranekontoNode = wybranekontoNode;
-    }
-    
-    
+       
     public Konto getWybranekonto() {
         return wybranekonto;
     }

@@ -54,7 +54,6 @@ public class KontoZapisFKView implements Serializable{
     @Inject
     private WierszBODAO wierszBODAO;
     @Inject private Konto wybranekonto;
-    @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     private Double sumaWn;
     private Double sumaMa;
     private Double saldoWn;
@@ -90,9 +89,8 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
-        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        Konto wybraneKontoNode = (Konto) node.getData();
+    public void pobierzZapisyNaKoncieNode() {
+        Konto wybraneKontoNode = wybranekonto;
         wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
         kontozapisy = new ArrayList<>();
             List<Konto> kontapotomne = new ArrayList<>();
@@ -169,7 +167,7 @@ public class KontoZapisFKView implements Serializable{
             System.out.println("odnalazlem");
     }
      
-    public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
+    public void pobierzZapisyNaKoncieNodeUnselect() {
         kontozapisy.clear();
     }
     
@@ -423,7 +421,7 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekontoNode);
+            PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto);
         } catch (Exception e) {
 
         }
@@ -625,14 +623,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
    
-    public TreeNodeExtended<Konto> getWybranekontoNode() {
-        return wybranekontoNode;
-    }
-
-    public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
-        this.wybranekontoNode = wybranekontoNode;
-    }
-    
+      
     public StronaWiersza getWybranyzapis() {
         return wybranyzapis;
     }

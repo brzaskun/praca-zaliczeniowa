@@ -51,7 +51,6 @@ public class MiejsceKosztowView  implements Serializable{
     public MiejsceKosztowView() {
     }
     
-    @PostConstruct
     public void init() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
@@ -65,10 +64,9 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void obliczsumymiejsc() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
-        for (MiejsceKosztow p : miejscakosztow) {
-            MiejsceKosztowBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow);
-        }
+        MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow);
     }
+    
 
     public void dodaj() {
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());

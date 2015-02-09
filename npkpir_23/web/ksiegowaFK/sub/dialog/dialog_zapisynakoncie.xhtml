@@ -8,7 +8,7 @@
     >
 
     <p:dialog id="zapisy" header="Zapisy na kontach" widgetVar="zapisynakoncie"  dynamic="true"
-              resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1500,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
+              resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1600,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
         <p:layout fullPage="false" style="width: 1450px; height: 720px;">  
             <p:layoutUnit position="north" >
@@ -90,29 +90,34 @@
                         /* ]]> */
                     </script>
                     <p:outputPanel id="kontenertabeli" deferred="true">
-                        <p:treeTable id="dataList" value="#{planKontView.root}" var="loop1" selectionMode="single" 
-                                     selection="#{kontoZapisFKView.wybranekontoNode}" 
+                         
+                        <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop1" selectionMode="single" 
+                                     selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" >
-                            <p:ajax event="select" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
-                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" global="false"/>
-                            <p:ajax event="unselect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
-                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" global="false"/>
-                            <p:column headerText="nr konta" style="width: 120px; height: 30px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
-                                <h:outputText value="#{loop1.pelnynumer}"/> 
+                            <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
+                            <p:ajax event="rowUnselect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
+                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" /> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                                <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                             </p:column>
                             <p:column headerText="nazwa pełna" >
                                 <h:outputText value="#{loop1.nazwapelna}"/> 
                             </p:column>
-                        </p:treeTable>
+                        </p:dataTable>
                     </p:outputPanel>
                 </h:form>
             </p:layoutUnit>  
 
             <p:layoutUnit position="center" style="min-width: 1100px;">
                 <h:form id="tabelazzapisami">
-                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 1080px;"
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="grid1"
+                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 1150px;"
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" 
+                                 sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
+                                 rowIndexVar="rowindex" styleClass="grid1" 
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
@@ -128,7 +133,7 @@
                         <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(5,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="60" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
+                        <p:column headerText="dok." width="50" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
                         <p:column headerText="w." width="20"  style="text-align: center;" sortBy="#{loop.wiersz.idporzadkowy}">
@@ -145,22 +150,22 @@
                         <p:column headerText="tab" width="40" sortBy="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3)}" rendered="#{loop.wiersz.tabelanbp.nrtabeli.substring(0,3) ne '000'}"/>
                         </p:column>
-                        <p:column headerText="Wn" width="60" sortBy="#{loop.kwota}">
+                        <p:column headerText="Wn" width="50" sortBy="#{loop.kwota}">
                             <h:outputText id="kwotawnwiersz" value="#{loop.wnma eq 'Wn' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wn w PLN" width="60" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                        <p:column headerText="Wn w PLN" width="50" sortBy="#{loop.kwotaPLN}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="kwotawnwierszPLN" value="#{loop.wnma eq 'Wn' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma" width="60" sortBy="#{loop.kwota}">
+                        <p:column headerText="Ma" width="50" sortBy="#{loop.kwota}">
                             <h:outputText id="kwotamawiersz" value="#{loop.wnma eq 'Ma' ? loop.kwota : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Ma w PLN" width="60" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                        <p:column headerText="Ma w PLN" width="50" sortBy="#{loop.kwotaPLN}"  rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="kwotamawierszPLN" value="#{loop.wnma eq 'Ma' ? loop.kwotaPLN : null}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -168,7 +173,7 @@
                         <p:column headerText="Wal." width="30" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
-                        <p:column headerText="Konto przeciw." width="60" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
+                        <p:column headerText="Konto przeciw." width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">
                             <h:outputText id="kontonr" value="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}"/>
                         </p:column>
                         <!--                        <p:column headerText="Konto przeciwstawne" width="90" sortBy="9{loop.loop.kontoprzeciwstawne}">
