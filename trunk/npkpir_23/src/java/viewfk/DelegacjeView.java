@@ -14,6 +14,7 @@ import daoFK.DelegacjaDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
+import entityfk.Pojazdy;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -124,6 +125,17 @@ public class DelegacjeView  implements Serializable{
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
         }
         zapisz0edytuj1 = false;
+    }
+    
+    public int sortDelegacje(Object o1, Object o2) {
+        int nr1 = Integer.parseInt(((Delegacja) o1).getNrkonta());
+        int nr2 = Integer.parseInt(((Delegacja) o2).getNrkonta());
+        if (nr1 > nr2) {
+            return 1;
+        } else if (nr1 < nr2) {
+            return -1;
+        }
+        return 0;
     }
     
     public Delegacja getSelected() {
