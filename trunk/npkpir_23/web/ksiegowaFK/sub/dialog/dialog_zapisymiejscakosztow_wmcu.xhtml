@@ -8,45 +8,45 @@
 
     xmlns:bcf="http://brzaskun.com/facelets"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-<!--    <style>
-        .ui-widget-content .ui-datatable-odd td{
-            height : 20px !important;
-            padding: 0px 1px  !important;
-        }
-        .ui-widget-content .ui-datatable-even td{
-            height : 20px !important;
-            padding: 0px 1px  !important;
-        }
-        .tabelazapisymiejscakosztowwmcu .ui-datatable-even td {
-            height : 30px !important;
-            padding: 0px 0px !important;
-        }
-        .tabelazapisymiejscakosztowwmcu .ui-datatable-odd td {
-            height : 30px !important;
-            padding: 0px 0px !important;
-        }
-    </style>-->
-<!--    <script>
-        /* <![CDATA[ */
-        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-        $(document).on("click", '.tabelazapisymiejscakosztowwmcu tr', function(e) {
-            var pierwszywiersz = $("#formzapisymiejscakosztowwmcu\\:tabelazapisymiejscakosztowwmcu_data").children("tr");
-            var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
-            try {
-                e.stopPropagation(); // will prevent double click events from link being clicked within row
-                var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
-                var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
-            } catch (e) {
-                //alert('error');
+    <!--    <style>
+            .ui-widget-content .ui-datatable-odd td{
+                height : 20px !important;
+                padding: 0px 1px  !important;
             }
-        });
-        /* ]]> */
-    </script>-->
+            .ui-widget-content .ui-datatable-even td{
+                height : 20px !important;
+                padding: 0px 1px  !important;
+            }
+            .tabelazapisymiejscakosztowwmcu .ui-datatable-even td {
+                height : 30px !important;
+                padding: 0px 0px !important;
+            }
+            .tabelazapisymiejscakosztowwmcu .ui-datatable-odd td {
+                height : 30px !important;
+                padding: 0px 0px !important;
+            }
+        </style>-->
+    <!--    <script>
+            /* <![CDATA[ */
+            //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+            $(document).on("click", '.tabelazapisymiejscakosztowwmcu tr', function(e) {
+                var pierwszywiersz = $("#formzapisymiejscakosztowwmcu\\:tabelazapisymiejscakosztowwmcu_data").children("tr");
+                var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
+                try {
+                    e.stopPropagation(); // will prevent double click events from link being clicked within row
+                    var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
+                    var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                    zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
+                } catch (e) {
+                    //alert('error');
+                }
+            });
+            /* ]]> */
+        </script>-->
 
     <bcf:ajaxs/>
     <p:dialog id="zapisymiejscakosztowwmcu" header="Zapisy na kontach w miesiącu" widgetVar="zapisymiejscakosztowwmcu"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('zapisymiejscakosztowwmcu','menuzapisykont',1350,750);" onHide="resetujdialog('zapisymiejscakosztowwmcu');"  closeOnEscape="true" 
+              resizable="true" onShow="ustawdialog('zapisymiejscakosztowwmcu','menuzapisykont',1000,750);" onHide="resetujdialog('zapisymiejscakosztowwmcu');"  closeOnEscape="true" 
               >
         <h:form id="formzapisymiejscakosztowwmcu">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
@@ -62,23 +62,26 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
+                <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.init()}" update="@form" style="width: 120px;"/>
             </p:panelGrid>
-            <p:accordionPanel style="height: 700px; width: 1000px;">
-            <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
-                <p:tab  title="#{miejsceKosztowView.listasummiejsckosztow.keySet().toArray()[numer.index]}">
+            <p:panel style="height: 700px">
+                <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
                     <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 300px; width: 800px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 300px; width: 800px; margin-top: 10px;" 
                                  >
+                        <f:facet name="header">
+                            <h:outputText value="#{miejsceKosztowView.listasummiejsckosztow.keySet().toArray()[numer.index]}"/>
+                        </f:facet>
                         <p:ajax event="rowToggle" global="false"/>
                         <p:column width="20">
                             <p:rowToggler/>
                         </p:column>
                         <p:column headerText="nazwa konta" width="250">
-                            <h:outputText value="#{loop.konto.nazwapelna}"/>
+                            <h:outputText value="#{loop.kontonazwa}"/>
                         </p:column>
                         <p:column headerText="numer konta">
-                            <h:outputText value="#{loop.konto.pelnynumer}"/>
+                            <h:outputText value="#{loop.kontonumer}"/>
                         </p:column>
                         <p:column headerText="suma">
                             <bcf:outputpl value="#{loop.sumaokres}"/>
@@ -109,11 +112,9 @@
                             </p:dataTable>
                         </p:rowExpansion>
                     </p:dataTable>
-                        </p:tab>
-            </c:forEach>
-            </p:accordionPanel>>
+                </c:forEach>
+            </p:panel>
         </h:form>
-       
     </p:dialog>
 </ui:composition>
 

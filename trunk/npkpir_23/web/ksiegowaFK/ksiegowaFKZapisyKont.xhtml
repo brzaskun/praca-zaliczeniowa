@@ -2,7 +2,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
     <ui:composition template="/templateFK.xhtml">
         <ui:define name="title">
             <h:outputText value="Księgi rachunkowe"></h:outputText>
@@ -13,6 +14,7 @@
                 <p:layoutUnit id="centralna" position="center" >
                     <div id="ramki">
                     </div>
+                    <bcf:ajaxs/>
                     <h:form>
                         <p:growl autoUpdate="true"/>
                     </h:form>
