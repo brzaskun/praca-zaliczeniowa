@@ -90,7 +90,24 @@
                         /* ]]> */
                     </script>
                     <p:outputPanel id="kontenertabeli" deferred="true">
-                         
+                          <style>
+                                .grid .ui-widget-content .ui-datatable-odd td{
+                                    height : 30px !important;
+                                    padding: 0px 1px  !important;
+                                }
+                                .grid .ui-widget-content .ui-datatable-even td{
+                                    height : 30px !important;
+                                    padding: 0px 1px  !important;
+                                }
+                                .grid1 .ui-widget-content .ui-datatable-odd td{
+                                    height : 30px !important;
+                                    padding: 0px 1px  !important;
+                                }
+                                .grid1 .ui-widget-content .ui-datatable-even td{
+                                    height : 30px !important;
+                                    padding: 0px 1px  !important;
+                                }
+                          </style>
                         <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop1" selectionMode="single" 
                                      selection="#{kontoZapisFKView.wybranekonto}" rowKey="#{loop1.id}" rowStyleClass="zapisyrowclass"
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" >
@@ -115,7 +132,7 @@
             <p:layoutUnit position="center" style="min-width: 1100px;">
                 <h:form id="tabelazzapisami">
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" style="width: 1150px;"
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" 
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" skipChildren="true" 
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1" 
                                  >
@@ -123,8 +140,8 @@
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>-->
-                        <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
-                        <p:column headerText="id" width="30"  >
+                        <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
+                        <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
                         <p:column headerText="lp" width="20" style="text-align: center;">
@@ -133,13 +150,13 @@
                         <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(5,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="50" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
-                            <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                        <p:column headerText="dok." width="40" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
+                            <h:outputText value="#{loop.dokfkS}"/>
                         </p:column>
                         <p:column headerText="w." width="20"  style="text-align: center;" sortBy="#{loop.wiersz.idporzadkowy}">
                             <h:outputText value="#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="opis" width="100" sortBy="#{loop.wiersz.opisWiersza}">
+                        <p:column headerText="opis" width="150" sortBy="#{loop.wiersz.opisWiersza}">
                             <h:outputText value="#{loop.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">

@@ -26,7 +26,9 @@
                              update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="pojazdylista">
-            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 650px;"  scrollable="true" scrollHeight="400" emptyMessage="brak zdefiniowanych pojazdów">
+            <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
+                         emptyMessage="brak zdefiniowanych pojazdów"
+                         sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
                 <p:column headerText="nr" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
@@ -37,7 +39,7 @@
                     <h:outputText value="#{item.nazwapojazdu}"/>
                 </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, @form"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, @form" rendered="#{item.aktywny eq false}"/>
                 </p:column>
                 <p:column headerText="usuń" width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, @form" rendered="#{item.aktywny eq false}"/>

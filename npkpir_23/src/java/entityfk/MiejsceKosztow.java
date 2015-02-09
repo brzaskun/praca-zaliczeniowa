@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "MiejsceKosztow.findById", query = "SELECT m FROM MiejsceKosztow m WHERE m.id = :id"),
     @NamedQuery(name = "MiejsceKosztow.findByAktywny", query = "SELECT m FROM MiejsceKosztow m WHERE m.aktywny = :aktywny"),
     @NamedQuery(name = "MiejsceKosztow.findByOpismiejsca", query = "SELECT m FROM MiejsceKosztow m WHERE m.opismiejsca = :opismiejsca"),
-    @NamedQuery(name = "MiejsceKosztow.findByPodatnik", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik"),
+    @NamedQuery(name = "MiejsceKosztow.findByPodatnik", query = "SELECT m FROM MiejsceKosztow m WHERE m.podatnikObj = :podatnik ORDER BY m.opismiejsca"),
     @NamedQuery(name = "MiejsceKosztow.countByPodatnik", query = "SELECT COUNT(d) FROM MiejsceKosztow d WHERE d.podatnikObj = :podatnik")
 })
 public class MiejsceKosztow implements Serializable {

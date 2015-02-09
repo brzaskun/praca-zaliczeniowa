@@ -50,8 +50,17 @@ public class MiejsceKosztowView  implements Serializable{
 
     public MiejsceKosztowView() {
     }
-    
+
+    @PostConstruct
     public void init() {
+        try {
+            miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    public void sumymiesiecy() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             listasummiejsckosztow = new HashMap<>();
@@ -59,7 +68,6 @@ public class MiejsceKosztowView  implements Serializable{
         } catch (Exception e) {
             
         }
-        System.out.println("l");
     }
     
     public void obliczsumymiejsc() {
@@ -108,6 +116,17 @@ public class MiejsceKosztowView  implements Serializable{
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
          init();
+    }
+    
+    public int sortMiejsceKosztow(Object o1, Object o2) {
+        int nr1 = Integer.parseInt(((MiejsceKosztow) o1).getNrkonta());
+        int nr2 = Integer.parseInt(((MiejsceKosztow) o2).getNrkonta());
+        if (nr1 > nr2) {
+            return 1;
+        } else if (nr1 < nr2) {
+            return -1;
+        }
+        return 0;
     }
     
     public MiejsceKosztow getSelected() {

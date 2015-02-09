@@ -10,21 +10,22 @@
        
         <h:form id="kontoformLista">
             <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="wpis"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
-                         style="margin-top: 2%;" sortBy="#{wpis.nrkonta}" paginator="true" rows="15"
-                     paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                     rowsPerPageTemplate="15,32,50,100,250">
+                         style="margin-top: 2%; width: 850px;" 
+                     scrollable="true" scrollHeight="400" 
+                     sortBy="#{wpis}"  sortFunction="#{kliencifkView.sortKliencifk}">
                 <f:facet name="header">
                     <h:outputText value="Wykaz przyporządkowanych kont"/>
                 </f:facet>
+                <p:column headerText="nrkonta" sortBy="#{wpis.nrkonta}" filterBy="#{wpis.nrkonta}" filterMatchMode="startsWith" width="120">
+                <h:outputText value="#{wpis.nrkonta}"/>
+            </p:column>
                 <p:column headerText="nazwa" sortBy="#{wpis.nazwa}" filterBy="#{wpis.nazwa}" filterMatchMode="contains">
                 <h:outputText value="#{wpis.nazwa}"/>
             </p:column>
                 <p:column headerText="nip" sortBy="#{wpis.nip}" filterBy="#{wpis.nip}" filterMatchMode="startsWith">
                 <h:outputText value="#{wpis.nip}"/>
             </p:column>
-                <p:column headerText="nrkonta" sortBy="#{wpis.nrkonta}" filterBy="#{wpis.nrkonta}" filterMatchMode="startsWith">
-                <h:outputText value="#{wpis.nrkonta}"/>
-            </p:column>
+                
         </p:dataTable>
          </h:form>
     </p:dialog>

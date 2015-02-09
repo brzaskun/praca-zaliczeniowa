@@ -117,6 +117,17 @@ public class KliencifkView implements Serializable{
         }
     }
     
+    public int sortKliencifk(Object o1, Object o2) {
+        int nr1 = Integer.parseInt(((Kliencifk) o1).getNrkonta());
+        int nr2 = Integer.parseInt(((Kliencifk) o2).getNrkonta());
+        if (nr1 > nr2) {
+            return 1;
+        } else if (nr1 < nr2) {
+            return -1;
+        }
+        return 0;
+    }
+    
    
 //<editor-fold defaultstate="collapsed" desc="comment">
     
