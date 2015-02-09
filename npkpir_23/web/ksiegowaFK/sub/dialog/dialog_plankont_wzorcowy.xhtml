@@ -45,10 +45,12 @@
                 <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left; width: 130px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" global="false"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataListwzorcowy" value="#{planKontView.rootwzorcowy}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
+                <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1190px; max-height: 600px;" >
-                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" global="false" listener="#{planKontView.selrow}"/>
+                             style="width: 1190px; margin-bottom:0;"  rowKey="#{loop.id}"
+                             scrollRows="150" scrollable="true" liveScroll="true" scrollHeight="600"
+                             >
+                    <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" global="false" listener="#{planKontView.selrow}"/>
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
@@ -62,15 +64,7 @@
                         <h:outputText value="#{loop.bilansowewynikowe}" /> 
                     </p:column>
                     <p:column headerText="rozrachunki" style="width: 120px; text-align: center;">
-                        <p:inplace label="#{loop.zwyklerozrachszczegolne}" effectSpeed="fast" event="click" editor="true" >
-                            <p:selectOneMenu value="#{loop.zwyklerozrachszczegolne}" required="true" >
-                                <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
-                                <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
-                                <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                                <f:selectItem itemLabel="vat" itemValue="vat"/>
-                            </p:selectOneMenu>
-                            <p:ajax event="save" listener="#{planKontView.zachowajZmianyWKoncieWzorcowy(loop)}" update="@form"/>
-                        </p:inplace>
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
                     <p:column headerText="poziom" style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.level}" /> 
@@ -93,7 +87,7 @@
                     <p:column headerText="słownik" style="width: 60px;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
-                </p:treeTable>>
+                </p:dataTable>>
             </p:panelGrid>
         </h:form>
     </p:dialog>

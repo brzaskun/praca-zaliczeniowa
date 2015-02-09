@@ -27,7 +27,8 @@
         </h:form>
         <h:form id="miejscakosztowlista">
             <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item" style="width: 650px;" 
-                         scrollable="true" scrollHeight="400" emptyMessage="brak zdefiniowanych miejsc kosztów">
+                         scrollable="true" scrollHeight="400" emptyMessage="brak zdefiniowanych miejsc kosztów"
+                         sortBy="#{item.nrkonta}">
                 <p:column headerText="nr" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>

@@ -361,6 +361,10 @@ public class KontoDAOfk extends DAO implements Serializable{
     public int findMaxLevelPodatnik(String podatnikWpisu, int rokWpisu) {
         return kontoFacade.findMaxLevelPodatnik(podatnikWpisu, rokWpisu);
     }
+
+    public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
+        return kontoFacade.findKontazLevelu(wpisView, i);
+    }
    
  
 }

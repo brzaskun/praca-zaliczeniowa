@@ -19,10 +19,11 @@
                 <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" />
                 <p:menuitem id="noweslownik1" value="Dołącz słownik" icon="ui-icon-circle-plus" onclick="PF('nowekontoslownik').show();" />
                 <p:menuitem id="noweedycjanazwy" value="Edycja nazw konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();" />
-                <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.root)}" icon="ui-icon-trash"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash"/>
                 <p:separator/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form"/>
+                <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form"/>
                 <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" global="false" icon="ui-icon-trash" update=":form" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
@@ -47,33 +48,40 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:treeTable id="dataList" value="#{planKontView.root}" var="loop"  selectionMode="single" selection="#{planKontView.selectednode}" 
+                <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1190px; max-height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" sortBy="#{loop}"
-                             sortFunction="#{kontoView.sortujKonto}">
-                    <p:ajax event="select" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
-                    <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
-                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : true}"/> 
+                             style="width: 1190px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
+                             >
+                    <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
+                     <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="numerkonts" width="100" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
+                            <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
+                            <p:column colspan="1" headerText="b/w" width="20"/>
+                            <p:column colspan="1" headerText="rozrach." width="50"/>
+                            <p:column colspan="1" headerText="potom." width="40"/>
+                            <p:column colspan="1" headerText="pozycja Wn" width="60"/>
+                            <p:column colspan="1" headerText="pozycja Ma" width="60"/>
+                            <p:column colspan="1" headerText="blok" width="40"/>
+                            <p:column colspan="1" headerText="słow" width="40"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.pelnynumer}"/> 
                     </p:column>
-                    <p:column headerText="nazwa pełna" style="width: 200px;">
+                    <p:column  style="width: 200px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
-                    <p:column headerText="nazwa skrócona" style="width: 100px;">
+                    <p:column style="width: 100px;">
                         <h:outputText value="#{loop.nazwaskrocona}" /> 
                     </p:column>
-                    <p:column headerText="bilansowe wynikowe" style="width: 80px; text-align: center;">
-                        <h:outputText value="#{loop.bilansowewynikowe}" /> 
+                    <p:column  style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
                     </p:column>
-                    <p:column headerText="rozrachunki" style="width: 120px; text-align: center;">
-                        <p:inplace label="#{loop.zwyklerozrachszczegolne}" effectSpeed="fast" event="click" editor="true" >
-                            <p:selectOneMenu value="#{loop.zwyklerozrachszczegolne}" required="true" >
-                                <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
-                                <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
-                                <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                                <f:selectItem itemLabel="vat" itemValue="vat"/>
-                            </p:selectOneMenu>
-                            <p:ajax event="save" listener="#{planKontView.zachowajZmianyWKoncieWzorcowy(loop)}" update="@form"/>
-                        </p:inplace>
+                    <p:column  style="width: 120px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
                     </p:column>
 <!--                    <p:column headerText="poziom" style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.level}" /> 
@@ -81,22 +89,22 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                    <p:column headerText="potom." style="width: 50px; text-align: center;">
+                    <p:column  style="width: 50px; text-align: center;">
                         <h:outputText value="#{loop.mapotomkow}" /> 
                     </p:column>
-                     <p:column headerText="pozycja Wn" style="width: 100px;">
+                     <p:column  style="width: 100px;">
                          <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : 'nieprzyp.'}" /> 
                     </p:column>
-                     <p:column headerText="pozycja Ma" style="width: 100px;">
+                     <p:column  style="width: 100px;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>
-                    <p:column headerText="blokada" style="width: 60px;">
+                    <p:column  style="width: 60px;">
                         <h:outputText value="#{loop.blokada eq 'true' ? 'blok' : null}" /> 
                     </p:column>
-                    <p:column headerText="słownik" style="width: 60px;">
+                    <p:column style="width: 60px;">
                         <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
                     </p:column>
-                </p:treeTable>
+                </p:dataTable>
             </p:panelGrid>
            
         </h:form>
