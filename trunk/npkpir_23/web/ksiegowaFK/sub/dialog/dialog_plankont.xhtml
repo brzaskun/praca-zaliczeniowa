@@ -54,9 +54,9 @@
                              sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
-                     <p:columnGroup type="header">
+                    <p:columnGroup type="header">
                         <p:row>
-                            <p:column colspan="1" headerText="numerkonts" width="100" />
+                            <p:column colspan="1" headerText="numerkonts" width="80" />
                             <p:column colspan="1" headerText="nazwa pełna" width="300"/>
                             <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
@@ -68,14 +68,17 @@
                             <p:column colspan="1" headerText="słow" width="40"/>
                         </p:row>
                     </p:columnGroup>
-                    <p:column>
-                        <h:outputText value="#{loop.pelnynumer}"/> 
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
                     <p:column  style="width: 200px;">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column style="width: 100px;">
-                        <h:outputText value="#{loop.nazwaskrocona}" /> 
+                        <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}" /> 
                     </p:column>
                     <p:column  style="width: 20px; text-align: center;">
                         <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
