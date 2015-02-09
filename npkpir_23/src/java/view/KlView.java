@@ -19,13 +19,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import params.Params;
 
@@ -187,8 +184,11 @@ public class KlView implements Serializable{
       while (scanner.hasNextLine()){
         String tmp = String.valueOf(scanner.nextLine());
         while(i<28){
-        if(tmp.contains("bnazwa")){
-            i++;
+        if (tmp.contains("bnazwa")){
+            while (!tmp.contains("Kontrahent")) {
+                tmp = String.valueOf(scanner.nextLine());
+            }
+            i=27;
             break;
         } else if(tmp.contains("nazwa")){
             i++;
@@ -196,7 +196,7 @@ public class KlView implements Serializable{
             tmp = tmp.replace("'","");
             selected.setNpelna(tmp.substring(8));
             break;
-        } else if (tmp.contains("miejscowosc")) {
+        }  else if (tmp.contains("miejscowosc")) {
             i++;
             selected.setMiejscowosc(tmp.substring(14));
             break;
@@ -212,11 +212,17 @@ public class KlView implements Serializable{
             i++;
             selected.setLokal(tmp.substring(8));
             break;
-        }else if (tmp.contains("kodpocz")) {
+        }else if (tmp.contains("kodPocztowy")) {
             i++;
-            selected.setKodpocztowy(tmp.substring(10));
+            selected.setKodpocztowy(tmp.substring(14));
             break;
-        }else if (tmp.contains("nip")) {    
+        }else if(tmp.contains("kod")){
+            i++;
+            tmp = tmp.replace("\"","");
+            tmp = tmp.replace("'","");
+            selected.setNskrocona(tmp.substring(6));
+            break;
+        }else if (tmp.contains("NIP")) {    
             i++;
             tmp = tmp.replace("-","");
             selected.setNip(tmp.substring(6));
@@ -238,13 +244,30 @@ public class KlView implements Serializable{
             break;
         }
         }
-        if(i==27){
-            try{
-           klDAO.dodaj(selected);
-            } catch (Exception es){}
-           i=0;
-        }
-      }      
+          if (i == 27) {
+              Klienci knazwa = null;
+              try {
+                  knazwa = klDAO.findKlientByNazwa(selected.getNpelna());
+              } catch (Exception e1) {
+                  
+              }
+              Klienci knip = null;
+              try {
+                  knip = klDAO.findKlientByNip(selected.getNip());
+              } catch (Exception e1) {
+                  
+              }
+              try {
+                  if (knazwa==null && knip == null) {
+                    klDAO.dodaj(selected);
+                  System.out.println("import "+selected.toString2());
+                  }
+              } catch (Exception es) {
+              }
+              i = 0;
+          }
+      }
+      Msg.msg("Skonczylem import");
     }
   }
   

@@ -18,15 +18,15 @@ import javax.persistence.Persistence;
 @Stateless
 public class ConnectToDatabase implements Serializable{
     
-    private static final EntityManagerFactory emFactory;
-    
-    static {
-        emFactory = Persistence.createEntityManagerFactory("fkKonto1");
-     }
-     
-    public static EntityManager getEntityManager() {
-        EntityManager em = emFactory.createEntityManager();
-        return em;
-    }
-    
+//    private static final EntityManagerFactory emFactory;
+//    
+//    static {
+//        emFactory = Persistence.createEntityManagerFactory("fkKonto1");
+//     }
+//     
+//    public static EntityManager getEntityManager() {
+//        EntityManager em = emFactory.createEntityManager();
+//        return em;
+//    }
+//    
 }

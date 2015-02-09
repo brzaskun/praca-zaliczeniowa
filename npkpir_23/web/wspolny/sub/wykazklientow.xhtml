@@ -99,6 +99,7 @@
                  rowKey="#{wpis.npelna}" selection="#{KlView.selected}" 
                  emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
             <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update="@form :formX" />
+            <p:ajax event="filter" global="false"/>
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
         </f:facet>
