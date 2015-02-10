@@ -636,8 +636,8 @@ public class SessionFacade<T> implements Serializable{
         }
     }
 
-    public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna) {
-        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).getSingleResult();
+    public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
+        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findByOkresowa").setParameter("rok", rok).setParameter("podatnik", nazwapelna).setParameter("nipodbiorcy", klientnip).setParameter("brutto", brutto).getSingleResult();
     }
 
     public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
