@@ -342,7 +342,9 @@ public class Klienci implements Serializable {
         this.dokumentyfk = dokumentyfk;
     }
     
-    
+    public String getAdres() {
+        return this.kodpocztowy+" "+this.miejscowosc+", ul. "+this.ulica+" "+this.dom+"/"+this.lokal;
+    }
     
     
 
