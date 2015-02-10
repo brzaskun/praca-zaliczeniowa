@@ -22,7 +22,7 @@
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" update=":form:dataList, :tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
+                            <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" global="false"/>
                         </p:autoComplete>
                         <h:outputText value="  wybrane konto:"/>
