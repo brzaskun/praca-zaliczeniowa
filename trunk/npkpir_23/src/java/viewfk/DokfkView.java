@@ -442,7 +442,7 @@ private static final long serialVersionUID = 1L;
         if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
             dodajNowyWierszStronaWnPiatka(wiersz);
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        } else if (t == 5 && piatka(wiersz)) {
+        } else if (t == 5 && rowneStronyWnMa(wiersz)) {
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             return;
         } else {
@@ -460,44 +460,43 @@ private static final long serialVersionUID = 1L;
         Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
         if (wiersz.getTypWiersza() == 0 && kwotastara != 0) {
             ObslugaWiersza.usunpuste(wiersz, selected.getListawierszy());
-            selected.przeliczKwotyWierszaDoSumyDokumentu();
-            RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         }
         wiersz.getStronaWn().setKwota(kwotanowa);
         przepiszWaluty(wiersz);
         if (wiersz.getTypWiersza() != 0) {
             if (kwotastara != kwotanowa) {
                 try {
-                    
-                    Konto kontown = wiersz.getStronaWn().getKonto();
                     wiersz.getStronaWn().setKwota(kwotanowa);
                     boolean sprawdzczworki = wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki();
                     boolean sprawdzpiatki = wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7;
-                    if ( sprawdzczworki || sprawdzpiatki) {
+                    if (sprawdzczworki || sprawdzpiatki) {
                         dodajNowyWierszStronaWnPiatka(wiersz);
-                    } else if ((wiersz.getTypWiersza() == 5) && piatka(wiersz)) {
+                    } else if ((wiersz.getTypWiersza() == 5) && rowneStronyWnMa(wiersz)) {
                         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                         return;
                     } else {
                         dodajNowyWierszStronaWn(wiersz);
                     }
-                    selected.przeliczKwotyWierszaDoSumyDokumentu();
-                    RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 } catch (Exception e1) {
 
                 }
             }
-        } else if (wiersz.getTypWiersza() == 0)  {
+        } else if (wiersz.getTypWiersza() == 0) {
             double roznicawwierszu = Z.z(kwotanowa - wiersz.getStronaMa().getKwota());
             if (roznicawwierszu != 0) {
-                
+
             }
         }
+        selected.przeliczKwotyWierszaDoSumyDokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+        String pole = "formwpisdokument:dataList:"+indexwiersza+":kontown_input";
+        String funkcja = "r('"+pole+"').select();";
+        RequestContext.getCurrentInstance().execute(funkcja);
     }
-    //sprawdza czy wiersz po stronie wn to piatka z kwotami takimi samymi po stronie wn i ma
-    private boolean piatka (Wiersz wiersz) {
+    
+    //sprawdza czy wiersz po stronie wn z kwotami takimi samymi po stronie wn i ma
+    private boolean rowneStronyWnMa (Wiersz wiersz) {
         StronaWiersza wn = wiersz.getStronaWn();
         StronaWiersza ma = wiersz.getStronaMa();
         if (wn.getKwota() == ma.getKwota()) {
