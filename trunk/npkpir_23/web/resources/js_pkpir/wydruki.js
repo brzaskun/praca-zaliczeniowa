@@ -85,3 +85,7 @@ var wydrukewidencjewszystkie = function(kto){
 var wydrukvatListaVATKorekta = function(kto){
     window.open('../wydruki/dokumentyVATKorektaReczna'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
+
+var wydrukfakturysporzadzone = function(kto){
+    window.open('../wydruki/fakturysporzadzone-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};

@@ -26,6 +26,7 @@ import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Wpis;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -55,6 +56,7 @@ import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfFaktura;
+import pdf.PdfFakturySporzadzone;
 import serialclone.SerialClone;
 
 /**
@@ -1278,6 +1280,19 @@ public class FakturaView implements Serializable {
      
     public int sortZaksiegowaneFaktury(Object o1, Object o2) {
         return FakturaSortBean.sortZaksiegowaneDok(o1, o2, wpisView);
+    }
+    
+    public void drukujfakturysporzadzone() {
+        try {
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = new File(nazwapliku);
+            if (file.isFile()) {
+                file.delete();
+            }
+            PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybral);
+        } catch (Exception e) {
+            
+        }
     }
     
     public boolean isFakturakorekta() {

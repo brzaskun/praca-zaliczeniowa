@@ -1,5 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package pdf;
@@ -18,6 +19,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Parametr;
+import entity.Faktura;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -28,29 +30,29 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Singleton;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
  * @author Osito
  */
 @Singleton
-public class PdfKontoZapisy {
+public class PdfFakturySporzadzone {
 
-    public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto)  throws DocumentException, FileNotFoundException, IOException {
-        Podatnik pod = wpisView.getPodatnikObiekt();
-        Konto konto = wybranekonto;
+    public static void drukujzapisy(WpisView wpisView, List<Faktura> wybranefaktury) throws DocumentException, FileNotFoundException, IOException {
         try {
-            List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf"));
             int liczydlo = 0;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
             writer.setPageEvent(headerfoter);
-            document.addTitle("Zapisy na koncie "+konto.getPelnynumer());
+            document.addTitle("Zestawienie sporządzonych faktur sprzedaży za  " + wpisView.getRokWpisuSt() + "/" + wpisView.getMiesiacWpisu());
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-            document.addSubject("Wydruk zapisów na koncie");
+            document.addSubject("Zestawienie sporządzonych faktur");
             document.addKeywords("VAT, PDF");
             document.addCreator("Grzegorz Grzelczyk");
             document.open();
@@ -60,32 +62,30 @@ public class PdfKontoZapisy {
             } catch (IOException ex) {
                 Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
-            font = new Font(helvetica, 8);
             document.setPageSize(PageSize.A4);
             PdfPTable table = new PdfPTable(14);
-            table.setWidths(new int[]{1, 2, 2, 2, 1, 4, 2, 2, 2, 2, 2, 2, 1, 2});
+            table.setWidths(new int[]{1, 2, 4, 4, 2, 3, 3, 2, 2, 2, 2, 2, 2, 1});
             table.setWidthPercentage(98);
             try {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("wydruk zapisów na koncie "+konto.getPelnynumer(), 3, 0));
-                table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 5, 0));
-                table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
+                table.addCell(ustawfraze("wydruk zestawienie sporządzonych faktur sprzedaży", 3, 0));
+                table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+                table.addCell(ustawfraze("za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 2, 0));
 
                 table.addCell(ustawfraze("lp", 0, 1));
-                table.addCell(ustawfraze("Data zdarz gosp.", 0, 1));
-                table.addCell(ustawfraze("Data dok gosp.", 0, 1));
-                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
-                table.addCell(ustawfraze("Wiersz", 0, 1));
-                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 1));
-                table.addCell(ustawfraze("Kurs", 0, 1));
-                table.addCell(ustawfraze("Tabela", 0, 1));
-                table.addCell(ustawfraze("Wn", 0, 1));
-                table.addCell(ustawfraze("Wn PLN", 0, 1));
-                table.addCell(ustawfraze("Ma", 0, 1));
-                table.addCell(ustawfraze("Ma PLN", 0, 1));
-                table.addCell(ustawfraze("Waluta", 0, 1));
-                table.addCell(ustawfraze("Konto przec.", 0, 1));
+                table.addCell(ustawfraze("nr własny", 0, 1));
+                table.addCell(ustawfraze("kontrahent", 0, 1));
+                table.addCell(ustawfraze("adres", 0, 1));
+                table.addCell(ustawfraze("nip", 0, 1));
+                table.addCell(ustawfraze("opis", 0, 1));
+                table.addCell(ustawfraze("zamówienie", 0, 1));
+                table.addCell(ustawfraze("data sprzed.", 0, 1));
+                table.addCell(ustawfraze("data wyst.", 0, 1));
+                table.addCell(ustawfraze("termin płat.", 0, 1));
+                table.addCell(ustawfraze("netto", 0, 1));
+                table.addCell(ustawfraze("vat", 0, 1));
+                table.addCell(ustawfraze("brutto", 0, 1));
+                table.addCell(ustawfraze("uwagi", 0, 1));
 
                 table.addCell(ustawfrazeAlign("1", "center", 6));
                 table.addCell(ustawfrazeAlign("2", "center", 6));
@@ -123,50 +123,59 @@ public class PdfKontoZapisy {
                 Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
             }
             Integer i = 1;
-            for (StronaWiersza rs : kontozapisy) {
-                table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
-                table.addCell(ustawfrazeAlign(rs.getWiersz().getDataWalutyWiersza(), "center", 7));
-                table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "center", 7));
-                table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 7));
-                table.addCell(ustawfrazeAlign(String.valueOf(rs.getWiersz().getIdporzadkowy()), "center", 7));
-                table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
-                if (rs.getWiersz().getTabelanbp().getKurssredni()==0) {
+            if (wybranefaktury.size() == 0) {
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("nie wybrano faktur do wydruku", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+                table.addCell(ustawfrazeAlign("", "center", 7));
+            } else {
+                for (Faktura rs : wybranefaktury) {
+                    table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
+                    table.addCell(ustawfrazeAlign(rs.getFakturaPK().getNumerkolejny(), "center", 7));
+                    table.addCell(ustawfrazeAlign(rs.getKontrahent().getNpelna(), "center", 7));
+                    table.addCell(ustawfrazeAlign(rs.getKontrahent().getAdres(), "left", 7));
+                    table.addCell(ustawfrazeAlign(rs.getKontrahent_nip(), "center", 7));
+                    String opis = rs.getNazwa() != null ? rs.getNazwa() : rs.getPozycjenafakturze().get(0).getNazwa();
+                    table.addCell(ustawfrazeAlign(opis, "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getNumerzamowienia(), "left", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDatasprzedazy(), "center", 6));
+                    table.addCell(ustawfrazeAlign(rs.getDatawystawienia(), "center", 6));
+                    table.addCell(ustawfrazeAlign(rs.getTerminzaplaty(), "center", 6));
+                    double netto = rs.getNetto();
+                    double vat = rs.getVat();
+                    double brutto = rs.getBrutto();
+                    if (rs.getPozycjepokorekcie() != null) {
+                        netto = Z.z(rs.getNetto() - rs.getNettopk());
+                        vat = Z.z(rs.getVat() - rs.getVatpk());
+                        brutto = Z.z(rs.getBrutto() - rs.getBruttopk());
+                    }
+                    table.addCell(ustawfrazeAlign(formatujliczby(netto), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(vat), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujliczby(brutto), "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
-                    table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
+                    i++;
                 }
-                if (rs.getWnma().equals("Wn")) {
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
-                }
-                table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), "center", 7));
-                if (rs.getWnma().equals("Wn") && rs.getWiersz().getStronaMa() != null) {
-                    table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "right", 7));
-                } else if (rs.getWnma().equals("Ma") && rs.getWiersz().getStronaWn() != null) {
-                    table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "right", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "right", 7));
-                }
-                i++;
             }
             document.setPageSize(PageSize.A4_LANDSCAPE.rotate());
             document.add(table);
             document.close();
-
-            //Msg.msg("i","Wydrukowano ewidencje","form:messages");
+            String funkcja = "wydrukfakturysporzadzone('" + wpisView.getPodatnikWpisu() + "');";
+            RequestContext.getCurrentInstance().execute(funkcja);
+            Msg.msg("i", "Wydrukowano zestawienie wybranych faktur");
         } catch (Exception e) {
         }
     }
-    
+
     public static void main(String[] args) {
         try {
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
@@ -187,9 +196,9 @@ public class PdfKontoZapisy {
             try {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 3, 0));
                 table.addCell(ustawfraze("wydruk zapisów na koncie ", 3, 0));
-                table.addCell(ustawfraze("firma: nazwafirmy" , 5, 0));
+                table.addCell(ustawfraze("firma: nazwafirmy", 5, 0));
                 table.addCell(ustawfraze("za okres: 12/2015", 2, 0));
-                
+
                 table.addCell(ustawfraze("lp", 0, 1));
                 table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 1));
                 table.addCell(ustawfraze("Nr dowodu księgowego", 0, 1));
@@ -204,7 +213,6 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfraze("Waluta", 0, 1));
                 table.addCell(ustawfraze("Konto przec.", 0, 1));
 
-                
                 table.addCell(ustawfrazeAlign("1", "center", 6));
                 table.addCell(ustawfrazeAlign("2", "center", 6));
                 table.addCell(ustawfrazeAlign("3", "center", 6));
@@ -242,8 +250,8 @@ public class PdfKontoZapisy {
             document.add(table);
             document.close();
         } catch (Exception e) {
-            
+
         }
     }
-  
+
 }
