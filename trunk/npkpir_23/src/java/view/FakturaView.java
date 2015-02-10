@@ -5,6 +5,7 @@
 package view;
 
 import beansFaktura.FakturaBean;
+import beansFaktura.FakturaOkresowaGenNum;
 import sortfunction.FakturaSortBean;
 import static com.sun.faces.el.ELUtils.createValueExpression;
 import comparator.Fakturyokresowecomparator;
@@ -483,7 +484,7 @@ public class FakturaView implements Serializable {
         Double brutto = nowa.getBrutto();
         Podatnik wystawca = nowa.getWystawca();
         String rok = nowa.getRok();
-        Fakturywystokresowe fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna());
+        Fakturywystokresowe fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna(), nowa.getBrutto());
         switch (nowa.getMc()) {
             case "01":
                 fakturaokresowa.setM1(fakturaokresowa.getM1() > 0 ? fakturaokresowa.getM1() - 1 : 0);
@@ -652,73 +653,13 @@ public class FakturaView implements Serializable {
                     RequestContext.getCurrentInstance().execute("PF('nazwaskroconafaktura').show();");
                     RequestContext.getCurrentInstance().execute("$(document.getElementById(\"formkontowybor:wybormenu\")).focus();");
                 } else {
-                   wygenerujnumerfakturycd();
+                    FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
                 }
             }
         }
     }
     
-    private void wygenerujnumerfakturycd() {
-         List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
-                int istniejafakturykontrahenta = 0;
-                try {
-                    if (wykazfaktur.size() > 0) {
-                        istniejafakturykontrahenta = 1;
-                    }
-                } catch (Exception er) {
-                }
-                List<Faktura> wykazfakturogolem = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
-                int istniejafakturyrok = 0;
-                try {
-                    if (wykazfakturogolem.size() > 0) {
-                        istniejafakturyrok = 1;
-                    }
-                } catch (Exception er) {
-                }
-         if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
-                        if (istniejafakturyrok == 0) {
-                            String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView);
-                            selected.getFakturaPK().setNumerkolejny(numer);
-                            selected.setLp(1);
-                            Msg.msg("i", "Generuje nową serie numerów faktury");
-                        } else {
-                            String numer = FakturaBean.uzyjwzorcagenerujnumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView, fakturaDAO);
-                            selected.getFakturaPK().setNumerkolejny(numer);
-                            Faktura ostatnidokument = fakturaDAO.findOstatniaFakturaByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
-                            selected.setLp(ostatnidokument.getLp()+1);
-                            Msg.msg("i", "Generuje kolejny numer faktury");
-                        }
-                        RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-                        RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
-                    } else {
-                        if (istniejafakturykontrahenta == 0) {
-                            int dlugoscnazwy = selected.getKontrahent().getNskrocona().length();
-                            String nazwadofaktury = dlugoscnazwy > 4 ? selected.getKontrahent().getNskrocona().substring(0, 4) : selected.getKontrahent().getNskrocona();
-                            String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
-                            selected.getFakturaPK().setNumerkolejny(numer);
-                            Msg.msg("i", "Generuje nową serie numerów faktury");
-                        } else {
-                            String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
-                            String separator = "/";
-                            String[] elementy;
-                            elementy = ostatniafaktura.split(separator);
-                            int starynumer = Integer.parseInt(elementy[0]);
-                            starynumer++;
-                            String numer = String.valueOf(starynumer);
-                            int i = 0;
-                            for (String p : elementy) {
-                                if (i > 0) {
-                                    numer += "/" + p;
-                                }
-                                i++;
-                            }
-                            selected.getFakturaPK().setNumerkolejny(numer);
-                            Msg.msg("i", "Generuje kolejny numer faktury");
-                        }
-                        RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
-                        RequestContext.getCurrentInstance().execute("przeskoczdoceny();");
-                    }
-    }
+    
 
     public void dodajfaktureokresowa() {
         for (Faktura p : gosciwybral) {
@@ -734,15 +675,15 @@ public class FakturaView implements Serializable {
             try {
                 Fakturywystokresowe fakturatmp = null;
                 if (kwotaprzedwaloryzacja > 0) {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
                     //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
                     if (fakturatmp == null) {
-                        fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                        fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
                     } else {
                         Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + kwotaprzedwaloryzacja + " już istnienie!");
                     }
                 } else {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
                 }
                 if (fakturatmp != null) {
                     if (kwotaprzedwaloryzacja > 0) {
@@ -820,13 +761,13 @@ public class FakturaView implements Serializable {
         try {
             Fakturywystokresowe fakturatmp = null;
             if (kwotaprzedwaloryzacja > 0) {
-                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
                 //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
                 if (fakturatmp == null) { 
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
                 }
             } else {
-                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik);
+                fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
             }
             if (fakturatmp != null) {
                 if (kwotaprzedwaloryzacja > 0) {
@@ -887,7 +828,7 @@ public class FakturaView implements Serializable {
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
                 }
             }
-            int dniDoZaplaty = Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni());
+            int dniDoZaplaty = nowa.getDnizaplaty();
             if (datawystawienia.isEmpty()) {
                 DateTime dt = new DateTime();
                 String miesiacBiezacy = Mce.getNumberToMiesiac().get(dt.getMonthOfYear());
@@ -914,56 +855,8 @@ public class FakturaView implements Serializable {
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
-            List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(nowa.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             int fakturanowyrok = 0;
-            if (wykazfaktur.isEmpty()) {
-                int dlugoscnazwy = nowa.getKontrahent().getNskrocona().length();
-                String nazwadofaktury = dlugoscnazwy > 4 ? nowa.getKontrahent().getNskrocona().substring(0,4) : nowa.getKontrahent().getNskrocona();
-                String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
-                nowa.getFakturaPK().setNumerkolejny(numer);
-            } else {
-                int nrkolejny = 0;
-                String separator = "/";
-                String[] elementy = null;
-                for (Faktura f : wykazfaktur) {
-                    if (nrkolejny == 0) {
-                        elementy = f.getFakturaPK().getNumerkolejny().split(separator);
-                        nrkolejny = Integer.parseInt(elementy[0]);
-                    } else {
-                        String[] elementytmp = f.getFakturaPK().getNumerkolejny().split(separator);
-                        int nrkolejnytmp = Integer.parseInt(elementytmp[0].replaceAll("[^\\d.]", ""));
-                        if (nrkolejnytmp > nrkolejny) {
-                            nrkolejny = nrkolejnytmp;
-                            elementy  = f.getFakturaPK().getNumerkolejny().split(separator);
-                        }
-                    }
-                }
-                //sprawdzamy czy nie ma zmiany roku
-                String biezacyrok = wpisView.getRokWpisu().toString();
-                String rokzestarejfaktury = elementy[1];
-                if (biezacyrok.equals(rokzestarejfaktury)) {
-                    int starynumer = Integer.parseInt(elementy[0]);
-                    starynumer++;
-                    String numer = String.valueOf(starynumer);
-                    int i = 0;
-                    for (String r : elementy) {
-                        if (i > 0) {
-                            numer += "/" + r;
-                        }
-                        i++;
-                    }
-                    nowa.getFakturaPK().setNumerkolejny(numer);
-                    nowa.setWygenerowanaautomatycznie(true);
-                } else {
-                    int dlugoscnazwy = nowa.getKontrahent().getNskrocona().length();
-                    String nazwadofaktury = dlugoscnazwy > 4 ? nowa.getKontrahent().getNskrocona().substring(0,4) : nowa.getKontrahent().getNskrocona();
-                    String numer = "1/" + wpisView.getRokWpisu().toString() + "/" + nazwadofaktury;
-                    nowa.getFakturaPK().setNumerkolejny(numer);
-                    nowa.setWygenerowanaautomatycznie(true);
-                    dodajfaktureokresowanowyrok(nowa);
-                    fakturanowyrok = 1;
-                }
-            }
+            FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, nowa, wpisView);
             String datasprzedazy = nowa.getDatasprzedazy();
             String miesiacsprzedazy = datasprzedazy.substring(5, 7);
             String roksprzedazy = datasprzedazy.substring(0, 4);
@@ -1251,7 +1144,7 @@ public class FakturaView implements Serializable {
         selected.getKontrahent().setNskrocona(nazwaskroconafaktura.toUpperCase());
         podatnikDAO.edit(selected.getKontrahent());
         Msg.msg("Dopisano nazwę skróconą podatnika");
-        wygenerujnumerfakturycd();
+        FakturaOkresowaGenNum.wygenerujnumerfaktury(fakturaDAO, selected, wpisView);
     }
     
     public void dodajkolumne() {

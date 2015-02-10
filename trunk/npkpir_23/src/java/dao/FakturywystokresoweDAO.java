@@ -51,9 +51,9 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
         return zwrot;
     }
 
-    public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna) {
+    public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
         try {
-            return fakturywystokresoweFacade.findOkresowa(rok, klientnip, nazwapelna);
+            return fakturywystokresoweFacade.findOkresowa(rok, klientnip, nazwapelna, brutto);
         } catch (Exception e) {
             return null;
         }
