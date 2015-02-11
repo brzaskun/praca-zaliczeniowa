@@ -7,8 +7,9 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="czynaniescplatnoscfaktury" header="Wpisz datę zapłaty za fakturę" widgetVar="czynaniescplatnoscfaktury"  modal="true" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('czynaniescplatnoscfaktury','fakturyniezaplacone',350,120);r('formdatazaplaty:datazaplaty').focus();" closeOnEscape="true" onHide="resetujdialog('czynaniescplatnoscfaktury');"  >
+    <p:dialog id="czynaniescplatnoscfaktury" header="Wpisz datę zapłaty za fakturę" widgetVar="czynaniescplatnoscfaktury" modal="true"
+              resizable="false" onShow="ustawdialog4('czynaniescplatnoscfaktury','fakturyniezaplacone:fakturyniezaplaconedataTable',350,120);r('formdatazaplaty:datazaplaty').focus();" 
+              closeOnEscape="true" onHide="resetujdialog('czynaniescplatnoscfaktury');"  >
         <h:form id="formdatazaplaty">
             <p:panelGrid id="fakturadatazaplatygrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="datazaplaty">
