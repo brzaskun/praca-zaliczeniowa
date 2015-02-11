@@ -27,7 +27,8 @@
                 <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
             </p:panelGrid>
             <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="width: 1200px; height: 700px;" widgetVar="zapisywdokumentachWNTdataList"
-                         rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWNT}"  sortBy="#{loop.dokfk.datadokumentu}">
+                         rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWNT}"  sortBy="#{loop.dokfk.datadokumentu}"
+                         emptyMessage="nie pobrano wierszy/ nie ma wierszy WNT w tym miesiącu">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy WNT wg dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  

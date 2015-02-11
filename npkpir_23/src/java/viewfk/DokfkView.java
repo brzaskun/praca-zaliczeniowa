@@ -863,7 +863,9 @@ private static final long serialVersionUID = 1L;
         Waluty w = selected.getWalutadokumentu();
         try {
             Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
-            if (kontoRozrachunkowe != null) {
+            if (kontoRozrachunkowe == null) {
+                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu.");
+            }
                 if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -943,9 +945,7 @@ private static final long serialVersionUID = 1L;
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            } else {
-                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
-            }
+            
         } catch (Exception e1) {
             Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
         }
@@ -1064,7 +1064,9 @@ private static final long serialVersionUID = 1L;
             Waluty w = selected.getWalutadokumentu();
             try {
             Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
-            if (kontoRozrachunkowe != null) {
+            if (kontoRozrachunkowe == null) {
+                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu.");
+            }
                 if (wierszpierwszy != null && wartosciVAT[0]!=0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -1137,9 +1139,6 @@ private static final long serialVersionUID = 1L;
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":netto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+index+":brutto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            } else {
-                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
-            }
             } catch (Exception e1) {
                 Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
             }
