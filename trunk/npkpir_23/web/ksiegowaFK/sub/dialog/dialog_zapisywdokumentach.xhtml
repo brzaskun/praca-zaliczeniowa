@@ -7,9 +7,22 @@
     >
 
 
-    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="zapisywdokumentach" 
+    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="zapisywdokumentach" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
+            <p:panelGrid columns="4" style="margin-left: 2%;" >
+                <p:column>
+                    <h:outputText value="miesiąc: "/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}"/>
+                        <f:selectItem itemLabel="CR" itemValue="CR"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:commandButton value="pobierz" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
+            </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="PF('wpisywanie').show();" oncomplete="$(document.getElementById('formwpisdokument:dataList:#{dokfkView.wierszDoPodswietlenia}:opis')).select();"/>
             </p:contextMenu>

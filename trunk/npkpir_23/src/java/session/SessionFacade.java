@@ -653,8 +653,16 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
     
-    public List<Wiersz> findWierszePodatnik(Podatnik podatnik) {
-        return em.createNamedQuery("Wiersz.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
+        return em.createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
+    }
+    
+    public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
+        return em.createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList();
+    }
+    
+    public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
+        return em.createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
 
 //
