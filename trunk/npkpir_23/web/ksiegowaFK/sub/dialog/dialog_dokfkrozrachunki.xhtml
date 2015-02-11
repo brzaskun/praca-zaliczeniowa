@@ -13,6 +13,10 @@
         }
         .kwotarozrachunku .pe-inputNumber{
             width: 90px !important;
+            height: 20px !important;
+        }
+        .rozrachunkidatalist td {
+            height: 30px;
         }
     </style>
 
@@ -67,12 +71,12 @@
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
                     <p:focus for="rozrachunki:dataList">
                         <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
-                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie"  
+                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" scrollable="true" rows="12"
                                      >
                             <f:facet name="header">
                                 <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów"/>
                             </f:facet>
-                            <p:column headerText="kwota rozlicz. - bieżący dok." width="50" >
+                            <p:column headerText="kwota rozlicz. - bieżący dok." width="60" >
                                 <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 60px;"
                                                 decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
                                     <p:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"/>

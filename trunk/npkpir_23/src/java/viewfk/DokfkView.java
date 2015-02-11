@@ -2271,7 +2271,12 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void wyliczroznicekursowa(Transakcja loop, int row) {
         try {
             double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-            double kursRachunku = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+            double kursRachunku;
+            if (loop.getNowaTransakcja().getWiersz().getTabelanbp() != null) {
+                kursRachunku = loop.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+            } else {
+                kursRachunku = loop.getNowaTransakcja().getKursBO();
+            }
             if (kursPlatnosci != 0.0 && kursRachunku != 0.0) {
                 String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
                 String kwotazwiersza = (String) Params.params(wiersz);
@@ -2292,7 +2297,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
             }
         } catch (Exception e) {
-            
+            Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
     }
     

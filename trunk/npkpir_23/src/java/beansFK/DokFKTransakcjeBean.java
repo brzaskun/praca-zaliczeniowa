@@ -222,9 +222,11 @@ public class DokFKTransakcjeBean implements Serializable{
         }
         List<Transakcja> transakcjeWPowietrzu = new ArrayList<>();
         for (StronaWiersza r : pobraneStronyWiersza) {
-            for (Transakcja u : r.getNowetransakcje()) {
-                if (u.getTransakcjaPK() == null) {
-                    transakcjeWPowietrzu.add(u);   
+            if (r != null) {
+                for (Transakcja u : r.getNowetransakcje()) {
+                    if (u.getTransakcjaPK() == null) {
+                        transakcjeWPowietrzu.add(u);   
+                    }
                 }
             }
         }
