@@ -37,7 +37,6 @@ public class FakturaSortBean {
                 ob1 = Integer.parseInt(nro1T[rok]);
                 ob2 = Integer.parseInt(nro2T[rok]);
                 wynik = porownaj(ob1, ob2);
-                System.out.println(wynik);
             } 
             if (mapa.containsKey("mc")){
                 if (wynik == 0 ) {
@@ -45,7 +44,6 @@ public class FakturaSortBean {
                     ob1 = Integer.parseInt(nro1T[mc]);
                     ob2 = Integer.parseInt(nro2T[mc]);
                     wynik = porownaj(ob1, ob2);
-                    System.out.println(wynik);
                 }
             }
             if (mapa.containsKey("nr")){
@@ -54,7 +52,6 @@ public class FakturaSortBean {
                     ob1 = Integer.parseInt(nro1T[nr]);
                     ob2 = Integer.parseInt(nro2T[nr]);
                     wynik = porownaj(ob1, ob2);
-                    System.out.println(wynik);
                 }
             }
             return wynik;

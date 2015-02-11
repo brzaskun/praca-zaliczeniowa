@@ -70,7 +70,6 @@ public class KontonumerComparator implements Comparator<Konto>{
                 }
             }
        }
-        System.out.println("wynik: "+wynik);
         return wynik;
     }
 

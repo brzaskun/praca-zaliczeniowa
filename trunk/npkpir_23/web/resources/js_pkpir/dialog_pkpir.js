@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var ustawdialog = function(nazwa,menu, szerokosc, wysokosc) {
+var ustawdialog4 = function(nazwa,menu, szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
         $(document.getElementById(nazwa)).position({
-        my: "left top",
-        at: "left+40px top",
-        of: $(document.getElementById(menu)),
+        my: "center center",
+        at: "center center",
+        of: window,
         collision: "none none"
         });
     } catch (Exception) {
