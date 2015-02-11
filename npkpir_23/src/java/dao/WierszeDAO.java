@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -49,9 +50,25 @@ public class WierszeDAO extends DAO implements Serializable{
        }
     }
     
-    public List<Wiersz> findWierszePodatnik(Podatnik podatnik) {
+    public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
          try {
-           return wierszeFacade.findWierszePodatnik(podatnik);
+           return wierszeFacade.findWierszePodatnikMcRok(podatnik, wpisView);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
+         try {
+           return wierszeFacade.findWierszePodatnikMcRokWNTWDT(podatnik, wpisView, wntwdt);
+       } catch (Exception e ){
+           return null;
+       }
+    }
+    
+    public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
+         try {
+           return wierszeFacade.findWierszePodatnikRok(podatnik, wpisView);
        } catch (Exception e ){
            return null;
        }
