@@ -1,55 +1,22 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab id="nowa" title="Koszty wg miejsc powstawania" >
+        <style>
 
-    xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <!--    <style>
-            .ui-widget-content .ui-datatable-odd td{
-                height : 20px !important;
-                padding: 0px 1px  !important;
+            .kwotarozrachunku .pe-inputNumber{
+                width: 80px !important;
             }
-            .ui-widget-content .ui-datatable-even td{
-                height : 20px !important;
-                padding: 0px 1px  !important;
-            }
-            .tabelazapisymiejscakosztowwmcu .ui-datatable-even td {
-                height : 30px !important;
-                padding: 0px 0px !important;
-            }
-            .tabelazapisymiejscakosztowwmcu .ui-datatable-odd td {
-                height : 30px !important;
-                padding: 0px 0px !important;
-            }
-        </style>-->
-    <!--    <script>
-            /* <![CDATA[ */
-            //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-            $(document).on("click", '.tabelazapisymiejscakosztowwmcu tr', function(e) {
-                var pierwszywiersz = $("#formzapisymiejscakosztowwmcu\\:tabelazapisymiejscakosztowwmcu_data").children("tr");
-                var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
-                try {
-                    e.stopPropagation(); // will prevent double click events from link being clicked within row
-                    var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
-                    var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                    zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
-                } catch (e) {
-                    //alert('error');
-                }
-            });
-            /* ]]> */
-        </script>-->
-
-    <bcf:ajaxs/>
-    <p:dialog id="zapisymiejscakosztowwmcu" header="Zapisy na kontach wg miejsc kosztów w miesiącu" widgetVar="zapisymiejscakosztowwmcu"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('zapisymiejscakosztowwmcu','menuzapisykont',1000,750);" onHide="resetujdialog('zapisymiejscakosztowwmcu');"  closeOnEscape="true" 
-              >
+        </style>
         <h:form id="formzapisymiejscakosztowwmcu">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
+            <p:panelGrid columns="5" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -63,12 +30,14 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
             </p:panelGrid>
-            <p:panel style="height: 700px">
-                <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
+            <p:panel >
+                <p:dataList value="#{miejsceKosztowView.listasummiejsckosztow.values()}" var="item" varStatus="numer"
+                            emptyMessage="nie ma ustalonych miejsc kosztów / nie pobrano jeszcze miejsc kosztów">
                     <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 300px; width: 920px; margin-top: 10px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll;  width: 920px; margin-top: 15px;" 
                                  skipChildren="true"
                                  >
                         <f:facet name="header">
@@ -83,6 +52,9 @@
                         </p:column>
                         <p:column headerText="numer konta">
                             <h:outputText value="#{loop.kontonumer}"/>
+                        </p:column>
+                        <p:column headerText="ilość rach" width="30" style="text-align: center;">
+                            <h:outputText value="#{loop.stronywiersza.size()}"/>
                         </p:column>
                         <p:column headerText="suma">
                             <bcf:outputpl value="#{loop.sumaokres}"/>
@@ -113,9 +85,10 @@
                             </p:dataTable>
                         </p:rowExpansion>
                     </p:dataTable>
-                </c:forEach>
+                </p:dataList>
             </p:panel>
         </h:form>
-    </p:dialog>
-</ui:composition>
+    </p:tab>  
+</ui:composition>   
+
 

@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import dao.StronaWierszaDAO;
@@ -46,7 +47,7 @@ public class PojazdyView  implements Serializable{
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
-    private Map<Pojazdy, List<PojazdyZest>> listapojazdy;
+    private Map<Pojazdy, List<PojazdyZest>> listasumpojazdy;
 
     public PojazdyView() {
     }
@@ -55,17 +56,27 @@ public class PojazdyView  implements Serializable{
     private void init() {
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
-             obliczsumymiejsc();
         } catch (Exception e) {
             
         }
-        listapojazdy = new HashMap<>();
+        listasumpojazdy = new HashMap<>();
     }
     
-    public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
+     public void sumymiesiecy() {
+        try {
+            pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
+            listasumpojazdy = new HashMap<>();
+            obliczsumy();
+        } catch (Exception e) {
+            
+        }
+    }
+    
+    
+    public void obliczsumy() {
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 3);
         for (Pojazdy p : pojazdy) {
-            PojazdyBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listapojazdy);
+            PojazdyBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy);
         }
     }
 
@@ -117,6 +128,11 @@ public class PojazdyView  implements Serializable{
         return 0;
     }
     
+     public void zapisykontmiesiace() {
+         wpisView.wpisAktualizuj();
+         init();
+    }
+    
     public Pojazdy getSelected() {
         return selected;
     }
@@ -149,12 +165,12 @@ public class PojazdyView  implements Serializable{
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
-    public Map<Pojazdy, List<PojazdyZest>> getListapojazdy() {
-        return listapojazdy;
+    public Map<Pojazdy, List<PojazdyZest>> getListasumpojazdy() {
+        return listasumpojazdy;
     }
 
-    public void setListapojazdy(Map<Pojazdy, List<PojazdyZest>> listapojazdy) {
-        this.listapojazdy = listapojazdy;
+    public void setListasumpojazdy(Map<Pojazdy, List<PojazdyZest>> listasumpojazdy) {
+        this.listasumpojazdy = listasumpojazdy;
     }
 
     

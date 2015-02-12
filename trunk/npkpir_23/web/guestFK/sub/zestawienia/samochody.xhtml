@@ -1,54 +1,16 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
-
-    xmlns:bcf="http://brzaskun.com/facelets"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
-    <!--    <style>
-            .ui-widget-content .ui-datatable-odd td{
-                height : 20px !important;
-                padding: 0px 1px  !important;
-            }
-            .ui-widget-content .ui-datatable-even td{
-                height : 20px !important;
-                padding: 0px 1px  !important;
-            }
-            .tabelazapisymiejscakosztowwmcu .ui-datatable-even td {
-                height : 30px !important;
-                padding: 0px 0px !important;
-            }
-            .tabelazapisymiejscakosztowwmcu .ui-datatable-odd td {
-                height : 30px !important;
-                padding: 0px 0px !important;
-            }
-        </style>-->
-    <!--    <script>
-            /* <![CDATA[ */
-            //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-            $(document).on("click", '.tabelazapisymiejscakosztowwmcu tr', function(e) {
-                var pierwszywiersz = $("#formzapisymiejscakosztowwmcu\\:tabelazapisymiejscakosztowwmcu_data").children("tr");
-                var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
-                try {
-                    e.stopPropagation(); // will prevent double click events from link being clicked within row
-                    var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
-                    var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                    zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
-                } catch (e) {
-                    //alert('error');
-                }
-            });
-            /* ]]> */
-        </script>-->
-
-    <bcf:ajaxs/>
-    <p:dialog id="zapisymiejscakosztowwmcu" header="Zapisy na kontach wg miejsc kosztów w miesiącu" widgetVar="zapisymiejscakosztowwmcu"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('zapisymiejscakosztowwmcu','menuzapisykont',1000,750);" onHide="resetujdialog('zapisymiejscakosztowwmcu');"  closeOnEscape="true" 
-              >
-        <h:form id="formzapisymiejscakosztowwmcu">
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:tab  title="Wydatki na samochody" >
+       
+        <h:form id="formzapisypojazdywmcu">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
@@ -58,21 +20,23 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{miejsceKosztowView.zapisykontmiesiace}" update="@form"/>
+                        <p:ajax event="change" listener="#{pojazdyView.zapisykontmiesiace}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="pobierz" actionListener="#{pojazdyView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+
             </p:panelGrid>
-            <p:panel style="height: 700px">
-                <c:forEach  items="#{miejsceKosztowView.listasummiejsckosztow.values()}"  var="item" varStatus="numer">
-                    <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
+            <p:panel >
+                <p:dataList value="#{pojazdyView.listasumpojazdy.values()}" var="item" varStatus="numer" id="tabelazbiorczasamochody" widgetVar="tabelazbiorczasamochody"
+                            emptyMessage="nie ma ustalonej listy pojazdów / nie pobrano jeszcze listy pojazdów">
+                    <p:dataTable id="tabelapojazdywmcu#{numer.index}" value="#{item}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll; height: 300px; width: 920px; margin-top: 10px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="overflow-y: scroll;  width: 920px; margin-top: 15px;" 
                                  skipChildren="true"
                                  >
                         <f:facet name="header">
-                            <h:outputText value="#{miejsceKosztowView.listasummiejsckosztow.keySet().toArray()[numer.index]}"/>
+                            <h:outputText value="#{pojazdyView.listasumpojazdy.keySet().toArray()[numer.index]}"/>
                         </f:facet>
                         <p:ajax event="rowToggle" global="false"/>
                         <p:column width="20">
@@ -83,6 +47,9 @@
                         </p:column>
                         <p:column headerText="numer konta">
                             <h:outputText value="#{loop.kontonumer}"/>
+                        </p:column>
+                        <p:column headerText="ilość rach" width="30" style="text-align: center;">
+                            <h:outputText value="#{loop.stronywiersza.size()}"/>
                         </p:column>
                         <p:column headerText="suma">
                             <bcf:outputpl value="#{loop.sumaokres}"/>
@@ -113,9 +80,10 @@
                             </p:dataTable>
                         </p:rowExpansion>
                     </p:dataTable>
-                </c:forEach>
+                </p:dataList>
             </p:panel>
         </h:form>
-    </p:dialog>
-</ui:composition>
+    </p:tab>  
+</ui:composition>   
+
 
