@@ -12,12 +12,7 @@
        
         <h:form id="formzapisypojazdywmcu">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <!--            <p:column>
-                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                    <f:selectItems value="#{Roki.rokiList}"/>
-                                    <f:param name="rokWpisu" value="2012" />
-                                </p:selectOneMenu>
-                            </p:column>-->
+                <h:outputText value="mc: "/>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{pojazdyView.zapisykontmiesiace}" update="@form"/>
