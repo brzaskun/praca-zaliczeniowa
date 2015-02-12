@@ -161,7 +161,7 @@ public class Pojazdy implements Serializable {
 
     @Override
     public String toString() {
-        return nrrejestracyjny;
+        return nrrejestracyjny+" "+nazwapojazdu;
     }
 
   

@@ -425,6 +425,14 @@
             <from-outcome>gfakturaFakturaKontrahenci</from-outcome>
             <to-view-id>/wspolny/wspolnyKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkZestawienia</from-outcome>
+            <to-view-id>/guestFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkBilanse</from-outcome>
+            <to-view-id>/guestFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <application>
         <locale-config>

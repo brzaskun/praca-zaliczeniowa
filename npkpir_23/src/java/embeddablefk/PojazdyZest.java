@@ -21,19 +21,17 @@ import javax.persistence.Embeddable;
 public class PojazdyZest  implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private Konto konto;
+    private String kontonazwa;
+    private String kontonumer;
     private double sumaokres;
     private double sumanarastajaco;
     private List<StronaWiersza> stronywiersza;
 
-    public Konto getKonto() {
-        return konto;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 53 * hash + Objects.hashCode(this.konto);
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.kontonazwa);
+        hash = 83 * hash + Objects.hashCode(this.kontonumer);
         return hash;
     }
 
@@ -46,7 +44,10 @@ public class PojazdyZest  implements Serializable{
             return false;
         }
         final PojazdyZest other = (PojazdyZest) obj;
-        if (!Objects.equals(this.konto, other.konto)) {
+        if (!Objects.equals(this.kontonazwa, other.kontonazwa)) {
+            return false;
+        }
+        if (!Objects.equals(this.kontonumer, other.kontonumer)) {
             return false;
         }
         return true;
@@ -54,12 +55,23 @@ public class PojazdyZest  implements Serializable{
 
     @Override
     public String toString() {
-        return "PojazdyZest{" + "konto=" + konto + ", sumaokres=" + sumaokres + ", sumanarastajaco=" + sumanarastajaco + ", stronywiersza=" + stronywiersza + '}';
+        return "PojazdyZest{" + "kontonazwa=" + kontonazwa + ", kontonumer=" + kontonumer + ", sumaokres=" + sumaokres + ", sumanarastajaco=" + sumanarastajaco + ", stronywiersza=" + stronywiersza + '}';
     }
-  
 
-    public void setKonto(Konto konto) {
-        this.konto = konto;
+    public String getKontonazwa() {
+        return kontonazwa;
+    }
+
+    public void setKontonazwa(String kontonazwa) {
+        this.kontonazwa = kontonazwa;
+    }
+
+    public String getKontonumer() {
+        return kontonumer;
+    }
+
+    public void setKontonumer(String kontonumer) {
+        this.kontonumer = kontonumer;
     }
 
     public double getSumaokres() {

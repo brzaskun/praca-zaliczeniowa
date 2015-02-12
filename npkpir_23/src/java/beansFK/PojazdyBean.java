@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package beansFK;
 
 import dao.StronaWierszaDAO;
@@ -30,22 +29,23 @@ public class PojazdyBean {
         double total = 0;
         for (Konto r : kontaslownikowe) {
             List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
-            double suma = 0;
-            for (StronaWiersza s : kontozapisy) {
-                suma += sumuj(s,p);
+            if (kontozapisy.size() > 0) {
+                double suma = 0;
+                for (StronaWiersza s : kontozapisy) {
+                    suma += sumuj(s, p);
+                }
+                total += suma;
+                List<PojazdyZest> l = listasummiejsckosztow.get(p);
+                if (l == null) {
+                    l = new ArrayList<>();
+                    l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
+                    listasummiejsckosztow.put(p, l);
+                } else {
+                    PojazdyZest m = stworzmiejscekosztzest(r, suma, total, kontozapisy);
+                    l.remove(m);
+                    l.add(m);
+                }
             }
-            total += suma;
-            List<PojazdyZest> l = listasummiejsckosztow.get(p);
-            if (l == null) {
-                l = new ArrayList<>();
-                l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
-                listasummiejsckosztow.put(p, l);
-            } else {
-                PojazdyZest m = stworzmiejscekosztzest(r, suma, total, kontozapisy);
-                l.remove(m);
-                l.add(m);
-            }
-            
         }
     }
 
@@ -59,12 +59,12 @@ public class PojazdyBean {
 
     private static PojazdyZest stworzmiejscekosztzest(Konto r, double suma, double total, List<StronaWiersza> kontozapisy) {
         PojazdyZest t = new PojazdyZest();
-        t.setKonto(r);
+        t.setKontonazwa(r.getNazwapelna());
+        t.setKontonumer(r.getPelnynumer());
         t.setSumaokres(suma);
         t.setSumanarastajaco(total);
         t.setStronywiersza(kontozapisy);
         return t;
     }
 
-    
 }
