@@ -49,7 +49,7 @@ public class SaldoAnalitykaView implements Serializable {
         sumaSaldoKonto = new ArrayList<>();
     }
     
-    @PostConstruct
+    
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
