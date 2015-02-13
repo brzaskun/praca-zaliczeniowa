@@ -192,8 +192,11 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Basic(optional = false)
     @Column(name = "idslownika")
     private int idslownika;
-    @OneToMany(mappedBy = "konto")
-    private List<StronaWiersza> stronaWiersza;
+    @Column(name="przychod0koszt1")
+    private boolean przychod0koszt1;
+    
+//    @OneToMany(mappedBy = "konto")
+//    private List<StronaWiersza> stronaWiersza;
 
 
     public Konto() {
@@ -431,13 +434,13 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.slownikowe = slownikowe;
     }
   
-    public List<StronaWiersza> getStronaWiersza() {
-        return stronaWiersza;
-    }
-
-    public void setStronaWiersza(List<StronaWiersza> stronaWiersza) {
-        this.stronaWiersza = stronaWiersza;
-    }
+//    public List<StronaWiersza> getStronaWiersza() {
+//        return stronaWiersza;
+//    }
+//
+//    public void setStronaWiersza(List<StronaWiersza> stronaWiersza) {
+//        this.stronaWiersza = stronaWiersza;
+//    }
 
     public double getObrotyWn() {
         return obrotyWn;
@@ -470,7 +473,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setSaldoMa(double saldoMa) {
         this.saldoMa = saldoMa;
     }
-       
+
+    public boolean isPrzychod0koszt1() {
+        return przychod0koszt1;
+    }
+
+    public void setPrzychod0koszt1(boolean przychod0koszt1) {
+        this.przychod0koszt1 = przychod0koszt1;
+    }
+    
+    
 
     @Override
     public int hashCode() {

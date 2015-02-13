@@ -55,6 +55,11 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
+                <p:column>
+                    <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, formtablicaanalityczne:tablicasaldaanalityczne"/>
+                </p:column>
+                
+                    <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
 <!--                     <p:commandLink id="pdf" ajax="false"> 
         <p:graphicImage name="/demo/images/pdf.png" />
         <pe:exporter type="pdf" target="tablicasaldaanalityczne" fileName="obrotykont"  orientation="Landscape"  

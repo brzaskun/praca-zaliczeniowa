@@ -132,4 +132,15 @@ public class KontaFKBean implements Serializable{
         p.setSaldoMa(Z.z(p.getSaldoMa()));
         return p;
     }
+    
+    public static void oznaczkontoPrzychod0Koszt1(Konto konto, KontoDAOfk kontoDAOfk, boolean przychod0koszt1, WpisView wpisView) {
+        konto.setPrzychod0koszt1(przychod0koszt1);
+        kontoDAOfk.edit(konto);
+        if (konto.isMapotomkow()) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+            for (Konto p : kontapotomne) {
+                oznaczkontoPrzychod0Koszt1(p, kontoDAOfk, przychod0koszt1, wpisView);
+            }
+        }
+    }
 }
