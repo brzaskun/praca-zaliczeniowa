@@ -32,7 +32,7 @@
                             emptyMessage="nie ma ustalonych miejsc kosztów / nie pobrano jeszcze miejsc kosztów">
                     <p:dataTable id="tabelazapisymiejscakosztowwmcu#{numer.index}" value="#{item}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="overflow-y: scroll;  width: 920px; margin-top: 15px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelazapisymiejscakosztowwmcu"  style="width: 1000px; margin-top: 15px;" 
                                  skipChildren="true"
                                  >
                         <f:facet name="header">
@@ -62,7 +62,7 @@
                                 <p:column headerText="dokument" width="60">
                                     <h:outputText value="#{loopik.dokfkS}"/>
                                 </p:column>
-                                <p:column headerText="data" width="50">
+                                <p:column headerText="data" width="80">
                                     <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                                 </p:column>
                                 <p:column headerText="nr" width="100">

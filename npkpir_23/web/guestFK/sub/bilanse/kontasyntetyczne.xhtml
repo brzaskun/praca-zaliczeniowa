@@ -10,12 +10,12 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab  title="Zestawienie kont syntetycznych" >
         <style>
-            .ui-widget-content .ui-datatable-odd td{
-                height : 20px !important;
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 25px !important;
                 padding: 0px 1px  !important;
             }
-            .ui-widget-content .ui-datatable-even td{
-                height : 20px !important;
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 25px !important;
                 padding: 0px 1px  !important;
             }
 
@@ -49,18 +49,18 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldoanalityczne}" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                 </p:column>
                 
                     <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
             </p:panelGrid>
             
-            <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >
@@ -125,8 +125,8 @@
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamisyntetyka">
-            <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
-                         style="float: right; margin-right: 90px; width: 772px; height: 60px;" emptyMessage="Nie wybrano konta">
+            <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop"
+                         style="float: right; margin-right: 88px; width: 769px; height: 60px;" emptyMessage="Nie wybrano konta">
                 <p:column headerText="boWn" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>

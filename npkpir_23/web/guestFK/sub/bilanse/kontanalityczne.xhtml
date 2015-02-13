@@ -10,12 +10,12 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab  title="Zestawienie kont analitycznych" >
         <style>
-            .ui-widget-content .ui-datatable-odd td{
-                height : 20px !important;
+            .gridtablicaanalityczne .ui-datatable-odd td{
+                height : 25px !important;
                 padding: 0px 1px  !important;
             }
-            .ui-widget-content .ui-datatable-even td{
-                height : 20px !important;
+            .gridtablicaanalityczne .ui-datatable-even td{
+                height : 25px !important;
                 padding: 0px 1px  !important;
             }
 
@@ -126,7 +126,7 @@
         </h:form>
         <h:form id="tabelazsumamianalityka">
             <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
-                         style="float: right; margin-right: 90px; width: 772px; height: 60px;" emptyMessage="Nie wybrano konta">
+                         style="float: right; margin-right: 88px; width: 769px; height: 60px;" emptyMessage="Nie wybrano konta">
                 <p:column headerText="boWn" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>

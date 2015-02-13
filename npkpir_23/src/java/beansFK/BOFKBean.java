@@ -5,6 +5,7 @@
  */
 package beansFK;
 
+import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -44,6 +45,25 @@ public class BOFKBean {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
             } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+            }
+        }
+        return zapisy;
+    }
+    
+    public static List<StronaWiersza> pobierzZapisyBOSyntetyka(KontoDAOfk kontoDAOfk, Konto konto, WierszBODAO wierszBODAO, WpisView wpisView) {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
+        for (WierszBO p : wierszeBO) {
+            if (p.getKwotaWnPLN() > 0) {
+                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+            } else {
+                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+            }
+        }
+        if (konto.isMapotomkow()) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+            for (Konto p : kontapotomne) {
+                zapisy.addAll(pobierzZapisyBOSyntetyka(kontoDAOfk, p, wierszBODAO, wpisView));
             }
         }
         return zapisy;

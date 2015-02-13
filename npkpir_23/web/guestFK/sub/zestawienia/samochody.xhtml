@@ -27,7 +27,7 @@
                             emptyMessage="nie ma ustalonej listy pojazdów / nie pobrano jeszcze listy pojazdów">
                     <p:dataTable id="tabelapojazdywmcu#{numer.index}" value="#{item}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="overflow-y: scroll;  width: 920px; margin-top: 15px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="width: 1000px; margin-top: 15px;" 
                                  skipChildren="true"
                                  >
                         <f:facet name="header">
@@ -57,7 +57,7 @@
                                 <p:column headerText="dokument" width="60">
                                     <h:outputText value="#{loopik.dokfkS}"/>
                                 </p:column>
-                                <p:column headerText="data" width="50">
+                                <p:column headerText="data" width="80">
                                     <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                                 </p:column>
                                 <p:column headerText="nr" width="100">
