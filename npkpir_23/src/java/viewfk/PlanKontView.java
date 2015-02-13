@@ -702,7 +702,28 @@ public class PlanKontView implements Serializable {
                 Msg.msg("Zakonczono aktualizowanie słowników");
         }
     }
+     
+    public void oznaczkontoJakoKosztowe() {
+        if (selectednodekonto.getId() == null) {
+            Msg.msg("e", "Nie wybrano konta");
+        } else {
+            KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, true, wpisView);
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Msg.msg("Naniesiono oznaczenia na konta");
+        }
+    }
 
+    public void oznaczkontoJakoPrzychodowe() {
+        if (selectednodekonto.getId() == null) {
+            Msg.msg("e", "Nie wybrano konta");
+        } else {
+            KontaFKBean.oznaczkontoPrzychod0Koszt1(selectednodekonto, kontoDAOfk, false, wpisView);
+            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            Msg.msg("Naniesiono oznaczenia na konta");
+        }
+    }
+    
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
         return selectednodekonto;
