@@ -18,7 +18,6 @@ import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -32,7 +31,7 @@ import waluty.Z;
  */
 @ManagedBean
 @ViewScoped
-public class SaldoAnalitykaView implements Serializable {
+public class SaldoSyntetykaView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
     private List<SaldoKonto> sumaSaldoKonto;
@@ -45,13 +44,13 @@ public class SaldoAnalitykaView implements Serializable {
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
 
-    public SaldoAnalitykaView() {
+    public SaldoSyntetykaView() {
         sumaSaldoKonto = new ArrayList<>();
     }
     
     
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+       List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
@@ -107,7 +106,7 @@ public class SaldoAnalitykaView implements Serializable {
 //</editor-fold>
 
     private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBOSyntetyka(kontoDAOfk, p, wierszBODAO, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
                 saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
@@ -141,9 +140,9 @@ public class SaldoAnalitykaView implements Serializable {
 
     private List<StronaWiersza> pobierzzapisy(Konto p) {
         List<String> poprzedniemce = Mce.poprzedniemce(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
+        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
         for (String r : poprzedniemce) {
-            zapisy.addAll(KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
+            zapisy.addAll(KontaFKBean.pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
         }
         return zapisy;
     }

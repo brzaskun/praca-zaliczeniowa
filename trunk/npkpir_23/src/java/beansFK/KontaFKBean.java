@@ -8,6 +8,7 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -19,6 +20,7 @@ import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -92,8 +94,42 @@ public class KontaFKBean implements Serializable{
         return pobranezapisy;
     }
     
+    public static List<StronaWiersza> pobierzZapisyRokMcSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, String mc, StronaWierszaDAO stronaWierszaDAO) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcWszystkie(podatnik, konto, rok, mc);
+        if (konto.isMapotomkow()) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+            for (Konto p : kontapotomne) {
+                pobranezapisy.addAll(pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, mc, stronaWierszaDAO));
+            }
+        }
+        return pobranezapisy;
+    }
+    
     public static List<StronaWiersza> pobierzZapisyVATRokMc(Konto konto, Podatnik podatnik, String rok, String mc, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcVAT(podatnik, konto, rok, mc);
         return pobranezapisy;
+    }
+    
+    public static SaldoKonto sumujsaldakont(List<SaldoKonto> przygotowanalista) {
+        SaldoKonto p = new SaldoKonto();
+        for (SaldoKonto r : przygotowanalista) {
+            p.setBoWn(Z.z(p.getBoWn() + r.getBoWn()));
+            p.setBoMa(Z.z(p.getBoMa() + r.getBoMa()));
+            p.setObrotyWn(Z.z(p.getObrotyWn() + r.getObrotyWn()));
+            p.setObrotyMa(Z.z(p.getObrotyMa() + r.getObrotyMa()));
+            p.setObrotyBoWn(Z.z(p.getObrotyBoWn() + r.getObrotyBoWn()));
+            p.setObrotyBoMa(Z.z(p.getObrotyBoMa() + r.getObrotyBoMa()));
+            p.setSaldoWn(Z.z(p.getSaldoWn() + r.getSaldoWn()));
+            p.setSaldoMa(Z.z(p.getSaldoMa() + r.getSaldoMa()));
+        }
+        p.setBoWn(Z.z(p.getBoWn()));
+        p.setBoMa(Z.z(p.getBoMa()));
+        p.setObrotyWn(Z.z(p.getObrotyWn()));
+        p.setObrotyMa(Z.z(p.getObrotyMa()));
+        p.setObrotyBoWn(Z.z(p.getObrotyBoWn()));
+        p.setObrotyBoMa(Z.z(p.getObrotyBoMa()));
+        p.setSaldoWn(Z.z(p.getSaldoWn()));
+        p.setSaldoMa(Z.z(p.getSaldoMa()));
+        return p;
     }
 }
