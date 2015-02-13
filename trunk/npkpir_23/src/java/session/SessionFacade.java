@@ -705,6 +705,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
     
+    public List<Konto> findKontaOstAlitykaWynikowe(String podatnik, Integer rok) {
+        return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
+    
     public List<Konto> findKontaOstAlityka5(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }

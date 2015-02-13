@@ -7,7 +7,10 @@
 package embeddablefk;
 
 import entityfk.Konto;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Embeddable;
 
@@ -28,6 +31,7 @@ public class SaldoKonto implements Serializable {
     private double obrotyBoMa;
     private double saldoWn;
     private double saldoMa;
+    private List<StronaWiersza> zapisy;
 
     public SaldoKonto() {
     }
@@ -145,6 +149,14 @@ public class SaldoKonto implements Serializable {
         this.saldoMa = saldoMa;
     }
 
+    public List<StronaWiersza> getZapisy() {
+        return zapisy;
+    }
+
+    public void setZapisy(List<StronaWiersza> zapisy) {
+        this.zapisy = zapisy;
+    }
+    
     public void sumujBOZapisy() {
         double obrotyWn = Math.round((this.boWn + this.obrotyWn)*100);
         obrotyWn /= 100;
