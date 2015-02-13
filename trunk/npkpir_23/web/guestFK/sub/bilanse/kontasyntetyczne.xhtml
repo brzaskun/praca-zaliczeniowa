@@ -20,25 +20,6 @@
             }
 
         </style>
-        <script>
-            /* <![CDATA[ */
-            //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-            $(document).on("click", '.gridtablicasyntetyczne tr', function (e) {
-                var pierwszywiersz = $("#akordeon\\:formtablicasyntetyczne\\:tablicasaldasyntetyczne_data").children("tr");
-                var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
-                try {
-                    e.stopPropagation(); // will prevent double click events from link being clicked within row
-                    var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaanalityka").text()); // trim to remove end space, closest gets closest parent of selected type
-                    var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
-                    zachowajnumerwiersza("zmiennatablicaanalityczne", liczbadokalkulacji);
-                } catch (e) {
-                    //alert('error');
-                }
-            });
-            /* ]]> */
-        </script>
-
-        <bcf:ajaxs/>
         <h:form id="formtablicasyntetyczne">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
                 <!--            <p:column>
