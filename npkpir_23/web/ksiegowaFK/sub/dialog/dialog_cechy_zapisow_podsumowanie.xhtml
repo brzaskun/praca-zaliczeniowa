@@ -1,0 +1,75 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialogcechyzapisowpodsumowanie" header="Zestawienie cech zapisów w dokumentach" widgetVar="dialogcechyzapisowpodsumowanie"  dynamic="true"
+              resizable="false"  onShow="ustawdialog('dialogcechyzapisowpodsumowanie','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogcechyzapisowpodsumowanie');" >
+        
+        <h:form id="formcechyzapisow">
+            <p:panelGrid columns="4" style="margin-left: 2%;" >
+                <h:outputText value="m-c" style="margin-right: 10px;"/>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{cechyzapisuPrzegladView.odswiez}" update="@form"/>
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="pobierz" actionListener="#{cechyzapisuPrzegladView.odswiez()}" style="width: 120px; margin-left: 20px;" update="@form"/>
+                </p:column>
+                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+            </p:panelGrid>
+             <style>
+            .gridtablicasyntetyczne .ui-datatable-odd td{
+                height : 30px !important;
+                padding: 0px 1px  !important;
+            }
+            .gridtablicasyntetyczne .ui-datatable-even td{
+                height : 30px !important;
+                padding: 0px 1px  !important;
+            }
+
+        </style>
+            <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{cechyzapisuPrzegladView.zapisyZCecha}" editable="true" 
+                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
+                         scrollable="true" style="width: 1100px;" scrollHeight="550" widgetVar="tabelacechyzapisow" rowIndexVar="index">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zapisów z cechami " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
+                </f:facet>
+                <p:column headerText="lp" width="20"  >
+                    <h:outputText value="#{index+1}" />
+                </p:column>
+                <p:column headerText="nazwa cechy" width="80">
+                    <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="rodzaj cechy" width="40">
+                    <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.rodzajcechy}"/>
+                </p:column>
+                <p:column headerText="dokument" width="80">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
+                </p:column>
+                <p:column headerText="data dok" width="80">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="data trans." width="80">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfk.dataoperacji}"/>
+                </p:column>
+                <p:column headerText="wiersz" width="300">
+                    <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
+                </p:column>
+                <p:column headerText="konto" width="70">
+                    <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="kwota" width="90">
+                    <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
