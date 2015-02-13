@@ -20,35 +20,37 @@
             }
 
         </style>
-         <h:form id="formsymulacja">
+        <h:form id="formsymulacja">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <!--            <p:column>
-                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                                    <f:selectItems value="#{Roki.rokiList}"/>
-                                    <f:param name="rokWpisu" value="2012" />
-                                </p:selectOneMenu>
-                            </p:column>-->
+                <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldoanalityczne}" update="@form"/>
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsaldoanalityczne}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form"/>
+                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
-                
-                    <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
             </p:panelGrid>
-            
-            <p:dataTable id="tablicasymulacjaP" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll;" widgetVar="tablicasymulacjaP"
+
+            <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach przychodowych w roku podatkowym" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
+                         styleClass="gridtablicasyntetyczne" widgetVar="tablicasymulacjaP" style="width: 800px" 
                          >
                 <f:facet name="header">
-                    <h:outputText value="przychody"/>
+                    <h:outputText value="zapisy na kontach przychodowych - suma wybranych: #{symulacjaWynikuView.sumaprzychody}"/>
                 </f:facet>
-                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
+                <p:ajax event="rowSelectCheckbox" update="@form" listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="@form"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:ajax event="toggleSelect" update="@form"  listener="#{symulacjaWynikuView.sumazapisowPrzychody()}" global="false"/>
+                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler/>
+                </p:column>
+                <p:column headerText="id" width="20" sortBy="#{loop.id}"  style="text-align: center;">
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
                 <p:column headerText="konto" width="40" >
@@ -57,16 +59,6 @@
                 <p:column headerText="opis" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
-                <p:column headerText="boWn" width="60" >
-                    <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="boMa" width="60" >
-                    <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
                 <p:column headerText="obrotyWn" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -74,16 +66,6 @@
                 </p:column>
                 <p:column headerText="obrotyMa" width="60" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="obrotyBOWn" width="60" >
-                    <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="obrotyBOMa" width="60" >
-                    <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
@@ -100,16 +82,45 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
+                <p:rowExpansion>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                        <p:column headerText="dokument" width="60">
+                            <h:outputText value="#{loopik.dokfkS}"/>
+                        </p:column>
+                        <p:column headerText="data" width="50">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                        </p:column>
+                        <p:column headerText="nr" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                        </p:column>
+                        <p:column headerText="kontrahent">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                        </p:column>
+                        <p:column headerText="wiersz">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                        </p:column>
+                        <p:column headerText="kwota" width="60">
+                            <bcf:outputpl value="#{loopik.kwota}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
             </p:dataTable>
-             
-             <p:dataTable id="tablicasymulacjaK" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; margin-top: 30px;" widgetVar="tablicasymulacjaK"
+            <p:dataTable id="tablicasymulacjaK" value="#{symulacjaWynikuView.listakontakoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach kosztowych w roku podatkowym" selection="#{symulacjaWynikuView.sumaSaldoKontoKoszty}" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 800px" widgetVar="tablicasymulacjaK"
                          >
                 <f:facet name="header">
-                    <h:outputText value="koszty"/>
+                    <h:outputText value="zapisy na kontach kosztowych - suma wybranych: #{symulacjaWynikuView.sumakoszty}"/>
                 </f:facet>
-                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
+                <p:ajax event="rowSelectCheckbox" update="@form" listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" update="@form"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:ajax event="toggleSelect" update="@form"  listener="#{symulacjaWynikuView.sumazapisowKoszty()}" global="false"/>
+                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
+                <p:column headerText="id" width="20" sortBy="#{loop.id}" style="text-align: center;" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
                 <p:column headerText="konto" width="40" >
@@ -118,16 +129,6 @@
                 <p:column headerText="opis" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
-                <p:column headerText="boWn" width="60" >
-                    <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="boMa" width="60" >
-                    <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
                 <p:column headerText="obrotyWn" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -135,16 +136,6 @@
                 </p:column>
                 <p:column headerText="obrotyMa" width="60" >
                     <h:outputText value="#{loop.obrotyMa != 0.0 ? loop.obrotyMa : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="obrotyBOWn" width="60" >
-                    <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="obrotyBOMa" width="60" >
-                    <h:outputText value="#{loop.obrotyBoMa != 0.0 ? loop.obrotyBoMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
@@ -160,10 +151,46 @@
                 </p:column>
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}" />
+                </p:column>
+                <p:rowExpansion>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                        <p:column headerText="dokument" width="60">
+                            <h:outputText value="#{loopik.dokfkS}"/>
+                        </p:column>
+                        <p:column headerText="data" width="50">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                        </p:column>
+                        <p:column headerText="nr" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                        </p:column>
+                        <p:column headerText="kontrahent">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                        </p:column>
+                        <p:column headerText="wiersz">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                        </p:column>
+                        <p:column headerText="kwota" width="60">
+                            <bcf:outputpl value="#{loopik.kwota}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+            
+            <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.listapozycjisymulacji}" var="loop" rowKey="#{loop.nazwa}"
+                         emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjasuma"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="obliczenie wyniku"/>
+                </f:facet>
+                <p:column headerText="opis" width="140" >
+                    <h:outputText value="#{loop.nazwa}"/>
+                </p:column>
+                <p:column headerText="kwota" width="60" >
+                    <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
-        
     </p:tab>  
 </ui:composition>   
 
