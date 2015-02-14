@@ -10,12 +10,15 @@ import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
+import viewfk.PojazdyView;
 
 /**
  *
@@ -25,26 +28,28 @@ import view.WpisView;
 @Singleton
 public class PojazdyBean {
 
-    public static void zsumujkwotyzkont(Pojazdy p, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<Pojazdy, List<PojazdyZest>> listasummiejsckosztow) {
-        double total = 0;
-        for (Konto r : kontaslownikowe) {
-            List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
-            if (kontozapisy.size() > 0) {
-                double suma = 0;
-                for (StronaWiersza s : kontozapisy) {
-                    suma += sumuj(s, p);
-                }
-                total += suma;
-                List<PojazdyZest> l = listasummiejsckosztow.get(p);
-                if (l == null) {
-                    l = new ArrayList<>();
+    public static void zsumujkwotyzkont(List<Pojazdy> listapojazdy, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<PojazdyView.TabelaPojazdy> listasumpojazdy) {
+        int i = 1;
+        for (Pojazdy p : listapojazdy) {
+            double total = 0;
+            List<PojazdyZest> l = new ArrayList<>();
+            PojazdyView.TabelaPojazdy m = new PojazdyView.TabelaPojazdy();
+            for (Konto r : kontaslownikowe) {
+                List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
+                if (kontozapisy.size() > 0) {
+                    double suma = 0;
+                    for (StronaWiersza s : kontozapisy) {
+                        suma += sumuj(s, p);
+                    }
+                    total += suma;
                     l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
-                    listasummiejsckosztow.put(p, l);
-                } else {
-                    PojazdyZest m = stworzmiejscekosztzest(r, suma, total, kontozapisy);
-                    l.remove(m);
-                    l.add(m);
                 }
+            }
+            if (l.size() > 0) {
+                m.setId(i++);
+                m.setPojazd(p);
+                m.setPojazdyZest(l);
+                listasumpojazdy.add(m);
             }
         }
     }

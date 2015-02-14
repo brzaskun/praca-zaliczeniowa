@@ -6,7 +6,6 @@
 
 package viewfk;
 
-import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import dao.StronaWierszaDAO;
@@ -16,7 +15,9 @@ import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -25,6 +26,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfMiejsceKosztow;
+import pdf.PdfPojazdy;
 import view.WpisView;
 
 /**
@@ -47,7 +50,8 @@ public class PojazdyView  implements Serializable{
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
-    private Map<Pojazdy, List<PojazdyZest>> listasumpojazdy;
+    private LinkedHashSet<TabelaPojazdy> listasumpojazdy;
+    private List<TabelaPojazdy> listawybranychpojazdow;
 
     public PojazdyView() {
     }
@@ -59,13 +63,12 @@ public class PojazdyView  implements Serializable{
         } catch (Exception e) {
             
         }
-        listasumpojazdy = new HashMap<>();
     }
     
      public void sumymiesiecy() {
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
-            listasumpojazdy = new HashMap<>();
+            listasumpojazdy = new LinkedHashSet<>();
             obliczsumy();
         } catch (Exception e) {
             
@@ -75,9 +78,7 @@ public class PojazdyView  implements Serializable{
     
     public void obliczsumy() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 3);
-        for (Pojazdy p : pojazdy) {
-            PojazdyBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy);
-        }
+        PojazdyBean.zsumujkwotyzkont(pojazdy, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy);
     }
 
     public void dodaj() {
@@ -133,6 +134,10 @@ public class PojazdyView  implements Serializable{
          init();
     }
     
+    public void drukuj(int i) {
+        PdfPojazdy.drukuj(listawybranychpojazdow, wpisView, i);
+    }
+     
     public Pojazdy getSelected() {
         return selected;
     }
@@ -165,13 +170,68 @@ public class PojazdyView  implements Serializable{
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
-    public Map<Pojazdy, List<PojazdyZest>> getListasumpojazdy() {
+    public LinkedHashSet<TabelaPojazdy> getListasumpojazdy() {
         return listasumpojazdy;
     }
 
-    public void setListasumpojazdy(Map<Pojazdy, List<PojazdyZest>> listasumpojazdy) {
+    public void setListasumpojazdy(LinkedHashSet<TabelaPojazdy> listasumpojazdy) {
         this.listasumpojazdy = listasumpojazdy;
     }
 
+    public List<TabelaPojazdy> getListawybranychpojazdow() {
+        return listawybranychpojazdow;
+    }
+
+    public void setListawybranychpojazdow(List<TabelaPojazdy> listawybranychpojazdow) {
+        this.listawybranychpojazdow = listawybranychpojazdow;
+    }
+
+    
+
+   
+     public static class TabelaPojazdy {
+        private int id;
+        private Pojazdy pojazd;
+        private List<PojazdyZest> pojazdyZest;
+        
+        public TabelaPojazdy() {
+            this.pojazdyZest = new ArrayList<>();
+        }
+
+        public TabelaPojazdy(int id, Pojazdy pojazd, List<PojazdyZest> pojazdyZest) {
+            this.id = id;
+            this.pojazd = pojazd;
+            this.pojazdyZest = pojazdyZest;
+        }
+        
+        
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public Pojazdy getPojazd() {
+            return pojazd;
+        }
+
+        public void setPojazd(Pojazdy pojazd) {
+            this.pojazd = pojazd;
+        }
+
+        public List<PojazdyZest> getPojazdyZest() {
+            return pojazdyZest;
+        }
+
+        public void setPojazdyZest(List<PojazdyZest> pojazdyZest) {
+            this.pojazdyZest = pojazdyZest;
+        }
+
+       
+        
+    }
     
 }
