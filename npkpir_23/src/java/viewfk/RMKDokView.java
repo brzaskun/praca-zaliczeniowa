@@ -15,21 +15,10 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
-import data.Data;
 import embeddable.Mce;
-import embeddable.Umorzenie;
 import embeddablefk.SaldoKonto;
-import entity.Amodok;
-import entity.Klienci;
-import entity.Rodzajedok;
-import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
-import entityfk.Transakcja;
-import entityfk.Waluty;
-import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +27,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
 import view.WpisView;
-import waluty.Z;
 
 /**
  *

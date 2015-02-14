@@ -15,15 +15,19 @@ import embeddablefk.MiejsceKosztowZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfMiejsceKosztow;
 import view.WpisView;
 
 /**
@@ -46,9 +50,11 @@ public class MiejsceKosztowView  implements Serializable{
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
-    private Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow;
+    private LinkedHashSet<TabelaMiejsceKosztow> listasummiejsckosztow;
+    private List<TabelaMiejsceKosztow> listawybranychmiejsckosztow;
 
     public MiejsceKosztowView() {
+        
     }
 
     @PostConstruct
@@ -63,7 +69,7 @@ public class MiejsceKosztowView  implements Serializable{
     public void sumymiesiecy() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-            listasummiejsckosztow = new HashMap<>();
+            listasummiejsckosztow = new LinkedHashSet<>();
             obliczsumymiejsc();
         } catch (Exception e) {
             
@@ -129,6 +135,14 @@ public class MiejsceKosztowView  implements Serializable{
         return 0;
     }
     
+    public void drukuj(int i) {
+        PdfMiejsceKosztow.drukuj(listawybranychmiejsckosztow, wpisView, i);
+    }
+    
+    public void message() {
+        Msg.msg("Wybrano wiersz");
+    }
+    
     public MiejsceKosztow getSelected() {
         return selected;
     }
@@ -161,12 +175,67 @@ public class MiejsceKosztowView  implements Serializable{
         this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
-    public Map<MiejsceKosztow, List<MiejsceKosztowZest>> getListasummiejsckosztow() {
+    public LinkedHashSet<TabelaMiejsceKosztow> getListasummiejsckosztow() {
         return listasummiejsckosztow;
     }
 
-    public void setListasummiejsckosztow(Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow) {
+    public void setListasummiejsckosztow(LinkedHashSet<TabelaMiejsceKosztow> listasummiejsckosztow) {
         this.listasummiejsckosztow = listasummiejsckosztow;
+    }
+
+    public List<TabelaMiejsceKosztow> getListawybranychmiejsckosztow() {
+        return listawybranychmiejsckosztow;
+    }
+
+    public void setListawybranychmiejsckosztow(List<TabelaMiejsceKosztow> listawybranychmiejsckosztow) {
+        this.listawybranychmiejsckosztow = listawybranychmiejsckosztow;
+    }
+
+   
+    
+
+    public static class TabelaMiejsceKosztow {
+        private int id;
+        private MiejsceKosztow miejsceKosztow;
+        private List<MiejsceKosztowZest> miejsceKosztowZest;
+        
+        public TabelaMiejsceKosztow() {
+            this.miejsceKosztowZest = new ArrayList<>();
+        }
+
+        public TabelaMiejsceKosztow(int id, MiejsceKosztow miejsceKosztow, List<MiejsceKosztowZest> miejsceKosztowZest) {
+            this.id = id;
+            this.miejsceKosztow = miejsceKosztow;
+            this.miejsceKosztowZest = miejsceKosztowZest;
+        }
+        
+        
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public MiejsceKosztow getMiejsceKosztow() {
+            return miejsceKosztow;
+        }
+
+        public void setMiejsceKosztow(MiejsceKosztow miejsceKosztow) {
+            this.miejsceKosztow = miejsceKosztow;
+        }
+
+        public List<MiejsceKosztowZest> getMiejsceKosztowZest() {
+            return miejsceKosztowZest;
+        }
+
+        public void setMiejsceKosztowZest(List<MiejsceKosztowZest> miejsceKosztowZest) {
+            this.miejsceKosztowZest = miejsceKosztowZest;
+        }
+        
+        
     }
 
     

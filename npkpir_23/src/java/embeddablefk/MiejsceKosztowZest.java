@@ -8,6 +8,7 @@ package embeddablefk;
 
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Embeddable;
@@ -17,8 +18,8 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Embeddable
-public class MiejsceKosztowZest {
-    
+public class MiejsceKosztowZest implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String kontonazwa;
     private String kontonumer;
     private double sumaokres;
