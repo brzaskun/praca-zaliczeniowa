@@ -21,6 +21,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import pdf.PdfMiejsceKosztow;
+import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
 import waluty.Z;
 
@@ -173,6 +175,10 @@ public class SymulacjaWynikuView implements Serializable {
             sumakoszty += p.getSaldoWn();
             sumakoszty -= p.getSaldoMa();
         }
+    }
+    
+    public void drukuj(int i) {
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, listapozycjisymulacji, wpisView, i);
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
