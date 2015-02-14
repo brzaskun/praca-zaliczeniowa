@@ -37,6 +37,20 @@ public class PdfFont {
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         return cell;
     }
+    
+    public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) throws DocumentException, IOException {
+        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+        Font font = new Font(helvetica, fontsize);
+        PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+        if (rowsp > 0) {
+            cell.setRowspan(rowsp);
+        } else {
+            cell.setColspan(colsp);
+        }
+        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        return cell;
+    }
 
     public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) throws DocumentException, IOException {
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);

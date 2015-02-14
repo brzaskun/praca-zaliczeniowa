@@ -12,11 +12,13 @@ import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
+import viewfk.MiejsceKosztowView;
 
 /**
  *
@@ -26,9 +28,12 @@ import view.WpisView;
 @Singleton
 public class MiejsceKosztowBean {
 
-    public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<MiejsceKosztow, List<MiejsceKosztowZest>> listasummiejsckosztow) {
+    public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow) {
+        int i = 1;
         for (MiejsceKosztow p : miejscakosztow) {
             double total = 0;
+            List<MiejsceKosztowZest> l = new ArrayList<>();
+            MiejsceKosztowView.TabelaMiejsceKosztow m = new MiejsceKosztowView.TabelaMiejsceKosztow();
             for (Konto r : kontaslownikowe) {
                 List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWaluta(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
                 if (kontozapisy.size() > 0) {
@@ -37,18 +42,14 @@ public class MiejsceKosztowBean {
                         suma += sumuj(s);
                     }
                     total += suma;
-                    List<MiejsceKosztowZest> l = listasummiejsckosztow.get(p);
-                    if (l == null) {
-                        l = new ArrayList<>();
-                        l.add(new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy));
-                        listasummiejsckosztow.put(p, l);
-                    } else {
-                        
-                        MiejsceKosztowZest m = new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy);
-                        l.remove(m);
-                        l.add(m);
-                    }
+                    l.add(new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy));
                 }
+            }
+            if (l.size() > 0) {
+                m.setId(i++);
+                m.setMiejsceKosztow(p);
+                m.setMiejsceKosztowZest(l);
+                listasummiejsckosztow.add(m);
             }
         }
     }
