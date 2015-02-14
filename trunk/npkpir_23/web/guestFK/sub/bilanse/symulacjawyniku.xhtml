@@ -21,7 +21,7 @@
 
         </style>
         <h:form id="formsymulacja">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
+            <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -33,6 +33,8 @@
                     <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                <p:commandButton value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>
 
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
