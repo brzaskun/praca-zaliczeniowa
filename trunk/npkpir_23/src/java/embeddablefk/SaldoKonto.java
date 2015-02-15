@@ -34,12 +34,14 @@ public class SaldoKonto implements Serializable {
     private List<StronaWiersza> zapisy;
 
     public SaldoKonto() {
+        this.zapisy = new ArrayList<>();
     }
     
     public SaldoKonto (Konto konto, double saldoWn, double saldoMa) {
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
+        this.zapisy = new ArrayList<>();
     }
 
     @Override

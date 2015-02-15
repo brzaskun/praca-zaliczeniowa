@@ -33,7 +33,8 @@
                     <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
-                <p:commandButton value="drukuj" actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="drukuj tab." actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="drukuj szcz." actionListener="#{saldoSyntetykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
@@ -46,6 +47,10 @@
  <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
  <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
                 <!--            <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>-->
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column width="20">
+                    <p:rowToggler/>
+                </p:column>
                 <p:column headerText="id" width="20" sortBy="#{loop.id}" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
@@ -98,6 +103,28 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
+                <p:rowExpansion>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                        <p:column headerText="dokument" width="60">
+                            <h:outputText value="#{loopik.dokfkS}"/>
+                        </p:column>
+                        <p:column headerText="data" width="50">
+                            <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                        </p:column>
+                        <p:column headerText="nr" width="100">
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                        </p:column>
+                        <p:column headerText="kontrahent">
+                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                        </p:column>
+                        <p:column headerText="wiersz">
+                            <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                        </p:column>
+                        <p:column headerText="kwota" width="60">
+                            <bcf:outputpl value="#{loopik.kwota}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
             </p:dataTable>
         </h:form>
         <h:form id="tabelazsumamisyntetyka">
