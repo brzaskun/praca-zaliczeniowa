@@ -126,6 +126,7 @@ public class SaldoAnalitykaView implements Serializable {
             } else {
                 saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
             }
+            saldoKonto.getZapisy().add(r);
         }
     }
 
