@@ -13,6 +13,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Locale;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 
@@ -74,8 +75,20 @@ public class PdfFont {
         return cell;
     }
 
-    public static String formatujliczby(Double wsad) {
+    public static String formatujWaluta(Double wsad) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        try {
+            String moneyString = formatter.format(wsad);
+            return moneyString;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
+    public static String formatujLiczba(Double wsad) {
+        NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("PL"));
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
         try {

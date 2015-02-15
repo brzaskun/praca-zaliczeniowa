@@ -6,7 +6,7 @@
 
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -115,9 +115,9 @@ public class PdfVATKorektaReczna {
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getId()), "center",10));
                 table.addCell(ustawfrazeAlign(rs.getNipKontrahenta(), "left",10));
                 table.addCell(ustawfrazeAlign(rs.getNrwłasny(), "left",10));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right",10));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right",10));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getBrutto()), "right",10));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",10));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right",10));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getBrutto()), "right",10));
             }
             document.add(Chunk.NEWLINE);
             document.add(table);

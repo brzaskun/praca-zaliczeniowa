@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import pdf.PdfKonta;
 import view.WpisView;
 import waluty.Z;
 
@@ -146,7 +147,10 @@ public class SaldoSyntetykaView implements Serializable {
         }
         return zapisy;
     }
-   
+    
+    public void drukuj(int i) {
+        PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1);
+    }
     
     
 }

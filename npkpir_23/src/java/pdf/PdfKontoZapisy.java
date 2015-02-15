@@ -4,7 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
@@ -134,19 +134,19 @@ public class PdfKontoZapisy {
                     table.addCell(ustawfrazeAlign("", "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
                     table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
                 }
                 if (rs.getWnma().equals("Wn")) {
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwota()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwota()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 7));
                 }
                 table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), "center", 7));
                 if (rs.getWnma().equals("Wn") && rs.getWiersz().getStronaMa() != null) {

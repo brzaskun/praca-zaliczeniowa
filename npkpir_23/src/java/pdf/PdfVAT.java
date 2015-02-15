@@ -5,7 +5,7 @@
 package pdf;
 
 import beansFK.DokFKTransakcjeBean;
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
@@ -178,9 +178,9 @@ public class PdfVAT {
                     }
 
                     table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
                     i++;
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
@@ -335,9 +335,9 @@ public class PdfVAT {
                 }
 
                 table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getVat()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto() + rs.getVat()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
                 i++;
             }
             return table;

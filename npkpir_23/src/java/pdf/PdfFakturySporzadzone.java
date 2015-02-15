@@ -5,7 +5,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
@@ -159,9 +159,9 @@ public class PdfFakturySporzadzone {
                         vat = Z.z(rs.getVat() - rs.getVatpk());
                         brutto = Z.z(rs.getBrutto() - rs.getBruttopk());
                     }
-                    table.addCell(ustawfrazeAlign(formatujliczby(netto), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(vat), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujliczby(brutto), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(netto), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(vat), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujWaluta(brutto), "right", 7));
                     table.addCell(ustawfrazeAlign("", "right", 7));
                     i++;
                 }
