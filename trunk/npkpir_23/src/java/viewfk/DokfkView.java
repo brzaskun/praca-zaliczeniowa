@@ -1344,7 +1344,9 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void dodaj() {
-        if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+        if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
+            Msg.msg("e", "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.");
+        } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);

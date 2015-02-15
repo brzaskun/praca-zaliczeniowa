@@ -270,6 +270,7 @@
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
+                                <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="vat" style="width: 80px;">

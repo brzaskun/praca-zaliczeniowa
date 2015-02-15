@@ -144,17 +144,20 @@
                         <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}"/>
                         </p:column>
-                        <p:column headerText="lp" width="20" style="text-align: center;">
+                        <p:column headerText="lp" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
+                        <p:column headerText="data" width="30" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(5,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
-                            <h:outputText value="#{loop.dokfkS}"/>
+                            <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="w." width="20"  style="text-align: center;" sortBy="#{loop.wiersz.idporzadkowy}">
-                            <h:outputText value="#{loop.wiersz.idporzadkowy}"/>
+                        <p:column headerText="nr wl" width="50"  style="text-align: center; font-size: x-small;" sortBy="#{loop.dokfk.numerwlasnydokfk}">
+                            <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
+                        </p:column>
+                        <p:column headerText="kontr" width="150" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'wszystkie'}">
+                            <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="opis" width="150" sortBy="#{loop.wiersz.opisWiersza}">
                             <h:outputText value="#{loop.wiersz.opisWiersza}"/>

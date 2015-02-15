@@ -23,7 +23,13 @@ public class WierszBOPK implements Serializable{
 
     public WierszBOPK() {
     }
-        
+
+    @Override
+    public String toString() {
+        return "WierszBOPK{" + "nippodatnika=" + nippodatnika + ", idkonta=" + idkonta + ", rok=" + rok + ", opis=" + opis + '}';
+    }
+    
+    
 
     public String getNippodatnika() {
         return nippodatnika;

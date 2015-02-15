@@ -688,8 +688,12 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void rozwinwszystkie(TreeNodeExtended root) {
-        level = root.ustaldepthDT(pozycje) - 1;
-        root.expandAll();
+        try {
+            level = root.ustaldepthDT(pozycje) - 1;
+            root.expandAll();
+        } catch (Exception e) {
+            
+        }
     }
 
     public void rozwin(TreeNodeExtended root) {
@@ -700,8 +704,12 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void zwinwszystkie(TreeNodeExtended root) {
-        root.foldAll();
-        level = 0;
+        try {
+            root.foldAll();
+            level = 0;
+        } catch (Exception e) {
+            
+        }
     }
 
     public void zwin(TreeNodeExtended root) {

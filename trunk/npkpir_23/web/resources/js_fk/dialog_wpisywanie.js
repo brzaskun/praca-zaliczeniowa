@@ -310,6 +310,18 @@ var kopiujnazwepelna = function () {
   }
 };
 
+var obsluzewidencjavatsprzedaz = function () {
+    var charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode === 107) {
+        event.target.value = 0.0;
+        r("formwpisdokument:dataList:0:opis").focus();
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+    }
+    
+};
+
 
 
 
