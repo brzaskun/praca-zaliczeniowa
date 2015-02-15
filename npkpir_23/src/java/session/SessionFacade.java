@@ -949,6 +949,14 @@ public class SessionFacade<T> implements Serializable{
     public List<Dokfk> findDokfkPodatnikRok(WpisView w) {
         return em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
     }
+    
+    public List<Dokfk> findDokfkPodatnikRokMcKategoria(WpisView w, String kategoria) {
+        return em.createNamedQuery("Dokfk.findByPodatnikRokMcKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).setParameter("kategoria", kategoria).getResultList();
+    }
+    
+    public List<Dokfk> findDokfkPodatnikRokKategoria(WpisView w, String kategoria) {
+        return em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
+    }
 
     public Rejestrlogowan findRejestrlogowanByIP(String ipusera) {
         return (Rejestrlogowan) em.createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
