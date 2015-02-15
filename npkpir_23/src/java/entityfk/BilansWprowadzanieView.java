@@ -220,41 +220,48 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void zapiszBilansBOdoBazy() {
         Set<Integer> numerylist = listazbiorcza.keySet();
+        int flagaOK = 0;
         for (Integer r : numerylist) {
             for (WierszBO p : listazbiorcza.get(r)) {
-                if (p.getKonto()!=null) {
+                if (p.getKonto().getPelnynumer().equals("261-1")) {
+                    flagaOK = weryfikacjaopisuZapis(p, listazbiorcza.get(r));
+                }
+                if (p.getKonto()!=null && flagaOK == 0) {
                     try {
                         if (p.getWaluta().getSymbolwaluty().equals("PLN")) {
                             p.setKwotaWnPLN(p.getKwotaWn());
                             p.setKwotaMaPLN(p.getKwotaMa());
                         }
-                        wierszBODAO.dodaj(p);
-                    } catch (Exception e) {
                         wierszBODAO.edit(p);
+                    } catch (Exception e) {
                     }
                 }
             }
         }
-        List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        for (Konto p : listakont) {
-            p.setBoWn(0.0);
-            p.setBoMa(0.0);
-            p.setBlokada(false);
-            kontoDAO.edit(p);
-        }
-        for (WierszBO p : zachowaneWiersze) {
-            Konto k = listakont.get(listakont.indexOf(p.getKonto()));
-            k.setBoWn(k.getBoWn()+p.getKwotaWnPLN());
-            k.setBoMa(k.getBoMa()+p.getKwotaMaPLN());
-            if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
-                k.setBlokada(true);
+        if (flagaOK==0) {
+            List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            for (Konto p : listakont) {
+                p.setBoWn(0.0);
+                p.setBoMa(0.0);
+                p.setBlokada(false);
+                kontoDAO.edit(p);
             }
-            kontoDAO.edit(k);
+            for (WierszBO p : zachowaneWiersze) {
+                Konto k = listakont.get(listakont.indexOf(p.getKonto()));
+                k.setBoWn(k.getBoWn()+p.getKwotaWnPLN());
+                k.setBoMa(k.getBoMa()+p.getKwotaMaPLN());
+                if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
+                    k.setBlokada(true);
+                }
+                kontoDAO.edit(k);
+            }
+            aktualizujListaW();
+            podsumujWnMa();
+            Msg.msg("Naniesiono zapisy BO");
+        } else {
+            Msg.msg("e", "Sprawdź opisy przy kontach. Niektóre się powtarzają. Nie można zachować bilansu");
         }
-        aktualizujListaW();
-        podsumujWnMa();
-        Msg.msg("Naniesiono zapisy BO");
     }
     
     private void aktualizujListaW() {
@@ -271,12 +278,35 @@ public class BilansWprowadzanieView implements Serializable {
     
     public int weryfikacjaopisu(String opis, List<WierszBO> l) {
         int licznik = 0;
+        String nrkonta = null;
         for (WierszBO p : l) {
             if (p.getWierszBOPK().getOpis().equals(opis)) {
+                nrkonta = p.getKonto().getPelnynumer();
                 licznik++;
             }
             if (licznik>1) {
-                Msg.msg("e", "Taki opis już istnieje: "+opis);
+                Msg.msg("e", "Taki opis już istnieje na koncie: "+nrkonta+" opis: "+opis);
+               return 1;
+            }
+        }
+        return 0;
+    }
+    
+    public int weryfikacjaopisuZapis(WierszBO wiersz, List<WierszBO> l) {
+        int licznik = 0;
+        String nrkonta = null;
+        for (WierszBO wb : l) {
+            if (wb.getKonto().getPelnynumer().equals("261-1")) {
+                System.out.println("ll");
+            }
+            boolean konto = wb.getKonto().getPelnynumer().equals(wiersz.getKonto().getPelnynumer());
+            boolean opis = wb.getWierszBOPK().getOpis().equals(wiersz.getWierszBOPK().getOpis());
+            if (konto && opis) {
+                nrkonta = wb.getKonto().getPelnynumer();
+                licznik++;
+            }
+            if (licznik>1) {
+                Msg.msg("e", "Duplikat opisu dla konta: "+nrkonta+" opis: "+wiersz.getWierszBOPK().getOpis());
                return 1;
             }
         }
