@@ -76,7 +76,6 @@ public class KliencifkView implements Serializable{
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
             klientMaKonto = new Kliencifk();
             klientBezKonta = new Kliencifk();
-            Msg.msg("Pobieram kontofk");
             try {
                 klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 return 0;
@@ -98,7 +97,6 @@ public class KliencifkView implements Serializable{
             klienciDAO.dodaj(klientBezKonta);
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(klientBezKonta, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
-            Msg.msg("Przyporządkowano klienta do konta");
         } catch (Exception e) {
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
         }

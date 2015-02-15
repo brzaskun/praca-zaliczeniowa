@@ -194,7 +194,8 @@
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();"
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
-                        <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" update=":formwpisdokument:panelwpisbutton, :formwpisdokument:opisdokumentu"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu"/>
+                        <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" update=":formwpisdokument:panelwpisbutton"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
@@ -210,12 +211,10 @@
                         </f:facet>
                         </p:autoComplete>
                         <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="40"
-                                     onfocus="r('formwpisdokument:wpiszdokbutton').show();"
                                      style="height: 19px;"
                                      >
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton"
-                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}" />
-                            <p:ajax global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
+                            <p:ajax global="false" event="focus" onstart="sprawdzczywyborkontaniejestshown();"/>
+                            <p:ajax event="keyup" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
@@ -229,12 +228,14 @@
                                              readonly="#{dokfkView.selected.zablokujzmianewaluty}"
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                              onfocus="$(this).removeClass('ui-state-default');
-                                                         $(this).addClass('ui-state-focus');"
+                                                         $(this).addClass('ui-state-focus');r('formwpisdokument:wpiszdokbutton').show();"
                                              onblur="$(this).removeClass('ui-state-focus'); $(this).addClass('ui-state-default');"
                                                           style="height: 19px;"
                                              >
-                                <p:ajax global="false" event="focus" onstart="sprawdzczywyborkontaniejestshown();"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                
+                                <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton"
+                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}" />
+                            <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:panelGrid>
