@@ -4,7 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
@@ -164,18 +164,18 @@ public class PdfZestRok{
             } else {
                 table.addCell(ustawfrazeAlign(Mce.getNumberToNazwamiesiaca().get(nrmca++), "left",6));
             }
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(7)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(8)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(9)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(0)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(0)+rs.get(1)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(2)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(3)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(4)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(4)+rs.get(5)), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.get(6)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(7)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(8)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(9)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(0)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(0)+rs.get(1)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(2)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(3)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(4)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(4)+rs.get(5)), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.get(6)), "right",6));
             nr++;
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());

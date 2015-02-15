@@ -4,7 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -93,8 +93,8 @@ public class PdfObroty  {
             table.addCell(ustawfrazeAlign(rs.getTypdokumentu(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left",8));
             table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right",8));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getBrutto()), "right",8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getBrutto()), "right",8));
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());

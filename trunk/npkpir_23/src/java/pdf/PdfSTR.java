@@ -4,7 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -98,21 +98,21 @@ public class PdfSTR {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getDataprzek(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getKst(), "left",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getNetto()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getOdpisrok()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getUmorzeniaDo().doubleValue()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getStyczen()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getLuty()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getMarzec()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwiecien()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getMaj()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getCzerwiec()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getLipiec()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getSierpien()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getWrzesien()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getPazdziernik()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getListopad()), "right",6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getGrudzien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getOdpisrok()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getUmorzeniaDo().doubleValue()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getStyczen()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getLuty()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getMarzec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwiecien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getMaj()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getCzerwiec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getLipiec()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSierpien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWrzesien()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getPazdziernik()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getListopad()), "right",6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getGrudzien()), "right",6));
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());

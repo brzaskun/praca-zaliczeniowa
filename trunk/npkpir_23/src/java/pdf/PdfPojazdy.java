@@ -5,7 +5,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
@@ -109,8 +109,8 @@ public class PdfPojazdy {
             table.addCell(ustawfrazeAlign(rs.getKontonazwa(), "left", 7));
             table.addCell(ustawfrazeAlign(rs.getKontonumer(), "left", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(rs.getStronywiersza().size()), "center", 7));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getSumaokres()), "right", 7));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getSumanarastajaco()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumaokres()), "right", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getSumanarastajaco()), "right", 7));
             if (rodzajdruku==2) {
                 PdfPTable p = subtable(rs.getStronywiersza());
                 PdfPCell r = new PdfPCell(p);
@@ -147,7 +147,7 @@ public class PdfPojazdy {
             String kontr = rs.getWiersz().geteVatwpisFK() == null ? rs.getDokfk().getKontr().getNpelna() : rs.getWiersz().geteVatwpisFK().getKlient().getNpelna();
             table.addCell(ustawfrazeAlign(kontr, "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
-            table.addCell(ustawfrazeAlign(formatujliczby(rs.getKwotaPLN()), "right", 6));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
         }
         return table;
     }

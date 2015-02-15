@@ -4,7 +4,7 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.formatujliczby;
+import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -88,7 +88,7 @@ public class PdfInwestycja {
             tableheader.addCell(ustawfrazeAlign(inwestycja.getOpis(), "left",8));
             tableheader.addCell(ustawfrazeAlign(inwestycja.getRokrozpoczecia()+"/"+inwestycja.getMcrozpoczecia(), "center",8));
             tableheader.addCell(ustawfrazeAlign(inwestycja.getRokzakonczenia()+"/"+inwestycja.getMczakonczenia(), "center",8));
-            tableheader.addCell(ustawfrazeAlign(formatujliczby(inwestycja.getTotal()), "right",8));
+            tableheader.addCell(ustawfrazeAlign(formatujWaluta(inwestycja.getTotal()), "right",8));
             tableheader.addCell(ustawfrazeAlign(inwestycja.getZakonczona() == false ? "rozpoczęta" : "zakończona", "center",8));
             
         } catch (IOException ex1) {
@@ -102,7 +102,7 @@ public class PdfInwestycja {
             tableyear.addCell(ustawfrazeAlign("Suma wydatków w roku kalendarzowym", "center",8));
             for (Sumazalata tmp : inwestycja.getSumazalata()) {
                 tableyear.addCell(ustawfrazeAlign(tmp.getRok(), "center",8));
-                tableyear.addCell(ustawfrazeAlign(formatujliczby(tmp.getKwota()), "right",8));
+                tableyear.addCell(ustawfrazeAlign(formatujWaluta(tmp.getKwota()), "right",8));
             }
         } catch (IOException ex1) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex1);
@@ -142,9 +142,9 @@ public class PdfInwestycja {
                 table.addCell(ustawfrazeAlign(p.getKontr().getMiejscowosc()+" "+p.getKontr().getUlica()+" "+p.getKontr().getDom(), "left",8));
                 table.addCell(ustawfrazeAlign(p.getKontr().getNip(), "center",8));
                 table.addCell(ustawfrazeAlign(p.getNrWlDk(), "left",8));
-                table.addCell(ustawfrazeAlign(formatujliczby(p.getNetto()), "right",8));
-                table.addCell(ustawfrazeAlign(formatujliczby(p.getBrutto()-p.getNetto()), "right",8));
-                table.addCell(ustawfrazeAlign(formatujliczby(p.getBrutto()), "right",8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()-p.getNetto()), "right",8));
+                table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()), "right",8));
             }
             table.setHeaderRows(2);
             table.setFooterRows(1);
