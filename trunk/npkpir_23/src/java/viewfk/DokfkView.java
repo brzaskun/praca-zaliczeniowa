@@ -163,6 +163,7 @@ private static final long serialVersionUID = 1L;
     private List<Cechazapisu> pobranecechy;
     private StronaWiersza stronaWierszaCechy;
     private List<Dokfk> filteredValue;
+    private String wybranakategoriadok;
     
 
     public DokfkView() {
@@ -1835,13 +1836,27 @@ public void updatenetto(EVatwpisFK e, String form) {
 //    //</editor-fold>
     
     public void odswiezzaksiegowane() {
-        if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+        if (wybranakategoriadok == null) {
+            wybranakategoriadok = "wszystkie";
+        }
+        if (wybranakategoriadok.equals("wszystkie")) {
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+            } else {
+                wpisView.wpisAktualizuj();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+            }
         } else {
-            wpisView.wpisAktualizuj();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+            } else {
+                wpisView.wpisAktualizuj();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+            }
         }
     }
 
@@ -2685,10 +2700,15 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
    
-    
-    
+
 //<editor-fold defaultstate="collapsed" desc="comment">
-    
+     public String getWybranakategoriadok() {
+        return wybranakategoriadok;
+    }
+    public void setWybranakategoriadok(String wybranakategoriadok) {    
+        this.wybranakategoriadok = wybranakategoriadok;
+    }
+
     public List<Dokfk> getFilteredValue() {
         return filteredValue;
     }
