@@ -10,9 +10,10 @@
             width: 40px !important;
         }
     </style>
- 
+    
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowane}" update="@this"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -28,6 +29,9 @@
                         <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px;"/>
                 </p:column>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
