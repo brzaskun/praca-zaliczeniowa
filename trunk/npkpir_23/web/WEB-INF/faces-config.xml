@@ -346,6 +346,14 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKRejestry.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>guestzestFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
+            <from-outcome>guestbilansFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
