@@ -186,8 +186,6 @@ private static final long serialVersionUID = 1L;
             Collections.sort(rodzajedokKlienta, new Rodzajedokcomparator());
             resetujDokument();
             obsluzcechydokumentu();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
         } catch (Exception e) {
@@ -1349,7 +1347,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
-                UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+                UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
                 //dolaczEwidencjeVATDoDokumentu();
@@ -1365,7 +1363,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("formwpisdokument");
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow");
                 RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
-                resetujDokument();
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -1431,18 +1428,13 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void edycja() {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
-                UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+                UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument");
                 selected.setwTrakcieEdycji(false);
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
-                //dolaczEwidencjeVATDoDokumentu();
                 dokDAOfk.edit(selected);
-                wykazZaksiegowanychDokumentow.clear();
-                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-                resetujDokument();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
@@ -1454,12 +1446,10 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void edycjaDlaRozrachunkow() {
-        System.out.println("lll");
+        System.out.println("edycjaDlaRozrachunkow");
         try {
-            UzupelnijWierszeoDane.uzupelnijwierszeodane(selected);
+            UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
             dokDAOfk.edit(selected);
-            wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
@@ -1469,17 +1459,14 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void usundokument(Dokfk dousuniecia) {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dousuniecia));
-            wykazZaksiegowanychDokumentow.clear();
-            wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+            wykazZaksiegowanychDokumentow.remove(dousuniecia);
             if (filteredValue != null) {
                 filteredValue.remove(dousuniecia);
             }
-            resetujDokument();
-            RequestContext.getCurrentInstance().update("formwpisdokument");
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
             Msg.msg("i", "Dokument usunięty");
         } catch (Exception e) {
-            Msg.msg("e", "Nie udało się usunąć dokumentu");
+            Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK?");
         }
     }
 
@@ -2684,7 +2671,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);
     }
     
-    
+    public void resetujzaksiegowane() {
+        wykazZaksiegowanychDokumentow = new ArrayList<>();
+    }
     
    
     

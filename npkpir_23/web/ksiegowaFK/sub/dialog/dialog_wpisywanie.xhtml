@@ -68,10 +68,11 @@
                         /* ]]> */
                     </script>
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
-    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" widgetVar="wpisywanie" modal="true" appendTo="@(body)"
-              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();" closeOnEscape="true" focus=":formwpisdokument:data1DialogWpisywanie"
+    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" 
+              widgetVar="wpisywanie" modal="true" appendTo="@(body)"
+              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();"
+              closeOnEscape="true" focus=":formwpisdokument:data1DialogWpisywanie"
               >
-        <p:ajax global="false" event="close" listener="#{dokfkView.resetujDokument()}" />
         <p:focus for="formwpisdokument">
         <h:form id="formwpisdokument" >
             

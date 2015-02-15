@@ -58,7 +58,7 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
     if (dataWyst.value !== "") {
         coswpisanowpoledaty = true;
     }
-    if (zapisz0edytuj1 === false && coswpisanowpoledaty) {
+    if (coswpisanowpoledaty) {
         try {
             var adres = "formwpisdokument:"+koncowkaadresu;
             var dataWyst = document.getElementById(adres);
@@ -97,22 +97,24 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
         //         datasprzedazy.value = dataWyst.value;
         //         $(rozliczony).attr('checked', true);
              }
-             if (koncowkaadresu === "data1DialogWpisywanie") {
-                var adres = "formwpisdokument:data2DialogWpisywanie";
-                var dataWyst1 = document.getElementById(adres);
-                dataWyst1.value = dataWyst.value;
-                adres = "formwpisdokument:data3DialogWpisywanie";
-                dataWyst1 = document.getElementById(adres);
-                dataWyst1.value = dataWyst.value;
-                adres = "formwpisdokument:data4DialogWpisywanie";
-                dataWyst1 = document.getElementById(adres);
-                dataWyst1.value = dataWyst.value;
-             }
-              if (koncowkaadresu === "data2DialogWpisywanie") {
-                var adres = "formwpisdokument:data3DialogWpisywanie";
-                var dataWyst1 = document.getElementById(adres);
-                dataWyst1.value = dataWyst.value;
-             }
+             if (zapisz0edytuj1 === false && coswpisanowpoledaty) {
+                if (koncowkaadresu === "data1DialogWpisywanie") {
+                   var adres = "formwpisdokument:data2DialogWpisywanie";
+                   var dataWyst1 = document.getElementById(adres);
+                   dataWyst1.value = dataWyst.value;
+                   adres = "formwpisdokument:data3DialogWpisywanie";
+                   dataWyst1 = document.getElementById(adres);
+                   dataWyst1.value = dataWyst.value;
+                   adres = "formwpisdokument:data4DialogWpisywanie";
+                   dataWyst1 = document.getElementById(adres);
+                   dataWyst1.value = dataWyst.value;
+                }
+                 if (koncowkaadresu === "data2DialogWpisywanie") {
+                   var adres = "formwpisdokument:data3DialogWpisywanie";
+                   var dataWyst1 = document.getElementById(adres);
+                   dataWyst1.value = dataWyst.value;
+                }
+            }
          } catch (e) {
              alert("Blad ustawdate.js ustawDateFK(rok,mc) "+e.toString());
          }

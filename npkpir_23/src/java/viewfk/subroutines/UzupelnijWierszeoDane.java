@@ -20,24 +20,12 @@ import javax.inject.Named;
 public class UzupelnijWierszeoDane implements Serializable {
     
     //uzupeelnia wiersze podczas ich wprowadzania badz edycji, nie rusza pol edycji
-    public static void uzupelnijwierszeodane(Dokfk selected) {
+    public static void uzupelnijWierszeoDate(Dokfk selected) {
         //ladnie uzupelnia informacje o wierszu pk
         List<Wiersz> wierszewdokumencie = selected.getListawierszy();
         try {
             for (Wiersz p : wierszewdokumencie) {
-                String opis = p.getOpisWiersza();
-                if (opis.contains("kontown")) {
                     p.setDataksiegowania(selected.getDatawystawienia());
-                    //p.getStronaMa().setKwota(0.0);
-                    //p.setTypWiersza(1);
-                } else if (opis.contains("kontoma")) {
-                    p.setDataksiegowania(selected.getDatawystawienia());
-                    //p.getStronaWn().setKwota(0.0);
-                    //p.setTypWiersza(2);
-                } else {
-                    p.setDataksiegowania(selected.getDatawystawienia());
-                    //p.setTypWiersza(0);
-                }
             }
         } catch (Exception e) {
         }
