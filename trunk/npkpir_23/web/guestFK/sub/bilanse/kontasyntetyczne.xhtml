@@ -21,7 +21,7 @@
 
         </style>
         <h:form id="formtablicasyntetyczne">
-            <p:panelGrid columns="5" style="margin-left: 2%;" >
+            <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -120,8 +120,11 @@
                         <p:column headerText="wiersz">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="kwota" width="60">
-                            <bcf:outputpl value="#{loopik.kwota}"/>
+                         <p:column headerText="kwota Wn" width="60">
+                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
+                        </p:column>
+                        <p:column headerText="kwota Ma" width="60">
+                            <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
                     </p:dataTable>
                 </p:rowExpansion>

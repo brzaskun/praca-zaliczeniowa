@@ -6,7 +6,9 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
+import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
@@ -52,6 +54,8 @@ public class SymulacjaWynikuView implements Serializable {
     private double sumaprzychody;
     private List<SaldoKonto>wybranekoszty;
     private double sumakoszty;
+    private double razemzapisycechakoszt;
+    private double razemzapisycechaprzychod;
 
     public SymulacjaWynikuView() {
         sumaSaldoKontoPrzychody = new ArrayList<>();
@@ -73,6 +77,7 @@ public class SymulacjaWynikuView implements Serializable {
         }
         listakontaprzychody = przygotowanalistasald(kontaklientaprzychody, 0);
         listakontakoszty = przygotowanalistasald(kontaklientakoszty, 1);
+        pobierzzapisyzcechami();
         obliczsymulacje();
     }
 
@@ -155,10 +160,15 @@ public class SymulacjaWynikuView implements Serializable {
         listapozycjisymulacji = new ArrayList<>();
         listapozycjisymulacji.add(new PozycjeSymulacji("przychody", Z.z(sumuj(listakontaprzychody))));
         listapozycjisymulacji.add(new PozycjeSymulacji("koszty", Z.z(sumuj(listakontakoszty))));
-        double dochod = Z.z(listapozycjisymulacji.get(0).getWartosc() - listapozycjisymulacji.get(1).getWartosc());
-        listapozycjisymulacji.add(new PozycjeSymulacji("wynik", dochod));
+        double wynikfinansowy = Z.z(listapozycjisymulacji.get(0).getWartosc() - listapozycjisymulacji.get(1).getWartosc());
+        listapozycjisymulacji.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
+        listapozycjisymulacji.add(new PozycjeSymulacji("npup", Z.z(razemzapisycechaprzychod)));
+        listapozycjisymulacji.add(new PozycjeSymulacji("nkup", Z.z(razemzapisycechakoszt)));
+        double wynikpodatkowy = Z.z(wynikfinansowy - listapozycjisymulacji.get(3).getWartosc() - listapozycjisymulacji.get(4).getWartosc());
+        listapozycjisymulacji.add(new PozycjeSymulacji("wynik", wynikpodatkowy));
+        listapozycjisymulacji.add(new PozycjeSymulacji("podstawa opodatkowania", Z.z0(wynikpodatkowy)));
         listapozycjisymulacji.add(new PozycjeSymulacji("stawka podatku", 0.19));
-        listapozycjisymulacji.add(new PozycjeSymulacji("podatek dochodowy", Z.z(dochod*.19)));
+        listapozycjisymulacji.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(wynikpodatkowy*.19)));
     }
     
     public void sumazapisowPrzychody() {
@@ -181,6 +191,14 @@ public class SymulacjaWynikuView implements Serializable {
         PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, listapozycjisymulacji, wpisView, i);
     }
 
+    private void pobierzzapisyzcechami() {
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP");
+        razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
+        List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
+        razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP");
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
 
     public List<SaldoKonto> getWybraneprzychody() {
@@ -263,6 +281,7 @@ public class SymulacjaWynikuView implements Serializable {
     public void setSumaSaldoKontoKoszty(List<SaldoKonto> sumaSaldoKontoKoszty) {
         this.sumaSaldoKontoKoszty = sumaSaldoKontoKoszty;
     }
+
 
 //</editor-fold>
     public static class PozycjeSymulacji {

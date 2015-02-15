@@ -18,4 +18,16 @@ public class Z implements Serializable {
         m /= 100;
         return m;
     }
+    
+    public static double z0(double l) {
+        double m = Math.round(l);
+        return m;
+    }
+    
+    public static void main(String[] args) {
+        double kwota = 123.64;
+        double m = Math.round(kwota);
+        m /= 1;
+        System.out.println(m);
+    }
 }
