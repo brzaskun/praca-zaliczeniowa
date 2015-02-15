@@ -1510,19 +1510,20 @@ public void updatenetto(EVatwpisFK e, String form) {
 //    //***************************************
     public void znajdzduplicatdokumentu() {
         //uruchamiaj tylko jak jest wpisywanie a nie edycja
-        if (zapisz0edytuj1 == false) {
-            Dokfk dokument = null;
-            try {
-                dokument = dokDAOfk.findDokfkObj(selected);
-            } catch (Exception e) {
-            }
-            if (dokument != null) {
-                wlaczZapiszButon = false;
-                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
-                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
-            } else {
-                wlaczZapiszButon = true;
-                Msg.msg("i", "Nie znaleziono duplikatu");
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            if (zapisz0edytuj1 == false) {
+                Dokfk dokument = null;
+                try {
+                    dokument = dokDAOfk.findDokfkObj(selected);
+                } catch (Exception e) {
+                }
+                if (dokument != null) {
+                    wlaczZapiszButon = false;
+                    RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+                    Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+                } else {
+                    wlaczZapiszButon = true;
+                }
             }
         }
     }
@@ -1549,13 +1550,15 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
                 wlaczZapiszButon = true;
-                Msg.msg("i", "Go on Master");
-            }
-            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-            if (poprzedniDokument != null) {
-                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
             }
         }
+    }
+    
+    public void pobierzopiszpoprzedniegodok() {
+         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
+                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            }
     }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
