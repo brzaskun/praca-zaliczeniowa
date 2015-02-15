@@ -7,10 +7,9 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     
-    <p:tabView id="akordeon" style="max-width: 1200px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
-        <ui:include src="bilanse/kontanalityczne.xhtml"/>
-        <ui:include src="bilanse/kontasyntetyczne.xhtml"/>
-        <ui:include src="bilanse/symulacjawyniku.xhtml"/>
+    <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+        <ui:include src="/wspolny/sub/zestawienia/miejscakosztow.xhtml"/>
+        <ui:include src="/wspolny/sub/zestawienia/samochody.xhtml"/>
     </p:tabView>
 </ui:composition>   
 
