@@ -1551,6 +1551,10 @@ public void updatenetto(EVatwpisFK e, String form) {
                 wlaczZapiszButon = true;
                 Msg.msg("i", "Go on Master");
             }
+            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            if (poprzedniDokument != null) {
+                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            }
         }
     }
 
