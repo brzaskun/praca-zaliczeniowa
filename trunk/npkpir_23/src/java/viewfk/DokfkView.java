@@ -1559,16 +1559,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
-    public void pobieraniekontaFKWpis2(){
-        wybranyklient = (Klienci) e.getNewValue
-        if (!wybranyklient.getNpelna().equals("nowy klient")) {
-            int wynik = pobieraniekontaFK();
-            if (wynik == 1) {
-                RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
-            }
-        }
-    }
-    
+        
     public void pobierzopiszpoprzedniegodok() {
          Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
             if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
