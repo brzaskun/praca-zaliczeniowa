@@ -143,4 +143,15 @@ public class KontaFKBean implements Serializable{
             }
         }
     }
+    
+    public static void oznaczkontoPrzychod0Koszt1Wzorcowy(Konto konto, KontoDAOfk kontoDAOfk, boolean przychod0koszt1, WpisView wpisView) {
+        konto.setPrzychod0koszt1(przychod0koszt1);
+        kontoDAOfk.edit(konto);
+        if (konto.isMapotomkow()) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView, konto.getPelnynumer());
+            for (Konto p : kontapotomne) {
+                oznaczkontoPrzychod0Koszt1Wzorcowy(p, kontoDAOfk, przychod0koszt1, wpisView);
+            }
+        }
+    }
 }

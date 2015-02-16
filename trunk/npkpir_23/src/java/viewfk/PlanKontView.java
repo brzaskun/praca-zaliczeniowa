@@ -712,6 +712,16 @@ public class PlanKontView implements Serializable {
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
+    
+    public void oznaczkontoJakoKosztoweWzorcowy() {
+        if (selectednodekonto.getId() == null) {
+            Msg.msg("e", "Nie wybrano konta");
+        } else {
+            KontaFKBean.oznaczkontoPrzychod0Koszt1Wzorcowy(selectednodekonto, kontoDAOfk, true, wpisView);
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+            Msg.msg("Naniesiono oznaczenia na konta");
+        }
+    }
 
     public void oznaczkontoJakoPrzychodowe() {
         if (selectednodekonto.getId() == null) {
@@ -723,6 +733,15 @@ public class PlanKontView implements Serializable {
         }
     }
     
+     public void oznaczkontoJakoPrzychodoweWzorcowy() {
+        if (selectednodekonto.getId() == null) {
+            Msg.msg("e", "Nie wybrano konta");
+        } else {
+            KontaFKBean.oznaczkontoPrzychod0Koszt1Wzorcowy(selectednodekonto, kontoDAOfk, false, wpisView);
+            wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+            Msg.msg("Naniesiono oznaczenia na konta");
+        }
+    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
