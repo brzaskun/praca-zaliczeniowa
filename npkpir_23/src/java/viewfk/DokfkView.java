@@ -1515,7 +1515,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 //    //***************************************
     public void znajdzduplicatdokumentu() {
         //uruchamiaj tylko jak jest wpisywanie a nie edycja
-        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+        if (rodzajBiezacegoDokumentu == 0 || rodzajBiezacegoDokumentu == 5) {
             if (zapisz0edytuj1 == false) {
                 Dokfk dokument = null;
                 try {
