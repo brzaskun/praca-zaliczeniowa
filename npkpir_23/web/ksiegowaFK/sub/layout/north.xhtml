@@ -27,31 +27,7 @@
                 <p:menuitem icon="ui-icon-arrowrefresh-1-n" value="wyloguj" action="#{Logowanie.logout()}" />
             </p:menubar>
         </h:form>
-        <h:form id="dialog1menu1">
-            <p:panelGrid columns="4"  >
-                <p:column >
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
-                        <f:selectItems value="#{podatnikView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
-                        <f:selectItems value="#{Roki.rokiList}"/>
-                        <f:param name="rokWpisu" value="2012" />
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <f:selectItems value="#{Mce.mceList}"/>
-                    </p:selectOneMenu>
-                </p:column>
-                <p:column>
-<!--                    <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" -->
-                <p:commandButton style="width: 150px;"
-                                 actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" ajax="false"/>
-                </p:column>
-            </p:panelGrid>
-        </h:form>
+       
     </p:layoutUnit>
 </ui:composition>   
 

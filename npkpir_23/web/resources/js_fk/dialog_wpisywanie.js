@@ -195,11 +195,13 @@ var czydodackontoShow = function (){
         at: "center center",
         of: $(document.getElementById('dialogpierwszy')),
         collision: "none none"
+        
     });
+    $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
     }
-    setTimeout($(document.getElementById("formczydodackonto:czydodackontookbutton")).focus(),5000);
+    
 };
 
 var sprawdzczywyborkontaniejestshown = function() {
