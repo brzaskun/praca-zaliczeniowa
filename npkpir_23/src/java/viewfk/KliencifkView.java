@@ -21,10 +21,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import params.Params;
 import view.WpisView;
 
 /**
@@ -63,10 +65,11 @@ public class KliencifkView implements Serializable{
             int wynik = pobieraniekontaFK();
             if (wynik == 1) {
                 RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
-                RequestContext.getCurrentInstance().execute("$(document.getElementById(\"formczydodackonto:czydodackontookbutton\")).focus();");
             }
         }
     }
+    
+    
     
     public void pobieraniekontaFKWpisCD() {
         przyporzadkujdokonta();

@@ -1549,12 +1549,22 @@ public void updatenetto(EVatwpisFK e, String form) {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
             } catch (Exception e) {
             }
-            if (dokument != null) {
-                wlaczZapiszButon = false;
-                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
-                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
-            } else {
-                wlaczZapiszButon = true;
+//            if (dokument != null) {
+//                wlaczZapiszButon = false;
+//                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+//                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+//            } else {
+//                wlaczZapiszButon = true;
+//            }
+        }
+    }
+    
+    public void pobieraniekontaFKWpis2(){
+        wybranyklient = (Klienci) e.getNewValue
+        if (!wybranyklient.getNpelna().equals("nowy klient")) {
+            int wynik = pobieraniekontaFK();
+            if (wynik == 1) {
+                RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
             }
         }
     }
