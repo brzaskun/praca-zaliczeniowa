@@ -1361,6 +1361,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 dokDAOfk.edit(selected);
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
+                resetujDokument();
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
@@ -1438,6 +1439,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     przepiszWalutyZapisEdycja(p);
                 }
                 dokDAOfk.edit(selected);
+                resetujDokument();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
