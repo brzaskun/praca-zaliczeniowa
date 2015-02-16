@@ -197,7 +197,6 @@ var czydodackontoShow = function (){
         collision: "none none"
         
     });
-    $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
     }
@@ -205,9 +204,14 @@ var czydodackontoShow = function (){
 };
 
 var sprawdzczywyborkontaniejestshown = function() {
-    var czydialogjestshown = $("#czydodackonto").hasClass("ui-overlay-visible");
-    if (czydialogjestshown) {
-        $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
+    if (zawartosc === "nowy klient") {
+        PF('dlgwprowadzanieklienta').show();
+    } else {
+        var czydialogjestshown = $("#czydodackonto").hasClass("ui-overlay-visible");
+        if (czydialogjestshown) {
+            $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+        }
     }
 };
 
@@ -305,10 +309,10 @@ var focusNaNowoDodanymEnter = function(source) {
 };
 
 var kopiujnazwepelna = function () {
-  var skadkopiowac = rj("formX:nazwaPole").value;
-  var dokadkopiowac = rj("formX:symbolPole").value;
+  var skadkopiowac = rj("formXNowyKlient:nazwaPole").value;
+  var dokadkopiowac = rj("formXNowyKlient:symbolPole").value;
   if (dokadkopiowac === "") {
-      rj("formX:symbolPole").value = skadkopiowac;
+      rj("formXNowyKlient:symbolPole").value = skadkopiowac;
   }
 };
 
