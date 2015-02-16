@@ -181,8 +181,8 @@
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontovat eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidok" columns="3"   styleClass="uipanelGrid0">
-                        <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 'kontrahent' : ''}"/>
+                    <p:panelGrid id="panelzkwotamidok" columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                        <h:outputText value="kontrahent" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dokumentu"/>
                        
@@ -192,7 +192,7 @@
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" 
                                 valueChangeListener="#{kliencifkView.pobieraniekontaFKWpis}"
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklientawpisywanie();"
-                                rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2}" style="width: 250px;">
+                                rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
                         <p:ajax event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu"/>
                         <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" update=":formwpisdokument:panelwpisbutton"/>
@@ -216,7 +216,7 @@
                             <p:ajax global="false" event="focus" onstart="sprawdzczywyborkontaniejestshown();"/>
                             <p:ajax event="keyup" partialSubmit="true" global="false"/>
                         </p:inputText>
-                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>
+<!--                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>-->
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -228,13 +228,12 @@
                                              readonly="#{dokfkView.selected.zablokujzmianewaluty}"
                                              styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                              onfocus="$(this).removeClass('ui-state-default');
-                                                         $(this).addClass('ui-state-focus');r('formwpisdokument:wpiszdokbutton').show();"
+                                                         $(this).addClass('ui-state-focus');"
                                              onblur="$(this).removeClass('ui-state-focus'); $(this).addClass('ui-state-default');"
                                                           style="height: 19px;"
                                              >
-                                
                                 <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton"
-                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu eq 0}" />
+                                   />
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
