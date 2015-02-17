@@ -304,9 +304,9 @@
                                 actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
                 <!--                poszczególne wiersze-->
-                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px; height: 300px;" 
+                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px;" 
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
-                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                             widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
 <!--                             paginator="true" rows="10" paginatorPosition="top">-->
                     <p:column headerText="lp" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
