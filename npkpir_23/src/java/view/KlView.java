@@ -17,6 +17,7 @@ import java.util.Scanner;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
@@ -25,6 +26,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
+import viewfk.DokfkView;
 
 /**
  *
@@ -41,6 +43,8 @@ public class KlView implements Serializable{
     private ArrayList<Klienci> klienciFiltered;
     private Klienci doUsuniecia;
     private boolean edycja;
+    @ManagedProperty(value = "#{dokfkView}")
+    private DokfkView dokfkView;
     
    
     public static void main(String[] args) {
@@ -140,15 +144,8 @@ public class KlView implements Serializable{
         if(selected.getNip().isEmpty()){
             wygenerujnip();
         }
-        //Usunalem formatowanie pelnej nazwy klienta bo przeciez imie i nazwiko pisze sie wielkimi a ten zmniejszal wszystko
-//        String formatka = selected.getNpelna().substring(0, 1).toUpperCase();
-//        formatka = formatka.concat(selected.getNpelna().substring(1).toLowerCase());
-//        selected.setNpelna(formatka);
         String formatka = selected.getNskrocona().toUpperCase();
         selected.setNskrocona(formatka);
-//        formatka = selected.getUlica().substring(0, 1).toUpperCase();
-//        formatka = formatka.concat(selected.getUlica().substring(1).toLowerCase());
-//        selected.setUlica(formatka);
         try {
             selected.getKrajnazwa();
         } catch (Exception e){
@@ -161,6 +158,8 @@ public class KlView implements Serializable{
         poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
         kl1.add(selected);
+        dokfkView.getSelected().setKontr(selected);
+        RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
         selected = new Klienci();
         } catch (Exception e) {
@@ -469,6 +468,14 @@ public class KlView implements Serializable{
 
     public void setEdycja(boolean edycja) {
         this.edycja = edycja;
+    }
+
+    public DokfkView getDokfkView() {
+        return dokfkView;
+    }
+
+    public void setDokfkView(DokfkView dokfkView) {
+        this.dokfkView = dokfkView;
     }
 
     
