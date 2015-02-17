@@ -68,11 +68,11 @@
                             <h:outputText value="potwierdz hasło"/>
                             <p:password id="haslo2" value="#{UzView.confPassword}" title="hasła musza być zgodne" required="true" requiredMessage="Wpisz potwierdzenie hasła!" autocomplete="true" >
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}"/>
                             </p:password>
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton value="Zrejestruj" action="#{UzView.dodaj()}" style="width: 150px;" />
+                    <p:commandButton id="rejestrujbutton" value="Zrejestruj" action="#{UzView.dodaj()}" style="width: 150px;" />
                 </p:panel>
             </h:form>
         </h:body>

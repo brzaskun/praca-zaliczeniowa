@@ -825,6 +825,12 @@ private static final long serialVersionUID = 1L;
         Rodzajedok rodzajdok = selected.getRodzajedok();
         double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
         if (rodzajdok.getKategoriadokumentu()==1) {
+            if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                e.setVat(wartosciVAT[4]);
+                e.setBrutto(Z.z(e.getNetto()+e.getVat()));
+                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:vat");
+                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
+            }
             rozliczVatKoszt(e, wartosciVAT);
         } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
             rozliczVatPrzychod(e, wartosciVAT);
@@ -931,6 +937,10 @@ private static final long serialVersionUID = 1L;
                 int lpnastepnego = 2;
                 int limitwierszy = 1;
                 if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                   wartosciVAT[1] = wartosciVAT[4];
+                   wartosciVAT[3] = wartosciVAT[6];
+                }
+                   if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
                        dolaczwiersz2_3(wartosciVAT, w, 2, 1);
                        lpnastepnego++;
                        limitwierszy++;
@@ -962,6 +972,10 @@ private static final long serialVersionUID = 1L;
     
     private void dolaczwiersz2_3(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
          Wiersz wiersz2_3;
+                if (odliczenie0koszt1==1) {
+                    wartosciVAT[1] = wartosciVAT[5];
+                    wartosciVAT[3] = wartosciVAT[7];
+                }
                 if (w.getSymbolwaluty().equals("PLN")) {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[1], 1);
@@ -1276,8 +1290,6 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
             e.setVat(0.0);
-        } else if (skrotRT.contains("ZZP")) {
-            e.setVat(Z.z((e.getNetto()* 0.23)/2));
         } else {
             e.setVat(Z.z(e.getNetto()* stawkavat));
         }
