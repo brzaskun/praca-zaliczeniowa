@@ -362,8 +362,8 @@ public class EwidencjaVatView implements Serializable {
                             wiersz.setNrWlDk(nrdok);
                             wiersz.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
                         } else {
-                            wiersz.setDataSprz(zaksiegowanafaktura.getDatadokumentu());
-                            wiersz.setDataWyst(zaksiegowanafaktura.getDatawystawienia());
+                            wiersz.setDataSprz(zaksiegowanafaktura.getDataoperacji());
+                            wiersz.setDataWyst(zaksiegowanafaktura.getDatadokumentu());
                             wiersz.setKontr(zaksiegowanafaktura.getKontr());
                             String nrdok = zaksiegowanafaktura.getDokfkPK().getSeriadokfk()+"/"+zaksiegowanafaktura.getDokfkPK().getNrkolejnywserii()+", nr: "+zaksiegowanafaktura.getNumerwlasnydokfk();
                             wiersz.setNrWlDk(nrdok);
