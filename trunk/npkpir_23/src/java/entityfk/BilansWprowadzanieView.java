@@ -445,7 +445,7 @@ public class BilansWprowadzanieView implements Serializable {
         Set<Integer> numerylist = listazbiorcza.keySet();
         for (Integer r : numerylist) {
             List<WierszBO> listabiezaca = listazbiorcza.get(r);
-            if (listabiezaca != null) {
+            if (listabiezaca != null && listabiezaca.size() > 0) {
                 for (WierszBO p : listabiezaca) {
                     Wiersz w = new Wiersz(idporzadkowy++, 0);
                     uzupelnijwiersz(w, nd);
