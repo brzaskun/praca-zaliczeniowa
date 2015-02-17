@@ -225,7 +225,7 @@ public class BilansWprowadzanieView implements Serializable {
             List<WierszBO> biezacalista = listazbiorcza.get(r);
             if (biezacalista != null && biezacalista.size() > 0) {
                 for (WierszBO p : biezacalista) {
-                    if (p != null) {
+                    if (p.getKonto() != null) {
                         if (p.getKonto().getPelnynumer().equals("261-1")) {
                             flagaOK = weryfikacjaopisuZapis(p, listazbiorcza.get(r));
                         }
