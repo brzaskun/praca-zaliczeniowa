@@ -40,8 +40,10 @@ public class PojazdyBean {
                     List<StronaWiersza> listastron = new ArrayList<>();
                     for (StronaWiersza s : stronywiersza) {
                         if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
-                            suma += sumuj(s);
-                            listastron.add(s);
+                            if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                                suma += sumuj(s);
+                                listastron.add(s);
+                            }
                         }
                     }
                     total += suma;
