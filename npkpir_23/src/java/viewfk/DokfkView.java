@@ -771,14 +771,6 @@ private static final long serialVersionUID = 1L;
     public void podepnijEwidencjeVat() {
             if (selected.getwTrakcieEdycji() == false) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
-                String skrotRT = (String) Params.params("formwpisdokument:symbol");
-                String transakcjiRodzaj = "";
-                for (Rodzajedok temp : rodzajedokKlienta) {
-                    if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
-                        transakcjiRodzaj = temp.getRodzajtransakcji();
-                        break;
-                    }
-                }
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                 List<Parametr> podatekdochparamlist = wpisView.getPodatnikObiekt().getPodatekdochodowy();
                 if (podatekdochparamlist != null && !podatekdochparamlist.isEmpty()) {
@@ -786,7 +778,7 @@ private static final long serialVersionUID = 1L;
                     if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
                         /*wyswietlamy ewidencje VAT*/
                         List<String> opisewidencji = new ArrayList<>();
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
                         int k = 0;
                         for (String p : opisewidencji) {
                             EVatwpisFK eVatwpisFK = new EVatwpisFK();
@@ -1381,8 +1373,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
                 selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
-                //dolaczEwidencjeVATDoDokumentu();
-                //utrwalTransakcje();
+                if (selected.sprawdzczynaniesionorozrachunki()==1) {
+                    Msg.msg("w", "Nie naniesiono rozrachunków");
+                }
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
