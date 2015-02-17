@@ -48,7 +48,7 @@ public class PojazdyBean {
                     }
                     total += suma;
                     if (suma > 0) {
-                        l.add(stworzmiejscekosztzest(r, suma, total, stronywiersza));
+                        l.add(stworzmiejscekosztzest(r, suma, total, listastron));
                     }
                 }
             }
