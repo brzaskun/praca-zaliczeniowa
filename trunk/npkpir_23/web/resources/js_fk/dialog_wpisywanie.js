@@ -159,12 +159,6 @@ var selectOnfocus = function(wierszindex) {
     $(i_obj).select();
 };
 
-var sprawdzczybrakklientawpisywanie = function() {
-    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
-    if (zawartosc === "nowy klient") {
-        PF('dlgwprowadzanieklienta').show();
-    }
-};
 
 var znalezionoduplikat = function() {
     document.getElementById('formwpisdokument:numerwlasny').focus();
@@ -203,7 +197,7 @@ var czydodackontoShow = function (){
     
 };
 
-var sprawdzczywyborkontaniejestshown = function() {
+var sprawdzczywyborkontaniejestshown = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
         PF('dlgwprowadzanieklienta').show();
