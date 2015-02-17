@@ -133,7 +133,7 @@ public class PojazdyView  implements Serializable{
     
      public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
-         init();
+         sumymiesiecy();
     }
     
     public void drukuj(int i) {

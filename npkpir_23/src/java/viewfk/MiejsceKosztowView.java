@@ -120,7 +120,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
-         init();
+         sumymiesiecy();
     }
     
     public int sortMiejsceKosztow(Object o1, Object o2) {
