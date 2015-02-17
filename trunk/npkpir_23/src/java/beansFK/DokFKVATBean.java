@@ -9,6 +9,7 @@ import entityfk.EVatwpisFK;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Singleton;
+import waluty.Z;
 
 /**
  *
@@ -30,12 +31,20 @@ public class DokFKVATBean {
     }
             
     public static double[] podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
-        double[] wartosciVAT = new double[4];
+        double[] wartosciVAT = new double[8];
         for (EVatwpisFK p : ewidencja) {
             wartosciVAT[0] += p.getNetto();
             wartosciVAT[1] += p.getVat();
             wartosciVAT[2] += p.getNettowwalucie();
             wartosciVAT[3] += p.getVatwwalucie();
+            double vatplnpolowa = Z.z(p.getVat()/2);
+            double vatplnreszta = p.getVat()-vatplnpolowa;
+            wartosciVAT[4] = vatplnpolowa;
+            wartosciVAT[5] = vatplnreszta;
+            double vatpolowa = Z.z(p.getVatwwalucie()/2);
+            double vatreszta = p.getVatwwalucie()-vatpolowa;
+            wartosciVAT[6] = vatpolowa;
+            wartosciVAT[7] = vatreszta;
         }
         return wartosciVAT;
     }

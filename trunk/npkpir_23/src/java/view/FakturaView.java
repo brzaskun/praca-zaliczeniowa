@@ -334,6 +334,8 @@ public class FakturaView implements Serializable {
     public void skierujfakturedokorekty(Faktura faktura) {
         Msg.msg("Tworzenie korekty faktury");
         selected = serialclone.SerialClone.clone(faktura);
+        selected.setZaksiegowana(false);
+        selected.setWyslana(false);
         selected.setPrzyczynakorekty("Korekta faktury nr "+faktura.getFakturaPK().getNumerkolejny()+" z dnia "+faktura.getDatawystawienia()+" z powodu: ");
         fakturaxxl = faktura.isFakturaxxl();
         fakturakorekta = true;

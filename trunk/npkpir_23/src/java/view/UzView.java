@@ -225,6 +225,12 @@ public class UzView implements Serializable {
         return toReturn;
     }
 
+    public void sprawdzidentycznoschasel() {
+        if (!confPassword.equals(selUzytkownik.getHaslo())) {
+            Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+        } 
+    }
+    
     public void zmienustawienia() {
         try {
             uzDAO.edit(selUzytkownik);
