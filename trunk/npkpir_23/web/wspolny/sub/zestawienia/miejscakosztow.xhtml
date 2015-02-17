@@ -25,7 +25,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
-                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton value="drukuj tab." actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton value="drukuj szcz." actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>

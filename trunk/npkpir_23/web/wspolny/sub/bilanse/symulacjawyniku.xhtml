@@ -25,14 +25,14 @@
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsaldoanalityczne}" update="@form"/>
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne}" update="@form"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form"/>
+                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
-                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>

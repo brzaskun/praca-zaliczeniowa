@@ -28,21 +28,26 @@ import viewfk.MiejsceKosztowView;
 @Singleton
 public class MiejsceKosztowBean {
 
-    public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow) {
+    public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, List<StronaWiersza> stronywiersza) {
         int i = 1;
         for (MiejsceKosztow p : miejscakosztow) {
             double total = 0;
             List<MiejsceKosztowZest> l = new ArrayList<>();
             MiejsceKosztowView.TabelaMiejsceKosztow m = new MiejsceKosztowView.TabelaMiejsceKosztow();
             for (Konto r : kontaslownikowe) {
-                List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWaluta(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
-                if (kontozapisy.size() > 0) {
+                if (stronywiersza.size() > 0) {
                     double suma = 0;
-                    for (StronaWiersza s : kontozapisy) {
-                        suma += sumuj(s);
+                    List<StronaWiersza> listastron = new ArrayList<>();
+                    for (StronaWiersza s : stronywiersza) {
+                        if (s.getKonto().getNazwapelna().equals(p.getOpismiejsca()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
+                            suma += sumuj(s);
+                            listastron.add(s);
+                        }
                     }
                     total += suma;
-                    l.add(new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, kontozapisy));
+                    if (suma > 0) {
+                        l.add(new MiejsceKosztowZest(r.getNazwapelna(), r.getPelnynumer(), suma, total, listastron));
+                    }
                 }
             }
             if (l.size() > 0) {

@@ -55,18 +55,19 @@ public class SaldoSyntetykaView implements Serializable {
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
-    public void odswiezsaldoanalityczne() {
+    public void odswiezsaldosyntetyczne() {
          wpisView.wpisAktualizuj();
          init();
     }
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p);
+            naniesZapisyNaKonto(saldoKonto, p, zapisyRok);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
@@ -117,8 +118,7 @@ public class SaldoSyntetykaView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy(p);
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         for (StronaWiersza r : zapisyRok) {
             if (r.getWnma().equals("Wn")) {
                 saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
@@ -140,12 +140,8 @@ public class SaldoSyntetykaView implements Serializable {
         }
     }
 
-    private List<StronaWiersza> pobierzzapisy(Konto p) {
-        List<String> poprzedniemce = Mce.poprzedniemce(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-        for (String r : poprzedniemce) {
-            zapisy.addAll(KontaFKBean.pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
-        }
+    private List<StronaWiersza> pobierzzapisy() {
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
     

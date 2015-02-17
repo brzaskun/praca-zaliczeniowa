@@ -25,14 +25,14 @@
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldoanalityczne}" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
+                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamisyntetyka"/>
                 </p:column>
-                <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton value="drukuj tab." actionListener="#{saldoSyntetykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton value="drukuj szcz." actionListener="#{saldoSyntetykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>

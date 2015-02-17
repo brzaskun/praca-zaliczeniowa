@@ -75,23 +75,25 @@ public class SymulacjaWynikuView implements Serializable {
                 kontaklientaprzychody.add(p);
             }
         }
-        listakontaprzychody = przygotowanalistasald(kontaklientaprzychody, 0);
-        listakontakoszty = przygotowanalistasald(kontaklientakoszty, 1);
+        listakontaprzychody = przygotowanalistasaldR(kontaklientaprzychody, 0);
+        listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
         pobierzzapisyzcechami();
         obliczsymulacje();
     }
 
-    public void odswiezsaldoanalityczne() {
+    public void odswiezsymulacjewynikuanalityczne() {
         wpisView.wpisAktualizuj();
         init();
     }
 
-    private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta, int przychod0koszt1) {
+    
+     private List<SaldoKonto> przygotowanalistasaldR(List<Konto> kontaklienta, int przychod0koszt1) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<StronaWiersza> zapisyRok = pobierzzapisyR();
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
-            naniesZapisyNaKonto(saldoKonto, p);
+            naniesZapisyNaKontoR(saldoKonto, p, zapisyRok);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista, przychod0koszt1);
@@ -103,18 +105,26 @@ public class SymulacjaWynikuView implements Serializable {
         sumaSaldoKontoPrzychody.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         return przygotowanalista;
     }
+    
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy(p);
+    private void naniesZapisyNaKontoR(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+        double sumaWn = 0.0;
+        double sumaMa = 0.0;
         for (StronaWiersza r : zapisyRok) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+            if (r.getKonto().equals(p)) {
+                if (r.getWnma().equals("Wn")) {
+                    sumaWn += r.getKwotaPLN();
+                } else {
+                    sumaMa += r.getKwotaPLN();
+                }
             }
         }
+        saldoKonto.setObrotyWn(sumaWn);
+        saldoKonto.setObrotyBoMa(sumaMa);
         saldoKonto.setZapisy(zapisyRok);
     }
+    
+    
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista, int przychod0koszt1) {
         boolean kontoszczegolne = saldoKonto.getKonto().getZwyklerozrachszczegolne().equals("szczególne");
@@ -139,13 +149,10 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
 
-    private List<StronaWiersza> pobierzzapisy(Konto p) {
-        List<String> poprzedniemce = Mce.poprzedniemce(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-        for (String r : poprzedniemce) {
-            zapisy.addAll(KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
-        }
-        return zapisy;
+   
+    private List<StronaWiersza> pobierzzapisyR() {
+        List<StronaWiersza> zapisywynikrokmc = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        return zapisywynikrokmc;
     }
 
     private double sumuj(List<SaldoKonto> listakonta) {

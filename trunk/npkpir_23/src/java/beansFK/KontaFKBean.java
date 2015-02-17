@@ -94,12 +94,12 @@ public class KontaFKBean implements Serializable{
         return pobranezapisy;
     }
     
-    public static List<StronaWiersza> pobierzZapisyRokMcSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, String mc, StronaWierszaDAO stronaWierszaDAO) {
-        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokMcWszystkie(podatnik, konto, rok, mc);
+    public static List<StronaWiersza> pobierzZapisyRokSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, StronaWierszaDAO stronaWierszaDAO) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(podatnik, konto, rok);
         if (konto.isMapotomkow()) {
             List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
             for (Konto p : kontapotomne) {
-                pobranezapisy.addAll(pobierzZapisyRokMcSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, mc, stronaWierszaDAO));
+                pobranezapisy.addAll(pobierzZapisyRokSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, stronaWierszaDAO));
             }
         }
         return pobranezapisy;

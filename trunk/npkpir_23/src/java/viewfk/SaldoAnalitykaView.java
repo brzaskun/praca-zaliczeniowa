@@ -62,12 +62,13 @@ public class SaldoAnalitykaView implements Serializable {
     }
     
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p);
+            naniesZapisyNaKonto(saldoKonto, p , zapisyRok);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
@@ -118,15 +119,17 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy(p);
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+            if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+                if (r.getWnma().equals("Wn")) {
+                    saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
+                } else {
+                    saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+                }
+                saldoKonto.getZapisy().add(r);
             }
-            saldoKonto.getZapisy().add(r);
         }
     }
 
@@ -141,12 +144,8 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    private List<StronaWiersza> pobierzzapisy(Konto p) {
-        List<String> poprzedniemce = Mce.poprzedniemce(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisy = KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-        for (String r : poprzedniemce) {
-            zapisy.addAll(KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), r, stronaWierszaDAO));
-        }
+    private List<StronaWiersza> pobierzzapisy() {
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
    
