@@ -1386,6 +1386,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
                 dokDAOfk.edit(selected);
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
