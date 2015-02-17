@@ -398,7 +398,6 @@ private static final long serialVersionUID = 1L;
                     }
                     ObslugaWiersza.przenumerujSelected(selected);
                 }
-                Msg.msg("Hoho nowe konto Ma");
             }
         } catch (Exception er) {
 
