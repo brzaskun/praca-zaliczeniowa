@@ -155,7 +155,7 @@
                         
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
-                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
                          <h:selectOneMenu id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 60px;"
