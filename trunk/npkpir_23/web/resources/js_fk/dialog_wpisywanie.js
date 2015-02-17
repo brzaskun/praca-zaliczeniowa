@@ -43,8 +43,8 @@ var wpisywanieOnShow = function () {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',1100,600);
         pozazieleniajNoweTransakcje();
-        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
-        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
+        $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
+        $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
     } catch (Exception) {
         alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
     }
@@ -52,14 +52,14 @@ var wpisywanieOnShow = function () {
 
 var wybierzdate = function () {
     try {
-        var zawartosc = document.getElementById('formwpisdokument:data1DialogWpisywanie').value;
+        var zawartosc = document.getElementById('formwpisdokument:data2DialogWpisywanie').value;
         if (zawartosc === "") {
-            $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
-            $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
+            $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
+            $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
         }
     } catch (e) {
-        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).focus();
-        $(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();
+        $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
+        $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
     }
 }
 

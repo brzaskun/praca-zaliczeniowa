@@ -211,6 +211,9 @@ private static final long serialVersionUID = 1L;
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView);
+        String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        selected.setDatawystawienia(data);
+        selected.setDatawplywu(data);
         //selected.setRodzajedok(DokFKBean.odnajdzZZ(rodzajedokKlienta));
         try {
             DokFKBean.dodajWalutyDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
@@ -219,7 +222,7 @@ private static final long serialVersionUID = 1L;
             biezacetransakcje = null;
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
-            wlaczZapiszButon = false;
+            wlaczZapiszButon = true;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
@@ -231,7 +234,7 @@ private static final long serialVersionUID = 1L;
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
-        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data1DialogWpisywanie')).select();");
+        RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
 
 
@@ -1562,13 +1565,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
             } catch (Exception e) {
             }
-//            if (dokument != null) {
-//                wlaczZapiszButon = false;
-//                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
-//                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
-//            } else {
-//                wlaczZapiszButon = true;
-//            }
+            if (dokument != null) {
+                wlaczZapiszButon = false;
+                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+            } else {
+                wlaczZapiszButon = true;
+            }
         }
     }
     
