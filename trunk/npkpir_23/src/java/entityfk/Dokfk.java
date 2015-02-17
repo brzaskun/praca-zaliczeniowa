@@ -513,24 +513,25 @@ public class Dokfk implements Serializable {
         this.setZablokujzmianewaluty(false); 
     }
     
-    public Wiersz poprzedniWiersz(Wiersz wiersz) {
-        int index = wiersz.getIdporzadkowy();
-         for (Wiersz p : this.getListawierszy()) {
-                if (p.getIdporzadkowy() == index-1) {
-                    return p;
-                }
-            }
-         return null;
+     public Wiersz poprzedniWiersz(Wiersz wiersz) {
+        int index = this.listawierszy.indexOf(wiersz);
+        try {
+            return this.listawierszy.get(index-1);
+        } catch (Exception e) {
+            
+        }
+        return null;
     }
     
+     
     public Wiersz nastepnyWiersz(Wiersz wiersz) {
-        int index = wiersz.getIdporzadkowy();
-         for (Wiersz p : this.getListawierszy()) {
-                if (p.getIdporzadkowy() == index+1) {
-                    return p;
-                }
-            }
-         return null;
+         int index = this.listawierszy.indexOf(wiersz);
+        try {
+            return this.listawierszy.get(index+1);
+        } catch (Exception e) {
+            
+        }
+        return null;
     }
     
     public void usunpuste() {
@@ -556,5 +557,35 @@ public class Dokfk implements Serializable {
         } catch (Exception e) {
         }
         return symbolPoprzedniegoDokumentu;
+    }
+     
+    public List<StronaWiersza> getStronyWierszy() {
+        List<StronaWiersza> lista = new ArrayList<>();
+        for (Wiersz p : this.listawierszy) {
+            if (p.getStronaWn()!=null) {
+                lista.add(p.getStronaWn());
+            }
+            if (p.getStronaMa()!=null) {
+                lista.add(p.getStronaMa());
+            }
+        }
+        return lista;
+    }
+     
+    public int sprawdzczynaniesionorozrachunki() {
+        int brakrozrachunkow = 0;
+        Iterator it = this.getStronyWierszy().iterator();
+        while (it.hasNext()) {
+            StronaWiersza p = (StronaWiersza) it.next();
+            boolean jestrozrachunkowe = p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
+            boolean jestnowatransakcja = p.isNowatransakcja();
+            boolean saplatnosci = p.getRozliczono() > 0;
+            if (jestrozrachunkowe && (jestnowatransakcja || saplatnosci)) {
+                
+            } else {
+                brakrozrachunkow = 1;
+            }
+        }
+        return brakrozrachunkow;
     }
 }
