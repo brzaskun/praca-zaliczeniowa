@@ -14,6 +14,7 @@ import daoFK.PojazdyDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,7 +79,8 @@ public class PojazdyView  implements Serializable{
     
     public void obliczsumy() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 3);
-        PojazdyBean.zsumujkwotyzkont(pojazdy, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy);
+        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        PojazdyBean.zsumujkwotyzkont(pojazdy, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy, stronywiersza);
     }
 
     public void dodaj() {

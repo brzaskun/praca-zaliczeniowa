@@ -249,6 +249,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
             }
         }
     }
+    
+    
 
     public Integer getId() {
         return id;

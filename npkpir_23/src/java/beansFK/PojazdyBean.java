@@ -28,21 +28,26 @@ import viewfk.PojazdyView;
 @Singleton
 public class PojazdyBean {
 
-    public static void zsumujkwotyzkont(List<Pojazdy> listapojazdy, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<PojazdyView.TabelaPojazdy> listasumpojazdy) {
+    public static void zsumujkwotyzkont(List<Pojazdy> listapojazdy, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<PojazdyView.TabelaPojazdy> listasumpojazdy, List<StronaWiersza> stronywiersza) {
         int i = 1;
         for (Pojazdy p : listapojazdy) {
             double total = 0;
             List<PojazdyZest> l = new ArrayList<>();
             PojazdyView.TabelaPojazdy m = new PojazdyView.TabelaPojazdy();
             for (Konto r : kontaslownikowe) {
-                List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(wpisView.getPodatnikObiekt(), r, wpisView.getMiesiacWpisu(), "PLN", p);
-                if (kontozapisy.size() > 0) {
+                if (stronywiersza.size() > 0) {
                     double suma = 0;
-                    for (StronaWiersza s : kontozapisy) {
-                        suma += sumuj(s, p);
+                    List<StronaWiersza> listastron = new ArrayList<>();
+                    for (StronaWiersza s : stronywiersza) {
+                        if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
+                            suma += sumuj(s);
+                            listastron.add(s);
+                        }
                     }
                     total += suma;
-                    l.add(stworzmiejscekosztzest(r, suma, total, kontozapisy));
+                    if (suma > 0) {
+                        l.add(stworzmiejscekosztzest(r, suma, total, stronywiersza));
+                    }
                 }
             }
             if (l.size() > 0) {
@@ -54,7 +59,7 @@ public class PojazdyBean {
         }
     }
 
-    private static double sumuj(StronaWiersza s, Pojazdy p) {
+    private static double sumuj(StronaWiersza s) {
         if (s.getWnma().equals("Wn")) {
             return s.getKwota();
         } else {

@@ -20,7 +20,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="pobierz" actionListener="#{pojazdyView.sumymiesiecy}" update="@form" style="width: 120px;"/>
-                <h:outputText value="(przetwarzanie trwa około 20 sek.)"/>
+                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton value="drukuj tab." actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton value="drukuj szcz." actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>

@@ -59,6 +59,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
      private List<SaldoKontoNarastajaco> przygotowanalistasald(List<Konto> kontaklienta) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKontoNarastajaco> przygotowanalista = new ArrayList<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
@@ -66,7 +67,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             saldoKontoNarastajaco.setId(licznik++);
             saldoKontoNarastajaco.setKonto(p);
             naniesBOnaKonto(saldoKontoNarastajaco, p);
-            naniesZapisyNaKonto(saldoKontoNarastajaco, p);
+            naniesZapisyNaKonto(saldoKontoNarastajaco, p, zapisyRok);
             saldoKontoNarastajaco.sumujBOZapisy();
             saldoKontoNarastajaco.wyliczSaldo();
             dodajdolisty(saldoKontoNarastajaco, przygotowanalista);
@@ -103,20 +104,21 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p) {
+    private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         for (String m : Mce.getMceListS()) {
             if (m.equals(wpisView.getMiesiacNastepny())) {
                 break;
             } else {
-                List<StronaWiersza> zapisyRok = pobierzzapisy(p, m);
                 if (zapisyRok != null && zapisyRok.size() > 0) {
                     double obrotyWn = 0.0;
                     double obrotyMa = 0.0;
                     for (StronaWiersza r : zapisyRok) {
-                        if (r.getWnma().equals("Wn")) {
-                            obrotyWn += Z.z(r.getKwotaPLN());
-                        } else {
-                            obrotyMa += Z.z(r.getKwotaPLN());
+                        if (r.getKonto().equals(p) && r.getWiersz().getDokfk().getMiesiac().equals(m)){
+                            if (r.getWnma().equals("Wn")) {
+                                obrotyWn += Z.z(r.getKwotaPLN());
+                            } else {
+                                obrotyMa += Z.z(r.getKwotaPLN());
+                            }
                         }
                     }
                     SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
@@ -146,8 +148,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
     }
 
-    private List<StronaWiersza> pobierzzapisy(Konto p, String mc) {
-        return KontaFKBean.pobierzZapisyRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), mc, stronaWierszaDAO);
+    private List<StronaWiersza> pobierzzapisy() {
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        return zapisy;
     }
    
      public boolean czywyswietlic(String kolumna) {

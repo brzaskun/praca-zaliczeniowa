@@ -14,6 +14,7 @@ import daoFK.MiejsceKosztowDAO;
 import embeddablefk.MiejsceKosztowZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
+import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -75,7 +76,8 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void obliczsumymiejsc() {
         List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
-        MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow);
+        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow, stronywiersza);
     }
     
 
