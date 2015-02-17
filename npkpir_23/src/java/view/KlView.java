@@ -139,6 +139,7 @@ public class KlView implements Serializable{
          
    }
     
+       
     public void dodajKlientafk(){
       try {
         if(selected.getNip().isEmpty()){
@@ -158,15 +159,21 @@ public class KlView implements Serializable{
         poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
         kl1.add(selected);
-        dokfkView.getSelected().setKontr(selected);
-        RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
-        selected = new Klienci();
+       
         } catch (Exception e) {
-        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
+            Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }
-         
-         
+      //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
+        if (dokfkView.getSelected() != null) {
+            dokfkView.getSelected().setKontr(selected);
+            selected = new Klienci();
+            RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania");
+            RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania1");
+        } else {
+            selected = new Klienci();
+        }
    }
     
     
