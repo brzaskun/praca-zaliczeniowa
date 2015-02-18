@@ -125,8 +125,8 @@ public class PdfKonta {
     }
 
     private static PdfPTable subtable(List<StronaWiersza> stronywiersza) throws DocumentException, IOException {
-        PdfPTable table = new PdfPTable(8);
-        table.setWidths(new int[]{1, 2, 2, 2, 4, 3, 2, 2});
+        PdfPTable table = new PdfPTable(11);
+        table.setWidths(new int[]{1, 2, 2, 2, 4, 3, 1, 2, 2, 2, 2});
         table.setWidthPercentage(95);
         try {
             table.addCell(ustawfrazeSpanFont("", 0, 1, 7));
@@ -135,8 +135,11 @@ public class PdfKonta {
             table.addCell(ustawfrazeSpanFont("nr własny", 0, 1, 7));
             table.addCell(ustawfrazeSpanFont("kontrahent", 0, 1, 7));
             table.addCell(ustawfrazeSpanFont("wiersz", 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont("wal.", 0, 1, 7));
             table.addCell(ustawfrazeSpanFont("kwota Wn", 0, 1, 7));
             table.addCell(ustawfrazeSpanFont("kwota Ma", 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont("kwota Wn PLN", 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont("kwota Ma PLN", 0, 1, 7));
 
             table.setHeaderRows(1);
         } catch (IOException ex) {
@@ -150,12 +153,31 @@ public class PdfKonta {
             String kontr = rs.getWiersz().geteVatwpisFK() == null ? rs.getDokfk().getKontr().getNpelna() : rs.getWiersz().geteVatwpisFK().getKlient().getNpelna();
             table.addCell(ustawfrazeAlign(kontr, "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
+            String waluta = rs.getSymbolWalutyBO() != null ? rs.getSymbolWalutyBO() : rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty();
+            table.addCell(ustawfrazeAlign(waluta, "center", 6));
             if (rs.getWnma().equals("Wn")) {
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
+                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 6));
                 table.addCell(ustawfrazeAlign("", "right", 6));
             } else {
                 table.addCell(ustawfrazeAlign("", "right", 6));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKwotaPLN()), "right", 6));
+                table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 6));
+            }
+            if (waluta.equals("PLN")) {
+               if (rs.getWnma().equals("Wn")) {
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+               } else {
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+               }   
+            } else {
+               if (rs.getWnma().equals("Wn")) {
+                   table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwotaPLN()), "right", 6));
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+               } else {
+                   table.addCell(ustawfrazeAlign("", "right", 6));
+                   table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwotaPLN()), "right", 6));
+               }   
             }
         }
         return table;

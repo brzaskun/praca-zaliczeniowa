@@ -120,12 +120,15 @@ public class SaldoSyntetykaView implements Serializable {
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         for (StronaWiersza r : zapisyRok) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+            if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer())) {
+                if (r.getWnma().equals("Wn")) {
+                    saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
+                } else {
+                    saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+                }
+                saldoKonto.getZapisy().add(r);
             }
-            saldoKonto.getZapisy().add(r);
+            
         }
     }
 
