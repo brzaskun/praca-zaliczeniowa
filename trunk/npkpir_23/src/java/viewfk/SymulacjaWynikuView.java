@@ -120,7 +120,7 @@ public class SymulacjaWynikuView implements Serializable {
             }
         }
         saldoKonto.setObrotyWn(sumaWn);
-        saldoKonto.setObrotyBoMa(sumaMa);
+        saldoKonto.setObrotyMa(sumaMa);
         saldoKonto.setZapisy(zapisyRok);
     }
     

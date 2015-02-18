@@ -141,7 +141,7 @@ public class SaldoSyntetykaView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzzapisy() {
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
     
