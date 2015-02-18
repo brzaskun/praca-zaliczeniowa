@@ -76,6 +76,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPelnynumer", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer"),
     @NamedQuery(name = "Konto.findByPelnynumerPodatnik", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByLevelPodatnik", query = "SELECT k FROM Konto k WHERE k.level = :level AND k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByLevelRok", query = "SELECT k FROM Konto k WHERE k.level != :level AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPelnynumerWzorcowy", query = "SELECT k FROM Konto k WHERE k.pelnynumer = :pelnynumer AND k.podatnik = :podatnik"),
     @NamedQuery(name = "Konto.findByNazwaPodatnik", query = "SELECT k FROM Konto k WHERE k.nazwaskrocona = :nazwaskrocona AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByMapotomkow", query = "SELECT k FROM Konto k WHERE k.mapotomkow = :mapotomkow"),
@@ -195,6 +196,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private int idslownika;
     @Column(name="przychod0koszt1")
     private boolean przychod0koszt1;
+    @Size(min = 1, max = 255)
+    @Column(name = "syntetycznenumer")
+    private String syntetycznenumer;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -210,7 +214,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         
     }
 
-    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok) {
+    public Konto(Integer id, String podatnik, String nrkonta, String syntetyczne, int analityka, String nazwapelna, String nazwaskrocona, 
+            String bilansowewynikowe, String zwyklerozrachszczegolne, String macierzyste, String pelnynumer, boolean rozwin, int rok,
+            String syntetycznenumer) {
         this.id = id;
         this.podatnik = podatnik;
         this.nrkonta = nrkonta;
@@ -228,6 +234,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.boMa = 0.0;
         this.slownikowe = false;
         this.idslownika = 0;
+        this.syntetycznenumer = syntetycznenumer;
     }   
     
     public void getAllChildren(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
@@ -236,6 +243,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
                 o.getAllChildren(listakontwszystkie,wpisView, kontoFacade);
+            }
+        }
+    }
+    
+    public void getAllChildrenRok(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnikRok(podatnik, this.pelnynumer);
+        if (!children.isEmpty()) {
+            for (Konto o : children) {
+                listakontwszystkie.add(o);
+                o.getAllChildrenRok(listakontwszystkie,podatnik, kontoFacade);
             }
         }
     }
@@ -284,6 +301,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setSyntetyczne(String syntetyczne) {
         this.syntetyczne = syntetyczne;
     }
+
+    public String getSyntetycznenumer() {
+        return syntetycznenumer;
+    }
+
+    public void setSyntetycznenumer(String syntetycznenumer) {
+        this.syntetycznenumer = syntetycznenumer;
+    }
+    
 
     @Override
     public int getLevel() {

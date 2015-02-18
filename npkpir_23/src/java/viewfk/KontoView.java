@@ -16,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import sortfunction.KontoSortBean;
 import view.WpisView;
@@ -78,6 +79,20 @@ public class KontoView  implements Serializable {
          } catch (Exception e) {
              return 0;
          }
+     }
+     
+     public void przepiszkonta() {
+         List<Konto> konta = kontoDAO.findKontazLeveluRok(wpisView, 0);
+         for (Konto p : konta) {
+             uzupelnij(p);
+         }
+         Msg.msg("zrobilem");
+     }
+     
+     private void uzupelnij (Konto p) {
+         String[] numery = p.getPelnynumer().split("-");
+         p.setSyntetycznenumer(numery[0]);
+         kontoDAO.edit(p);
      }
 //     public int sortujKonto2(Object o1, Object o2) {
 //         return KontoSortBean.sortZaksiegowaneDok2(o1, o2);

@@ -263,6 +263,16 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+    public List<Konto> findKontaWszystkiePotomneRok(String podatnik,Konto macierzyste) {
+        List<Konto> listakontwszystkie = new ArrayList<>();
+        try {
+            macierzyste.getAllChildrenRok(listakontwszystkie, podatnik, kontoFacade);
+            return listakontwszystkie;
+        } catch (Exception e) {
+            return null;
+        } 
+    }
+    
     public List<Konto> findKontaWszystkiePotomneWzorcowy(WpisView wpisView,Konto macierzyste) {
         List<Konto> listakontwszystkie = new ArrayList<>();
         try {
@@ -372,6 +382,10 @@ public class KontoDAOfk extends DAO implements Serializable{
 
     public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
         return kontoFacade.findKontazLevelu(wpisView, i);
+    }
+    
+    public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
+        return kontoFacade.findKontazLeveluRok(wpisView, i);
     }
    
  
