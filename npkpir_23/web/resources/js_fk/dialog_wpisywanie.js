@@ -201,13 +201,15 @@ var sprawdzczywyborkontaniejestshown = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
         PF('dlgwprowadzanieklienta').show();
-    } else {
+    }
+};
+
+var sprawdzczymakonto = function () {
         var czydialogjestshown = $("#czydodackonto").hasClass("ui-overlay-visible");
         if (czydialogjestshown) {
             $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
         }
-    }
-};
+    };
 
 var focusNaNowoDodanym = function(source) {
     try {
