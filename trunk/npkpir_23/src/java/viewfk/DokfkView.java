@@ -27,7 +27,6 @@ import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Parametr;
-import embeddablefk.TreeNodeExtended;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -44,12 +43,8 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -68,7 +63,6 @@ import org.joda.time.DateTime;
 import org.primefaces.component.autocomplete.AutoComplete;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 import view.ParametrView;
@@ -2730,6 +2724,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             
         }
     }
+    
     
     public int sortZaksiegowaneDok(Object o1, Object o2) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);

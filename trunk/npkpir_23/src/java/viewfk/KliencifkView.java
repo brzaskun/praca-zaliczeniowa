@@ -47,6 +47,8 @@ public class KliencifkView implements Serializable{
     @Inject private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{dokfkView}")
+    private DokfkView dokfkView;
 
     public KliencifkView() {
         listawszystkichklientow = new ArrayList<>();
@@ -59,8 +61,8 @@ public class KliencifkView implements Serializable{
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
     }
     
-    public void pobieraniekontaFKWpis(ValueChangeEvent e){
-        wybranyklient = (Klienci) e.getNewValue();
+    public void pobieraniekontaFKWpis(){
+        wybranyklient = dokfkView.selected.getKontr();
         if (!wybranyklient.getNpelna().equals("nowy klient")) {
             int wynik = pobieraniekontaFK();
             if (wynik == 1) {
@@ -138,6 +140,14 @@ public class KliencifkView implements Serializable{
     
     public void setListawszystkichklientow(List<Klienci> listawszystkichklientow) {
         this.listawszystkichklientow = listawszystkichklientow;
+    }
+
+    public DokfkView getDokfkView() {
+        return dokfkView;
+    }
+
+    public void setDokfkView(DokfkView dokfkView) {
+        this.dokfkView = dokfkView;
     }
     
     public Klienci getWybranyklient() {
