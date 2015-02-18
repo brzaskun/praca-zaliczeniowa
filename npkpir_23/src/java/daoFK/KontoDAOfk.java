@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -388,5 +389,8 @@ public class KontoDAOfk extends DAO implements Serializable{
         return kontoFacade.findKontazLeveluRok(wpisView, i);
     }
    
+    public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
+        return kontoFacade.findSlownikoweKlienci(wpisView, kliencifk);
+    }
  
 }

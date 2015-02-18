@@ -109,6 +109,7 @@ public class KliencifkView implements Serializable{
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
+    
 
     private String pobierznastepnynumer() {
         try {
@@ -131,6 +132,19 @@ public class KliencifkView implements Serializable{
         return 0;
     }
     
+    public void remove(Kliencifk klientkontodousuniecia){
+        try {
+            klienciDAO.destroy(klientkontodousuniecia);
+            int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
+            listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+            Msg.msg("Usunięto konta słownikowe dla klienta "+klientkontodousuniecia.getNazwa());
+        } catch (Exception e) {
+            Msg.msg("e", "Nieudane usunięcie kont słownikowych dla klienta");
+        }
+        wybranyklient = new Klienci();
+        klientMaKonto = new Kliencifk();
+        klientBezKonta = new Kliencifk();
+    }
    
 //<editor-fold defaultstate="collapsed" desc="comment">
     

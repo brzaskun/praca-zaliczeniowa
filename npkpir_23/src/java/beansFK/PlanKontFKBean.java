@@ -278,6 +278,14 @@ public class PlanKontFKBean {
         return 0;
     }
     
+    public static int aktualizujslownikKontrahenciRemove(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontaslownikowaklientfk = kontoDAO.findSlownikoweKlienci(wpisView, kliencifk);
+        for (Konto p : kontaslownikowaklientfk) {
+            kontoDAO.destroy(p);
+        }
+        return 0;
+    }
+    
     public static int aktualizujslownikMiejscaKosztow(MiejsceKosztow miejscekosztow, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 2);
         for (Konto p : kontamacierzysteZeSlownikiem) {
