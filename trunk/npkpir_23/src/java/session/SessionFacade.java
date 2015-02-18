@@ -747,6 +747,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
     
+    public List<Konto> findKontaPotomnePodatnikRok(String podatnik, String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", 2015).getResultList();
+    }
+    
     public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
@@ -1314,6 +1318,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
         return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok",wpisView.getRokWpisu()).getResultList();
+    }
+    
+    public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
+        return em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok",2015).getResultList();
     }
   
 }

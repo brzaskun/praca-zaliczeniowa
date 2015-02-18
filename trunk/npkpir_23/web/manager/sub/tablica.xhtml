@@ -11,8 +11,12 @@
         <h:outputText value="W tej części programu można uzupełniać dane podatkowe i inny dotyczące wszystkich klientów."/><br/>
         <h:outputText value="Następne te dane można wykorzystać do parametryzowania poszczególnych podatników"/><br/>
     </p:outputPanel>
-    <h:form>
+<!--    <h:form>
         <p:commandButton value="importuj z pliku" actionListener="#{KlView.pobierzklientazPliku()}" update="@all" />
-    </h:form>
+    </h:form>-->
+
+
+        <p:commandButton value="aktualizuj konta" actionListener="#{kontoView.przepiszkonta()}"/>
+
 </ui:composition>   
 
