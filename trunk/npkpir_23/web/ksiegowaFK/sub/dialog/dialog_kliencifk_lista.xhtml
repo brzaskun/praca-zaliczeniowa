@@ -5,28 +5,30 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_lista" 
+    <p:dialog id="dialog_kliencifk_lista" header="Przyporządkowanie klientów do kont - lista" widgetVar="dialog_kliencifk_lista" 
               resizable="false"  onShow="ustawdialog('dialog_kliencifk_lista','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_lista');" >
-       
+
         <h:form id="kontoformLista">
-            <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="wpis"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+            <p:dataTable id="infokonta" value="#{kliencifkView.listawszystkichklientowFk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
                          style="margin-top: 2%; width: 850px;" 
-                     scrollable="true" scrollHeight="400" 
-                     sortBy="#{wpis}"  sortFunction="#{kliencifkView.sortKliencifk}">
+                         scrollable="true" scrollHeight="400" 
+                         sortBy="#{item}"  sortFunction="#{kliencifkView.sortKliencifk}">
                 <f:facet name="header">
                     <h:outputText value="Wykaz przyporządkowanych kont"/>
                 </f:facet>
-                <p:column headerText="nrkonta" sortBy="#{wpis.nrkonta}" filterBy="#{wpis.nrkonta}" filterMatchMode="startsWith" width="120">
-                <h:outputText value="#{wpis.nrkonta}"/>
-            </p:column>
-                <p:column headerText="nazwa" sortBy="#{wpis.nazwa}" filterBy="#{wpis.nazwa}" filterMatchMode="contains">
-                <h:outputText value="#{wpis.nazwa}"/>
-            </p:column>
-                <p:column headerText="nip" sortBy="#{wpis.nip}" filterBy="#{wpis.nip}" filterMatchMode="startsWith">
-                <h:outputText value="#{wpis.nip}"/>
-            </p:column>
-                
-        </p:dataTable>
-         </h:form>
+                <p:column headerText="nrkonta" sortBy="#{item.nrkonta}" filterBy="#{item.nrkonta}" filterMatchMode="startsWith" width="120">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
+                <p:column headerText="nazwa" sortBy="#{item.nazwa}" filterBy="#{item.nazwa}" filterMatchMode="contains" width="400">
+                    <h:outputText value="#{item.nazwa}"/>
+                </p:column>
+                <p:column headerText="nip" sortBy="#{item.nip}" filterBy="#{item.nip}" filterMatchMode="startsWith">
+                    <h:outputText value="#{item.nip}"/>
+                </p:column>
+                <p:column style="text-align: center;">
+                    <p:commandButton value="usuń" actionListener="#{kliencifkView.remove(item)}" update="@form"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
     </p:dialog>
 </ui:composition>
