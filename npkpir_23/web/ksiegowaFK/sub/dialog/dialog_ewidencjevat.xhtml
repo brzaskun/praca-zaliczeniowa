@@ -21,7 +21,7 @@
 
                     <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
                         <p:tab  title="#{item[0].nazwaewidencji}">
-                            <p:panelGrid columns="4">
+                            <p:panelGrid columns="5">
                                 <h:outputText value="suma wybranych: "/>
                                 <p:panel id="sumka#{numer.index}"  style="width: 400px;">
                                     <h:outputText value="netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
@@ -34,11 +34,12 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:panel>
-                                <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 300px;"/>
+                                <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 200px;"/>
                                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')" 
-                                                 style="width: 120px; margin-left: 7%">
+                                                 style="width: 120px; margin-left: 10px;">
                                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                                 </p:commandButton>    
+                                <p:commandButton value="Drukuj wszystkie" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
                             </p:panelGrid>
                             <p:dataTable id="tabela#{numer.index}" value="#{item}" var="itemik" 
                                          rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
