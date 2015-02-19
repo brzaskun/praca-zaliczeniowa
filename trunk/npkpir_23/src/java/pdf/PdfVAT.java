@@ -145,7 +145,7 @@ public class PdfVAT {
                     table.addCell(ustawfrazeAlign("8", "center", 6));
                     table.addCell(ustawfrazeAlign("9", "center", 6));
                     table.addCell(ustawfrazeAlign("10", "center", 6));
-
+                    
 
                     table.setHeaderRows(5);
                     table.setFooterRows(1);
@@ -161,27 +161,13 @@ public class PdfVAT {
                 ew.add(polesuma);
                 Integer i = 1;
                 for (EVatViewPola rs : ew) {
-                        table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
-                        table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
-                        table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
-                        table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
-                        try {
-                            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
-                            if (rs.getKontr().getKodpocztowy() != null) {
-                                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
-                            } else {
-                                table.addCell(ustawfrazeAlign("", "left", 6));
-                            }
-                        } catch (Exception e) {
-                            table.addCell(ustawfrazeAlign("", "left", 6));
-                            table.addCell(ustawfrazeAlign("", "left", 6));
+                    if (p.equals("zakup")) {
+                        if (rs.getVat() != 0) {
+                            dodajwiersztabeli(table, rs, i) ;
                         }
-
-                        table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
-                        i++;
+                    } else {
+                      dodajwiersztabeli(table, rs, i) ;
+                    }
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
                 pdf.add(table);
@@ -193,6 +179,30 @@ public class PdfVAT {
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
         }
+    }
+    
+    private static void dodajwiersztabeli(PdfPTable table, EVatViewPola rs, Integer i) throws DocumentException, IOException {
+        table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
+        table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
+        try {
+            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
+            if (rs.getKontr().getKodpocztowy() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+        } catch (Exception e) {
+            table.addCell(ustawfrazeAlign("", "left", 6));
+            table.addCell(ustawfrazeAlign("", "left", 6));
+        }
+
+        table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
+        i++;
     }
     
     public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {
@@ -317,29 +327,15 @@ public class PdfVAT {
 
             ArrayList<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
             Integer i = 1;
-            for (EVatViewPola rs : ew) {
-                table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
-                table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
-                table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
-                table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
-                try {
-                    table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
-                    if (rs.getKontr().getKodpocztowy() != null) {
-                        table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
+             for (EVatViewPola rs : ew) {
+                    if (nazwaewidencji.equals("zakup")) {
+                        if (rs.getVat() != 0) {
+                            dodajwiersztabeli(table, rs, i) ;
+                        }
                     } else {
-                        table.addCell(ustawfrazeAlign("", "left", 6));
+                      dodajwiersztabeli(table, rs, i) ;
                     }
-                } catch (Exception e) {
-                    table.addCell(ustawfrazeAlign("", "left", 6));
-                    table.addCell(ustawfrazeAlign("", "left", 6));
                 }
-
-                table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
-                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
-                i++;
-            }
             return table;
         } catch (Exception e) {
             return null;
