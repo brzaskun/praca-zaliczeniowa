@@ -161,27 +161,27 @@ public class PdfVAT {
                 ew.add(polesuma);
                 Integer i = 1;
                 for (EVatViewPola rs : ew) {
-                    table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
-                    table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
-                    table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
-                    table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
-                    try {
-                        table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
-                        if (rs.getKontr().getKodpocztowy() != null) {
-                            table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
-                        } else {
+                        table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
+                        table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
+                        table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
+                        table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
+                        try {
+                            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
+                            if (rs.getKontr().getKodpocztowy() != null) {
+                                table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
+                            } else {
+                                table.addCell(ustawfrazeAlign("", "left", 6));
+                            }
+                        } catch (Exception e) {
+                            table.addCell(ustawfrazeAlign("", "left", 6));
                             table.addCell(ustawfrazeAlign("", "left", 6));
                         }
-                    } catch (Exception e) {
-                        table.addCell(ustawfrazeAlign("", "left", 6));
-                        table.addCell(ustawfrazeAlign("", "left", 6));
-                    }
 
-                    table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
-                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
-                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
-                    i++;
+                        table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
+                        i++;
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
                 pdf.add(table);
