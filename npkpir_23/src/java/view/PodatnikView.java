@@ -790,13 +790,13 @@ public class PodatnikView implements Serializable {
 
     public void przygotujdoedycjiDokKsi() {
         selectedDokKsi = wybranyRodzajDokumentu;
-        Msg.msg("i", "Wyedytowano wzorce dokumentów", "akordeon:form7");
+        Msg.msg("i", "Wybrano wzorzec do edycji", "akordeon:form7");
     }
     
     public void editdok() {
         try {
             rodzajedokDAO.edit(selectedDokKsi);
-            RequestContext.getCurrentInstance().update("akordeon:form6:pDokKsi");
+            selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów");
@@ -811,23 +811,12 @@ public class PodatnikView implements Serializable {
 
     public void pobierzogolneDokKsi() {
         selected = wpisView.getPodatnikObiekt();
-        List<Rodzajedok> lista = new ArrayList<>();
+        List<Rodzajedok> dokumentyBiezacegoPodatnika = rodzajedokDAO.findListaPodatnik(selected);
+        List<Rodzajedok> ogolnaListaDokumentow = rodzajedokView.getListaWspolnych();
         try {
-            lista.addAll(rodzajedokDAO.findListaPodatnik(selected));
-        } catch (Exception e) {
-        }
-        List<Rodzajedok> ogolna = new ArrayList<>();
-        try {
-            ogolna.addAll(rodzajedokView.getListaWspolnych());
-        } catch (Exception e) {
-        }
-        Iterator it;
-        it = ogolna.iterator();
-        try {
-            while (it.hasNext()) {
-                Rodzajedok tmp = (Rodzajedok) it.next();
+            for (Rodzajedok tmp : ogolnaListaDokumentow) {
                 boolean odnaleziono = false;
-                for (Rodzajedok r: lista) {
+                for (Rodzajedok r: dokumentyBiezacegoPodatnika) {
                     if (r.getSkrot().equals(tmp.getSkrot())) {
                         odnaleziono = true;
                     }
@@ -840,14 +829,9 @@ public class PodatnikView implements Serializable {
                     nowy.setKontorozrachunkowe(null);
                     nowy.setKontovat(null);
                     rodzajedokDAO.dodaj(nowy);
-                    lista.add(nowy);
+                    dokumentyBiezacegoPodatnika.add(nowy);
                 }
             }
-        } catch (Exception ex) {
-        }
-        try {
-            selected.setDokumentyksiegowe(lista);
-            podatnikDAO.edit(selected);
         } catch (Exception ex) {
         }
     }

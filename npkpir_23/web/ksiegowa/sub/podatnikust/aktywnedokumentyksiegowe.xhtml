@@ -15,6 +15,7 @@
             <p:panelGrid columns="1" style="max-width: 1200px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              paginator="true" paginatorPosition="top" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
+                             sortBy="#{loop.rodzajedokPK.skrotNazwyDok}"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
                     <p:column headerText="skrót" style="text-align: center; height: 30px;" width="40">
@@ -79,7 +80,7 @@
                         <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                         <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                         <f:selectItem itemLabel="płatności" itemValue="0"/>
-                        <p:ajax event="change" global="false" partialSubmit="true" process=":akordeon:form7:parametryDokKsi1"/>
+                        <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
                     </p:selectOneMenu>
                     <h:outputText value=" pokaż kg: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
@@ -113,8 +114,8 @@
                 </p:panelGrid>
             
             <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6" />
-                <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6" />
+                <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6, :akordeon:form7" />
+                <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6, :akordeon:form7" />
             </p:panelGrid>
                 </f:ajax>
         </h:form>
