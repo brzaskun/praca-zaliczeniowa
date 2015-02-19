@@ -1234,10 +1234,10 @@ private static final long serialVersionUID = 1L;
             if (listakont == null || listakont.size() == 0) {
                 throw new Exception();
             }
-            Konto kontoprzyporzadkowane = selected.getRodzajedok().getKontorozrachunkowe();
+            Konto kontoprzyporzadkowaneDoRodzajuDok = selected.getRodzajedok().getKontorozrachunkowe();
             Konto konto = null;
             for (Konto p : listakont) {
-                if (kontoprzyporzadkowane.getPelnynumer().equals(p.getMacierzyste())) {
+                if (kontoprzyporzadkowaneDoRodzajuDok.getPelnynumer().equals(p.getMacierzyste())) {
                     konto = p;
                 }
             }
