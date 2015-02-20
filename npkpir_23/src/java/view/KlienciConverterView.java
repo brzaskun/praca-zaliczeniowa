@@ -23,7 +23,7 @@ import javax.inject.Inject;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class KlienciConverterView implements Serializable{
     
     private List<Klienci> listaKlientow;

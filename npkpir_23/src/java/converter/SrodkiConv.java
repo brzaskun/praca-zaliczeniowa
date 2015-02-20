@@ -18,18 +18,12 @@ import view.SrodkikstView;
  */
 public class SrodkiConv implements javax.faces.convert.Converter{
     
-    private List<Srodkikst> srodkiKSTLista;
-    
-    public SrodkiConv() {
-       FacesContext context = FacesContext.getCurrentInstance();
-       SrodkikstView srodkikstView = (SrodkikstView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"srodkikstView");
-       srodkiKSTLista = srodkikstView.getLista();
-    }
-    
-    
+       
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-        SrodkikstView srodkikstView = new SrodkikstView();
+       FacesContext context = FacesContext.getCurrentInstance();
+       SrodkikstView srodkikstView = (SrodkikstView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"srodkikstView");
+       List<Srodkikst> srodkiKSTLista = srodkikstView.getLista();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  

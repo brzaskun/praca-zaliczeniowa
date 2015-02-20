@@ -18,16 +18,12 @@ import viewfk.PlanKontConverterView;
  */
 public class KontoConv implements javax.faces.convert.Converter{
 
-    private List<Konto> konta;
-    
-    public KontoConv() {
-       FacesContext context = FacesContext.getCurrentInstance();
-       PlanKontConverterView planKontConverterView = (PlanKontConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"planKontConverterView");
-       konta = planKontConverterView.getWykazkont();
-    }
      
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+       FacesContext context = FacesContext.getCurrentInstance();
+       PlanKontConverterView planKontConverterView = (PlanKontConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"planKontConverterView");
+       List<Konto> konta = planKontConverterView.getWykazkont();
         try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
         if (submittedValue.trim().isEmpty()) {  
             return null;  
