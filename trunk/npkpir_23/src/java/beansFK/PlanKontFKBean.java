@@ -60,6 +60,11 @@ public class PlanKontFKBean {
      }
      
      public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+         if (macierzyste.getLevel()==0) {
+             nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
+         } else {
+             nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+         }
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(wpisView.getRokWpisu());
@@ -75,6 +80,11 @@ public class PlanKontFKBean {
     }
      
      public static int dodajanalityczneWzorzec(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+         if (macierzyste.getLevel()==0) {
+             nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
+         } else {
+             nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+         }
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik("Wzorcowy");
          nowekonto.setRok(wpisView.getRokWpisu());
@@ -90,6 +100,11 @@ public class PlanKontFKBean {
     }
     
     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta,WpisView wpisView) {
+        if (macierzyste.getLevel()==0) {
+             nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
+         } else {
+             nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+         }
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(wpisView.getRokWpisu());
@@ -140,6 +155,11 @@ public class PlanKontFKBean {
         return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     private static int uzupelnijdaneslownika(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        if (macierzyste.getLevel()==0) {
+             nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
+         } else {
+             nowekonto.setSyntetycznenumer(macierzyste.getSyntetycznenumer());
+         }
          nowekonto.setBlokada(true);
          nowekonto.setSyntetyczne("analityczne");
          nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
