@@ -138,7 +138,7 @@
                                          onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
-                            <f:selectItems value="#{dokfkView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
+                            <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 

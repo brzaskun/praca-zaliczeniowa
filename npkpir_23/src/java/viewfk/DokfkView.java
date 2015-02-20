@@ -96,7 +96,6 @@ private static final long serialVersionUID = 1L;
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private EVatwpisFKDAO eVatwpisFKDAO;
-    private List<Rodzajedok> rodzajedokKlienta;
     @Inject 
     private KliencifkDAO kliencifkDAO;
     @Inject
@@ -169,7 +168,6 @@ private static final long serialVersionUID = 1L;
         this.wprowadzonesymbolewalut = new ArrayList<>();
         this.symbolwalutydowiersza = "";
         this.zapisz0edytuj1 = false;
-        this.rodzajedokKlienta = new ArrayList<>();
         this.listaewidencjivatRK = new ArrayList<>();
         this.pobranecechy = new ArrayList<>();
     }
@@ -177,8 +175,6 @@ private static final long serialVersionUID = 1L;
     @PostConstruct
     private void init() {
         try {
-            rodzajedokKlienta = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-            Collections.sort(rodzajedokKlienta, new Rodzajedokcomparator());
             resetujDokument();
             obsluzcechydokumentu();
             stworzlisteewidencjiRK();
@@ -2807,15 +2803,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.ewidencjaVatRK = ewidencjaVatRK;
     }
     
-    
-    public List<Rodzajedok> getRodzajedokKlienta() {
-        return rodzajedokKlienta;
-    }
-
-    public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
-        this.rodzajedokKlienta = rodzajedokKlienta;
-    }
-
+   
     public String getSymbolWalutyNettoVat() {
         return symbolWalutyNettoVat;
     }
