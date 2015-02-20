@@ -172,6 +172,7 @@
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" 
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();"
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
+                        <p:ajax event="query" global="false"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
                         <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczynowykontrahentniejestshown();"/>
@@ -342,6 +343,7 @@
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
+                            <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaWn(loop, rowindex)}" partialSubmit="true" 
                                     update=":formwpisdokument:wartoscdokumentu"/>
@@ -376,6 +378,7 @@
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
                                         valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         >
+                            <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="focus" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
                             <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 
