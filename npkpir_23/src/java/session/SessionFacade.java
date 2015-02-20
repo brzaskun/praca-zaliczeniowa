@@ -885,6 +885,10 @@ public class SessionFacade<T> implements Serializable{
     public List<Podatnik> findPodatnikFK() {
         return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
     }
+    
+    public List<Podatnik> findPodatnikNieFK() {
+        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", false).getResultList();
+    }
 
     public List<Podatnik> findPodatnikZUS() {
         return em.createNamedQuery("Podatnik.findByZUS").getResultList();

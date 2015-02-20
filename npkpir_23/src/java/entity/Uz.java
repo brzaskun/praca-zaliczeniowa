@@ -182,7 +182,8 @@ public class Uz implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Uz[ login=" + login + " ]";
+        return "Uz{" + "login=" + login + ", imie=" + imie + ", nazw=" + nazw + ", email=" + email + ", uprawnienia=" + uprawnienia + ", firma=" + firma + '}';
     }
-    
+
+   
 }
