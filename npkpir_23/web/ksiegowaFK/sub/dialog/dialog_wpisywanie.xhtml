@@ -147,10 +147,10 @@
                         
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
-                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
                          <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 40px;">
@@ -174,7 +174,7 @@
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
-                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczywyborkontaniejestshown();"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczynowykontrahentniejestshown();"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
@@ -192,7 +192,7 @@
                         <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="40"
                                      style="height: 19px;"
                                      >
-                            <p:ajax global="false" event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" onstart="sprawdzczymakonto();"  update=":formwpisdokument:panelwpisbutton"/>
+                            <p:ajax global="false" event="focus" listener="#{kliencifkView.pobieraniekontaFKWpis}" onstart="sprawdzczymakonto();" update=":formwpisdokument:panelwpisbutton"/>
                             <p:ajax event="keyup" partialSubmit="true" global="false"/>
                         </p:inputText>
 <!--                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>-->
@@ -403,8 +403,8 @@
                                      accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                      onfocus="focusNaNowoDodanymEnter();"
                                      />
-                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (e)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="s" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanymEnter();"
+                    <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
+                                     accesskey="y" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanymEnter();"
                                      rendered="#{dokfkView.zapisz0edytuj1}"/>
 
                 </p:panel>

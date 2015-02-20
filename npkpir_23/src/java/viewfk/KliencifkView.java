@@ -74,23 +74,22 @@ public class KliencifkView implements Serializable{
     
     
     public void pobieraniekontaFKWpisCD() {
+         //tworzenie nowego
+        klientBezKonta = new Kliencifk();
+        klientBezKonta.setNazwa(wybranyklient.getNpelna());
+        klientBezKonta.setNip(wybranyklient.getNip());
+        klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
+        klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+        klientBezKonta.setNrkonta(pobierznastepnynumer());
         przyporzadkujdokonta();
     }
     
     public int pobieraniekontaFK(){
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
-            klientMaKonto = new Kliencifk();
-            klientBezKonta = new Kliencifk();
             try {
                 klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 return 0;
             } catch (Exception e) {
-                //tworzenie nowego
-                klientBezKonta.setNazwa(wybranyklient.getNpelna());
-                klientBezKonta.setNip(wybranyklient.getNip());
-                klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-                klientBezKonta.setNrkonta(pobierznastepnynumer());
                 return 1;
             }
         }

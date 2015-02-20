@@ -182,7 +182,7 @@ var sprawdzczykopiowacklienta = function() {
 };
 
 var czydodackontoShow = function (){
-    $(document.getElementById('czydodackontoShow')).width(300).height(80);
+    $(document.getElementById('czydodackonto')).width(300).height(80);
     try {
         $(document.getElementById('czydodackonto')).position({
         my: "center center",
@@ -191,13 +191,14 @@ var czydodackontoShow = function (){
         collision: "none none"
         
     });
+    r("formczydodackonto:poleinput").focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 160 "+Exception);
     }
     
 };
 
-var sprawdzczywyborkontaniejestshown = function () {
+var sprawdzczynowykontrahentniejestshown = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
         PF('dlgwprowadzanieklienta').show();
