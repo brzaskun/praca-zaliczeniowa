@@ -16,3 +16,4 @@ var ustawdialogwiersze = function(nazwa,menu) {
     }
 
 };
+
