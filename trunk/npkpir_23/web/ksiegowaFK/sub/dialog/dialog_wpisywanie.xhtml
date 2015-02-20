@@ -150,26 +150,12 @@
                             <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
-                         <h:selectOneMenu id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 60px;"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
-                                         onfocus="$(this).removeClass('ui-state-default');
-                                                     $(this).addClass('ui-state-focus');"
-                                         onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');"
-                                         >
-                            <f:selectItems value="#{Roki.rokiList}"/>
-                        </h:selectOneMenu>
-                        <h:selectOneMenu id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 50px;"
-                                         styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
-                                         onfocus="$(this).removeClass('ui-state-default');
-                                                     $(this).addClass('ui-state-focus');"
-                                         onblur="$(this).removeClass('ui-state-focus');
-                                                     $(this).addClass('ui-state-default');"
-                                        
-                                        >
-                            <f:selectItems value="#{Mce.mceList}"/>
+                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
-                        </h:selectOneMenu>
+                        </p:inputText>
+                        <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 40px;">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
                         <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
                         />
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 

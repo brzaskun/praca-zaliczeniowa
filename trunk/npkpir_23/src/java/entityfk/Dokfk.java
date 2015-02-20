@@ -509,6 +509,9 @@ public class Dokfk implements Serializable {
             this.dokfkPK.setSeriadokfk("ZZ");
         }
         this.dokfkPK.setRok(wpisView.getRokWpisuSt());
+        this.setMiesiac(wpisView.getMiesiacWpisu());
+        this.setVatR(wpisView.getRokWpisuSt());
+        this.setVatM(wpisView.getMiesiacWpisu());
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }

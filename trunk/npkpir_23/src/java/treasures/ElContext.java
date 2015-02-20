@@ -14,8 +14,8 @@ import view.KlienciConverterView;
  * @author Osito
  */
 public class ElContext {
-    public ElContext() {
-       FacesContext context = FacesContext.getCurrentInstance();
-       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
-    }
+//    public ElContext() {
+//       FacesContext context = FacesContext.getCurrentInstance();
+//       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
+//    }
 }

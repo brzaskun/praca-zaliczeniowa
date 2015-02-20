@@ -23,16 +23,13 @@ import viewfk.PlanKontConverterView;
  */
 public class PodatConv implements javax.faces.convert.Converter {
 
-    private List<Podatnik> lista;
 
-    public PodatConv() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        PodatnikWyborView podatnikWyborView = (PodatnikWyborView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "podatnikWyborView");
-        lista = podatnikWyborView.getListaPodatnikow();
-    }
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        PodatnikWyborView podatnikWyborView = (PodatnikWyborView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "podatnikWyborView");
+        List<Podatnik> lista = podatnikWyborView.getListaPodatnikow();
         if (submittedValue.trim().isEmpty()) {
             return null;
         } else {

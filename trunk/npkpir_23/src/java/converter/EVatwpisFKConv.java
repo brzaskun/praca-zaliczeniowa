@@ -20,16 +20,13 @@ import view.EVatwpisFKConverterView;
  */
 public class EVatwpisFKConv  implements javax.faces.convert.Converter{
     
-    private List<Evewidencja> listaEwidencji;
-
-    public EVatwpisFKConv () {
-       FacesContext context = FacesContext.getCurrentInstance();
-       EVatwpisFKConverterView eVatwpisFKConverterView = (EVatwpisFKConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"eVatwpisFKConverterView");
-       listaEwidencji = eVatwpisFKConverterView.getListaEwidencji();
-    }
+    
     
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+       FacesContext context = FacesContext.getCurrentInstance();
+       EVatwpisFKConverterView eVatwpisFKConverterView = (EVatwpisFKConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"eVatwpisFKConverterView");
+       List<Evewidencja> listaEwidencji = eVatwpisFKConverterView.getListaEwidencji();
         Evewidencja kl = new Evewidencja();
         if (submittedValue.trim().isEmpty()) {  
             return null;  

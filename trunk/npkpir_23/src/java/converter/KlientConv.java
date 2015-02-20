@@ -18,17 +18,12 @@ import view.KlienciConverterView;
  */
 public class KlientConv implements javax.faces.convert.Converter{
     
-    private List<Klienci> listaKlientow;
-
-    public KlientConv() {
-       FacesContext context = FacesContext.getCurrentInstance();
-       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
-       listaKlientow = klienciConverterView.getListaKlientow();
-    }
-    
-    
+       
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
+       FacesContext context = FacesContext.getCurrentInstance();
+       KlienciConverterView klienciConverterView = (KlienciConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"klienciConverterView");
+       List<Klienci> listaKlientow = klienciConverterView.getListaKlientow();
         Klienci kl = new Klienci();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
