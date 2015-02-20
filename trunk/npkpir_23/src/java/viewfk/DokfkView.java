@@ -1606,15 +1606,19 @@ public void updatenetto(EVatwpisFK e, String form) {
             String data = selected.getDataoperacji();
             if (data.length() == 10) {
                 String rok = data.split("-")[0];
-                selected.getDokfkPK().setRok(rok);
+                if (!rok.equals(selected.getDokfkPK().getRok())) {
+                    selected.getDokfkPK().setRok(rok);
+                    selected.setVatR(rok);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:rok");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
+                }
                 String mc = data.split("-")[1];
-                selected.setMiesiac(mc);
-                selected.setVatR(rok);
-                selected.setVatM(mc);
-                RequestContext.getCurrentInstance().update("formwpisdokument:rok");
-                RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
-                RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
-                RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
+                if (!mc.equals(selected.getMiesiac())) {
+                    selected.setMiesiac(mc);
+                    selected.setVatM(mc);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
+                }
             }
         }
     }

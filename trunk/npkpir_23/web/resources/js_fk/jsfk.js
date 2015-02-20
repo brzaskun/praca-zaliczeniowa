@@ -431,6 +431,6 @@ var zamykanieDialogow = function() {
 
 var powrocNaPoczatekDokfk = function() {
     //chowanienapoczatekdok();
-    $('#formwpisdokument\\:data1DialogWpisywanie').select();
+    $('#formwpisdokument\\:data2DialogWpisywanie').select();
 };
 
