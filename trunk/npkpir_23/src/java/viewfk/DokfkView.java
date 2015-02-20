@@ -763,9 +763,7 @@ private static final long serialVersionUID = 1L;
             if (selected.getwTrakcieEdycji() == false) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                List<Parametr> podatekdochparamlist = wpisView.getPodatnikObiekt().getPodatekdochodowy();
-                if (podatekdochparamlist != null && !podatekdochparamlist.isEmpty()) {
-                    boolean nievatowiec = ParametrView.zwrocParametr(podatekdochparamlist, wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
+                    boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
                     if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
                         /*wyswietlamy ewidencje VAT*/
                         List<String> opisewidencji = new ArrayList<>();
@@ -782,7 +780,6 @@ private static final long serialVersionUID = 1L;
                             this.selected.getEwidencjaVAT().add(eVatwpisFK);
                         }
                         RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
-                    }
                 } else {
                     wlaczZapiszButon = false;
                     Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów!");
