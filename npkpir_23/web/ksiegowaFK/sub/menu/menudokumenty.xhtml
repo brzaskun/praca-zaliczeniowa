@@ -5,6 +5,23 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
+     <f:view >
+               <p:dialog closable="false" height="140" width="170" position="center" widgetVar="dialogAjaxCzekajZaksiegowane" appendTo="@(body)"
+                         showHeader="false" draggable="false" modal="true" style="text-align: center;">
+                <p:panelGrid columns="1" style="margin-left: auto; margin-right: auto; margin-top: 10px;">
+                    <p:graphicImage url="/resources/images/wait4.gif" style="margin-left: auto; margin-right: auto;" />
+                    <h:outputText value="#{value != null ? value : 'Trwa pobieranie dokumentów'}" style="margin-top: 20px; margin-left: auto; margin-right: auto;"/>
+                </p:panelGrid>
+            </p:dialog>
+            <h:form>
+                 <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekajZaksiegowane').show();" onsuccess="PF('dialogAjaxCzekajZaksiegowane').hide();">
+                     <f:facet name="error">
+                         <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
+                                       style="color: red; font-weight: 900;"/>
+                     </f:facet>
+                </p:ajaxStatus>
+            </h:form>
+            </f:view>
     <p:tabView id="menudokumenty" orientation="left" style=" height: 500px;width: 600px; box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
                 <p:tab title="wpisywanie">
                     <h:form id="dialog1menu1">
@@ -16,7 +33,8 @@
                 <p:tab title="przeglądanie">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Dokumenty" onclick="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow" global="false"></p:menuitem>
+                            
+                            <p:menuitem value="Dokumenty" onclick="PF('zestawieniezaksiegowanych').show();" oncomplete="PF('tablicadokumenty').unselectAllRows();" actionListener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow"></p:menuitem>
                             <p:menuitem value="Wiersze" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
                             <p:menuitem value="WierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
                             <p:menuitem value="WierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
