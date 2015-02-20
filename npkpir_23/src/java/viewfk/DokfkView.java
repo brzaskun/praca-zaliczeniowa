@@ -585,32 +585,34 @@ private static final long serialVersionUID = 1L;
                         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                     }
                 } else if (kwotaWn == kwotaMa) {
-                    try {
-                        do {
-                            wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
-                            if (wiersznastepny.getStronaWn().getKonto() != null) {
-                                boolean sprawdzczworki = wiersznastepny.getStronaWn().getKonto().getPelnynumer().startsWith("4");
-                                boolean sprawdzpiatki = wiersznastepny.getTypWiersza() == 5 || wiersznastepny.getTypWiersza() == 6 || wiersznastepny.getTypWiersza() == 7;
-                                if (sprawdzpiatki) {
-
-                                } else if (sprawdzczworki){
-                                    selected.getListawierszy().remove(wiersznastepny);
-                                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                                    RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602\");");
-                                    System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
-                                    Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
-                                }
-                            } else {
-                                selected.getListawierszy().remove(wiersznastepny);
-                                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-                                RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606\");");
-                                System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
-                                Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
-                            }
-                        } while (true);
-                    } catch (Exception e) {
-                        
-                    }
+//                    try {
+//                        int i = 1;
+//                        do {
+//                            wiersznastepny = selected.getListawierszy().get(indexwTabeli + i);
+//                            if (wiersznastepny.getStronaWn().getKonto() != null) {
+//                                boolean sprawdzczworki = wiersznastepny.getStronaWn().getKonto().getPelnynumer().startsWith("4");
+//                                boolean sprawdzpiatki = wiersznastepny.getTypWiersza() == 5 || wiersznastepny.getTypWiersza() == 6 || wiersznastepny.getTypWiersza() == 7;
+//                                if (sprawdzpiatki) {
+//
+//                                } else if (sprawdzczworki){
+//                                    selected.getListawierszy().remove(wiersznastepny);
+//                                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                                    RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602\");");
+//                                    System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
+//                                    Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:602");
+//                                }
+//                            } else {
+////                                selected.getListawierszy().remove(wiersznastepny);
+////                                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+////                                RequestContext.getCurrentInstance().execute("alert(\"Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606\");");
+////                                System.out.println("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
+////                                Msg.msg("Usunąłem pusty wiersz na końcu DokfkView:dodajNowyWierszStronaWn:606");
+//                            }
+//                            i++;
+//                        } while (i <= (selected.getListawierszy().size()-indexwTabeli));
+//                    } catch (Exception e) {
+//                        
+                    //}
                 }
             } catch (Exception e) {
 
@@ -892,7 +894,7 @@ private static final long serialVersionUID = 1L;
                         if (w.getSymbolwaluty().equals("PLN")) {
                             wn.setKwota(wartosciVAT[0]);
                             wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
                                 ma.setKwota(wartosciVAT[0]);
                                 ma.setKwotaPLN(wartosciVAT[0]);
                             } else {
@@ -902,7 +904,7 @@ private static final long serialVersionUID = 1L;
                         } else {
                             wn.setKwota(wartosciVAT[2]);
                             wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
                                 ma.setKwota(wartosciVAT[2]);
                                 ma.setKwotaPLN(wartosciVAT[0]);
                             } else {
@@ -962,7 +964,7 @@ private static final long serialVersionUID = 1L;
                     wartosciVAT[3] = wartosciVAT[7];
                 }
                 if (w.getSymbolwaluty().equals("PLN")) {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[1], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
@@ -971,7 +973,7 @@ private static final long serialVersionUID = 1L;
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                     }
                 } else {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[3], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
