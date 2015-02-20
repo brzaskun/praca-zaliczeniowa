@@ -14,6 +14,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import view.PodatnikView;
+import view.PodatnikWyborView;
 import viewfk.PlanKontConverterView;
 
 /**
@@ -26,8 +27,8 @@ public class PodatConv implements javax.faces.convert.Converter {
 
     public PodatConv() {
         FacesContext context = FacesContext.getCurrentInstance();
-        PodatnikView podatnikView = (PodatnikView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "podatnikView");
-        lista = podatnikView.getLi();
+        PodatnikWyborView podatnikWyborView = (PodatnikWyborView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "podatnikWyborView");
+        lista = podatnikWyborView.getListaPodatnikow();
     }
 
     @Override

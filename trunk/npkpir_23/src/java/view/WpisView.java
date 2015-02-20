@@ -134,10 +134,7 @@ public class WpisView implements Serializable {
             }
             uzupelnijdanepodatnika();
         }
-        try {
-            obliczsumarokmiesiac();
-        } catch (Exception e) {
-        }
+     
     }
 
     public void wpisAktualizuj() {
@@ -245,16 +242,6 @@ public class WpisView implements Serializable {
         }
     }
 
-    private void obliczsumarokmiesiac() {
-        if ((rokWpisu > 0) && (!miesiacWpisu.isEmpty())) {
-            sumarokmiesiac = 2016;
-            //jest takie robienie bo jak bylo 01/2014 to bylo mniej niz 2014 i pobieralo stara scheme
-            if (rokWpisu > 2013 || (rokWpisu == 2013 && Integer.parseInt(miesiacWpisu) > 4)) {
-                sumarokmiesiac = 2018;
-            }
-        }
-    }
-
     private int zwrocindexparametrzarok(List<Parametr> podatekdochodowy) {
         boolean manager = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Manager");
         boolean admin = FacesContext.getCurrentInstance().getExternalContext().isUserInRole("Administrator");
@@ -266,7 +253,7 @@ public class WpisView implements Serializable {
                 String rokdo = p.getRokDo();
                 String rokwpisuS = String.valueOf(this.rokWpisu);
                 boolean rokzamkniety = rokod.equals(rokwpisuS) && rokdo.equals(rokwpisuS);
-                boolean rokotwarty = rokod.equals(rokwpisuS) && rokod == (null);
+                boolean rokotwarty = rokod.equals(rokwpisuS) && rokdo == (null);
                 if (rokzamkniety || rokotwarty) {
                     return i;
                 }
@@ -468,11 +455,4 @@ public class WpisView implements Serializable {
     
 //</editor-fold>
 
-    public Integer getSumarokmiesiac() {
-        return sumarokmiesiac;
-    }
-
-    public void setSumarokmiesiac(Integer sumarokmiesiac) {
-        this.sumarokmiesiac = sumarokmiesiac;
-    }
-}
+  }
