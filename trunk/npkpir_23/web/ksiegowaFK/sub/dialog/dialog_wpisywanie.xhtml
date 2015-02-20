@@ -173,9 +173,9 @@
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();"
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
-                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu"/>
+                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu" global="false"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
-                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczynowykontrahentniejestshown();"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczynowykontrahentniejestshown();" global="false"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  
