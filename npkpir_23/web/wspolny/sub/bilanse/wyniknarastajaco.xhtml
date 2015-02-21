@@ -33,7 +33,7 @@
                     <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-<!--                <p:commandButton value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="drukuj " actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
                 <p:commandButton value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
