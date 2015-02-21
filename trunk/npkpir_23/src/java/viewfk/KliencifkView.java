@@ -62,11 +62,13 @@ public class KliencifkView implements Serializable{
     }
     
     public void pobieraniekontaFKWpis(){
-        wybranyklient = dokfkView.selected.getKontr();
-        if (!wybranyklient.getNpelna().equals("nowy klient")) {
-            int wynik = pobieraniekontaFK();
-            if (wynik == 1) {
-                RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+        if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5 ) {
+            wybranyklient = dokfkView.selected.getKontr();
+            if (!wybranyklient.getNpelna().equals("nowy klient")) {
+                int wynik = pobieraniekontaFK();
+                if (wynik == 1) {
+                    RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+                }
             }
         }
     }

@@ -44,7 +44,8 @@
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" 
                                 required="true" requiredMessage="Pole klienta nie może być puste" onblur="sprawdzczybrakklientaRK();"
                                 style="width: 250px;">
-                    <f:ajax event="blur" execute="@this"/>
+                    <p:ajax event="query" global="false"/>
+                    <p:ajax event="blur" partialSubmit="true"  global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
@@ -101,8 +102,11 @@
                 </h:selectOneMenu>
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
-                             oncomplete="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();"/>
-            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" type="button" onclick="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();"/>
+                             oncomplete="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>
+            <p:commandButton value="Edytuj" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.edytujWierszZKwotamiRK}" 
+                             oncomplete="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();" global="false" rendered="#{dokfkView.ewidencjaVATRKzapis0edycja1}"/>
+            <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" type="button" global="false"
+                             onclick="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>
