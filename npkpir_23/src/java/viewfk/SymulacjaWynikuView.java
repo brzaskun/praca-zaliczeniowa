@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import pdf.PdfMiejsceKosztow;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
@@ -177,12 +178,16 @@ public class SymulacjaWynikuView implements Serializable {
         double wynikpodatkowy = Z.z(wynikfinansowy - pozycjePodsumowaniaWyniku.get(3).getWartosc() - pozycjePodsumowaniaWyniku.get(4).getWartosc());
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik", wynikpodatkowy));
         pozycjeObliczeniaPodatku = new ArrayList<>();
-        for (Udzialy p : pobierzudzialy()) {
-            double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
-            double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
-            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania", podstawaopodatkowania));
-            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
+        try {
+            for (Udzialy p : pobierzudzialy()) {
+                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
+                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania", podstawaopodatkowania));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
     
