@@ -527,7 +527,7 @@ public class Dokfk implements Serializable {
         this.setZablokujzmianewaluty(false); 
     }
     
-     public Wiersz poprzedniWiersz(Wiersz wiersz) {
+    public Wiersz poprzedniWiersz(Wiersz wiersz) {
         int index = this.listawierszy.indexOf(wiersz);
         try {
             return this.listawierszy.get(index-1);
