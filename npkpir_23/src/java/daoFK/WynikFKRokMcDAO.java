@@ -8,8 +8,10 @@ package daoFK;
 import dao.DAO;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
+import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -30,5 +32,10 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
         return sessionFacade.findWynikFKRokMc(wynikFKRokMc);
     }
 
+    public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
+        return sessionFacade.findWynikFKPodatnikRok(wpisView);
+    }
+
+   
     
 }
