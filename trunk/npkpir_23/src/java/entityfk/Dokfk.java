@@ -206,6 +206,17 @@ public class Dokfk implements Serializable {
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
     
+    public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView, Klienci klienci) {
+        this.liczbarozliczonych = 0;
+        this.wartoscdokumentu = 0.0;
+        this.kontr = klienci;
+        this.wTrakcieEdycji = false;
+        this.listawierszy = new ArrayList<>();
+        this.ewidencjaVAT = new ArrayList<>();
+        this.cechadokumentuLista = new ArrayList<>();
+        ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getNrdziennika() {
         return nrdziennika;

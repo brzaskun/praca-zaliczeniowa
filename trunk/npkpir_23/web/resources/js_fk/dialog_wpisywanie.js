@@ -166,20 +166,7 @@ var znalezionoduplikat = function() {
     r('formwpisdokument:wpiszdokbutton').hide();
     
 };
-var sprawdzczykopiowacklienta = function() {
-//    var zawartosc = $('#formwpisdokument\\:acForce_input').val();
-//    if (zawartosc === "+") {
-//        var text = $('#zobWiad\\:nazwa').html();
-//        $('#formwpisdokument\\:acForce_input').val($('#zobWiad\\:nazwa').html());
-//        $('#formwpisdokument\\:acForce_hinput').val($('#zobWiad\\:nazwa').html());
-//        $('#formwpisdokument\\:acForce_input').focus();
-//        $('#formwpisdokument\\:acForce_input').select();
-//        PF('dialogklient').search(text);
-//        event.cancelBubble = true;
-//        event.stopPropagation();
-//        event.stopImmediatePropagation();
-//    }
-};
+
 
 var czydodackontoShow = function (){
     $(document.getElementById('czydodackonto')).width(300).height(80);

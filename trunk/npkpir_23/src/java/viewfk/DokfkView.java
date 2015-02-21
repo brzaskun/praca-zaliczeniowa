@@ -193,14 +193,22 @@ private static final long serialVersionUID = 1L;
         //pobieram dane ze starego dokumentu, jeżeli jest
         String symbolPoprzedniegoDokumentu = null;
         Rodzajedok rodzajDokPoprzedni = null;
+        Klienci ostatniklient = null;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
             selected.setwTrakcieEdycji(false);
+            ostatniklient = selected.getKontr();
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
         }
+        try {
+            if (ostatniklient == null) {
+                ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            }
+        } catch (Exception e) {
+        }
         //tworze nowy dokument
-        selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView);
+        selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
         String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         selected.setDatawystawienia(data);
         selected.setDatawplywu(data);
@@ -216,11 +224,7 @@ private static final long serialVersionUID = 1L;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
-        try {
-            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            selected.setKontr(klient);
-        } catch (Exception e) {
-        }
+        
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
