@@ -247,6 +247,9 @@ public class SymulacjaWynikuView implements Serializable {
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
+        } catch (Exception e) {
+        }
+        try {
             wynikFKRokMcDAO.edit(wynikFKRokMc);
             Msg.msg("Zachowano wynik");
         } catch (Exception e) {
