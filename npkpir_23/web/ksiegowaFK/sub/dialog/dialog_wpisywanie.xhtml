@@ -407,8 +407,8 @@
                                      onfocus="focusNaNowoDodanymEnter();"
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
-                                     accesskey="y" update=":wpisywaniefooter, :zestawieniedokumentow:dataList, :zestawieniezapisownakontach" onfocus="focusNaNowoDodanymEnter();"
-                                     rendered="#{dokfkView.zapisz0edytuj1}"/>
+                                     accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach" 
+                                     rendered="#{dokfkView.zapisz0edytuj1}" onclick="PF('tablicadokumenty').unselectAllRows();"/>
 
                 </p:panel>
             </div>

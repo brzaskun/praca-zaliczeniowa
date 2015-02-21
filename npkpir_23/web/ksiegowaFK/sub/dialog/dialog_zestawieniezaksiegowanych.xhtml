@@ -44,9 +44,6 @@
              </p:selectOneMenu>
             </p:panelGrid>
             
-            <p:contextMenu id="contextmenuwpis" for=":zestawieniedokumentow:dataList">
-                <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" update=":formwpisdokument:dataList, :wpisywaniefooter:buttonusun" actionListener="#{dokfkView.przygotujDokumentEdycja()}" oncomplete="PF('wpisywanie').show();"/>
-            </p:contextMenu>
             <script>
                 /* <![CDATA[ */
                 //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
@@ -70,7 +67,7 @@
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{dokfkView.selected}" rowKey="#{item.datawystawienia}" selectionMode="single" 
+                         selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
                          style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
@@ -88,18 +85,18 @@
                 <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
-                <p:column headerText="numer" styleClass="zaksiegowanewaski" width="90" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                <p:column headerText="numer" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
                 </p:column>
-                <p:column headerText="opis" width="110" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                <p:column headerText="opis" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
                 </p:column>
-                <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="waluta" styleClass="waluta" width="50" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:column headerText="VAT" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
@@ -109,7 +106,7 @@
                     <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
                 </p:column>         
                 <p:column width="80" style="text-align: center;" >
-                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument"  
+                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument, :zestawieniedokumentow:dataList"  
                                      onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">

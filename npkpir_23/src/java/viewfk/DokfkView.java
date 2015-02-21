@@ -430,15 +430,15 @@ private static final long serialVersionUID = 1L;
             wybranoRachunekPlatnosc(wiersz, "Wn");
         }
         int t = wiersz.getTypWiersza();
-        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
-            dodajNowyWierszStronaWnPiatka(wiersz);
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-        } else if (t == 5 && rowneStronyWnMa(wiersz)) {
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            return;
-        } else {
-            dodajNowyWierszStronaWn(wiersz);
-        }
+//        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
+//            dodajNowyWierszStronaWnPiatka(wiersz);
+//            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//        } else if (t == 5 && rowneStronyWnMa(wiersz)) {
+//            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//            return;
+//        } else {
+//            dodajNowyWierszStronaWn(wiersz);
+//        }
         
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
     }
@@ -475,7 +475,7 @@ private static final long serialVersionUID = 1L;
         } else if (wiersz.getTypWiersza() == 0) {
             double roznicawwierszu = Z.z(kwotanowa - wiersz.getStronaMa().getKwota());
             if (roznicawwierszu != 0) {
-
+                dodajNowyWierszStronaWn(wiersz);
             }
         }
         selected.przeliczKwotyWierszaDoSumyDokumentu();
@@ -512,7 +512,7 @@ private static final long serialVersionUID = 1L;
         if (wiersz.getStronaMa().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
-        dodajNowyWierszStronaMa(wiersz);
+
     }
 
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
@@ -1465,7 +1465,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     przepiszWalutyZapisEdycja(p);
                 }
                 dokDAOfk.edit(selected);
-                resetujDokument();
+                selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
@@ -1809,32 +1809,30 @@ public void updatenetto(EVatwpisFK e, String form) {
         return zwrot;
     }
 
-    public void przygotujDokumentEdycja(Dokfk wybranyDokfk) {
+    public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
+            String rowS = "zestawieniedokumentow:dataList:"+String.valueOf(row)+":";
             if (odnalezionywbazie.getwTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
-                selected = wybranyDokfk;
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update(rowS);
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
                 obsluzcechydokumentu();
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update(rowS);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
-                selected.setWartoscdokumentu(0.0);
-                selected.przeliczKwotyWierszaDoSumyDokumentu();
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     pokazPanelWalutowy = true;
                 } else {
                     pokazPanelWalutowy = false;
                 }
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
+                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument");
             }
-            rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-            RequestContext.getCurrentInstance().update("formwpisdokument");
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
