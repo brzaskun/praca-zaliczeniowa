@@ -194,7 +194,7 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="Nie obliczono podatku" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="obliczenie podatku"/>
@@ -206,6 +206,7 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
+            <p:commandButton value="zaksięguj rozliczenie" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" style="margin-top: 30px; width: 150px; margin-bottom: 400px;" />
         </h:form>
     </p:tab>  
 </ui:composition>   

@@ -12,14 +12,17 @@ import beansFK.StronaWierszaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
+import daoFK.WynikFKRokMcDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -44,7 +47,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> listakontaprzychody;
     private List<SaldoKonto> sumaSaldoKontoPrzychody;
     private List<SaldoKonto> sumaSaldoKontoKoszty;
-    private List<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
+    private LinkedHashSet<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
     private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -54,6 +57,8 @@ public class SymulacjaWynikuView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    @Inject
+    private WynikFKRokMcDAO wynikFKRokMcDAO;
     private List<SaldoKonto>wybraneprzychody;
     private double sumaprzychody;
     private List<SaldoKonto>wybranekoszty;
@@ -168,15 +173,19 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
-        pozycjePodsumowaniaWyniku = new ArrayList<>();
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody", Z.z(sumuj(listakontaprzychody))));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty", Z.z(sumuj(listakontakoszty))));
-        double wynikfinansowy = Z.z(pozycjePodsumowaniaWyniku.get(0).getWartosc() - pozycjePodsumowaniaWyniku.get(1).getWartosc());
+        pozycjePodsumowaniaWyniku = new LinkedHashSet<>();
+        double przychody = Z.z(sumuj(listakontaprzychody));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody", przychody));
+        double koszty = Z.z(sumuj(listakontakoszty));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty", koszty));
+        double wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("npup", Z.z(razemzapisycechaprzychod)));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("nkup", Z.z(razemzapisycechakoszt)));
-        double wynikpodatkowy = Z.z(wynikfinansowy - pozycjePodsumowaniaWyniku.get(3).getWartosc() - pozycjePodsumowaniaWyniku.get(4).getWartosc());
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik", wynikpodatkowy));
+        double npup = Z.z(razemzapisycechaprzychod);
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("npup", npup));
+        double nkup = Z.z(razemzapisycechakoszt);
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("nkup", nkup));
+        double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik podatkowy", wynikpodatkowy));
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
             for (Udzialy p : pobierzudzialy()) {
@@ -212,7 +221,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWyniku, wpisView, i);
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, wpisView, i);
     }
 
     private void pobierzzapisyzcechami() {
@@ -221,6 +230,28 @@ public class SymulacjaWynikuView implements Serializable {
         razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
         razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP");
+    }
+    
+    public void zaksiegujwynik () {
+        List<PozycjeSymulacji> pozycje = new ArrayList<>(pozycjePodsumowaniaWyniku);
+        WynikFKRokMc wynikFKRokMc = new WynikFKRokMc();
+        wynikFKRokMc.setPodatnikObj(wpisView.getPodatnikObiekt());
+        wynikFKRokMc.setRok(wpisView.getRokWpisuSt());
+        wynikFKRokMc.setMc(wpisView.getMiesiacWpisu());
+        wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
+        wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
+        wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
+        wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
+        wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
+        wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
+        try {
+            WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
+            wynikFKRokMcDAO.destroy(pobrany);
+            wynikFKRokMcDAO.edit(wynikFKRokMc);
+            Msg.msg("Zachowano wynik");
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -256,15 +287,15 @@ public class SymulacjaWynikuView implements Serializable {
     public void setSumakoszty(double sumakoszty) {
         this.sumakoszty = sumakoszty;
     }
-    
-    
-    public List<PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
+
+    public LinkedHashSet<PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
         return pozycjePodsumowaniaWyniku;
     }
 
-    public void setPozycjePodsumowaniaWyniku(List<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
+    public void setPozycjePodsumowaniaWyniku(LinkedHashSet<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
         this.pozycjePodsumowaniaWyniku = pozycjePodsumowaniaWyniku;
     }
+   
 
     public List<SaldoKonto> getSumaSaldoKontoPrzychody() {
         return sumaSaldoKontoPrzychody;

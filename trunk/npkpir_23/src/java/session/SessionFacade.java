@@ -60,6 +60,7 @@ import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
+import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -1330,6 +1331,10 @@ public class SessionFacade<T> implements Serializable{
 
     public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
         return em.createNamedQuery("Konto.findByPodatnikKliencifk").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("nazwa", kliencifk.getNazwa()).setParameter("nip", kliencifk.getNip()).getResultList();
+    }
+
+    public WynikFKRokMc findWynikFKRokMc(WynikFKRokMc wynikFKRokMc) {
+        return (WynikFKRokMc) em.createNamedQuery("WynikFKRokMc.findPodatnikRokMc").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).getSingleResult();
     }
   
 }

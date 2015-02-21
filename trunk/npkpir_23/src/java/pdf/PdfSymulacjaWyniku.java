@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,14 +40,15 @@ import viewfk.SymulacjaWynikuView;
 @Singleton
 public class PdfSymulacjaWyniku {
     
-    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, WpisView wpisView, int rodzajdruku) {
+    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku) {
         try {
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, wpisView, rodzajdruku);
+            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku);
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia symulacja wyniku");
@@ -54,7 +56,8 @@ public class PdfSymulacjaWyniku {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, WpisView wpisView, int rodzajdruku)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie symulacja wyniku");
@@ -67,6 +70,7 @@ public class PdfSymulacjaWyniku {
         document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku));
         document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
         document.add(tablica2(listapozycjisymulacji));
+        document.add(tablica3(pozycjeObliczeniaPodatku));
         document.close();
         Msg.msg("e", "Wydrukowano symulację wyniku finansowego");
     }
@@ -157,13 +161,13 @@ public class PdfSymulacjaWyniku {
         return table;
     }
 
-   private static PdfPTable tablica2(List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
+   private static PdfPTable tablica2(LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(2);
         table.setWidths(new int[]{4, 1});
         table.setWidthPercentage(50);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze("obliczenie wyniku", 2, 0));
+            table.addCell(ustawfraze("obliczenie wyniku fin. i pod.", 2, 0));
 
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("kwota", 0, 1));
@@ -176,6 +180,31 @@ public class PdfSymulacjaWyniku {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : listapozycjisymulacji) {
+            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+        }
+        return table;
+    }
+   
+   private static PdfPTable tablica3(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{4, 1});
+        table.setWidthPercentage(50);
+        table.setSpacingBefore(15);
+        try {
+            table.addCell(ustawfraze("obliczenie podatku dochodowego", 2, 0));
+
+            table.addCell(ustawfraze("opis", 0, 1));
+            table.addCell(ustawfraze("kwota", 0, 1));
+
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 6, 0, 5));
+
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
         }
