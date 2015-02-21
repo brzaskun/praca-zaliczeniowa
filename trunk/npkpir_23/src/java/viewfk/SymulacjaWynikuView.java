@@ -13,6 +13,8 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
+import embeddable.Parametr;
+import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -41,7 +43,8 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> listakontaprzychody;
     private List<SaldoKonto> sumaSaldoKontoPrzychody;
     private List<SaldoKonto> sumaSaldoKontoKoszty;
-    private List<PozycjeSymulacji> listapozycjisymulacji;
+    private List<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
+    private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -117,11 +120,11 @@ public class SymulacjaWynikuView implements Serializable {
                 } else {
                     sumaMa += r.getKwotaPLN();
                 }
+                saldoKonto.getZapisy().add(r);
             }
         }
         saldoKonto.setObrotyWn(sumaWn);
         saldoKonto.setObrotyMa(sumaMa);
-        saldoKonto.setZapisy(zapisyRok);
     }
     
     
@@ -164,18 +167,27 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
-        listapozycjisymulacji = new ArrayList<>();
-        listapozycjisymulacji.add(new PozycjeSymulacji("przychody", Z.z(sumuj(listakontaprzychody))));
-        listapozycjisymulacji.add(new PozycjeSymulacji("koszty", Z.z(sumuj(listakontakoszty))));
-        double wynikfinansowy = Z.z(listapozycjisymulacji.get(0).getWartosc() - listapozycjisymulacji.get(1).getWartosc());
-        listapozycjisymulacji.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
-        listapozycjisymulacji.add(new PozycjeSymulacji("npup", Z.z(razemzapisycechaprzychod)));
-        listapozycjisymulacji.add(new PozycjeSymulacji("nkup", Z.z(razemzapisycechakoszt)));
-        double wynikpodatkowy = Z.z(wynikfinansowy - listapozycjisymulacji.get(3).getWartosc() - listapozycjisymulacji.get(4).getWartosc());
-        listapozycjisymulacji.add(new PozycjeSymulacji("wynik", wynikpodatkowy));
-        listapozycjisymulacji.add(new PozycjeSymulacji("podstawa opodatkowania", Z.z0(wynikpodatkowy)));
-        listapozycjisymulacji.add(new PozycjeSymulacji("stawka podatku", 0.19));
-        listapozycjisymulacji.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(wynikpodatkowy*.19)));
+        pozycjePodsumowaniaWyniku = new ArrayList<>();
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody", Z.z(sumuj(listakontaprzychody))));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty", Z.z(sumuj(listakontakoszty))));
+        double wynikfinansowy = Z.z(pozycjePodsumowaniaWyniku.get(0).getWartosc() - pozycjePodsumowaniaWyniku.get(1).getWartosc());
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("npup", Z.z(razemzapisycechaprzychod)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("nkup", Z.z(razemzapisycechakoszt)));
+        double wynikpodatkowy = Z.z(wynikfinansowy - pozycjePodsumowaniaWyniku.get(3).getWartosc() - pozycjePodsumowaniaWyniku.get(4).getWartosc());
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik", wynikpodatkowy));
+        pozycjeObliczeniaPodatku = new ArrayList<>();
+        for (Udzialy p : pobierzudzialy()) {
+            double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
+            double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
+            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania", podstawaopodatkowania));
+            pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
+        }
+    }
+    
+    private List<Udzialy> pobierzudzialy() {
+     return wpisView.getPodatnikObiekt().getUdzialy();
     }
     
     public void sumazapisowPrzychody() {
@@ -195,7 +207,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, listapozycjisymulacji, wpisView, i);
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWyniku, wpisView, i);
     }
 
     private void pobierzzapisyzcechami() {
@@ -241,12 +253,12 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     
-    public List<PozycjeSymulacji> getListapozycjisymulacji() {
-        return listapozycjisymulacji;
+    public List<PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
+        return pozycjePodsumowaniaWyniku;
     }
 
-    public void setListapozycjisymulacji(List<PozycjeSymulacji> listapozycjisymulacji) {
-        this.listapozycjisymulacji = listapozycjisymulacji;
+    public void setPozycjePodsumowaniaWyniku(List<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
+        this.pozycjePodsumowaniaWyniku = pozycjePodsumowaniaWyniku;
     }
 
     public List<SaldoKonto> getSumaSaldoKontoPrzychody() {
@@ -289,6 +301,15 @@ public class SymulacjaWynikuView implements Serializable {
         this.sumaSaldoKontoKoszty = sumaSaldoKontoKoszty;
     }
 
+    public List<PozycjeSymulacji> getPozycjeObliczeniaPodatku() {
+        return pozycjeObliczeniaPodatku;
+    }
+
+    public void setPozycjeObliczeniaPodatku(List<PozycjeSymulacji> pozycjeObliczeniaPodatku) {
+        this.pozycjeObliczeniaPodatku = pozycjeObliczeniaPodatku;
+    }
+    
+
 
 //</editor-fold>
     public static class PozycjeSymulacji {
@@ -322,4 +343,12 @@ public class SymulacjaWynikuView implements Serializable {
 
     }
 
+    public static void main(String[] args) {
+        double wynikfinansowy = 49963.29;
+        double udzial = Double.valueOf("1")/100;
+        System.out.println(udzial);
+        double podstawaopodatkowania = Z.z(udzial*wynikfinansowy);
+        System.out.println(podstawaopodatkowania);
+        System.out.println(Z.z0(podstawaopodatkowania*0.19));
+    }
 }

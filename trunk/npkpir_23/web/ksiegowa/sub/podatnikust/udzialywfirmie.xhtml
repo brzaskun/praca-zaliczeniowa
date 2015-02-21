@@ -13,7 +13,7 @@
             <p:growl id="messages"/>
             <p:focus for="parametryp9"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:panelGrid columns="4" style="width: 500px">
+            <p:panelGrid columns="4" style="width: 800px">
                 <p:dataTable value="#{podatnikView.selected.udzialy}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
                     <p:column headerText="rok od">
@@ -43,19 +43,19 @@
                         </p:cellEditor>
 
                     </p:column>
-                    <p:column headerText="nazwisko i imie">
+                    <p:column headerText="nazwisko i imie" width="200">
                         <h:outputText value="#{loop.nazwiskoimie}" />
                     </p:column>
-                    <p:column headerText="nip">
+                    <p:column headerText="nip" width="100">
                         <h:outputText value="#{loop.nip}" />
                     </p:column>
-                    <p:column headerText="udział">
+                    <p:column headerText="udział" style="text-align: center;">
                         <h:outputText value="#{loop.udzial}" />
                     </p:column>
-                    <p:column id="editColumn" headerText="edytuj" width="50">
+                    <p:column id="editColumn" headerText="edytuj" width="50" style="text-align: center;">
                         <p:rowEditor/>  
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center;" headerText="usuń">
                         <p:commandButton action="#{podatnikView.usunUdzialy(loop)}"  icon="ui-icon-trash" update="@form" type="submit"/>
                     </p:column>
                 </p:dataTable>

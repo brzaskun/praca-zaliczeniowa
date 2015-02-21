@@ -178,12 +178,26 @@
                 </p:rowExpansion>
             </p:dataTable>
             
-            <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.listapozycjisymulacji}" var="loop" rowKey="#{loop.nazwa}"
+            <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjasuma"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjasuma"
                          >
                 <f:facet name="header">
                     <h:outputText value="obliczenie wyniku"/>
+                </f:facet>
+                <p:column headerText="opis" width="140" >
+                    <h:outputText value="#{loop.nazwa}"/>
+                </p:column>
+                <p:column headerText="kwota" width="60" >
+                    <bcf:outputpl value="#{loop.wartosc}"/>
+                </p:column>
+            </p:dataTable>
+            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
+                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 30px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
+                         >
+                <f:facet name="header">
+                    <h:outputText value="obliczenie podatku"/>
                 </f:facet>
                 <p:column headerText="opis" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
