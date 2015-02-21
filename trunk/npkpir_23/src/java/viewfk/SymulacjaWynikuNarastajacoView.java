@@ -20,6 +20,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfSymulacjaWyniku;
+import pdf.PdfSymulacjaWynikuNarastajaco;
 import view.WpisView;
 import waluty.Z;
 
@@ -172,13 +174,13 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         }
     }
     
+    public void drukuj() {
+        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, wpisView);
+    }
     
     private List<Udzialy> pobierzudzialy() {
         return wpisView.getPodatnikObiekt().getUdzialy();
     }
-    
-    
-    
     
 
     public void odswiezsymulacjewynikunar() {

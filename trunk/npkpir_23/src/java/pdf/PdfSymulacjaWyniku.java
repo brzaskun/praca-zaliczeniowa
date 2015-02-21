@@ -172,7 +172,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("kwota", 0, 1));
 
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 6, 0, 5));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
 
             table.setHeaderRows(3);
             table.setFooterRows(1);
@@ -197,7 +197,7 @@ public class PdfSymulacjaWyniku {
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("kwota", 0, 1));
 
-            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 6, 0, 5));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
 
             table.setHeaderRows(3);
             table.setFooterRows(1);
