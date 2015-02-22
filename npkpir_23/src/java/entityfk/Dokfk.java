@@ -150,6 +150,8 @@ public class Dokfk implements Serializable {
     private List<Cechazapisu> cechadokumentuLista;
     @Column(name = "nrdziennika")
     private String nrdziennika;
+    @Column(name = "importowany")
+    private boolean importowany;
  
 
     
@@ -224,6 +226,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public boolean isImportowany() {
+        return importowany;
+    }
+
+    public void setImportowany(boolean importowany) {
+        this.importowany = importowany;
     }
     
     
