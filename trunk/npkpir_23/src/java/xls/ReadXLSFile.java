@@ -26,7 +26,7 @@ public class ReadXLSFile {
     
     private static String filename = "c://temp//faktury2.xlsx";
     
-    private static List<InterpaperXLS> getListafaktur() {
+    public static List<InterpaperXLS> getListafaktur() {
         List<InterpaperXLS> listafaktur = new ArrayList<>();
          try {
             FileInputStream file = new FileInputStream(new File(filename));
