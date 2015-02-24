@@ -110,7 +110,7 @@
                                      onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
-                    <p:commandButton value="usuń" actionListener="#{dokfkView.usundokument(item)}" styleClass="fkbutton" icon="ui-icon-trash" update=":zestawieniedokumentow:dataList" style="width: 70px;"/>
+                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
                 </p:column>
             </p:dataTable>
         </h:form>
