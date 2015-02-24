@@ -70,8 +70,8 @@
                     </p:panel>
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
                     <p:focus for="rozrachunki:dataList">
-                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px;"
-                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" scrollable="true" rows="12"
+                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; height: 550px; overflow-y: scroll;"
+                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" 
                                      >
                             <f:facet name="header">
                                 <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów"/>
