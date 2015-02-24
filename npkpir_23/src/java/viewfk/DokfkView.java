@@ -202,6 +202,7 @@ private static final long serialVersionUID = 1L;
             selected.setwTrakcieEdycji(false);
             ostatniklient = selected.getKontr();
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+            RequestContext.getCurrentInstance().update("zestawieniezaksiegowanychimport:dataList");
         }
         try {
             if (ostatniklient == null) {

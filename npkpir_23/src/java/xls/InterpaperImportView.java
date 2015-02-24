@@ -36,6 +36,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
 import waluty.Z;
@@ -151,9 +152,21 @@ public class InterpaperImportView implements Serializable {
     
     private void ustawtabelenbp(Dokfk nd, InterpaperXLS interpaperXLS) {
         Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
-        String datadokumentu = formatterX.format(interpaperXLS.getDatawystawienia());
-        Tabelanbp t = tabelanbpDAO.findByDateWaluta(datadokumentu, interpaperXLS.getWalutaplatnosci());
-        nd.setTabelanbp(t);
+        String datadokumentu = formatterX.format(interpaperXLS.getDatasprzedaży());
+        DateTime dzienposzukiwany = new DateTime(datadokumentu);
+        boolean znaleziono = false;
+        int zabezpieczenie = 0;
+        while (!znaleziono && (zabezpieczenie < 365)) {
+            dzienposzukiwany = dzienposzukiwany.minusDays(1);
+            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, interpaperXLS.getWalutaplatnosci());
+            if (tabelanbppobrana instanceof Tabelanbp) {
+                znaleziono = true;
+                nd.setTabelanbp(tabelanbppobrana);
+                break;
+            }
+            zabezpieczenie++;
+        }
         Waluty w = walutyDAOfk.findWalutaBySymbolWaluty(interpaperXLS.getWalutaplatnosci());
         nd.setWalutadokumentu(w);
     }
