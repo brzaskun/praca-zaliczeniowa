@@ -2016,22 +2016,25 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (wybranakategoriadok.equals("wszystkie")) {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
             } else {
                 wpisView.wpisAktualizuj();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
             }
         } else {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
             } else {
                 wpisView.wpisAktualizuj();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
             }
         }
+         for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentow.iterator(); p.hasNext();) {
+            Dokfk r = (Dokfk) p.next();
+            if (r.isImportowany()==true) {
+                p.remove();
+            }
+        }
+        RequestContext.getCurrentInstance().update("zestawieniedokumentow");
     }
     
     public void odswiezzaksiegowaneimport() {

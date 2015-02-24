@@ -27,14 +27,14 @@ var skopiujdanenowegoklientafk = function () {
     //nie potrzebne bo mamy kopiowanie w funkcji
     try {
         if ($("#dialogpierwszy").hasClass('ui-overlay-visible')){
-//            var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
-//            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-//            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-//            $('#formwpisdokument\\:acForce_input').focus();
-//            $('#formwpisdokument\\:acForce_input').select();
-//            PF('poleklientawpisywaniefk').search(szukana);
-            r('formwpisdokument:opisdokumentu').focus();
-            r('formwpisdokument:opisdokumentu').select();
+            var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
+            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#formwpisdokument\\:acForce_input').focus();
+            $('#formwpisdokument\\:acForce_input').select();
+            PF('poleklientawpisywaniefk').search(szukana);
+//            r('formwpisdokument:opisdokumentu').focus();
+//            r('formwpisdokument:opisdokumentu').select();
         }
     } catch (e) {
     }

@@ -11,10 +11,7 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -26,47 +23,38 @@ import javax.inject.Inject;
 @ViewScoped
 public class KlienciConverterView implements Serializable{
     
-    private List<Klienci> listaKlientow;
     @Inject
     private KlienciDAO klienciDAO;
     
-    @PostConstruct
-    private void init() {
-        listaKlientow = klienciDAO.findAll();
-    }
     
     
      public List<Klienci> completeKL(String query) {
         List<Klienci> results = new ArrayList<>();
-        try {
-            String q = query.substring(0, 1);
-            int i = Integer.parseInt(q);
-            for (Klienci p : listaKlientow) {
-                if (p.getNip().startsWith(query)) {
-                    results.add(p);
+        if (query.length() > 3) {
+            List<Klienci> listaKlientow = klienciDAO.findAll();
+            try {
+                String q = query.substring(0, 1);
+                int i = Integer.parseInt(q);
+                for (Klienci p : listaKlientow) {
+                    if (p.getNip().startsWith(query)) {
+                        results.add(p);
+                    }
+                }
+            } catch (NumberFormatException e) {
+                for (Klienci p : listaKlientow) {
+                    if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
+                        results.add(p);
+                    }
                 }
             }
-        } catch (NumberFormatException e) {
-            for (Klienci p : listaKlientow) {
-                if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                    results.add(p);
-                }
-            }
+            results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
         }
-        results.add(new Klienci("nowy klient", "nowy klient", "0123456789", "11-111", "miejscowosc", "ulica", "1", "1", "ewidencja", "kolumna"));
         return results;
     }
 
     public List<Klienci> getListaKlientow() {
-        return listaKlientow;
+        return klienciDAO.findAll();
     }
 
-    public void setListaKlientow(List<Klienci> listaKlientow) {
-        this.listaKlientow = listaKlientow;
-    }
-
-   
-    
-     
-     
+       
 }

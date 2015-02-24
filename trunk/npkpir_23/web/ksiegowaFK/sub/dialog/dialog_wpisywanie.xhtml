@@ -168,14 +168,14 @@
                        
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient" 
+                                minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                 cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" styleClass="wpisywaniekontrfk" 
-                                required="true" requiredMessage="Pole klienta nie może być puste"
+                                required="true" requiredMessage="Pole klienta nie może być puste" 
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
                         <p:ajax event="blur" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu" global="false"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
-                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="sprawdzczynowykontrahentniejestshown();" global="false"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" oncomplete="dodajnowegoklienta();" global="false"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  

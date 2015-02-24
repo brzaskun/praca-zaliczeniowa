@@ -185,7 +185,7 @@ var czydodackontoShow = function (){
     
 };
 
-var sprawdzczynowykontrahentniejestshown = function () {
+var dodajnowegoklienta = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
         PF('dlgwprowadzanieklienta').show();

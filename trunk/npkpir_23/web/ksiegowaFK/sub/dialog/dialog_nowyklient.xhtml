@@ -40,6 +40,7 @@
                                     required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
                         <p:ajax event="change" partialSubmit="true" global="false"/>
                         <p:ajax event="select" partialSubmit="true" global="false"/>
+                        <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <h:outputLabel value="ulica" style="font-weight: 700"/>
                     <h:outputLabel value="dom" style="font-weight: 700"/>
@@ -57,7 +58,7 @@
                                                      $(this).addClass('ui-state-default');" >
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
-                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" oncomplete="skopiujdanenowegoklientafk();" style="width: 120px;"/>
+                    <p:commandButton value="dodaj" action="#{KlView.dodajKlientafk()}" onstart="skopiujdanenowegoklientafk();" style="width: 120px;"/>
                 </p:panelGrid>
                 <p:panelGrid id="polawprowadzania1" columns="5" >
                     <h:outputLabel value="kraj*" style="font-weight: 700"/>
