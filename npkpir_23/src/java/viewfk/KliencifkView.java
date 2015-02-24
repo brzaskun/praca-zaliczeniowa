@@ -21,12 +21,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import params.Params;
 import view.WpisView;
 
 /**
@@ -62,12 +59,14 @@ public class KliencifkView implements Serializable{
     }
     
     public void pobieraniekontaFKWpis(){
-        if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5 ) {
-            wybranyklient = dokfkView.selected.getKontr();
-            if (!wybranyklient.getNpelna().equals("nowy klient")) {
-                int wynik = pobieraniekontaFK();
-                if (wynik == 1) {
-                    RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+        if (dokfkView.isNiedodawajkontapole() == false) {
+            if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5 ) {
+                wybranyklient = dokfkView.selected.getKontr();
+                if (!wybranyklient.getNpelna().equals("nowy klient")) {
+                    int wynik = pobieraniekontaFK();
+                    if (wynik == 1) {
+                        RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+                    }
                 }
             }
         }

@@ -15,7 +15,8 @@
                 <p:focus >
                     <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 120px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
                                      oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:opisdokumentu')).focus();"/>
-                    <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:acForce_input')).select();" 
+                    <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:opisdokumentu')).focus();"
+                                     actionListener="#{dokfkView.niedodawajkonta}"
                                      style="margin-left: 10px; width: 120px;"/>
                 </p:focus>
             </p:panelGrid>
