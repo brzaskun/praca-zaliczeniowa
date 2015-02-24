@@ -350,6 +350,10 @@
             <to-view-id>/ksiegowaFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>guestfakturaFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKFaktury.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>guestbilansFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

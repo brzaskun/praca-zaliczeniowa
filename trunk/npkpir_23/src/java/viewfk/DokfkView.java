@@ -10,7 +10,6 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
-import comparator.Rodzajedokcomparator;
 import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -26,7 +25,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
-import embeddable.Parametr;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
@@ -65,7 +63,6 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
-import view.ParametrView;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
@@ -159,6 +156,7 @@ private static final long serialVersionUID = 1L;
     private String wybranakategoriadok;
     private boolean ewidencjaVATRKzapis0edycja1;
     private Dokfk dokumentdousuniecia;
+    private boolean niedodawajkontapole;
     
 
     public DokfkView() {
@@ -224,6 +222,7 @@ private static final long serialVersionUID = 1L;
             zapisz0edytuj1 = false;
             zablokujprzyciskrezygnuj = false;
             wlaczZapiszButon = true;
+            niedodawajkontapole = false;
         } catch (Exception e) {
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
@@ -2914,6 +2913,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
     }
     
+    public void niedodawajkonta() {
+        niedodawajkontapole = true;
+    }
    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
@@ -2924,6 +2926,15 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.wybranakategoriadok = wybranakategoriadok;
     }
 
+    public boolean isNiedodawajkontapole() {
+        return niedodawajkontapole;
+    }
+
+    public void setNiedodawajkontapole(boolean niedodawajkontapole) {
+        this.niedodawajkontapole = niedodawajkontapole;
+    }
+
+    
     public Dokfk getDokumentdousuniecia() {
         return dokumentdousuniecia;
     }
