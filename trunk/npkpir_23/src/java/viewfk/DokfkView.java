@@ -2555,7 +2555,9 @@ public void updatenetto(EVatwpisFK e, String form) {
     private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
         if (!symbolwaluty.equals("PLN")) {
-            String datadokumentu = (String) Params.params("formwpisdokument:data1DialogWpisywanie");
+            
+            String datadokumentu;
+            datadokumentu = selected.getDatadokumentu();
             if (datawiersza.length() == 1) {
                 datawiersza = "0".concat(datawiersza);
             }
