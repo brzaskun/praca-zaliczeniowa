@@ -5,9 +5,6 @@
  */
 package beansFaktura;
 
-import beansDok.ListaEwidencjiVat;
-import dao.EvewidencjaDAO;
-import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
@@ -15,10 +12,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
-import embeddablefk.InterpaperXLS;
-import entity.EVatwpis1;
 import entity.Faktura;
-import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -28,8 +22,6 @@ import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
-import java.text.Format;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
@@ -115,7 +107,13 @@ public class FDfkBean {
             if (nd.getwTrakcieEdycji() == false) {
                 List<EVatwpisFK> ewidencjaTransformowana = new ArrayList<>();
                 for (EVatwpis r : faktura.getEwidencjavat()) {
-                    EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                    EVatwpis s  = null;
+                    for (EVatwpis t : faktura.getEwidencjavatpk()) {
+                        if (t.getEwidencja().equals(r.getEwidencja())) {
+                            s = t;
+                        }
+                    }
+                    EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
                     eVatwpisFK.setDokfk(nd);
                     ewidencjaTransformowana.add(eVatwpisFK);
                 }
