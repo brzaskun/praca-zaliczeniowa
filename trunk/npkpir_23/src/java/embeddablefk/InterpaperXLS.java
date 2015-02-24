@@ -30,6 +30,7 @@ public class InterpaperXLS implements Serializable {
     private double nettowaluta;
     private double vatwaluta;
     private double nettoPLN;
+    private double nettoPLNvat;
     private double vatPLN;
     private double bruttoPLN;
 
@@ -192,6 +193,14 @@ public class InterpaperXLS implements Serializable {
     
     public void setNettoPLN(double nettoPLN) {
         this.nettoPLN = nettoPLN;
+    }
+
+    public double getNettoPLNvat() {
+        return nettoPLNvat;
+    }
+
+    public void setNettoPLNvat(double nettoPLNvat) {
+        this.nettoPLNvat = nettoPLNvat;
     }
     
     public double getVatPLN() {
