@@ -75,6 +75,7 @@ public class EVatwpisFK implements Serializable {
         this.ewidencja = ewidencja;
         this.netto = netto;
         this.vat = vat;
+        this.brutto = netto + vat;
         this.estawka = estawka;
     }
 
