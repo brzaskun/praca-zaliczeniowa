@@ -1,0 +1,182 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package beansFaktura;
+
+import beansDok.ListaEwidencjiVat;
+import dao.EvewidencjaDAO;
+import dao.KlienciDAO;
+import dao.RodzajedokDAO;
+import daoFK.DokDAOfk;
+import daoFK.KliencifkDAO;
+import daoFK.KontoDAOfk;
+import daoFK.TabelanbpDAO;
+import daoFK.WalutyDAOfk;
+import embeddable.EVatwpis;
+import embeddablefk.InterpaperXLS;
+import entity.EVatwpis1;
+import entity.Faktura;
+import entity.Klienci;
+import entity.Rodzajedok;
+import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
+import entityfk.Kliencifk;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
+import entityfk.Wiersz;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.Singleton;
+import msg.Msg;
+import view.WpisView;
+import waluty.Z;
+
+/**
+ *
+ * @author Osito
+ */
+@Singleton
+public class FDfkBean {
+    
+    public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, WpisView wpisView) {
+        Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok, wpisView.getRokWpisuSt());
+        return poprzednidokumentvat == null ? 1 : poprzednidokumentvat.getDokfkPK().getNrkolejnywserii() + 1;
+    }
+    
+    public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, WpisView wpisView, RodzajedokDAO rodzajedokDAO,
+            TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO) {
+        Dokfk nd = new Dokfk(rodzajdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        ustawdaty(nd, faktura, wpisView);
+        ustawkontrahenta(nd,faktura);
+        ustawnumerwlasny(nd, faktura);
+        ustawopisfaktury(nd, faktura);
+        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
+        ustawrodzajedok(nd, rodzajdok, rodzajedokDAO, wpisView);
+        ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
+        podepnijEwidencjeVat(nd, faktura);
+        ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO);
+        nd.setImportowany(true);
+        return nd;
+    }
+    
+    private static void ustawdaty(Dokfk nd, Faktura faktura, WpisView wpisView) {
+        String datadokumentu = faktura.getDatawystawienia();
+        String datasprzedazy = faktura.getDatasprzedazy();
+        nd.setDatadokumentu(datadokumentu);
+        nd.setDataoperacji(datasprzedazy);
+        nd.setDatawplywu(datadokumentu);
+        nd.setDatawystawienia(datadokumentu);
+        nd.setMiesiac(wpisView.getMiesiacWpisu());
+        nd.setVatM(datasprzedazy.split("-")[1]);
+        nd.setVatR(datasprzedazy.split("-")[0]);
+    }
+    
+     private static void ustawkontrahenta(Dokfk nd, Faktura faktura) {
+            nd.setKontr(faktura.getKontrahent());
+    }
+     
+    private static void ustawnumerwlasny(Dokfk nd, Faktura faktura) {
+        String numer = faktura.getFakturaPK().getNumerkolejny();
+        nd.setNumerwlasnydokfk(numer);
+    }
+    
+    private static void ustawopisfaktury(Dokfk nd, Faktura faktura) {
+        if (faktura.getNazwa() != null && !faktura.getNazwa().equals("")) {
+            nd.setOpisdokfk(faktura.getNazwa());
+        } else {
+            nd.setOpisdokfk(faktura.getPozycjenafakturze().get(0).getNazwa());
+        }
+    }
+    
+    private static void ustawrodzajedok(Dokfk nd, String rodzajdok, RodzajedokDAO rodzajedokDAO, WpisView wpisView) {
+        Rodzajedok rodzajedok = rodzajedokDAO.find(rodzajdok, wpisView.getPodatnikObiekt());
+        if (rodzajedok != null) {
+            nd.setRodzajedok(rodzajedok);
+        } else {
+            Msg.msg("e", "Brak zdefiniowanego dokumentu "+rodzajdok);
+        }
+    }
+    
+    private static void ustawtabelenbp(Dokfk nd, TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        nd.setTabelanbp(t);
+        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        nd.setWalutadokumentu(w);
+    }
+    
+    private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura) {
+        if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
+            if (nd.getwTrakcieEdycji() == false) {
+                List<EVatwpisFK> ewidencjaTransformowana = new ArrayList<>();
+                for (EVatwpis r : faktura.getEwidencjavat()) {
+                    EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                    eVatwpisFK.setDokfk(nd);
+                    ewidencjaTransformowana.add(eVatwpisFK);
+                }
+                nd.setEwidencjaVAT(ewidencjaTransformowana);
+                } else {
+                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
+                }
+            }
+    }
+
+    private static void ustawwiersze(Dokfk nd, Faktura faktura, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        nd.getListawierszy().add(przygotujwierszNetto(faktura, nd, kontoDAOfk, wpisView, tabelanbpDAO, kliencifkDAO));
+        if (faktura.getVat() != 0) {
+            nd.getListawierszy().add(przygotujwierszVat(faktura, nd, kontoDAOfk, wpisView, tabelanbpDAO));
+        }
+    }
+    
+    private static Wiersz przygotujwierszNetto(Faktura faktura, Dokfk nd, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO){
+        Wiersz w = new Wiersz(0, 0);
+        uzupelnijwiersz(w, nd, tabelanbpDAO);
+        String opiswiersza = nd.getOpisdokfk(); 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strwn = new StronaWiersza(w, "Wn", faktura.getBrutto(), null);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getNetto(), null);
+        Konto kontonetto = kontoDAOfk.findKonto("702-2", wpisView);
+        try {
+            Kliencifk kliencifk = kliencifkDAO.znajdzkontofk(nd.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
+            String numerkonta = "201-2-"+kliencifk.getNrkonta();
+            Konto kontorozrach = kontoDAOfk.findKonto(numerkonta, wpisView);
+            strwn.setKonto(kontorozrach);
+        } catch (Exception e) {
+            
+        }
+        strwn.setKwotaPLN(faktura.getBrutto());
+        strma.setKwotaPLN(faktura.getNetto());
+        strma.setKonto(kontonetto);
+        w.setStronaWn(strwn);
+        w.setStronaMa(strma);
+        return w;
+    }
+    
+    private static Wiersz przygotujwierszVat(Faktura faktura, Dokfk nd,  KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO) {
+        Wiersz w = new Wiersz(1, 2);
+        uzupelnijwiersz(w, nd, tabelanbpDAO);
+        String opiswiersza = nd.getOpisdokfk()+"- podatek vat"; 
+        w.setOpisWiersza(opiswiersza);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", faktura.getVat(), null);
+        strma.setKwotaPLN(faktura.getVat());
+        Konto kontovat = kontoDAOfk.findKonto("221-1", wpisView);
+        strma.setKonto(kontovat);
+        w.setStronaMa(strma);
+        return w;
+    }
+    
+    private static void uzupelnijwiersz(Wiersz w, Dokfk nd, TabelanbpDAO tabelanbpDAO) {
+        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
+        w.setTabelanbp(t);
+        w.setDokfk(nd);
+        w.setLpmacierzystego(0);
+        w.setTabelanbp(w.getTabelanbp());
+        w.setDataksiegowania(nd.getDatawplywu());
+    }
+}

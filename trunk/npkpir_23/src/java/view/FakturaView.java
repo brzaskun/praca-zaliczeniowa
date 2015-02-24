@@ -4,6 +4,8 @@
  */
 package view;
 
+import beansDok.ListaEwidencjiVat;
+import beansFaktura.FDfkBean;
 import beansFaktura.FakturaBean;
 import beansFaktura.FakturaOkresowaGenNum;
 import sortfunction.FakturaSortBean;
@@ -13,8 +15,15 @@ import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
 import dao.FakturywystokresoweDAO;
+import dao.KlienciDAO;
 import dao.PodatnikDAO;
+import dao.RodzajedokDAO;
 import dao.WpisDAO;
+import daoFK.DokDAOfk;
+import daoFK.KliencifkDAO;
+import daoFK.KontoDAOfk;
+import daoFK.TabelanbpDAO;
+import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
 import embeddable.Mce;
 import embeddable.Pozycjenafakturzebazadanych;
@@ -27,6 +36,7 @@ import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Wpis;
+import entityfk.Dokfk;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -85,6 +95,12 @@ public class FakturaView implements Serializable {
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
     private FakturywystokresoweDAO fakturywystokresoweDAO;
     //faktury z bazy danych
     private List<Faktura> faktury;
@@ -101,6 +117,10 @@ public class FakturaView implements Serializable {
     private DokDAO dokDAO;
     @Inject
     private EvewidencjaDAO evewidencjaDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     //tego potrzebuje zeby zachowac wiersz wzorcowy
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -114,6 +134,10 @@ public class FakturaView implements Serializable {
     private String datawystawienia;
     @Inject
     private WpisDAO wpisDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
     private String wiadomoscdodatkowa;
     private int aktywnytab;
     private boolean zapis0edycja1;
@@ -123,6 +147,9 @@ public class FakturaView implements Serializable {
     private boolean fakturaxxl;
     private boolean fakturakorekta;
     private AutoComplete kontrahentstworz;
+    @Inject
+    private ListaEwidencjiVat listaEwidencjiVat;
+   
     
 
     public FakturaView() {
@@ -575,8 +602,32 @@ public class FakturaView implements Serializable {
     }
 
     public void zaksieguj() throws Exception {
-        for (Faktura p : gosciwybral) {
-            Faktura faktura = p;
+        if (wpisView.getPodatnikObiekt().isFirmafk()) {
+            for (Faktura p : gosciwybral) {
+                ksiegowanieFK(p);
+            }
+        } else {
+            for (Faktura p : gosciwybral) {
+                ksiegowaniePkpir(p);
+            }
+            Msg.msg("i", "Dokument zaksięgowany");
+        }
+    }
+    
+    private void ksiegowanieFK(Faktura p) {
+        Dokfk dokument = FDfkBean.stworznowydokument(FDfkBean.oblicznumerkolejny("SZ", dokDAOfk, wpisView),p, "SZ", wpisView, rodzajedokDAO, tabelanbpDAO, walutyDAOfk, kontoDAOfk, kliencifkDAO);
+        try {
+            dokument.setImportowany(true);
+            dokDAOfk.dodaj(dokument);
+            p.setZaksiegowana(true);
+            fakturaDAO.edit(p);
+            Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ");
+        }
+    }
+    private void ksiegowaniePkpir(Faktura p) {
+        Faktura faktura = p;
             Dok selDokument = new Dok();
             selDokument.setEwidencjaVAT1(null);
             HttpServletRequest request;
@@ -633,8 +684,6 @@ public class FakturaView implements Serializable {
                 
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
-        }
-        Msg.msg("i", "Dokument zaksięgowany");
     }
 
     public void sprawdzCzyNieDuplikat(Dok selD) throws Exception {
