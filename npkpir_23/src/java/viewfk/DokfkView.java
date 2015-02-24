@@ -810,7 +810,7 @@ private static final long serialVersionUID = 1L;
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
-        if (selected.getListawierszy().size() == 1) {
+        if (selected.getListawierszy().size() == 1 && selected.isImportowany()==false) {
             Rodzajedok rodzajdok = selected.getRodzajedok();
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (rodzajdok.getKategoriadokumentu()==1) {
@@ -1569,6 +1569,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setwTrakcieEdycji(false);
+                selected.setImportowany(false);
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
@@ -1949,6 +1950,35 @@ public void updatenetto(EVatwpisFK e, String form) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
+    
+    public void przygotujDokumentEdycjaImport(Dokfk wybranyDokfk, Integer row) {
+        try {
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
+            String rowS = "zestawieniedokumentowimport:dataList:"+String.valueOf(row)+":";
+            if (odnalezionywbazie.getwTrakcieEdycji() == true) {
+                wybranyDokfk.setwTrakcieEdycji(true);
+                Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
+                RequestContext.getCurrentInstance().update(rowS);
+            } else {
+                selected = wybranyDokfk;
+                selected.setwTrakcieEdycji(true);
+                obsluzcechydokumentu();
+                RequestContext.getCurrentInstance().update(rowS);
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+                zapisz0edytuj1 = true;
+                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                    pokazPanelWalutowy = true;
+                } else {
+                    pokazPanelWalutowy = false;
+                }
+                RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
+                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                RequestContext.getCurrentInstance().update("formwpisdokument");
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Nie wybrano dokumentu do edycji ");
+        }
+    }
 
 //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
 //    public void znajdzDokumentOznaczWierszDoPodswietlenia() {
@@ -2001,6 +2031,34 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow");
             }
         }
+    }
+    
+    public void odswiezzaksiegowaneimport() {
+        if (wybranakategoriadok == null) {
+            wybranakategoriadok = "wszystkie";
+        }
+        if (wybranakategoriadok.equals("wszystkie")) {
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+            } else {
+                wpisView.wpisAktualizuj();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+            }
+        } else {
+            if (wpisView.getMiesiacWpisu().equals("CR")) {
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+            } else {
+                wpisView.wpisAktualizuj();
+                wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
+            }
+        }
+        for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentow.iterator(); p.hasNext();) {
+            Dokfk r = (Dokfk) p.next();
+            if (r.isImportowany()==false) {
+                p.remove();
+            }
+        }
+        RequestContext.getCurrentInstance().update("zestawieniedokumentowimport");
     }
 
     //************************
@@ -2843,6 +2901,10 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void resetujzaksiegowane() {
+        wykazZaksiegowanychDokumentow = new ArrayList<>();
+    }
+    
+    public void resetujzaksiegowaneimport() {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
     }
     

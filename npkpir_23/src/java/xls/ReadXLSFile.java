@@ -58,8 +58,9 @@ public class ReadXLSFile {
                 interpaperXLS.setNettowaluta(row.getCell(12).getNumericCellValue());
                 interpaperXLS.setVatwaluta(row.getCell(13).getNumericCellValue());
                 interpaperXLS.setNettoPLN(row.getCell(14).getNumericCellValue());
-                interpaperXLS.setVatPLN(row.getCell(15).getNumericCellValue());
-                interpaperXLS.setBruttoPLN(row.getCell(16).getNumericCellValue());
+                interpaperXLS.setNettoPLNvat(row.getCell(15).getNumericCellValue());
+                interpaperXLS.setVatPLN(row.getCell(16).getNumericCellValue());
+                interpaperXLS.setBruttoPLN(row.getCell(17).getNumericCellValue());
                 listafaktur.add(interpaperXLS);
                 System.out.println(interpaperXLS.toString2());
             }
