@@ -91,11 +91,18 @@ public class KliencifkView implements Serializable{
                 klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
                 return 0;
             } catch (Exception e) {
-                return 1;
+                klientBezKonta = new Kliencifk();
+                klientBezKonta.setNazwa(wybranyklient.getNpelna());
+                klientBezKonta.setNip(wybranyklient.getNip());
+                klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
+                klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                klientBezKonta.setNrkonta(pobierznastepnynumer());
             }
         }
         return -1;
     }
+    
+    
     
     public void przyporzadkujdokonta(){
         try {
