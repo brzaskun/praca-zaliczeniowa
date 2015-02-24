@@ -809,21 +809,23 @@ private static final long serialVersionUID = 1L;
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
-        Rodzajedok rodzajdok = selected.getRodzajedok();
-        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
-        if (rodzajdok.getKategoriadokumentu()==1) {
-            if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
-                e.setVat(wartosciVAT[4]);
-                e.setBrutto(Z.z(e.getNetto()+e.getVat()));
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:vat");
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
-            }
-            rozliczVatKoszt(e, wartosciVAT);
-        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
-            rozliczVatPrzychod(e, wartosciVAT);
-        } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
-            rozliczVatPrzychod(e, wartosciVAT);
-        } 
+        if (selected.getListawierszy().size() == 1) {
+            Rodzajedok rodzajdok = selected.getRodzajedok();
+            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
+            if (rodzajdok.getKategoriadokumentu()==1) {
+                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                    e.setVat(wartosciVAT[4]);
+                    e.setBrutto(Z.z(e.getNetto()+e.getVat()));
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:vat");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
+                }
+                rozliczVatKoszt(e, wartosciVAT);
+            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
+                rozliczVatPrzychod(e, wartosciVAT);
+            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
+                rozliczVatPrzychod(e, wartosciVAT);
+            } 
+        }
     }
     
     public void dolaczWierszZKwotamiRK() {
