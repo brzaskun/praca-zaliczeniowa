@@ -158,6 +158,7 @@ private static final long serialVersionUID = 1L;
     private List<Dokfk> filteredValue;
     private String wybranakategoriadok;
     private boolean ewidencjaVATRKzapis0edycja1;
+    private Dokfk dokumentdousuniecia;
     
 
     public DokfkView() {
@@ -1594,14 +1595,18 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
 
-    public void usundokument(Dokfk dousuniecia) {
+    public void przygotujdousuniecia(Dokfk dousuniecia) {
+        dokumentdousuniecia = dousuniecia;
+    }
+    
+    public void usundokument() {
         try {
-            dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dousuniecia));
-            wykazZaksiegowanychDokumentow.remove(dousuniecia);
+            dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dokumentdousuniecia));
+            wykazZaksiegowanychDokumentow.remove(dokumentdousuniecia);
             if (filteredValue != null) {
-                filteredValue.remove(dousuniecia);
+                filteredValue.remove(dokumentdousuniecia);
             }
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+            dokumentdousuniecia = null;
             Msg.msg("i", "Dokument usunięty");
         } catch (Exception e) {
             Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK?");
@@ -2849,6 +2854,14 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     public void setWybranakategoriadok(String wybranakategoriadok) {    
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public Dokfk getDokumentdousuniecia() {
+        return dokumentdousuniecia;
+    }
+
+    public void setDokumentdousuniecia(Dokfk dokumentdousuniecia) {
+        this.dokumentdousuniecia = dokumentdousuniecia;
     }
 
     public List<Dokfk> getFilteredValue() {
