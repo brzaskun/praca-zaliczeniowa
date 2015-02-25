@@ -23,17 +23,13 @@ import msg.Msg;
 @ViewScoped
 public class RemanentView implements Serializable {
 
-    private static double remanentPoczRoku;
-    private static double remanentKoniecRoku;
-    private static double roznica;
+    private double remanentPoczRoku;
+    private double remanentKoniecRoku;
+    private double roznica;
 
-    public static double getRoznicaS() {
-        return roznica;
-    }
+ 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @Inject
-    private Podatnik pod;
 
     public RemanentView() {
         remanentPoczRoku = 0.0;
@@ -46,7 +42,7 @@ public class RemanentView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            pod = wpisView.getPodatnikObiekt();
+            Podatnik pod = wpisView.getPodatnikObiekt();
             Integer rok = wpisView.getRokWpisu();
             Integer rokNext = wpisView.getRokWpisu()+1;
             try {
@@ -56,13 +52,15 @@ public class RemanentView implements Serializable {
                 } else {
                     Parametr tmp = zwrocparametrzRoku(remanentLista, rok);
                     if (tmp instanceof Parametr) {
-                        remanentPoczRoku = Double.valueOf(tmp.getParametr());
+                        String parametrweryf = tmp.getParametr().replace(",", ".");
+                        remanentPoczRoku = Double.valueOf(parametrweryf);
                     } else {
                         Msg.msg("e", "Nie wprowadzono remanentu początkowego! Program nie obliczy poprawnie PIT-u za grudzien.");
                     }
                     tmp = zwrocparametrzRoku(remanentLista, rokNext);
                     if (tmp instanceof Parametr) {
-                        remanentKoniecRoku = Double.valueOf(tmp.getParametr());
+                        String parametrweryf = tmp.getParametr().replace(",", ".");
+                        remanentKoniecRoku = Double.valueOf(parametrweryf);
                         roznica = remanentPoczRoku - remanentKoniecRoku;
                     } else {
                         Msg.msg("e", "Nie wprowadzono remanentu końcowego! Program nie obliczy poprawnie PIT-u za grudzien.");
@@ -93,7 +91,7 @@ public class RemanentView implements Serializable {
     }
 
     public void setRemanentPoczRoku(double remanentPoczRoku) {
-        RemanentView.remanentPoczRoku = remanentPoczRoku;
+        this.remanentPoczRoku = remanentPoczRoku;
     }
 
     public double getRemanentKoniecRoku() {
@@ -101,16 +99,18 @@ public class RemanentView implements Serializable {
     }
 
     public void setRemanentKoniecRoku(double remanentKoniecRoku) {
-        RemanentView.remanentKoniecRoku = remanentKoniecRoku;
+        this.remanentKoniecRoku = remanentKoniecRoku;
     }
 
     public double getRoznica() {
         return roznica;
     }
-    
+
     public void setRoznica(double roznica) {
-        RemanentView.roznica = roznica;
+        this.roznica = roznica;
     }
+
+   
 
     public WpisView getWpisView() {
         return wpisView;
