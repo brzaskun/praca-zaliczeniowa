@@ -135,7 +135,7 @@ public class WalutyNBP implements Serializable {
 
     public static void main(String[] args) throws MalformedURLException, IOException, ParserConfigurationException, SAXException {
         Integer numer = 1;
-        String data = "2013-11-10";
+        String data = "2015-01-02";
         List<Tabelanbp> wynik = new ArrayList<>();
         while (czydataPrzedDniemDzisiejszym(data)) {
             InputStream inputStream = null;
@@ -158,7 +158,7 @@ public class WalutyNBP implements Serializable {
                 saxParser.parse(is, handler);
                 List<Tabelanbp> wyniktmp = handler.getElementy();
                 for (Tabelanbp p : wyniktmp) {
-                    if (p.getWaluta().getSymbolwaluty().equals("EUR")) {
+                    if (p.getWaluta().getSymbolwaluty().equals("NOK")) {
                         wynik.add(p);
                     }
                 }
