@@ -95,6 +95,8 @@ public class ZestawienieView implements Serializable {
     private List<Pitpoz> listapit;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{remanentView}")
+    private RemanentView remanentView;
     private List<Dok> lista;
     private List<Pitpoz> pobierzPity;
     private List<List> zebranieMcy;
@@ -864,7 +866,7 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setPrzychodyudzial(biezacyPit.getPrzychody().multiply(new BigDecimal(procent)));
                 biezacyPit.setKoszty(obliczkoszt());
                 if (wpisView.getMiesiacWpisu().equals("12")) {
-                    BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+                    BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
                     biezacyPit.setRemanent(roznicaremanentow);
                     BigDecimal kosztypokorekcie = biezacyPit.getKoszty().add(roznicaremanentow);
                     biezacyPit.setKosztyudzial(kosztypokorekcie.multiply(new BigDecimal(procent)));
@@ -1122,7 +1124,7 @@ public class ZestawienieView implements Serializable {
     
     public void zachowajPit13(){
         biezacyPit.setPkpirM("13");
-        BigDecimal roznicaremanentow = new BigDecimal(RemanentView.getRoznicaS());
+        BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
         biezacyPit.setRemanent(roznicaremanentow);
         zachowajPit();
     }
@@ -1742,6 +1744,14 @@ private void aktualizujGuest(){
             }
         }
         return 0;
+    }
+
+    public RemanentView getRemanentView() {
+        return remanentView;
+    }
+
+    public void setRemanentView(RemanentView remanentView) {
+        this.remanentView = remanentView;
     }
 
     
