@@ -8,18 +8,22 @@
     <p:dialog id="dialogwaluty" header="Zestawienie używanych w programie walut" widgetVar="waluty"  
               resizable="false"  onShow="ustawdialog('dialogwaluty','menukartoteki',580,400);" closeOnEscape="true" onHide="resetujdialog('dialogwaluty');" >
         <h:form id="wprowadzonewaluty">
+            <p:growl autoUpdate="true"/>
             <p:dataTable id="dataTablewaluty" var="wpis" value="#{walutyViewFK.pobranewaluty}" editable="true" emptyMessage="Nie ma wprowadzonych walut" style="width: 500px;">
-                <p:column headerText="skrót waluty" width="100" style="text-align: center; height: 25px;">
+                <p:column headerText="skrót waluty" width="80" style="text-align: center; height: 25px;">
                     <h:outputText value="#{wpis.symbolwaluty}" />
                 </p:column>
-                <p:column headerText="nazwa waluty" width="200">
+                <p:column headerText="nazwa waluty" width="150">
                     <h:outputText value="#{wpis.nazwawaluty}" style="width: 200px;"/>
                 </p:column>
-                <p:column headerText="symbol waluty" width="100" style="text-align: center;">
+                <p:column headerText="symbol waluty" width="80" style="text-align: center;">
                     <h:outputText value="#{wpis.skrotsymbolu}" />
                 </p:column>
                 <p:column width="60" style="text-align: center;">
                     <p:commandButton icon="ui-icon-trash" actionListener="#{walutyViewFK.usunwalute(wpis)}" update="@form" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
+                </p:column>
+                <p:column headerText="pobierz kursy" width="60" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" actionListener="#{walutyKursRecznieView.pobierzkursyNowaWaluta(wpis)}" update="@form" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

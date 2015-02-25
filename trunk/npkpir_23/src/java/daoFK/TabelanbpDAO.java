@@ -13,7 +13,6 @@ import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.joda.time.DateTime;
 import session.SessionFacade;
 
 /**
