@@ -38,11 +38,11 @@ public class DokFKVATBean {
             wartosciVAT[2] += p.getNettowwalucie();
             wartosciVAT[3] += p.getVatwwalucie();
             double vatplnpolowa = Z.z(p.getVat()/2);
-            double vatplnreszta = p.getVat()-vatplnpolowa;
+            double vatplnreszta = Z.z(p.getVat()-vatplnpolowa);
             wartosciVAT[4] = vatplnpolowa;
             wartosciVAT[5] = vatplnreszta;
             double vatpolowa = Z.z(p.getVatwwalucie()/2);
-            double vatreszta = p.getVatwwalucie()-vatpolowa;
+            double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
             wartosciVAT[6] = vatpolowa;
             wartosciVAT[7] = vatreszta;
         }

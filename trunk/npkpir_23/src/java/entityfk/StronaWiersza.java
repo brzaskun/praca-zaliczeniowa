@@ -123,6 +123,7 @@ public class StronaWiersza implements Serializable{
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
+        this.cechazapisuLista = new ArrayList<>();
     }
     
      public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
@@ -134,6 +135,7 @@ public class StronaWiersza implements Serializable{
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
+        this.cechazapisuLista = new ArrayList<>();
     }
      
      public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota, Konto konto) {
@@ -146,6 +148,7 @@ public class StronaWiersza implements Serializable{
         this.wnma = wnma;
         this.typStronaWiersza = 0;
         this.konto = konto;
+        this.cechazapisuLista = new ArrayList<>();
     }
     
      public StronaWiersza(WierszBO w, String wnma, String zapisy) {
@@ -166,12 +169,14 @@ public class StronaWiersza implements Serializable{
          this.wiersz.setIdwiersza(0);
          this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis());
          this.wiersz.setDokfk(new Dokfk("zapis z BO"));
+         this.cechazapisuLista = new ArrayList<>();
        }
      
       public StronaWiersza(WierszBO w, String wnma) {
          this.konto = w.getKonto();
          this.typStronaWiersza = 9;
          this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
+         this.cechazapisuLista = new ArrayList<>();
          if (wnma.equals("Wn")) {
              this.wnma = "Wn";
              this.kwota = w.getKwotaWn();
@@ -198,6 +203,7 @@ public class StronaWiersza implements Serializable{
         this.kwotaPLN = 0.0;
         this.kwotaWaluta = 0.0;
         this.typStronaWiersza = 0;
+        this.cechazapisuLista = new ArrayList<>();
     }
 
     public double getKursBO() {

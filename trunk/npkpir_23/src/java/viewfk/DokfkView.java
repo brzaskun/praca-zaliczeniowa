@@ -950,7 +950,7 @@ private static final long serialVersionUID = 1L;
                    wartosciVAT[3] = wartosciVAT[6];
                 }
                    if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
-                       dolaczwiersz2_3(wartosciVAT, w, 2, 1);
+                       dolaczwiersz2_3Koszt(wartosciVAT, w, 2, 1);
                        lpnastepnego++;
                        limitwierszy++;
                 }
@@ -981,10 +981,6 @@ private static final long serialVersionUID = 1L;
     
     private void dolaczwiersz2_3(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
          Wiersz wiersz2_3;
-                if (odliczenie0koszt1==1) {
-                    wartosciVAT[1] = wartosciVAT[5];
-                    wartosciVAT[3] = wartosciVAT[7];
-                }
                 if (w.getSymbolwaluty().equals("PLN")) {
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[1], 1);
@@ -1002,6 +998,45 @@ private static final long serialVersionUID = 1L;
                     } else {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWn(selected, lp, wartosciVAT[3], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
+                    }
+                }
+                wiersz2_3.setTabelanbp(selected.getTabelanbp());
+                if (odliczenie0koszt1==0) {
+                    Konto kontovat = selected.getRodzajedok().getKontovat();
+                    if (kontovat != null) {
+                        wiersz2_3.getStronaWn().setKonto(kontovat);
+                    } else {
+                        Konto k = kontoDAOfk.findKonto("221", wpisView);
+                        wiersz2_3.getStronaWn().setKonto(k);
+                    }
+                    wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat");
+                } else {
+                    Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                    wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
+                    wiersz2_3.getStronaWn().setKonto(k);
+                }
+                selected.getListawierszy().add(wiersz2_3);
+    }
+    
+    private void dolaczwiersz2_3Koszt(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
+         Wiersz wiersz2_3;
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[5], 1);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
+                    } else {
+                        wiersz2_3 = ObslugaWiersza.utworzNowyWierszWn(selected, lp, wartosciVAT[5], 1);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                    }
+                } else {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[7], 1);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
+                    } else {
+                        wiersz2_3 = ObslugaWiersza.utworzNowyWierszWn(selected, lp, wartosciVAT[7], 1);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
                     }
                 }
                 wiersz2_3.setTabelanbp(selected.getTabelanbp());
