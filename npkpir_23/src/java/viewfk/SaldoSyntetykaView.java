@@ -119,14 +119,18 @@ public class SaldoSyntetykaView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
-            if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer())) {
-                if (r.getWnma().equals("Wn")) {
-                    saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
-                } else {
-                    saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+            //bez lub nie dodawaloby zapisow gdt konto levelu 0 jest jednoczenie analitycznym
+            if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
+                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+                    if (r.getWnma().equals("Wn")) {
+                        saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
+                    } else {
+                        saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+                    }
+                    saldoKonto.getZapisy().add(r);
                 }
-                saldoKonto.getZapisy().add(r);
             }
             
         }
