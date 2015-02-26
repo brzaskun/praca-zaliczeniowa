@@ -40,15 +40,15 @@
                 <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>      
+                <p:column width="20">
+                    <p:rowToggler />
+                </p:column>
                 <p:column selectionMode="multiple"  width="40" style="text-align: center;"/>
                 <p:column width="70" headerText="kontrahent nip" sortBy="#{wpis.dokument.kontrahent_nip}" filterBy="#{wpis.dokument.kontrahent_nip}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.dokument.kontrahent_nip}"/>
                 </p:column>
                 <p:column headerText="kontrahent" sortBy="#{wpis.dokument.kontrahent.npelna}" filterBy="#{wpis.dokument.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;" width="120">
                     <h:outputText value="#{wpis.dokument.kontrahent}"/>
-                </p:column>
-                <p:column headerText="email" sortBy="#{wpis.dokument.kontrahent.email}" filterBy="#{wpis.dokument.kontrahent.email}" filterMatchMode="contains" filterStyle="display : none;" width="160">
-                    <h:outputText value="#{wpis.dokument.kontrahent.email}" style="font-size: x-small;"/>
                 </p:column>
                 <p:column headerText="data wystawienia" sortBy="#{wpis.dokument.datawystawienia}" filterBy="#{wpis.dokument.datawystawienia}" filterMatchMode="contains" filterStyle="display : none;" width="90">
                     <h:outputText value="#{wpis.dokument.datawystawienia}"/>
@@ -100,6 +100,18 @@
                 <p:column style="text-align: center;" width="40">
                     <p:commandButton update=":form:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
+                <p:rowExpansion>
+                     <p:panelGrid  columns="2"  style="width:300px">
+                        <h:outputText value="email kontrahenta"/>
+                        <h:outputText value="#{wpis.dokument.kontrahent.email ne '' ? wpis.dokument.kontrahent.email : 'brak adresu email'}"/>
+                        <h:outputText value="kwota netto"/>
+                        <bcf:outputpl value="#{wpis.dokument.netto}"/>
+                        <h:outputText value="kwota vat"/>
+                        <bcf:outputpl value="#{wpis.dokument.vat}"/>
+                        <h:outputText value="kwota brutto"/>
+                        <bcf:outputpl value="#{wpis.dokument.brutto}"/>
+                     </p:panelGrid>
+                </p:rowExpansion>
             </p:dataTable>
         </h:form>
     </p:tab>
