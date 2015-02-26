@@ -55,15 +55,7 @@ public class StronaWierszaBean {
         }
      
      public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        List<StronaWiersza> lista = new ArrayList<>();
-        for (String p : Mce.getMceListS()) {
-            if (p.equals(wpisView.getMiesiacNastepny())) {
-                break;
-            } else {
-                lista.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), p));
-            }
-        }
-        return lista;
+        return stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
     }
      
      public static void main(String[] args) {
