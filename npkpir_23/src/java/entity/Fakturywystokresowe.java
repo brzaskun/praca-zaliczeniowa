@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", uniqueConstraints = {@UniqueConstraint(columnNames={"podatnik","rok","nipodbiorcy","brutto"})})
+@Table(catalog = "pkpir")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Fakturywystokresowe.findAll", query = "SELECT f FROM Fakturywystokresowe f"),

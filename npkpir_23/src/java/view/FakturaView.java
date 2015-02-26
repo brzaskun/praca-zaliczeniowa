@@ -727,30 +727,31 @@ public class FakturaView implements Serializable {
             nowafakturaokresowa.setNipodbiorcy(p.getKontrahent_nip());
             String rok = p.getDatasprzedazy().split("-")[0];
             nowafakturaokresowa.setRok(rok);
-            try {
-                Fakturywystokresowe fakturatmp = null;
-                if (kwotaprzedwaloryzacja > 0) {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
-                    //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
-                    if (fakturatmp == null) {
-                        fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
-                    } else {
-                        Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + kwotaprzedwaloryzacja + " już istnienie!");
-                    }
-                } else {
-                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
-                }
-                if (fakturatmp != null) {
-                    if (kwotaprzedwaloryzacja > 0) {
-                        fakturatmp.setBrutto(p.getBrutto());
-                        fakturywystokresoweDAO.edit(fakturatmp);
-                    } else {
-                        Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + p.getBrutto() + " już istnienie!");
-                    }
-                }
-            } catch (Exception ef) {
-                Msg.msg("w", "Błąd podczas wyszukiwania poprzedniej faktury");
-            }
+            //nie ma czego sprawdzac bo zlikwidowalismy rozroznianie
+//            try {
+//                Fakturywystokresowe fakturatmp = null;
+//                if (kwotaprzedwaloryzacja > 0) {
+//                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
+//                    //no bo jak sie juz zrobi z waloryzacja a potem usuwa to jest zaktualizowane
+//                    if (fakturatmp == null) {
+//                        fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
+//                    } else {
+//                        Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + kwotaprzedwaloryzacja + " już istnienie!");
+//                    }
+//                } else {
+//                    fakturatmp = fakturywystokresoweDAO.findOkresowa(rok, p.getKontrahent_nip(), podatnik, p.getBrutto());
+//                }
+//                if (fakturatmp != null) {
+//                    if (kwotaprzedwaloryzacja > 0) {
+//                        fakturatmp.setBrutto(p.getBrutto());
+//                        fakturywystokresoweDAO.edit(fakturatmp);
+//                    } else {
+//                        Msg.msg("e", "Faktura okresowa o parametrach: kontrahent - " + p.getKontrahent().getNpelna() + ", przedmiot - " + p.getPozycjenafakturze().get(0).getNazwa() + ", kwota - " + p.getBrutto() + " już istnienie!");
+//                    }
+//                }
+//            } catch (Exception ef) {
+//                Msg.msg("w", "Błąd podczas wyszukiwania poprzedniej faktury");
+//            }
             try {
                 fakturywystokresoweDAO.dodaj(nowafakturaokresowa);
                 fakturyokresowe.add(nowafakturaokresowa);
