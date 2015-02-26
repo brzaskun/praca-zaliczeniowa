@@ -1244,6 +1244,92 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void przenumerujwdol() {
+        String[] schemat = wpisView.getPodatnikObiekt().getSchematnumeracji().split("/");
+        int j = 0;
+        for (String p : schemat) {
+            if (p.equals("N")) {
+                break;
+            } else {
+                j++;
+            }
+        }
+        for (int i = gosciwybral.size()-1; i > -1 ; i--) {
+           Faktura p = SerialClone.clone(gosciwybral.get(i));
+           String[] tabelanumer = p.getFakturaPK().getNumerkolejny().split("/");
+           int nowynumer = Integer.parseInt(tabelanumer[j]);
+           nowynumer++;
+           String nowynumerS = String.valueOf(nowynumer);
+           String nowynumerfakt = "";
+           for (int k = 0 ; k < tabelanumer.length; k++) {
+               if (k == j) {
+                   if (k == 0) {
+                       nowynumerfakt = nowynumerfakt.concat(nowynumerS);
+                   } else {
+                       nowynumerfakt = nowynumerfakt.concat("/");
+                       nowynumerfakt = nowynumerfakt.concat(nowynumerS);
+                   }
+               } else {
+                   if (k == 0) {
+                       nowynumerfakt = nowynumerfakt.concat(tabelanumer[k]);
+                   } else {
+                       nowynumerfakt = nowynumerfakt.concat("/");
+                       nowynumerfakt = nowynumerfakt.concat(tabelanumer[k]);
+                   }
+               }
+           }
+           fakturaDAO.destroy(gosciwybral.get(i));
+           p.getFakturaPK().setNumerkolejny(nowynumerfakt);
+           fakturaDAO.dodaj(p);
+        }
+        gosciwybral = new ArrayList<>();
+        init();
+        Msg.msg("Przenumerowałem faktury");
+    }
+    
+    public void przenumerujwgore() {
+        String[] schemat = wpisView.getPodatnikObiekt().getSchematnumeracji().split("/");
+        int j = 0;
+        for (String p : schemat) {
+            if (p.equals("N")) {
+                break;
+            } else {
+                j++;
+            }
+        }
+        for (int i = 0; i <gosciwybral.size() ; i++) {
+           Faktura p = SerialClone.clone(gosciwybral.get(i));
+           String[] tabelanumer = p.getFakturaPK().getNumerkolejny().split("/");
+           int nowynumer = Integer.parseInt(tabelanumer[j]);
+           nowynumer--;
+           String nowynumerS = String.valueOf(nowynumer);
+           String nowynumerfakt = "";
+           for (int k = 0 ; k < tabelanumer.length; k++) {
+               if (k == j) {
+                   if (k == 0) {
+                       nowynumerfakt = nowynumerfakt.concat(nowynumerS);
+                   } else {
+                       nowynumerfakt = nowynumerfakt.concat("/");
+                       nowynumerfakt = nowynumerfakt.concat(nowynumerS);
+                   }
+               } else {
+                   if (k == 0) {
+                       nowynumerfakt = nowynumerfakt.concat(tabelanumer[k]);
+                   } else {
+                       nowynumerfakt = nowynumerfakt.concat("/");
+                       nowynumerfakt = nowynumerfakt.concat(tabelanumer[k]);
+                   }
+               }
+           }
+           fakturaDAO.destroy(gosciwybral.get(i));
+           p.getFakturaPK().setNumerkolejny(nowynumerfakt);
+           fakturaDAO.dodaj(p);
+        }
+        gosciwybral = new ArrayList<>();
+        init();
+        Msg.msg("Przenumerowałem faktury");
+    }
+    
     public boolean isFakturakorekta() {
         return fakturakorekta;
     }
