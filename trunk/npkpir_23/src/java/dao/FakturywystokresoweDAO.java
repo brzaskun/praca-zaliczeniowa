@@ -35,6 +35,14 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
         }
    }
     
+    public Fakturywystokresowe findFakturaOkresowaById(Integer id){
+        try {
+            return fakturywystokresoweFacade.findFakturaOkresowaById(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public List<Fakturywystokresowe> findPodatnik(String podatnik){
         List<Fakturywystokresowe> zwrot = new ArrayList<>();
         try {

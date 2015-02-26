@@ -317,7 +317,6 @@ public class FakturaView implements Serializable {
         try {
             fakturaDAO.edit(selected);
             if (selected.isWygenerowanaautomatycznie() == true) {
-                   zaktualizujokresowa(selected);
                    selected.setWygenerowanaautomatycznie(false);
             }
             fakturaDAO.edit(selected);
@@ -513,7 +512,12 @@ public class FakturaView implements Serializable {
         Double brutto = nowa.getBrutto();
         Podatnik wystawca = nowa.getWystawca();
         String rok = nowa.getRok();
-        Fakturywystokresowe fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna(), nowa.getBrutto());
+        Fakturywystokresowe fakturaokresowa = null;
+        if (nowa.getIdfakturaokresowa() > 0) {
+            fakturaokresowa = fakturywystokresoweDAO.findFakturaOkresowaById(nowa.getIdfakturaokresowa());
+        } else {
+            fakturaokresowa = fakturywystokresoweDAO.findOkresowa(rok, klientnip, wystawca.getNazwapelna(), nowa.getBrutto());
+        }
         switch (nowa.getMc()) {
             case "01":
                 fakturaokresowa.setM1(fakturaokresowa.getM1() > 0 ? fakturaokresowa.getM1() - 1 : 0);
@@ -902,6 +906,7 @@ public class FakturaView implements Serializable {
                 nowa.setTerminzaplaty(dateTime.toString().substring(0, 10));
             }
             nowa.setWygenerowanaautomatycznie(true);
+            nowa.setIdfakturaokresowa(p.getId());
             nowa.setWyslana(false);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
@@ -917,48 +922,47 @@ public class FakturaView implements Serializable {
                 fakturaDAO.dodaj(nowa);
                 faktury.add(nowa);
                 if (fakturanowyrok == 0) {
-                    Fakturywystokresowe okresowe = p;
                     String datawystawienia = nowa.getDatawystawienia();
                     String miesiac = datawystawienia.substring(5, 7);
                     switch (miesiac) {
                         case "01":
-                            okresowe.setM1(okresowe.getM1() + 1);
+                            p.setM1(p.getM1() + 1);
                             break;
                         case "02":
-                            okresowe.setM2(okresowe.getM2() + 1);
+                            p.setM2(p.getM2() + 1);
                             break;
                         case "03":
-                            okresowe.setM3(okresowe.getM3() + 1);
+                            p.setM3(p.getM3() + 1);
                             break;
                         case "04":
-                            okresowe.setM4(okresowe.getM4() + 1);
+                            p.setM4(p.getM4() + 1);
                             break;
                         case "05":
-                            okresowe.setM5(okresowe.getM5() + 1);
+                            p.setM5(p.getM5() + 1);
                             break;
                         case "06":
-                            okresowe.setM6(okresowe.getM6() + 1);
+                            p.setM6(p.getM6() + 1);
                             break;
                         case "07":
-                            okresowe.setM7(okresowe.getM7() + 1);
+                            p.setM7(p.getM7() + 1);
                             break;
                         case "08":
-                            okresowe.setM8(okresowe.getM8() + 1);
+                            p.setM8(p.getM8() + 1);
                             break;
                         case "09":
-                            okresowe.setM9(okresowe.getM9() + 1);
+                            p.setM9(p.getM9() + 1);
                             break;
                         case "10":
-                            okresowe.setM10(okresowe.getM10() + 1);
+                            p.setM10(p.getM10() + 1);
                             break;
                         case "11":
-                            okresowe.setM11(okresowe.getM11() + 1);
+                            p.setM11(p.getM11() + 1);
                             break;
                         case "12":
-                            okresowe.setM12(okresowe.getM12() + 1);
+                            p.setM12(p.getM12() + 1);
                             break;
                     }
-                    fakturywystokresoweDAO.edit(okresowe);
+                    fakturywystokresoweDAO.edit(p);
                 }
                 Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
             } catch (Exception e) {

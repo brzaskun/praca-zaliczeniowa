@@ -580,6 +580,10 @@ public class SessionFacade<T> implements Serializable{
     public List<Fakturywystokresowe> findPodatnikFaktury(String podatnik) {
         return em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+    public Fakturywystokresowe findFakturaOkresowaById(Integer id) {
+        return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findById").setParameter("id", id).getSingleResult();
+    }
+    
     public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
         return em.createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
