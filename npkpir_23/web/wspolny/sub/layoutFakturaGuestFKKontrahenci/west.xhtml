@@ -31,6 +31,9 @@
                             <p:menuitem value="zestawienia"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>
                             <p:menuitem value="bilanse"  outcome="gfkBilanse" icon="ui-icon-circle-arrow-e"/>
                         </p:menu> 
+                     <p:menu style="width: 180px;" rendered="#{facesContext.externalContext.isUserInRole('Multiuser')}">
+                        <p:menuitem value="zmiana firmy"  outcome="Multiuser" icon="ui-icon-circle-arrow-e"/>
+                    </p:menu> 
                         <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
                     </p:panelGrid>
             </p:panel>
