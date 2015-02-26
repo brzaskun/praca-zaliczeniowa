@@ -15,6 +15,8 @@
                 <p:menuitem value="Zaksięguj" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
                 <p:separator/>
+                <p:menuitem value="Przenumeruj w górę" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
+                <p:menuitem value="Przenumeruj w dół" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwdol()}" />
                 <p:menuitem value="Oznacz jako wysłaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane()}" />
                 <p:menuitem value="Oznacz jako zaksiegowaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formsporzadzone:dokumentyLista,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
