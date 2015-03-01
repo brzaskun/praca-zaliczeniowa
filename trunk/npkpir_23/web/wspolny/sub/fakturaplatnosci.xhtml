@@ -7,7 +7,8 @@
     >
 
     <h:form id="fakturyniezaplacone">
-        <p:dataTable id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" var="wpis" emptyMessage="nie ma faktur niezapłaconych" style="width: 1200px; padding: 5px;">
+        <p:dataTable id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" var="wpis" emptyMessage="nie ma faktur niezapłaconych" style="width: 1200px; padding: 5px;"
+                     sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}">
             <f:facet name="header">
                 <h:outputText value="wykaz faktur niezapłaconych"/>
             </f:facet>
@@ -42,7 +43,8 @@
         </p:dataTable>
     </h:form>
     <h:form id="fakturyzaplacone">
-        <p:dataTable value="#{fakturyPlatnosciView.fakturyzaplacone}" var="wpis" emptyMessage="nie ma faktur zapłaconych" style="width: 1200px; padding: 5px;">
+        <p:dataTable value="#{fakturyPlatnosciView.fakturyzaplacone}" var="wpis" emptyMessage="nie ma faktur zapłaconych" style="width: 1200px; padding: 5px;"
+                     sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}">
             <f:facet name="header">
                 <h:outputText value="wykaz faktur zapłaconych"/>
             </f:facet>

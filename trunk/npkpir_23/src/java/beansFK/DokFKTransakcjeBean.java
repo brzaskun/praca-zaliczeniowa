@@ -37,7 +37,10 @@ public class DokFKTransakcjeBean implements Serializable{
      //************************* jeli pobierztransakcjeJakoSparowany() == 0 to robimy jakby nie byl nowa transakcja
     public static List<StronaWiersza> pobierzStronaWierszazBazy(StronaWiersza stronaWiersza, String wnma, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> listaNowychRozrachunkow = new ArrayList<>();
-        listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+// stare = pobiera tylko w walucie dokumentu rozliczeniowego        
+//      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+// nowe pobiera wszystkie waluty        
+        listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), stronaWiersza.getWnma());
         if (listaNowychRozrachunkow != null && !listaNowychRozrachunkow.isEmpty()) {
             try {
                 DateFormat formatter;
@@ -66,7 +69,7 @@ public class DokFKTransakcjeBean implements Serializable{
 
             }
         }
-        List<StronaWiersza> stronywierszaBO = stronaWierszaDAO.findStronaByKontoWnMaWalutaBO(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
+        List<StronaWiersza> stronywierszaBO = stronaWierszaDAO.findStronaByKontoWnMaBO(stronaWiersza.getKonto(), stronaWiersza.getWnma());
         if (stronywierszaBO != null && !stronywierszaBO.isEmpty()) {
             Iterator it = stronywierszaBO.iterator();
                 while(it.hasNext()) {
@@ -93,7 +96,7 @@ public class DokFKTransakcjeBean implements Serializable{
                         listaNowychRozrachunkowDokument.add(p.getStronaMa());
                     }
                 }
-                 if (p.getTypWiersza()==1 && p.getStronaWn().getKwota() < 0) {
+                if (p.getTypWiersza()==1 && p.getStronaWn().getKwota() < 0) {
                     listaNowychRozrachunkowDokument.add(p.getStronaWn());
                 }
             } else if (wnma.equals("Ma")){
@@ -252,4 +255,24 @@ public class DokFKTransakcjeBean implements Serializable{
         
     }
     
+    public static int sprawdzrozliczoneWiersze(List<Wiersz> listawierszy) {
+        int iloscrozliczonychwierszy = 0;
+        List<StronaWiersza> stronywiersza = new ArrayList<>();
+        for (Wiersz p : listawierszy) {
+            if (p.getTypWiersza() == 0) {
+                stronywiersza.add(p.getStronaWn());
+                stronywiersza.add(p.getStronaMa());
+            } else if (p.getTypWiersza() == 1) {
+                stronywiersza.add(p.getStronaWn());
+            } else if (p.getTypWiersza() == 2) {
+                stronywiersza.add(p.getStronaMa());
+            }
+        }
+        for (StronaWiersza r : stronywiersza) {
+            if (r.getTypStronaWiersza() != 0) {
+                iloscrozliczonychwierszy++;
+            }
+        }
+        return iloscrozliczonychwierszy;
+    }
 }

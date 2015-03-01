@@ -71,7 +71,7 @@ var kontownmawyborRZiSShow = function (){
     $(document.getElementById("formkontowyborRZiS:wybormenuRZiS")).focus();
 };
 
-var transakcjeWyborHidePlatnosc = function () {
+var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
     try {
         var powrot = $(MYAPP.zaznaczonepole).attr('id');
         $(document.getElementById(powrot)).focus();
