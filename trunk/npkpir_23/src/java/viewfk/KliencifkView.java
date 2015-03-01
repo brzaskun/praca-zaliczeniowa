@@ -97,6 +97,7 @@ public class KliencifkView implements Serializable{
                 klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
                 klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
                 klientBezKonta.setNrkonta(pobierznastepnynumer());
+                return 1;
             }
         }
         return -1;
