@@ -43,6 +43,21 @@ public class StronaWierszaDAO extends DAO implements Serializable {
         this.sessionFacade = sessionFacade;
     }
 
+    public List<StronaWiersza> findStronaByKontoWnMa(Konto konto, String wnma) {
+        String nowewnma;
+        if (wnma.equals("Wn")) {
+            nowewnma = "Ma";
+        } else {
+            nowewnma = "Wn";
+        }
+        List<StronaWiersza> pobranestrony = sessionFacade.findStronaWierszaByKontoWnMa(konto, nowewnma);
+        List<StronaWiersza> pobranestronykorekty = sessionFacade.findStronaWierszaByKontoWnMaKorekta(konto, wnma);
+        if (pobranestronykorekty != null && pobranestronykorekty.size() > 0) {
+            pobranestrony.addAll(pobranestronykorekty);
+        }
+        return pobranestrony;
+    }
+    
     public List<StronaWiersza> findStronaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
         String nowewnma;
         if (wnma.equals("Wn")) {
@@ -56,6 +71,16 @@ public class StronaWierszaDAO extends DAO implements Serializable {
             pobranestrony.addAll(pobranestronykorekty);
         }
         return pobranestrony;
+    }
+    
+    public List<StronaWiersza> findStronaByKontoWnMaBO(Konto konto, String wnma) {
+        String nowewnma;
+        if (wnma.equals("Wn")) {
+            nowewnma = "Ma";
+        } else {
+            nowewnma = "Wn";
+        }
+        return sessionFacade.findStronaWierszaByKontoWnMaBO(konto, nowewnma);
     }
     
     public List<StronaWiersza> findStronaByKontoWnMaWalutaBO(Konto konto, String symbolwaluty, String wnma) {

@@ -1049,9 +1049,33 @@ public class SessionFacade<T> implements Serializable{
         }
     }
     
+    public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
+        try {
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
+        try {
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
+    public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
+        try {
+            return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             return null;
         }
