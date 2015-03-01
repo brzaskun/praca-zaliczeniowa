@@ -199,6 +199,14 @@ public class RozniceKursoweFKView implements Serializable {
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }
+     
+    public void przepiszTransakcjeNowePole() {
+        List<Transakcja> lista = transakcjaDAO.findAll();
+        for (Transakcja p : lista) {
+            p.setKwotawwalucierachunku(p.getKwotatransakcji());
+            transakcjaDAO.edit(p);
+        }
+    }
 
     public List<Transakcja> getPobranetransakcje() {
         return pobranetransakcje;
