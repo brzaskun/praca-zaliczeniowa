@@ -64,6 +64,8 @@ public class Transakcja  implements Serializable {
     private double roznicekursowe;
     @Column(name= "datarozrachunku")
     private String datarozrachunku;
+    @Column(name = "kwotawwalucierachunku")
+    private double kwotawwalucierachunku;
     
 
    
@@ -96,8 +98,6 @@ public class Transakcja  implements Serializable {
         this.nowaTransakcja = nowaTransakcja;
     }
 
-   
-
     public double getKwotatransakcji() {
         return kwotatransakcji;
     }
@@ -114,7 +114,6 @@ public class Transakcja  implements Serializable {
         this.poprzedniakwota = poprzedniakwota;
     }
   
-
     public TransakcjaPK getTransakcjaPK() {
         return transakcjaPK;
     }
@@ -137,6 +136,14 @@ public class Transakcja  implements Serializable {
 
     public void setDatarozrachunku(String datarozrachunku) {
         this.datarozrachunku = datarozrachunku;
+    }
+
+    public double getKwotawwalucierachunku() {
+        return kwotawwalucierachunku;
+    }
+
+    public void setKwotawwalucierachunku(double kwotawwalucierachunku) {
+        this.kwotawwalucierachunku = kwotawwalucierachunku;
     }
 
     

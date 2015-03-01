@@ -237,12 +237,20 @@ public class StronaWiersza implements Serializable{
         this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
                     this.rozliczono += p.getKwotatransakcji();
+                }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
             for (Transakcja p : this.nowetransakcje) {
-                this.rozliczono += p.getKwotatransakcji();
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
@@ -257,12 +265,20 @@ public class StronaWiersza implements Serializable{
          this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
-                this.rozliczono += p.getKwotatransakcji();
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
             for (Transakcja p : this.nowetransakcje) {
-                this.rozliczono += p.getKwotatransakcji();
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         }
@@ -408,6 +424,9 @@ public class StronaWiersza implements Serializable{
         this.symbolWalutyBO = symbolWalutyBO;
     }
     
+    public String getSymbolWaluty() {
+        return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
+    }
     
     
     

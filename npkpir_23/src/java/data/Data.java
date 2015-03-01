@@ -139,7 +139,7 @@ public class Data implements Serializable {
     public static String aktualnyDzien() {
         DateTime dt = new DateTime();
         LocalDate dataRozrachunku = dt.toLocalDate();
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         String formattedDate = formatter.print(dataRozrachunku);
         return formattedDate;
     }

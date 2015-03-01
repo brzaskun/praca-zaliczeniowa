@@ -203,7 +203,7 @@ public class Faktura implements Serializable {
     private int dnizaplaty;
     @Column
     private String nazwa;
-    @Column
+    @Column(nullable = true)
     private Integer idfakturaokresowa;
 
     public Faktura() {

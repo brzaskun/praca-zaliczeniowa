@@ -40,6 +40,10 @@ public class TransakcjaDAO  extends DAO implements Serializable {
         super(Transakcja.class);
     }
     
+    public List<Transakcja> findAll() {
+        return sessionFacade.findAll(Transakcja.class);
+    }
+    
     public void usunniezaksiegowane(String podatnik) {
         try {
             sessionFacade.usunTransakcjeNiezaksiegowane(podatnik);
