@@ -445,6 +445,14 @@
             <from-outcome>gfkBilanse</from-outcome>
             <to-view-id>/guestFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkZobowiazania</from-outcome>
+            <to-view-id>/wspolny/wspolnyZobowiazania.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkNaleznosci</from-outcome>
+            <to-view-id>/wspolny/wspolnyNaleznosci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <application>
         <locale-config>
