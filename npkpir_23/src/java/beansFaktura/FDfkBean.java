@@ -42,7 +42,7 @@ public class FDfkBean {
     }
     
     public static Dokfk stworznowydokument(int numerkolejny, Faktura faktura, String rodzajdok, WpisView wpisView, RodzajedokDAO rodzajedokDAO,
-            TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO) {
+        TabelanbpDAO tabelanbpDAO, WalutyDAOfk walutyDAOfk, KontoDAOfk kontoDAOfk, KliencifkDAO kliencifkDAO) {
         Dokfk nd = new Dokfk(rodzajdok, numerkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         ustawdaty(nd, faktura, wpisView);
         ustawkontrahenta(nd,faktura);
@@ -107,15 +107,21 @@ public class FDfkBean {
             if (nd.getwTrakcieEdycji() == false) {
                 List<EVatwpisFK> ewidencjaTransformowana = new ArrayList<>();
                 for (EVatwpis r : faktura.getEwidencjavat()) {
-                    EVatwpis s  = null;
-                    for (EVatwpis t : faktura.getEwidencjavatpk()) {
-                        if (t.getEwidencja().equals(r.getEwidencja())) {
-                            s = t;
+                    if (faktura.getEwidencjavatpk() != null) {
+                        EVatwpis s  = null;
+                        for (EVatwpis t : faktura.getEwidencjavatpk()) {
+                            if (t.getEwidencja().equals(r.getEwidencja())) {
+                                s = t;
+                            }
                         }
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
+                        eVatwpisFK.setDokfk(nd);
+                        ewidencjaTransformowana.add(eVatwpisFK);
+                    } else {
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
+                        eVatwpisFK.setDokfk(nd);
+                        ewidencjaTransformowana.add(eVatwpisFK);
                     }
-                    EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
-                    eVatwpisFK.setDokfk(nd);
-                    ewidencjaTransformowana.add(eVatwpisFK);
                 }
                 nd.setEwidencjaVAT(ewidencjaTransformowana);
                 } else {
@@ -142,6 +148,9 @@ public class FDfkBean {
         if (faktura.getPozycjepokorekcie() != null) {
             netto = faktura.getNettopk()-faktura.getNetto();
             vat = faktura.getVatpk()-faktura.getVat();
+        } else {
+            netto = faktura.getNetto();
+            vat = faktura.getVat();
         }
         StronaWiersza strwn = new StronaWiersza(w, "Wn", Z.z(netto+vat), null);
         StronaWiersza strma = new StronaWiersza(w, "Ma", netto, null);
@@ -170,6 +179,8 @@ public class FDfkBean {
         double vat = 0;
         if (faktura.getPozycjepokorekcie() != null) {
             vat = faktura.getVatpk()-faktura.getVat();
+        } else {
+            vat = faktura.getVat();
         }
         StronaWiersza strma = new StronaWiersza(w, "Ma", vat, null);
         strma.setKwotaPLN(faktura.getVat());

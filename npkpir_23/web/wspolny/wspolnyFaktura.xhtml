@@ -11,11 +11,13 @@
         </ui:define>
         <ui:define name="body">
             <f:view contentType="text/html">
+                
                 <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
                         <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
                         <ui:include src="#{pozycjeNaFakturzeView.west}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        
                         <p:panel toggleable="true" closable="true" style="width: 1000px;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do generowania, przeglądania i księgowania faktur dla firmy #{WpisView.podatnikWpisu}"/>

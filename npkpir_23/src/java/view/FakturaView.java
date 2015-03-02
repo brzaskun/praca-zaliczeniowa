@@ -33,6 +33,7 @@ import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
 import entity.Fakturywystokresowe;
+import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Wpis;
@@ -1329,6 +1330,14 @@ public class FakturaView implements Serializable {
         init();
         Msg.msg("Przenumerowałem faktury");
     }
+    
+//    public void naprawCarrefour() {
+//        Klienci k = klienciDAO.findKlientById(4994);
+//        for (Faktura f : gosciwybral) {
+//            f.setKontrahent_nip(k.getNip());
+//            klienciDAO.edit(f);
+//        }
+//    }
     
     public boolean isFakturakorekta() {
         return fakturakorekta;
