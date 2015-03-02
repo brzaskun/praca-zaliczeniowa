@@ -110,7 +110,7 @@ public class STRTabView implements Serializable {
                 for (SrodekTrw tmp : c) {
                     obiektDOKjsf.add(tmp);
                     if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        if (tmp.getTyp().equals("wyposazenie")) {
+                        if (tmp.getTyp() != null && tmp.getTyp().equals("wyposazenie")) {
                             tmp.setNrsrodka(i++);
                             obiektDOKmrjsfSelWyposazenie.add(tmp);
 

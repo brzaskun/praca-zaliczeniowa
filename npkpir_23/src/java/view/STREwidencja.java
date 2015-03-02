@@ -83,7 +83,7 @@ public class STREwidencja implements Serializable {
                 int i = 1;
                 int j = 1;
                 for (SrodekTrw przegladanySrodek : c) {
-                    if (przegladanySrodek.getTyp().equals("wyposazenie")) {
+                    if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wyposazenie")) {
                         przegladanySrodek.setNrsrodka(i++);
                         listaWyposazenia.add(przegladanySrodek);
 
