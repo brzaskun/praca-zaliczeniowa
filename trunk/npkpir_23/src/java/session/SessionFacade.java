@@ -1369,5 +1369,9 @@ public class SessionFacade<T> implements Serializable{
     public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
+
+    public Klienci findKlientById(int i) {
+        return (Klienci) em.createNamedQuery("Klienci.findById").setParameter("id", i).getSingleResult();
+    }
   
 }

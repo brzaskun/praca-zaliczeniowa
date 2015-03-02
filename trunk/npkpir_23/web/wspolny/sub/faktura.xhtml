@@ -16,6 +16,13 @@
         <br/>
         <p:commandButton id="zachowaj" value="Zachowaj" actionListener="#{pozycjeNaFakturzeView.zachowajpozycje}" style="display: none;" />
     </h:form>
+        <p:confirmDialog id="confirmDialog" message="Usunąć wybrane faktury? Sztuk #{fakturaView.gosciwybral.size()}"  appendTo="@(body)"
+                         header="Rozpoczęcie usuwania faktur" severity="alert" widgetVar="confirmationFaktura" >  
+            <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmationFaktura').hide()" type="button" style="margin-left: 15px;"/>   
+            <p:commandButton id="confirm" value="Tak, usunąć" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie" 
+                             oncomplete="PF('confirmationFaktura').hide()"  
+                             actionListener="#{fakturaView.destroysporzadzone}" style="margin-left: 70px;"/>  
+        </p:confirmDialog>  
     <ui:include src="faktura/dialog_nowyklient_faktura.xhtml"/>
     <ui:include src="faktura/dialog_nazwaskroconafaktura.xhtml"/>
     <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >

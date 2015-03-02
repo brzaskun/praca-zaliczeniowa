@@ -5,15 +5,16 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:bcf="http://brzaskun.com/facelets">
+    
     <p:tab id="gotowe" title="Faktury sporządzone">
-
+         
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
                 <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
                 <p:menuitem value="Faktura okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
 <!--                <p:menuitem value="Wydruk" update=":form:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />-->
                 <p:menuitem value="Zaksięguj" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
-                <p:menuitem value="Usuń wybrane" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.destroysporzadzone()}" icon="ui-icon-trash" />
+                <p:menuitem value="Usuń wybrane" update=":confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
                 <p:menuitem value="Przenumeruj w górę" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
                 <p:menuitem value="Przenumeruj w dół" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwdol()}" />
