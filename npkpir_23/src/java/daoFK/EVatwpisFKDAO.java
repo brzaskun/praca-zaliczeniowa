@@ -7,6 +7,7 @@
 package daoFK;
 
 import dao.DAO;
+import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import java.io.Serializable;
@@ -33,6 +34,10 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findAll() {
         return sessionFacade.findAll(EVatwpisFK.class);
+    }
+    
+    public List<EVatwpisFK> findPodatnik(Podatnik podatnik) {
+        return sessionFacade.findEVatwpisFKByPodatnik(podatnik);
     }
     
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {

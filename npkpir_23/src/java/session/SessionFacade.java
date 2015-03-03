@@ -1373,5 +1373,9 @@ public class SessionFacade<T> implements Serializable{
     public Klienci findKlientById(int i) {
         return (Klienci) em.createNamedQuery("Klienci.findById").setParameter("id", i).getSingleResult();
     }
+
+    public List<EVatwpisFK> findEVatwpisFKByPodatnik(Podatnik podatnik) {
+        return em.createNamedQuery("EVatwpisFK.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+    }
   
 }
