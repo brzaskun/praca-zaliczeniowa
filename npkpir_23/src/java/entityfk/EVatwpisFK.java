@@ -22,6 +22,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -69,6 +70,14 @@ public class EVatwpisFK implements Serializable {
     private String dataoperacji;
     @Column(name = "paliwo")
     private boolean paliwo;
+    @Column(name = "innyokres")
+    private int innyokres;
+    @Size(max = 2)
+    @Column(name = "mcEw")
+    private String mcEw;
+    @Size(max = 4)
+    @Column(name = "rokEw")
+    private String rokEw;
     
 
     public EVatwpisFK(Evewidencja ewidencja, double netto, double vat, String estawka) {
@@ -77,9 +86,11 @@ public class EVatwpisFK implements Serializable {
         this.vat = vat;
         this.brutto = netto + vat;
         this.estawka = estawka;
+        this.innyokres = 0;
     }
 
     public EVatwpisFK() {
+        this.innyokres = 0;
     }
     
      public boolean isPaliwo() {   
@@ -197,6 +208,34 @@ public class EVatwpisFK implements Serializable {
     public void setDatadokumentu(String datadokumentu) {
         this.datadokumentu = datadokumentu;
     }
+
+    public int getInnyokres() {
+        return innyokres;
+    }
+
+    public void setInnyokres(int innyokres) {
+        this.innyokres = innyokres;
+    }
+
+    
+
+    public String getMcEw() {
+        return mcEw;
+    }
+
+    public void setMcEw(String mcEw) {
+        this.mcEw = mcEw;
+    }
+
+    public String getRokEw() {
+        return rokEw;
+    }
+
+    public void setRokEw(String rokEw) {
+        this.rokEw = rokEw;
+    }
+
+   
     
     public String getDataoperacji() {
         return dataoperacji;

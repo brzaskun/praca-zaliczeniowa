@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="transakcjawybor" header="Wskaż rodzaj transakcji" widgetVar="transakcjawybor"  modal="true" appendTo="@(body)"
+    <p:dialog id="transakcjawybor" header="Wskaż rodzaj transakcji" widgetVar="transakcjawybor"  modal="true" appendTo="@(body)" focus="formtransakcjawybor:transakcjawybormenu"
               resizable="false" onShow="transakcjawyborShow();" closeOnEscape="true" onHide="resetujdialog('transakcjawybor');"  >
         <h:form id="formtransakcjawybor">
             <p:panelGrid id="transakcjawyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
