@@ -107,7 +107,9 @@ var TabKeyDown;
                 var index = $target[0].id.match(/\d+/)[0];
                 var i = "rozrachunki:dataList:"+index+":pozostaloWn";
                 var i_obj = document.getElementById(i);
-                $target.val(parseFloat(i_obj.innerHTML));
+                var wartosc = i_obj.innerText.replace(/\s+/g, '');
+                wartosc = wartosc.replace(",", ".");
+                $target.val(parseFloat(wartosc));
             }
         }
     };
