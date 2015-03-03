@@ -192,10 +192,10 @@ var dodajnowegoklienta = function () {
     }
 };
 
-var sprawdzczymakonto = function () {
-        var czydialogjestshown = $("#czydodackonto").hasClass("ui-overlay-visible");
-        if (czydialogjestshown) {
-            $(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
+var sprawdzczymakonto = function (niemakonta0makonto1) {
+        if (niemakonta0makonto1) {
+            PF('czydodackonto').show();
+            //$(document.getElementById("formczydodackonto:czydodackontookbutton")).focus();
         }
     };
 
@@ -310,6 +310,10 @@ var obsluzewidencjavatsprzedaz = function () {
         event.stopImmediatePropagation();
     }
     
+};
+
+var pokazwybortransakcji = function() {
+    setTimeout(PF('transakcjawybor').show(), 2000);
 };
 
 

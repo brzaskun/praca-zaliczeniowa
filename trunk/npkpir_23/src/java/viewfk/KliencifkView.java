@@ -46,6 +46,7 @@ public class KliencifkView implements Serializable{
     private WpisView wpisView;
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
+    private boolean makonto0niemakonta1;
 
     public KliencifkView() {
         listawszystkichklientow = new ArrayList<>();
@@ -65,7 +66,7 @@ public class KliencifkView implements Serializable{
                 if (!wybranyklient.getNpelna().equals("nowy klient")) {
                     int wynik = pobieraniekontaFK();
                     if (wynik == 1) {
-                        RequestContext.getCurrentInstance().execute("PF('czydodackonto').show();");
+                        makonto0niemakonta1 = true;
                     }
                 }
             }
@@ -153,9 +154,16 @@ public class KliencifkView implements Serializable{
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
-   
-//<editor-fold defaultstate="collapsed" desc="comment">
     
+    public boolean isMakonto0niemakonta1() {
+        return makonto0niemakonta1;
+    }
+
+//<editor-fold defaultstate="collapsed" desc="comment">
+    public void setMakonto0niemakonta1(boolean makonto0niemakonta1) {
+        this.makonto0niemakonta1 = makonto0niemakonta1;
+    }
+
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
     }

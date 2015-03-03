@@ -26,7 +26,7 @@ var TabKeyDown;
             var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
             var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
             var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
-            if (formwpisdokument > -1) {
+            if (rozrachunki == -1) {
                 var ominjednoklikniecie = false;
                 var i = "formwpisdokument:dataList:"+wierszid+":opis";
                 var i_obj = document.getElementById(i);
