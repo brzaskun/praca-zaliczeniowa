@@ -10,6 +10,7 @@ import dao.DAO;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +29,10 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
 
     public EVatwpisFKDAO() {
         super(EVatwpisFK.class);
+    }
+    
+    public List<EVatwpisFK> findAll() {
+        return sessionFacade.findAll(EVatwpisFK.class);
     }
     
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {

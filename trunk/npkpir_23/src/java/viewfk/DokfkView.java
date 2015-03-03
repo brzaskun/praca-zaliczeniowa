@@ -843,26 +843,25 @@ private static final long serialVersionUID = 1L;
     
     public void dolaczWierszZKwotami(EVatwpisFK e) {
         //Msg.msg("dolaczWierszZKwotami");
+        Rodzajedok rodzajdok = selected.getRodzajedok();
         if (selected.getListawierszy().size() == 1 && selected.isImportowany()==false) {
-            Rodzajedok rodzajdok = selected.getRodzajedok();
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (rodzajdok.getKategoriadokumentu()==1) {
                 if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
                     e.setVat(wartosciVAT[4]);
                     e.setBrutto(Z.z(e.getNetto()+e.getVat()));
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:vat");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+e.getLp()+":vat");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+e.getLp()+":brutto");
                 }
-                if (selected.getListawierszy().size() == 1) {
-                    rozliczVatKoszt(e, wartosciVAT);
-                } else {
-                    rozliczVatKosztEdycja(e, wartosciVAT);
-                }
+                rozliczVatKoszt(e, wartosciVAT);
             } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
                 rozliczVatPrzychod(e, wartosciVAT);
             } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
                 rozliczVatPrzychod(e, wartosciVAT);
             } 
+        } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==1) {
+            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
+            rozliczVatKosztEdycja(e, wartosciVAT);
         }
     }
     
@@ -1019,99 +1018,70 @@ private static final long serialVersionUID = 1L;
         Wiersz wierszpierwszy = selected.getListawierszy().get(0);
         Waluty w = selected.getWalutadokumentu();
         try {
-            Konto kontoRozrachunkowe = pobierzKontoRozrachunkowe();
-            if (kontoRozrachunkowe == null) {
-                Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu.");
-            }
-                if (wierszpierwszy != null && wierszpierwszy.getStronaWn().getKwota() == 0.0) {
-                    StronaWiersza wn = wierszpierwszy.getStronaWn();
-                    StronaWiersza ma = wierszpierwszy.getStronaMa();
-                    wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
-                    wierszpierwszy.setTabelanbp(selected.getTabelanbp());
-                    //gdy netto jest rowne 0, np korekta stawki vat
-                    if (wartosciVAT[0] == 0.0) {
-                        if (w.getSymbolwaluty().equals("PLN")) {
-                            wn.setKwota(wartosciVAT[1]);
-                            wn.setKwotaPLN(wartosciVAT[1]);
-                            ma.setKwota(wartosciVAT[1]);
-                            ma.setKwotaPLN(wartosciVAT[1]);
+                StronaWiersza wn = wierszpierwszy.getStronaWn();
+                StronaWiersza ma = wierszpierwszy.getStronaMa();
+                wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
+                wierszpierwszy.setTabelanbp(selected.getTabelanbp());
+                //gdy netto jest rowne 0, np korekta stawki vat
+                if (wartosciVAT[0] == 0.0) {
+                    if (w.getSymbolwaluty().equals("PLN")) {
+                        wn.setKwota(wartosciVAT[1]);
+                        wn.setKwotaPLN(wartosciVAT[1]);
+                        ma.setKwota(wartosciVAT[1]);
+                        ma.setKwotaPLN(wartosciVAT[1]);
+                    } else {
+                        wn.setKwota(wartosciVAT[3]);
+                        wn.setKwotaPLN(wartosciVAT[1]);
+                        ma.setKwota(wartosciVAT[3]);
+                        wn.setKwotaPLN(wartosciVAT[1]);
+                    }
+                } else {
+                    //gdy netto jest wieksze od zera
+                    if (w.getSymbolwaluty().equals("PLN")) {
+                        wn.setKwota(wartosciVAT[0]);
+                        wn.setKwotaPLN(wartosciVAT[0]);
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                            ma.setKwota(wartosciVAT[0]);
+                            ma.setKwotaPLN(wartosciVAT[0]);
                         } else {
-                            wn.setKwota(wartosciVAT[3]);
-                            wn.setKwotaPLN(wartosciVAT[1]);
-                            ma.setKwota(wartosciVAT[3]);
-                            wn.setKwotaPLN(wartosciVAT[1]);
-                        }
-                        if (kontoRozrachunkowe != null) {
-                            wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
-                        }
-                        Konto kontovat = selected.getRodzajedok().getKontovat();
-                        if (kontovat != null) {
-                            wierszpierwszy.getStronaWn().setKonto(kontovat);
-                        } else {
-                            Konto k = kontoDAOfk.findKonto("221", wpisView);
-                            wierszpierwszy.getStronaWn().setKonto(k);
+                            ma.setKwota(wartosciVAT[0] + wartosciVAT[1]);
+                            ma.setKwotaPLN(wartosciVAT[0] + wartosciVAT[1]);
                         }
                     } else {
-                        //gdy netto jest wieksze od zera
-                        if (w.getSymbolwaluty().equals("PLN")) {
-                            wn.setKwota(wartosciVAT[0]);
-                            wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
-                                ma.setKwota(wartosciVAT[0]);
-                                ma.setKwotaPLN(wartosciVAT[0]);
-                            } else {
-                                ma.setKwota(wartosciVAT[0] + wartosciVAT[1]);
-                                ma.setKwotaPLN(wartosciVAT[0] + wartosciVAT[1]);
-                            }
+                        wn.setKwota(wartosciVAT[2]);
+                        wn.setKwotaPLN(wartosciVAT[0]);
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                            ma.setKwota(wartosciVAT[2]);
+                            ma.setKwotaPLN(wartosciVAT[0]);
                         } else {
-                            wn.setKwota(wartosciVAT[2]);
-                            wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
-                                ma.setKwota(wartosciVAT[2]);
-                                ma.setKwotaPLN(wartosciVAT[0]);
-                            } else {
-                                ma.setKwota(wartosciVAT[2] + wartosciVAT[3]);
-                                ma.setKwotaPLN(wartosciVAT[0] + wartosciVAT[1]);
-                            }
-                        }
-                        if (kontoRozrachunkowe != null) {
-                            wierszpierwszy.getStronaMa().setKonto(kontoRozrachunkowe);
-                        }
-                        Konto kontonetto = selected.getRodzajedok().getKontoRZiS();
-                        if (kontonetto != null) {
-                            wierszpierwszy.getStronaWn().setKonto(kontonetto);
+                            ma.setKwota(wartosciVAT[2] + wartosciVAT[3]);
+                            ma.setKwotaPLN(wartosciVAT[0] + wartosciVAT[1]);
                         }
                     }
                 }
                 int lpnastepnego = 2;
-                int limitwierszy = 1;
                 if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
                    wartosciVAT[1] = wartosciVAT[4];
                    wartosciVAT[3] = wartosciVAT[6];
                 }
-                   if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
-                       dolaczwiersz2_3Koszt(wartosciVAT, w, 2, 1);
+                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                       dolaczwiersz2_3KosztEdit(wartosciVAT, w, 1, 1);
                        lpnastepnego++;
-                       limitwierszy++;
                 }
-                if (wpisView.isFKpiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
-                    Wiersz wierszdrugi;
-                    wierszdrugi = ObslugaWiersza.utworzNowyWiersz5(selected, 2, wartosciVAT[0], 1);
-                    wierszdrugi.setTabelanbp(selected.getTabelanbp());
+                if (wpisView.isFKpiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                    Wiersz wierszdrugi = selected.getListawierszy().get(1);
                     wierszdrugi.getStronaWn().setKwota(wartosciVAT[0]);
-                    wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
-                    wierszdrugi.setCzworka(wierszpierwszy);
-                    wierszpierwszy.getPiatki().add(wierszdrugi);
-                    Konto k = kontoDAOfk.findKonto("490", wpisView);
-                    wierszdrugi.getStronaMa().setKonto(k);
-                    selected.getListawierszy().add(wierszdrugi);
-                    dolaczwiersz2_3(wartosciVAT, w, lpnastepnego+1, 0);
-                } else if (!wpisView.isFKpiatki() && selected.getListawierszy().size() == limitwierszy && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
-                    dolaczwiersz2_3(wartosciVAT, w, lpnastepnego, 0);
+                    dolaczwiersz2_3Edit(wartosciVAT, w, lpnastepnego+1, 0);
+                } else if (!wpisView.isFKpiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
+                    if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                        dolaczwiersz2_3Edit(wartosciVAT, w, 2, 0);
+                    } else {
+                        dolaczwiersz2_3Edit(wartosciVAT, w, 1, 0);
+                    }
                 }
-                pobierzkontaZpoprzedniegoDokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto");
-                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:brutto");
+                int lp = wierszvatdoc.getLp();
+                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+lp+":netto");
+                RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+lp+":brutto");
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             
         } catch (Exception e1) {
@@ -1158,6 +1128,31 @@ private static final long serialVersionUID = 1L;
                 selected.getListawierszy().add(wiersz2_3);
     }
     
+    private void dolaczwiersz2_3Edit(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
+         Wiersz wiersz2_3 = selected.getListawierszy().get(lp);
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[1]);
+                        wiersz2_3.getStronaMa().setKwota(wartosciVAT[1]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
+                    } else {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[1]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
+                    }
+                } else {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[3]);
+                        wiersz2_3.getStronaMa().setKwota(wartosciVAT[3]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
+                    } else {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[3]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
+                    }
+                }
+    }
+    
     private void dolaczwiersz2_3Koszt(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
          Wiersz wiersz2_3;
                 if (w.getSymbolwaluty().equals("PLN")) {
@@ -1195,6 +1190,31 @@ private static final long serialVersionUID = 1L;
                     wiersz2_3.getStronaWn().setKonto(k);
                 }
                 selected.getListawierszy().add(wiersz2_3);
+    }
+    
+    private void dolaczwiersz2_3KosztEdit(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1) {
+         Wiersz wiersz2_3 = selected.getListawierszy().get(lp);
+                if (w.getSymbolwaluty().equals("PLN")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[5]);
+                        wiersz2_3.getStronaMa().setKwota(wartosciVAT[5]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
+                    } else {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[5]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                    }
+                } else {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[7]);
+                        wiersz2_3.getStronaMa().setKwota(wartosciVAT[7]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                        wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
+                    } else {
+                        wiersz2_3.getStronaWn().setKwota(wartosciVAT[7]);
+                        wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
+                    }
+                }
     }
     
     public void rozliczVatKosztRK(EVatwpisFK e, double[] wartosciVAT) {
@@ -1667,6 +1687,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
+                selected.oznaczewidencjeVAT();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 dokDAOfk.edit(selected);
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
@@ -1749,6 +1770,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
+                selected.oznaczewidencjeVAT();
                 dokDAOfk.edit(selected);
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
@@ -3074,6 +3096,21 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
+    public void oznaczewidencjevat() {
+        List<EVatwpisFK> lista = eVatwpisFKDAO.findAll();
+        for (EVatwpisFK p : lista) {
+            try {
+                p.setRokEw(p.getDokfk().getVatR());
+                p.setMcEw(p.getDokfk().getVatM());
+            } catch (Exception e) {
+                
+            }
+        }
+        for (EVatwpisFK p : lista) {
+            eVatwpisFKDAO.edit(p);
+        }
+        Msg.msg("Zmieniono ewidencje");
+    }
     
     public int sortZaksiegowaneDok(Object o1, Object o2) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);

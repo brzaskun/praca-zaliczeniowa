@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import embeddable.Mce;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -612,5 +613,18 @@ public class Dokfk implements Serializable {
             }
         }
         return brakrozrachunkow;
+    }
+    
+    public void oznaczewidencjeVAT() {
+        for (EVatwpisFK p : this.ewidencjaVAT) {
+            if (p.getInnyokres()==0) {
+                p.setMcEw(this.getMiesiac());
+                p.setRokEw(this.getDokfkPK().getRok());
+            } else {
+                String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
+                p.setRokEw(nowyokres[0]);
+                p.setMcEw(nowyokres[1]);
+            }
+        }
     }
 }
