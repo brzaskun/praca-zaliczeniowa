@@ -34,7 +34,8 @@ import javax.validation.constraints.Size;
     @UniqueConstraint(columnNames = {"ewidencja", "podatnikObj", "rok","nrkolejnywserii","seriadokfk", "WIERSZ_idwiersza", "KLIENT_id"})
 })
 @NamedQueries({
-    @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz")
+    @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
+    @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik")
 })
 public class EVatwpisFK implements Serializable {
     private static final long serialVersionUID = 1L;
