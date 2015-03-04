@@ -73,6 +73,11 @@ public class KliencifkView implements Serializable{
         }
     }
     
+    public void resetujmakontoniemakonta() {
+        makonto0niemakonta1= false;
+        RequestContext.getCurrentInstance().update("formwpisdokument:wybranawaluta");
+    }
+    
     
     
     public void pobieraniekontaFKWpisCD() {
@@ -84,6 +89,7 @@ public class KliencifkView implements Serializable{
         klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
         klientBezKonta.setNrkonta(pobierznastepnynumer());
         przyporzadkujdokonta();
+        resetujmakontoniemakonta();
     }
     
     public int pobieraniekontaFK(){
