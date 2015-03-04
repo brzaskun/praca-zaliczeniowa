@@ -353,7 +353,7 @@
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaWn}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
+                                        onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
@@ -388,7 +388,7 @@
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
-                                        valueChangeListener="#{dokfkView.lisnerCzyNastapilaZmianaKontaMa}" onclick="MYAPP.liczydloWcisnietychEnter = 1;"
+                                        onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         >
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
