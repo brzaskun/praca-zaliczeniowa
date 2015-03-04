@@ -313,7 +313,10 @@ var obsluzewidencjavatsprzedaz = function () {
 };
 
 var pokazwybortransakcji = function() {
-    setTimeout(PF('transakcjawybor').show(), 2000);
+    var czydialogjestshown = $("#dialogdrugi").hasClass("ui-overlay-visible");
+    if (czydialogjestshown == false) {
+        setTimeout(PF('transakcjawybor').show(), 1000);
+    }
 };
 
 
