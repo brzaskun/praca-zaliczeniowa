@@ -1,4 +1,4 @@
-<ui:composition 
+<ui:composition  
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -17,7 +17,9 @@
                                      oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:opisdokumentu')).focus();"/>
                     <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:opisdokumentu')).focus();"
                                      actionListener="#{dokfkView.niedodawajkonta}"
-                                     style="margin-left: 10px; width: 120px;"/>
+                                     style="margin-left: 10px; width: 120px;">
+                        <p:ajax event="click" listener="#{kliencifkView.resetujmakontoniemakonta()}" global="false"/>
+                    </p:commandButton>
                 </p:focus>
             </p:panelGrid>
         </h:form>
