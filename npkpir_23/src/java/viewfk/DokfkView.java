@@ -373,31 +373,31 @@ private static final long serialVersionUID = 1L;
 
     }
 
-    public void lisnerCzyNastapilaZmianaKontaWn(ValueChangeEvent e) {
-        Konto stare = (Konto) e.getOldValue();
-        Konto nowe = (Konto) e.getNewValue();
-        try {// bo wywala blad jak jest nowa linia 5-tek. stare wtedy == null
-            if (!stare.equals(nowe)) {
-                boolean stareTo4 = stare.getPelnynumer().startsWith("4");
-                if (stareTo4) {
-                    String clientID = ((AutoComplete) e.getSource()).getClientId();
-                    String indexwiersza = clientID.split(":")[2];
-                    Set<Wiersz> listapiatek = selected.getListawierszy().get(Integer.parseInt(indexwiersza)).getPiatki();
-                    if (!listapiatek.isEmpty()) {
-                        for (Wiersz p : listapiatek) {
-                            if (selected.getListawierszy().contains(p)) {
-                                selected.getListawierszy().remove(p);
-                            }
-                        }
-                        selected.getListawierszy().get(Integer.parseInt(indexwiersza)).setPiatki(new HashSet<Wiersz>());
-                    }
-                    ObslugaWiersza.przenumerujSelected(selected);
-                }
-            }
-        } catch (Exception er) {
-
-        }
-    }
+//    public void lisnerCzyNastapilaZmianaKontaWn(ValueChangeEvent e) {
+//        Konto stare = (Konto) e.getOldValue();
+//        Konto nowe = (Konto) e.getNewValue();
+//        try {// bo wywala blad jak jest nowa linia 5-tek. stare wtedy == null
+//            if (!stare.equals(nowe)) {
+//                boolean stareTo4 = stare.getPelnynumer().startsWith("4");
+//                if (stareTo4) {
+//                    String clientID = ((AutoComplete) e.getSource()).getClientId();
+//                    String indexwiersza = clientID.split(":")[2];
+//                    Set<Wiersz> listapiatek = selected.getListawierszy().get(Integer.parseInt(indexwiersza)).getPiatki();
+//                    if (!listapiatek.isEmpty()) {
+//                        for (Wiersz p : listapiatek) {
+//                            if (selected.getListawierszy().contains(p)) {
+//                                selected.getListawierszy().remove(p);
+//                            }
+//                        }
+//                        selected.getListawierszy().get(Integer.parseInt(indexwiersza)).setPiatki(new HashSet<Wiersz>());
+//                    }
+//                    ObslugaWiersza.przenumerujSelected(selected);
+//                }
+//            }
+//        } catch (Exception er) {
+//
+//        }
+//    }
     
     public void niewybranokontaStronaWn(Wiersz wiersz, int indexwiersza) {
         if (!(wiersz.getStronaWn().getKonto() instanceof Konto)) {
