@@ -2226,11 +2226,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
             }
         }
-         for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentow.iterator(); p.hasNext();) {
-            Dokfk r = (Dokfk) p.next();
-            if (r.isImportowany()==true) {
-                p.remove();
-            }
+        if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
+            for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentow.iterator(); p.hasNext();) {
+               Dokfk r = (Dokfk) p.next();
+               if (r.isImportowany()==true) {
+                   p.remove();
+               }
+           }
         }
         RequestContext.getCurrentInstance().update("zestawieniedokumentow");
     }
