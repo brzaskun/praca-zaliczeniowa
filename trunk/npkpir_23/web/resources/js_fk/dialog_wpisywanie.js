@@ -315,7 +315,7 @@ var obsluzewidencjavatsprzedaz = function () {
 var pokazwybortransakcji = function() {
     var czydialogjestshown = $("#dialogdrugi").hasClass("ui-overlay-visible");
     if (czydialogjestshown == false) {
-        setTimeout(PF('transakcjawybor').show(), 1000);
+        setTimeout(PF('transakcjawybor').show(), 500);
     }
 };
 

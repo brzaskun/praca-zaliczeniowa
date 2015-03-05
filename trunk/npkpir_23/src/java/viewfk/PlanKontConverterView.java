@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import view.WpisView;
 
@@ -22,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PlanKontConverterView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Konto> wykazkont;
