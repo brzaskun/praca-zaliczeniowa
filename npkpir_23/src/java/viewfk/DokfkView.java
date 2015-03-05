@@ -10,6 +10,7 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
+import comparator.Transakcjacomparator;
 import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -2441,6 +2442,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 innezBazy = (DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
                 biezacetransakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(aktualnyWierszDlaRozrachunkow, biezacetransakcje, selected.getListawierszy(), stronawiersza);
+                Collections.sort(biezacetransakcje, new Transakcjacomparator());
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
                 //jezeli w pobranych transakcjach sa juz rozliczenia to trzeba zablokowac mozliwosc zaznaczania nowej transakcji
@@ -2486,6 +2488,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
                 biezacetransakcje.addAll(DokFKTransakcjeBean.pobierzbiezaceTransakcjeDlaNowejTransakcji(aktualnyWierszDlaRozrachunkow, stronawiersza));
+                Collections.sort(biezacetransakcje, new Transakcjacomparator());
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja = "";
                 boolean potraktujjakoNowaTransakcje = aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1;
