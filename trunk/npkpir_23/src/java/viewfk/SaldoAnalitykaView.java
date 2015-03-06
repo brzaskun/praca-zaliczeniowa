@@ -17,6 +17,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -120,6 +121,12 @@ public class SaldoAnalitykaView implements Serializable {
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+            StronaWiersza st = (StronaWiersza) it.next();
+            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                it.remove();
+            }
+        }
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                 if (r.getWnma().equals("Wn")) {
