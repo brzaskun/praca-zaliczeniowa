@@ -32,11 +32,13 @@ public class PlanKontCompleteView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
-  
+  @PostConstruct
+  private void init() {
+      listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+  }
     
     public List<Konto> complete(String qr) {
         if (qr != null) {
-            listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
             String query = qr.split(" ")[0];
             List<Konto> results = new ArrayList<>();
             if (listakontOstatniaAnalitykaklienta != null) {

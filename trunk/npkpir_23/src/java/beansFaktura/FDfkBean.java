@@ -153,7 +153,7 @@ public class FDfkBean {
             vat = faktura.getVat();
         }
         StronaWiersza strwn = new StronaWiersza(w, "Wn", Z.z(netto+vat), null);
-        StronaWiersza strma = new StronaWiersza(w, "Ma", netto, null);
+        StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(netto), null);
         Konto kontonetto = kontoDAOfk.findKonto("702-2", wpisView);
         try {
             Kliencifk kliencifk = kliencifkDAO.znajdzkontofk(nd.getKontr().getNip(), wpisView.getPodatnikObiekt().getNip());
@@ -163,8 +163,8 @@ public class FDfkBean {
         } catch (Exception e) {
             
         }
-        strwn.setKwotaPLN(faktura.getBrutto());
-        strma.setKwotaPLN(faktura.getNetto());
+        strwn.setKwotaPLN(Z.z(netto+vat));
+        strma.setKwotaPLN(Z.z(netto));
         strma.setKonto(kontonetto);
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
@@ -182,8 +182,8 @@ public class FDfkBean {
         } else {
             vat = faktura.getVat();
         }
-        StronaWiersza strma = new StronaWiersza(w, "Ma", vat, null);
-        strma.setKwotaPLN(faktura.getVat());
+        StronaWiersza strma = new StronaWiersza(w, "Ma", Z.z(vat), null);
+        strma.setKwotaPLN(Z.z(vat));
         Konto kontovat = kontoDAOfk.findKonto("221-1", wpisView);
         strma.setKonto(kontovat);
         w.setStronaMa(strma);
