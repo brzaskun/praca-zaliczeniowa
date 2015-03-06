@@ -17,6 +17,7 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -119,6 +120,12 @@ public class SaldoSyntetykaView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+            StronaWiersza st = (StronaWiersza) it.next();
+            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                it.remove();
+            }
+        }
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
             //bez lub nie dodawaloby zapisow gdt konto levelu 0 jest jednoczenie analitycznym
