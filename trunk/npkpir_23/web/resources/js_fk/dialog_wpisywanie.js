@@ -319,6 +319,22 @@ var pokazwybortransakcji = function() {
     }
 };
 
+var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
+    var dotychczasowagrupa;
+    if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
+        dotychczasowagrupa = MYAPP.nrgrupywierszy;
+    }
+    var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
+    if (dotychczasowagrupa === nrgr) {
+        console.log("tasamagrupa "+nrgr);
+    } else {
+        console.info("nowagrupa "+nrgr);
+        MYAPP.nrgrupywierszy = nrgr;
+        $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
+        $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
+    }
+};
+
 
 
 

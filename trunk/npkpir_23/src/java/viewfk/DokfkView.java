@@ -158,6 +158,7 @@ private static final long serialVersionUID = 1L;
     private boolean ewidencjaVATRKzapis0edycja1;
     private Dokfk dokumentdousuniecia;
     private boolean niedodawajkontapole;
+    private int nrgrupywierszy;
     
 
     public DokfkView() {
@@ -2048,8 +2049,10 @@ public void updatenetto(EVatwpisFK e, String form) {
         } catch (Exception e) {
         }
         if (flag == 0) {
+            //9 nie ma wiersza
             String wierszeSasiednie = sprawdzWierszeSasiednie(wybranyWiersz);
             switch (wierszeSasiednie) {
+                //usuwamy pierszy wiersz w dokumnecie, nie ma innych
                 case "99":
                     selected.getListawierszy().remove(wybranyWiersz);
                     selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
@@ -2067,6 +2070,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                         ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
                     }
+                //usuwamy ostatni wiersz w liscie roznego rodzaju, nie trzeba przenumerowac
                 case "09":
                 case "19":
                 case "29":
@@ -3117,6 +3121,48 @@ public void updatenetto(EVatwpisFK e, String form) {
         Msg.msg("Zmieniono ewidencje");
     }
     
+    public void sprawdzwartoscigrupy() {
+        System.out.println("grupa nr: "+nrgrupywierszy);
+        Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy-1);
+        double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
+        double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
+        int typwiersza = 0;
+        Wiersz wiersznastepny = null;
+        do {
+            wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
+            if (wiersznastepny != null) {
+                if (wiersznastepny.getTypWiersza() == 1) {
+                    wierszpodstawowy = wiersznastepny;
+                    sumaWn += wiersznastepny.getStronaWn().getKwota();
+                    typwiersza = 1;
+                    System.out.println("kwotaWn "+wiersznastepny.getStronaWn().getKwota());
+                } else if (wiersznastepny.getTypWiersza() == 2) {
+                    wierszpodstawowy = wiersznastepny;
+                    sumaMa += wiersznastepny.getStronaMa().getKwota();
+                    typwiersza = 2;
+                    System.out.println("kwotaMa "+wiersznastepny.getStronaMa().getKwota());
+                }
+            }
+            if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {
+                break;
+            }
+        } while(true);
+        if (Z.z(sumaWn)!=Z.z(sumaMa)) {
+            Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
+            if (typwiersza == 1) {
+                dodajNowyWierszStronaWn(wierszpoprzedni);
+            } else if (typwiersza ==2) {
+                dodajNowyWierszStronaMa(wierszpoprzedni);
+            } else if (typwiersza == 0) {
+                if (sumaWn > sumaMa) {
+                    dodajNowyWierszStronaMa(wierszpoprzedni);
+                } else {
+                    dodajNowyWierszStronaWn(wierszpoprzedni);
+                }
+            }
+        }
+    }
+    
     public int sortZaksiegowaneDok(Object o1, Object o2) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);
     }
@@ -3140,6 +3186,14 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     public void setWybranakategoriadok(String wybranakategoriadok) {    
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public int getNrgrupywierszy() {
+        return nrgrupywierszy;
+    }
+
+    public void setNrgrupywierszy(int nrgrupywierszy) {
+        this.nrgrupywierszy = nrgrupywierszy;
     }
 
     public boolean isNiedodawajkontapole() {
