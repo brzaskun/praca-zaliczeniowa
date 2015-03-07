@@ -97,19 +97,21 @@ var TabKeyDown;
             }
         } else if (rozrachunki > -1) {
             //dodaje kwoty z wiersza obok przy rozliczaniu rozachunkow
-            if (isTabKey(event)) {
-                var isTabSuccessful = tab(true, event.shiftKey, $target);
-                event.preventDefault();
-                event.stopPropagation();
-                event.stopImmediatePropagation();
-                return false;
-            } else if (isSpaceKey(event)) {
-                var index = $target[0].id.match(/\d+/)[0];
-                var i = "rozrachunki:dataList:"+index+":pozostaloWn";
-                var i_obj = document.getElementById(i);
-                var wartosc = i_obj.innerText.replace(/\s+/g, '');
-                wartosc = wartosc.replace(",", ".");
-                $target.val(parseFloat(wartosc));
+            if ($(event.target).is("button") === false) {
+                if (isTabKey(event)) {
+                    var isTabSuccessful = tab(true, event.shiftKey, $target);
+                    event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    return false;
+                } else if (isSpaceKey(event)) {
+                    var index = $target[0].id.match(/\d+/)[0];
+                    var i = "rozrachunki:dataList:"+index+":pozostaloWn";
+                    var i_obj = document.getElementById(i);
+                    var wartosc = i_obj.innerText.replace(/\s+/g, '');
+                    wartosc = wartosc.replace(",", ".");
+                    $target.val(parseFloat(wartosc));
+                }
             }
         }
     };
