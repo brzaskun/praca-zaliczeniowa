@@ -2020,18 +2020,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             flag = 1;
         }
         try {
-            Wiersz wierszNastepny = null;
-            for (Wiersz p : selected.getListawierszy()) {
-                if (p.getIdporzadkowy() > wybranyWiersz.getIdporzadkowy()) {
-                    int typ = p.getTypWiersza();
-                    if (typ == 1 || typ == 2) {
-                        wierszNastepny = p;
-                        break;
-                    } else if (typ == 0) {
-                        break;
-                    }
-                }
-            }
+            Wiersz wierszNastepny = selected.nastepnyWiersz(wybranyWiersz);
             if (wybranyWiersz.getTypWiersza() == 0 && wierszNastepny != null) {
                 Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                 flag = 1;
@@ -2067,7 +2056,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                         selected.getListawierszy().remove(wybranyWiersz);
                         ObslugaWiersza.przenumerujSelected(selected);
                         Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
+//                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
                     }
                 //usuwamy ostatni wiersz w liscie roznego rodzaju, nie trzeba przenumerowac
@@ -2090,13 +2079,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
+//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
                 default:
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
                     Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
+//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
             }
         int liczbawierszyWDokumencie = selected.getListawierszy().size();
