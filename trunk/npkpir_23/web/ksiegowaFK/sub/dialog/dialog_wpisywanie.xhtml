@@ -420,7 +420,7 @@
                     </h:outputText>
                 </p:column>-->
                     <p:column width="1" >
-                        <h:outputText id="idwiersza" value="#{loop.typWiersza}" />
+                        <h:outputText id="idwiersza" value="#{loop.lpmacierzystego}" />
                     </p:column><!--
                     <p:column  width="3">
                         <h:outputText id="maNowaTransakcja" value="{loop.stronaMa.typStronaWiersza}" />
@@ -452,13 +452,13 @@
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" global="false" update=":formwpisdokument" style="display: none;"/>
-                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;"/>
+                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;" update=":formwpisdokument:dataList" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
-                <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
-                <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}" style="display: none;"/>
+                <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}"/>
+                <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}" />
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
                                  global="false" style="display: none;" update=":formwpisdokument:dataList" />
             </h:form>
