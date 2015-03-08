@@ -265,117 +265,146 @@ public class ObslugaWiersza {
         return kwotawielka-sumaczastowych;
     }
     
-    public static double obliczkwotepozostala(Dokfk selected, Wiersz wierszbiezacy) {
-        List<Wiersz> lista = selected.getListawierszy();
-        Collections.sort(lista, new Wierszcomparator());
-        int lpmerwiersza = wierszbiezacy.getIdporzadkowy();
-        double kwotawielka = 0.0;
-        double sumaczastowych = 0.0;
-        //idziemy w gore i sumujemy
-        boolean kwotawielkaPoWn = false;
-        for (int i = lpmerwiersza; i > 0; i--) {
-            //jest i-2 bo i-1 jest usuniety i na jego miejsce wpasl nizej polozony wiersz
-            int iW = i-2;
-            if(wierszbiezacy.getTypWiersza() == 2) {
-                if (lista.get(iW).getTypWiersza()==2) {
-                    sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
-                    sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                    kwotawielka +=  lista.get(iW).getStronaWn().getKwota();
-                    kwotawielkaPoWn = true;
-                    break;
-                }
-            } else if (wierszbiezacy.getTypWiersza() == 1) {
-                if (lista.get(iW).getTypWiersza()==1) {
-                    sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                } else if (lista.get(iW).getTypWiersza()==0) {
-                    sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                    kwotawielka +=  lista.get(iW).getStronaMa().getKwota();
-                    kwotawielkaPoWn = false;
-                    break;
-                }
-            } else if (wierszbiezacy.getTypWiersza() == 0) {
-                //jezeli juz jest jakis wiersz podpiety to trzeba to uwzglednic
-                try {
-                    Wiersz nastepny = selected.getListawierszy().get(lpmerwiersza);
-                    if (nastepny.getTypWiersza() == 1) {
-                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
-                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
-                        kwotawielkaPoWn = false;
-                    } else if (nastepny.getTypWiersza() == 2) {
-                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
-                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
-                        kwotawielkaPoWn = true;
-                    } else {
-                        if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
-                            kwotawielka = wierszbiezacy.getStronaWn().getKwota();
-                            sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
-                            kwotawielkaPoWn = true;
-                        } else {
-                            kwotawielka = wierszbiezacy.getStronaMa().getKwota();
-                            sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
-                            kwotawielkaPoWn = false;
-                        }
-                    }
-                } catch (Exception e) {
-                //jak tego nie bedzie to wyjda minusy potem, bo return jest bez abs
-                    if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
-                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
-                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
-                        kwotawielkaPoWn = true;
-                        break;
-                    } else {
-                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
-                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
-                        kwotawielkaPoWn = false;
-                        break;
-                    }
+    public static double obliczkwotepozostala(Dokfk selected, Wiersz wierszbiezacy, int nrgrupyaktualny) {
+        Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupyaktualny-1);
+        double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
+        double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
+        int typwiersza = 0;
+        Wiersz wiersznastepny = null;
+        do {
+            wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
+            if (wiersznastepny != null) {
+                if (wiersznastepny.getTypWiersza() == 1) {
+                    wierszpodstawowy = wiersznastepny;
+                    sumaWn += wiersznastepny.getStronaWn().getKwota();
+                    typwiersza = 1;
+                    System.out.println("kwotaWn "+wiersznastepny.getStronaWn().getKwota());
+                } else if (wiersznastepny.getTypWiersza() == 2) {
+                    wierszpodstawowy = wiersznastepny;
+                    sumaMa += wiersznastepny.getStronaMa().getKwota();
+                    typwiersza = 2;
+                    System.out.println("kwotaMa "+wiersznastepny.getStronaMa().getKwota());
                 }
             }
-        }
-        int ostatnielpwiersza = selected.getListawierszy().size()+1;
-        //idziemy w dol i sumujemy/wiersz moze byc po srodku
-        try {
-            //moze nie byc nic na koniec
-            for (int i = lpmerwiersza; i < ostatnielpwiersza; i++) {
-                int iW = i-1;
-                if(wierszbiezacy.getTypWiersza() == 2) {
-                    if (lista.get(iW).getTypWiersza()==2) {
-                        if (kwotawielkaPoWn) {
-                            sumaczastowych += lista.get(iW).getStronaMa().getKwota();
-                        } else {
-                            sumaczastowych -= lista.get(iW).getStronaMa().getKwota();
-                        }
-                    } else if (lista.get(iW).getTypWiersza()==0) {
-                        break;
-                    }
-                } else if (wierszbiezacy.getTypWiersza() == 1) {
-                    if (lista.get(iW).getTypWiersza()==1) {
-                        if (kwotawielkaPoWn) {
-                            sumaczastowych -= lista.get(iW).getStronaWn().getKwota();
-                        } else {
-                            sumaczastowych += lista.get(iW).getStronaWn().getKwota();
-                        }
-                    } else if (lista.get(iW).getTypWiersza()==0) {
-                        // bo dotarlismy do nastepnego macierzystego
-                        break;
-                    }
-                    //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
-                } else if (wierszbiezacy.getTypWiersza() == 0  && lista.get(i).getTypWiersza() != 0) {
-                    if (lista.get(i).getTypWiersza() == 2) {
-                        sumaczastowych += lista.get(i).getStronaMa().getKwota();
-                    } else if (lista.get(i).getTypWiersza() == 1){
-                        sumaczastowych += lista.get(i).getStronaWn().getKwota();
-                    }
-                } else {
-                    break;
-                }
-                }
-            } catch (Exception e) {
-                    
-                    }
-        return Z.z(kwotawielka-sumaczastowych);
+            if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {
+                break;
+            }
+        } while(true);
+        double roznica = Z.z(sumaWn) - Z.z(sumaMa) > 0 ? Z.z(sumaWn) - Z.z(sumaMa) : Z.z(sumaWn) - Z.z(sumaMa) < 0 ? Z.z(sumaMa) - Z.z(sumaWn) : 0;
+        return roznica;
     }
+        
+//    public static double obliczkwotepozostala(Dokfk selected, Wiersz wierszbiezacy) {
+//        List<Wiersz> lista = selected.getListawierszy();
+//        Collections.sort(lista, new Wierszcomparator());
+//        int lpmerwiersza = wierszbiezacy.getIdporzadkowy();
+//        double kwotawielka = 0.0;
+//        double sumaczastowych = 0.0;
+//        //idziemy w gore i sumujemy
+//        boolean kwotawielkaPoWn = false;
+//        for (int i = lpmerwiersza; i > 0; i--) {
+//            //jest i-2 bo i-1 jest usuniety i na jego miejsce wpasl nizej polozony wiersz
+//            int iW = i-2;
+//            if(wierszbiezacy.getTypWiersza() == 2) {
+//                if (lista.get(iW).getTypWiersza()==2) {
+//                    sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+//                } else if (lista.get(iW).getTypWiersza()==0) {
+//                    sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+//                    kwotawielka +=  lista.get(iW).getStronaWn().getKwota();
+//                    kwotawielkaPoWn = true;
+//                    break;
+//                }
+//            } else if (wierszbiezacy.getTypWiersza() == 1) {
+//                if (lista.get(iW).getTypWiersza()==1) {
+//                    sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+//                } else if (lista.get(iW).getTypWiersza()==0) {
+//                    sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+//                    kwotawielka +=  lista.get(iW).getStronaMa().getKwota();
+//                    kwotawielkaPoWn = false;
+//                    break;
+//                }
+//            } else if (wierszbiezacy.getTypWiersza() == 0) {
+//                //jezeli juz jest jakis wiersz podpiety to trzeba to uwzglednic
+//                try {
+//                    Wiersz nastepny = selected.getListawierszy().get(lpmerwiersza);
+//                    if (nastepny.getTypWiersza() == 1) {
+//                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+//                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+//                        kwotawielkaPoWn = false;
+//                    } else if (nastepny.getTypWiersza() == 2) {
+//                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+//                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+//                        kwotawielkaPoWn = true;
+//                    } else {
+//                        if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
+//                            kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+//                            sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+//                            kwotawielkaPoWn = true;
+//                        } else {
+//                            kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+//                            sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+//                            kwotawielkaPoWn = false;
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                //jak tego nie bedzie to wyjda minusy potem, bo return jest bez abs
+//                    if (wierszbiezacy.getStronaWn().getKwota() > wierszbiezacy.getStronaMa().getKwota()) {
+//                        kwotawielka = wierszbiezacy.getStronaWn().getKwota();
+//                        sumaczastowych = wierszbiezacy.getStronaMa().getKwota();
+//                        kwotawielkaPoWn = true;
+//                        break;
+//                    } else {
+//                        kwotawielka = wierszbiezacy.getStronaMa().getKwota();
+//                        sumaczastowych = wierszbiezacy.getStronaWn().getKwota();
+//                        kwotawielkaPoWn = false;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        int ostatnielpwiersza = selected.getListawierszy().size()+1;
+//        //idziemy w dol i sumujemy/wiersz moze byc po srodku
+//        try {
+//            //moze nie byc nic na koniec
+//            for (int i = lpmerwiersza; i < ostatnielpwiersza; i++) {
+//                int iW = i-1;
+//                if(wierszbiezacy.getTypWiersza() == 2) {
+//                    if (lista.get(iW).getTypWiersza()==2) {
+//                        if (kwotawielkaPoWn) {
+//                            sumaczastowych += lista.get(iW).getStronaMa().getKwota();
+//                        } else {
+//                            sumaczastowych -= lista.get(iW).getStronaMa().getKwota();
+//                        }
+//                    } else if (lista.get(iW).getTypWiersza()==0) {
+//                        break;
+//                    }
+//                } else if (wierszbiezacy.getTypWiersza() == 1) {
+//                    if (lista.get(iW).getTypWiersza()==1) {
+//                        if (kwotawielkaPoWn) {
+//                            sumaczastowych -= lista.get(iW).getStronaWn().getKwota();
+//                        } else {
+//                            sumaczastowych += lista.get(iW).getStronaWn().getKwota();
+//                        }
+//                    } else if (lista.get(iW).getTypWiersza()==0) {
+//                        // bo dotarlismy do nastepnego macierzystego
+//                        break;
+//                    }
+//                    //to jest bo mozemy dodawac tuz od wiersza 0 z podczepionymi innymi
+//                } else if (wierszbiezacy.getTypWiersza() == 0  && lista.get(i).getTypWiersza() != 0) {
+//                    if (lista.get(i).getTypWiersza() == 2) {
+//                        sumaczastowych += lista.get(i).getStronaMa().getKwota();
+//                    } else if (lista.get(i).getTypWiersza() == 1){
+//                        sumaczastowych += lista.get(i).getStronaWn().getKwota();
+//                    }
+//                } else {
+//                    break;
+//                }
+//                }
+//            } catch (Exception e) {
+//                    
+//                    }
+//        return Z.z(kwotawielka-sumaczastowych);
+//    }
     
     public static Wiersz WierszFaktory(Dokfk selected, int typwiersza, double roznica, int lpmacierzystego) {
         int liczbawierszyWDokumencie = 0;
@@ -501,6 +530,16 @@ public class ObslugaWiersza {
         }
     }
     
+     public static void wygenerujiDodajWiersz(Dokfk selected, Wiersz wiersz, boolean przenumeruj, double roznica, int typwiersza) {
+        int lpmacierzystego = wiersz.getLpmacierzystego() > 0 ? wiersz.getLpmacierzystego() : wiersz.getIdporzadkowy();
+        Wiersz wierszNowy = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
+        if (przenumeruj == false) {
+            selected.getListawierszy().add(wierszNowy);
+        } else {
+            ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wierszNowy, lpmacierzystego);
+        }
+    }
+     //dla niektorych fukncji generujacych piatki
      public static void wygenerujiDodajWiersz(Dokfk selected, int wierszbiezacyIndex, boolean przenumeruj, double roznica, int typwiersza) {
         int lpmacierzystego = znajdzmacierzysty(selected.getListawierszy(), wierszbiezacyIndex);
         Wiersz wiersz = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
@@ -575,8 +614,8 @@ public class ObslugaWiersza {
         return 0;
     }
 
-    public static void sprawdzKwotePozostala(Dokfk selected, Wiersz wybranyWiersz, String wierszeSasiednie) {
-        double roznica = obliczkwotepozostala(selected, wybranyWiersz);
+    public static void sprawdzKwotePozostala(Dokfk selected, Wiersz wybranyWiersz, String wierszeSasiednie, int nrgrupywierszy) {
+        double roznica = obliczkwotepozostala(selected, wybranyWiersz, nrgrupywierszy);
         if (roznica > 0.0 ) {
             if (wybranyWiersz.getTypWiersza() == 1) {
                 wygenerujiDodajWierszUsun(selected, wybranyWiersz.getIdporzadkowy(), true, roznica, 1);

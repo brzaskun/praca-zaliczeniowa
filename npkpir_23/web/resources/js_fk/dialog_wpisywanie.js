@@ -22,6 +22,7 @@ var zachowajwierszVATRK = function (source) {
     try {
         var lp = parseInt(source)-1;
         MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
+        $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -258,7 +259,6 @@ var focusNaNowoDodanymEnter = function(source) {
         var rzedy = r("formwpisdokument:dataList_data").children();
         for (var rzad in rzedy) {
             var wybrany = $(rzedy[rzad]).find('td').get(1);
-            console.log(wybrany);
             if (typeof wybrany !== 'undefined') {
                 if ($(wybrany.firstChild).val() == "") {
                     $(wybrany.firstChild).focus();
@@ -268,7 +268,6 @@ var focusNaNowoDodanymEnter = function(source) {
                 break;
             }
         }
-        rzedy = r("formwpisdokument:dataList_data").children();
         for (var i = 0; i < rzedy.length; i++) {
             for (var n in $(rzedy[i]).find('td')) {
                 var kolejnetd = $(rzedy[i]).find('td').get(n);
@@ -321,18 +320,28 @@ var pokazwybortransakcji = function() {
 
 var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
     var dotychczasowagrupa;
+    var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
     if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
         dotychczasowagrupa = MYAPP.nrgrupywierszy;
     }
-    var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
     if (dotychczasowagrupa === nrgr) {
         console.log("tasamagrupa "+nrgr);
     } else {
         console.info("nowagrupa "+nrgr);
         MYAPP.nrgrupywierszy = nrgr;
-        $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
-        $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
+        if (typeof dotychczasowagrupa !== "undefined") {
+            $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
+            $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
+            $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
+        } else {
+            $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
+            $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(nrgr);
+        }
     }
+};
+
+var sprawdzgrupeprzykliknieciuwzapisz = function() {
+    $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
 };
 
 
