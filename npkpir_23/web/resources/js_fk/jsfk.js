@@ -180,25 +180,10 @@ var skopiujopis = function(wiersz){
         var starywiersz = wiersz-2;
         wiersz -= 1;
         var biezacyopis = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
+        var poprzedniopisval = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
         if ($(biezacyopis).val() === "+") {
-            var biezacyopisval = $(biezacyopis).val();
-            var poprzedniopis = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
-            var tablica = poprzedniopis.split(':');
-            for(var w = 0 ; w < MYAPP.iloscwierszy; w++){
-                var a = $.isSubstring(tablica,'kontoma');
-                var b = $.isSubstring(tablica,'kontown');
-            if(a||b){
-                starywiersz = starywiersz - 1;
-                biezacyopis = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
-                biezacyopisval = $(biezacyopis).val();
-                poprzedniopis = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
-                tablica = poprzedniopis.split(':');
-            }
-            }
-            if(biezacyopisval === "+"){
-            $(biezacyopis).val(poprzedniopis);
-            }
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").focus();
+            $(biezacyopis).val(poprzedniopisval);
+            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").next().focus();
         }
     }
 };

@@ -325,9 +325,9 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
         dotychczasowagrupa = MYAPP.nrgrupywierszy;
     }
     if (dotychczasowagrupa === nrgr) {
-        console.log("tasamagrupa "+nrgr);
+        //console.log("tasamagrupa "+nrgr);
     } else {
-        console.info("nowagrupa "+nrgr);
+        //console.info("nowagrupa "+nrgr);
         MYAPP.nrgrupywierszy = nrgr;
         if (typeof dotychczasowagrupa !== "undefined") {
             $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
