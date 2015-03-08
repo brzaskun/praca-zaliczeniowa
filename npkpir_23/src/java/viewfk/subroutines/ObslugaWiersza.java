@@ -458,6 +458,10 @@ public class ObslugaWiersza {
                 przenumerowanaLista.add(wiersz);
             } else if (i > indexNowegoWiersza) {
                 selected.getListawierszy().get(i-1).setIdporzadkowy(i+1);
+                //oprocz przenumerowania lp nalezy przenumerowac lp macierzystego
+                if (selected.getListawierszy().get(i-1).getLpmacierzystego()!= 0) {
+                    selected.getListawierszy().get(i-1).setLpmacierzystego(selected.getListawierszy().get(i-1).getLpmacierzystego()+1);
+                }
                 przenumerowanaLista.add(selected.getListawierszy().get(i-1));
             }
         }
@@ -507,9 +511,9 @@ public class ObslugaWiersza {
         int lp = 1;
         int tymczasowyMacierzysty = 0;
         for (Wiersz p : selected.getListawierszy()) {
-            if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
+            if (p.getTypWiersza() == 0) {
                 tymczasowyMacierzysty = lp;
-                p.setLpmacierzystego(tymczasowyMacierzysty);
+                p.setLpmacierzystego(0);
                 p.setIdporzadkowy(lp);
             } else {
                 p.setIdporzadkowy(lp);
