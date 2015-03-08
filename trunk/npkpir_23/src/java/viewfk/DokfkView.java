@@ -2784,13 +2784,13 @@ public void updatenetto(EVatwpisFK e, String form) {
             String coupdate = "formwpisdokument:dataList:"+wierszlp+":ma";
             if (wiersz.getTypWiersza() == 0) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
-                    wiersz.getStronaMa().setKwota(ObslugaWiersza.obliczkwotepozostala(selected, wiersz, nrgrupywierszy));
+                    wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
                     przepiszWaluty(wiersz);
                     RequestContext.getCurrentInstance().update(coupdate);
                 }
             } else if (wiersz.getTypWiersza() == 5) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
-                    wiersz.getStronaMa().setKwota(ObslugaWiersza.obliczkwotepozostala5(selected, wiersz));
+                    wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
                     przepiszWaluty(wiersz);
                     RequestContext.getCurrentInstance().update(coupdate);
                 }
