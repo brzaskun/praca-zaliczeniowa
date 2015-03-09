@@ -307,7 +307,7 @@
 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                             <p:ajax global="false" event="focus" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});" />
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
-                            <p:ajax global="false" event="change" partialSubmit="true" />
+                            <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
                     <p:column headerText="ilość kg" width="30" rendered="#{dokfkView.selected.rodzajedok.pokazkg}" >
