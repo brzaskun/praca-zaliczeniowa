@@ -1540,6 +1540,7 @@ private static final long serialVersionUID = 1L;
             for (Konto p : listakont) {
                 if (kontoprzyporzadkowaneDoRodzajuDok.getPelnynumer().equals(p.getMacierzyste())) {
                     konto = p;
+                    break;
                 }
             }
             return konto;
