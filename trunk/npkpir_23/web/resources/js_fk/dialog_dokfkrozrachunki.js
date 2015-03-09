@@ -186,7 +186,7 @@ var doklejsumowaniewprowadzonych = function() {
         $(this).css("color", "black");
         $(this).css("font-weight", "normal");
         var numerwiersza = ($(this).attr('id').split(":"))[2];
-        var wszystkiewiersze = $("#rozrachunki\\:dataList").find(":input");
+        var wszystkiewiersze = $("#rozrachunki\\:dataList").find(".kwotarozrachunku");
         var iloscpozycji = wszystkiewiersze.length;
         var wprowadzonowpole = $(this).val();
         if (wprowadzonowpole === "") {
@@ -228,11 +228,9 @@ var doklejsumowaniewprowadzonych = function() {
         }
         //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
         var wprowadzono = 0;
-        //var j = 0;
-        for (var i = 0; i < iloscpozycji; i = i + 2) {
-            //var wiersz = "rozrachunki:dataList:" + j + ":pozostalo";
-            wprowadzono += zrobFloat($(wszystkiewiersze[i]).val());
-            //j++;
+        for (var i = 0; i < iloscpozycji; i = i + 1) {
+            var wiersz = "rozrachunki:dataList:" + i + ":kwotarozliczenia_hinput";
+            wprowadzono += zrobFloat(r(wiersz).val());
         }
         var kwotapierwotna = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
         $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
