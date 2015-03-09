@@ -488,7 +488,9 @@ public class ZestawienieRyczaltView implements Serializable {
                 obliczpodatek();
                 if(biezacyPit.getZus52() != null) {
                     if (biezacyPit.getPodatek().subtract(biezacyPit.getZus52()).signum()==1){
-                        biezacyPit.setNaleznazal(biezacyPit.getPodatek().subtract(biezacyPit.getZus52()));
+                        BigDecimal tmpX = biezacyPit.getPodatek().subtract(biezacyPit.getZus52());
+                        tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
+                        biezacyPit.setNaleznazal(tmpX);
                     } else {
                         biezacyPit.setNaleznazal(BigDecimal.ZERO);
                     }
