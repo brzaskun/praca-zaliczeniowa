@@ -106,11 +106,17 @@ var TabKeyDown;
                     return false;
                 } else if (isSpaceKey(event)) {
                     var index = $target[0].id.match(/\d+/)[0];
+                    var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
                     var i = "rozrachunki:dataList:"+index+":pozostaloWn";
                     var i_obj = document.getElementById(i);
                     var wartosc = i_obj.innerText.replace(/\s+/g, '');
                     wartosc = wartosc.replace(",", ".");
-                    $target.val(parseFloat(wartosc));
+                    wartosc = parseFloat(wartosc);
+                    if (wartosc <= limit) {
+                        $target.val(wartosc);
+                    } else {
+                        $target.val(limit);
+                    }
                 }
             }
         }
