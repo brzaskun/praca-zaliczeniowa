@@ -2312,13 +2312,11 @@ public void updatenetto(EVatwpisFK e, String form) {
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         biezacetransakcje = new ArrayList<>();
-        tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
+        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
             RequestContext.getCurrentInstance().update("transakcjawybor");
         } else {
-            rachunekCzyPlatnosc = "płatność";
-            RequestContext.getCurrentInstance().update("transakcjawybor");
             wybranoRachunekPlatnoscCD(stronawiersza);
         }
     }
@@ -2361,12 +2359,10 @@ public void updatenetto(EVatwpisFK e, String form) {
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc(Wiersz wiersz, String stronawiersza) {
         biezacetransakcje = new ArrayList<>();
-        tworzAktualnyWierszDlaRozrachunkow(wiersz, stronawiersza);
+        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             wnmadoprzeniesienia = stronawiersza;
         } else {
-            rachunekCzyPlatnosc = "płatność";
-            RequestContext.getCurrentInstance().update("transakcjawybor");
             wybranoRachunekPlatnoscCD(stronawiersza);
         }
     }
@@ -2415,15 +2411,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().execute("powrotDoStronyPoWyborzeRachunekPlatnosc();");
     }
 
-    private void tworzAktualnyWierszDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
+    private StronaWiersza pobierzStronaWierszaDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
         zablokujprzyciskzapisz = false;
-        try {
-            aktualnyWierszDlaRozrachunkow = inicjalizacjaAktualnegoWierszaRozrachunkow(wiersz, stronawiersza);
-        } catch (Exception e) {
-            Msg.msg("e", "Wybierz pole zawierające numer konta");
-            //zerujemy rzeczy w dialogu
-            RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
-        }
+        return inicjalizacjaAktualnegoWierszaRozrachunkow(wiersz, stronawiersza);
     }
 
     public void tworzenieTransakcjiPlatnosc(String stronawiersza) {
@@ -2433,7 +2423,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 biezacetransakcje = new ArrayList<>();
                 pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                innezBazy = (DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO));
+                innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO);
                 biezacetransakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(aktualnyWierszDlaRozrachunkow, biezacetransakcje, selected.getListawierszy(), stronawiersza);
                 Collections.sort(biezacetransakcje, new Transakcjacomparator());
