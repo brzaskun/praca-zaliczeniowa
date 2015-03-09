@@ -9,8 +9,10 @@ import comparator.Podatnikcomparator;
 import dao.PodatnikDAO;
 import entity.Podatnik;
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -40,6 +42,7 @@ public class PodatnikWyborView implements Serializable {
         listaPodatnikow = podatnikDAO.findAll();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
     }
+
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Podatnik> getListaPodatnikowNoFK() {
