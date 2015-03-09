@@ -174,7 +174,7 @@
                                 rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
                         <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:wybranawaluta"/>
-                        <p:ajax event="itemSelect" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu" global="false"/>
+                        <p:ajax event="blur" listener="#{dokfkView.pobierzopiszpoprzedniegodok}" update=":formwpisdokument:opisdokumentu" global="false"/>
                         <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
                         <p:ajax event="itemSelect" partialSubmit="true" oncomplete="dodajnowegoklienta();" global="false"/>
                         <f:facet name="itemtip">  
@@ -195,7 +195,7 @@
                                      style="height: 19px;"
                                      >
                             
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
 <!--                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>-->
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
