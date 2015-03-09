@@ -114,9 +114,9 @@ public class Klienci implements Serializable {
     @Size(max = 255)
     @Column(name = "znacznik3")
     private String znacznik3;
-    @OneToMany(mappedBy = "kontr1")
+    @OneToMany(mappedBy = "kontr1", fetch = FetchType.LAZY)
     private List<Dok> dokumenty;
-    @OneToMany(mappedBy = "kontr")
+    @OneToMany(mappedBy = "kontr", fetch = FetchType.LAZY)
     private List<Dokfk> dokumentyfk;
     
 

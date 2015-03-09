@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -140,7 +141,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
     private Kontopozycja kontopozycjaID;
     @Basic(optional = false)

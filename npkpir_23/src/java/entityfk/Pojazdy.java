@@ -11,6 +11,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,7 +63,7 @@ public class Pojazdy implements Serializable {
     @Column(name = "nazwapojazdu", nullable = false, length = 255)
     private String nazwapojazdu;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull
