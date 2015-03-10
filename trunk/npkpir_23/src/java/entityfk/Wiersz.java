@@ -75,23 +75,23 @@ public class Wiersz implements Serializable {
     private double ilosc_szt;
     @Column(name = "typWiersza")
     private Integer typWiersza;
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
     @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
     @Column(name="lpmacierzystego")
     private Integer lpmacierzystego;
     @ManyToOne
     private Wiersz czworka;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Wiersz> piatki;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     private EVatwpisFK eVatwpisFK;
 
   
