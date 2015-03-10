@@ -42,7 +42,7 @@ var odtworzwierszVATRK = function(data) {
 
 var wpisywanieOnShow = function () {
     try {
-        ustawdialog('dialogpierwszy','menudokumenty',1100,600);
+        ustawdialog('dialogpierwszy','menudokumenty',1130,600);
         pozazieleniajNoweTransakcje();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();

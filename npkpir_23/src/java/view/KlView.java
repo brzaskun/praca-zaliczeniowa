@@ -27,6 +27,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
 import viewfk.DokfkView;
+import viewfk.PlanKontCompleteView;
 
 /**
  *
@@ -45,6 +46,8 @@ public class KlView implements Serializable{
     private boolean edycja;
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
+    @ManagedProperty(value = "#{planKontCompleteView}")
+    private PlanKontCompleteView planKontCompleteView;
     
    
     public static void main(String[] args) {
@@ -159,6 +162,7 @@ public class KlView implements Serializable{
         poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
         kl1.add(selected);
+        planKontCompleteView.init();
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
        
         } catch (Exception e) {
@@ -483,6 +487,14 @@ public class KlView implements Serializable{
 
     public void setDokfkView(DokfkView dokfkView) {
         this.dokfkView = dokfkView;
+    }
+
+    public PlanKontCompleteView getPlanKontCompleteView() {
+        return planKontCompleteView;
+    }
+
+    public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
+        this.planKontCompleteView = planKontCompleteView;
     }
 
     

@@ -33,7 +33,7 @@ public class PlanKontCompleteView implements Serializable {
     private WpisView wpisView;
     
   @PostConstruct
-  private void init() {
+  public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
   }
     
