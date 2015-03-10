@@ -5,7 +5,9 @@
  */
 package viewfk;
 
+import dao.KlienciDAO;
 import daoFK.DokDAOfk;
+import entity.Klienci;
 import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ public class GuestFKDokumenty implements Serializable{
     private WpisView wpisView;
     @Inject
     private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klienciDAO;
     private List<Dokfk> dokumenty;
 
     public GuestFKDokumenty() {
@@ -41,6 +45,11 @@ public class GuestFKDokumenty implements Serializable{
             if (p.getWartoscdokumentu() == 0.0) {
                 p.przeliczKwotyWierszaDoSumyDokumentu();
                 dokDAOfk.edit(p);
+                zmiany = true;
+            }
+            if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) {
+                Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                p.setKontr(k);
                 zmiany = true;
             }
         }
