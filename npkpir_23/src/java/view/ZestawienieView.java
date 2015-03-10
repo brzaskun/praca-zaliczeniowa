@@ -1186,8 +1186,16 @@ private void aktualizujGuest(){
                     }
                 }
                 if (tmpX.getPkpirM().equals(starymcS) && tmpX.getUdzialowiec().equals(udzialowiec)) {
-                    tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
-                    tmp.setZus52(tmp.getZus52().add(tmpX.getZus52()));
+                    if (tmpX.getZus51() != null) {
+                        tmp.setZus51(tmp.getZus51().add(tmpX.getZus51()));
+                    } else {
+                        tmp.setZus51(BigDecimal.ZERO);
+                    }
+                    if (tmpX.getZus52() != null) {
+                        tmp.setZus52(tmp.getZus52().add(tmpX.getZus52()));
+                    } else {
+                        tmp.setZus52(BigDecimal.ZERO);
+                    }
                     
                 }
 
