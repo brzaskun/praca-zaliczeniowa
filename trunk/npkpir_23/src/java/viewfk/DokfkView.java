@@ -904,6 +904,7 @@ private static final long serialVersionUID = 1L;
         for (Wiersz p : selected.getListawierszy()) {
             przepiszWaluty(p);
         }
+        ObslugaWiersza.przenumerujSelected(selected);
         String update = "formwpisdokument:dataList";
         RequestContext.getCurrentInstance().update(update);
         ewidencjaVatRK = new EVatwpisFK();
