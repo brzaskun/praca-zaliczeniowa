@@ -41,6 +41,7 @@ public class GuestFKDokumenty implements Serializable{
     public void pobierz() {
         dokumenty = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         boolean zmiany = false;
+        Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         for (Dokfk p : dokumenty) {
             if (p.getWartoscdokumentu() == 0.0) {
                 p.przeliczKwotyWierszaDoSumyDokumentu();
@@ -48,9 +49,11 @@ public class GuestFKDokumenty implements Serializable{
                 zmiany = true;
             }
             if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) {
-                Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                p.setKontr(k);
-                zmiany = true;
+                if (!p.getKontr().equals(k)) {
+                    p.setKontr(k);
+                    dokDAOfk.edit(p);
+                    zmiany = true;
+                }
             }
         }
         if (zmiany) {
