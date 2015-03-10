@@ -44,7 +44,6 @@ import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -59,8 +58,6 @@ import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.component.autocomplete.AutoComplete;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -2000,7 +1997,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
         try {
-            if (selected.getRodzajedok().getKategoriadokumentu() != 1 && selected.getRodzajedok().getKategoriadokumentu() != 2) {
+            if (rodzajBiezacegoDokumentu != 1 && rodzajBiezacegoDokumentu != 2) {
                 Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 selected.setKontr(k);
             }

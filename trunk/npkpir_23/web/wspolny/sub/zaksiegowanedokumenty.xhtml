@@ -82,7 +82,10 @@
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{item.listawierszy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" style="width: 95%;">
+                    <p:dataTable value="#{item.listawierszy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" style="width: 95%;" rowIndexVar="index">
+                        <p:column style="width: 20px;">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
                     <p:column headerText="opis transakcji" width="130" style="text-align: left;">
                         <h:outputText id="opis" value="#{loopik.opisWiersza}" style="width: 220px; height: 19px;" 
                                         styleClass="#{loopik.czworka ne null ? 'wierszpiatkowy' : null}">
