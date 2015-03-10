@@ -349,9 +349,13 @@
             <from-outcome>guestzestFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKZestawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>guestfakturaFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKFaktury.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>guestdokumentyFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKDokumenty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>guestbilansFK</from-outcome>
@@ -432,6 +436,10 @@
         <navigation-case>
             <from-outcome>gfakturaFakturaPlatnosci</from-outcome>
             <to-view-id>/wspolny/wspolnyFakturaPlatnosci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gZaksiegowane</from-outcome>
+            <to-view-id>/wspolny/wspolnyDokumentyZaksiegowane.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfakturaFakturaKontrahenci</from-outcome>
