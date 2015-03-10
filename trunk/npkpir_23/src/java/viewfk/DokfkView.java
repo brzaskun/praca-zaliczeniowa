@@ -449,7 +449,22 @@ private static final long serialVersionUID = 1L;
         
         //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
     }
-
+    public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
+        double kwotastara = (double) e.getOldValue();
+        double kwotanowa = (double) e.getNewValue();
+        if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+            try {
+                String clientID = ((InputNumber) e.getSource()).getClientId();
+                String indexwiersza = clientID.split(":")[2];
+                Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                wiersz.getStronaWn().setKwota(kwotanowa);
+                przepiszWaluty(wiersz);
+            } catch (Exception e1) {
+                System.out.println(e1.getLocalizedMessage());
+            }
+        }
+    }
+    
 //    public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
 //        double kwotastara = (double) e.getOldValue();
 //        double kwotanowa = (double) e.getNewValue();
@@ -519,6 +534,22 @@ private static final long serialVersionUID = 1L;
             wybranoRachunekPlatnosc(wiersz, "Ma");
         }
 
+    }
+    
+    public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
+        double kwotastara = (double) e.getOldValue();
+        double kwotanowa = (double) e.getNewValue();
+        if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+            try {
+                String clientID = ((InputNumber) e.getSource()).getClientId();
+                String indexwiersza = clientID.split(":")[2];
+                Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
+                wiersz.getStronaMa().setKwota(kwotanowa);
+                przepiszWaluty(wiersz);
+            } catch (Exception e1) {
+                System.out.println(e1.getLocalizedMessage());
+            }
+        }
     }
 
 //    public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
