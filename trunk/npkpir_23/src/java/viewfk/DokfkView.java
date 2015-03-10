@@ -2941,8 +2941,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 //                Object o = d.getLocalSelection();
 //                wierszRKindex = d.getRowIndex();
 //                wierszRK = (Wiersz) d.getRowData();
-                lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
-                wierszRK = selected.getListawierszy().get(lpWierszaWpisywanie);
+                wierszRKindex = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
+                lpWierszaWpisywanie = wierszRKindex +1;
+                wierszRK = selected.getListawierszy().get(wierszRKindex);
                 ewidencjaVatRK = null;
                 for (EVatwpisFK p : selected.getEwidencjaVAT()) {
                     if (p.getWiersz() == wierszRK) {
