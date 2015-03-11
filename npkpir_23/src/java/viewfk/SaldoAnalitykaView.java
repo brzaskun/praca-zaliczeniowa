@@ -65,11 +65,12 @@ public class SaldoAnalitykaView implements Serializable {
      private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
+        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p , zapisyRok);
+            naniesZapisyNaKonto(saldoKonto, p , zapisyRok, wierszenieuzupelnione);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
@@ -79,6 +80,9 @@ public class SaldoAnalitykaView implements Serializable {
         }
         sumaSaldoKonto = new ArrayList<>();
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+        for (StronaWiersza t : wierszenieuzupelnione) {
+            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+t.getDokfkS());
+        }
         return przygotowanalista;
     }
 
@@ -120,7 +124,7 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok,  List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
             StronaWiersza st = (StronaWiersza) it.next();
@@ -145,9 +149,22 @@ public class SaldoAnalitykaView implements Serializable {
                     saldoKonto.getZapisy().add(r);
                 }
             } catch (Exception e) {
-                Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+r.getDokfkS());
+                if (wierszenieuzupelnione.size() > 0) {
+                    boolean jest = false;
+                    for (StronaWiersza t : wierszenieuzupelnione) {
+                        if (t.getDokfkS().equals(r.getDokfkS())) {
+                            jest = true;
+                        }
+                    }
+                    if (jest==false) {
+                        wierszenieuzupelnione.add(r);
+                    }
+                } else {
+                    wierszenieuzupelnione.add(r);
+                }
             }
         }
+       
     }
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
