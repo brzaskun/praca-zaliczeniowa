@@ -16,7 +16,7 @@
     </style>
    
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych" 
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowane}" update="@this"/>
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -68,7 +68,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
-                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
+                         style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
