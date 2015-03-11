@@ -374,6 +374,8 @@ public class BilansWprowadzanieView implements Serializable {
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu BO");
         }
     }
+    
+    
 
     private int oblicznumerkolejny() {
         Dokfk poprzednidokumentvat = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
@@ -449,12 +451,13 @@ public class BilansWprowadzanieView implements Serializable {
             List<WierszBO> listabiezaca = listazbiorcza.get(r);
             if (listabiezaca != null && listabiezaca.size() > 0) {
                 for (WierszBO p : listabiezaca) {
-                    if (p != null) {
+                    if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0)) {
                         Wiersz w = new Wiersz(idporzadkowy++, 0);
                         uzupelnijwiersz(w, nd);
                         String opiswiersza = "zapis BO: "+p.getWierszBOPK().getOpis();
                         w.setOpisWiersza(opiswiersza);
                         if (p.getKwotaWn() != 0) {
+                            w.setTypWiersza(1);
                             StronaWiersza st = new StronaWiersza(w, "Wn", p.getKwotaWn(), p.getKonto());
                             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                                 st.setNowatransakcja(true);
@@ -466,6 +469,7 @@ public class BilansWprowadzanieView implements Serializable {
                             st.setTypStronaWiersza(9);
                             w.setStronaWn(st);
                         } else if (p.getKwotaMa() != 0){
+                            w.setTypWiersza(2);
                             StronaWiersza st = new StronaWiersza(w, "Ma", p.getKwotaMa(), p.getKonto());
                             if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                                 st.setNowatransakcja(true);

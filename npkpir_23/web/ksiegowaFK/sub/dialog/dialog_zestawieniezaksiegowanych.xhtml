@@ -29,16 +29,16 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}"/>
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" onsuccess="PF('tablicadokumenty').clearFilters()"/>
                         <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px;"/>
+                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px;" update=":zestawieniedokumentow:dataList"/>
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" onsuccess="PF('tablicadokumenty').clearFilters()"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                     <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
@@ -68,7 +68,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
-                         style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
+                         style="width: 1250px; height: 500px; overflow-y: scroll" 
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -107,7 +107,7 @@
                 </p:column>         
                 <p:column width="80" style="text-align: center;" >
                     <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument, :zestawieniedokumentow:dataList"  
-                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"  onsuccess="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
                     <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>

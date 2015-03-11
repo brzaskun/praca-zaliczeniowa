@@ -37,7 +37,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{guestFKDokumenty.pobierz()}" style="width: 120px; margin-left: 20px;" update="@form"/>
+                    <p:commandButton value="pobierz" actionListener="#{guestFKDokumenty.pobierz()}" style="width: 120px; margin-left: 20px;" update="@form" oncomplete="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 
                     <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>

@@ -1804,6 +1804,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
+                ObslugaWiersza.przenumerujSelected(selected);
                 selected.oznaczewidencjeVAT();
                 dokDAOfk.edit(selected);
                 selected = new Dokfk();
@@ -2961,7 +2962,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        ewidencjaVatRK = null;
 //        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
-    
+    public void przenumeruj() {
+        ObslugaWiersza.przenumerujSelected(selected);
+    }
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
         if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {

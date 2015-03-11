@@ -23,20 +23,22 @@ import view.WpisView;
 @Singleton
 public class CechazapisuBean {
     
-    public static List<StronaWiersza> pobierzwierszezcecha(List<StronaWiersza> zapisy, String nazwacechy) {
+    public static List<StronaWiersza> pobierzwierszezcecha(List<StronaWiersza> zapisy, String nazwacechy, String mc) {
         List<StronaWiersza> listazcecha = new ArrayList<>();
-        listazcecha.addAll(wierszezcecha(zapisy, nazwacechy));
-        listazcecha.addAll(dokumentyzcecha(zapisy, nazwacechy));
+        listazcecha.addAll(wierszezcecha(zapisy, nazwacechy, mc));
+        listazcecha.addAll(dokumentyzcecha(zapisy, nazwacechy, mc));
         return listazcecha;
     }
     
-    private static List<StronaWiersza> wierszezcecha(List<StronaWiersza> lista, String nazwacechy) {
+    private static List<StronaWiersza> wierszezcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
         List<StronaWiersza> listazcecha = new ArrayList<>();
         for (StronaWiersza p : lista) {
-            if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
-                for (Cechazapisu r : p.getCechazapisuLista()) {
-                    if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
-                        listazcecha.add(p);
+            if (p.getDokfk().getMiesiac().equals(mc)) {
+                if (p.getCechazapisuLista() != null && p.getCechazapisuLista().size() > 0) {
+                    for (Cechazapisu r : p.getCechazapisuLista()) {
+                        if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                            listazcecha.add(p);
+                        }
                     }
                 }
             }
@@ -44,14 +46,16 @@ public class CechazapisuBean {
         return listazcecha;
     }
     
-    private static List<StronaWiersza> dokumentyzcecha(List<StronaWiersza> lista, String nazwacechy) {
+    private static List<StronaWiersza> dokumentyzcecha(List<StronaWiersza> lista, String nazwacechy, String mc) {
         List<StronaWiersza> listazcecha = new ArrayList<>();
         for (StronaWiersza p : lista) {
             Dokfk d = p.getDokfk();
-            if (d.getCechadokumentuLista() != null && d.getCechadokumentuLista().size() > 0) {
-                for (Cechazapisu r : d.getCechadokumentuLista()) {
-                    if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
-                        listazcecha.add(p);
+            if (d.getMiesiac().equals(mc)) {
+                if (d.getCechadokumentuLista() != null && d.getCechadokumentuLista().size() > 0) {
+                    for (Cechazapisu r : d.getCechadokumentuLista()) {
+                        if (r.getCechazapisuPK().getNazwacechy().equals(nazwacechy)) {
+                            listazcecha.add(p);
+                        }
                     }
                 }
             }
@@ -59,20 +63,22 @@ public class CechazapisuBean {
         return listazcecha;
     }
 
-    public static double sumujcecha(List<StronaWiersza> zapisycechakoszt, String nazwacechy) {
+    public static double sumujcecha(List<StronaWiersza> zapisycechakoszt, String nazwacechy, String mc) {
         double suma = 0;
         for (StronaWiersza p : zapisycechakoszt) {
-            if (nazwacechy.equals("NKUP")) {
-                if (p.getWnma().equals("Wn")) {
-                    suma -= p.getKwotaPLN();
+            if (p.getDokfk().getMiesiac().equals(mc)) {
+                if (nazwacechy.equals("NKUP")) {
+                    if (p.getWnma().equals("Wn")) {
+                        suma -= p.getKwotaPLN();
+                    } else {
+                        suma += p.getKwotaPLN();
+                    }
                 } else {
-                    suma += p.getKwotaPLN();
-                }
-            } else {
-                if (p.getWnma().equals("Wn")) {
-                    suma += p.getKwotaPLN();
-                } else {
-                    suma -= p.getKwotaPLN();
+                    if (p.getWnma().equals("Wn")) {
+                        suma += p.getKwotaPLN();
+                    } else {
+                        suma -= p.getKwotaPLN();
+                    }
                 }
             }
         }

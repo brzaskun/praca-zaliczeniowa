@@ -84,10 +84,10 @@ public class CitView implements Serializable {
         }
         TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP");
-        razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP");
-        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP");
-        razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP");
+        zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP", wpisView.getMiesiacWpisu());
+        razemzapisycechakoszt = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP", wpisView.getMiesiacWpisu());
+        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
+        razemzapisycechaprzychod = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
         List<Konto> plankont = kontoDAOfk.findKontaWynikowePodatnikaBezPotomkow(wpisView);
         try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {

@@ -18,14 +18,18 @@ var TabKeyDown;
             if (taregetId === "") {
                 taregetId = event.target.name;
             }
-            var czyZawieraWn = taregetId.indexOf("kontown");
-            var czyZawieraMa = taregetId.indexOf("kontoma");
-            var enterdefault = taregetId.indexOf("enterdefault");
-            var formwpisdokument = taregetId.indexOf("formwpisdokument");
-            var rozrachunki = taregetId.indexOf("rozrachunki");
-            var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
-            var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
-            var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
+            try {
+                var czyZawieraWn = taregetId.indexOf("kontown");
+                var czyZawieraMa = taregetId.indexOf("kontoma");
+                var enterdefault = taregetId.indexOf("enterdefault");
+                var formwpisdokument = taregetId.indexOf("formwpisdokument");
+                var rozrachunki = taregetId.indexOf("rozrachunki");
+                var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
+                var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
+                var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
+            } catch (e) {
+                
+            }
             if (rozrachunki == -1) {
                 var ominjednoklikniecie = false;
                 var i = "formwpisdokument:dataList:"+wierszid+":opis";
