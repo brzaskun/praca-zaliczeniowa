@@ -190,12 +190,12 @@
             <f:facet name="footer" >
                 <div style="padding: 5px; height: 35px; margin-left: auto; margin-right: auto; text-align: center;">
                     <h:form id="formcheckbox">
-<!--                        <h:selectBooleanCheckbox id="znaczniktransakcji" 
-                                                 accesskey="t" valueChangeListener="9{dokfkView.zaznaczOdznaczJakoNowaTransakcja}" value="9{dokfkView.potraktujjakoNowaTransakcje}" 
-                                                 style="outline: 5px solid gray;" >
+                        <h:selectBooleanCheckbox id="znaczniktransakcji" 
+                                                 accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
+                                                 style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                             <f:ajax event="change" execute="@this" render=":formcheckbox"/>
                         </h:selectBooleanCheckbox>
-                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;" />-->
+                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;" />
 <!--                        <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
                             PF('rozrachunki').hide();" style="float: right; width: 150px;" 
                                          oncomplete="porzadkujwierszeporozrachunkach('9{dokfkView.selected.listawierszy.size()}');" 

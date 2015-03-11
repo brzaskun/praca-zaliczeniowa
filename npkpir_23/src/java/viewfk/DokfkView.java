@@ -157,6 +157,7 @@ private static final long serialVersionUID = 1L;
     private boolean niedodawajkontapole;
     private Integer nrgrupywierszy;
     private Integer nrgrupyaktualny;
+    private boolean potraktujjakoNowaTransakcje;
     
 
     public DokfkView() {
@@ -2292,7 +2293,6 @@ public void updatenetto(EVatwpisFK e, String form) {
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
     public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
-        List<StronaWiersza> listaRozliczanych = new ArrayList<>();
         boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
         if (zaznaczonoNowaTransakcje == true) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
@@ -2301,7 +2301,6 @@ public void updatenetto(EVatwpisFK e, String form) {
             aktualnyWierszDlaRozrachunkow.setRozliczono(0.0);
             aktualnyWierszDlaRozrachunkow.setPozostalo(0.0);
             aktualnyWierszDlaRozrachunkow.setNowetransakcje(new ArrayList<Transakcja>());
-            listaRozliczanych.add(aktualnyWierszDlaRozrachunkow);
             zablokujprzyciskrezygnuj = true;
             Msg.msg("i", "Dodano bieżący zapis jako nową transakcję");
         } else {
@@ -2310,7 +2309,6 @@ public void updatenetto(EVatwpisFK e, String form) {
             } else {
                 aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
-                listaRozliczanych.remove(aktualnyWierszDlaRozrachunkow);
                 zablokujprzyciskrezygnuj = false;
                 Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
             }
@@ -2342,6 +2340,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         biezacetransakcje = new ArrayList<>();
         aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
+        potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
             RequestContext.getCurrentInstance().update("transakcjawybor");
@@ -3496,6 +3495,13 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void setEwidencjaVATRKzapis0edycja1(boolean ewidencjaVATRKzapis0edycja1) {
         this.ewidencjaVATRKzapis0edycja1 = ewidencjaVATRKzapis0edycja1;
     }
+ public boolean isPotraktujjakoNowaTransakcje() {
+        return potraktujjakoNowaTransakcje;
+    }
+
+    public void setPotraktujjakoNowaTransakcje(boolean potraktujjakoNowaTransakcje) {
+        this.potraktujjakoNowaTransakcje = potraktujjakoNowaTransakcje;
+    }
 
     
 
@@ -3522,6 +3528,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 //}        
 //</editor-fold>
 
+   
     
     
 
