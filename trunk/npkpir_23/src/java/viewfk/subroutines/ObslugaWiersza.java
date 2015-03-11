@@ -31,6 +31,9 @@ public class ObslugaWiersza {
     
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty
     public static boolean sprawdzSumyWierszy(Dokfk dokfk) {
+        if (dokfk.getDokfkPK().getSeriadokfk().equals("BO")) {
+            return true;
+        }
         double stronalewa = 0.0;
         double stronaprawa = 0.0;
         Konto kontoWn;
@@ -39,54 +42,96 @@ public class ObslugaWiersza {
         Collections.sort(listawierszy, new Wierszcomparator());
         //na poczatek sprawdzimy czy w ostatnim nie ma pustych kwot
         Wiersz ostatniwiersz = listawierszy.get(listawierszy.size()-1);
+        int numerwiersza = ostatniwiersz.getIdporzadkowy()-1;
+        String f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
         if (ostatniwiersz.getTypWiersza() == 0 || ostatniwiersz.getTypWiersza() == 5) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronalewa == 0 || stronaprawa == 0) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
                 if (!(kontoWn instanceof Konto) || !(kontoMa instanceof Konto)) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             } else if (ostatniwiersz.getTypWiersza()== 1 || ostatniwiersz.getTypWiersza() == 6) {
                 stronalewa += ostatniwiersz.getStronaWn().getKwota();
                 kontoWn = ostatniwiersz.getStronaWn().getKonto();
                 if (stronalewa == 0) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
                 if (!(kontoWn instanceof Konto)) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             } else if (ostatniwiersz.getTypWiersza()== 2 || ostatniwiersz.getTypWiersza() == 7) {
                 stronaprawa += ostatniwiersz.getStronaMa().getKwota();
                 kontoMa = ostatniwiersz.getStronaMa().getKonto();
                 if (stronaprawa == 0) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
                 if (!(kontoMa instanceof Konto)) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             }
         stronalewa = 0.0;
         stronaprawa = 0.0;
+        int numergrupybiezacej = 0;
+        int numergrupypoprzedniej = 0;
+        int typwierszapoprzedniego = 0;
         //teraz sprawdzamy czy lewa == prawa
         for (Wiersz p : listawierszy) {
+            numergrupybiezacej = p.getLpmacierzystego() == 0 ? p.getIdporzadkowy() : p.getLpmacierzystego();
+            numerwiersza = numergrupybiezacej-2;
+            f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
+            boolean czynowyzero = false;
+            if (p.getTypWiersza() == 0 && typwierszapoprzedniego == 0) {
+                czynowyzero = true;
+            }
+            typwierszapoprzedniego = p.getTypWiersza();
+            if (numergrupybiezacej != numergrupypoprzedniej || czynowyzero) {
+                numergrupypoprzedniej = numergrupybiezacej;
+                if (Z.z(stronalewa) != Z.z(stronaprawa)) {
+                    RequestContext.getCurrentInstance().execute(f);
+                    return false;
+                } else {
+                    stronalewa = 0.0;
+                    stronaprawa = 0.0;
+                }
+            }
+                if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
+                    stronalewa += p.getStronaWn().getKwota();
+                    stronaprawa += p.getStronaMa().getKwota();
+
+                } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
+                    stronalewa += p.getStronaWn().getKwota();
+                } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
+                    stronaprawa += p.getStronaMa().getKwota();
+                }
+        }
+        //teraz sprawdzamy czy konta lewa prawa
+        for (Wiersz p : listawierszy) {
+            numerwiersza = p.getIdporzadkowy()-1;
+            f = "podswietlznalezionywierszzbrakiem("+numerwiersza+")";
             if (p.getTypWiersza() == 0 || p.getTypWiersza() == 5) {
-                stronalewa += p.getStronaWn().getKwota();
-                stronaprawa += p.getStronaMa().getKwota();
                 if (p.getStronaWn().getKonto() == null || p.getStronaMa().getKonto() == null ) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             } else if (p.getTypWiersza()== 1 || p.getTypWiersza() == 6) {
-                stronalewa += p.getStronaWn().getKwota();
                 if (p.getStronaWn().getKonto() == null) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             } else if (p.getTypWiersza()== 2 || p.getTypWiersza() == 7) {
-                stronaprawa += p.getStronaMa().getKwota();
                 if (p.getStronaMa().getKonto() == null ) {
+                    RequestContext.getCurrentInstance().execute(f);
                     return false;
                 }
             }

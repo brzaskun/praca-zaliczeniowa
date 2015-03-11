@@ -345,6 +345,18 @@ var sprawdzgrupeprzykliknieciuwzapisz = function() {
 };
 
 
-
+var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
+    var nr1 = "formwpisdokument:dataList:"+nrwiersza+":opis";
+    var nr2 = "formwpisdokument:dataList:"+nrwiersza+":wn_input";
+    var nr3 = "formwpisdokument:dataList:"+nrwiersza+":kontown_input";
+    var nr4 = "formwpisdokument:dataList:"+nrwiersza+":ma_input";
+    var nr5 = "formwpisdokument:dataList:"+nrwiersza+":kontoma_input";
+    r(nr1).css( "background-color", "#E0E0E0" );
+    r(nr1).css( "color", "red" );
+    r(nr2).css( "color", "red" );
+    r(nr3).css( "color", "red" );
+    r(nr4).css( "color", "red" );
+    r(nr5).css( "color", "red" );
+};
 
 
