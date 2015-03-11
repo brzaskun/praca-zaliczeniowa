@@ -36,7 +36,12 @@ public class KliencifkDAO extends DAO implements Serializable{
     
     
     public Kliencifk znajdzkontofk(String nip, String podatniknip) {
-        return (Kliencifk) sessionFacade.znajdzkontofk(nip, podatniknip);
+        try {
+            Kliencifk kf = sessionFacade.znajdzkontofk(nip, podatniknip);
+            return kf;
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {

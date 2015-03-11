@@ -45,6 +45,7 @@
                                          rowKey="#{itemik.id}" selection="#{ewidencjaVatView.goscwybral}" widgetVar="dokTable#{numer.index}"
                                          rowStyleClass="#{itemik.netto lt 0 ? 'korekta' : null}" filterDelay="600" scrollable="true" scrollHeight="500"
                                          >
+                                <p:ajax event="filter" global="false"/>
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT - wyszukiwanie: " />  
                                     <p:inputText id="globalFilter" onkeyup="PF('dokTable#{numer.index}').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie"/>  

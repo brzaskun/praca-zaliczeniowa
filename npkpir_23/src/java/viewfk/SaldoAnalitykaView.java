@@ -23,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 import pdf.PdfKonta;
 import view.WpisView;
 import waluty.Z;
@@ -128,13 +129,23 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         for (StronaWiersza r : zapisyRok) {
-            if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
-                if (r.getWnma().equals("Wn")) {
-                    saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
-                } else {
-                    saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+            if (r.getKonto() == null) {
+                System.out.println(r.toString());
+            }
+            if (r.getWiersz().getDokfk().getMiesiac()==null) {
+                System.out.println(r.toString());
+            }
+            try {
+                if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+                    if (r.getWnma().equals("Wn")) {
+                        saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
+                    } else {
+                        saldoKonto.setObrotyMa(Z.z(saldoKonto.getObrotyMa() + r.getKwotaPLN()));
+                    }
+                    saldoKonto.getZapisy().add(r);
                 }
-                saldoKonto.getZapisy().add(r);
+            } catch (Exception e) {
+                Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+r.getDokfkS());
             }
         }
     }
