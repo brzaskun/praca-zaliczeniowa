@@ -125,11 +125,11 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:panelGrid>
-                    <p:panelGrid id="paneldaneogolnefaktury" columns="6"  styleClass="uipanelGrid0">
+                    <p:panelGrid id="paneldaneogolnefaktury" columns="4"  styleClass="uipanelGrid0">
                         <h:outputText value="symbol"/>
                         <h:outputText value="numer własny"/>
-                        <h:outputText value="rok VAT"/>
-                        <h:outputText value="mc VAT"/>
+<!--                        <h:outputText value="rok VAT"/>
+                        <h:outputText value="mc VAT"/>-->
                         <h:outputText value="numer"/>
                         <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
                         <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -143,19 +143,20 @@
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
                             <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
                                     :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
+                            <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                         </h:selectOneMenu>
                         
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
                             <p:ajax global="false" event="change" partialSubmit="true" />
                         </p:inputText>
-                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
+<!--                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
                             <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 40px;">
-                            <p:ajax event="change" partialSubmit="true" global="false"/>
-                        </p:inputText>
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>-->
                         <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
                         />
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 

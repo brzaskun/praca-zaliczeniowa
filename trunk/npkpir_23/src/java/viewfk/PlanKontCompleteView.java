@@ -35,6 +35,7 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+      System.out.println("PlanKontCompleteView init");
   }
     
     public List<Konto> complete(String qr) {

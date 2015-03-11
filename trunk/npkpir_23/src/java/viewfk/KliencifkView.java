@@ -46,6 +46,8 @@ public class KliencifkView implements Serializable{
     private WpisView wpisView;
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
+    @ManagedProperty(value = "#{planKontCompleteView}")
+    private PlanKontCompleteView planKontCompleteView;
     private boolean makonto0niemakonta1;
 
     public KliencifkView() {
@@ -90,21 +92,27 @@ public class KliencifkView implements Serializable{
         klientBezKonta.setNrkonta(pobierznastepnynumer());
         przyporzadkujdokonta();
         resetujmakontoniemakonta();
+        planKontCompleteView.init();
+        String update = "formwpisdokument:dataList";
+        RequestContext.getCurrentInstance().update(update);
     }
     
-    public int pobieraniekontaFK(){
+    public int pobieraniekontaFK() {
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
             try {
                 klientMaKonto = kliencifkDAO.znajdzkontofk(wybranyklient.getNip(), wpisView.getPodatnikObiekt().getNip());
-                return 0;
+                if (klientMaKonto != null) {
+                    return 0;
+                } else {
+                    klientBezKonta = new Kliencifk();
+                    klientBezKonta.setNazwa(wybranyklient.getNpelna());
+                    klientBezKonta.setNip(wybranyklient.getNip());
+                    klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
+                    klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
+                    klientBezKonta.setNrkonta(pobierznastepnynumer());
+                    return 1;
+                }
             } catch (Exception e) {
-                klientBezKonta = new Kliencifk();
-                klientBezKonta.setNazwa(wybranyklient.getNpelna());
-                klientBezKonta.setNip(wybranyklient.getNip());
-                klientBezKonta.setPodatniknazwa(wpisView.getPodatnikWpisu());
-                klientBezKonta.setPodatniknip(wpisView.getPodatnikObiekt().getNip());
-                klientBezKonta.setNrkonta(pobierznastepnynumer());
-                return 1;
             }
         }
         return -1;
@@ -216,6 +224,14 @@ public class KliencifkView implements Serializable{
     
     public void setKlientBezKonta(Kliencifk klientBezKonta) {
         this.klientBezKonta = klientBezKonta;
+    }
+
+    public PlanKontCompleteView getPlanKontCompleteView() {
+        return planKontCompleteView;
+    }
+
+    public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
+        this.planKontCompleteView = planKontCompleteView;
     }
     
     public List<Kliencifk> getListawszystkichklientowFk() {

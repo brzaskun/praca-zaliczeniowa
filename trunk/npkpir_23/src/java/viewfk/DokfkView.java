@@ -130,6 +130,7 @@ private static final long serialVersionUID = 1L;
     private List<Waluty> wprowadzonesymbolewalut;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    
     private String rachunekCzyPlatnosc;
     private int typwiersza;
     private Wiersz wybranyWiersz;
@@ -3133,40 +3134,44 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void sprawdzwartoscigrupy() {
-        System.out.println("grupa nr: " + nrgrupywierszy);
-        Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
-        double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
-        double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
-        int typwiersza = 0;
-        Wiersz wiersznastepny = null;
-        do {
-            wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
-            if (wiersznastepny != null) {
-                if (wiersznastepny.getTypWiersza() == 1) {
-                    wierszpodstawowy = wiersznastepny;
-                    sumaWn += wiersznastepny.getStronaWn().getKwota();
-                    typwiersza = 1;
-                    System.out.println("kwotaWn " + wiersznastepny.getStronaWn().getKwota());
-                } else if (wiersznastepny.getTypWiersza() == 2) {
-                    wierszpodstawowy = wiersznastepny;
-                    sumaMa += wiersznastepny.getStronaMa().getKwota();
-                    typwiersza = 2;
-                    System.out.println("kwotaMa " + wiersznastepny.getStronaMa().getKwota());
+        try {
+            System.out.println("grupa nr: " + nrgrupywierszy);
+            Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
+            double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
+            double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
+            int typwiersza = 0;
+            Wiersz wiersznastepny = null;
+            do {
+                wiersznastepny = selected.nastepnyWiersz(wierszpodstawowy);
+                if (wiersznastepny != null) {
+                    if (wiersznastepny.getTypWiersza() == 1) {
+                        wierszpodstawowy = wiersznastepny;
+                        sumaWn += wiersznastepny.getStronaWn().getKwota();
+                        typwiersza = 1;
+                        System.out.println("kwotaWn " + wiersznastepny.getStronaWn().getKwota());
+                    } else if (wiersznastepny.getTypWiersza() == 2) {
+                        wierszpodstawowy = wiersznastepny;
+                        sumaMa += wiersznastepny.getStronaMa().getKwota();
+                        typwiersza = 2;
+                        System.out.println("kwotaMa " + wiersznastepny.getStronaMa().getKwota());
+                    }
+                }
+                if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {
+                    break;
+                }
+            } while (true);
+            if (Z.z(sumaWn) != Z.z(sumaMa)) {
+                Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
+                if (wiersznastepny != null) {
+                    dolaczNowyWiersz(wierszpoprzedni, true, nrgrupywierszy);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                } else {
+                    dolaczNowyWiersz(wierszpoprzedni, false, nrgrupywierszy);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
             }
-            if (wiersznastepny == null || wiersznastepny.getTypWiersza() == 0) {
-                break;
-            }
-        } while (true);
-        if (Z.z(sumaWn) != Z.z(sumaMa)) {
-            Wiersz wierszpoprzedni = selected.poprzedniWiersz(wiersznastepny);
-            if (wiersznastepny != null) {
-                dolaczNowyWiersz(wierszpoprzedni, true, nrgrupywierszy);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            } else {
-                dolaczNowyWiersz(wierszpoprzedni, false, nrgrupywierszy);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            }
+        } catch (Exception e) {
+            System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
     }
     
