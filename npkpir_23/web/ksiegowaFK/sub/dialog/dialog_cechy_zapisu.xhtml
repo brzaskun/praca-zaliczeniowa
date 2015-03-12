@@ -7,10 +7,10 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
     <p:dialog id="dialogCechyZapisu" header="Wykaz bieżących cech zapisu" widgetVar="dialogCechyZapisu" resizable="false" 
-              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',500,400);" focus=":formCH" 
+              onShow="ustawdialog('dialogCechyZapisu','menukartoteki',500,500);" focus=":formCH" 
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 250px;"
+            <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 300px;"
                          paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
                 <p:column>
                     <f:facet name="header">
@@ -29,15 +29,31 @@
                              update=":formCH:dataList"/>
                 </p:column>
             </p:dataTable>
-            <p:panelGrid id="nowacecha" columns="4" style="height: 50px;">
-                <h:outputText value="Nazwa cechy"/>
-                <p:inputText value="#{cechazapisuView.nazwacechy}"/>
-                <h:outputText value="Rodzaj cechy"/>
-                <p:selectOneMenu value="#{cechazapisuView.rodzajcechy}">
-                    <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
-                    <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>
-                    <f:selectItem itemLabel="rmk" itemValue="rmk"/>
-                </p:selectOneMenu>
+            <p:panelGrid id="nowacecha" >
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="Nazwa cechy"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="Rodzaj cechy"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <p:inputText value="#{cechazapisuView.nazwacechy}" style="width: 150px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{cechazapisuView.rodzajcechy}" style="width: 300px;">
+                            <f:selectItem itemLabel="nie stanowi k.u.p." itemValue="nkup"/>
+                            <f:selectItem itemLabel="stanowi k.u.p. w m-c następnym" itemValue="nkup"/>
+                            <f:selectItem itemLabel="nie stanowi przychodu" itemValue="np"/>
+                            <f:selectItem itemLabel="stanowi przychód w m-c następnym" itemValue="nkup"/>
+                            <f:selectItem itemLabel="rmk" itemValue="rmk"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
             <p:commandButton value="dodaj" style="width: 120px; margin-left: 10px;" actionListener="#{cechazapisuView.dodajnowacecha()}"
                              update=":formCH:dataList"/>
