@@ -59,6 +59,29 @@ var zachowajobiekt = function(obiekt, event) {
     }
 };
 
+var zachowajobiektGuest = function(obiekt, event) {
+    try {
+        MYAPP.obiekt = obiekt;
+        var source = event.target || event.srcElement;
+        var sourceid = source.parentNode.parentNode.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
+        MYAPP.sourceid = sourceid;
+        if (MYAPP.sourceid === "form1:dataList_data") {
+            MYAPP.tabeladata = "form1:dataList_data";
+            MYAPP.tabela = "form1:dataList";
+            MYAPP.zmienna = "zmiennazapisy";
+            MYAPP.wyliczaj = true;
+        } else if (MYAPP.sourceid === "formobroty:dataListObroty_data"){
+            MYAPP.tabeladata = "formobroty:dataListObroty_data";
+            MYAPP.tabela = "formobroty:dataListObroty";
+            MYAPP.zmienna = "zmiennaobroty";
+            MYAPP.wyliczaj = true;
+        }
+        console.log(sourceid);
+    } catch (ex) {
+        alert("Blad w zachowajobiekt/chodzeniepokonach.js " + ex.toString());
+    }
+};
+
 var przejdzwiersz = function() {
         var wiersze = $(document.getElementById(MYAPP.tabeladata)).children("tr");
         var dlugoscwierszy = wiersze.length;
