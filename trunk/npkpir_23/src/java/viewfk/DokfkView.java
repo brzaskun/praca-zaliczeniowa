@@ -355,7 +355,8 @@ private static final long serialVersionUID = 1L;
                     czyWszystkoWprowadzono = true;
                 }
             }
-            double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupyaktualny);
+            int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
+            double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
             try {
                 Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
             } catch (Exception e1) {
