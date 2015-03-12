@@ -5,7 +5,6 @@
  */
 package viewfk;
 
-import beansFK.BOFKBean;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
@@ -13,8 +12,6 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
-import embeddable.Mce;
-import embeddable.Parametr;
 import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -29,7 +26,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import pdf.PdfMiejsceKosztow;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
 import waluty.Z;
@@ -64,7 +60,9 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto>wybranekoszty;
     private double sumakoszty;
     private double razemzapisycechakoszt;
+    private double korektazapisycechakoszt;
     private double razemzapisycechaprzychod;
+    private double korektazapisycechaprzychod;
 
     public SymulacjaWynikuView() {
         sumaSaldoKontoPrzychody = new ArrayList<>();
