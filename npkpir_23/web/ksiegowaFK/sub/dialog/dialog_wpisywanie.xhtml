@@ -363,6 +363,7 @@
                                         onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
+                            <p:ajax global="false" event="itemSelect" partialSubmit="true"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"
                                     />
