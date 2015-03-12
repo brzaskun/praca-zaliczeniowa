@@ -40,14 +40,14 @@ public class PdfSymulacjaWynikuNarastajaco {
     
     public static void drukuj(List<WynikFKRokMc> listamiesiecy, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
-            WpisView wpisView) {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
         try {
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, wpisView);
+            drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
             Msg.msg("Wydruk zestawienia wyniku narastająco");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia wyniku narastająco");
@@ -57,7 +57,7 @@ public class PdfSymulacjaWynikuNarastajaco {
 
     private static void drukujcd(List<WynikFKRokMc> listamiesiecy, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
-            WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie wyniku narastająco");
@@ -71,6 +71,7 @@ public class PdfSymulacjaWynikuNarastajaco {
         document.add(tablica2(pozycjePodsumowaniaWyniku));
         document.add(tablica3(pozycjeObliczeniaPodatkuPoprzedniemiesiace, 1));
         document.add(tablica3(pozycjeObliczeniaPodatku, 2));
+        document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();
         Msg.msg("e", "Wydrukowano symulację wyniku finansowego narastająco");
     }
@@ -167,5 +168,30 @@ public class PdfSymulacjaWynikuNarastajaco {
         return table;
     }
 
+    private static PdfPTable tablica4(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, int i) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{4, 1});
+        table.setWidthPercentage(50);
+        table.setSpacingBefore(15);
+        try {
+            if (i == 3) {
+                table.addCell(ustawfraze("obliczenie kwot do wypłaty", 2, 0));
+            }
+            table.addCell(ustawfraze("opis", 0, 1));
+            table.addCell(ustawfraze("kwota", 0, 1));
+
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie kwoty do wypłaty", 6, 0, 5));
+
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
+            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+        }
+        return table;
+    }
    
 }
