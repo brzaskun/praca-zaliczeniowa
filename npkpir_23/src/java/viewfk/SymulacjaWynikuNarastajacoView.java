@@ -196,7 +196,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
     public void drukuj() {
-        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, wpisView);
+        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
     }
     
     private List<Udzialy> pobierzudzialy() {

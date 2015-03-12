@@ -31,6 +31,8 @@ public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
     private List<CechaStronaWiersza> zapisyZCecha;
+    private List<CechaStronaWiersza> wybraneZapisy;
+    private double razem;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -43,6 +45,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     
     
     private void init() {
+        this.zapisyZCecha = new ArrayList<>();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
@@ -54,6 +57,10 @@ public class CechyzapisuPrzegladView implements Serializable{
                     zapisyZCecha.addAll(pobierzpojedynczo(r));
                 }
             }
+        }
+        int i = 1;
+        for (CechaStronaWiersza p : zapisyZCecha) {
+            p.setId(i++);
         }
         System.out.println("liczba "+zapisyZCecha.size());
     }
@@ -99,6 +106,12 @@ public class CechyzapisuPrzegladView implements Serializable{
         init();
     }
 
+    public void sumujwybrane() {
+        razem = 0.0;
+        for (CechaStronaWiersza p : wybraneZapisy) {
+            razem += p.getStronaWiersza().getKwotaPLN();
+        }
+    }
     //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
         return wpisView;
@@ -115,11 +128,28 @@ public class CechyzapisuPrzegladView implements Serializable{
     public void setZapisyZCecha(List<CechaStronaWiersza> zapisyZCecha) {
         this.zapisyZCecha = zapisyZCecha;
     }
+
+    public List<CechaStronaWiersza> getWybraneZapisy() {
+        return wybraneZapisy;
+    }
+
+    public void setWybraneZapisy(List<CechaStronaWiersza> wybraneZapisy) {
+        this.wybraneZapisy = wybraneZapisy;
+    }
+
+    public double getRazem() {
+        return razem;
+    }
+
+    public void setRazem(double razem) {
+        this.razem = razem;
+    }
     
     
 //</editor-fold>
 
     public static class CechaStronaWiersza {
+        private int id;
         private Cechazapisu cechazapisu;
         private StronaWiersza stronaWiersza;
         
@@ -130,8 +160,16 @@ public class CechyzapisuPrzegladView implements Serializable{
             this.cechazapisu = cechazapisu;
             this.stronaWiersza = stronaWiersza;
         }
-        
 
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+        
+        
         public Cechazapisu getCechazapisu() {
             return cechazapisu;
         }

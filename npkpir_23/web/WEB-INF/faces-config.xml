@@ -426,6 +426,14 @@
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>guestfkNaleznosci</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKNaleznosci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>guestfkZobowiazania</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKZobowiazania.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>GuestFaktura</from-outcome>
             <to-view-id>/guestFaktura/guestFakturaIndex.xhtml</to-view-id>
         </navigation-case>
