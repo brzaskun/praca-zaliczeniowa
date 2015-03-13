@@ -9,13 +9,13 @@
       
         <h:form id="formarchiwum">
             <p:contextMenu for="dokumentyArchiwum" >
-                <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
                 </p:menuitem>
-                <p:menuitem value="Drukuj" update=":form:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
-                <p:menuitem value="Okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
+                <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
+                <p:menuitem value="Okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
                 <p:separator/>
-                <p:menuitem value="Zaksięguj ponownie" update=":form:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
+                <p:menuitem value="Zaksięguj ponownie" update=":form1:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
             </p:contextMenu>
              <p:panelGrid id="panelsum1"  columns="6">
                 <h:outputText value="suma netto: "/>
@@ -78,7 +78,7 @@
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column  headerText="korekta" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 

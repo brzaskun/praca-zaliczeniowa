@@ -10,16 +10,16 @@
          
         <h:form id="formsporzadzone">
             <p:contextMenu for="dokumentyLista" style="width: 250px;">
-                <p:menuitem value="Mail do kontr." update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
-                <p:menuitem value="Faktura okresowa" update=":form:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
-<!--                <p:menuitem value="Wydruk" update=":form:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />-->
-                <p:menuitem value="Zaksięguj" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
+                <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" />
+                <p:menuitem value="Faktura okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
+<!--                <p:menuitem value="Wydruk" update=":form1:messages" actionListener="#{fakturaView.drukujfaktura()}" icon="ui-icon-print" />-->
+                <p:menuitem value="Zaksięguj" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
                 <p:menuitem value="Usuń wybrane" update=":confirmDialog" oncomplete="PF('confirmationFaktura').show();" icon="ui-icon-trash" />
                 <p:separator/>
-                <p:menuitem value="Przenumeruj w górę" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
-                <p:menuitem value="Przenumeruj w dół" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwdol()}" />
-                <p:menuitem value="Oznacz jako wysłaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane()}" />
-                <p:menuitem value="Oznacz jako zaksiegowaną" update=":form:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
+                <p:menuitem value="Przenumeruj w górę" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwgore()}" />
+                <p:menuitem value="Przenumeruj w dół" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.przenumerujwdol()}" />
+                <p:menuitem value="Oznacz jako wysłaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakowyslane()}" />
+                <p:menuitem value="Oznacz jako zaksiegowaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formsporzadzone:dokumentyLista,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
             </p:contextMenu>
             <p:panelGrid id="panelsum"  columns="6">
@@ -87,7 +87,7 @@
                                       icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
-                    <p:commandButton  update=":form:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
+                    <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
                 <p:column  headerText="korekta" style="text-align: center;"  width="40">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 

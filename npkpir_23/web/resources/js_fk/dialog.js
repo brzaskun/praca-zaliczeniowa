@@ -1,3 +1,22 @@
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+var ustawdialog4 = function(nazwa,menu, szerokosc, wysokosc) {
+    $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
+    try {
+        $(document.getElementById(nazwa)).position({
+        my: "center center",
+        at: "center center",
+        of: window,
+        collision: "none none"
+        });
+    } catch (Exception) {
+       //alert ("blad w fukncji ustawdialog w pliku dialog.js wiersz 16 "+Exception);
+    }
+
+};
 var ustawdialog = function(nazwa,rodzic) {
     $(document.getElementById(nazwa)).width(1250).height(700);
     try {
