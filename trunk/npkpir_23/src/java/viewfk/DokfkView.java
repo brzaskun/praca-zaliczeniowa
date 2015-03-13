@@ -2341,6 +2341,15 @@ public void updatenetto(EVatwpisFK e, String form) {
         lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
+        if (wiersz != null ) {
+            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
+            System.out.println("stronawiersza "+stronawiersza);
+            System.out.println("wybranoRachunekPlatnosc() wiersz dla rozrachunku "+wiersz.tostring2());
+        } else {
+            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
+            System.out.println("stronawiersza "+stronawiersza);
+            System.out.println("wiersz dla rozrachunku NULL");
+        }
         biezacetransakcje = new ArrayList<>();
         aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
         potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
@@ -2394,6 +2403,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             wnmadoprzeniesienia = stronawiersza;
         } else {
+            wnmadoprzeniesienia = stronawiersza;
             wybranoRachunekPlatnoscCD(stronawiersza);
         }
     }
@@ -2452,6 +2462,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         List<StronaWiersza> innezBazy = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
+                System.out.println("aktualny wiersz dla roarachunku "+aktualnyWierszDlaRozrachunkow.toString());
                 biezacetransakcje = new ArrayList<>();
                 pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO);
@@ -2539,12 +2550,17 @@ public void updatenetto(EVatwpisFK e, String form) {
 
 //po wcisnieciu klawisza art-r nastepuje przygotowanie inicjalizacja aktualnego wiersza dla rozrachunkow
     private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow(Wiersz wiersz, String stronawiersza) {
-        if (stronawiersza.equals("Wn")) {
-            wiersz.getStronaWn().setWiersz(wiersz);
-            return wiersz.getStronaWn();
-        } else {
-            wiersz.getStronaMa().setWiersz(wiersz);
-            return wiersz.getStronaMa();
+        try {
+            if (stronawiersza.equals("Wn")) {
+                wiersz.getStronaWn().setWiersz(wiersz);
+                return wiersz.getStronaWn();
+            } else {
+                wiersz.getStronaMa().setWiersz(wiersz);
+                return wiersz.getStronaMa();
+            }
+        } catch (Exception e) {
+            System.out.println("błąd inicjalizacjaAktualnegoWierszaRozrachunkow DokfkView 2541");
+            return null;
         }
     }
 
@@ -3139,7 +3155,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     
     public void sprawdzwartoscigrupy() {
         try {
-            System.out.println("grupa nr: " + nrgrupywierszy);
+            System.out.println("sprawdzwartoscigrupy() grupa nr: " + nrgrupywierszy);
             Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
             double sumaMa = wierszpodstawowy.getStronaMa().getKwota();

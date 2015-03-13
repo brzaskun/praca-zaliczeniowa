@@ -308,5 +308,14 @@ public class Wiersz implements Serializable {
         }
     }
     
+    public String tostring2() {
+        if (getStronaWn() == null) {
+            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaWn().getKonto().getPelnynumer();
+        } else if (getStronaMa() == null) {
+            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaMa().getKonto().getPelnynumer();
+        } else {
+            return "lpwiersza "+idporzadkowy;
+        }
+    }
     
 }
