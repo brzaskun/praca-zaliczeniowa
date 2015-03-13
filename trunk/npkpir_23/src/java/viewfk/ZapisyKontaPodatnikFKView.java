@@ -117,7 +117,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             //sumazapisow();
             //sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem");
+            System.out.println("odnalazlem pobierzZapisyNaKoncieNode(Konto wybraneKontoNode)");
     }
     
     public void zapisykontmiesiace() {
@@ -159,7 +159,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem");
+            System.out.println("odnalazlem pobierzZapisyZmianaWaluty()");
     }
      
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
@@ -220,7 +220,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             sumazapisow();
             sumazapisowpln();
             //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem");
+            System.out.println("odnalazlem pobierzZapisyNaKoncie()");
         }
     }
     public void sumazapisowtotal() {
