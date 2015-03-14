@@ -16,20 +16,22 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Inject;
 import view.KlienciConverterView;
+import viewfk.TabelaNBPView;
 
 /**
  *
  * @author Osito
  */
-@ManagedBean
+
 public class TabelaNBPConv implements javax.faces.convert.Converter{
     
-    @Inject
-    private TabelanbpDAO tabelanbpDAO;
+    
        
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-       List<Tabelanbp> listanpb = tabelanbpDAO.findAll();
+        FacesContext context = FacesContext.getCurrentInstance();
+        TabelaNBPView tabelaNBPView = (TabelaNBPView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"tabelaNBPView");
+        List<Tabelanbp> listanpb = tabelaNBPView.getListanpb();
         try {  
             for (Tabelanbp p : listanpb) {  
                 if (String.valueOf(p.getIdtabelanbp()).equals(submittedValue)) {  

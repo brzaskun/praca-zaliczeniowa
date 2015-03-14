@@ -161,6 +161,7 @@ private static final long serialVersionUID = 1L;
     private Integer nrgrupyaktualny;
     private boolean potraktujjakoNowaTransakcje;
     private List<Tabelanbp> tabelenbp;
+    @Inject
     private Tabelanbp wybranaTabelanbp;
     
 
@@ -2678,6 +2679,10 @@ public void updatenetto(EVatwpisFK e, String form) {
             RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
         }
+    }
+    
+    public void zmienbiezacatabele() {
+        selected.dodajTabeleWalut(wybranaTabelanbp);
     }
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {
