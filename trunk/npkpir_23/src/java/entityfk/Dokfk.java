@@ -627,4 +627,12 @@ public class Dokfk implements Serializable {
             }
         }
     }
+    
+    public void dodajTabeleWalut(Tabelanbp tabelanbp) {
+        this.setTabelanbp(tabelanbp);
+        List<Wiersz> wiersze = this.getListawierszy();
+            for (Wiersz p : wiersze) {
+                p.setTabelanbp(tabelanbp);
+            }
+    }
 }

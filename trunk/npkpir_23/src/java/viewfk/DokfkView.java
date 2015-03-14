@@ -10,6 +10,7 @@ import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
+import beansFK.TabelaNBPBean;
 import comparator.Transakcjacomparator;
 import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
@@ -159,6 +160,8 @@ private static final long serialVersionUID = 1L;
     private Integer nrgrupywierszy;
     private Integer nrgrupyaktualny;
     private boolean potraktujjakoNowaTransakcje;
+    private List<Tabelanbp> tabelenbp;
+    private Tabelanbp wybranaTabelanbp;
     
 
     public DokfkView() {
@@ -2609,6 +2612,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 //    //a to jest rodzial dotyczacy walut
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
+        tabelenbp = new ArrayList<>();
         String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
         symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
@@ -2618,23 +2622,8 @@ public void updatenetto(EVatwpisFK e, String form) {
             if (!nazwawaluty.equals("PLN")) {
                 String datadokumentu = selected.getDataoperacji();
                 DateTime dzienposzukiwany = new DateTime(datadokumentu);
-                boolean znaleziono = false;
-                int zabezpieczenie = 0;
-                while (!znaleziono && (zabezpieczenie < 365)) {
-                    dzienposzukiwany = dzienposzukiwany.minusDays(1);
-                    String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
-                    Tabelanbp tabelanbppobrana = tabelanbpDAO.findByDateWaluta(doprzekazania, nazwawaluty);
-                    if (tabelanbppobrana instanceof Tabelanbp) {
-                        znaleziono = true;
-                        selected.setTabelanbp(tabelanbppobrana);
-                        List<Wiersz> wiersze = selected.getListawierszy();
-                        for (Wiersz p : wiersze) {
-                            p.setTabelanbp(tabelanbppobrana);
-                        }
-                        break;
-                    }
-                    zabezpieczenie++;
-                }
+                tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
+                tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
                 if (rodzajBiezacegoDokumentu != 0) {
                     pokazRzadWalutowy = true;
                 }
@@ -3220,6 +3209,14 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.wybranakategoriadok = wybranakategoriadok;
     }
 
+    public List<Tabelanbp> getTabelenbp() {
+        return tabelenbp;
+    }
+
+    public void setTabelenbp(List<Tabelanbp> tabelenbp) {
+        this.tabelenbp = tabelenbp;
+    }
+
     public Integer getNrgrupyaktualny() {
         return nrgrupyaktualny;
     }
@@ -3520,6 +3517,15 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void setEwidencjaVATRKzapis0edycja1(boolean ewidencjaVATRKzapis0edycja1) {
         this.ewidencjaVATRKzapis0edycja1 = ewidencjaVATRKzapis0edycja1;
     }
+
+    public Tabelanbp getWybranaTabelanbp() {
+        return wybranaTabelanbp;
+    }
+
+    public void setWybranaTabelanbp(Tabelanbp wybranaTabelanbp) {
+        this.wybranaTabelanbp = wybranaTabelanbp;
+    }
+    
  public boolean isPotraktujjakoNowaTransakcje() {
         return potraktujjakoNowaTransakcje;
     }

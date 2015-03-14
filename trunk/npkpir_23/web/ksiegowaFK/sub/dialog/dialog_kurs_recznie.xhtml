@@ -11,10 +11,10 @@
         <h:form id="formkursrecznie">
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
-                    <p:inputText id="numertabeli" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()"/>
+                    <p:inputText id="numertabeli" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" placeholder="###/A/NBP/rrrr" maxlength="14"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
-                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd"/>
+                    <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">

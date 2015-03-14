@@ -77,6 +77,14 @@ public class TabelanbpDAO extends DAO implements Serializable {
         }
     }
     
+    public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
+         try {
+            return tabelanbpFacade.findByDateWalutaLista(datatabeli, nazwawaluty);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Tabelanbp findByTabelaPLN() {
          try {
             return tabelanbpFacade.findTabelaPLN();

@@ -229,8 +229,12 @@
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
                             <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}"
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
-                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}"
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+<!--                            <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}"
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>-->
+                            <h:selectOneMenu id="w12" value="#{dokfkView.wybranaTabelanbp.nrtabeli}" converter="TabelaNBPConv" 
+                                             rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}">
+                                <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{String.valueOf(tabela.idtabelanbp)}"/>
+                            </h:selectOneMenu>
                             <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
                         </p:panelGrid>
@@ -363,6 +367,7 @@
                                         onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
+                            <p:ajax global="false" event="focus" partialSubmit="true"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"
@@ -405,7 +410,7 @@
                                         >
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
-                            <p:ajax global="false" event="focus" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
+                            <p:ajax global="false" event="focus" partialSubmit="true" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
 <!--                            <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 

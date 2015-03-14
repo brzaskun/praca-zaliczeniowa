@@ -7,18 +7,12 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
-import data.Data;
-import embeddable.Mce;
-import entityfk.Dokfk;
 import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
 import entityfk.Wiersz;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.inject.Named;
 import view.WpisView;
-import viewmanager.AktywacjaPodatnikow;
 
 /**
  *
