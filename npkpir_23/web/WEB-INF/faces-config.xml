@@ -538,6 +538,12 @@
             converter.PodatConv  
         </converter-class> 
     </converter>
+     <converter>
+        <converter-id>TabelaNBPConv</converter-id>  
+        <converter-class>  
+            converter.TabelaNBPConv  
+        </converter-class> 
+    </converter>
     <!--........................... Custom Validators .....................-->
    <validator>
      <validator-id>passwordValidator</validator-id>
