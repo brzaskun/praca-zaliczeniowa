@@ -48,6 +48,24 @@ public class StronaWierszaBean {
             return kwotazlotowki;
         }
      
+     public static double przeliczWalutyWnBO(Wiersz wiersz) {
+            wiersz.getStronaWn().setKwotaWaluta(wiersz.getStronaWn().getKwota());
+            double kurs = wiersz.getStronaWn().getKursBO();
+            double kwotazlotowki = wiersz.getStronaWn().getKwota();
+            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
+            kwotazlotowki /= 100;
+            return kwotazlotowki;
+        }
+     
+     public static double przeliczWalutyMaBO(Wiersz wiersz) {
+            wiersz.getStronaMa().setKwotaWaluta(wiersz.getStronaMa().getKwota());
+            double kurs = wiersz.getStronaMa().getKursBO();
+            double kwotazlotowki = wiersz.getStronaMa().getKwota();
+            kwotazlotowki = Math.round(kwotazlotowki * kurs * 100);
+            kwotazlotowki /= 100;
+            return kwotazlotowki;
+        }
+     
      public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         if (!wpisView.getMiesiacWpisu().equals("01")) {

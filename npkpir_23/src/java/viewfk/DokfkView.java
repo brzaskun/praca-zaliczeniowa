@@ -344,25 +344,32 @@ private static final long serialVersionUID = 1L;
         boolean czyWszystkoWprowadzono = false;
         try {
             int typ = wierszbiezacy.getTypWiersza();
-            if ((typ == 0 || typ == 5) && stronawiersza.equals("Ma") ) {
-                kontoWn = wierszbiezacy.getStronaWn().getKonto();
-                kontoMa = wierszbiezacy.getStronaMa().getKonto();
-                if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
-                    czyWszystkoWprowadzono = true;
+            if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                if ((typ == 0 || typ == 5) && stronawiersza.equals("Ma") ) {
+                    kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                    kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                    if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
+                } else if (typ == 7 || typ == 2) {
+                    kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                    if (kontoMa instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
+                } else if (typ == 6 || typ == 1) {
+                    kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                    if (kontoWn instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
                 }
-            } else if (typ == 7 || typ == 2) {
-                kontoMa = wierszbiezacy.getStronaMa().getKonto();
-                if (kontoMa instanceof Konto) {
-                    czyWszystkoWprowadzono = true;
-                }
-            } else if (typ == 6 || typ == 1) {
-                kontoWn = wierszbiezacy.getStronaWn().getKonto();
-                if (kontoWn instanceof Konto) {
-                    czyWszystkoWprowadzono = true;
-                }
+            } else {
+                czyWszystkoWprowadzono = true;
             }
             int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
-            double roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
+            double roznica = 0.0;
+            if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                    roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
+            }
             try {
                 Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
             } catch (Exception e1) {
@@ -371,7 +378,7 @@ private static final long serialVersionUID = 1L;
                     ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacy, przenumeruj, roznica, 0);
                     selected.uzupelnijwierszeodane();
                     //selected.przeliczKwotyWierszaDoSumyDokumentu();
-                } else if (roznica != 0 && czyWszystkoWprowadzono == true) {
+                } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
                     dolaczNowyWiersz(wierszbiezacy, false, nrgrupyaktualny);
                 }
             }
@@ -1753,22 +1760,46 @@ public void updatenetto(EVatwpisFK e, String form) {
         try {
             StronaWiersza wn = wiersz.getStronaWn();
             StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                 if (wn != null) {
-                    wn.setKwotaPLN(wn.getKwota());
-                 }
-                 if (ma != null) {
-                    ma.setKwotaPLN(ma.getKwota());
-                 }
+            if (wiersz.getTabelanbp() == null ) {
+                if (wn != null && wn.getKwotaPLN() == 0.0) {
+                   if (wn.getSymbolWalutyBO().equals("PLN")) {
+                        wn.setKwotaPLN(wn.getKwota());
+                        wn.setKwotaWaluta(wn.getKwota());
+                   } else {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                   }
+                }
+                if (ma != null && ma.getKwotaPLN() == 0.0) {
+                    if (ma.getSymbolWalutyBO().equals("PLN")) {
+                        ma.setKwotaPLN(ma.getKwota());
+                        ma.setKwotaWaluta(ma.getKwota());
+                   } else {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                   }
+                   
+                }
             } else {
-                 if (wn != null) {
-                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                    wn.setKwotaWaluta(wn.getKwota());
-                 }
-                 if (ma != null) {
-                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                    ma.setKwotaWaluta(ma.getKwota());
-                 }
+                if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                     if (wn != null) {
+                        wn.setKwotaPLN(wn.getKwota());
+                        wn.setKwotaWaluta(wn.getKwota());
+                     }
+                     if (ma != null) {
+                        ma.setKwotaPLN(ma.getKwota());
+                        ma.setKwotaWaluta(ma.getKwota());
+                     }
+                } else {
+                     if (wn != null) {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                     }
+                     if (ma != null) {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                     }
+                }
             }
         } catch (Exception e) {
             Msg.msg("Blad DokfkView przepisz waluty");
@@ -1779,22 +1810,46 @@ public void updatenetto(EVatwpisFK e, String form) {
         try {
             StronaWiersza wn = wiersz.getStronaWn();
             StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                 if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    wn.setKwotaPLN(wn.getKwota());
-                 }
-                 if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    ma.setKwotaPLN(ma.getKwota());
-                 }
+            if (wiersz.getTabelanbp() == null ) {
+                if (wn != null && wn.getKwotaPLN() == 0.0) {
+                   if (wn.getSymbolWalutyBO().equals("PLN")) {
+                        wn.setKwotaPLN(wn.getKwota());
+                        wn.setKwotaWaluta(wn.getKwota());
+                   } else {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                   }
+                }
+                if (ma != null && ma.getKwotaPLN() == 0.0) {
+                    if (ma.getSymbolWalutyBO().equals("PLN")) {
+                        ma.setKwotaPLN(ma.getKwota());
+                        ma.setKwotaWaluta(ma.getKwota());
+                   } else {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                   }
+                   
+                }
             } else {
-                 if (wn != null && wn.getKwotaPLN() == 0.0) {
-                    wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
-                    wn.setKwotaWaluta(wn.getKwota());
-                 }
-                 if (ma != null && ma.getKwotaPLN() == 0.0) {
-                    ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
-                    ma.setKwotaWaluta(ma.getKwota());
-                 }
+                if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                     if (wn != null && wn.getKwotaPLN() == 0.0) {
+                        wn.setKwotaPLN(wn.getKwota());
+                        wn.setKwotaWaluta(wn.getKwota());
+                     }
+                     if (ma != null && ma.getKwotaPLN() == 0.0) {
+                        ma.setKwotaPLN(ma.getKwota());
+                        ma.setKwotaWaluta(ma.getKwota());
+                     }
+                } else {
+                     if (wn != null && wn.getKwotaPLN() == 0.0) {
+                        wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
+                        wn.setKwotaWaluta(wn.getKwota());
+                     }
+                     if (ma != null && ma.getKwotaPLN() == 0.0) {
+                        ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
+                        ma.setKwotaWaluta(ma.getKwota());
+                     }
+                }
             }
         } catch (Exception e) {
             Msg.msg("Blad DokfkView przepisz waluty");
@@ -1806,6 +1861,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
+                if (selected.getDokfkPK().getSeriadokfk().equals("BO")) {
+                    selected.przepiszWierszeBO();
+                }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 selected.setwTrakcieEdycji(false);
                 selected.setImportowany(false);
@@ -3157,6 +3215,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         try {
             System.out.println("sprawdzwartoscigrupy() grupa nr: " + nrgrupywierszy);
             Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
+            if (wierszpodstawowy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                return;
+            }
             double sumaWn = wierszpodstawowy.getStronaWn().getKwota();
             double sumaMa = wierszpodstawowy.getStronaMa().getKwota();
             int typwiersza = 0;
@@ -3216,7 +3277,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
         Set<String> serie = new HashSet<>();
         for (Dokfk p : dokumenty) {
-            serie.add(p.getDokfkPK().getSeriadokfk());
+            if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
+                serie.add(p.getDokfkPK().getSeriadokfk());
+            }
         }
         System.out.println("d");
         for (String r : serie) {

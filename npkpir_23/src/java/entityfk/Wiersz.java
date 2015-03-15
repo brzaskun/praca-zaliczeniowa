@@ -177,11 +177,19 @@ public class Wiersz implements Serializable {
     }
     
     public StronaWiersza getStronaWn() {
-        return this.strona.get("Wn");
+        try {
+            return this.strona.get("Wn");
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public StronaWiersza getStronaMa() {
-        return this.strona.get("Ma");
+        try {
+            return this.strona.get("Ma");
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     public List<StronaWiersza> getStronyWiersza() {
@@ -204,6 +212,10 @@ public class Wiersz implements Serializable {
             strony.add(this.strona.get("Ma"));
         }
         return strony;
+    }
+
+    public Map<String, StronaWiersza> getStrona() {
+        return strona;
     }
     
     public String getDataksiegowania() {
@@ -309,9 +321,9 @@ public class Wiersz implements Serializable {
     }
     
     public String tostring2() {
-        if (getStronaWn() == null) {
+        if (getStronaWn() != null) {
             return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaWn().getKonto().getPelnynumer();
-        } else if (getStronaMa() == null) {
+        } else if (getStronaMa() != null) {
             return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaMa().getKonto().getPelnynumer();
         } else {
             return "lpwiersza "+idporzadkowy;
