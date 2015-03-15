@@ -653,4 +653,23 @@ public class Dokfk implements Serializable {
                 p.setTabelanbp(tabelanbp);
             }
     }
+
+    public void przepiszWierszeBO() {
+        List<Wiersz> wiersze = this.getListawierszy();
+        for (Wiersz p : wiersze) {
+            if (p.getTypWiersza() == 0) {
+                if (!p.getOpisWiersza().contains("zapis BO:")) {
+                    String nowyopis = "zapis BO: "+p.getOpisWiersza();
+                    p.setOpisWiersza(nowyopis);
+                }
+                if (p.getStronaWn().getKonto() != null) {
+                    p.setTypWiersza(1);
+                    p.getStrona().remove("Ma");
+                } else {
+                    p.setTypWiersza(2);
+                    p.getStrona().remove("Wn");
+                }
+            }
+        }
+    }
 }
