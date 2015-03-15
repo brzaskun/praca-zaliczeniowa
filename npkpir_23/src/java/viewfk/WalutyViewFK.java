@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -107,9 +108,33 @@ public class WalutyViewFK implements Serializable {
             tabelanbpDAO.dodaj(tabelanbp);
             pobranekursyRok.add(tabelanbp);
             tabelanbp = null;
-            Msg.msg("Dodaj tabelę NBP");
+            Msg.msg("Dodałem tabelę NBP");
+            RequestContext.getCurrentInstance().update("formkursrecznie");
+            RequestContext.getCurrentInstance().execute("PF('dialogkursrecznie').hide();");
         } catch (Exception e) {
-            Msg.msg("e","Istnieje już taka tabela o takim numerze dot. danej waluty. Nie można wprowadzić kursu.");
+            List<Tabelanbp> kursypokrewne = new ArrayList<>();
+            for (Tabelanbp p : pobranekursy) {
+                if (p.getNrtabeli().contains(tabelanbp.getNrtabeli().substring(3))) {
+                    kursypokrewne.add(p);
+                }
+            }
+            int max = 0;
+            for (Tabelanbp t : kursypokrewne) {
+                int numer = Integer.parseInt(t.getNrtabeli().substring(0,3));
+                if (numer > max) {
+                    max = numer;
+                }
+            }
+            String numerstring = null;
+            if (max < 10) {
+                numerstring = "00"+String.valueOf(max);
+            } else if (max < 99) {
+                numerstring = "0"+String.valueOf(max);
+            } else {
+                numerstring = String.valueOf(max);
+            }
+            Msg.msg("e","Ostatni numer zapisany w bazie to "+numerstring+". Nie można wprowadzić kursu.");
+            RequestContext.getCurrentInstance().execute("r('formkursrecznie:dataKursReczny:0:numertabeli').focus();");
         }
     }
 

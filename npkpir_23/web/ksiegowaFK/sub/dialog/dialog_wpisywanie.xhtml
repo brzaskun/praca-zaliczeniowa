@@ -195,7 +195,6 @@
                         <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30"
                                      style="height: 19px;"
                                      >
-                            
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
 <!--                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>-->
@@ -234,7 +233,7 @@
                             <h:selectOneMenu id="w12" value="#{dokfkView.wybranaTabelanbp}" converter="TabelaNBPConv"
                                              rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}">
                                 <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
-                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13"/>
+                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat"/>
                             </h:selectOneMenu>
                             <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
@@ -462,6 +461,7 @@
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" global="false" update=":formwpisdokument" style="display: none;"/>
                 <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;" />
                 <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false" style="margin-left: 10px;"  update=":formwpisdokument:dataList"/>
+                <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>
