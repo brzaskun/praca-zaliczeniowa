@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -36,7 +35,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.jboss.weld.util.collections.ArraySet;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
  
@@ -154,6 +152,8 @@ public class Dokfk implements Serializable {
     private String nrdziennika;
     @Column(name = "importowany")
     private boolean importowany;
+    @Column(name = "lp")
+    private int lp;
  
 
     
@@ -228,6 +228,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public int getLp() {
+        return lp;
+    }
+
+    public void setLp(int lp) {
+        this.lp = lp;
     }
 
     public boolean isImportowany() {
@@ -462,6 +470,16 @@ public class Dokfk implements Serializable {
     @Override
     public String toString() {
         return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " ]";
+    }
+    
+    public String getDokfkLP() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.dokfkPK.getSeriadokfk());
+        s.append("/");
+        s.append(this.lp);
+        s.append("/");
+        s.append(this.dokfkPK.getRok());
+        return s.toString();
     }
 
     public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {

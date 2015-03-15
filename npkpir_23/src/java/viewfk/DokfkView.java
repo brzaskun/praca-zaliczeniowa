@@ -11,6 +11,7 @@ import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
+import comparator.Dokfkcomparator;
 import comparator.Transakcjacomparator;
 import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
@@ -45,6 +46,7 @@ import entityfk.WierszBO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1716,6 +1718,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Msg.msg("e", "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
+                selected.setLp(selected.getDokfkPK().getNrkolejnywserii());
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
@@ -3208,6 +3211,30 @@ public void updatenetto(EVatwpisFK e, String form) {
         niedodawajkontapole = true;
     }
    
+    
+    public void przenumerujDokumentyFK() {
+        List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        Set<String> serie = new HashSet<>();
+        for (Dokfk p : dokumenty) {
+            serie.add(p.getDokfkPK().getSeriadokfk());
+        }
+        System.out.println("d");
+        for (String r : serie) {
+            List<Dokfk> nowadosortowania = new ArrayList<>();
+            int kolejny = 1;
+            int pobrany = 0;
+            for (Dokfk t : dokumenty) {
+                if (t.getDokfkPK().getSeriadokfk().equals(r)) {
+                    nowadosortowania.add(t);
+                }
+            }
+            Collections.sort(nowadosortowania, new Dokfkcomparator());
+            for (Dokfk f : nowadosortowania) {
+                f.setLp(kolejny++);
+                dokDAOfk.edit(f);
+            }
+        }
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
      public String getWybranakategoriadok() {

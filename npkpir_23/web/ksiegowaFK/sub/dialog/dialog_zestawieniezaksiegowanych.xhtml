@@ -82,6 +82,9 @@
                 <p:column headerText="symbol" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                     <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
                 </p:column>
+                 <p:column headerText="symbolN" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
+                     <h:outputText value="#{item.dokfkLP}"/>
+                </p:column>
                 <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
