@@ -4,9 +4,7 @@
  */
 package view;
 
-import com.sun.corba.se.impl.protocol.RequestCanceledException;
 import comparator.Dokcomparator;
-import comparator.Dokfkcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
