@@ -2683,6 +2683,9 @@ public void updatenetto(EVatwpisFK e, String form) {
     
     public void zmienbiezacatabele() {
         selected.dodajTabeleWalut(wybranaTabelanbp);
+        DokFKWalutyBean.zmienkurswaluty(selected);
+        symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto_input");
     }
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {

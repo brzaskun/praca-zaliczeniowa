@@ -6,8 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
-    <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  
-              resizable="false"  onShow="ustawdialog('dialogkursrecznie','menukartoteki',800,150);" closeOnEscape="true" onHide="resetujdialog('dialogkursrecznie');" >
+    <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  appendTo="@(body)"
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,150);" closeOnEscape="true" 
+              onHide="resetujdialog('dialogkursrecznie');r('formwpisdokument:opisdokumentu').focus();" >
         <h:form id="formkursrecznie">
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
@@ -17,9 +18,9 @@
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
-                    <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
+                    <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
                         <f:selectItems value="#{walutyViewFK.pobranewalutyrecznykurs}" var="item" itemLabel="#{item.symbolwaluty}"/>
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
                     <pe:inputNumber value="#{wpis.kurssredni}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
@@ -27,7 +28,7 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="@form, :wprowadzonekursy"
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update="@form, :formwpisdokument:panelTabelaNBP"
                                      />
                 </p:column>
             </p:dataTable>
