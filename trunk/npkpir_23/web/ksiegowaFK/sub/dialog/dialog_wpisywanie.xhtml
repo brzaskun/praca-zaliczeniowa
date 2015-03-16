@@ -360,14 +360,14 @@
                     <p:column headerText="konto Wn" width="90" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                        minQueryLength="1" converter="KontoConv" queryDelay="1" queryDeletionDelay="1" cache="true" 
+                                        minQueryLength="1" converter="KontoConv" queryDelay="1" queryDeletionDelay="1"  
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);" readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
-                            <p:ajax global="false" event="focus" partialSubmit="true" onstart="console.log('kontownfous');"/>
+                            <p:ajax global="false" event="focus" onstart="console.log('kontownfous');"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"
                                     />
@@ -401,7 +401,7 @@
                     <p:column headerText="konto Ma" width="90" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
-                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" queryDeletionDelay="1"  cache="true" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" queryDeletionDelay="1" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);" 
@@ -409,7 +409,7 @@
                                         >
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
-                            <p:ajax global="false" event="focus" partialSubmit="true" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
 <!--                            <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 
@@ -468,7 +468,7 @@
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                 global="false" style="display: none;" update=":formwpisdokument:dataList" />
+                                 global="false" style="display: none;" update=":formwpisdokument" />
             </h:form>
         </f:facet>
 
