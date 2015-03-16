@@ -93,8 +93,6 @@ public class KliencifkView implements Serializable{
         przyporzadkujdokonta();
         resetujmakontoniemakonta();
         planKontCompleteView.init();
-        String update = "formwpisdokument:dataList";
-        RequestContext.getCurrentInstance().update(update);
     }
     
     public int pobieraniekontaFK() {

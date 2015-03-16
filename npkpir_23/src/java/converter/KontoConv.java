@@ -21,30 +21,33 @@ public class KontoConv implements javax.faces.convert.Converter{
      
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
-       FacesContext context = FacesContext.getCurrentInstance();
-       PlanKontConverterView planKontConverterView = (PlanKontConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null,"planKontConverterView");
-       List<Konto> konta = planKontConverterView.getWykazkont();
-        try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
-        if (submittedValue.trim().isEmpty()) {  
-            return null;  
-        } else {  
-            try {  
-                String number = submittedValue.split(" ")[0];
-                for (Konto p : konta ){  
-                    if (p.getPelnynumer().equals(number)) {  
-                        return p;  
-                    }  
-                }  
-  
-            } catch(NumberFormatException exception) {  
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));  
-            }  
-        }
-        } catch (Exception e) {
-            return null;  
+        if (submittedValue.length() > 2) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            PlanKontConverterView planKontConverterView = (PlanKontConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "planKontConverterView");
+            //System.out.println("Wywołanie KotoConv getAsObject()");
+            List<Konto> konta = planKontConverterView.getWykazkont();
+            try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
+                if (submittedValue.trim().isEmpty()) {
+                    return null;
+                } else {
+                    try {
+                        String number = submittedValue.split(" ")[0];
+                        for (Konto p : konta) {
+                            if (p.getPelnynumer().equals(number)) {
+                                return p;
+                            }
+                        }
+
+                    } catch (NumberFormatException exception) {
+                        throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid klient"));
+                    }
+                }
+            } catch (Exception e) {
+                return null;
+            }
         }
         return null;
-    }  
+    }
   
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) {  
