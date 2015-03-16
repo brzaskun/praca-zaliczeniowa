@@ -419,3 +419,25 @@ var powrocNaPoczatekDokfk = function() {
     $('#formwpisdokument\\:data2DialogWpisywanie').select();
 };
 
+//rodzial dotyczacy umiejscawiania pozycji z  faktury
+var petlawywolujaca = function(lw, gr, co) {
+    //alert('petlawywolujaca');
+    var dlugosc = lw.length - 1;
+    for (var j = 0; j < dlugosc; j++) {
+        //alert(lw[j]+","+gr[j]+","+co[j]);
+        var lewy = parseInt(lw[j]);
+        var cos = co[j];
+        var gora = parseInt(gr[j]);
+        $(document.getElementById(cos)).css({position: "absolute",
+            marginLeft: 0, marginTop: 0,
+            top: gora, left: lewy});
+
+    }
+};
+
+var sprawdzczynazwaskroconafakturaniejestshown = function() {
+    var czydialogjestshown = $("#nazwaskroconafaktura").hasClass("ui-overlay-visible");
+    if (czydialogjestshown) {
+        $(document.getElementById("formkontowybor:wybormenu")).focus();
+    }
+};
