@@ -2,6 +2,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
     var source = event.target || event.srcElement;
     MYAPP.lpwiersza = lpwiersza;
+    console.log("lpwiersza "+lpwiersza);
     MYAPP.wnlubma = wnlubma;
     MYAPP.zaznaczonepole = event.target;
     MYAPP.typwiersza = typwiersza;

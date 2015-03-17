@@ -873,6 +873,17 @@ private static final long serialVersionUID = 1L;
             }
         }
     }
+    
+    public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {
+        if (eVatwpisFK.getLp()!=0) {
+            for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
+                EVatwpisFK p = (EVatwpisFK) it.next();
+                if (p.getLp() == eVatwpisFK.getLp()) {
+                    it.remove();
+                }
+            }
+        }
+    }
     private void stworzlisteewidencjiRK() {
         List<String> nazwyewidencji = new ArrayList<>();
         nazwyewidencji.add("zakup");
@@ -2442,7 +2453,6 @@ public void updatenetto(EVatwpisFK e, String form) {
             RequestContext.getCurrentInstance().update("formCHW");
             lpWierszaWpisywanie = -1;
             RequestContext.getCurrentInstance().update("wpisywaniefooter:wierszid");
-            RequestContext.getCurrentInstance().execute("PF('dialogCechyStronaWiersza').show();");
         }
     }
     
@@ -2743,7 +2753,6 @@ public void updatenetto(EVatwpisFK e, String form) {
         selected.dodajTabeleWalut(wybranaTabelanbp);
         DokFKWalutyBean.zmienkurswaluty(selected);
         symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:0:netto_input");
     }
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {
