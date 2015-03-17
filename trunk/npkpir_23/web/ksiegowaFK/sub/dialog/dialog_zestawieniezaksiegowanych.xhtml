@@ -110,7 +110,7 @@
                 </p:column>         
                 <p:column width="80" style="text-align: center;" >
                     <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" update=":formwpisdokument, :zestawieniedokumentow:dataList"  
-                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"  onsuccess="PF('tablicadokumenty').clearFilters()"/>
+                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
                     <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>

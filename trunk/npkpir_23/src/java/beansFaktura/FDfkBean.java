@@ -139,10 +139,11 @@ public class FDfkBean {
     }
     
     private static Wiersz przygotujwierszNetto(Faktura faktura, Dokfk nd, KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO, KliencifkDAO kliencifkDAO){
-        Wiersz w = new Wiersz(0, 0);
+        Wiersz w = new Wiersz(1, 0);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         String opiswiersza = nd.getOpisdokfk(); 
         w.setOpisWiersza(opiswiersza);
+        w.setLpmacierzystego(0);
         double netto = 0;
         double vat = 0;
         if (faktura.getPozycjepokorekcie() != null) {
@@ -172,10 +173,11 @@ public class FDfkBean {
     }
     
     private static Wiersz przygotujwierszVat(Faktura faktura, Dokfk nd,  KontoDAOfk kontoDAOfk, WpisView wpisView, TabelanbpDAO tabelanbpDAO) {
-        Wiersz w = new Wiersz(1, 2);
+        Wiersz w = new Wiersz(2, 2);
         uzupelnijwiersz(w, nd, tabelanbpDAO);
         String opiswiersza = nd.getOpisdokfk()+"- podatek vat"; 
         w.setOpisWiersza(opiswiersza);
+        w.setLpmacierzystego(1);
         double vat = 0;
         if (faktura.getPozycjepokorekcie() != null) {
             vat = faktura.getVatpk()-faktura.getVat();
@@ -194,7 +196,6 @@ public class FDfkBean {
         Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
         w.setTabelanbp(t);
         w.setDokfk(nd);
-        w.setLpmacierzystego(0);
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }
