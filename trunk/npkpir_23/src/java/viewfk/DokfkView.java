@@ -2016,6 +2016,13 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
             }
     }
+    
+    public void pobierzopiszpoprzedniegodokItemSelect() {
+         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            if (poprzedniDokument != null) {
+                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            }
+    }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
