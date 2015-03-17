@@ -100,7 +100,7 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
-                        <h:outputText id="minmax" value="#{loopik.dataWalutyWiersza}" styleClass="#{loopik.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;"  >
+                        <h:outputText id="dataWiersza" value="#{loopik.dataWalutyWiersza}" styleClass="#{loopik.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;"  >
                         </h:outputText>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: right;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">

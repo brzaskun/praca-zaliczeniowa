@@ -92,7 +92,7 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
 //        if(roznica>0){
 //            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontoma: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontown_hinput").val());
-//            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+//            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:dataWiersza").hide();
 //            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn").hide();
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(roznica);
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_input").val(roznica);
@@ -109,7 +109,7 @@ var sprawdzpoprzedniwiersz = function(nrWiersza){
 //        } else if (roznica<0){
 //            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").hide();
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:opis").val("kontown: "+$("#formwpisdokument\\:dataList\\:"+wierszwyzej+"\\:kontoma_hinput").val());
-//            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:minmax").hide();
+//            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:dataWiersza").hide();
 //            //$("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma").hide();
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:ma_hinput").val(-roznica);
 //            $("#formwpisdokument\\:dataList\\:"+nrWiersza+"\\:wn_hinput").val(-roznica);
@@ -142,7 +142,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
 //        var opiszawiera = opisbiezacego1 || opisbiezacego2;
 //        if(opisbiezacego1){
 //            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-//            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
+//            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:dataWiersza").hide();
 //            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn").hide();
 //            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
 //            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val());
@@ -152,7 +152,7 @@ var sprawdzpoprzedniwierszdialog = function(wiersz){
 //            zachowajwtablicydok(pozycja);
 //        } else if (opisbiezacego2){
 //            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").hide();
-//            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:minmax").hide();
+//            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:dataWiersza").hide();
 //            //$("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma").hide();
 //            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_hinput").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());
 //            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:ma_input").val($("#formwpisdokument\\:dataList\\:"+wiersz+"\\:wn_hinput").val());

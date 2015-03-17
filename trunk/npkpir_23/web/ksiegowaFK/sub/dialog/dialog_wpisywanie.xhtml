@@ -299,7 +299,7 @@
                                 actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
 <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px;" 
+                <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px;"  
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
 <!--                             paginator="true" rows="10" paginatorPosition="top">-->
@@ -330,9 +330,9 @@
                         </pe:inputNumber>
                     </p:column>
                     <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
-                        <p:inputText id="minmax" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
+                        <p:inputText id="dataWiersza" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" style="width: 20px;" maxlength="2" >
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
-                            <p:ajax global="change" event="blur" partialSubmit="true" listener="#{dokfkView.obsluzDataWiersza(loop)}" update="@this"/>
+                            <p:ajax global="false" event="blur" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="kwota"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
@@ -341,7 +341,7 @@
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujKwoteZWierszaWyzej(loop.idporzadkowy, 'Wn')}"  update="@this"/>
+                            <p:ajax global="false" event="blur" onstart="skopiujKwoteZWierszaWyzej(#{loop.idporzadkowy-1}, 'Wn');"  partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>
                      <p:column headerText="kwota PLN" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == true}">
@@ -383,6 +383,7 @@
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                             <p:ajax global="false" event="change" partialSubmit="true"  />
+                            <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{loop.idporzadkowy-1}, 'Wn');"/>
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                         </pe:inputNumber> 
                     </p:column>
@@ -409,7 +410,6 @@
                                         >
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
-                            <p:ajax global="false" event="focus" partialSubmit="true" listener="#{dokfkView.skopiujKwoteWndoMa(loop)}"/>
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
 <!--                            <p:ajax global="false" event="itemSelect" listener="#{dokfkView.zdarzeniaOnBlurStronaMa(loop, rowindex)}" partialSubmit="true" 
