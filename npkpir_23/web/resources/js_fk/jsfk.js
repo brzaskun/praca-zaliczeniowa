@@ -223,7 +223,7 @@ var chowanienapoczatek = function(){
     pozazieleniajNoweTransakcje();
 };
 
-var aktualizujmape = function(){
+var focusNaOstatnimWierszu = function(){
     //usunztablicydok();
     //chowanienapoczatekdok();
         var dlugosclisty = rj("formwpisdokument:dataList_data").children.length;
@@ -232,10 +232,6 @@ var aktualizujmape = function(){
         $(document.getElementById(i)).focus();
 };
 
-var aktualizujmapedialog = function(wiersze){
-    usunztablicydok();
-    zakryjpolaedycjadokumentu(wiersze);
-};
 
 //sub do aktualizuj mape
 var chowanienapoczatekdok = function(){

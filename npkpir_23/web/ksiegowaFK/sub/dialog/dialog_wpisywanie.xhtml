@@ -233,7 +233,7 @@
                             <h:selectOneMenu id="w12" value="#{dokfkView.wybranaTabelanbp}" converter="TabelaNBPConv"
                                              rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}">
                                 <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
-                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat"/>
+                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat, formwpisdokument:tablicavat:0:netto_input"/>
                             </h:selectOneMenu>
                             <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
@@ -254,7 +254,7 @@
                         <p:column headerText="netto" style="width: 80px;">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" />
+                                <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
                                 <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
                             </pe:inputNumber>
                         </p:column>
@@ -267,7 +267,7 @@
                         <p:column headerText="brutto" style="width: 80px;">
                             <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                                <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}"/>
+                                <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="op/zw" style="width: 45px; text-align: center;">
@@ -283,8 +283,11 @@
                                 <p:ajax global="false" event="keyup" partialSubmit="true"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="width: 25px;">
-                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVatDodatkowa()}"/>
+                        <p:column style="width: 20px; text-align: center;">
+                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVatDodatkowa()}" global="false"/>
+                        </p:column>
+                         <p:column style="width: 20px; text-align: center;">
+                             <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"/>
                         </p:column>
                         <p:column>
                             
@@ -448,11 +451,11 @@
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
-                                 styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument:dataList" oncomplete="aktualizujmape();"/>
+                                 styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" 
                                  oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox"/>
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
-                <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" />
+                <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false"
