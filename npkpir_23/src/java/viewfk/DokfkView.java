@@ -2235,8 +2235,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                     pokazPanelWalutowy = false;
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -2264,8 +2262,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     pokazPanelWalutowy = false;
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-                RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().execute("PF('wpisywanie').show();");
+                
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
@@ -2403,7 +2400,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc() {
-        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
+        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         if (wiersz != null ) {
@@ -3297,6 +3294,14 @@ public void updatenetto(EVatwpisFK e, String form) {
                 dokDAOfk.edit(f);
             }
         }
+    }
+    
+    public void usunwszytskieimportowane() {
+        for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
+            dokDAOfk.destroy(p);
+        }
+        wykazZaksiegowanychDokumentow = new ArrayList<>();
+        Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
