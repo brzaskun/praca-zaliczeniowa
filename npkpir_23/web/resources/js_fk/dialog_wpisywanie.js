@@ -359,4 +359,41 @@ var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
     r(nr5).css( "color", "red" );
 };
 
+var obsluzDateWiersza = function(idwiersza) {
+  var biezacadata = r("formwpisdokument:dataList:"+idwiersza+":dataWiersza");
+  var biezacadataVal = biezacadata.val();
+  if (biezacadataVal === "") {
+      if (idwiersza > 0) {
+          var idpoprzedni = idwiersza-1;
+          var poprzedniadata = r("formwpisdokument:dataList:"+idpoprzedni+":dataWiersza").val();
+          biezacadata.val(poprzedniadata);
+      }
+  } else if (biezacadataVal.length === 1) {
+      biezacadata.val("0"+biezacadataVal);
+  }
+};
 
+var skopiujKwoteZWierszaWyzej = function (idwiersza) {
+  var biezacastronawiersza = r("formwpisdokument:dataList:"+idwiersza+":wn_input");
+  var biezacastronawierszaH = r("formwpisdokument:dataList:"+idwiersza+":wn_hinput");
+  var biezacakwota = biezacastronawiersza.val();
+  if (biezacakwota === "0.00") {
+      if (idwiersza > 0) {
+          var idpoprzedni = idwiersza-1;
+          var kwotawierszwyzej = r("formwpisdokument:dataList:"+idpoprzedni+":wn_input").val();
+          biezacastronawiersza.val(kwotawierszwyzej);
+          biezacastronawierszaH.val(zrobFloat(kwotawierszwyzej));
+      }
+  }
+};
+
+var skopiujKwoteZeStronaWn = function (idwiersza) {
+  var biezacastronawiersza = r("formwpisdokument:dataList:"+idwiersza+":ma_input");
+  var biezacastronawierszaH = r("formwpisdokument:dataList:"+idwiersza+":ma_hinput");
+  var biezacakwota = biezacastronawiersza.val();
+  if (biezacakwota === "0.00") {
+          var kwotawierszWn = r("formwpisdokument:dataList:"+idwiersza+":wn_input").val();
+          biezacastronawiersza.val(kwotawierszWn);
+          biezacastronawierszaH.val(zrobFloat(kwotawierszWn));
+  }
+};

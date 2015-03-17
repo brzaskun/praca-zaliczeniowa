@@ -2818,11 +2818,11 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void obsluzDataWiersza(Wiersz wierszbiezacy) {
-        if (wierszbiezacy.getDataWalutyWiersza().isEmpty()) {
-            skopiujDateZWierszaWyzej(wierszbiezacy);
-        } else if (wierszbiezacy.getDataWalutyWiersza().length()== 1) {
-            wierszbiezacy.setDataWalutyWiersza("0"+wierszbiezacy.getDataWalutyWiersza());
-        }
+//        if (wierszbiezacy.getDataWalutyWiersza().isEmpty()) {
+//            skopiujDateZWierszaWyzej(wierszbiezacy);
+//        } else if (wierszbiezacy.getDataWalutyWiersza().length()== 1) {
+//            wierszbiezacy.setDataWalutyWiersza("0"+wierszbiezacy.getDataWalutyWiersza());
+//        }
         pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
         String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
@@ -3020,7 +3020,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 //            }
 //            wierszRK.getStronaMa().setKwota(ewidencjaVatRK.getNetto());
 //        }
-//        String update = "formwpisdokument:dataList:"+wierszRKindex+":minmax";
+//        String update = "formwpisdokument:dataList:"+wierszRKindex+":dataWiersza";
 //        RequestContext.getCurrentInstance().update(update);
 //        update = "formwpisdokument:dataList:"+wierszRKindex+":wn";
 //        RequestContext.getCurrentInstance().update(update);
