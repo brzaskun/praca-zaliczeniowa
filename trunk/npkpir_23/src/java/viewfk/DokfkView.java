@@ -3325,6 +3325,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
      public String getWybranakategoriadok() {
