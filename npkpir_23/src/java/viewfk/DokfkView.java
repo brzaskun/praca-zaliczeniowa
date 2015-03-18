@@ -2243,6 +2243,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
+                wybranaTabelanbp = selected.getTabelanbp();
+                tabelenbp = new ArrayList<>();
+                tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 RequestContext.getCurrentInstance().update(rowS);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
@@ -2270,6 +2273,9 @@ public void updatenetto(EVatwpisFK e, String form) {
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
+                wybranaTabelanbp = selected.getTabelanbp();
+                tabelenbp = new ArrayList<>();
+                tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
                 RequestContext.getCurrentInstance().update(rowS);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());

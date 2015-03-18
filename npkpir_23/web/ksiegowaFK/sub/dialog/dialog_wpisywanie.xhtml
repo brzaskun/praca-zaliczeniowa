@@ -232,7 +232,7 @@
                             <h:selectOneMenu id="w12" value="#{dokfkView.wybranaTabelanbp}" converter="TabelaNBPConv"
                                              rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}">
                                 <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
-                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat, formwpisdokument:tablicavat:0:netto_input"/>
+                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat"/>
                             </h:selectOneMenu>
                             <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
                                           rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
