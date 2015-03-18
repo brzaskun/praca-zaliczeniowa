@@ -41,9 +41,9 @@ var odtworzwierszVATRK = function(data) {
     }
 };
 
-var wpisywanieOnShow = function () {
+var wpisywanieOnShow = function (szer, wys) {
     try {
-        ustawdialog('dialogpierwszy','menudokumenty',1130,600);
+        ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
         pozazieleniajNoweTransakcje();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
