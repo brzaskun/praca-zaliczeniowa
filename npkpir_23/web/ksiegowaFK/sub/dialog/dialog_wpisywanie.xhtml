@@ -75,7 +75,7 @@
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)"
-              resizable="false" onShow="wpisywanieOnShow();" closable="true" onHide="wpisywanieOnHide();"
+              resizable="false" onShow="wpisywanieOnShow(1160,600);" closable="true" onHide="wpisywanieOnHide();"
               closeOnEscape="true" focus=":formwpisdokument:data2DialogWpisywanie"
               >
         <p:focus for="formwpisdokument">
@@ -127,10 +127,11 @@
                     </p:panelGrid>
                     <p:panelGrid id="paneldaneogolnefaktury" columns="4"  styleClass="uipanelGrid0">
                         <h:outputText value="symbol"/>
+                        <h:outputText value="nr kol"/>
                         <h:outputText value="numer własny"/>
 <!--                        <h:outputText value="rok VAT"/>
                         <h:outputText value="mc VAT"/>-->
-                        <h:outputText value="numer"/>
+                        
                         <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
                         <h:selectOneMenu id="symbol" value="#{dokfkView.selected.rodzajedok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
                                          onfocus="$(this).removeClass('ui-state-default');
@@ -140,14 +141,15 @@
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                             <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
-                                    :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
                         </h:selectOneMenu>
-                        
+                        <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 20px; font-weight: 900; margin-left: 15%;" readonly="true"  
+                        />
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
+                                    :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
                             <p:ajax global="false" event="change" partialSubmit="true" />
                         </p:inputText>
 <!--                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
@@ -157,8 +159,7 @@
                         <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 40px;">
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>-->
-                        <h:outputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 60px; font-weight: 900; margin-left: 30%;" class="spanowa" 
-                        />
+                      
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontovat eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
