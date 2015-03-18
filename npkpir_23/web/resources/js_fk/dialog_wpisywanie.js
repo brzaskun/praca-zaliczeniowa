@@ -255,6 +255,13 @@ var usunpodswietlenie = function(source) {
     };
 };
 
+var focusNowyWiersz = function() {
+     var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
+     var dlugoscwierszy = wiersze.length;
+     var wiersz = "formwpisdokument:"+dlugoscwierszy+":opis";
+     r(wiersz).focus();
+};
+
 var focusNaNowoDodanymEnter = function(source) {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();

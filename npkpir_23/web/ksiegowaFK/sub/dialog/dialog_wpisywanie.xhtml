@@ -469,7 +469,7 @@
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                 global="false" style="display: none;" update=":formwpisdokument" oncomplete="focusNaNowoDodanymEnter();"/>
+                                 global="false" style="display: none;" update=":formwpisdokument" oncomplete="focusNowyWiersz();"/>
             </h:form>
         </f:facet>
 
@@ -477,3 +477,4 @@
 
 </ui:composition>
 
+    
