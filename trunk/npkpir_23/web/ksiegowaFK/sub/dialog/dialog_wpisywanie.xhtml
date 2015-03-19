@@ -142,7 +142,7 @@
                             <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
                             <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
                         </h:selectOneMenu>
-                        <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 20px; font-weight: 900; margin-left: 15%;" readonly="true"  
+                        <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 30px; font-weight: 900; margin-left: 15%;" readonly="true"  
                         />
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
@@ -436,11 +436,11 @@
                 <p:panel id="panelwpisbutton" style="text-align: right;">
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
-                                     onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();"
+                                     onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach, :zestawieniedokumentowimport:dataList" 
-                                     rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();"/>
+                                     rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" global="false"/>
 
                 </p:panel>
             </div>
@@ -469,7 +469,7 @@
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                 global="false" style="display: none;" update=":formwpisdokument" oncomplete="focusNowyWiersz();"/>
+                                 global="false" style="display: none;" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();"/>
             </h:form>
         </f:facet>
 

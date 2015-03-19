@@ -1732,6 +1732,9 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void dodaj() {
+        if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
+            return;
+        }
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             Msg.msg("e", "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
@@ -1869,6 +1872,9 @@ public void updatenetto(EVatwpisFK e, String form) {
 
 
     public void edycja() {
+        if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
+            return;
+        }
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
