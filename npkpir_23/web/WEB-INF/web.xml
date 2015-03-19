@@ -56,7 +56,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -64,7 +64,7 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/login.xhtml</welcome-file>
+        <welcome-file>/login.xhtml</welcome-file>
     </welcome-file-list>
     <login-config>
         <auth-method>FORM</auth-method>
@@ -100,7 +100,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin Area</web-resource-name>
-            <url-pattern>/faces/admin/*</url-pattern>
+            <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Administrator</role-name>
@@ -109,7 +109,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Manager Area</web-resource-name>
-            <url-pattern>/faces/manager/*</url-pattern>
+            <url-pattern>/manager/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -119,7 +119,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Bookkeeper Area</web-resource-name>
-            <url-pattern>/faces/ksiegowa/*</url-pattern>
+            <url-pattern>/ksiegowa/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -131,7 +131,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>BookkeeperFK Area</web-resource-name>
-            <url-pattern>/faces/ksiegowaFK/*</url-pattern>
+            <url-pattern>/ksiegowaFK/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Manager</role-name>
@@ -142,7 +142,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Guest Area</web-resource-name>
-            <url-pattern>/faces/guest/*</url-pattern>
+            <url-pattern>/guest/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
@@ -157,7 +157,7 @@
       <security-constraint>
         <web-resource-collection>
             <web-resource-name>GuestFK Area</web-resource-name>
-            <url-pattern>/faces/guestFK/*</url-pattern>
+            <url-pattern>/guestFK/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>GuestFK</role-name>
@@ -171,7 +171,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Noobie Area</web-resource-name>
-            <url-pattern>/faces/noobie/*</url-pattern>
+            <url-pattern>/noobie/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
                 <role-name>Noobie</role-name>
@@ -187,7 +187,7 @@
      <security-constraint>
         <web-resource-collection>
             <web-resource-name>Wspolny</web-resource-name>
-            <url-pattern>/faces/wspolny/*</url-pattern>
+            <url-pattern>/wspolny/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>Guest</role-name>
@@ -202,11 +202,11 @@
     </security-constraint>
     <error-page>
         <error-code>403</error-code>
-        <location>/faces/AccessDenied.xhtml?faces-redirect=true</location>
+        <location>/AccessDenied.xhtml?faces-redirect=true</location>
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/login.xhtml?faces-redirect=true</location>
+        <location>/login.xhtml?faces-redirect=true</location>
     </error-page>
     <!-- Load custom tag into JSF web application -->
     <context-param>

@@ -363,7 +363,7 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
-            <to-view-id>/login.xhtml?faces-redirect=true</to-view-id>
+            <to-view-id>/login.xhtml</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>pomoclogowanie</from-outcome>
@@ -379,23 +379,23 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Administrator</from-outcome>
-            <to-view-id>/admin/adminIndex.xhtml</to-view-id>
+            <to-view-id>/admin/adminIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Manager</from-outcome>
-            <to-view-id>/manager/managerIndex.xhtml</to-view-id>
+            <to-view-id>/manager/managerIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <to-view-id>/index.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>BookkeeperFK</from-outcome>
-            <to-view-id>/indexFK.xhtml</to-view-id>
+            <to-view-id>/indexFK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Multiuser</from-outcome>
-            <to-view-id>/indexMulti.xhtml</to-view-id>
+            <to-view-id>/indexMulti.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>menudokumentyFK</from-outcome>
@@ -411,15 +411,15 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>Noobie</from-outcome>
-            <to-view-id>/noobie/noobie.xhtml</to-view-id>
+            <to-view-id>/noobie/noobie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>Guest</from-outcome>
-            <to-view-id>/guest/guestIndex.xhtml</to-view-id>
+            <to-view-id>/guest/guestIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>GuestFK</from-outcome>
-            <to-view-id>/guestFK/guestFKIndex.xhtml</to-view-id>
+            <to-view-id>/guestFK/guestFKIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfkFaktura</from-outcome>
