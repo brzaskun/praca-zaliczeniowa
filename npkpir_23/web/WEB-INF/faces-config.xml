@@ -151,7 +151,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>nowehaslo</from-outcome>
-            <to-view-id>/nowehaslo.xhtml</to-view-id>
+            <to-view-id>/nowehaslo.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>rejestruj</from-outcome>
@@ -363,15 +363,15 @@
         </navigation-case>
          <navigation-case>
             <from-outcome>failure</from-outcome>
-            <to-view-id>/login.xhtml</to-view-id>
+            <to-view-id>/login.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>pomoclogowanie</from-outcome>
-            <to-view-id>/pomoclogowanie.xhtml</to-view-id>
+            <to-view-id>/pomoclogowanie.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
             <from-outcome>zapomnialemhasla</from-outcome>
-            <to-view-id>/zapomnialemhasla.xhtml</to-view-id>
+            <to-view-id>/zapomnialemhasla.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
           <navigation-case>
             <from-outcome>klienci</from-outcome>
@@ -435,7 +435,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>GuestFaktura</from-outcome>
-            <to-view-id>/guestFaktura/guestFakturaIndex.xhtml</to-view-id>
+            <to-view-id>/guestFaktura/guestFakturaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfakturaFaktura</from-outcome>

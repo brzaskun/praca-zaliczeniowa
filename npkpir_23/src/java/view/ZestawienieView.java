@@ -177,6 +177,7 @@ public class ZestawienieView implements Serializable {
                 lista = new ArrayList<>();
                 lista.addAll(c);
                 for (Dok dokument : lista) {
+                    if (dokument.getUsunpozornie()==false) {
                     List<KwotaKolumna1> szczegol = dokument.getListakwot1();
                     for (KwotaKolumna1 tmp : szczegol) {
                         String selekcja = dokument.getPkpirM();
@@ -620,6 +621,7 @@ public class ZestawienieView implements Serializable {
                     zebranieMcy.add(pazdziernik);
                     zebranieMcy.add(listopad);
                     zebranieMcy.add(grudzien);
+                } else {
                 }
 
                 Ipolrocze = new ArrayList<>();
@@ -631,6 +633,8 @@ public class ZestawienieView implements Serializable {
                     IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
                     rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
                 }
+                
+            }
             }
         }
         createLinearModel(); 
