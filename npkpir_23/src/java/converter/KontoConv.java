@@ -10,7 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import viewfk.PlanKontConverterView;
+import viewfk.PlanKontCompleteView;
 
 /**
  *
@@ -23,9 +23,9 @@ public class KontoConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         if (submittedValue.length() > 2) {
             FacesContext context = FacesContext.getCurrentInstance();
-            PlanKontConverterView planKontConverterView = (PlanKontConverterView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "planKontConverterView");
+            PlanKontCompleteView planKontCompleteView = (PlanKontCompleteView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "planKontCompleteView");
             //System.out.println("Wywołanie KotoConv getAsObject()");
-            List<Konto> konta = planKontConverterView.getWykazkont();
+            List<Konto> konta = planKontCompleteView.getListakontOstatniaAnalitykaklienta();
             try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
                 if (submittedValue.trim().isEmpty()) {
                     return null;
