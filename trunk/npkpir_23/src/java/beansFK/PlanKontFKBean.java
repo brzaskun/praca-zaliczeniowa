@@ -301,7 +301,11 @@ public class PlanKontFKBean {
     public static int aktualizujslownikKontrahenciRemove(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontaslownikowaklientfk = kontoDAO.findSlownikoweKlienci(wpisView, kliencifk);
         for (Konto p : kontaslownikowaklientfk) {
-            kontoDAO.destroy(p);
+            try {
+                kontoDAO.destroy(p);
+            } catch (Exception e) {
+                System.out.println("blad podczas usuwania konta slownikowego aktualizujslownikKontrahenciRemove()");
+            }
         }
         return 0;
     }
