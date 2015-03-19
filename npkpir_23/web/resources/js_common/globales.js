@@ -3,9 +3,13 @@
 var MYAPP = {};
 
 var zrobFloat = function (kwota){
-      var strX = kwota.replace(",",".");
-      strX = strX.replace(/\s/g, "");
-      return parseFloat(strX);
+    try {
+        var strX = kwota.replace(",",".");
+        strX = strX.replace(/\s/g, "");
+        return parseFloat(strX);
+    } catch (e) {
+        return 0.0;
+    }
  };
  
  var r = function (pole) {
