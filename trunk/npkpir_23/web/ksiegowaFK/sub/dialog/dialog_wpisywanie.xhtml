@@ -370,7 +370,7 @@
                                         onclick="MYAPP.liczydloWcisnietychEnter = 1;"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
-                            <p:ajax global="false" event="focus" partialSubmit="true" onstart="console.log('kontownfous');"/>
+                            <p:ajax global="false" event="focus" onstart="console.log('kontownfous');"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.niewybranokontaStronaWn(loop, rowindex)}" update="@this"/>-->
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"
                                     />
@@ -413,7 +413,7 @@
                                         >
                             <p:ajax event="query" global="false"/>
 <!--                            <p:ajax global="false" event="blur" partialSubmit="true" listener="{dokfkView.niewybranokontaStronaMa(loop, rowindex)}" update="@this"/>-->
-                        <p:ajax global="false" event="focus" partialSubmit="true" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
+                        <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" onstart="MYAPP.liczydloWcisnietychEnter = 1;"/>
                         </p:autoComplete>
                     </p:column>
