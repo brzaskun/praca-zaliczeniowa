@@ -155,12 +155,12 @@ public class KliencifkView implements Serializable{
     
     public void remove(Kliencifk klientkontodousuniecia){
         try {
-            klienciDAO.destroy(klientkontodousuniecia);
+            kliencifkDAO.destroy(klientkontodousuniecia);
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Usunięto konta słownikowe dla klienta "+klientkontodousuniecia.getNazwa());
         } catch (Exception e) {
-            Msg.msg("e", "Nieudane usunięcie kont słownikowych dla klienta");
+            Msg.msg("e", "Wystąpił problem z usuwaniem kont słownikowych dla klienta");
         }
         wybranyklient = new Klienci();
         klientMaKonto = new Kliencifk();

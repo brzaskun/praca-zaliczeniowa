@@ -40,6 +40,10 @@ var TabKeyDown;
                 if ($(event.target).is("button") === false) {
                     if (war1 && war2 && war3 || war1 && war2 && war4) {
                         $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
+                        event.preventDefault();
+                            event.stopPropagation();
+                            event.stopImmediatePropagation();
+                            return false;
                     } else if (isTabKey(event)) {
                         var isTabSuccessful = tab(true, event.shiftKey, $target);
                         if (isTabSuccessful) {

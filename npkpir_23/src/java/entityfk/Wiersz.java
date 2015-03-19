@@ -321,10 +321,16 @@ public class Wiersz implements Serializable {
     }
     
     public String tostring2() {
-        if (getStronaWn() != null) {
-            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaWn().getKonto().getPelnynumer();
+        if (getStronaWn() != null && getStronaMa() != null) {
+            String wn = getStronaWn().getKonto() == null ? "brak konta Wn" : getStronaWn().getKonto().getPelnynumer();
+            String ma = getStronaMa().getKonto() == null ? "brak konta Ma" : getStronaMa().getKonto().getPelnynumer();
+            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+ wn + "konto Ma " + ma;
+        } else if (getStronaWn() != null) {
+            String wn = getStronaWn().getKonto() == null ? "brak konta Wn" : getStronaWn().getKonto().getPelnynumer();
+            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+wn;
         } else if (getStronaMa() != null) {
-            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Wn "+getStronaMa().getKonto().getPelnynumer();
+            String ma = getStronaMa().getKonto() == null ? "brak konta Ma" : getStronaMa().getKonto().getPelnynumer();
+            return "lpwiersza "+idporzadkowy+" opis "+opisWiersza + "konto Ma "+ma;
         } else {
             return "lpwiersza "+idporzadkowy;
         }
