@@ -10,6 +10,7 @@
             width: 400px !important;
         }
     </style>
+    <f:event type="preRenderView" listener="#{pojazdyView.init()}"/>
     <p:dialog id="dialog_pojazdy_dolaczanie" header="Definiowanie wykazu pojazdów i maszyn" widgetVar="dialog_pojazdy_dolaczanie" 
               resizable="false"  onShow="ustawdialog('dialog_pojazdy_dolaczanie','menukartoteki',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_pojazdy_dolaczanie');" >
        
