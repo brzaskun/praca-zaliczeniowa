@@ -1954,6 +1954,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
+                odswiezzaksiegowane();
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
@@ -2408,14 +2409,15 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
         }
         if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
-            for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentow.iterator(); p.hasNext();) {
-               Dokfk r = (Dokfk) p.next();
+            for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
+               Dokfk r = (Dokfk) it.next();
                if (r.isImportowany()==true) {
-                   p.remove();
+                   it.remove();
                }
            }
         }
-        RequestContext.getCurrentInstance().update("zestawieniedokumentow");
+        filteredValue = null;
+        System.out.println("odswiezzaksiegowane()");
     }
     
     public void odswiezzaksiegowaneimport() {
@@ -3298,6 +3300,9 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void sprawdzwartoscigrupy() {
+        if (nrgrupywierszy == null) {
+            return;
+        }
         try {
             System.out.println("sprawdzwartoscigrupy() grupa nr: " + nrgrupywierszy);
             Wiersz wierszpodstawowy = selected.getListawierszy().get(nrgrupywierszy - 1);
@@ -3346,9 +3351,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);
     }
     
-    public void resetujzaksiegowane() {
-        wykazZaksiegowanychDokumentow = new ArrayList<>();
-    }
+//    public void resetujzaksiegowane() {
+//        wykazZaksiegowanychDokumentow = new ArrayList<>();
+//    }
     
     public void resetujzaksiegowaneimport() {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
