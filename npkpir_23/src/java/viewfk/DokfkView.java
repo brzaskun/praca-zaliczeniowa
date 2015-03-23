@@ -1954,7 +1954,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
-                odswiezzaksiegowane();
             } catch (Exception e) {
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
