@@ -14,6 +14,7 @@ var TabKeyDown;
         var zawartoscpola = r(taregetId).val();
         var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
         var dlugoscwierszy = wiersze.length;
+        try {
             var czyZawieraWn = taregetId.indexOf("kontown");
             var czyZawieraMa = taregetId.indexOf("kontoma");
             var enterdefault = taregetId.indexOf("enterdefault");
@@ -21,6 +22,9 @@ var TabKeyDown;
             var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
             var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
             var wierszlp = parseInt(wierszid);
+        } catch (e1) {
+            
+        }
         if (rozrachunki == -1) {
             var toJestPoleKonta = false;
             if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {

@@ -23,7 +23,7 @@
                     <p:growl autoUpdate="true"/>
                             <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm3').hide();"
                                              actionListener="#{dokfkView.usundokument()}"
-                                             style="float: left; width: 120px; margin-left: 2%;" update=":zestawieniedokumentow:dataList, :zestawieniedokumentowimport">
+                                             style="float: left; width: 120px; margin-left: 2%;" update=":zestawieniedokumentow:dataList">
                             </p:commandButton>
                     <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm3').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                 </h:form>
@@ -43,7 +43,6 @@
                     <ui:include src="sub/dialog/dialog_wpisywanie.xhtml"/>
                     <ui:include src="sub/dialog/dialog_dokfkrozrachunki.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zestawieniezaksiegowanych.xhtml"/>
-                    <ui:include src="sub/dialog/dialog_zestawieniezaksiegowanychimport.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisywdokumentach.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisywdokumentachWNT.xhtml"/>
                     <ui:include src="sub/dialog/dialog_zapisywdokumentachWDT.xhtml"/>
