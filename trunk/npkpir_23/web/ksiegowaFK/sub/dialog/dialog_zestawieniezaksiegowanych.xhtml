@@ -29,7 +29,7 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" onsuccess="PF('tablicadokumenty').clearFilters()"/>
+                        <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" />
                         <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
@@ -39,7 +39,7 @@
                                      onclick="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" onsuccess="PF('tablicadokumenty').clearFilters()"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                     <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
