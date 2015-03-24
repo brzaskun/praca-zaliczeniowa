@@ -37,18 +37,18 @@
                 <p:column>
                     <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" style="width: 120px;"/>
                 </p:column>
-                <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
+                <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                     <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
             </p:panelGrid>
             
-            <script>
+<!--            <script>
                 /* <![CDATA[ */
                 //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
                 $(document).on("click", '.gridZaksiegowane tr', function(e) {
-                    var pierwszywiersz = $("#zestawieniedokumentowimport\\:dataList_data").children("tr");
+                    var pierwszywiersz = $("#zestawieniedokumentowimport\\:dataListImport_data").children("tr");
                     var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
                     try {
                         e.stopPropagation(); // will prevent double click events from link being clicked within row
@@ -60,14 +60,14 @@
                     }
                 });
                 /* ]]> */
-            </script>
-            <p:contextMenu for="dataList" style="width: 200px;">
-                <p:menuitem value="usuń wszytskie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update=":zestawieniedokumentowimport"/>
+            </script>-->
+            <p:contextMenu for="dataListImport" style="width: 200px;">
+                <p:menuitem value="usuń wszystkie" icon="ui-icon-trash" actionListener="#{dokfkView.usunwszytskieimportowane()}" update=":zestawieniedokumentowimport"/>
             </p:contextMenu>
 
-            <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
-                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
+            <p:dataTable id="dataListImport" value="#{dokfkView.wykazZaksiegowanychDokumentowimport}" var="item" rowIndexVar="row" widgetVar="tablicadokumentyimport" 
+                         selection="#{dokfkView.selectedimport}" rowKey="#{item}" selectionMode="single" 
+                         style="width: 1250px; height: 580px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValueimport}"
                          emptyMessage="Brak importowanych dokumentów" styleClass="gridZaksiegowane"
                          sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -107,7 +107,7 @@
                 <p:column width="80" style="text-align: center;" >
                     <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycjaImport(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document"
                                      update=":formwpisdokument, :zestawieniedokumentowimport"  onsuccess="PF('wpisywanie').show();"
-                                     onclick="MYAPP.liczydloWcisnietychEnter = 1;" rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
+                                     rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">
                     <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>

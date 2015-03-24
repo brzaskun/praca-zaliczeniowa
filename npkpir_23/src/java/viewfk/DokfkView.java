@@ -80,6 +80,7 @@ private static final long serialVersionUID = 1L;
     private Integer lpWierszaWpisywanie;
     private String stronawiersza;
     protected Dokfk selected;
+    protected Dokfk selectedimport;
     @Inject
     private DokDAOfk dokDAOfk;
     @Inject
@@ -155,7 +156,9 @@ private static final long serialVersionUID = 1L;
     private List<Cechazapisu> pobranecechy;
     private StronaWiersza stronaWierszaCechy;
     private List<Dokfk> filteredValue;
+    private List<Dokfk> filteredValueimport;
     private String wybranakategoriadok;
+    private String wybranakategoriadokimport;
     private boolean ewidencjaVATRKzapis0edycja1;
     private Dokfk dokumentdousuniecia;
     private boolean niedodawajkontapole;
@@ -207,7 +210,7 @@ private static final long serialVersionUID = 1L;
             selected.setwTrakcieEdycji(false);
             ostatniklient = selected.getKontr();
             RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-            RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataList");
+            RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
         }
         try {
             if (ostatniklient == null) {
@@ -2332,7 +2335,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void przygotujDokumentEdycjaImport(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            String rowS = "zestawieniedokumentowimport:dataList:"+String.valueOf(row)+":";
+            String rowS = "zestawieniedokumentowimport:dataListImport:"+String.valueOf(row)+":";
             if (odnalezionywbazie.getwTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
@@ -2420,10 +2423,10 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void odswiezzaksiegowaneimport() {
-        if (wybranakategoriadok == null) {
-            wybranakategoriadok = "wszystkie";
+        if (wybranakategoriadokimport == null) {
+            wybranakategoriadokimport = "wszystkie";
         }
-        if (wybranakategoriadok.equals("wszystkie")) {
+        if (wybranakategoriadokimport.equals("wszystkie")) {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
                 wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRok(wpisView);
             } else {
@@ -2432,10 +2435,10 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
         } else {
             if (wpisView.getMiesiacWpisu().equals("CR")) {
-                wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
+                wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadokimport);
             } else {
                 wpisView.wpisAktualizuj();
-                wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
+                wykazZaksiegowanychDokumentowimport = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadokimport);
             }
         }
         for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentowimport.iterator(); p.hasNext();) {
@@ -3755,6 +3758,30 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        kwota = kwota / 100;
 //}        
 //</editor-fold>
+
+    public Dokfk getSelectedimport() {
+        return selectedimport;
+    }
+
+    public void setSelectedimport(Dokfk selectedimport) {
+        this.selectedimport = selectedimport;
+    }
+
+    public List<Dokfk> getFilteredValueimport() {
+        return filteredValueimport;
+    }
+
+    public void setFilteredValueimport(List<Dokfk> filteredValueimport) {
+        this.filteredValueimport = filteredValueimport;
+    }
+
+    public String getWybranakategoriadokimport() {
+        return wybranakategoriadokimport;
+    }
+
+    public void setWybranakategoriadokimport(String wybranakategoriadokimport) {
+        this.wybranakategoriadokimport = wybranakategoriadokimport;
+    }
 
    
     
