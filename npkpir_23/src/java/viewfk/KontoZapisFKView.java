@@ -10,7 +10,6 @@ import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
-import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
@@ -28,11 +27,8 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
-import pdf.PdfVAT;
 import view.WpisView;
 import waluty.Z;
 
@@ -88,41 +84,59 @@ public class KontoZapisFKView implements Serializable{
             wybranekonto = wykazkont.get(0);
         }
     }
+    private List<StronaWiersza> pobierzzapisy() {
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        return zapisy;
+    }
     
     public void pobierzZapisyNaKoncieNode() {
         Konto wybraneKontoNode = wybranekonto;
         wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
         kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomne = new ArrayList<>();
-            if (wybraneKontoNode.isMapotomkow() == true) {
-                List<Konto> kontamacierzyste = new ArrayList<>();
-                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
-                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
-                while (kontamacierzyste.size() > 0) {
-                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
-                }
-                for (Konto p : kontapotomne) {
-                    
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
-                    } else {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+        List<Konto> kontapotomnetmp = new ArrayList<>();
+        List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        kontapotomnetmp.add(wybranekonto);
+        pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        for (Konto p : kontapotomneListaOstateczna) {
+            for (StronaWiersza r : zapisyRok) {
+                if (r.getKonto().equals(p)) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <=granicaGorna) {
+                        kontozapisy.add(r);
                     }
                 }
-                //Collections.sort(kontozapisy, new Kontozapisycomparator());
-            } else {
-                
-                if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
-                } else {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
-                }
             }
-            usunzapisyzinnychmcy();
-            sumazapisow();
-            sumazapisowpln();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
+        }
+        sumazapisow();
+        sumazapisowpln();
+        //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+        System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
+    }
+    
+
+    private void pobierzKontaPotomne(List<Konto> kontamacierzyste, List<Konto> kontaostateczna, List<Konto> wykazkont) {
+        List<Konto> nowepotomne = new ArrayList<>();
+        for (Konto p : kontamacierzyste) {
+            if (p.isMapotomkow()==true) {
+                for (Konto r : wykazkont) {
+                    if (r.getMacierzyste().equals(p.getPelnynumer())) {
+                        nowepotomne.add(r);
+                    }
+                }
+            } else {
+                kontaostateczna.add(p);
+            }
+        }
+        if (nowepotomne.size() > 0) {
+            kontamacierzyste = nowepotomne;
+            pobierzKontaPotomne(kontamacierzyste, kontaostateczna, wykazkont);
+        } else {
+            return;
+        }
     }
     
     public void zapisykontmiesiace() {
@@ -134,92 +148,54 @@ public class KontoZapisFKView implements Serializable{
     public void pobierzZapisyZmianaWaluty() {
         Konto wybraneKontoNode = serialclone.SerialClone.clone(wybranekonto);
         kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomne = new ArrayList<>();
-            if (wybraneKontoNode.isMapotomkow() == true) {
-                List<Konto> kontamacierzyste = new ArrayList<>();
-                kontamacierzyste.addAll(pobierzpotomkow(wybraneKontoNode));
-                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
-                while (kontamacierzyste.size() > 0) {
-                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
-                }
-                for (Konto p : kontapotomne) {
-                    
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
-                    } else {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+        List<Konto> kontapotomnetmp = new ArrayList<>();
+        List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        kontapotomnetmp.add(wybranekonto);
+        pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        for (Konto p : kontapotomneListaOstateczna) {
+            for (StronaWiersza r : zapisyRok) {
+                if (r.getKonto().equals(p)) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <=granicaGorna) {
+                        kontozapisy.add(r);
                     }
                 }
-                //Collections.sort(kontozapisy, new Kontozapisycomparator());
-
-            } else {
-                
-                if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
-                } else {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
-                }
             }
-            usunzapisyzinnychmcy();
-            sumazapisow();
-            sumazapisowpln();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-            System.out.println("odnalazlem pobierzZapisyZmianaWaluty() kontoZapisFKView");
+        }
+        sumazapisow();
+        sumazapisowpln();
+        //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+        System.out.println("odnalazlem pobierzZapisyZmianaWaluty() kontoZapisFKView");
     }
      
     public void pobierzZapisyNaKoncieNodeUnselect() {
         kontozapisy.clear();
     }
     
-    private void usunzapisyzinnychmcy() {
-        List<String> mce = null;
-            try {
-                mce = Mce.zakresmiesiecy(wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
-            } catch (Exception e) {
-                Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
-            }
-            for (Iterator it = kontozapisy.iterator(); it.hasNext();) {
-                boolean pasuje = false;
-                StronaWiersza p = (StronaWiersza) it.next();
-                for (String r : mce) {
-                    if (p.getWiersz().getDokfk().getMiesiac().equals(r)) {
-                        pasuje = true;
-                        break;
-                    } 
-                }
-                if (pasuje == false) {
-                    it.remove();
-                }
-            }
-    }
     
     public void pobierzZapisyNaKoncie() {
         if (wybranekonto instanceof Konto) {
             kontozapisy = new ArrayList<>();
-            List<Konto> kontapotomne = new ArrayList<>();
-            if (wybranekonto.isMapotomkow() == true) {
-                List<Konto> kontamacierzyste = new ArrayList<>();
-                kontamacierzyste.addAll(pobierzpotomkow(wybranekonto));
-                //tu jest ten loop ala TreeeNode schodzi w dol potomnych i wyszukuje ich potomnych
-                while (kontamacierzyste.size() > 0) {
-                    znajdzkontazpotomkami(kontapotomne, kontamacierzyste);
-                }
-                for (Konto p : kontapotomne) {
-                    
-                    if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt()));
-                    } else {
-                        kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), p, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
+            List<Konto> kontapotomnetmp = new ArrayList<>();
+            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            kontapotomnetmp.add(wybranekonto);
+            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            List<StronaWiersza> zapisyRok = pobierzzapisy();
+            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+            for (Konto p : kontapotomneListaOstateczna) {
+                for (StronaWiersza r : zapisyRok) {
+                    if (r.getKonto().equals(p)) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <= granicaGorna) {
+                            kontozapisy.add(r);
+                        }
                     }
-                }
-                //Collections.sort(kontozapisy, new Kontozapisycomparator());
-
-            } else {
-                
-                if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt()));
-                } else {
-                    kontozapisy.addAll(stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt(), wybranaWalutaDlaKont));
                 }
             }
             sumazapisow();
@@ -228,6 +204,9 @@ public class KontoZapisFKView implements Serializable{
             System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
         }
     }
+    
+   
+    
     public void sumazapisowtotal() {
         sumazapisow();
         sumazapisowpln();
@@ -424,6 +403,12 @@ public class KontoZapisFKView implements Serializable{
             PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto);
         } catch (Exception e) {
 
+        }
+    }
+    
+    public void usunzListy() {
+        for (StronaWiersza p : wybranekontadosumowania) {
+            kontozapisy.remove(p);
         }
     }
     
