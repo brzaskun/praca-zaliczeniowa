@@ -122,9 +122,9 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
-
-
+            System.out.println("wyslano mail nadano uprawnienia");
         } catch (MessagingException e) {
+            System.out.println("Blad nadanoUprawniednia" +e.getLocalizedMessage());
             throw new RuntimeException(e);
         }
     }
