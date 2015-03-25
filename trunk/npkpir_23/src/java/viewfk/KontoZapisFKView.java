@@ -65,6 +65,8 @@ public class KontoZapisFKView implements Serializable{
     private PlanKontView planKontView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
+    private List<Konto> wykazkont;
+    private List<StronaWiersza> zapisyRok;
 
     
 
@@ -79,7 +81,8 @@ public class KontoZapisFKView implements Serializable{
     
     @PostConstruct
     private void init(){
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        zapisyRok = pobierzzapisy();
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
         }
@@ -95,10 +98,8 @@ public class KontoZapisFKView implements Serializable{
         kontozapisy = new ArrayList<>();
         List<Konto> kontapotomnetmp = new ArrayList<>();
         List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         kontapotomnetmp.add(wybranekonto);
         pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (Konto p : kontapotomneListaOstateczna) {
@@ -150,10 +151,8 @@ public class KontoZapisFKView implements Serializable{
         kontozapisy = new ArrayList<>();
         List<Konto> kontapotomnetmp = new ArrayList<>();
         List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         kontapotomnetmp.add(wybranekonto);
         pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (Konto p : kontapotomneListaOstateczna) {
@@ -182,10 +181,8 @@ public class KontoZapisFKView implements Serializable{
             kontozapisy = new ArrayList<>();
             List<Konto> kontapotomnetmp = new ArrayList<>();
             List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             kontapotomnetmp.add(wybranekonto);
             pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-            List<StronaWiersza> zapisyRok = pobierzzapisy();
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             for (Konto p : kontapotomneListaOstateczna) {

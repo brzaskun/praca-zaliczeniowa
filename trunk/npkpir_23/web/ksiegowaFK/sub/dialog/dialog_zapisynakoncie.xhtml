@@ -76,15 +76,16 @@
                             }
                         });
                         $(document).on("click", '.grid1 tr', function(e) {
-                            var lolo = $("#tabelazzapisami\\:tabela_data").children("tr");
-                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+                            var listawierszy = $("#tabelazzapisami\\:tabela_data").children("tr");
+                            var lppierwszywiersz = $(listawierszy[0]).find(".lpwiersza").text();
                             try {
                                 e.stopPropagation(); // will prevent double click events from link being clicked within row
-                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var numerwiersza = unitNo - pierwszy;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza);
+                                var lpwiersznast = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+                                var numerwiersza = lpwiersznast - lppierwszywiersz;
+                                zachowajnumerwiersza("zmiennazapisy", numerwiersza, "tabelazzapisami:tabela_data");
                             } catch (e) {
-                                alert('error  dialog zapisynakoncie w.69' + ex.toString());
+                                console.log('error  dialog zapisynakoncie w.87' + e.toString())
+                                alert('error  dialog zapisynakoncie w.87' + e.toString());
                             }
                         });
                         /* ]]> */
@@ -135,9 +136,9 @@
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1090px;"
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1090px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
-                                 rowIndexVar="rowindex" styleClass="grid1" 
+                                 rowIndexVar="rowindex" styleClass="grid1"
                                  >
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
