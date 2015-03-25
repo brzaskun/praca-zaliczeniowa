@@ -37,6 +37,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import view.EwidencjaVatView;
 import view.WpisView;
 
 /**
@@ -50,6 +51,8 @@ public class KontaVatFKView implements Serializable {
     private List<SaldoKonto> kontavat;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{ewidencjaVatView}")
+    private EwidencjaVatView ewidencjaVatView;
     @Inject
     private WierszBODAO wierszBODAO;
     @Inject
@@ -89,7 +92,11 @@ public class KontaVatFKView implements Serializable {
             saldoKonto.setId(licznik++);
             saldoKonto.setKonto(p);
             //naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p);
+            if (p.getPelnynumer().equals("221-4")) {
+                naniesZapisyNaKonto2214(saldoKonto, p);
+            } else {
+                naniesZapisyNaKonto(saldoKonto, p);
+            }
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
             dodajdolisty(saldoKonto, przygotowanalista);
@@ -97,24 +104,7 @@ public class KontaVatFKView implements Serializable {
         return przygotowanalista;
     }
 
-     //<editor-fold defaultstate="collapsed" desc="comment">
-    public List<SaldoKonto> getKontavat() {
-         return kontavat;
-     }
-
-    public void setKontavat(List<SaldoKonto> kontavat) {
-        this.kontavat = kontavat;
-    }
-
-     
-    public WpisView getWpisView() {
-        return wpisView;
-    }
-     
-    public void setWpisView(WpisView wpisView) {
-        this.wpisView = wpisView;
-    }
-//</editor-fold>
+    
 
 //    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
 //        if (dodajBO) {
@@ -139,19 +129,51 @@ public class KontaVatFKView implements Serializable {
 //        } else  {
             zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
 //        }
+        double sumawn = 0.0;
+        double sumama = 0.0;
         if (zapisyRok != null) {
             for (StronaWiersza r : zapisyRok) {
+                saldoKonto.getZapisy().add(r);
                 if (r.getWnma().equals("Wn")) {
-                    double suma = Math.round((saldoKonto.getObrotyWn() + r.getKwotaPLN())*100);
-                    suma /= 100;
-                    saldoKonto.setObrotyWn(suma);
+                    sumawn += r.getKwotaPLN();
                 } else {
-                    double suma = Math.round((saldoKonto.getObrotyMa() + r.getKwotaPLN())*100);
-                    suma /= 100;
-                    saldoKonto.setObrotyMa(suma);
+                    sumama += r.getKwotaPLN();
                 }
             }
         }
+        saldoKonto.setObrotyWn(sumawn);
+        saldoKonto.setObrotyMa(sumama);
+    }
+    
+    private void naniesZapisyNaKonto2214(SaldoKonto saldoKonto, Konto p) {
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        List<StronaWiersza> zapisyRok  = null;
+//        if (kontonastepnymc(p)) {
+//            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
+//                zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
+//            }
+//        } else  {
+            zapisyRok = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
+//        }
+        double sumawn = 0.0;
+        double sumama = 0.0;
+        if (zapisyRok != null) {
+            for (StronaWiersza r : zapisyRok) {
+                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                if (mc >= granicaDolna && mc <=granicaGorna) {
+                    saldoKonto.getZapisy().add(r);
+                    if (r.getWnma().equals("Wn")) {
+                        sumawn += r.getKwotaPLN();
+                    } else {
+                        sumama += r.getKwotaPLN();
+                    }
+                }
+            }
+        }
+        saldoKonto.setObrotyWn(sumawn);
+        saldoKonto.setObrotyMa(sumama);
     }
     
     private boolean kontonastepnymc(Konto p) {
@@ -173,6 +195,21 @@ public class KontaVatFKView implements Serializable {
     }
 
     public void generowanieDokumentuVAT() {
+        double saldo2214 = 0.0;
+        for (SaldoKonto p : kontavat) {
+            if (p.getKonto().getPelnynumer().equals("221-4")) {
+                if (p.getSaldoWn() > 0) {
+                    saldo2214 = p.getSaldoWn();
+                }
+                if (p.getSaldoMa() > 0) {
+                    saldo2214 = p.getSaldoMa();
+                }
+            }
+        }
+        if (saldo2214 < ewidencjaVatView.getSumaprzesunietych()) {
+            Msg.msg("e","Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
+            return;
+        }
         int nrkolejny = oblicznumerkolejny();
         if (nrkolejny > 1 ) {
             usundokumentztegosamegomiesiaca(nrkolejny);
@@ -351,9 +388,33 @@ public class KontaVatFKView implements Serializable {
         zaokr /= 100;
         System.out.println(zaokr);
     }
+ //<editor-fold defaultstate="collapsed" desc="comment">
+    public List<SaldoKonto> getKontavat() {
+         return kontavat;
+     }
 
+    public void setKontavat(List<SaldoKonto> kontavat) {
+        this.kontavat = kontavat;
+    }
+
+    public EwidencjaVatView getEwidencjaVatView() {
+        return ewidencjaVatView;
+    }
+
+    public void setEwidencjaVatView(EwidencjaVatView ewidencjaVatView) {
+        this.ewidencjaVatView = ewidencjaVatView;
+    }
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+     
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+//</editor-fold>
    
 
-   
+     
+
 
 }

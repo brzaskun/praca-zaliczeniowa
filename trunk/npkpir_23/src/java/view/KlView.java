@@ -36,7 +36,7 @@ import viewfk.PlanKontCompleteView;
 @ManagedBean(name="KlView")
 @ViewScoped
 public class KlView implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     final static String FILE_NAME = "C:\\Temp\\dane.txt";
     final static String OUTPUT_FILE_NAME = "C:\\Temp\\outputdane.txt";
     final static Charset ENCODING = StandardCharsets.UTF_8;

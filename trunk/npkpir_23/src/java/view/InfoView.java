@@ -32,6 +32,7 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class InfoView implements Serializable{
+    private static final long serialVersionUID = 1L;
     @Inject private Podatnik pod;
     private String podatnik;
     @Inject private DokDAO dokDAO;

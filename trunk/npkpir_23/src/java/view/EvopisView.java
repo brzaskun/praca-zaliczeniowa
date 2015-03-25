@@ -24,6 +24,7 @@ import org.primefaces.event.RowEditEvent;
 @ManagedBean
 @RequestScope
 public class EvopisView {
+    private static final long serialVersionUID = 1L;
     private List<Evopis> lista;
 
     @Inject
