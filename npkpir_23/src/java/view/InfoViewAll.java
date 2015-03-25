@@ -23,7 +23,7 @@ import javax.inject.Inject;
 @ManagedBean
 @ViewScoped
 public class InfoViewAll implements Serializable {
-
+private static final long serialVersionUID = 1L;
     @Inject
     private DokDAO dokDAO;
     @Inject

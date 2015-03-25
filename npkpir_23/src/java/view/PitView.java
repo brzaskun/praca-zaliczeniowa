@@ -32,6 +32,7 @@ import pdf.PdfPIT5;
 @ManagedBean
 @ViewScoped
 public class PitView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Pitpoz> lista;
     private Pitpoz biezacyPit;
 

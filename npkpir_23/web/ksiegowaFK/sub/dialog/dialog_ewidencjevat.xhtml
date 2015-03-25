@@ -5,9 +5,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat" widgetVar="dialogewidencjevat"  
-              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1200,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
+              maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
         <h:form id="form">
             <p:outputPanel deferred="true">
@@ -64,7 +65,7 @@
                                 <p:column headerText="data sprz." style="width: 70px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.dataSprz}"/>
                                 </p:column>
-                                <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
+                                <p:column headerText="nr własny" style="width: 100px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.nrWlDk}"/>
                                 </p:column>
                                 <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains" filterStyle="display: none;">
@@ -73,14 +74,18 @@
                                 <p:column headerText="opis trans." style="width: 150px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.opis}"/>
                                 </p:column>
-                                <p:column headerText="netto" style="width: 90px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
+                                <p:column headerText="netto" style="width: 80px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="vat" style="width: 90px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
+                                <p:column headerText="vat" style="width: 80px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="mc" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterBy="#{itemik.innymc}" filterMatchMode="contains" filterStyle="display: none;">
+                                    <h:outputText value="#{itemik.innymc}">
                                     </h:outputText>
                                 </p:column>
 
@@ -106,9 +111,9 @@
                             </f:facet>
                             <p:column selectionMode="multiple" style="width: 50px; text-align: center;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                             <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
-                            <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
-                            <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
-                            <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                            <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
+                            <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
+                            <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
                             <p:column headerText="nazwa ewidencji">
                                 <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                             </p:column>
@@ -132,9 +137,9 @@
                             </f:facet>
                             <p:column selectionMode="multiple" style="width: 50px; text-align: center;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                             <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
-                            <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
-                            <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
-                            <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum"/>
+                            <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
+                            <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
+                            <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane}" update=":form:akorderonbis:sumysum" global="false"/>
                             <p:column headerText="nazwa ewidencji">
                                 <h:outputText value="#{itemik.ewidencja.nazwa}"/>
                             </p:column>
@@ -152,6 +157,9 @@
                         <p:outputPanel style="margin-top: 10px">
 <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
                             <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 50%;" id="saldokontvat">
+                                <p:column style="height: 19px; text-align: center;" width="20">
+                                    <p:rowToggler />
+                                </p:column>
                                 <p:column headerText="nr konta" width="50">
                                     <h:outputText value="#{item.konto.pelnynumer}"/>
                                 </p:column>
@@ -168,7 +176,33 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
+                                <p:rowExpansion>
+                                <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
+                                    <p:column headerText="dokument" width="60">
+                                        <h:outputText value="#{loopik.dokfkS}"/>
+                                    </p:column>
+                                    <p:column headerText="data" width="80">
+                                        <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                                    </p:column>
+                                    <p:column headerText="nr" width="100">
+                                        <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                                    </p:column>
+                                    <p:column headerText="kontrahent">
+                                        <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
+                                    </p:column>
+                                    <p:column headerText="wiersz">
+                                        <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                    <p:column headerText="kwota" width="60">
+                                        <bcf:outputpl value="#{loopik.kwota}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:rowExpansion>
                             </p:dataTable>
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-top: 10px; width: 408px;">
+                            <h:outputText value="suma faktur kosztowych z innego okresu rozliczeniowego "/>
+                            <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietych}" />
                         </p:outputPanel>
                         <p:outputPanel style="margin-top: 10px">
                             <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>

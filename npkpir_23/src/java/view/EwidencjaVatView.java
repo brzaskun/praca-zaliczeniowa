@@ -47,6 +47,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.UnselectEvent;
 import pdf.PdfVAT;
 import pdf.PdfVATsuma;
+import waluty.Z;
 
 /**
  *
@@ -56,7 +57,7 @@ import pdf.PdfVATsuma;
 @ViewScoped
 public class EwidencjaVatView implements Serializable {
 
-    private HashMap<String, ArrayList> listaewidencji;
+    private HashMap<String, List<EVatViewPola>> listaewidencji;
     private HashMap<String, EVatwpisSuma> sumaewidencji;
     private List<EVatwpisSuma> goscwybralsuma;
     private List<EVatwpisSuma> sumydowyswietleniasprzedaz;
@@ -65,6 +66,8 @@ public class EwidencjaVatView implements Serializable {
     private List<Dok> listadokvat;
     private List<Dokfk> listadokvatFK;
     private List<EVatViewPola> listadokvatprzetworzona;
+    private List<EVatwpisFK> listaprzesunietych;
+    private double sumaprzesunietych;
     @Inject
     private Dok selected;
     @Inject
@@ -121,6 +124,7 @@ public class EwidencjaVatView implements Serializable {
         listadokvatFK = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
+        listaprzesunietych = new ArrayList<>();
     }
 
     public void stworzenieEwidencjiZDokumentow() {
@@ -142,9 +146,9 @@ public class EwidencjaVatView implements Serializable {
             List<EVatwpisFK> lista = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
             List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(lista, vatokres);
-            transferujDokdoEVatwpisFK(listaprzetworzona);
+            transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
             stworzenieEwidencjiCzescWspolna(vatokres);
-            RequestContext.getCurrentInstance().update("dialogewidencjevat");
+            RequestContext.getCurrentInstance().update("form:akorderonbis");
         } catch (Exception e) {
         }
         //drukuj ewidencje
@@ -338,7 +342,7 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private void transferujDokdoEVatwpisFK(List<EVatwpisFK> listaprzetworzona) {
+    private void transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona) {
         int k = 1;
         for (EVatwpisFK ewidwiersz : listaprzetworzona) {
             if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
@@ -347,7 +351,7 @@ public class EwidencjaVatView implements Serializable {
                     wiersz.setDataSprz(ewidwiersz.getDataoperacji());
                     wiersz.setDataWyst(ewidwiersz.getDatadokumentu());
                     wiersz.setKontr(ewidwiersz.getKlient());
-                    String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2()+", poz: "+ewidwiersz.getWiersz().getIdporzadkowy();
+                    String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
                     wiersz.setNrWlDk(nrdok);
                     wiersz.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
                 } else {
@@ -365,9 +369,21 @@ public class EwidencjaVatView implements Serializable {
                 wiersz.setNetto(ewidwiersz.getNetto());
                 wiersz.setVat(ewidwiersz.getVat());
                 wiersz.setOpizw(ewidwiersz.getEstawka());
+                wiersz.setInnymc(ewidwiersz.getDokfk().getMiesiac());
                 listadokvatprzetworzona.add(wiersz);
             }
+            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw())) {
+                listaprzesunietych.add(ewidwiersz);
+            }
+            if (listaprzesunietych.size() > 0) {
+                double suma = 0.0;
+                for (EVatwpisFK r : listaprzesunietych) {
+                    suma += r.getVat();
+                }
+                sumaprzesunietych = Z.z(suma);
+            }
         }
+
     }
 
     private void dodajsumyDoEwidencji() {
@@ -746,13 +762,14 @@ public class EwidencjaVatView implements Serializable {
         this.listadokvatprzetworzona = listadokvatprzetworzona;
     }
 
-    public HashMap<String, ArrayList> getListaewidencji() {
+    public HashMap<String, List<EVatViewPola>> getListaewidencji() {
         return listaewidencji;
     }
 
-    public void setListaewidencji(HashMap<String, ArrayList> listaewidencji) {
+    public void setListaewidencji(HashMap<String, List<EVatViewPola>> listaewidencji) {
         this.listaewidencji = listaewidencji;
     }
+
 
     public TabView getAkordeon() {
         return akordeon;
@@ -840,6 +857,22 @@ public class EwidencjaVatView implements Serializable {
 
     public void setSumydowyswietleniazakupy(List<EVatwpisSuma> sumydowyswietleniazakupy) {
         this.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
+    }
+
+    public List<EVatwpisFK> getListaprzesunietych() {
+        return listaprzesunietych;
+    }
+
+    public void setListaprzesunietych(List<EVatwpisFK> listaprzesunietych) {
+        this.listaprzesunietych = listaprzesunietych;
+    }
+
+    public double getSumaprzesunietych() {
+        return sumaprzesunietych;
+    }
+
+    public void setSumaprzesunietych(double sumaprzesunietych) {
+        this.sumaprzesunietych = sumaprzesunietych;
     }
 
     public BigDecimal getWynikOkresu() {

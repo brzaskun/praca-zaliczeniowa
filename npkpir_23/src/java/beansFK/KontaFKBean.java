@@ -110,6 +110,11 @@ public class KontaFKBean implements Serializable{
         return pobranezapisy;
     }
     
+    public static List<StronaWiersza> pobierzZapisyVATRok(Konto konto, Podatnik podatnik, String rok, StronaWierszaDAO stronaWierszaDAO) {
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokVAT(podatnik, konto, rok);
+        return pobranezapisy;
+    }
+    
     public static SaldoKonto sumujsaldakont(List<SaldoKonto> przygotowanalista) {
         SaldoKonto p = new SaldoKonto();
         for (SaldoKonto r : przygotowanalista) {

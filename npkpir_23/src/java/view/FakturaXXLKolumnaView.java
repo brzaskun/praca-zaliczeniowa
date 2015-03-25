@@ -22,6 +22,7 @@ import msg.Msg;
 @ManagedBean
 @ViewScoped
 public class FakturaXXLKolumnaView implements Serializable {
+    private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject

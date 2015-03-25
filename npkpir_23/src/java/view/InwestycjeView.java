@@ -29,7 +29,7 @@ import pdf.PdfInwestycja;
 @ManagedBean
 @ViewScoped
 public class InwestycjeView implements Serializable{
-    
+    private static final long serialVersionUID = 1L;
     private List<Inwestycje> inwestycjerozpoczete;
     private List<Inwestycje> inwestycjezakonczone;
     private List<String> inwestycjesymbole;

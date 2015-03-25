@@ -30,6 +30,7 @@ public class EVatViewPola implements Serializable{
         opispol.add("netto");
         opispol.add("vat");
         opispol.add("opizw");
+        opispol.add("innyMc");
     }
 
     public static List<String> getOpispol() {
@@ -44,6 +45,7 @@ public class EVatViewPola implements Serializable{
     private double netto;
     private double vat;
     private String opizw;
+    private String innymc;
     private String nazwaewidencji;
     private String nrpolanetto;
     private String nrpolavat;
@@ -150,6 +152,16 @@ public class EVatViewPola implements Serializable{
         this.nrpolavat = nrpolavat;
     }
 
+    public String getInnymc() {
+        return innymc;
+    }
 
+    public void setInnymc(String innymc) {
+        this.innymc = innymc;
+    }
+
+   
+
+    
     
 }
