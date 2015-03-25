@@ -1,13 +1,18 @@
     "use strict";
     
-var zachowajnumerwiersza = function(zmienna ,numer) {
+var zachowajnumerwiersza = function(zmienna ,numer, tabela) {
         MYAPP.zmienna = zmienna;
         MYAPP[MYAPP.zmienna] = numer;
         var parent = event.target || event.srcElement;
-        do {
-            parent = parent.parentNode;
-        } while (parent.className !== "ui-datatable-data ui-widget-content");
-        MYAPP.sourceid = parent.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
+        if (tabela !== "") {
+            MYAPP.sourceid = tabela;
+        } else {
+            do {
+                parent = parent.parentNode;
+            } while (parent.className !== "ui-datatable-data ui-widget-content");
+            MYAPP.sourceid = parent.id;//tu mamy informacje, wiersz ktorej tabeli jest klikniety
+        }
+        
         if (MYAPP.sourceid === "tabelanowerozrachunki:tabela_data") {
             MYAPP.tabeladata = "tabelanowerozrachunki:tabela_data";
             MYAPP.tabela = "tabelanowerozrachunki:tabela";
