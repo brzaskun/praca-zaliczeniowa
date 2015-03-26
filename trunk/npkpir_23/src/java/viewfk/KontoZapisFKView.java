@@ -157,7 +157,7 @@ public class KontoZapisFKView implements Serializable{
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (Konto p : kontapotomneListaOstateczna) {
             for (StronaWiersza r : zapisyRok) {
-                if (r.getKonto().equals(p)) {
+                if (r.getKonto().equals(p) && r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
                     int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                     if (mc >= granicaDolna && mc <=granicaGorna) {
                         kontozapisy.add(r);
