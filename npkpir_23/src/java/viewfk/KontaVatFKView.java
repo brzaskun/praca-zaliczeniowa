@@ -204,12 +204,24 @@ public class KontaVatFKView implements Serializable {
                 }
             }
         }
-        if (saldo2214 < ewidencjaVatView.getSumaprzesunietych()) {
-            Msg.msg("e","Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
+        double ewid = ewidencjaVatView.getSumaprzesunietych();
+        if (saldo2214 < ewid) {
+            Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
             return;
+        } else {
+            for (SaldoKonto p : kontavat) {
+                if (p.getKonto().getPelnynumer().equals("221-4")) {
+                    if (ewid >= 0) {
+                        p.setSaldoWn(ewid);
+                    }
+                    if (ewid < 0) {
+                        p.setSaldoMa(ewid);
+                    }
+                }
+            }
         }
         int nrkolejny = oblicznumerkolejny();
-        if (nrkolejny > 1 ) {
+        if (nrkolejny > 1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
         Dokfk dokumentvat = stworznowydokument(nrkolejny);
@@ -299,12 +311,16 @@ public class KontaVatFKView implements Serializable {
             Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView);
             if (p.getSaldoWn() != 0.0) {
                 StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
+                wn.setKwotaPLN(p.getSaldoWn());
                 StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoWn(), p.getKonto());
+                ma.setKwotaPLN(p.getSaldoWn());
                 w.setStronaWn(wn);
                 w.setStronaMa(ma);
             } else {
                 StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoMa(), p.getKonto());
+                wn.setKwotaPLN(p.getSaldoMa());
                 StronaWiersza ma = new StronaWiersza(w, "Ma", p.getSaldoMa(), kontoRozrachunkizUS);
+                ma.setKwotaPLN(p.getSaldoMa());
                 w.setStronaWn(wn);
                 w.setStronaMa(ma);
             }
