@@ -6,7 +6,6 @@
 
 package viewfk;
 
-import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
@@ -36,7 +35,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import view.EwidencjaVatView;
 import view.WpisView;
 
