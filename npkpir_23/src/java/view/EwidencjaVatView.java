@@ -147,6 +147,7 @@ public class EwidencjaVatView implements Serializable {
             String vatokres = sprawdzjakiokresvat();
             List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(lista, vatokres);
             transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
+            sumujprzesuniete();
             stworzenieEwidencjiCzescWspolna(vatokres);
             RequestContext.getCurrentInstance().update("form:akorderonbis");
         } catch (Exception e) {
@@ -375,15 +376,17 @@ public class EwidencjaVatView implements Serializable {
             if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw())) {
                 listaprzesunietych.add(ewidwiersz);
             }
-            if (listaprzesunietych.size() > 0) {
+        }
+    }
+    
+    private void sumujprzesuniete() {
+         if (listaprzesunietych.size() > 0) {
                 double suma = 0.0;
                 for (EVatwpisFK r : listaprzesunietych) {
                     suma += r.getVat();
                 }
                 sumaprzesunietych = Z.z(suma);
             }
-        }
-
     }
 
     private void dodajsumyDoEwidencji() {
