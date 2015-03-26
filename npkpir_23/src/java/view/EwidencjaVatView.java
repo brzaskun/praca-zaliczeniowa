@@ -67,7 +67,7 @@ public class EwidencjaVatView implements Serializable {
     private List<Dok> listadokvat;
     private List<Dokfk> listadokvatFK;
     private List<EVatViewPola> listadokvatprzetworzona;
-    private List<EVatwpisFK> listaprzesunietych;
+    private List<EVatwpisFK> listaprzesunietychKoszty;
     private double sumaprzesunietych;
     private double sumaprzesunietychBardziej;
     @Inject
@@ -126,7 +126,7 @@ public class EwidencjaVatView implements Serializable {
         listadokvatFK = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
         sumaewidencji = new HashMap<>();
-        listaprzesunietych = new ArrayList<>();
+        listaprzesunietychKoszty = new ArrayList<>();
     }
 
     public void stworzenieEwidencjiZDokumentow() {
@@ -377,16 +377,17 @@ public class EwidencjaVatView implements Serializable {
                 wiersz.setInnymc(ewidwiersz.getDokfk().getMiesiac());
                 listadokvatprzetworzona.add(wiersz);
             }
-            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw())) {
-                listaprzesunietych.add(ewidwiersz);
+            //kosztyprzesuniete
+            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
+                listaprzesunietychKoszty.add(ewidwiersz);
             }
         }
     }
     
     private void sumujprzesuniete() {
-         if (listaprzesunietych.size() > 0) {
+         if (listaprzesunietychKoszty.size() > 0) {
                 double suma = 0.0;
-                for (EVatwpisFK r : listaprzesunietych) {
+                for (EVatwpisFK r : listaprzesunietychKoszty) {
                     suma += r.getVat();
                 }
                 sumaprzesunietych = Z.z(suma);
@@ -926,12 +927,12 @@ public class EwidencjaVatView implements Serializable {
         this.sumydowyswietleniazakupy = sumydowyswietleniazakupy;
     }
 
-    public List<EVatwpisFK> getListaprzesunietych() {
-        return listaprzesunietych;
+    public List<EVatwpisFK> getListaprzesunietychKoszty() {
+        return listaprzesunietychKoszty;
     }
 
-    public void setListaprzesunietych(List<EVatwpisFK> listaprzesunietych) {
-        this.listaprzesunietych = listaprzesunietych;
+    public void setListaprzesunietychKoszty(List<EVatwpisFK> listaprzesunietychKoszty) {
+        this.listaprzesunietychKoszty = listaprzesunietychKoszty;
     }
 
     public double getSumaprzesunietych() {
