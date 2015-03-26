@@ -37,6 +37,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import view.EwidencjaVatView;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -174,6 +175,37 @@ public class KontaVatFKView implements Serializable {
         saldoKonto.setObrotyMa(sumama);
     }
     
+    private void naniesZapisyNaKonto2214Rok(SaldoKonto saldoKonto, Konto p) {
+        int granicaDolna = Mce.getMiesiacToNumber().get("01");
+        int granicaGorna = Mce.getMiesiacToNumber().get("12");
+        List<StronaWiersza> zapisyRok  = null;
+//        if (kontonastepnymc(p)) {
+//            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+//            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
+//                zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
+//            }
+//        } else  {
+            zapisyRok = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
+//        }
+        double sumawn = 0.0;
+        double sumama = 0.0;
+        if (zapisyRok != null) {
+            for (StronaWiersza r : zapisyRok) {
+                int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                if (mc >= granicaDolna && mc <=granicaGorna) {
+                    saldoKonto.getZapisy().add(r);
+                    if (r.getWnma().equals("Wn")) {
+                        sumawn += r.getKwotaPLN();
+                    } else {
+                        sumama += r.getKwotaPLN();
+                    }
+                }
+            }
+        }
+        saldoKonto.setObrotyWn(sumawn);
+        saldoKonto.setObrotyMa(sumama);
+    }
+    
     private boolean kontonastepnymc(Konto p) {
         if (p.getNazwapelna().contains("następny")) {
             return true;
@@ -204,18 +236,21 @@ public class KontaVatFKView implements Serializable {
                 }
             }
         }
-        double ewid = ewidencjaVatView.getSumaprzesunietych();
-        if (saldo2214 < ewid) {
+        double przesuniete = ewidencjaVatView.getSumaprzesunietych();
+        double przesunieteBardziej = ewidencjaVatView.getSumaprzesunietychBardziej();
+        SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView));
+        double roznica = Z.z(saldodlaprzesunietychBardziej.getSaldoWn() - (przesuniete+przesunieteBardziej));
+        if (saldo2214 < przesuniete || roznica < 0) {
             Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
             return;
         } else {
             for (SaldoKonto p : kontavat) {
                 if (p.getKonto().getPelnynumer().equals("221-4")) {
-                    if (ewid >= 0) {
-                        p.setSaldoWn(ewid);
+                    if (przesuniete >= 0) {
+                        p.setSaldoWn(przesuniete);
                     }
-                    if (ewid < 0) {
-                        p.setSaldoMa(ewid);
+                    if (przesuniete < 0) {
+                        p.setSaldoMa(przesuniete);
                     }
                 }
             }
@@ -231,6 +266,19 @@ public class KontaVatFKView implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu VAT");
         }
+    }
+    
+     private SaldoKonto saldo2214Rok(Konto p) {
+        SaldoKonto saldoKonto = new SaldoKonto();
+        int licznik = 0;
+        if (p.getPelnynumer().equals("221-4")) {
+            saldoKonto.setId(licznik++);
+            saldoKonto.setKonto(p);
+            naniesZapisyNaKonto2214Rok(saldoKonto, p);
+            saldoKonto.sumujBOZapisy();
+            saldoKonto.wyliczSaldo();
+        }
+        return saldoKonto;
     }
     
     private int oblicznumerkolejny() {

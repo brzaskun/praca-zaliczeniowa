@@ -14,6 +14,7 @@ import data.Data;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
+import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Dok;
 import entity.EVatwpis1;
@@ -68,6 +69,7 @@ public class EwidencjaVatView implements Serializable {
     private List<EVatViewPola> listadokvatprzetworzona;
     private List<EVatwpisFK> listaprzesunietych;
     private double sumaprzesunietych;
+    private double sumaprzesunietychBardziej;
     @Inject
     private Dok selected;
     @Inject
@@ -143,11 +145,13 @@ public class EwidencjaVatView implements Serializable {
     public void stworzenieEwidencjiZDokumentowFK() {
         try {
             zerujListy();
-            List<EVatwpisFK> lista = pobierzEVatRokFK();
+            List<EVatwpisFK> listadokvat = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
-            List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(lista, vatokres);
+            List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(listadokvat, vatokres);
             transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
             sumujprzesuniete();
+            List<EVatwpisFK> przesunieteBardziejKoszt = zmodyfikujlisteMcKwFKBardziej(listadokvat, vatokres, 1);
+            sumujprzesunieteBardziej(przesunieteBardziejKoszt);
             stworzenieEwidencjiCzescWspolna(vatokres);
             RequestContext.getCurrentInstance().update("form:akorderonbis");
         } catch (Exception e) {
@@ -388,6 +392,16 @@ public class EwidencjaVatView implements Serializable {
                 sumaprzesunietych = Z.z(suma);
             }
     }
+    
+    private void sumujprzesunieteBardziej(List<EVatwpisFK> listaprzesunietychBardziej) {
+         if (listaprzesunietychBardziej.size() > 0) {
+                double suma = 0.0;
+                for (EVatwpisFK r : listaprzesunietychBardziej) {
+                    suma += r.getVat();
+                }
+                sumaprzesunietychBardziej = Z.z(suma);
+            }
+    }
 
     private void dodajsumyDoEwidencji() {
         Set<String> klucze = sumaewidencji.keySet();
@@ -499,6 +513,48 @@ public class EwidencjaVatView implements Serializable {
                     for (EVatwpisFK p : listadokvat) {
                         if (p.getRokEw().equals(wpisView.getRokWpisuSt())) {
                             if (p.getMcEw().equals(miesiacewkwartale.get(0)) || p.getMcEw().equals(miesiacewkwartale.get(1)) || p.getMcEw().equals(miesiacewkwartale.get(2))) {
+                                listatymczasowa.add(p);
+                            }
+                        }
+                    }
+                    return listatymczasowa;
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+            return null;
+        }
+    }
+    
+    private List<EVatwpisFK> zmodyfikujlisteMcKwFKBardziej(List<EVatwpisFK> listadokvat, String vatokres, int rodzajdok) throws Exception {
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": {
+                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+                    for (EVatwpisFK p : listadokvat) {
+                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
+                            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+                            int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
+                            if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+                                listatymczasowa.add(p);
+                            }
+                        }
+                    }
+                    return listatymczasowa;
+                }
+                default: {
+                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    String ostatnimc = miesiacewkwartale.get(miesiacewkwartale.size()-1);
+                    for (EVatwpisFK p : listadokvat) {
+                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
+                            int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
+                            int mc = Mce.getMiesiacToNumber().get(p.getWiersz().getDokfk().getMiesiac());
+                            if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
                                 listatymczasowa.add(p);
                             }
                         }
@@ -788,6 +844,14 @@ public class EwidencjaVatView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public double getSumaprzesunietychBardziej() {
+        return sumaprzesunietychBardziej;
+    }
+
+    public void setSumaprzesunietychBardziej(double sumaprzesunietychBardziej) {
+        this.sumaprzesunietychBardziej = sumaprzesunietychBardziej;
     }
 
     public List<EVatViewPola> getGoscwybral() {

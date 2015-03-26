@@ -202,9 +202,15 @@
                             </p:rowExpansion>
                             </p:dataTable>
                         </p:outputPanel>
-                        <p:outputPanel style="margin-top: 10px; width: 408px;">
+                        <p:outputPanel style="margin-top: 10px; width: 550px;">
                             <h:outputText value="suma faktur kosztowych z innego okresu rozliczeniowego "/>
                             <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietych}" />
+                            <h:outputText value="liczba dok.: "/>
+                            <h:outputText value="#{ewidencjaVatView.listaprzesunietych.size()}"/>
+                        </p:outputPanel>
+                        <p:outputPanel style="margin-top: 10px; width: 550px;">
+                            <h:outputText value="suma faktur kosztowych z następnych okresów rozliczeniowych "/>
+                            <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
                         </p:outputPanel>
                         <p:outputPanel style="margin-top: 10px">
                             <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>
