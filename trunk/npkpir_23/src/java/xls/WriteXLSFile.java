@@ -95,6 +95,7 @@ public class WriteXLSFile {
         //first place in row is name
             
         }
+        sheet.createRow(rowIndex++);//pusty row
         String formula = "SUM(B2:B"+rowIndex+")";
         Row row = sheet.createRow(rowIndex++);
         createFormulaCell(workbook, row, (short) 1, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
