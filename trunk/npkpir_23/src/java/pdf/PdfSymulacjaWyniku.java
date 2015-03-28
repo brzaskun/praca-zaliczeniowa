@@ -40,7 +40,7 @@ import viewfk.SymulacjaWynikuView;
 @Singleton
 public class PdfSymulacjaWyniku {
     
-    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
+    public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku) {
         try {
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
@@ -56,7 +56,7 @@ public class PdfSymulacjaWyniku {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
+    private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
@@ -161,7 +161,7 @@ public class PdfSymulacjaWyniku {
         return table;
     }
 
-   private static PdfPTable tablica2(LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
+   private static PdfPTable tablica2(List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(2);
         table.setWidths(new int[]{4, 1});
         table.setWidthPercentage(50);

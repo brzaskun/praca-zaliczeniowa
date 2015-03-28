@@ -43,7 +43,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> listakontaprzychody;
     private List<SaldoKonto> sumaSaldoKontoPrzychody;
     private List<SaldoKonto> sumaSaldoKontoKoszty;
-    private LinkedHashSet<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
+    private List<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
     private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -171,11 +171,11 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
-        pozycjePodsumowaniaWyniku = new LinkedHashSet<>();
+        pozycjePodsumowaniaWyniku = new ArrayList<>();
         double przychody = Z.z(sumuj(listakontaprzychody));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody", przychody));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody razem", przychody));
         double koszty = Z.z(sumuj(listakontakoszty));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty", koszty));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty razem", koszty));
         double wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
         double npup = Z.z(razemzapisycechaprzychod);
@@ -186,12 +186,13 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik podatkowy", wynikpodatkowy));
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
+            int i = 1;
             for (Udzialy p : pobierzudzialy()) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania", podstawaopodatkowania));
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania #"+String.valueOf(i), podstawaopodatkowania));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), Z.z0(podstawaopodatkowania*0.19)));
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
@@ -297,14 +298,15 @@ public class SymulacjaWynikuView implements Serializable {
         this.sumakoszty = sumakoszty;
     }
 
-    public LinkedHashSet<PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
+    public List<PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
         return pozycjePodsumowaniaWyniku;
     }
 
-    public void setPozycjePodsumowaniaWyniku(LinkedHashSet<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
+    public void setPozycjePodsumowaniaWyniku(List<PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
         this.pozycjePodsumowaniaWyniku = pozycjePodsumowaniaWyniku;
     }
-   
+
+  
 
     public List<SaldoKonto> getSumaSaldoKontoPrzychody() {
         return sumaSaldoKontoPrzychody;
@@ -370,6 +372,11 @@ public class SymulacjaWynikuView implements Serializable {
             this.wartosc = wartosc;
         }
 
+        @Override
+        public String toString() {
+            return "PozycjeSymulacji{" + "nazwa=" + nazwa + ", wartosc=" + wartosc + '}';
+        }
+        
         public String getNazwa() {
             return nazwa;
         }

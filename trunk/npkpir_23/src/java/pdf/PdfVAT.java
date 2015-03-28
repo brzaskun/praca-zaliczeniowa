@@ -64,7 +64,7 @@ public class PdfVAT {
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
             }
-            HashMap<String, ArrayList> mapa = lista.getEwidencje();
+            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             Set<String> nazwy = mapa.keySet();
             for (String p : nazwy) {
                 Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
@@ -153,7 +153,7 @@ public class PdfVAT {
                     Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                ArrayList<EVatViewPola> ew = lista.getEwidencje().get(p);
+                List<EVatViewPola> ew = lista.getEwidencje().get(p);
                 int size = ew.size();
                 EVatViewPola polesuma = ew.get(size-1);
                 ew.remove(polesuma);
@@ -219,7 +219,7 @@ public class PdfVAT {
                 List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                 lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
             }
-            HashMap<String, ArrayList> mapa = lista.getEwidencje();
+            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             List<String> nazwy = new ArrayList<>();
             nazwy.addAll(mapa.keySet());
                 String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
@@ -325,7 +325,7 @@ public class PdfVAT {
                 Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            ArrayList<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
+            List<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
             Integer i = 1;
              for (EVatViewPola rs : ew) {
                     if (nazwaewidencji.equals("zakup")) {
