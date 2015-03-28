@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFName;
+import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -43,7 +45,12 @@ public class WriteXLSFile {
     }
 
     public static void main(String args[]){
-            //zachowajXLS();
+        Map<String, List> l = new HashMap<>();
+        l.put("p", listaprzychody());
+        l.put("k", listakoszty());
+        l.put("w", listawynik());
+        l.put("o", listapodatek());
+        zachowajXLS(l);
     }
     
     public static Workbook zachowajXLS(Map<String, List> listy){
@@ -65,6 +72,16 @@ public class WriteXLSFile {
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, wynik, "Obliczenie wyniku fin. i pod.", 2, "");
         sheet.createRow(rowIndex++);
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, podatek, "Obliczenie podatku dochodowego", 2, "");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        3, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
         //write this workbook in excel file.
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
@@ -209,8 +226,8 @@ public class WriteXLSFile {
     private static void insertPrintHeader(Sheet sheet) {
         //do druku
         Header header = sheet.getHeader();
-        header.setCenter("Center Header");
-        header.setLeft("Left Header");
+        header.setCenter("Taxman");
+        header.setLeft("Symulacja wyniku");
     }
     
     private static void createHeaderCell(Workbook wb, Row row, short column, short halign, short valign, short size, String value) {
