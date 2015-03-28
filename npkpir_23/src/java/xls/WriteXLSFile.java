@@ -11,24 +11,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFHeader;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Header;
+import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 /**
  *
  * @author Osito
  */
 public class WriteXLSFile {
-    private static final String FILE_PATH = "c://temp//xlsfile.xlsx";
+    private static final String FILE_PATH = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/xlsfile.xlsx";
     //We are making use of a single instance to prevent multiple write access to same file.
     private static final WriteXLSFile INSTANCE = new WriteXLSFile();
 
@@ -40,28 +43,28 @@ public class WriteXLSFile {
     }
 
     public static void main(String args[]){
-
-        List studentList = new ArrayList();
-        studentList.add(new Student("Magneto",90.23,"100","80"));
-        studentList.add(new Student("Wolverine",1234.32,"60","90"));
-        studentList.add(new Student("ProfX",12563521.33,"100","100"));
-        List headersList = new ArrayList();
-        headersList.add("Nazwisko");
-        headersList.add("Maths");
-        headersList.add("Science");
-        headersList.add("English");
-        writeStudentsListToExcel(headersList, studentList);
-
+            //zachowajXLS();
     }
-
-    public static void writeStudentsListToExcel(List<String> headersList, List<Student> studentList){
-
+    
+    public static Workbook zachowajXLS(Map<String, List> listy){
+        List przychody = listy.get("p");
+        List koszty = listy.get("k");
+        List wynik = listy.get("w");
+        List podatek = listy.get("o");
+        List headersListPrzychodKoszt = headerprzychodykoszty();
+        List headersListWyliczenia = headerswynik();
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
-
-        Sheet sheet = workbook.createSheet("Students");
+        Sheet sheet = workbook.createSheet("Symulacja wyniku");
         insertPrintHeader(sheet);
-        drawATable(workbook, sheet, headersList, studentList);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, przychody, "Przychody", 1, "przychody");
+        sheet.createRow(rowIndex++);
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, koszty, "Koszty", 1, "koszty");
+        sheet.createRow(rowIndex++);
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, wynik, "Obliczenie wyniku fin. i pod.", 2, "");
+        sheet.createRow(rowIndex++);
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, podatek, "Obliczenie podatku dochodowego", 2, "");
         //write this workbook in excel file.
         try {
             FileOutputStream fos = new FileOutputStream(FILE_PATH);
@@ -74,62 +77,149 @@ public class WriteXLSFile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        return workbook;
     }
     
-    private static <T> void drawATable(Workbook workbook, Sheet sheet, List headers, List<T> elements) {
-        int rowIndex = 0;
-        int cellIndex = 0;
-        
+    public static List listaprzychody() {
+        List przychody = new ArrayList();
+        przychody.add(new PozycjaPrzychodKoszt(1,"702-2-1", "Przychody", "Sprzedaż krajowa", 141196.48));
+        przychody.add(new PozycjaPrzychodKoszt(2,"702-2-2", "Przychody", "Sprzedaż zagraniczna", 37610.47));
+        przychody.add(new PozycjaPrzychodKoszt(3,"", "przychód symulowany", "", 0.00));
+        przychody.add(new PozycjaPrzychodKoszt(4,"", "przychód symulowany", "", 0.00));
+        przychody.add(new PozycjaPrzychodKoszt(5,"", "przychód symulowany", "", 0.00));
+        return przychody;
+    }
+    public static List listakoszty() {
+        List koszty = new ArrayList();
+        koszty.add(new PozycjaPrzychodKoszt(1,"401-1-1", "Amortyzacja", "stanowiaca kup", 93488.25));
+        koszty.add(new PozycjaPrzychodKoszt(2,"402-1", "Materiały", "Materiały biurowe", 1100.11));
+        koszty.add(new PozycjaPrzychodKoszt(3,"", "koszt symulowany", "", 0.00));
+        koszty.add(new PozycjaPrzychodKoszt(4,"", "koszt symulowany", "", 0.00));
+        koszty.add(new PozycjaPrzychodKoszt(5,"", "koszt symulowany", "", 0.00));
+        return koszty;
+    }
+    public static List listawynik() {
+        List wynik = new ArrayList();
+        wynik.add(new PozycjaObliczenia(1,"przychody razem", "+przychody"));
+        wynik.add(new PozycjaObliczenia(2,"koszty razem", "+koszty"));
+        wynik.add(new PozycjaObliczenia(3,"wynik finansowy", "przychody-koszty"));
+        wynik.add(new PozycjaObliczenia(4,"npup", 0.00));
+        wynik.add(new PozycjaObliczenia(5,"nkup", -1309.18));
+        wynik.add(new PozycjaObliczenia(6,"wynik podatkowy", "wynikfinansowy-npup-nkup"));
+        return wynik;
+    }
+    public static List listapodatek() {
+        List podatek = new ArrayList();
+        podatek.add(new PozycjaObliczenia(1,"udziałowiec 1", 0.99));
+        podatek.add(new PozycjaObliczenia(2,"podstawa opodatkowania 1", "round(wynikpodatkowy*udziałowiec1,0)"));
+        podatek.add(new PozycjaObliczenia(3,"podatek udziałowiec 1", "round(podstawaopodatkowania1*0.19,0)"));
+        podatek.add(new PozycjaObliczenia(4,"udziałowiec 2", 0.01));
+        podatek.add(new PozycjaObliczenia(5,"podstawa opodatkowania 2", "round(wynikpodatkowy*udziałowiec2,0)"));
+        podatek.add(new PozycjaObliczenia(6,"podatek udziałowiec 2", "round(podstawaopodatkowania2*0.19,0)"));
+        return podatek;
+    }
+    public static List headerprzychodykoszty() {
+        List headersListPrzychodKoszt = new ArrayList();
+        headersListPrzychodKoszt.add("lp");
+        headersListPrzychodKoszt.add("nr konta");
+        headersListPrzychodKoszt.add("nazwa konta");
+        headersListPrzychodKoszt.add("kwota");
+        return headersListPrzychodKoszt;
+    }
+    public static List headerswynik() {
+        List headersListWyliczenia = new ArrayList();
+        headersListWyliczenia.add("lp");
+        headersListWyliczenia.add("opis");
+        headersListWyliczenia.add("kwota");
+        return headersListWyliczenia;
+    }
+    
+    private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
+        int startindex = rowIndex+3;
+        int columnIndex = 0;
+        Row rowTH = sheet.createRow(rowIndex++);
+        createHeaderCell(workbook, rowTH, (short) 2, CellStyle.ALIGN_LEFT, CellStyle.ALIGN_CENTER, (short) 11, tableheader);
         Row rowH = sheet.createRow(rowIndex++);
         for(Iterator it = headers.iterator(); it.hasNext();){
             String header = (String) it.next();
-            createHeaderCell(workbook, rowH, (short) cellIndex++, CellStyle.ALIGN_CENTER, CellStyle.ALIGN_CENTER, header);
+            createHeaderCell(workbook, rowH, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.ALIGN_CENTER, (short) 10, header);
         }
         for(Iterator it = elements.iterator(); it.hasNext();){
             T st = (T) it.next();
             Row row = sheet.createRow(rowIndex++);
-            cellIndex = 0;
-            ustawWiersz(workbook, row, cellIndex, st);
+            columnIndex = 0;
+            ustawWiersz(workbook, row, columnIndex, st, rowIndex);
         //first place in row is name
             
         }
-        sheet.createRow(rowIndex++);//pusty row
-        String formula = "SUM(B2:B"+rowIndex+")";
-        Row row = sheet.createRow(rowIndex++);
-        createFormulaCell(workbook, row, (short) 1, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
+//        sheet.createRow(rowIndex++);//pusty row
+        if (headers.size()> 3) {
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy);
+        }
         autoAlign(sheet);
+        return rowIndex;
     }
     
-    private static <T> void ustawWiersz(Workbook workbook, Row row, int cellIndex, T ob) {
+    private static <T> void ustawWiersz(Workbook workbook, Row row, int columnIndex, T ob, int rowIndex) {
         Class c = ob.getClass();
-        if (c.getName().contains("Student")) {
-            Student st = (Student) ob;
-            createCell(workbook, row, (short) cellIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, st.getName());
-            createCell(workbook, row, (short) cellIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, st.getMaths());
-            createCell(workbook, row, (short) cellIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, st.getScience());
-            createCell(workbook, row, (short) cellIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, st.getEnglish());
+        if (c.getName().contains("PozycjaPrzychodKoszt")) {
+            PozycjaPrzychodKoszt st = (PozycjaPrzychodKoszt) ob;
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(st.getLp()));
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNrkonta());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getKontoNazwapelna());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, st.getKwota());
+        } else if (c.getName().contains("PozycjaObliczenia")) {
+            PozycjaObliczenia st = (PozycjaObliczenia) ob;
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(st.getLp()));
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getOpis());
+            if (st.getKwota().getClass().getName().contains("Double")) {
+                createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, (Double) st.getKwota());
+            } else {
+                createFormulaCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, (String) st.getKwota());
+            }
+            setCellName(workbook, st.getOpis().replaceAll("\\s+",""), "C", String.valueOf(rowIndex));
         }
     }
     
-    private static void insertPrintHeader(Sheet studentsSheet) {
-        //do druku
-        Header header = studentsSheet.getHeader();
-        header.setCenter("Center Header");
-        header.setLeft("Left Header");
-        header.setRight(HSSFHeader.font("Stencil-Normal", "Italic") +
-                        HSSFHeader.fontSize((short) 16) + "Right w/ Stencil-Normal Italic font and size 16");
-
+    private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy) {
+        if (typ == 1) {
+            String formula = "SUM(D"+startindex+":D"+rowIndex+")";
+            Row row = sheet.createRow(rowIndex++);
+            createCell(workbook, row, (short) 2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Razem: ");
+            createFormulaCell(workbook, row, (short) 3, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
+            setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
+        } else {
+            String formula = "SUM(C"+startindex+":C"+rowIndex+")";
+            Row row = sheet.createRow(rowIndex++);
+            createCell(workbook, row, (short) 1, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Razem: ");
+            createFormulaCell(workbook, row, (short) 2, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
+        }
+        return rowIndex;
     }
     
-    private static void createHeaderCell(Workbook wb, Row row, short column, short halign, short valign, String value) {
+    private static void setCellName(Workbook workbook, String nazwasumy, String kolumna, String wiersz) {
+        String nazwakom = "!$"+kolumna+"$"+wiersz;
+        Name name;
+        name = workbook.createName();
+        name.setNameName(nazwasumy);
+        String nazwarelacji = "'Symulacja wyniku'"+nazwakom;
+        name.setRefersToFormula(nazwarelacji);
+    }
+    
+    private static void insertPrintHeader(Sheet sheet) {
+        //do druku
+        Header header = sheet.getHeader();
+        header.setCenter("Center Header");
+        header.setLeft("Left Header");
+    }
+    
+    private static void createHeaderCell(Workbook wb, Row row, short column, short halign, short valign, short size, String value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(new XSSFRichTextString(value));
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
-        cellStyle.setFont(headerfont(wb));
+        cellStyle.setFont(headerfont(wb, size));
         cell.setCellStyle(cellStyle);
     }
     
@@ -160,10 +250,10 @@ public class WriteXLSFile {
         cellStyle.setVerticalAlignment(valign);
         cell.setCellStyle(cellStyle);
     }
-    private static Font headerfont(Workbook wb) {
+    private static Font headerfont(Workbook wb, short size) {
      // Create a new font and alter it.
         Font font = wb.createFont();
-        font.setFontHeightInPoints((short)11);
+        font.setFontHeightInPoints(size);
         font.setFontName("Arial");
         font.setBold(true);
         return font;
