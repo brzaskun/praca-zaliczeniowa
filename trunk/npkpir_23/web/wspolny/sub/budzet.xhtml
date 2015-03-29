@@ -1,0 +1,14 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    
+    <p:tabView id="akordeon" style="max-width: 1400px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+        <ui:include src="/wspolny/sub/budzet/zestawienierok.xhtml"/>
+    </p:tabView>
+</ui:composition>   
+
