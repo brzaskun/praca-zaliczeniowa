@@ -28,6 +28,19 @@ public class KontoSumyRok implements Serializable {
     private double pazdziernik;
     private double listopad;
     private double grudzien;
+    private double srednia;
+    private double styczenP;
+    private double lutyP;
+    private double marzecP;
+    private double kwiecienP;
+    private double majP;
+    private double czerwiecP;
+    private double lipiecP;
+    private double sierpienP;
+    private double wrzesienP;
+    private double pazdziernikP;
+    private double listopadP;
+    private double grudzienP;
 
     public KontoSumyRok() {
     }
@@ -168,6 +181,112 @@ public class KontoSumyRok implements Serializable {
     public void setGrudzien(double grudzien) {
         this.grudzien = grudzien;
     }
+
+    public double getSrednia() {
+        return srednia;
+    }
+
+    public void setSrednia(double srednia) {
+        this.srednia = srednia;
+    }
+
+    public double getStyczenP() {
+        return styczenP;
+    }
+
+    public void setStyczenP(double styczenP) {
+        this.styczenP = styczenP;
+    }
+
+    public double getLutyP() {
+        return lutyP;
+    }
+
+    public void setLutyP(double lutyP) {
+        this.lutyP = lutyP;
+    }
+
+    public double getMarzecP() {
+        return marzecP;
+    }
+
+    public void setMarzecP(double marzecP) {
+        this.marzecP = marzecP;
+    }
+
+    public double getKwiecienP() {
+        return kwiecienP;
+    }
+
+    public void setKwiecienP(double kwiecienP) {
+        this.kwiecienP = kwiecienP;
+    }
+
+    public double getMajP() {
+        return majP;
+    }
+
+    public void setMajP(double majP) {
+        this.majP = majP;
+    }
+
+    public double getCzerwiecP() {
+        return czerwiecP;
+    }
+
+    public void setCzerwiecP(double czerwiecP) {
+        this.czerwiecP = czerwiecP;
+    }
+
+    public double getLipiecP() {
+        return lipiecP;
+    }
+
+    public void setLipiecP(double lipiecP) {
+        this.lipiecP = lipiecP;
+    }
+
+    public double getSierpienP() {
+        return sierpienP;
+    }
+
+    public void setSierpienP(double sierpienP) {
+        this.sierpienP = sierpienP;
+    }
+
+    public double getWrzesienP() {
+        return wrzesienP;
+    }
+
+    public void setWrzesienP(double wrzesienP) {
+        this.wrzesienP = wrzesienP;
+    }
+
+    public double getPazdziernikP() {
+        return pazdziernikP;
+    }
+
+    public void setPazdziernikP(double pazdziernikP) {
+        this.pazdziernikP = pazdziernikP;
+    }
+
+    public double getListopadP() {
+        return listopadP;
+    }
+
+    public void setListopadP(double listopadP) {
+        this.listopadP = listopadP;
+    }
+
+    public double getGrudzienP() {
+        return grudzienP;
+    }
+
+    public void setGrudzienP(double grudzienP) {
+        this.grudzienP = grudzienP;
+    }
+    
+    
     
     public boolean isEmpty() {
         if (this.styczen != 0) {

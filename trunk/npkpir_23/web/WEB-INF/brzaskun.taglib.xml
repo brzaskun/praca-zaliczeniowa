@@ -18,6 +18,19 @@
         </attribute>
     </tag>
     <tag>
+	<tag-name>outputplprocent</tag-name>
+	<source>tags/outputplprocent.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
+    </tag>
+    <tag>
 	<tag-name>ajaxs</tag-name>
 	<source>tags/ajaxS.xhtml</source>
         <attribute>

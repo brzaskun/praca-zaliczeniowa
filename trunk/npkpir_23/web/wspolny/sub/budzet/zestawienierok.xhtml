@@ -25,13 +25,13 @@
                 <h:outputText value="rok" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="rokwpisu" value="#{WpisView.rokWpisu}">
-                        <p:ajax event="change" listener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" update="@form"/>
+                        <p:ajax event="change" listener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" update="@form, :akordeon:formzestkontarokprocent"/>
                         <f:selectItems value="#{Roki.rokiList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="pobierz" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
-                                     style="width: 120px; margin-left: 20px;" update="@form"/>
+                                     style="width: 120px; margin-left: 20px;" update="@form, :akordeon:formzestkontarokprocent"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
             </p:panelGrid>
