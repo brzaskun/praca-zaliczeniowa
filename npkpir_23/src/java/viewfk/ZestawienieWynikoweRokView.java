@@ -86,6 +86,8 @@ public class ZestawienieWynikoweRokView implements Serializable {
             }
         }
         usunzerowekonta();
+        obliczsrednia();
+        obliczprocenty();
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
@@ -266,7 +268,326 @@ public class ZestawienieWynikoweRokView implements Serializable {
         }
     }
 
-    
+    private void obliczsrednia() {
+        int dzielnik = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        int max = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
+        for (KontoSumyRok p : kontosumyrokPrzychody) {
+            double suma = pobierzkwoty(p, max);
+            double srednia = Z.z(suma/dzielnik);
+            p.setSrednia(srednia);
+        }
+        for (KontoSumyRok p : kontosumyrokKoszty) {
+            double suma = pobierzkwoty(p, max);
+            double srednia = Z.z(suma/dzielnik);
+            p.setSrednia(srednia);
+        }
+    }
+  private double pobierzkwoty(KontoSumyRok p, int max) {
+        double suma = 0.0;
+        if (max == 1) {
+            return suma;
+        }
+        if (max == 2) {
+            suma += p.getStyczen();
+        }
+        if (max == 3) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+        }
+        if (max == 4) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+        }
+        if (max == 5) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+        }
+        if (max == 6) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+        }
+        if (max == 7) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+        }
+        if (max == 8) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+        }
+        if (max == 9) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+            suma += p.getSierpien();
+        }
+        if (max == 10) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+            suma += p.getSierpien();
+            suma += p.getWrzesien();
+        }
+        if (max == 11) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+            suma += p.getSierpien();
+            suma += p.getWrzesien();
+            suma += p.getPazdziernik();
+        }
+        if (max == 12) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+            suma += p.getSierpien();
+            suma += p.getWrzesien();
+            suma += p.getPazdziernik();
+            suma += p.getListopad();
+        }
+        if (max == 13) {
+            suma += p.getStyczen();
+            suma += p.getLuty();
+            suma += p.getMarzec();
+            suma += p.getKwiecien();
+            suma += p.getMaj();
+            suma += p.getCzerwiec();
+            suma += p.getLipiec();
+            suma += p.getSierpien();
+            suma += p.getWrzesien();
+            suma += p.getPazdziernik();
+            suma += p.getListopad();
+            suma += p.getGrudzien();
+        }
+        return suma;
+    }
+
+    private void obliczprocenty() {
+        int max = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
+        for (KontoSumyRok p : kontosumyrokPrzychody) {
+            naniesprocenty(p, max);
+        }
+        for (KontoSumyRok p : kontosumyrokKoszty) {
+            naniesprocenty(p, max);
+        }
+    }
+
+    private void naniesprocenty(KontoSumyRok p, int max) {
+        if (max == 1) {
+            return ;
+        }
+        if (max == 2) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+        }
+        if (max == 3) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+        }
+        if (max == 4) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+        }
+        if (max == 5) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+        }
+        if (max == 6) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+        }
+        if (max == 7) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+        }
+        if (max == 8) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+        }
+        if (max == 9) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+            procent = p.getSierpien()/p.getSrednia();
+            p.setSierpienP(procent);
+        }
+        if (max == 10) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+            procent = p.getSierpien()/p.getSrednia();
+            p.setSierpienP(procent);
+            procent = p.getWrzesien()/p.getSrednia();
+            p.setWrzesienP(procent);
+        }
+        if (max == 11) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+            procent = p.getSierpien()/p.getSrednia();
+            p.setSierpienP(procent);
+            procent = p.getWrzesien()/p.getSrednia();
+            p.setWrzesienP(procent);
+            procent = p.getPazdziernik()/p.getSrednia();
+            p.setPazdziernikP(procent);
+        }
+        if (max == 12) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+            procent = p.getSierpien()/p.getSrednia();
+            p.setSierpienP(procent);
+            procent = p.getWrzesien()/p.getSrednia();
+            p.setWrzesienP(procent);
+            procent = p.getPazdziernik()/p.getSrednia();
+            p.setPazdziernikP(procent);
+            procent = p.getListopad()/p.getSrednia();
+            p.setListopadP(procent);
+        }
+        if (max == 13) {
+            double procent = p.getStyczen()/p.getSrednia();
+            p.setStyczenP(procent);
+            procent = p.getLuty()/p.getSrednia();
+            p.setLutyP(procent);
+            procent = p.getMarzec()/p.getSrednia();
+            p.setMarzecP(procent);
+            procent = p.getKwiecien()/p.getSrednia();
+            p.setKwiecienP(procent);
+            procent = p.getMaj()/p.getSrednia();
+            p.setMajP(procent);
+            procent = p.getCzerwiec()/p.getSrednia();
+            p.setCzerwiecP(procent);
+            procent = p.getLipiec()/p.getSrednia();
+            p.setLipiecP(procent);
+            procent = p.getSierpien()/p.getSrednia();
+            p.setSierpienP(procent);
+            procent = p.getWrzesien()/p.getSrednia();
+            p.setWrzesienP(procent);
+            procent = p.getPazdziernik()/p.getSrednia();
+            p.setPazdziernikP(procent);
+            procent = p.getListopad()/p.getSrednia();
+            p.setListopadP(procent);
+            procent = p.getGrudzien()/p.getSrednia();
+            p.setGrudzienP(procent);
+        }
+    }
+  
        
    
 }
