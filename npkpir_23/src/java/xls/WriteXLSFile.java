@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
@@ -237,6 +238,10 @@ public class WriteXLSFile {
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setFont(headerfont(wb, size));
+        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
     
@@ -247,6 +252,10 @@ public class WriteXLSFile {
         cellStyle.setDataFormat((short) 7);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
     
@@ -256,6 +265,10 @@ public class WriteXLSFile {
         CellStyle cellStyle = wb.createCellStyle();
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
     private static void createCell(Workbook wb, Row row, short column, short halign, short valign, double value) {
@@ -265,6 +278,10 @@ public class WriteXLSFile {
         cellStyle.setDataFormat((short) 7);
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
     private static Font headerfont(Workbook wb, short size) {
