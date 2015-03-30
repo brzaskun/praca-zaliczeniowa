@@ -18,6 +18,7 @@ import javax.persistence.Embeddable;
 @Named
 @Embeddable
 public class EVatViewPola implements Serializable{
+    private static final long serialVersionUID = -7659459927104523420L;
     private static final List<String> opispol;
     static {
         opispol = new ArrayList<>();
