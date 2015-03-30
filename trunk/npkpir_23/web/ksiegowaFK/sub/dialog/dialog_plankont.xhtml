@@ -12,7 +12,7 @@
         }
     </style>
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" dynamic="true" fitViewport="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form">
             <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
                 <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" />
@@ -44,10 +44,14 @@
                     }
             </script>-->
               <p:panelGrid columns="4">
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
+<!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
+                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data')"  global="false" style="float: left;" />
+                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form:dataList_data')"  global="false" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
@@ -58,7 +62,8 @@
                     <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
                     <p:columnGroup type="header">
                         <p:row>
-                            <p:column colspan="1" headerText="numerkonts" width="80" />
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="numer konta" width="80" />
                             <p:column colspan="1" headerText="nazwa pełna" width="300"/>
                             <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
@@ -71,6 +76,9 @@
                             <p:column colspan="1" headerText="P/K" width="40"/>
                         </p:row>
                     </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
                     <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
