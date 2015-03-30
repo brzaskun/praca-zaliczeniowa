@@ -262,7 +262,7 @@ public class TransformacjaView implements Serializable{
             listaWszystkichDok.addAll(deklaracjevatDAO.findAll());
             //listaWszystkichDok.add(dokDAO.findDokByNr("fvp/2013/13185/m"));
             for (Deklaracjevat p : listaWszystkichDok) {
-                HashMap<String,ArrayList> stareEwidencje = p.getEwidencje();
+                HashMap<String,List<EVatViewPola>> stareEwidencje = p.getEwidencje();
                 List<EwidencjevatDeklaracja> nowyEVatwpis = new ArrayList<>();
                 if (stareEwidencje != null) {
                     List<String> klucze = new ArrayList<>();

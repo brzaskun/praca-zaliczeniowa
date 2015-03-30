@@ -195,7 +195,7 @@ public class VatKorektaView implements Serializable {
          * Sporzadza i przeksztalca dokumenty korekty w ewidencje vat
          */
         EwidencjaVATSporzadzanie.transferujDokdoEVatwpis(listadokumentowDoKorekty, listadokvatprzetworzona, wpisView.getRokWpisuSt() , wpisView.getMiesiacWpisu(), evewidencjaDAO);
-        HashMap<String, ArrayList> listaewidencji = new HashMap<>();
+        HashMap<String, List<EVatViewPola>> listaewidencji = new HashMap<>();
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
         EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
         ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());

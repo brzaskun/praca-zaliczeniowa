@@ -74,7 +74,7 @@ public class EwidencjaVATSporzadzanie {
             }
     }
     
-    public static void rozdzielEVatwpisNaEwidencje(List<EVatViewPola>listadokvatprzetworzona, HashMap<String, ArrayList> listaewidencji, HashMap<String, EVatwpisSuma> sumaewidencji,  EvewidencjaDAO evewidencjaDAO) {
+    public static void rozdzielEVatwpisNaEwidencje(List<EVatViewPola>listadokvatprzetworzona, HashMap<String, List<EVatViewPola>> listaewidencji, HashMap<String, EVatwpisSuma> sumaewidencji,  EvewidencjaDAO evewidencjaDAO) {
         for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
                 ArrayList<EVatViewPola> listatmp = new ArrayList<>();
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
