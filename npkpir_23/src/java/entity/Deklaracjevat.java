@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
@@ -77,7 +78,7 @@ public class Deklaracjevat implements Serializable {
     private String nrkwartalu;
     @Lob
     @Column(name = "ewidencje")
-    private HashMap<String, ArrayList>  ewidencje;
+    private HashMap<String, List<EVatViewPola>>  ewidencje;
     @OneToMany(mappedBy = "deklaracja", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<EwidencjevatDeklaracja>  ewidencjedeklaracja;
     @Size(max = 255)
@@ -175,11 +176,11 @@ public class Deklaracjevat implements Serializable {
         this.nrkwartalu = nrkwartalu;
     }
 
-    public HashMap<String, ArrayList> getEwidencje() {
+    public HashMap<String, List<EVatViewPola>> getEwidencje() {
         return ewidencje;
     }
 
-    public void setEwidencje(HashMap<String, ArrayList> ewidencje) {
+    public void setEwidencje(HashMap<String, List<EVatViewPola>> ewidencje) {
         this.ewidencje = ewidencje;
     }
 

@@ -4,7 +4,6 @@
  */
 package comparator;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Constants;
 import entity.Podatnik;
 import java.text.Collator;
 import java.util.Comparator;

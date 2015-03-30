@@ -6,7 +6,6 @@
 
 package viewfk.subroutines;
 
-import com.sun.msv.datatype.xsd.Comparator;
 import comparator.Wierszcomparator;
 import entityfk.Dokfk;
 import entityfk.Konto;
