@@ -164,7 +164,8 @@ public class SaldoKontoNarastajaco implements Serializable {
         this.obrotyBoMa = this.boMa + obrotyMa;
     }
 
-    public static class Obrotymca {
+    public static class Obrotymca implements Serializable {
+    private static final long serialVersionUID = 1L;
         private String nazwamca;
         private double obrotyWn;
         private double obrotyMa;

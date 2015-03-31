@@ -17,12 +17,15 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import pdf.PdfKonta;
+import pdf.PdfKontaNarastajaco;
 import view.WpisView;
 import waluty.Z;
 
@@ -47,7 +50,6 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     public SaldoAnalitykaNarastajacoView() {
     }
     
-    @PostConstruct
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
@@ -105,6 +107,12 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+        for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
+            StronaWiersza st = (StronaWiersza) it.next();
+            if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                it.remove();
+            }
+        }
         for (String m : Mce.getMceListS()) {
             if (m.equals(wpisView.getMiesiacNastepny())) {
                 break;
@@ -149,7 +157,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
 
     private List<StronaWiersza> pobierzzapisy() {
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
    
@@ -162,5 +170,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         return false;
     }
     
-    
+    public void drukuj(int i) {
+        PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0);
+    }
 }
