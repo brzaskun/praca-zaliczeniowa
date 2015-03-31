@@ -41,14 +41,14 @@ import viewfk.SymulacjaWynikuView;
 public class PdfSymulacjaWyniku {
     
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku) {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
         try {
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku);
+            drukujcd(listakontaprzychody, listakontakoszty, listapozycjisymulacji, pozycjeObliczeniaPodatku, wpisView, rodzajdruku, pozycjeDoWyplaty);
             Msg.msg("Wydruk zestawienia symulacja wyniku");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia symulacja wyniku");
@@ -57,7 +57,7 @@ public class PdfSymulacjaWyniku {
     }
 
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku)  throws DocumentException, FileNotFoundException, IOException {
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie symulacja wyniku");
@@ -71,6 +71,7 @@ public class PdfSymulacjaWyniku {
         document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
         document.add(tablica2(listapozycjisymulacji));
         document.add(tablica3(pozycjeObliczeniaPodatku));
+        document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();
         Msg.msg("e", "Wydrukowano symulację wyniku finansowego");
     }
@@ -205,6 +206,31 @@ public class PdfSymulacjaWyniku {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
+            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
+            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+        }
+        return table;
+    }
+   private static PdfPTable tablica4(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, int i) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(2);
+        table.setWidths(new int[]{4, 1});
+        table.setWidthPercentage(50);
+        table.setSpacingBefore(15);
+        try {
+            if (i == 3) {
+                table.addCell(ustawfraze("obliczenie kwot do wypłaty", 2, 0));
+            }
+            table.addCell(ustawfraze("opis", 0, 1));
+            table.addCell(ustawfraze("kwota", 0, 1));
+
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie kwoty do wypłaty", 6, 0, 5));
+
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
         }

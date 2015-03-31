@@ -19,7 +19,9 @@ import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -44,6 +46,7 @@ public class SymulacjaWynikuView implements Serializable {
     private List<SaldoKonto> sumaSaldoKontoKoszty;
     private List<PozycjeSymulacji> pozycjePodsumowaniaWyniku;
     private List<PozycjeSymulacji> pozycjeObliczeniaPodatku;
+    private List<PozycjeSymulacji> pozycjeDoWyplaty;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -62,6 +65,8 @@ public class SymulacjaWynikuView implements Serializable {
     private double korektazapisycechakoszt;
     private double razemzapisycechaprzychod;
     private double korektazapisycechaprzychod;
+    private Map<String, Double> podatnikkwotarazem;
+    private double wynikfinansowy;
 
     public SymulacjaWynikuView() {
         sumaSaldoKontoPrzychody = new ArrayList<>();
@@ -85,6 +90,7 @@ public class SymulacjaWynikuView implements Serializable {
         listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
         pobierzzapisyzcechami();
         obliczsymulacje();
+        obliczkwotydowyplaty();
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
@@ -170,12 +176,13 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void obliczsymulacje() {
+        podatnikkwotarazem = new HashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
         double przychody = Z.z(sumuj(listakontaprzychody));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody razem", przychody));
         double koszty = Z.z(sumuj(listakontakoszty));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty razem", koszty));
-        double wynikfinansowy = Z.z(przychody - koszty);
+        wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
         double npup = Z.z(razemzapisycechaprzychod);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("npup", npup));
@@ -191,7 +198,9 @@ public class SymulacjaWynikuView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania #"+String.valueOf(i), podstawaopodatkowania));
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), Z.z0(podstawaopodatkowania*0.19)));
+                double podatek = Z.z0(podstawaopodatkowania*0.19);
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), podatek));
+                podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
@@ -219,7 +228,7 @@ public class SymulacjaWynikuView implements Serializable {
     }
     
     public void drukuj(int i) {
-        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, wpisView, i);
+        PdfSymulacjaWyniku.drukuj(listakontaprzychody, listakontakoszty, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, wpisView, i, pozycjeDoWyplaty);
     }
 
     private void pobierzzapisyzcechami() {
@@ -263,6 +272,20 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
     
+    private void obliczkwotydowyplaty() {
+        pozycjeDoWyplaty = new ArrayList<>();
+        try {
+            for (Udzialy p : pobierzudzialy()) {
+                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
+                double dowyplaty = Z.z(udział*wynikfinansowy);
+                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty", Z.z(dowyplaty-zaplacono)));
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+        }
+    }
     //<editor-fold defaultstate="collapsed" desc="comment">
 
     public List<SaldoKonto> getWybraneprzychody() {
@@ -271,6 +294,14 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public List<PozycjeSymulacji> getPozycjeDoWyplaty() {
+        return pozycjeDoWyplaty;
+    }
+
+    public void setPozycjeDoWyplaty(List<PozycjeSymulacji> pozycjeDoWyplaty) {
+        this.pozycjeDoWyplaty = pozycjeDoWyplaty;
     }
 
     public double getSumaprzychody() {
