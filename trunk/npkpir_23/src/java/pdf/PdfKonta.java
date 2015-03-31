@@ -8,7 +8,6 @@ package pdf;
 
 
 import static beansPdf.PdfFont.formatujLiczba;
-import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
@@ -54,7 +53,7 @@ public class PdfKonta {
     }
 
     private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1)  throws DocumentException, FileNotFoundException, IOException {
-        Document document = new Document();
+        Document document = new Document(PageSize.A4, 5,5,5,5);
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -62,7 +61,6 @@ public class PdfKonta {
         document.addKeywords("Wynik Finansowy, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
-        document.setPageSize(PageSize.A4);
         document.add(tablica(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
         document.close();
         Msg.msg("e", "Wydrukowano symulację wyniku finansowego");

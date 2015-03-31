@@ -15,7 +15,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfTable;
 import dao.FakturaXXLKolumnaDAO;
 import dao.FakturaelementygraficzneDAO;
 import embeddable.EVatwpis;
