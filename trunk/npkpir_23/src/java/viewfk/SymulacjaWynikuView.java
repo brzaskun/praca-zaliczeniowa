@@ -275,12 +275,14 @@ public class SymulacjaWynikuView implements Serializable {
     private void obliczkwotydowyplaty() {
         pozycjeDoWyplaty = new ArrayList<>();
         try {
+            int i = 1;
             for (Udzialy p : pobierzudzialy()) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" udział", udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty", Z.z(dowyplaty-zaplacono)));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty #"+String.valueOf(i), Z.z(dowyplaty-zaplacono)));
+                i++;
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");

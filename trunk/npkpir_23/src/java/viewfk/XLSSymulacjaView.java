@@ -43,6 +43,7 @@ public class XLSSymulacjaView implements Serializable{
             List koszty = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontakoszty(),"k");
             List wynik = transferToPozycjaObliczeniaWynik(symulacjaWynikuView.getPozycjePodsumowaniaWyniku());
             List podatek = transferToPozycjaObliczeniaPodatek(symulacjaWynikuView.getPozycjeObliczeniaPodatku());
+            List dywidenda = transferToPozycjaObliczeniaDywidenda(symulacjaWynikuView.getPozycjeDoWyplaty());
             if (przychody.size()==0 || koszty.size()==0 || wynik.size() == 0) {
                 Msg.msg("e","Wygeneruj najpierw zestawienie");
                 return;
@@ -52,6 +53,7 @@ public class XLSSymulacjaView implements Serializable{
             listy.put("k", koszty);
             listy.put("w", wynik);
             listy.put("o", podatek);
+            listy.put("d", dywidenda);
             Workbook workbook = WriteXLSFile.zachowajXLS(listy);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -110,6 +112,21 @@ public class XLSSymulacjaView implements Serializable{
             l.add(new PozycjaObliczenia(j++,p.getNazwa(),p.getWartosc()));
             l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikpodatkowy*"+nazwaudzialowca+",0)"));
             l.add(new PozycjaObliczenia(j++,"podatek udziałowiec "+k, "round(podstawaopodatkowania"+k+"*0.19,0)"));
+            k++;
+        }
+        return l;
+    }
+    
+    private List transferToPozycjaObliczeniaDywidenda (List<SymulacjaWynikuView.PozycjeSymulacji> lista) {
+        List l = new ArrayList();
+        int j = 1;
+        int k = 1;
+        for (int i = 0; i < lista.size(); i = i+2) {
+            SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
+            String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
+            l.add(new PozycjaObliczenia(j++, nazwaudzialowca,p.getWartosc()));
+            String dowyplaty = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
+            l.add(new PozycjaObliczenia(j++,"do wypłaty #"+k, dowyplaty));
             k++;
         }
         return l;
