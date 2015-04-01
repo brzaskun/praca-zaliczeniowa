@@ -6,12 +6,10 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.PozycjaRZiS;
-import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -21,7 +19,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PozycjaRZiSDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

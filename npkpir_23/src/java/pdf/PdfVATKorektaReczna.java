@@ -37,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
@@ -46,7 +46,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVATKorektaReczna {
 
     

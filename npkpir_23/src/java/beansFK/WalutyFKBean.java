@@ -11,24 +11,17 @@ import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.xml.parsers.ParserConfigurationException;
-import msg.Msg;
-import org.joda.time.LocalDate;
 import org.xml.sax.SAXException;
 import waluty.WalutyNBP;
 
@@ -37,7 +30,7 @@ import waluty.WalutyNBP;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class WalutyFKBean {
 
     @Inject

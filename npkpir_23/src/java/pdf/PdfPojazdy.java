@@ -16,9 +16,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import embeddablefk.MiejsceKosztowZest;
 import embeddablefk.PojazdyZest;
-import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,17 +25,16 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
-import viewfk.MiejsceKosztowView;
 import viewfk.PojazdyView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfPojazdy {
 
     public static void drukuj(List<PojazdyView.TabelaPojazdy> listapojazdow, WpisView wpisView, int rodzajdruku) {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -17,7 +17,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class Kolmn implements Serializable{
     
     

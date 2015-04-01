@@ -9,7 +9,7 @@ package beansLogowanie;
 import dao.RejestrlogowanDAO;
 import entity.Rejestrlogowan;
 import java.util.Date;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import mail.MailAdmin;
 
@@ -18,7 +18,7 @@ import mail.MailAdmin;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class Liczniklogowan {
     
     

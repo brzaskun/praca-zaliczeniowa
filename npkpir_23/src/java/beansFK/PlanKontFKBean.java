@@ -13,7 +13,6 @@ import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
-import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -21,7 +20,7 @@ import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
@@ -32,7 +31,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PlanKontFKBean {
    
      public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {

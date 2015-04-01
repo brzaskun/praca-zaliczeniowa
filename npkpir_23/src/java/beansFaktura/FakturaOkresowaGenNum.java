@@ -8,7 +8,7 @@ package beansFaktura;
 import dao.FakturaDAO;
 import entity.Faktura;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -19,7 +19,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class FakturaOkresowaGenNum {
     
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {

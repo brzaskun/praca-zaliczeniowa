@@ -9,35 +9,31 @@ import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import embeddablefk.MiejsceKosztowZest;
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
-import viewfk.MiejsceKosztowView;
 import viewfk.SymulacjaWynikuView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfSymulacjaWyniku {
     
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
@@ -73,7 +69,7 @@ public class PdfSymulacjaWyniku {
         document.add(tablica3(pozycjeObliczeniaPodatku));
         document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();
-        Msg.msg("e", "Wydrukowano symulację wyniku finansowego");
+        Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listakonta, String pk, int rodzajdruku) throws DocumentException, IOException {

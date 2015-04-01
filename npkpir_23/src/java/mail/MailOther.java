@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -28,7 +28,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class MailOther implements Serializable{
  
     

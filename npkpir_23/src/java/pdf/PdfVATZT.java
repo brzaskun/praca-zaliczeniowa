@@ -21,14 +21,14 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import static pdf.PdfVAT7.absText;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVATZT {
     private static final String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-ZT.jpg";
     

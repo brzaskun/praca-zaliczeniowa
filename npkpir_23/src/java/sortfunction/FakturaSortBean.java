@@ -13,13 +13,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class FakturaSortBean {
     public static int sortZaksiegowaneDok(Object o1, Object o2, WpisView wpisView) {
         Map<String, Integer> mapa = rozbijwzor(wpisView.getPodatnikObiekt().getSchematnumeracji());

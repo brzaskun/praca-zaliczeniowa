@@ -11,11 +11,8 @@ import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -26,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class TransakcjaDAO  extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     @Inject

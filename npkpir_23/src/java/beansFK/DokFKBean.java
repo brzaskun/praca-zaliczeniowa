@@ -9,25 +9,21 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
-import entityfk.DokfkPK;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
-import viewfk.subroutines.ObslugaWiersza;
 
 /**
  *
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class DokFKBean {
 
     

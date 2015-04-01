@@ -13,9 +13,8 @@ import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.persistence.PersistenceException;
 import msg.Msg;
@@ -27,7 +26,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class KontaFKBean implements Serializable{
     /**
      * @param wykazkont List<Konto>

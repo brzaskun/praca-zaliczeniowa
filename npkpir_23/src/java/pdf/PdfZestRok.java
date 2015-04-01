@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
@@ -36,7 +36,7 @@ import view.ZestawienieView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfZestRok{
     
     public static void drukuj(WpisView wpisView, ZestawienieView zestawienieView) throws DocumentException, FileNotFoundException, IOException {

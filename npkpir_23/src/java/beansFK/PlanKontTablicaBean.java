@@ -9,14 +9,14 @@ import entityfk.Konto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PlanKontTablicaBean {
 
     public static List<Konto> generujTablicePlanKont(Map<Integer, List<Konto>> leveleKonta, WpisView wpisView) {

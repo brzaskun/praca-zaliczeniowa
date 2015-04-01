@@ -11,8 +11,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Singleton;
-import org.apache.poi.ss.usermodel.Cell;
+import javax.ejb.Stateless;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -21,7 +20,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class ReadXLSFile {
     
     private static String filename = "c://temp//faktury2.xlsx";

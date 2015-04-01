@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -31,7 +31,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class FakturaBean {
 
     public static String uzyjwzorcagenerujnumerDok(String wzorzec, String skrot, WpisView wpisView, DokDAO dokDAO) {

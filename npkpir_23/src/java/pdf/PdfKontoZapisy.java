@@ -27,14 +27,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfKontoZapisy {
 
     public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto)  throws DocumentException, FileNotFoundException, IOException {

@@ -16,7 +16,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.tools.Executable;
 import dao.AmoDokDAO;
 import dao.PodatnikDAO;
 import dao.UzDAO;
@@ -35,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import static pdf.PdfVAT7.absText;
 import view.WpisView;
@@ -45,7 +44,7 @@ import view.WpisView;
  * @author Osito
  */
 
-@Singleton
+@Stateless
 public class PdfPK {
 
  

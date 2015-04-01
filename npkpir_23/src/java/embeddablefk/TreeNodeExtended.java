@@ -5,22 +5,16 @@
 package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
-import comparator.Kontocomparator;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -31,7 +25,7 @@ import org.primefaces.model.TreeNode;
  * @param <T>
  */
 @Named
-@Singleton
+@Stateless
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -4,13 +4,13 @@
  */
 package timer;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class ZusTimer {
 //    @Resource
 //    TimerService timerService;

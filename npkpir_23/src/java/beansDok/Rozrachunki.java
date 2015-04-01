@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 
@@ -22,7 +22,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class Rozrachunki {
 
     public static void dodajdatydlaStorno(WpisView wpisView, Dok tmpDok) throws ParseException {

@@ -8,15 +8,14 @@ package beansPIT;
 import embeddable.Parametr;
 import entity.Podatnik;
 import java.util.List;
-import javax.ejb.Singleton;
-import msg.Msg;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class RoznicaRemanentowBean {
     
     public static double obliczrozniceremanentow(WpisView wpisView) {

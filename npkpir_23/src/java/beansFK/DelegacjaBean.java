@@ -14,7 +14,7 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 
@@ -23,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class DelegacjaBean {
 
     public static void zsumujkwotyzkont(Delegacja p, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<Delegacja, List<DelegacjaZest>> listasummiejsckosztow) {

@@ -11,8 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
-import javax.mail.Message;
+import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -26,7 +25,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class MailAdmin implements Serializable {
 
     public static void mailAdmin(String adres, String temat, String tresc) throws MessagingException {

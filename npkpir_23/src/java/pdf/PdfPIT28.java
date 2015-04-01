@@ -24,24 +24,20 @@ import entity.Uz;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
-import view.ZestawienieRyczaltView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfPIT28 {
     
     public static void drukuj(Ryczpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {

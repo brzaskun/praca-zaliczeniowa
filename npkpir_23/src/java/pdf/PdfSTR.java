@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 
@@ -35,7 +35,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfSTR {
 
     public static void drukuj(WpisView wpisView, List<STRtabela> wykaz) throws DocumentException, FileNotFoundException, IOException {

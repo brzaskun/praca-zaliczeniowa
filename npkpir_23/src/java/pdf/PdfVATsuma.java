@@ -32,14 +32,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVATsuma {
 
     public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {

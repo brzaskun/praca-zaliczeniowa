@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -21,7 +21,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class ListaEwidencjiVat implements Serializable{
    
     private static final List<String> naglowekVList;

@@ -7,7 +7,7 @@ package mail;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.Properties;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -21,7 +21,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class MailSetUp implements Serializable{
 //
 //    private String wysylajacy;

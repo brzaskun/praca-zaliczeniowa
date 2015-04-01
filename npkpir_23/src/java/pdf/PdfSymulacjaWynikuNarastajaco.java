@@ -12,11 +12,8 @@ import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import embeddablefk.SaldoKonto;
-import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
@@ -35,7 +32,7 @@ import viewfk.SymulacjaWynikuView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfSymulacjaWynikuNarastajaco {
     
     public static void drukuj(List<WynikFKRokMc> listamiesiecy, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
@@ -73,7 +70,7 @@ public class PdfSymulacjaWynikuNarastajaco {
         document.add(tablica3(pozycjeObliczeniaPodatku, 2));
         document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();
-        Msg.msg("e", "Wydrukowano symulację wyniku finansowego narastająco");
+        Msg.msg("i", "Wydrukowano symulację wyniku finansowego narastająco");
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<WynikFKRokMc> listamiesiecy) throws DocumentException, IOException {

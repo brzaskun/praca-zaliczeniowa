@@ -6,19 +6,16 @@
 package beansVAT;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
-import msg.Msg;
 
 /**
  *
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class EDeklaracjeObslugaBledow {
 
     public static List<String> odpowiedznakodserwera(Integer kodserwera) {
