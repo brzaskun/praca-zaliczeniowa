@@ -6,13 +6,13 @@
 package sortfunction;
 
 import entityfk.Konto;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class KontoSortBean {
 
     public static int sortZaksiegowaneDok(Konto o1, Konto o2) {

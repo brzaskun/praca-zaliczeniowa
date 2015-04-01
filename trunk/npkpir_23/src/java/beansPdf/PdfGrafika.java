@@ -8,7 +8,7 @@ package beansPdf;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfSpotColor;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import static pdf.Pdf.RESULT;
 
@@ -17,7 +17,7 @@ import static pdf.Pdf.RESULT;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PdfGrafika {
 
     public static void prost(PdfContentByte cb, int x, int y, int x1, int y1) {

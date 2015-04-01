@@ -15,7 +15,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -23,7 +23,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PdfHeaderFooter extends PdfPageEventHelper {
     
         private int liczydlo = 0;

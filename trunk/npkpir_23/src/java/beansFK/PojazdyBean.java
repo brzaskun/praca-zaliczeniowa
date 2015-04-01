@@ -10,12 +10,10 @@ import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 import viewfk.PojazdyView;
@@ -25,7 +23,7 @@ import viewfk.PojazdyView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PojazdyBean {
 
     public static void zsumujkwotyzkont(List<Pojazdy> listapojazdy, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<PojazdyView.TabelaPojazdy> listasumpojazdy, List<StronaWiersza> stronywiersza) {

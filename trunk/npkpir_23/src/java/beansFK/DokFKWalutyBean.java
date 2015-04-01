@@ -8,13 +8,11 @@ package beansFK;
 
 import daoFK.WalutyDAOfk;
 import entityfk.Dokfk;
-import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -22,7 +20,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class DokFKWalutyBean implements Serializable{
     
     public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {

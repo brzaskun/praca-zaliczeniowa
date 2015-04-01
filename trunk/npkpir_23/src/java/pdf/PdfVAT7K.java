@@ -23,7 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
 
@@ -31,7 +31,7 @@ import static pdf.PdfVAT7.absText;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVAT7K {
     private static String vat71kw;
     private static String vat72kw;

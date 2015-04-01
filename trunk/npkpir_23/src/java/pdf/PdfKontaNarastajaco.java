@@ -14,13 +14,10 @@ import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Mce;
-import embeddablefk.SaldoKonto;
 import embeddablefk.SaldoKontoNarastajaco;
-import entityfk.StronaWiersza;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -28,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 
@@ -36,7 +33,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfKontaNarastajaco {
     
     public static void drukuj(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1) {
@@ -65,7 +62,7 @@ public class PdfKontaNarastajaco {
         document.open();
         document.add(tablica(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
         document.close();
-        Msg.msg("e", "Wydrukowano symulację wyniku finansowego");
+        Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKontoNarastajaco> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {

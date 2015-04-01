@@ -12,6 +12,7 @@ import entity.Evewidencja;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 
@@ -20,7 +21,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class VAT {
     
     public static void zweryfikujokresvat(Dok selDokument) {

@@ -10,7 +10,7 @@ import dao.DAO;
 import entityfk.Kliencifk;
 import java.io.Serializable;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -20,7 +20,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class KliencifkDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
 import waluty.Z;
@@ -25,7 +25,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class ObslugaWiersza {
     
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty

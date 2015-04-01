@@ -9,7 +9,7 @@ package mail;
  * @author Osito
  */
 import java.util.Properties;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,7 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Named
-@Singleton
+@Stateless
 public class Mail {
     protected static final String stopka;
     protected static final String reklama;

@@ -18,11 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
-import org.primefaces.context.RequestContext;
 import waluty.Z;
 
 /**
@@ -30,7 +27,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class DokFKTransakcjeBean implements Serializable{
     
         

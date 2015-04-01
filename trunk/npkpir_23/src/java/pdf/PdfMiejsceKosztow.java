@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
@@ -34,7 +34,7 @@ import viewfk.MiejsceKosztowView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfMiejsceKosztow {
 
     public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {

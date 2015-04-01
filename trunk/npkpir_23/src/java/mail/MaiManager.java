@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Transport;
@@ -21,7 +21,7 @@ import javax.mail.internet.MimeUtility;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class MaiManager implements Serializable {
 
     public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException {

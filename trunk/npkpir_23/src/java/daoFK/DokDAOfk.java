@@ -5,14 +5,13 @@
 package daoFK;
 
 import dao.DAO;
-import entity.Dok;
 import entity.Klienci;
 import entity.Podatnik;
 import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -23,7 +22,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named(value="DokDAOfk")
-@Singleton
+@Stateless
 public class DokDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     

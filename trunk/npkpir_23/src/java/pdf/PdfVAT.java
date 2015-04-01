@@ -4,7 +4,6 @@
  */
 package pdf;
 
-import beansFK.DokFKTransakcjeBean;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
@@ -21,7 +20,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.lowagie.text.pdf.PdfTable;
 import comparator.EVatViewPolacomparator;
 import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
@@ -41,14 +39,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import view.WpisView;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVAT {
 
     public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {

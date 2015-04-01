@@ -5,7 +5,6 @@
  */
 package beansSrodkiTrwale;
 
-import com.itextpdf.text.pdf.PdfName;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Umorzenie;
@@ -16,7 +15,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import view.WpisView;
@@ -27,7 +26,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class SrodkiTrwBean implements Serializable {
 
     public static double sumujumorzenia(List<Umorzenie> umorzenia) {

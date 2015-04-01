@@ -9,9 +9,8 @@ package beansPIT;
 import entity.Podstawki;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.math.RoundingMode;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -19,7 +18,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class WyliczPodatekZasadyOgolne implements Serializable{
     
     public static BigDecimal wyliczopodatek(Podstawki skalaPodatkowaZaDanyRok, BigDecimal dochod) {

@@ -14,7 +14,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -22,7 +22,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PdfFont {
 
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException {

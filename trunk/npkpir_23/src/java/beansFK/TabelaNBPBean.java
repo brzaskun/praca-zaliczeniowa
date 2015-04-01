@@ -8,17 +8,16 @@ package beansFK;
 import daoFK.TabelanbpDAO;
 import entityfk.Dokfk;
 import entityfk.Tabelanbp;
-import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import org.joda.time.DateTime;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class TabelaNBPBean {
     
     public static Tabelanbp pobierzTabeleNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty, Dokfk selected) {

@@ -5,7 +5,7 @@
  */
 package beansLogowanie;
 
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class IPaddress {
 
     public static String getIpAddr(HttpServletRequest request) {

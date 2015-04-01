@@ -14,8 +14,7 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
@@ -25,7 +24,7 @@ import viewfk.MiejsceKosztowView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class MiejsceKosztowBean {
 
     public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, List<StronaWiersza> stronywiersza) {

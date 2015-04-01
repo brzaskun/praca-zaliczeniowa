@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 
@@ -34,7 +34,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfKonta {
     
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1) {
@@ -63,7 +63,7 @@ public class PdfKonta {
         document.open();
         document.add(tablica(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
         document.close();
-        Msg.msg("e", "Wydrukowano symulację wyniku finansowego");
+        Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
 
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {

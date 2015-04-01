@@ -11,7 +11,7 @@ import entity.Pismoadmin;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.joda.time.DateTime;
@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class NapiszDoAdminaTimer implements Serializable{
     @Inject
     private PismoadminDAO pismoadminDAO;

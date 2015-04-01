@@ -6,16 +6,15 @@
 package beansFK;
 
 import entityfk.EVatwpisFK;
-import java.util.HashMap;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import waluty.Z;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class DokFKVATBean {
     
     public static Double pobierzstawke(EVatwpisFK e, String form) {

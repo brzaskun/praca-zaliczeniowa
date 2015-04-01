@@ -26,17 +26,13 @@ import entityfk.Vatuepodatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Singleton;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 import view.WpisView;
 
@@ -44,7 +40,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVatUE {
 
 

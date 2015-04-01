@@ -12,6 +12,7 @@ import entityfk.StronaWiersza;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 
@@ -20,7 +21,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class CechazapisuBean {
     
     public static List<StronaWiersza> pobierzwierszezcecha(List<StronaWiersza> zapisy, String nazwacechy, String mc) {

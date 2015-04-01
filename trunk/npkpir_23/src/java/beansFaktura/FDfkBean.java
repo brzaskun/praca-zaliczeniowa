@@ -24,7 +24,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import msg.Msg;
 import view.WpisView;
 import waluty.Z;
@@ -33,7 +33,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class FDfkBean {
     
     public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, WpisView wpisView) {

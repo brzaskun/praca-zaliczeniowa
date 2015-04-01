@@ -30,7 +30,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import javax.inject.Named;
 import slownie.Slownie;
 import view.WpisView;
@@ -41,7 +41,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Singleton
+@Stateless
 public class PdfFP {
 
     public static void dodajnaglowekstopka(PdfWriter writer, List<Fakturadodelementy> elementydod) {

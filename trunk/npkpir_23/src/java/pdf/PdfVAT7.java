@@ -25,14 +25,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
+import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Osito
  */
-@Singleton
+@Stateless
 public class PdfVAT7 extends Pdf implements Serializable{
     
     private static final String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
