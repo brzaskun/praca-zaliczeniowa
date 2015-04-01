@@ -59,6 +59,7 @@ public class WriteXLSFile {
         List koszty = listy.get("k");
         List wynik = listy.get("w");
         List podatek = listy.get("o");
+        List dywidenda = listy.get("d");
         List headersListPrzychodKoszt = headerprzychodykoszty();
         List headersListWyliczenia = headerswynik();
         // Using XSSF for xlsx format, for xls use HSSF
@@ -73,6 +74,8 @@ public class WriteXLSFile {
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, wynik, "Obliczenie wyniku fin. i pod.", 2, "");
         sheet.createRow(rowIndex++);
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, podatek, "Obliczenie podatku dochodowego", 2, "");
+        sheet.createRow(rowIndex++);
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, dywidenda, "Obliczenie kwot do wypłaty", 2, "");
         workbook.setPrintArea(
         0, //sheet index
         0, //start column
