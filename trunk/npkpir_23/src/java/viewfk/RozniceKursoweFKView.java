@@ -167,11 +167,15 @@ public class RozniceKursoweFKView implements Serializable {
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
                     w.setStronaWn(konto755);
                     w.setStronaMa(kontoRozrachunku);
+                    w.getStronaWn().setKwotaPLN(roznicakursowa);
+                    w.getStronaMa().setKwotaPLN(roznicakursowa);
                 } else {
                     StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
                     w.setStronaWn(kontoRozrachunku);
                     w.setStronaMa(konto755);
+                    w.getStronaWn().setKwotaPLN(roznicakursowa);
+                    w.getStronaMa().setKwotaPLN(roznicakursowa);
                 }
                 
             } else {
