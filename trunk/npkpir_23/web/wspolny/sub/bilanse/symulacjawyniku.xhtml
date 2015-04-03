@@ -31,12 +31,12 @@
                 </p:column>
                 <p:column>
                     <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
-                                     oncomplete="r('akordeon:formsymulacja:xlsbutton').show();"
+                                     oncomplete="r('akordeon:formsymulacja:xlsbutton').show();r('akordeon:formsymulacja:drukujtab').show();r('akordeon:formsymulacja:drukujszcz').show();"
                                      style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-                <p:commandButton value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton id="drukujtab" value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton id="drukujszcz" value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton id="xlsbutton" value="XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS()}" style="width: 120px; margin-left: 15px; display: none;" global="false" ajax="false"/>
             </p:panelGrid>
 
