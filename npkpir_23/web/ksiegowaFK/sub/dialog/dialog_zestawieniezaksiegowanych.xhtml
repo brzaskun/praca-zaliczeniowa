@@ -15,7 +15,7 @@
         }
     </style>
    
-    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanych" 
+    <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
 <!--        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowane}" update="@this"/>-->
         <!--        <h:form>
@@ -35,7 +35,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px;" update=":zestawieniedokumentow:dataList"
+                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" update=":zestawieniedokumentow:dataList"
                                      onclick="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
@@ -100,7 +100,7 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="wal." styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:column headerText="VAT" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
@@ -110,8 +110,8 @@
                     <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
                 </p:column>         
                 <p:column width="80" style="text-align: center;" >
-                    <p:commandButton value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" 
-                                     update=":formwpisdokument"  
+                    <p:commandButton id="edytujbutton" value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" 
+                                     update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
                                      rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="80" style="text-align: center;">

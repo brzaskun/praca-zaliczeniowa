@@ -168,6 +168,7 @@ private static final long serialVersionUID = 1L;
     private List<Tabelanbp> tabelenbp;
     @Inject
     private Tabelanbp wybranaTabelanbp;
+    private String wierszedytowany;
     
 
     public DokfkView() {
@@ -209,8 +210,7 @@ private static final long serialVersionUID = 1L;
             rodzajDokPoprzedni = selected.getRodzajedok();
             selected.setwTrakcieEdycji(false);
             ostatniklient = selected.getKontr();
-            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-            RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
+            //RequestContext.getCurrentInstance().update(wierszedytowany);
         }
         try {
             if (ostatniklient == null) {
@@ -814,7 +814,7 @@ private static final long serialVersionUID = 1L;
     
     public void podepnijEwidencjeVat() {
         if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5) {
-            if (selected.getwTrakcieEdycji() == false) {
+            if (selected.iswTrakcieEdycji() == false) {
                 this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                     boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
@@ -847,7 +847,7 @@ private static final long serialVersionUID = 1L;
     
     public void podepnijEwidencjeVatDodatkowa() {
         if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5) {
-            if (selected.getwTrakcieEdycji() == false) {
+            if (selected.iswTrakcieEdycji() == false) {
                 symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                     boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
                     if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
@@ -2305,19 +2305,20 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            String rowS = "zestawieniedokumentow:dataList:"+String.valueOf(row)+":";
-            if (odnalezionywbazie.getwTrakcieEdycji() == true) {
+            wierszedytowany = "zestawieniedokumentow:dataList:"+String.valueOf(row)+":";
+            if (odnalezionywbazie.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-                RequestContext.getCurrentInstance().update(rowS);
+                RequestContext.getCurrentInstance().update(wierszedytowany);
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
+                dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                RequestContext.getCurrentInstance().update(rowS);
+                RequestContext.getCurrentInstance().update(wierszedytowany);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -2331,15 +2332,21 @@ public void updatenetto(EVatwpisFK e, String form) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
+    public void rezygnujzedycji() {
+        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(selected);
+        odnalezionywbazie.setwTrakcieEdycji(false);
+        dokDAOfk.edit(selected);
+        
+    }
     
     public void przygotujDokumentEdycjaImport(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            String rowS = "zestawieniedokumentowimport:dataListImport:"+String.valueOf(row)+":";
-            if (odnalezionywbazie.getwTrakcieEdycji() == true) {
+            wierszedytowany = "zestawieniedokumentowimport:dataListImport:"+String.valueOf(row)+":";
+            if (odnalezionywbazie.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-                RequestContext.getCurrentInstance().update(rowS);
+                RequestContext.getCurrentInstance().update(wierszedytowany);
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
@@ -2347,7 +2354,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                RequestContext.getCurrentInstance().update(rowS);
+                RequestContext.getCurrentInstance().update(wierszedytowany);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -2356,7 +2363,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                     pokazPanelWalutowy = false;
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-                
             }
         } catch (Exception e) {
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");

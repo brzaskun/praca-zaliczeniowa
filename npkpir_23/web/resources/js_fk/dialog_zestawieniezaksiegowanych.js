@@ -17,3 +17,18 @@ var ustawdialogwiersze = function(nazwa,menu) {
 
 };
 
+var schowajeditbutton = function(rzad) {
+    MYAPP.schowajeditbuttonnr = rzad;
+    var wiersz = 'zestawieniedokumentow:dataList:'+rzad+':edytujbutton';
+    r(wiersz).hide();
+};
+
+var pokazeditbutton = function() {
+    try {
+        rzad = MYAPP.schowajeditbuttonnr;
+        var wiersz = 'zestawieniedokumentow:dataList:'+rzad+':edytujbutton';
+        r(wiersz).show();
+    } catch (e) {
+        
+    }
+};

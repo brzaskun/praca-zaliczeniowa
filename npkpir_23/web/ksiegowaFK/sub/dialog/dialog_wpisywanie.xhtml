@@ -75,7 +75,7 @@
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)"
-              resizable="false" onShow="wpisywanieOnShow(1160,600);" closable="true" onHide="wpisywanieOnHide();"
+              resizable="false" onShow="wpisywanieOnShow(1160,600);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
               closeOnEscape="true" focus=":formwpisdokument:data2DialogWpisywanie"
               >
         <p:focus for="formwpisdokument">
@@ -456,7 +456,7 @@
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
-                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false"
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" global="false" update=":formwpisdokument" style="display: none;"/>
                 <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;" />
