@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="Wpisy">
             <h:form id="formX">
@@ -15,11 +16,11 @@
                              id="dokumentyLista" emptyMessage="brak deklaracji do wyslania" selection="#{vatKorektaView.deklaracjaVAT}"
                              paginator="true" paginatorAlwaysVisible="true" rows="1" rowKey="#{item.id}"
                              paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                             rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending"
+                             rowsPerPageTemplate="1, 6,12,18,24,32,50" sortOrder="descending" style="width: 1300px;"
                              >
                     <p:ajax event="rowSelectRadio" listener="#{vatKorektaView.wybranoDeklaracje}" update=":akordeon:wprowadzDokument, :akordeon:formprzedkorekta, :akordeon:listadodanychdok"/>
-                    <p:column selectionMode="single"/>
-                    <p:column style="width: 3%;">
+                    <p:column selectionMode="single" style="width: 20px;"/>
+                    <p:column style="width: 20px;">
                         <p:rowToggler/>
                     </p:column>
                     <p:ajax event="rowEdit" update=":akordeon:formX:msg" listener="#{deklaracjevatView.edit}" />
@@ -27,8 +28,8 @@
                         <h:outputText value="#{item.wzorschemy}"/>
                     </p:column>
                     <p:column headerText="dane">
-                        <p:dataGrid columns="1" value="#{item.selected}" var="loop">
-                            <h:panelGrid columns="4">
+                        <p:dataGrid columns="1" value="#{item.selected}" var="loop" style="width: 500xp;">
+                            <h:panelGrid columns="10">
                                 <h:outputText value="rodzaj deklaracji"/><h:outputText value="#{loop.rodzajdeklaracji}" style="font-weight: 900;"/>
                                 <h:outputText value="podatnik"/><h:outputText value="#{item.podatnik}" style="font-weight: 900;"/>
                                 <h:outputText value="miesięczna/kwartalna"/><h:outputText value="#{item.miesiackwartal eq false ? 'miesięczna' : 'kwartalna'}" style="font-weight: 900;"/>
@@ -59,8 +60,8 @@
                         </p:dataGrid>
                     </p:column>
                     <p:column id="previewColumn" headerText="operacje" width="70">
-                        <p:panelGrid columns="1">
-                            <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item, row)}"  style="margin-left: 10px; width: 80px;"/>
+                        <p:panelGrid columns="1" style="text-align: center;">
+                            <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item, row)}"  style="width: 50px;"/>
                         </p:panelGrid>
                     </p:column>
                     <p:rowExpansion>
@@ -98,7 +99,7 @@
                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:autoComplete>
                         </p:panelGrid>
-                        <p:dataTable id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT1}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
+                        <p:dataTable id="tablicavat" value="#{vatKorektaView.vatKorektaDok.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat" style="min-width: 800px; width: 50%;"
                                      rowIndexVar="row">
                             <p:column headerText="rodzaj ewidencji" style="width: 25%;">
                                 <h:outputText value="#{item.opis}"/>
@@ -132,9 +133,9 @@
             <h:form id="listadodanychdok">
                 <p:panel header="Wykaz dodanych pozycji" style="padding: 1%;" rendered="#{vatKorektaView.pokazFormularze}">
                     <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących"
-                                 selection="#{vatKorektaView.vatKorektaDok}" selectionMode="single" rowKey="#{item.id}">
+                                 selection="#{vatKorektaView.vatKorektaDok}" selectionMode="single" rowKey="#{item.id}" style="width: 900px;">
                         <p:ajax event="rowSelect" update=":akordeon:wprowadzDokument"/>
-                        <p:column headerText="lp">
+                        <p:column headerText="lp" width="30" style="text-align: center;">
                             <h:outputText value="#{item.id}"/>
                         </p:column>
                         <p:column headerText="nip">
@@ -144,22 +145,16 @@
                             <h:outputText value="#{item.nrwłasny}"/>
                         </p:column>
                         <p:column headerText="netto">
-                            <h:outputText value="#{item.netto}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <bcf:outputpl value="#{item.netto}"/>
                         </p:column>
                         <p:column headerText="vat">
-                            <h:outputText value="#{item.vat}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <bcf:outputpl value="#{item.vat}"/>
                         </p:column>
                         <p:column headerText="brutto">
-                            <h:outputText value="#{item.brutto}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <bcf:outputpl value="#{item.brutto}"/>
                         </p:column>
-                        <p:column >
-                            <p:commandButton value="usun" actionListener="#{vatKorektaView.usunDok(item)}" update="@form"/>
+                        <p:column width="40" style="text-align: center;">
+                            <p:commandButton icon="ui-icon-trash"  actionListener="#{vatKorektaView.usunDok(item)}" update="@form"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
