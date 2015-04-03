@@ -329,13 +329,14 @@ public class Dokfk implements Serializable {
         this.datawplywu = datawplywu;
     }
 
-    public boolean getwTrakcieEdycji() {
+    public boolean iswTrakcieEdycji() {
         return wTrakcieEdycji;
     }
 
     public void setwTrakcieEdycji(boolean wTrakcieEdycji) {
         this.wTrakcieEdycji = wTrakcieEdycji;
     }
+
 
     public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
         this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik, rok);
