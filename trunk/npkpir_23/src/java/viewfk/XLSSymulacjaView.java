@@ -9,7 +9,6 @@ import embeddablefk.SaldoKonto;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import msg.Msg;
 import org.apache.poi.ss.usermodel.Workbook;
+import view.WpisView;
 import xls.PozycjaObliczenia;
 import xls.PozycjaPrzychodKoszt;
 import xls.WriteXLSFile;
@@ -36,6 +36,8 @@ public class XLSSymulacjaView implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{symulacjaWynikuView}")
     private SymulacjaWynikuView symulacjaWynikuView;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
     public void zachowajSymulacjewXLS() {
         try {
@@ -54,7 +56,7 @@ public class XLSSymulacjaView implements Serializable{
             listy.put("w", wynik);
             listy.put("o", podatek);
             listy.put("d", dywidenda);
-            Workbook workbook = WriteXLSFile.zachowajXLS(listy);
+            Workbook workbook = WriteXLSFile.zachowajXLS(listy, wpisView);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
@@ -138,6 +140,14 @@ public class XLSSymulacjaView implements Serializable{
 
     public void setSymulacjaWynikuView(SymulacjaWynikuView symulacjaWynikuView) {
         this.symulacjaWynikuView = symulacjaWynikuView;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
     }
     
     

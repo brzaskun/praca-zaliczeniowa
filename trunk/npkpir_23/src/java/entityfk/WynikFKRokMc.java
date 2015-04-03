@@ -7,6 +7,7 @@ package entityfk;
 
 import entity.Podatnik;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -74,6 +77,12 @@ public class WynikFKRokMc implements Serializable {
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
+    @Column(name = "wprowadzil")
+    private String wprowadzil;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data")
+    private Date data;
+    
 
     public WynikFKRokMc() {
     }
@@ -161,6 +170,24 @@ public class WynikFKRokMc implements Serializable {
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
     }
+
+    public String getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(String wprowadzil) {
+        this.wprowadzil = wprowadzil;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+    
+    
 
 
     @Override

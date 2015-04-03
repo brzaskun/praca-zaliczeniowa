@@ -19,6 +19,7 @@ import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -259,6 +260,8 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
         wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
+        wynikFKRokMc.setWprowadzil(wpisView.getWprowadzil().getLogin());
+        wynikFKRokMc.setData(new Date());
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
