@@ -33,7 +33,7 @@
                 <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>
                 <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formarchiwum:panelsum1" global="false"/>      
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie zaksiegowanych faktur: " />  
+                    <h:outputText value="Zestawienie zaksiegowanych faktur w mc #{WpisView.miesiacWpisu} " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('archTable').filter()" style="width:150px" />  
                 </f:facet>

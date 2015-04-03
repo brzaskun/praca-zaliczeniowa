@@ -30,15 +30,17 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" update="@form"/>
+                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" 
+                                     oncomplete="r('akordeon:formsymulacjanarastajaco:drukujsymulacjanar').show();"
+                                     update="@form"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-                <p:commandButton value="drukuj " actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
+                <p:commandButton id="drukujsymulacjanar" value="drukuj " actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
                 <p:commandButton value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
                          emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 550px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 780px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
                     <h:outputText value="pobranie wyników miesięcznych"/>
@@ -64,17 +66,17 @@
                 <p:column headerText="wynik podatkowy" width="60" >
                     <bcf:outputpl value="#{loop.wynikpodatkowy}"/>
                 </p:column>
-<!--                <p:columnGroup type="footer">
-                    <p:row>
-                        <p:column footerText="r:" />
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.przychody}"/>
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.koszty}" />
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.wynikfinansowy}" />
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.npup}" />
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.nkup}" />
-                        <p:column footerText="#{symulacjaWynikuNarastajacoView.sumamiesiecy.wynikpodatkowy}" />
-                    </p:row>
-        </p:columnGroup>-->
+                <p:column headerText="zapisał" width="60" >
+                    <h:outputText value="#{loop.wprowadzil}"/>
+                </p:column>
+                <p:column headerText="data" width="60" style="text-align: center;">
+                    <h:outputText value="#{loop.data}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
+                </p:column>
+                <p:column style="text-align: center;" width="30">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{symulacjaWynikuNarastajacoView.usun(loop)}" update="@form" />
+                </p:column>
             </p:dataTable>
               <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 

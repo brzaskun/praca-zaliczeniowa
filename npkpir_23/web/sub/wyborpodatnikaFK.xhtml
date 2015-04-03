@@ -20,26 +20,28 @@
             </p:column>
         </p:dataTable>
             <br/>
-            <p:panelGrid columns="4"  >
+            <p:panelGrid columns="1"  >
                 <p:column >
-                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 572px;">
                         <f:selectItems value="#{podatnikWyborView.listaPodatnikowFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     </p:selectOneMenu>
                 </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="float: right;">
                 <p:column>
-                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                    <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="float: right;">
                         <f:selectItems value="#{Roki.rokiList}"/>
                         <f:param name="rokWpisu" value="2012" />
                     </p:selectOneMenu>
                 </p:column>
-                <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                <p:column >
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="float: right;">
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:column>
+                <p:column >
                     <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
-                                      style="width: 150px;"
+                                      style="width: 150px; float: right;"
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
                 </p:column>
             </p:panelGrid>

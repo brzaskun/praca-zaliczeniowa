@@ -27,6 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFPrintSetup;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import view.WpisView;
 
 
 /**
@@ -51,10 +52,10 @@ public class WriteXLSFile {
         l.put("k", listakoszty());
         l.put("w", listawynik());
         l.put("o", listapodatek());
-        zachowajXLS(l);
+        //zachowajXLS(l, WpisView);
     }
     
-    public static Workbook zachowajXLS(Map<String, List> listy){
+    public static Workbook zachowajXLS(Map<String, List> listy, WpisView wpisView){
         List przychody = listy.get("p");
         List koszty = listy.get("k");
         List wynik = listy.get("w");
@@ -65,7 +66,7 @@ public class WriteXLSFile {
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Symulacja wyniku");
-        insertPrintHeader(sheet);
+        insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, przychody, "Przychody", 1, "przychody");
         sheet.createRow(rowIndex++);
@@ -227,11 +228,11 @@ public class WriteXLSFile {
         name.setRefersToFormula(nazwarelacji);
     }
     
-    private static void insertPrintHeader(Sheet sheet) {
+    private static void insertPrintHeader(Sheet sheet, WpisView wpisView) {
         //do druku
         Header header = sheet.getHeader();
-        header.setCenter("Taxman");
-        header.setLeft("Symulacja wyniku");
+        header.setCenter(wpisView.getPodatnikWpisu());
+        header.setLeft("Symulacja wyniku za "+wpisView.getMiesiacWpisu());
     }
     
     private static void createHeaderCell(Workbook wb, Row row, short column, short halign, short valign, short size, String value) {

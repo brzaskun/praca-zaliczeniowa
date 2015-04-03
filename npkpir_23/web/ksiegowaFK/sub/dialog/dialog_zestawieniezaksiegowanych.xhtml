@@ -14,10 +14,9 @@
             width: 75px !important;
         }
     </style>
-   
+
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
-<!--        <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowane}" update="@this"/>-->
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);r('zestawieniedokumentow:pobierzzaksiegowane').click();" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -35,7 +34,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" update=":zestawieniedokumentow:dataList"
+                    <p:commandButton id="pobierzzaksiegowane" value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" update=":zestawieniedokumentow:dataList"
                                      onclick="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >

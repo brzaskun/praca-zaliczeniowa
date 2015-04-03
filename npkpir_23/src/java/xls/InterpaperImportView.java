@@ -215,7 +215,7 @@ public class InterpaperImportView implements Serializable {
     
     private void podepnijEwidencjeVat(Dokfk nd, InterpaperXLS interpaperXLS) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
-            if (nd.getwTrakcieEdycji() == false) {
+            if (nd.iswTrakcieEdycji() == false) {
                 nd.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                     boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
                     if (!nievatowiec && nd.getRodzajedok().getKategoriadokumentu() != 0) {

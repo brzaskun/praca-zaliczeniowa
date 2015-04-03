@@ -199,6 +199,15 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
     }
     
+    public void usun(WynikFKRokMc wynikFKRokMc) {
+        try {
+            wynikFKRokMcDAO.destroy(wynikFKRokMc);
+            listamiesiecy.remove(wynikFKRokMc);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił bład. Nie usunięto wyniku za mc "+wynikFKRokMc.getMc());
+        }
+    }
+    
     private List<Udzialy> pobierzudzialy() {
         return wpisView.getPodatnikObiekt().getUdzialy();
     }
