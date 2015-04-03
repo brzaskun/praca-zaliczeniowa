@@ -5,9 +5,11 @@
  */
 package entityfk;
 
+import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -82,6 +85,12 @@ public class WynikFKRokMc implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data")
     private Date data;
+    @Lob()
+    @Column(name = "listaprzychody")
+    private List<SaldoKonto> listaprzychody;
+    @Lob()
+    @Column(name = "listakoszty")
+    private List<SaldoKonto> listakoszty;
     
 
     public WynikFKRokMc() {
@@ -185,6 +194,22 @@ public class WynikFKRokMc implements Serializable {
 
     public void setData(Date data) {
         this.data = data;
+    }
+
+    public List<SaldoKonto> getListaprzychody() {
+        return listaprzychody;
+    }
+
+    public void setListaprzychody(List<SaldoKonto> listaprzychody) {
+        this.listaprzychody = listaprzychody;
+    }
+
+    public List<SaldoKonto> getListakoszty() {
+        return listakoszty;
+    }
+
+    public void setListakoszty(List<SaldoKonto> listakoszty) {
+        this.listakoszty = listakoszty;
     }
     
     
