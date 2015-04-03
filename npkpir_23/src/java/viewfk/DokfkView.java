@@ -210,7 +210,8 @@ private static final long serialVersionUID = 1L;
             rodzajDokPoprzedni = selected.getRodzajedok();
             selected.setwTrakcieEdycji(false);
             ostatniklient = selected.getKontr();
-            //RequestContext.getCurrentInstance().update(wierszedytowany);
+            RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+            RequestContext.getCurrentInstance().update("zestawieniedokumentowimport:dataListImport");
         }
         try {
             if (ostatniklient == null) {
@@ -2305,20 +2306,17 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            wierszedytowany = "zestawieniedokumentow:dataList:"+String.valueOf(row)+":";
             if (odnalezionywbazie.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
-                RequestContext.getCurrentInstance().update(wierszedytowany);
             } else {
                 selected = wybranyDokfk;
                 selected.setwTrakcieEdycji(true);
-                dokDAOfk.edit(selected);
+                //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                RequestContext.getCurrentInstance().update(wierszedytowany);
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
