@@ -85,19 +85,19 @@ public class Dokfk implements Serializable {
     private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "datawystawienia", nullable = false, length = 10)
+    @Column(name = "datawystawienia", length = 10)
     private String datawystawienia;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "datadokumentu", nullable = false, length = 10)
+    @Column(name = "datadokumentu", length = 10)
     private String datadokumentu;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dataoperacji", nullable = false, length = 10)
+    @Column(name = "dataoperacji", length = 10)
     private String dataoperacji;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "datawplywu", nullable = false, length = 10)
+    @Column(name = "datawplywu", length = 10)
     private String datawplywu;
     @Basic(optional = false)
     @NotNull
