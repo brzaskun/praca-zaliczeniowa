@@ -12,7 +12,9 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -64,10 +66,8 @@ public class Faktura implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected FakturaPK fakturaPK;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(nullable = false)
+    @JoinColumn(name = "wystawca", referencedColumnName = "nip")
+    @ManyToOne
     private Podatnik wystawca;
     @Basic(optional = false)
     @NotNull
@@ -81,14 +81,12 @@ public class Faktura implements Serializable {
     private String rodzajtransakcji;
     @Basic(optional = false)
     @NotNull
-    @Lob
-    @Column(nullable = false)
-    private Klienci kontrahent;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 126)
     @Column(nullable = false, length = 126)
     private String kontrahent_nip;
+    @JoinColumn(name = "kontrahent", referencedColumnName = "id")
+    @ManyToOne
+    private Klienci kontrahent;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
@@ -646,6 +644,24 @@ public class Faktura implements Serializable {
         return "Faktura{" + "fakturaPK=" + fakturaPK + "kontrahent "+ kontrahent.getNpelna() +"}";
     }
 
+
+//    public Integer getKontrahentID() {
+//        return kontrahentID;
+//    }
+//
+//    public void setKontrahentID(Integer kontrahentID) {
+//        this.kontrahentID = kontrahentID;
+//    }
+//
+//    public String getWystawcaNIP() {
+//        return wystawcaNIP;
+//    }
+//
+//    public void setWystawcaNIP(String wystawcaNIP) {
+//        this.wystawcaNIP = wystawcaNIP;
+//    }
+
+    
    
     
 }

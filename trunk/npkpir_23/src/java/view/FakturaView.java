@@ -1572,5 +1572,15 @@ public class FakturaView implements Serializable {
         }
     }
     
+//   public void zrobfakt() {
+//       List<Faktura> faktury = fakturaDAO.findAll();
+//       for (Faktura p : faktury) {
+//           p.setKontrahentID(p.getKontrahent().getId());
+//           p.setWystawcaNIP(p.getWystawca().getNip());
+//           fakturaDAO.edit(p);
+//           System.out.println(p.getKontrahentID());
+//           System.out.println(p.getWystawcaNIP());
+//       }
+//   }
     
 }

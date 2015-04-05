@@ -104,7 +104,7 @@ public class FDfkBean {
     
     private static void podepnijEwidencjeVat(Dokfk nd, Faktura faktura) {
         if (nd.getRodzajedok().getKategoriadokumentu() != 0 && nd.getRodzajedok().getKategoriadokumentu() != 5) {
-            if (nd.getwTrakcieEdycji() == false) {
+            if (nd.iswTrakcieEdycji() == false) {
                 List<EVatwpisFK> ewidencjaTransformowana = new ArrayList<>();
                 for (EVatwpis r : faktura.getEwidencjavat()) {
                     if (faktura.getEwidencjavatpk() != null) {
