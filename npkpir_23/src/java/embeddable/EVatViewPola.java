@@ -8,15 +8,19 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
-import javax.persistence.Embeddable;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  *
  * @author Osito
  */
-@Named
-@Embeddable
+
+@Entity
 public class EVatViewPola implements Serializable{
     private static final long serialVersionUID = -7659459927104523420L;
     private static final List<String> opispol;
@@ -37,6 +41,10 @@ public class EVatViewPola implements Serializable{
     public static List<String> getOpispol() {
         return opispol;
     }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
     private int id;
     private String dataWyst;
     private String dataSprz;
