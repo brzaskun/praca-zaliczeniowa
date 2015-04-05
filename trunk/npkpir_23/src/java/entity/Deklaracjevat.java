@@ -4,28 +4,22 @@
  */
 package entity;
 
-import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -77,11 +71,6 @@ public class Deklaracjevat implements Serializable {
     @Size(max = 4)
     @Column(name = "nrkwartalu")
     private String nrkwartalu;
-    @Lob
-    @Column(name = "ewidencje")
-    private HashMap<String, List<EVatViewPola>>  ewidencje;
-    @OneToMany(mappedBy = "deklaracja", cascade = CascadeType.ALL,  orphanRemoval=true, fetch = FetchType.EAGER)
-    private List<EwidencjevatDeklaracja>  ewidencjedeklaracja;
     @Size(max = 255)
     @Column(name = "identyfikator")
     private String identyfikator;
@@ -177,15 +166,6 @@ public class Deklaracjevat implements Serializable {
         this.nrkwartalu = nrkwartalu;
     }
 
-    public HashMap<String, List<EVatViewPola>> getEwidencje() {
-        return ewidencje;
-    }
-
-    public void setEwidencje(HashMap<String, List<EVatViewPola>> ewidencje) {
-        this.ewidencje = ewidencje;
-    }
-
-   
     public String getIdentyfikator() {
         return identyfikator;
     }
@@ -242,14 +222,6 @@ public class Deklaracjevat implements Serializable {
         this.pozycjeszczegolowe = pozycjeszczegolowe;
     }
 
-    public List<EwidencjevatDeklaracja> getEwidencjedeklaracja() {
-        return ewidencjedeklaracja;
-    }
-
-    public void setEwidencjedeklaracja(List<EwidencjevatDeklaracja> ewidencjedeklaracja) {
-        this.ewidencjedeklaracja = ewidencjedeklaracja;
-    }
-    
     public String getRok() {
         return rok;
     }

@@ -210,7 +210,6 @@ public class VatKorektaView implements Serializable {
          * tworze nowa deklaracje kopiujac stara binarnie
          */
         deklaracjaVATPoKorekcie = SerialClone.clone(deklaracjaVAT);
-        deklaracjaVATPoKorekcie.getEwidencje().putAll(listaewidencji);
         HashMap<String, EVatwpisSuma> sumaewidencjiNowakorekta = deklaracjaVATPoKorekcie.getPodsumowanieewidencji();
         /**
          * sklejam dwie ewidencje: z pierwotnej deklaracji i z korekt
