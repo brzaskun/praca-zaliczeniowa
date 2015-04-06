@@ -15,8 +15,10 @@ import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -62,13 +64,30 @@ public class RozrachunkiPrzegladView implements Serializable{
     @PostConstruct
     private void init() {
         listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView));
+        zweryfikujobecnosczapisow();
         if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {
             wybranekonto = listaKontRozrachunkowych.get(0);
             root = rootInit(listaKontRozrachunkowych);
-            rozwinwszystkie(root);
+            //rozwinwszystkie(root);
         }
     }
 
+    private void zweryfikujobecnosczapisow() {
+        List<StronaWiersza> wierszezzapisami = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        Set<Konto> zawartekontawzapisach = new HashSet<>();
+        for (StronaWiersza p : wierszezzapisami) {
+            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                zawartekontawzapisach.add(p.getKonto());
+            }
+        }
+        for (Iterator<Konto> it = listaKontRozrachunkowych.iterator(); it.hasNext(); ) {
+                Konto p = it.next();
+                if (p.isMapotomkow() == false && !zawartekontawzapisach.contains(p)) {
+                    it.remove();
+                }
+        }
+    }
+    
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         Iterator it = wykazKont.iterator();
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);

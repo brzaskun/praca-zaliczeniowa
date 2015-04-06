@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansDok.ListaEwidencjiVat;
+import beansFK.DFKWiersze;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
@@ -1042,6 +1043,7 @@ private static final long serialVersionUID = 1L;
                             wierszpierwszy.getStronaWn().setKonto(kontonetto);
                         }
                     }
+                    DFKWiersze.zaznaczNowaTrasakcja(wierszpierwszy, "Ma");
                 }
                 int lpnastepnego = 2;
                 int limitwierszy = 1;
@@ -1049,7 +1051,7 @@ private static final long serialVersionUID = 1L;
                    wartosciVAT[1] = wartosciVAT[4];
                    wartosciVAT[3] = wartosciVAT[6];
                 }
-                   if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
                        dolaczwiersz2_3Koszt(wartosciVAT, w, 2, 1);
                        lpnastepnego++;
                        limitwierszy++;
@@ -1458,6 +1460,7 @@ private static final long serialVersionUID = 1L;
                     if (kontonetto != null) {
                         wierszpierwszy.getStronaMa().setKonto(kontonetto);
                     }
+                    DFKWiersze.zaznaczNowaTrasakcja(wierszpierwszy, "Wn");
                 } else if (wierszpierwszy != null && wartosciVAT[0]==0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
