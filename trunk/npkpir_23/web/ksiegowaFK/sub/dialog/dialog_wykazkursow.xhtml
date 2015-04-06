@@ -12,6 +12,7 @@
         <h:form id="wprowadzonekursy">
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.pobranekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych kursow" 
                          scrollable="true" style="width: 855px;" scrollHeight="550" widgetVar="dataTablekursy">
+                <p:ajax event="filter" global="false"/>
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel NBP " />  
                     <h:outputText value="- wyszukiwanie: " />  

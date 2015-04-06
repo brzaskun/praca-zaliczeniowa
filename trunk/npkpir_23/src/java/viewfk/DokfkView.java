@@ -2840,11 +2840,11 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
-    public void zmienbiezacatabele() {
-        selected.dodajTabeleWalut(wybranaTabelanbp);
-        DokFKWalutyBean.zmienkurswaluty(selected);
-        symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
-    }
+//    public void zmienbiezacatabele() {
+//        selected.dodajTabeleWalut(wybranaTabelanbp);
+//        DokFKWalutyBean.zmienkurswaluty(selected);
+//        symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
+//    }
 
     public void wyliczroznicekursowa(Transakcja loop, int row) {
         try {
