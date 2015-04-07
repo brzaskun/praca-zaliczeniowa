@@ -2505,17 +2505,7 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc() {
-        DataTable htmlDataTable = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
-        int index = htmlDataTable.getRowIndex();
-        Wiersz w = (Wiersz) htmlDataTable.getRowData();
-        int lpwybranego = w.getIdporzadkowy()-1;
         lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
-        if (lpwybranego != lpWierszaWpisywanie) {
-            System.out.println("Wystąpił blad DokfkView wybranoRachunekPlatnosc() wiersz aktualny nie zgadza sie z wierszem zapamietanym");
-            RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
-            Msg.msg("e", "Wystąpił błąd podczas tworzenia rozrachunkow nieprawidłowy numer wiersza");
-            return;
-        }
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         if (wiersz != null ) {

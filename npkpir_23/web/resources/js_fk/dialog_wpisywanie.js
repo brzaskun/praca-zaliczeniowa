@@ -1,21 +1,21 @@
 var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
-    var source = event.target || event.srcElement;
-    MYAPP.lpwiersza = lpwiersza;
-    console.log("lpwiersza "+lpwiersza);
-    MYAPP.wnlubma = wnlubma;
-    MYAPP.zaznaczonepole = event.target;
-    MYAPP.typwiersza = typwiersza;
-    //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
-    $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
-    $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
-    $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
-    if (source.value === null) {
-        MYAPP.liczydloWcisnietychEnter = 1;
-    }
-    setTimeout(focusNaNowoDodanym(source),100);
+        var source = event.target || event.srcElement;
+        MYAPP.lpwiersza = lpwiersza;
+        console.log("lpwiersza " + lpwiersza);
+        MYAPP.wnlubma = wnlubma;
+        MYAPP.zaznaczonepole = event.target;
+        MYAPP.typwiersza = typwiersza;
+        //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
+        $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
+        $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
+        $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
+        if (source.value === null) {
+            MYAPP.liczydloWcisnietychEnter = 1;
+        }
+        setTimeout(focusNaNowoDodanym(source), 100);
     } catch (blad) {
-        //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
+        alert("Blad w dialgowprowadzanie.js zachowaj wiersz " + blad);
     }
 };
 
