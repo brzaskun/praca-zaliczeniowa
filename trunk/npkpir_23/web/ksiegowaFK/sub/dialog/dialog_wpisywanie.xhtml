@@ -176,7 +176,7 @@
                         <p:ajax event="query" global="false"/>
                         <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:wybranawaluta"/>
                         <p:ajax event="focus" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" update=":formwpisdokument:opisdokumentu" global="false"/>
-                        <p:ajax event="itemSelect" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" global="false"  update=":formwpisdokument:panelwpisbutton"/>
+                        <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
                         <p:ajax event="itemSelect" oncomplete="dodajnowegoklienta();" global="false"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
@@ -214,7 +214,7 @@
                                                           style="height: 19px;"
                                              >
                                 <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
-                                <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton"/>
+                                <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
                             <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
@@ -377,7 +377,6 @@
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
-                            <p:ajax global="false" event="focus" onstart="console.log('kontownfous');"/>
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" />
                             <p:ajax global="false" event="focus" partialSubmit="true" onstart=""/>
                         </p:autoComplete>
@@ -435,6 +434,7 @@
                     </p:column>
                 </p:dataTable>
                 <p:panel id="panelwpisbutton" style="text-align: right;">
+                    <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                      onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
@@ -442,6 +442,7 @@
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach:dataList"
                                      rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" global="false"/>
+                    <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
 
                 </p:panel>
             </div>
@@ -452,7 +453,7 @@
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" 
-                                 oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox"/>
+                                 oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox, @form"/>
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
@@ -469,6 +470,7 @@
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
+                <h:outputText id="aktualnywierszrozrachunkow" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.zwyklerozrachszczegolne}"  style="display: none;"/>
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
                                  global="false" style="display: none;" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();"/>
             </h:form>

@@ -2051,8 +2051,8 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
                 if (dokument != null) {
                     wlaczZapiszButon = false;
-                    RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
-                    Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
+                    //RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
+                    //Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
                 } else {
                     wlaczZapiszButon = true;
                 }
@@ -2070,7 +2070,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
     
     public void znajdzduplicatdokumentuKontrahent() {
-        if (zapisz0edytuj1 == false) {
+        if (zapisz0edytuj1 == false && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
             Dokfk dokument = null;
             try {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
@@ -2078,8 +2078,6 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
             if (dokument != null) {
                 wlaczZapiszButon = false;
-                RequestContext.getCurrentInstance().execute("znalezionoduplikat();");
-                Msg.msg("e", "Blad dokument o takim numerze juz istnieje");
             } else {
                 wlaczZapiszButon = true;
             }
@@ -2583,6 +2581,11 @@ public void updatenetto(EVatwpisFK e, String form) {
     //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
     public void wybranoRachunekPlatnoscCD(String stronawiersza) {
         //0 oznacza strone niewybrana
+        if (aktualnyWierszDlaRozrachunkow == null) {
+            Msg.msg("e", "AktualnyWierszDlaRozrachunkow jest pusty wybranoRachunekPlatnoscCD(String stronawiersza)");
+            System.out.println("AktualnyWierszDlaRozrachunkow jest pusty wybranoRachunekPlatnoscCD(String stronawiersza)");
+            return;
+        }
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
