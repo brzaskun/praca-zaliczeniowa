@@ -2,7 +2,6 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
         var source = event.target || event.srcElement;
         MYAPP.lpwiersza = lpwiersza;
-        console.log("lpwiersza " + lpwiersza);
         MYAPP.wnlubma = wnlubma;
         MYAPP.zaznaczonepole = event.target;
         MYAPP.typwiersza = typwiersza;
@@ -14,6 +13,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
             MYAPP.liczydloWcisnietychEnter = 1;
         }
         setTimeout(focusNaNowoDodanym(source), 100);
+        console.log("lpwiersza " + lpwiersza + " wnma " + wnlubma + " typwiersza "+ typwiersza);
     } catch (blad) {
         alert("Blad w dialgowprowadzanie.js zachowaj wiersz " + blad);
     }
@@ -163,10 +163,10 @@ var selectOnfocus = function(wierszindex) {
 
 
 var znalezionoduplikat = function() {
-    document.getElementById('formwpisdokument:numerwlasny').focus();
-    document.getElementById('formwpisdokument:numerwlasny').select();
-    r('formwpisdokument:wpiszdokbutton').hide();
-    
+    if (rj('formwpisdokument:stanprzyciskuzapis').innerText === "false") {
+        document.getElementById('formwpisdokument:numerwlasny').focus();
+        document.getElementById('formwpisdokument:numerwlasny').select();
+    }
 };
 
 
@@ -258,8 +258,13 @@ var usunpodswietlenie = function(source) {
 var focusNowyWiersz = function() {
      var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
      var dlugoscwierszy = wiersze.length;
-     var wiersz = "formwpisdokument:"+dlugoscwierszy+":opis";
+     var poprzedniid = dlugoscwierszy-1;
      r(wiersz).focus();
+     var wierszpoprzedniMa = "formwpisdokument:"+poprzedniid+":kontoma_input";
+     var wierszpoprzedniWn = "formwpisdokument:"+poprzedniid+":kontown_input";
+     r(wierszpoprzedniWn).removeClass("ui-state-focus");
+     r(wierszpoprzedniMa).removeClass("ui-state-focus");
+     var wiersz = "formwpisdokument:"+dlugoscwierszy+":opis";
 };
 
 var focusNaNowoDodanymEnter = function(source) {
@@ -320,9 +325,12 @@ var obsluzewidencjavatsprzedaz = function () {
 };
 
 var pokazwybortransakcji = function() {
-    var czydialogjestshown = $("#dialogdrugi").hasClass("ui-overlay-visible");
-    if (czydialogjestshown == false) {
-        setTimeout(PF('transakcjawybor').show(), 500);
+    var typkonta = rj("wpisywaniefooter:aktualnywierszrozrachunkow").innerText;
+    if (typkonta === "rozrachunkowe") {
+        var czydialogjestshown = $("#dialogdrugi").hasClass("ui-overlay-visible");
+        if (czydialogjestshown == false) {
+            setTimeout(PF('transakcjawybor').show(), 400);
+        }
     }
 };
 
@@ -346,6 +354,7 @@ var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
             $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(nrgr);
         }
     }
+    console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
 };
 
 var sprawdzgrupeprzykliknieciuwzapisz = function() {
