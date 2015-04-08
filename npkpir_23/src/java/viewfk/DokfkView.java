@@ -173,6 +173,7 @@ private static final long serialVersionUID = 1L;
     @Inject
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
+    private List dokumentypodatnika;
     
 
     public DokfkView() {
@@ -185,6 +186,7 @@ private static final long serialVersionUID = 1L;
         this.zapisz0edytuj1 = false;
         this.listaewidencjivatRK = new ArrayList<>();
         this.pobranecechy = new ArrayList<>();
+        this.dokumentypodatnika = new ArrayList<>();
     }
 
     @PostConstruct
@@ -194,6 +196,7 @@ private static final long serialVersionUID = 1L;
             obsluzcechydokumentu();
             stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
+            dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         } catch (Exception e) {
         }
         wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
@@ -2589,11 +2592,13 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                //to raczej nie jest konieczne, bo jak zapisze transakcje to blokuje pola javascript
+                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 return;
             } else {
                 oznaczJakoPlatnosc();
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                //to raczej nie jest konieczne, bo jak zapisze transakcje to blokuje pola javascript
+                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         }
         //nowa transakcja
@@ -2609,7 +2614,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         selected.setZablokujzmianewaluty(true);
         RequestContext.getCurrentInstance().update("rozrachunki");
-        RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
+        RequestContext.getCurrentInstance().update("formcheckbox");
         RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
     }
 
@@ -2659,9 +2664,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() > 0) {
                     RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-                    String znajdzPasujacePole = "znadzpasujacepolerozrachunku(" + aktualnyWierszDlaRozrachunkow.getPozostalo() + ")";
-                    RequestContext.getCurrentInstance().execute(znajdzPasujacePole);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                    //String znajdzPasujacePole = "znadzpasujacepolerozrachunku(" + aktualnyWierszDlaRozrachunkow.getPozostalo() + ")";
+                    //RequestContext.getCurrentInstance().execute(znajdzPasujacePole);
+                    //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 } else {
                     aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                     RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
@@ -3794,6 +3799,14 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void setWybranakategoriadokimport(String wybranakategoriadokimport) {
         this.wybranakategoriadokimport = wybranakategoriadokimport;
+    }
+
+    public List getDokumentypodatnika() {
+        return dokumentypodatnika;
+    }
+
+    public void setDokumentypodatnika(List dokumentypodatnika) {
+        this.dokumentypodatnika = dokumentypodatnika;
     }
 
    

@@ -27,7 +27,7 @@
                     <h:outputText value="miesiąc: "/>
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" >
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" />
                         <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
@@ -41,7 +41,7 @@
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
-                    <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
             </p:panelGrid>
             

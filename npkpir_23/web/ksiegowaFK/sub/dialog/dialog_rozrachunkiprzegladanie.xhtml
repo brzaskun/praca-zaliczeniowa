@@ -10,7 +10,7 @@
 
     </style>
    
-    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach" widgetVar="rozrachunkiPrzeglad" 
+    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach" widgetVar="rozrachunkiPrzeglad" dynamic="true"
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
@@ -20,7 +20,7 @@
                         <h:outputText value="wybierz konto: "/>
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
-                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" queryDeletionDelay="10"
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
