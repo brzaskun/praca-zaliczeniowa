@@ -14,7 +14,8 @@ var skopiujdanenowegoklientafk = function () {
     var szukana = document.getElementById('formXNowyKlient:nazwaPole').value;
     PF('dlgwprowadzanieklienta').hide();
     try {
-        if ($("#dialog_kliencifk_dolaczanie").hasClass('ui-overlay-visible')){
+        var czywidzialne = rj("dialog_kliencifk_dolaczanie").getAttribute("aria-hidden");
+        if (czywidzialne === "true"){
             var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
             $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
@@ -26,7 +27,8 @@ var skopiujdanenowegoklientafk = function () {
     }
     //nie potrzebne bo mamy kopiowanie w funkcji
     try {
-        if ($("#dialogpierwszy").hasClass('ui-overlay-visible')){
+        var czywidzialne = rj("dialogpierwszy").getAttribute("aria-hidden");
+        if (czywidzialne === "true"){
             var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
             $('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
@@ -39,7 +41,8 @@ var skopiujdanenowegoklientafk = function () {
     } catch (e) {
     }
     try {
-        if ($("#dialogewidencjavatRK").hasClass('ui-overlay-visible')){
+        var czywidzialne = rj("dialogewidencjavatRK").getAttribute("aria-hidden");
+        if (czywidzialne === "true"){
             var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
             $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);

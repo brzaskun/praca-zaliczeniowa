@@ -327,34 +327,38 @@ var obsluzewidencjavatsprzedaz = function () {
 var pokazwybortransakcji = function() {
     var typkonta = rj("wpisywaniefooter:aktualnywierszrozrachunkow").innerText;
     if (typkonta === "rozrachunkowe") {
-        var czydialogjestshown = $("#dialogdrugi").hasClass("ui-overlay-visible");
-        if (czydialogjestshown == false) {
+        var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
+        if (czywidzialne === "true"){
             setTimeout(PF('transakcjawybor').show(), 400);
         }
     }
 };
 
 var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
-    var dotychczasowagrupa;
-    var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
-    if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
-        dotychczasowagrupa = MYAPP.nrgrupywierszy;
-    }
-    if (dotychczasowagrupa === nrgr) {
-        //console.log("tasamagrupa "+nrgr);
-    } else {
-        //console.info("nowagrupa "+nrgr);
-        MYAPP.nrgrupywierszy = nrgr;
-        if (typeof dotychczasowagrupa !== "undefined") {
-            $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
-            $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
-            $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
-        } else {
-            $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
-            $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(nrgr);
+    try {
+        var dotychczasowagrupa;
+        var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
+        if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
+            dotychczasowagrupa = MYAPP.nrgrupywierszy;
         }
+        if (dotychczasowagrupa === nrgr) {
+            //console.log("tasamagrupa "+nrgr);
+        } else {
+            //console.info("nowagrupa "+nrgr);
+            MYAPP.nrgrupywierszy = nrgr;
+            if (typeof dotychczasowagrupa !== "undefined") {
+                $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
+                $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(dotychczasowagrupa);
+                $(document.getElementById("wpisywaniefooter:sprawdzwartoscigrupy")).click();
+            } else {
+                $(document.getElementById("wpisywaniefooter:nrgrupyaktualny")).val(nrgr);
+                $(document.getElementById("wpisywaniefooter:nrgrupywierszy")).val(nrgr);
+            }
+        }
+        console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
+    }  catch (blad) {
+        alert("Blad w dialgowprowadzanie.js pobierznumergrupywierszy " + blad);
     }
-    console.log("lpmacierzystego "+lpmacierzystego+" lpwiersza "+lpwiersza);
 };
 
 var sprawdzgrupeprzykliknieciuwzapisz = function() {

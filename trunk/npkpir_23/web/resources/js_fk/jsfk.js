@@ -432,8 +432,8 @@ var petlawywolujaca = function(lw, gr, co) {
 };
 
 var sprawdzczynazwaskroconafakturaniejestshown = function() {
-    var czydialogjestshown = $("#nazwaskroconafaktura").hasClass("ui-overlay-visible");
-    if (czydialogjestshown) {
+    var czywidzialne = rj("nazwaskroconafaktura").getAttribute("aria-hidden");
+    if (czywidzialne === "true"){
         $(document.getElementById("formkontowybor:wybormenu")).focus();
     }
 };

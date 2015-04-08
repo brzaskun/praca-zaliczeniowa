@@ -20,9 +20,13 @@ var zrobFloat = function (kwota){
      return document.getElementById(pole);
  };
  
- var usunspacje = function(polezespacja) {
-    if (polezespacja.value === " ") {
-        polezespacja.value = "";  
+ var usunspacje = function (polezespacja) {
+    try {
+        if (polezespacja.value === " ") {
+            polezespacja.value = "";
+        }
+    } catch (e) {
+        alert("Blad w globales.js usunspacje");
     }
 };
 

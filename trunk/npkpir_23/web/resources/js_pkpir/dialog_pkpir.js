@@ -39,8 +39,8 @@ var resetujdialog = function(nazwa) {
 };
 
 var sprawdzczynazwaskroconafakturaniejestshown = function() {
-    var czydialogjestshown = $("#nazwaskroconafaktura").hasClass("ui-overlay-visible");
-    if (czydialogjestshown) {
+    var czywidzialne = rj("nazwaskroconafaktura").getAttribute("aria-hidden");
+    if (czywidzialne === "true"){
         $(document.getElementById("formkontowybor:wybormenu")).focus();
     }
 };

@@ -243,28 +243,28 @@
              
                 <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" >
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="margin-top: 0px; padding: 0px; width: 450px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                 style="margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
                                  sortBy="#{item.lp}" styleClass="gridvat">
-                        <p:column headerText="" style="width: 10px; display: none">
+                        <p:column headerText="" width="5">
                             <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
                         </p:column>
-                        <p:column headerText="rodzaj ewid." style="width: 80px;">
+                        <p:column headerText="rodzaj ewid." width="80">
                             <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;"/>
                         </p:column>
-                        <p:column headerText="netto" style="width: 80px;">
+                        <p:column headerText="netto" width="80">
                             <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>
                                 <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="vat" style="width: 80px;">
+                        <p:column headerText="vat" width="80">
                             <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="brutto" style="width: 80px;">
+                        <p:column headerText="brutto" width="80">
                             <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
                                 <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}" partialSubmit="true"/>
@@ -288,9 +288,6 @@
                         </p:column>
                          <p:column style="width: 20px; text-align: center;">
                              <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"/>
-                        </p:column>
-                        <p:column>
-                            
                         </p:column>
                     </p:dataTable>
                 </p:panelGrid>
@@ -407,7 +404,7 @@
                     <p:column headerText="konto Ma" width="100" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
-                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" queryDeletionDelay="1" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});" 
