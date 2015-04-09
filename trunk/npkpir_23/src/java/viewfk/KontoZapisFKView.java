@@ -93,6 +93,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode() {
+        wybranekontadosumowania = new ArrayList<>();
         Konto wybraneKontoNode = wybranekonto;
         wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
         kontozapisy = new ArrayList<>();

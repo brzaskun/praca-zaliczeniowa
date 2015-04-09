@@ -48,20 +48,21 @@
               resizable="true" onShow="ustawdialog('zapisynakontachwmcu','menuzapisykont',1350,750);" onHide="resetujdialog('zapisynakontachwmcu');"  closeOnEscape="true" 
               >
         <h:form id="formzapisynakontachwmcu">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
-                <!--            <p:column>
+<!--            <p:panelGrid columns="4" style="margin-left: 2%;" >
+trzeba zmienic funkcje pobierajaca, jest straszna
+                            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
                                     <f:param name="rokWpisu" value="2012" />
                                 </p:selectOneMenu>
-                            </p:column>-->
+                            </p:column>
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" update="@form, :formzapisynakontachwmcu:tabelazapisywmcu"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-            </p:panelGrid>
+            </p:panelGrid>-->
 
             <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
                          selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" sortFunction="#{zapisyKontaPodatnikFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"

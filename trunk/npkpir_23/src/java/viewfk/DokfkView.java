@@ -2402,6 +2402,29 @@ public void updatenetto(EVatwpisFK e, String form) {
 
 //    //</editor-fold>
     
+    public void sprawdzWnMawDokfk() {
+        List<Dokfk> listaroznice = new ArrayList<>();
+        for (Dokfk p : wykazZaksiegowanychDokumentow) {
+            double sumawn = 0.0;
+            double sumama = 0.0;
+            for (Wiersz r : p.getListawierszy()) {
+                StronaWiersza wn = r.getStronaWn();
+                StronaWiersza ma = r.getStronaMa();
+                if (wn != null) {
+                    sumawn += wn.getKwota();
+                }
+                if (ma != null) {
+                    sumama += ma.getKwota();
+                }
+            }
+            if (Z.z(sumawn) != Z.z(sumama)) {
+                listaroznice.add(p);
+            }
+        }
+        Msg.msg("i", "Ilosc roznych dokummentow "+listaroznice.size());
+        System.out.println("Ilosc roznych dokummentow "+listaroznice.size());
+    }
+    
     public void odswiezzaksiegowane() {
         if (wybranakategoriadok == null) {
             wybranakategoriadok = "wszystkie";

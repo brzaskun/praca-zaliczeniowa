@@ -42,7 +42,12 @@
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
-             </p:selectOneMenu>
+                </p:selectOneMenu>
+                 <p:column>
+                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 10px;" 
+                                     update=":zestawieniedokumentow:dataList"
+                                    />
+                </p:column>
             </p:panelGrid>
             
             <script>
