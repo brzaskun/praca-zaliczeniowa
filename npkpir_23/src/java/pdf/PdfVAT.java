@@ -166,6 +166,7 @@ public class PdfVAT {
                     } else {
                       dodajwiersztabeli(table, rs, i) ;
                     }
+                    i++;
                 }
                 pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
                 pdf.add(table);
