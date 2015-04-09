@@ -85,12 +85,12 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         List<Konto> wykazkont = kontoDAOfk.findKontaOstAlityka(wpisView);
         wybranaWalutaDlaKont = "wszystkie";
         kontozapisy = new ArrayList<>();
-        if (wykazkont != null && wykazkont.size() > 0) {
-            for (Konto p : wykazkont) {
-                pobierzZapisyNaKoncieNode(p);
-            }
-            System.out.println("dd");
-        }
+//        if (wykazkont != null && wykazkont.size() > 0) {
+//            for (Konto p : wykazkont) {
+//                pobierzZapisyNaKoncieNode(p);
+//            }
+//            System.out.println("dd");
+//        }
     }
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
