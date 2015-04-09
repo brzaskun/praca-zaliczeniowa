@@ -68,6 +68,7 @@ public class EwidencjaVatView implements Serializable {
     private List<Dokfk> listadokvatFK;
     private List<EVatViewPola> listadokvatprzetworzona;
     private List<EVatwpisFK> listaprzesunietychKoszty;
+    private List<EVatwpisFK> listaprzesunietychBardziej;
     private double sumaprzesunietych;
     private double sumaprzesunietychBardziej;
     @Inject
@@ -151,6 +152,7 @@ public class EwidencjaVatView implements Serializable {
             transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
             sumujprzesuniete();
             List<EVatwpisFK> przesunieteBardziejKoszt = zmodyfikujlisteMcKwFKBardziej(listadokvat, vatokres, 1);
+            listaprzesunietychBardziej = przesunieteBardziejKoszt;
             sumujprzesunieteBardziej(przesunieteBardziejKoszt);
             stworzenieEwidencjiCzescWspolna(vatokres);
             RequestContext.getCurrentInstance().update("form:akorderonbis");
@@ -535,9 +537,9 @@ public class EwidencjaVatView implements Serializable {
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": {
                     List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+                    int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                     for (EVatwpisFK p : listadokvat) {
-                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
-                            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
                             int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
                             if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
                                 listatymczasowa.add(p);
@@ -950,6 +952,16 @@ public class EwidencjaVatView implements Serializable {
     public void setWynikOkresu(BigDecimal wynikOkresu) {
         this.wynikOkresu = wynikOkresu;
     }
+
+    public List<EVatwpisFK> getListaprzesunietychBardziej() {
+        return listaprzesunietychBardziej;
+    }
+
+    public void setListaprzesunietychBardziej(List<EVatwpisFK> listaprzesunietychBardziej) {
+        this.listaprzesunietychBardziej = listaprzesunietychBardziej;
+    }
+    
+    
 
 //</editor-fold>
     public static void main(String[] args) {

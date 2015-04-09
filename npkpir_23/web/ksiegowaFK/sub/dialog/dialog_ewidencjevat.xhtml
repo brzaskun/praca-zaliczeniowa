@@ -210,7 +210,9 @@
                         </p:outputPanel>
                         <p:outputPanel style="margin-top: 10px; width: 550px;">
                             <h:outputText value="suma faktur kosztowych z następnych okresów rozliczeniowych "/>
-                            <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
+                            <bcf:outputpl id="sumaprzesunietychbardziej" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
+                            <h:outputText value="liczba dok.: "/>
+                            <h:outputText value="#{ewidencjaVatView.listaprzesunietychBardziej.size()}"/>
                         </p:outputPanel>
                         <p:outputPanel style="margin-top: 10px">
                             <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>
