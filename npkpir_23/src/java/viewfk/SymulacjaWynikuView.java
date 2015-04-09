@@ -142,11 +142,11 @@ public class SymulacjaWynikuView implements Serializable {
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista, int przychod0koszt1) {
         boolean kontoszczegolne = saldoKonto.getKonto().getZwyklerozrachszczegolne().equals("szczególne");
         if (kontoszczegolne) {
-            if (saldoKonto.getSaldoWn() > 0.0 && przychod0koszt1 == 1) {
+            if (saldoKonto.getSaldoWn() != 0.0 && przychod0koszt1 == 1) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
-            if (saldoKonto.getSaldoMa() > 0.0 && przychod0koszt1 == 0) {
+            if (saldoKonto.getSaldoMa() != 0.0 && przychod0koszt1 == 0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
