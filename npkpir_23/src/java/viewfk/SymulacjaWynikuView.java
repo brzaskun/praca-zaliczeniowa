@@ -151,11 +151,11 @@ public class SymulacjaWynikuView implements Serializable {
                 return;
             }
         } else {
-            if (saldoKonto.getObrotyBoWn() > 0.0 || saldoKonto.getBoWn() != 0.0) {
+            if (saldoKonto.getObrotyBoWn() != 0.0 || saldoKonto.getBoWn() != 0.0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
-            if (saldoKonto.getObrotyBoMa() > 0.0 || saldoKonto.getBoMa() != 0.0) {
+            if (saldoKonto.getObrotyBoMa() != 0.0 || saldoKonto.getBoMa() != 0.0) {
                 przygotowanalista.add(saldoKonto);
                 return;
             }
@@ -168,10 +168,17 @@ public class SymulacjaWynikuView implements Serializable {
         return zapisywynikrokmc;
     }
 
-    private double sumuj(List<SaldoKonto> listakonta) {
+    private double sumuj(List<SaldoKonto> listakonta, String przychodykoszty) {
         double suma = 0.0;
-        for (SaldoKonto p : listakonta) {
-            suma += (p.getSaldoMa() + p.getSaldoWn());
+        if (przychodykoszty.equals("przychody")) {
+            for (SaldoKonto p : listakonta) {
+                suma += (p.getSaldoMa() - p.getSaldoWn());
+            }
+        }
+        if (przychodykoszty.equals("koszty")) {
+            for (SaldoKonto p : listakonta) {
+                suma += (p.getSaldoWn() - p.getSaldoMa());
+            }
         }
         return suma;
     }
@@ -179,9 +186,9 @@ public class SymulacjaWynikuView implements Serializable {
     private void obliczsymulacje() {
         podatnikkwotarazem = new HashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
-        double przychody = Z.z(sumuj(listakontaprzychody));
+        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody razem", przychody));
-        double koszty = Z.z(sumuj(listakontakoszty));
+        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty razem", koszty));
         wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
