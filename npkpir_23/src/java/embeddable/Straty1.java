@@ -124,6 +124,12 @@ public class Straty1 implements Serializable{
         public void setKwotawykorzystania(Double kwotawykorzystania) {
             this.kwotawykorzystania = kwotawykorzystania;
         }
+
+        @Override
+        public String toString() {
+            return "Wykorzystanie{" + "rokwykorzystania=" + rokwykorzystania + ", kwotawykorzystania=" + kwotawykorzystania + '}';
+        }
+        
         
       
     }

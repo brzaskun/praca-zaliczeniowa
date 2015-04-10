@@ -985,7 +985,9 @@ public class PodatnikView implements Serializable {
                 strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
                 r.setWykorzystanieBiezace(wykorzystanie);
             } else {
-                for (Straty1.Wykorzystanie s : wykorzystanie) {
+                List<Straty1.Wykorzystanie> nowewykorzystania = new ArrayList<>();
+                for (Iterator<Straty1.Wykorzystanie> it =  wykorzystanie.iterator(); it.hasNext(); ) {
+                    Straty1.Wykorzystanie s = (Straty1.Wykorzystanie) it.next();
                     if (s.getRokwykorzystania().equals(wpisView.getRokUprzedniSt())) {
                         s.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
                         strataRozliczonaWDanymRoku -= s.getKwotawykorzystania();
@@ -995,11 +997,12 @@ public class PodatnikView implements Serializable {
                         Straty1.Wykorzystanie w = new Straty1.Wykorzystanie();
                         w.setRokwykorzystania(wpisView.getRokUprzedniSt());
                         w.setKwotawykorzystania(zostalo >= strataRozliczonaWDanymRoku ? strataRozliczonaWDanymRoku : zostalo);
-                        wykorzystanie.add(w);
                         strataRozliczonaWDanymRoku -= w.getKwotawykorzystania();
-                        strataRozliczonaWDanymRoku = Math.round(strataRozliczonaWDanymRoku * 100.0) / 100.0;
+                        strataRozliczonaWDanymRoku = Z.z(strataRozliczonaWDanymRoku);
+                        nowewykorzystania.add(w);
                     }
                 }
+                wykorzystanie.addAll(nowewykorzystania);
                 r.setWykorzystanieBiezace(wykorzystanie);
             }
         }
