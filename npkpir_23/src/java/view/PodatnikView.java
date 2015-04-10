@@ -4,7 +4,6 @@
  */
 package view;
 
-import comparator.Podatnikcomparator;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
@@ -27,7 +26,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +44,7 @@ import org.joda.time.DateTime;
 import org.primefaces.component.panelgrid.PanelGrid;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
+import waluty.Z;
 
 /**
  *
