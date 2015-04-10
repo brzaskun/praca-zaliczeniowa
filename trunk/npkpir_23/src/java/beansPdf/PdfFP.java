@@ -197,12 +197,15 @@ public class PdfFP {
                         pobrane = zwrocpozycje(skladnikifaktury, "logo");
                         Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
                         String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
-                        Image logo = Image.getInstance(nazwaplikuzbazy);
-                        // Set the position of image
-                        logo.scaleToFit(90f, 90f);
-                        logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - 50); //e
-                        // Add paragraph to PDF document.
-                        document.add(logo);
+                        File f = new File(nazwaplikuzbazy);
+                        if(f.exists()) {
+                            Image logo = Image.getInstance(nazwaplikuzbazy);
+                            // Set the position of image
+                            logo.scaleToFit(90f, 90f);
+                            logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - 50); //e
+                            // Add paragraph to PDF document.
+                            document.add(logo);
+                        }
                     }
                     break;
                 case "akordeon:formwzor:nrzamowienia":
