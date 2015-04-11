@@ -456,24 +456,7 @@ private static final long serialVersionUID = 1L;
         }
     }
 
-    public void zdarzeniaOnBlurStronaWn(Wiersz wiersz, int indexwiersza) {
-        if (wiersz.getStronaWn().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-            wybranoRachunekPlatnosc(wiersz, "Wn");
-        }
-        int t = wiersz.getTypWiersza();
-//        if ((wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().isEmpty() && wpisView.isFKpiatki()) || (t == 6 || t == 7)) {
-//            dodajNowyWierszStronaWnPiatka(wiersz);
-//            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//        } else if (t == 5 && rowneStronyWnMa(wiersz)) {
-//            RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//            return;
-//        } else {
-//            dodajNowyWierszStronaWn(wiersz);
-//        }
-        
-        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-    }
-    public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
+     public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
         if (Z.z(kwotastara) != Z.z(kwotanowa)) {
@@ -553,12 +536,6 @@ private static final long serialVersionUID = 1L;
         }
     }
 
-    public void zdarzeniaOnBlurStronaMa(Wiersz wiersz, int numerwiersza) {
-        if (wiersz.getStronaMa().getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-            wybranoRachunekPlatnosc(wiersz, "Ma");
-        }
-
-    }
     
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
@@ -2586,18 +2563,6 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
   
 
-    //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
-    public void wybranoRachunekPlatnosc(Wiersz wiersz, String stronawiersza) {
-        biezacetransakcje = new ArrayList<>();
-        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
-        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
-            wnmadoprzeniesienia = stronawiersza;
-        } else {
-            wnmadoprzeniesienia = stronawiersza;
-            wybranoRachunekPlatnoscCD(stronawiersza);
-        }
-    }
-
     private String wnmadoprzeniesienia;
 
     public String getWnmadoprzeniesienia() {
@@ -2615,13 +2580,13 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
-                //to raczej nie jest konieczne, bo jak zapisze transakcje to blokuje pola javascript
-                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 return;
             } else {
                 oznaczJakoPlatnosc();
                 //to raczej nie jest konieczne, bo jak zapisze transakcje to blokuje pola javascript
-                //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                // nieprawda, potrzebne. skad bowiem javascript ma miec ino co jest blokowane
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
             }
         }
         //nowa transakcja
@@ -2630,6 +2595,8 @@ public void updatenetto(EVatwpisFK e, String form) {
             //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             tworzenieTransakcjiPlatnosc(stronawiersza);
+        } else {
+            System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
         }
     }
 
@@ -2651,7 +2618,18 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     private StronaWiersza pobierzStronaWierszaDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
         zablokujprzyciskzapisz = false;
-        return inicjalizacjaAktualnegoWierszaRozrachunkow(wiersz, stronawiersza);
+        try {
+            if (stronawiersza.equals("Wn")) {
+                wiersz.getStronaWn().setWiersz(wiersz);
+                return wiersz.getStronaWn();
+            } else {
+                wiersz.getStronaMa().setWiersz(wiersz);
+                return wiersz.getStronaMa();
+            }
+        } catch (Exception e) {
+            System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
+            return null;
+        }
     }
 
     public void tworzenieTransakcjiPlatnosc(String stronawiersza) {
@@ -2745,21 +2723,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
 
-//po wcisnieciu klawisza art-r nastepuje przygotowanie inicjalizacja aktualnego wiersza dla rozrachunkow
-    private StronaWiersza inicjalizacjaAktualnegoWierszaRozrachunkow(Wiersz wiersz, String stronawiersza) {
-        try {
-            if (stronawiersza.equals("Wn")) {
-                wiersz.getStronaWn().setWiersz(wiersz);
-                return wiersz.getStronaWn();
-            } else {
-                wiersz.getStronaMa().setWiersz(wiersz);
-                return wiersz.getStronaMa();
-            }
-        } catch (Exception e) {
-            System.out.println("błąd inicjalizacjaAktualnegoWierszaRozrachunkow DokfkView 2541");
-            return null;
-        }
-    }
+
 
     
     
