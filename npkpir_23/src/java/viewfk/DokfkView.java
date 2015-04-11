@@ -356,7 +356,7 @@ private static final long serialVersionUID = 1L;
         try {
             int typ = wierszbiezacy.getTypWiersza();
             if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
-                if ((typ == 0 || typ == 5) && stronawiersza.equals("Ma") ) {
+                if ((typ == 0 || typ == 5)) {
                     kontoWn = wierszbiezacy.getStronaWn().getKonto();
                     kontoMa = wierszbiezacy.getStronaMa().getKonto();
                     if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
@@ -675,15 +675,8 @@ private static final long serialVersionUID = 1L;
 //    }
 
     public void dodajPustyWierszNaKoncu() {
-        //sprawdzam czy jest pozniejszy wiersz, jak jest to nic nie robie. jak nie ma dodaje
-        if (lpWierszaWpisywanie > 0) {
-            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie - 1);
-            int indexwTabeli = wiersz.getIdporzadkowy() - 1;
-            Wiersz ostatniwiersz = selected.getListawierszy().get(selected.getListawierszy().size() - 1);
-            if (wiersz.getIdporzadkowy() == ostatniwiersz.getIdporzadkowy()) {
-                dolaczNowyWierszPusty(indexwTabeli, false);
-            }
-        }
+            int indexwTabeli = selected.getListawierszy().size()-1;
+            dolaczNowyWierszPusty(indexwTabeli, false);
     }
 
     public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
@@ -2661,6 +2654,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
                 RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
+                RequestContext.getCurrentInstance().update("dialogdrugi");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() > 0) {

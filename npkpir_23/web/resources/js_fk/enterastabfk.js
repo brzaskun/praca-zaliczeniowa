@@ -25,7 +25,7 @@ var TabKeyDown;
         } catch (e1) {
             
         }
-        if (rozrachunki == -1) {
+        if (rozrachunki === -1) {
             var toJestPoleKonta = false;
             if (czyZawieraWn > 0 || czyZawieraMa > 0 || enterdefault > 0) {
                 toJestPoleKonta = true;
@@ -43,14 +43,14 @@ var TabKeyDown;
                 var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
                 if ($(event.target).is("button") === false) {
                     if (war1 && war2 && war3 || war1 && war2 && war4) {
-                        $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
+                        $(document.getElementById("formwpisdokument:dodajPustyWierszNaKoncu")).click();
                         event.preventDefault();
                             event.stopPropagation();
                             event.stopImmediatePropagation();
                             return false;
                     } else if (isTabKey(event)) {
                         var isTabSuccessful = tab(true, event.shiftKey, $target);
-                        if (isTabSuccessful) {
+                        if (isTabSuccessful === true) {
                             event.preventDefault();
                             event.stopPropagation();
                             event.stopImmediatePropagation();
