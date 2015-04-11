@@ -9,6 +9,7 @@ import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -41,9 +42,19 @@ public class PlanKontCompleteView implements Serializable {
     public List<Konto> complete(String qr) {
         if (qr != null) {
             System.out.println("Wywołanie PlanKontCompleteView complete()");
-            String query = qr.split(" ")[0];
+            String query = null;
             List<Konto> results = new ArrayList<>();
             if (listakontOstatniaAnalitykaklienta != null) {
+                String nazwa = null;
+                if (qr.contains(" ") && qr.length() > 6) {
+                    String[] pola = qr.split(" ");
+                    if (pola.length > 1) {
+                        query = pola[0];
+                        nazwa = pola[1];
+                    }
+                } else {
+                    query = qr.split(" ")[0];
+                }
                 try {
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
@@ -54,6 +65,15 @@ public class PlanKontCompleteView implements Serializable {
                         }
                         if (p.getPelnynumer().startsWith(query)) {
                             results.add(p);
+                        }
+                    }
+                    //rozwiazanie dla rozrachunkow szukanie po nazwie kontrahenta
+                    if (nazwa != null && nazwa.length() > 2) {
+                        for (Iterator<Konto> it = results.iterator(); it.hasNext();) {
+                            Konto r = it.next();
+                            if (!r.getNazwapelna().toLowerCase().contains(nazwa.toLowerCase())) {
+                                it.remove();
+                            }
                         }
                     }
                 } catch (NumberFormatException e) {
