@@ -337,17 +337,21 @@ var podswietlrozrachunki = function() {
 };
 
 var zablokujcheckbox = function(zablokuj, pole) {
-    if (zablokuj === 'true') {
-        if (pole === 'rachunek') {
-            $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
-            r("formcheckbox:labelcheckboxrozrachunki").text("Rachunek został rozliczony przez płatności. Nie można odznaczyć go jako transakcji do rozliczenia.");
+    try {
+        if (zablokuj === 'true') {
+            if (pole === 'rachunek') {
+                $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+                r("formcheckbox:labelcheckboxrozrachunki").text("Rachunek został rozliczony przez płatności. Nie można odznaczyć go jako transakcji do rozliczenia.");
+            } else {
+                $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
+                r("formcheckbox:labelcheckboxrozrachunki").text("Płatność rozliczyla rachunki. Nie można oznaczyć jej jako nowej transakcji.");   
+            }
         } else {
-            $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
-            r("formcheckbox:labelcheckboxrozrachunki").text("Płatność rozliczyla rachunki. Nie można oznaczyć jej jako nowej transakcji.");   
+            $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
+            r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako transakcję do rozliczenia");
         }
-    } else {
-        $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
-        r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako transakcję do rozliczenia");
+    } catch (e) {
+        console.log('error dialog_dokfkrozrachunki.js zablokujcheckbox '+e);
     }
 
 };

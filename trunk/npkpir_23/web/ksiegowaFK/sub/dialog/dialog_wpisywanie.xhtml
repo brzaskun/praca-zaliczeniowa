@@ -75,7 +75,7 @@
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
     <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)"
-              resizable="false" onShow="wpisywanieOnShow(1160,600);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
+              resizable="false" onShow="wpisywanieOnShow(1160,610);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
               closeOnEscape="true" focus=":formwpisdokument:data2DialogWpisywanie"
               >
         <p:focus for="formwpisdokument">
@@ -367,7 +367,7 @@
                     <p:column headerText="konto Wn" width="100" style="text-align: center;"> 
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                        minQueryLength="1" converter="KontoConv" queryDelay="1" queryDeletionDelay="1"  
+                                        minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});"
@@ -404,7 +404,7 @@
                     <p:column headerText="konto Ma" width="100" style="text-align: center;">
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
-                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" 
+                                        minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});" 
@@ -442,6 +442,8 @@
                     <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
 
                 </p:panel>
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
+                                 global="false" update=":formwpisdokument:dataList" style="display: none;" />
             </div>
         </h:form>
             </p:focus>
@@ -468,8 +470,7 @@
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
                 <h:outputText id="aktualnywierszrozrachunkow" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.zwyklerozrachszczegolne}"  style="display: none;"/>
-                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                 global="false" style="display: none;" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();"/>
+                
             </h:form>
         </f:facet>
 
