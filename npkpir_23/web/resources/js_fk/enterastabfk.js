@@ -57,47 +57,6 @@ var TabKeyDown;
                             return false;
                         }
                     }
-//                    } else if (isTabKey(event) && toJestPoleKonta === true && typwiersza === "0" && wnlubma === "Wn") {
-//                        var isTabSuccessful = tab(true, event.shiftKey, $target);
-//                        if (isTabSuccessful) {
-//                            event.preventDefault();
-//                            event.stopPropagation();
-//                            event.stopImmediatePropagation();
-//                            return false;
-//                        }
-//                    }
-//                    } else if (isTabKey(event) && ominjednoklikniecie) {
-//                            var isTabSuccessful = tab(true, event.shiftKey, $target);
-//                            console.log("omijam klikniecie");
-//                            MYAPP.liczydloWcisnietychEnter = 3;
-//                            event.preventDefault();
-//                            event.stopPropagation();
-//                            event.stopImmediatePropagation();
-//                            ominjednoklikniecie = false;
-//                            return false;
-//                    } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 0) {
-//                            MYAPP.liczydloWcisnietychEnter = 1;
-//                            event.preventDefault();
-//                            event.stopPropagation();
-//                            event.stopImmediatePropagation();
-//                            return false;
-//                    } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 1) {
-//                            console.log("wierszMa");
-//                            MYAPP.liczydloWcisnietychEnter = 2;
-//                            $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
-//                            event.preventDefault();
-//                            event.stopPropagation();
-//                            event.stopImmediatePropagation();
-//                            return false;
-//                    } else if (isTabKey(event) && toJestPoleKonta === true && MYAPP.liczydloWcisnietychEnter === 2) {
-//                            var isTabSuccessful = tab(true, event.shiftKey, $target);
-//                            console.log("dodaje nowy wiersz");
-//                            MYAPP.liczydloWcisnietychEnter = 3;
-//                            event.preventDefault();
-//                            event.stopPropagation();
-//                            event.stopImmediatePropagation();
-//                            return false;
-//                    }
                 }
             }
         } else if (rozrachunki > -1) {
@@ -121,6 +80,8 @@ var TabKeyDown;
                         $target.val(wartosc);
                     } else {
                         $target.val(limit);
+                        r("rozrachunki:zapiszrozrachunekButton").focus();
+                        r("rozrachunki:zapiszrozrachunekButton").select();
                     }
                 }
             }

@@ -2503,10 +2503,12 @@ public void updatenetto(EVatwpisFK e, String form) {
         stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
         Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
         if (wiersz != null ) {
+            System.out.println("Wiersz rozny od null");
             System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
             System.out.println("stronawiersza "+stronawiersza);
             System.out.println("wybranoRachunekPlatnosc() wiersz dla rozrachunku "+wiersz.tostring2());
         } else {
+            System.out.println("Wiersz rowny null");
             System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
             System.out.println("stronawiersza "+stronawiersza);
             System.out.println("wiersz dla rozrachunku NULL");
@@ -2516,7 +2518,6 @@ public void updatenetto(EVatwpisFK e, String form) {
         potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
-            RequestContext.getCurrentInstance().update("transakcjawybor");
         } else {
             wybranoRachunekPlatnoscCD(stronawiersza);
         }
