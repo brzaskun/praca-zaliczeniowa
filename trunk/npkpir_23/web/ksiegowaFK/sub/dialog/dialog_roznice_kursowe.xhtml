@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogroznicekursowe" header="Zestawienie różnic kursowych" widgetVar="dialogroznicekursowe"  
+    <p:dialog id="dialogroznicekursowe" header="Zestawienie różnic kursowych - #{WpisView.podatnikWpisu}" widgetVar="dialogroznicekursowe"  
               resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
         <bcf:ajaxs/>
         <h:form id="transakcje">
