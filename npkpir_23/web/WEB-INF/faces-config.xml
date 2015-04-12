@@ -506,6 +506,10 @@
         <converter-id>UkladBRConv</converter-id>  
         <converter-class>converter.UkladBRConv</converter-class>
     </converter>
+    <converter>  
+        <converter-id>UkladBRWzorcowyConv</converter-id>  
+        <converter-class>converter.UkladBRWzorcowyConv</converter-class>
+    </converter>
      <converter>  
         <converter-id>EVatwpisFKConv</converter-id>  
         <converter-class>converter.EVatwpisFKConv</converter-class>

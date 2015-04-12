@@ -158,6 +158,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 }
             }
         } catch (Exception e) {
+            System.out.println("Blad przy pobieraniu ukladu "+e.toString());
         }   
         root.getChildren().clear();
         PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
