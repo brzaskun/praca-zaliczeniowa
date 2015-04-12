@@ -66,7 +66,7 @@ public class UkladBRView implements Serializable{
     public void dodaj() {
         try {
             UkladBR ukladBR = new UkladBR();
-            ukladBR.setPodatnik("Wzorcowy");
+            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setUklad(nazwanowegoukladu);
             ukladBRDAO.dodaj(ukladBR);
