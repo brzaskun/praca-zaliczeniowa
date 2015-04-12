@@ -2627,12 +2627,12 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void tworzenieTransakcjiPlatnosc(String stronawiersza) {
+        biezacetransakcje = new ArrayList<>();
         List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
         List<StronaWiersza> innezBazy = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 System.out.println("aktualny wiersz dla roarachunku "+aktualnyWierszDlaRozrachunkow.toString());
-                biezacetransakcje = new ArrayList<>();
                 pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO);
                 biezacetransakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, aktualnyWierszDlaRozrachunkow, wpisView.getPodatnikWpisu()));
@@ -2660,9 +2660,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() > 0) {
                     RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-                    //String znajdzPasujacePole = "znadzpasujacepolerozrachunku(" + aktualnyWierszDlaRozrachunkow.getPozostalo() + ")";
-                    //RequestContext.getCurrentInstance().execute(znajdzPasujacePole);
-                    //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 } else {
                     aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                     RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
@@ -2680,6 +2677,7 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
     public void tworzenieTransakcjiRachunek(String stronawiersza) {
+        biezacetransakcje = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
                 //tu trzeba wymyslec cos zeby pokazywac istniejace juz rozliczenia dla NOWA Transakcja
@@ -3349,9 +3347,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
     
-    public int sortZaksiegowaneDok(Object o1, Object o2) {
-        return DokFKBean.sortZaksiegowaneDok(o1, o2);
-    }
+    
     
 //    public void resetujzaksiegowane() {
 //        wykazZaksiegowanychDokumentow = new ArrayList<>();
