@@ -15,7 +15,7 @@
         }
     </style>
    
-    <p:dialog id="zestawieniezaksiegowanychimport" header="Zestawienie zaksięgowanych dokumentów" widgetVar="zestawieniezaksiegowanychimport" 
+    <p:dialog id="zestawieniezaksiegowanychimport" header="Zestawienie zaimportowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanychimport" 
               resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychimport','menudokumenty');" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychimport');" >
         <p:ajax event="close" listener="#{dokfkView.resetujzaksiegowaneimport}" update="@this"/>
         <!--        <h:form>

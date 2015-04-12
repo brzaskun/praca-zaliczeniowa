@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
         
     xmlns:f="http://java.sun.com/jsf/core">
-    <p:dialog id="dialogbilansprojektuklad" header="Wybór układu Bilansu" widgetVar="bilansprojektuklad" 
+    <p:dialog id="dialogbilansprojektuklad" header="Wybór układu Bilansu - #{WpisView.podatnikWpisu}" widgetVar="bilansprojektuklad" 
               resizable="false" onShow="ustawdialog('dialogbilansprojektuklad','menubilanse', 1000, 650);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprojektuklad');"  >
         <h:form id="formbilansprojektuklad">
 <!--             <p:contextMenu for="formbilansprojektuklad:dataList">

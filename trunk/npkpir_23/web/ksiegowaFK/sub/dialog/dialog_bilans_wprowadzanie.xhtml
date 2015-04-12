@@ -16,7 +16,7 @@
             width: 50px !important;
         }
     </style>
-    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald" widgetVar="bilanswprowadzanie"  modal="true" appendTo="@(body)"
+    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  modal="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1250, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
@@ -28,7 +28,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
@@ -76,7 +76,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete1}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
@@ -167,7 +167,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete2}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
@@ -259,7 +259,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete3}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
@@ -307,7 +307,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete6}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
@@ -355,7 +355,7 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete8}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" queryDeletionDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
