@@ -52,6 +52,7 @@ public class PlanKontView implements Serializable {
     @Inject
     private KliencifkDAO kliencifkDAO;
     private Konto selectednodekonto;
+    private Konto selectednodekontowzorcowy;
     private String wewy;
     private boolean czyoddacdowzorca;
     @Inject
@@ -640,9 +641,32 @@ public class PlanKontView implements Serializable {
         }
     }
     
+    public void zmiananazwykontawzorcowy() {
+        try {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, selectednodekontowzorcowy);
+            for (Konto p : kontapotomne) {
+                p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+                p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+                kontoDAOfk.edit(p);
+                Konto r = wykazkontwzor.get(wykazkont.indexOf(p));
+                if (r != null) {
+                    r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
+                    r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
+                }
+            }
+            kontoDAOfk.edit(selectednodekontowzorcowy);
+        } catch (Exception e) {
+            
+        }
+    }
+    
 
     public void selrow() {
         Msg.msg("i", "Wybrano: " + selectednodekonto.getPelnynumer() + " " + selectednodekonto.getNazwapelna());
+    }
+    
+     public void selrowwzorcowy() {
+        Msg.msg("i", "Wybrano: " + selectednodekontowzorcowy.getPelnynumer() + " " + selectednodekontowzorcowy.getNazwapelna());
     }
     
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
@@ -792,4 +816,13 @@ public class PlanKontView implements Serializable {
         this.wykazkontwzor = wykazkontwzor;
     }
 
+    public Konto getSelectednodekontowzorcowy() {
+        return selectednodekontowzorcowy;
+    }
+
+    public void setSelectednodekontowzorcowy(Konto selectednodekontowzorcowy) {
+        this.selectednodekontowzorcowy = selectednodekontowzorcowy;
+    }
+
+    
 }

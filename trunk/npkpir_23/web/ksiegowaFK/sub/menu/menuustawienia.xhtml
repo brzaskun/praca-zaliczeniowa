@@ -6,18 +6,42 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menuustawienia" orientation="left"  style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;"> 
-                <p:tab title="plan kont">
-                    <h:form id="dialog1menu1">
-                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
-                            <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false"></p:menuitem>
-                            <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
-                                        global="false"></p:menuitem>
-                            <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
-                                        rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                            <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
-                                        rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                        </p:menu>
+        <p:tab title="Plan kont">
+            <h:form id="dialog1menu1">
+                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
+                    <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false"></p:menuitem>
+                    <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
+                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                    <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
+                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                </p:menu>
+            </h:form>
+        </p:tab>  
+        <p:tab title="Plan kont wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+            <h:form id="dialog1menu2">
+                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
+                    <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" 
+                                global="false"></p:menuitem>
+                </p:menu>
+            </h:form>
+        </p:tab>
+         <p:tab title="Bilans wzorcowy">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="projekt układu" onclick="PF('bilansprojektwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="definiowanie układu" onclick="PF('bilansprojektukladwzorcowy').show();"></p:menuitem>
+                        </p:menu>  
                     </h:form>
-                </p:tab>  
-            </p:tabView>
+                </p:tab>
+                <p:tab title="RZiS wzorocwy">
+                    <h:form id="dialog1menu4">
+                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="projekt układu" onclick="PF('rzisprojektwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="definiowanie układu" onclick="PF('rzisprojektukladwzorcowy').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+    </p:tabView>
 </ui:composition>
