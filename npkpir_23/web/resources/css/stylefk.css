@@ -194,6 +194,22 @@ body {
     background: lightskyblue !important;
 }
 
+.row1w {
+    background: #f7d775 !important;
+}
+
+.row2w {
+    background: #faeab9 !important;
+}
+
+.row3w {
+    background: #f8e097 !important;
+}
+
+.row4w {
+    background: #fcf4dc !important;
+}
+
 .zerofaktur {
     font-weight: normal;
     color: red;
