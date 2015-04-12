@@ -12,7 +12,7 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
         if (source.value === null) {
             MYAPP.liczydloWcisnietychEnter = 1;
         }
-        setTimeout(focusNaNowoDodanym(source), 100);
+        //setTimeout(focusNaNowoDodanym(source), 100);
         console.log("lpwiersza " + lpwiersza + " wnma " + wnlubma + " typwiersza "+ typwiersza);
     } catch (blad) {
         alert("Blad w dialgowprowadzanie.js zachowaj wiersz " + blad);
@@ -255,19 +255,37 @@ var usunpodswietlenie = function(source) {
     };
 };
 
-var focusNowyWiersz = function() {
-     var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
-     var dlugoscwierszy = wiersze.length;
-     var poprzedniid = dlugoscwierszy-1;
-     r(wiersz).focus();
-     var wierszpoprzedniMa = "formwpisdokument:"+poprzedniid+":kontoma_input";
-     var wierszpoprzedniWn = "formwpisdokument:"+poprzedniid+":kontown_input";
-     r(wierszpoprzedniWn).removeClass("ui-state-focus");
-     r(wierszpoprzedniMa).removeClass("ui-state-focus");
-     var wiersz = "formwpisdokument:"+dlugoscwierszy+":opis";
+var focusNowyWiersz = function () {
+    setTimeout(robfocus(), 3000);
 };
 
-var focusNaNowoDodanymEnter = function(source) {
+var robfocus = function() {
+   var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
+    var dlugoscwierszy = wiersze.length;
+    var poprzedniid = dlugoscwierszy - 2;
+    var obecnywierszid = dlugoscwierszy - 1;
+
+    var wiersz = "formwpisdokument:dataList:" + obecnywierszid + ":opis";
+    try {
+        var tresc = document.getElementById(wiersz).value;
+        if (tresc === "") {
+            document.activeElement.blur();
+            var wierszpoprzedniMa = "formwpisdokument:dataList:"+poprzedniid+":kontoma_input";
+            var wierszpoprzedniWn = "formwpisdokument:dataList:"+poprzedniid+":kontown_input";
+            r(wierszpoprzedniWn).removeClass("ui-state-focus");
+            r(wierszpoprzedniMa).removeClass("ui-state-focus");
+            r(wiersz).focus();
+            r(wiersz).select();
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    } catch (e) {
+
+    } 
+};
+
+var focusNaNowoDodanymEnter = function() {
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
         for (var rzad in rzedy) {
@@ -300,7 +318,7 @@ var focusNaNowoDodanymEnter = function(source) {
             }
         };
     } catch (e) {
-
+        console.log("Blad dialog_wpisywanie.js focusNaNowoDodanymEnter "+e)
     };
 };
 
