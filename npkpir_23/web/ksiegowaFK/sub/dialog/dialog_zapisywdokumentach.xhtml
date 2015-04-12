@@ -7,7 +7,7 @@
     >
 
 
-    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach" widgetVar="zapisywdokumentach" dynamic="true"
+    <p:dialog id="dialogczwarty" header="Zestawienie zapisów w dokumentach - #{WpisView.podatnikWpisu}" widgetVar="zapisywdokumentach" dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogczwarty','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogczwarty');" maximizable="true">
         <h:form id="zestawieniezapisownakontach">
             <p:panelGrid columns="4" style="margin-left: 2%;" >

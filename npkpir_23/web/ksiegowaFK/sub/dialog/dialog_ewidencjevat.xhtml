@@ -7,7 +7,7 @@
 
     xmlns:c="http://java.sun.com/jsp/jstl/core"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat" widgetVar="dialogewidencjevat"  
+    <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikWpisu}" widgetVar="dialogewidencjevat"  
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
         <h:form id="form">
@@ -52,11 +52,11 @@
                                     <p:inputText id="globalFilter" onkeyup="PF('dokTable#{numer.index}').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie"/>  
                                 </f:facet>
                                 <p:column selectionMode="multiple" style="width: 20px; text-align: center;" rendered="#{itemik.opis eq 'podsumowanie' ? false : true}"/>
-                                <p:column style="width: 30px;" rendered="#{itemik.opis eq 'podsumowanie' ? true : false}"/>
+                                <p:column width="20" rendered="#{itemik.opis eq 'podsumowanie' ? true : false}"/>
                                 <p:ajax event="toggleSelect" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                                 <p:ajax event="rowSelectCheckbox" listener="#{ewidencjaVatView.sumujwybrane1()}" update=":form:akorderonbis:sumka#{numer.index}"/>
                                 <p:ajax event="rowUnselectCheckbox" listener="#{ewidencjaVatView.odsumujwybrane1}" update=":form:akorderonbis:sumka#{numer.index}"/>
-                                <p:column headerText="id" style="width: 10px; text-align: center;" sortBy="#{itemik.id}">
+                                <p:column headerText="id" width="14" style="text-align: center;" sortBy="#{itemik.id}">
                                     <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                                 </p:column>
                                 <p:column headerText="data wyst." style="width: 55px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains" filterStyle="display: none;">
