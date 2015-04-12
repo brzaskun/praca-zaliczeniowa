@@ -6,25 +6,32 @@
 
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dialog header="Zmien nazwy konta: #{planKontView.selectednodekonto.pelnynumer} #{planKontView.selectednodekonto.nazwaskrocona}" widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
+    <p:dialog header="Zmien nazwy konta: #{planKontView.selectednodekonto.pelnynumer} #{planKontView.selectednodekonto.nazwaskrocona}" 
+              widgetVar="dialogedycjanazwkonta" resizable="false" id="dialogedycjanazwkonta">  
         <h:form id="formedycjanazw">  
             <p:focus for="dkp">
                 <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
                     <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.selectednodekonto.nazwapelna}" 
-                                     title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                                     title="Nazwapelna" required="true" requiredMessage="Nazwa pelna jest wymagana"/>
                     <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                     <p:inputText id="nazwaskrocona" value="#{planKontView.selectednodekonto.nazwaskrocona}" style="width: 230px;"
-                                 title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
-                    <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}"  type="submit" update=":formedycjanazw, :form, :formwzorcowy" style="display: none; margin-top: 5px;" oncomplete="PF('dialogedycjanazwkonta').hide();"/>
+                                 title="Nazwaskrocona" required="true" requiredMessage="Nazwa skrocona jest wymagana"/>
+                    <h:outputLabel value="Bilansowe/wynikowe:" for="bilansowewynikowe" />
+                    <p:selectOneMenu id="bilansowewynikowe" value="#{planKontView.selectednodekonto.bilansowewynikowe}" required="true" requiredMessage="The Bilansowewynikowe field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                    <h:outputLabel value="Zwykle/rozrach/szczegolne:" for="zwyklerozrachszczegolne" />
+                    <p:selectOneMenu id="zwyklerozrachszczegolne" value="#{planKontView.selectednodekonto.zwyklerozrachszczegolne}" required="true" requiredMessage="The Zwyklerozrachszczegolne field is required." style="width: 170px;">
+                        <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
+                        <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
+                        <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
+                        <f:selectItem itemLabel="vat" itemValue="vat"/>
+                    </p:selectOneMenu>
+                    <h:outputText value=""/>
                     <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" accesskey="d" type="submit" update=":formedycjanazw, :form, :formwzorcowy" 
-                                     style="float: right; margin-top: 5px;" oncomplete="PF('dialogedycjanazwkonta').hide();">
-                        <!--                             <p:ajaxStatus style="width:74px;height:74px;position:fixed;right:250px;bottom:250px" onstart="PF('dialogAjaxCzekaj').show();" onsuccess="PF('dialogAjaxCzekaj').hide();">
-                                                        <f:facet name="error">
-                                                            <h:outputText value="Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie"
-                                                                          style="color: red; font-weight: 900;"/>
-                                                        </f:facet>
-                                                   </p:ajaxStatus>-->
+                                     style="float: right; margin-top: 10px; width: 120px;" oncomplete="PF('dialogedycjanazwkonta').hide();">
                     </p:commandButton>
                 </p:panelGrid>
             </p:focus>

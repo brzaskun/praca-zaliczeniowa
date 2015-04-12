@@ -10,7 +10,7 @@
 
     </style>
    
-    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach" widgetVar="rozrachunkiPrzeglad" dynamic="true"
+    <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach - #{WpisView.podatnikWpisu}" widgetVar="rozrachunkiPrzeglad" dynamic="true"
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  

@@ -623,6 +623,17 @@ public class PlanKontView implements Serializable {
     
     public void zmiananazwykonta() {
         try {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
+            for (Konto p : kontapotomne) {
+                p.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
+                p.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
+                kontoDAOfk.edit(p);
+                Konto r = wykazkont.get(wykazkont.indexOf(p));
+                if (r != null) {
+                    r.setZwyklerozrachszczegolne(selectednodekonto.getZwyklerozrachszczegolne());
+                    r.setBilansowewynikowe(selectednodekonto.getBilansowewynikowe());
+                }
+            }
             kontoDAOfk.edit(selectednodekonto);
         } catch (Exception e) {
             
