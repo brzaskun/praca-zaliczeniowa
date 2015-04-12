@@ -370,7 +370,7 @@
                                         minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
-                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});"
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                         ><!--to teraz powoduje blad-->
                             <p:ajax event="query" global="false"/>
@@ -407,7 +407,7 @@
                                         minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
                                         converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
                                         styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
-                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});" 
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();" 
                                         readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
                             <p:ajax event="query" global="false"/>
@@ -438,12 +438,13 @@
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach:dataList"
+                                     onfocus="focusNaNowoDodanymEnter();"
                                      rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" global="false"/>
                     <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
 
                 </p:panel>
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                 global="false" update=":formwpisdokument:dataList" style="display: none;" />
+                                 global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
             </div>
         </h:form>
             </p:focus>

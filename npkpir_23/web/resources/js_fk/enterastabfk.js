@@ -44,7 +44,7 @@ var TabKeyDown;
                 if ($(event.target).is("button") === false) {
                     if (war1 && war2 && war3 || war1 && war2 && war4) {
                         $(document.getElementById("formwpisdokument:dodajPustyWierszNaKoncu")).click();
-                        event.preventDefault();
+                            event.preventDefault();
                             event.stopPropagation();
                             event.stopImmediatePropagation();
                             return false;
