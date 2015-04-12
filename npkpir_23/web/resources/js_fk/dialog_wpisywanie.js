@@ -409,6 +409,11 @@ var obsluzDateWiersza = function(idwiersza) {
       }
   } else if (biezacadataVal.length === 1) {
       biezacadata.val("0"+biezacadataVal);
+  } else if (biezacadataVal.length === 2) {
+      var dataint = parseInt(biezacadataVal);
+      if (dataint > 31) {
+          biezacadata.val(null);
+      }
   }
 };
 
