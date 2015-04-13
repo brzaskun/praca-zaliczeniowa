@@ -6,6 +6,7 @@ package mail;
 
 import entity.Klienci;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import javax.ejb.Stateless;
 import javax.mail.Message;
@@ -42,7 +43,7 @@ public class MailSetUp implements Serializable{
 //        firmafaktury = wpisView.getPodatnikObiekt().getNazwadlafaktury();
 //    }
 
-    public static MimeMessage logintoMail(WpisView wpisView) throws MessagingException {
+    public static MimeMessage logintoMail(WpisView wpisView) throws MessagingException, UnsupportedEncodingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -61,7 +62,7 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
         try {
@@ -73,7 +74,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView) throws MessagingException {
+    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView) throws MessagingException, UnsupportedEncodingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -92,7 +93,7 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
         try {
@@ -104,7 +105,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-     public static MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException {
+     public static MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException, UnsupportedEncodingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -124,12 +125,12 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         return message;
     }
      
-     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException {
+     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException, UnsupportedEncodingException {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -148,7 +149,7 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl"));
+        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
         message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
         return message;
