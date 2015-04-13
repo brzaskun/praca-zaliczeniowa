@@ -17,11 +17,11 @@ var skopiujdanenowegoklientafk = function () {
         var czywidzialne = rj("dialog_kliencifk_dolaczanie").getAttribute("aria-hidden");
         if (czywidzialne === "false"){
             var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
-            $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-            $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //$('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //$('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#kliencifk\\:wyborkontrahenta_input').focus();
             $('#kliencifk\\:wyborkontrahenta_input').select();
-            PF('dialogklient').search(szukana);
+            //PF('dialogklient').search(szukana);
         }
     } catch (e) {
     }
@@ -44,11 +44,11 @@ var skopiujdanenowegoklientafk = function () {
         var czywidzialne = rj("dialogewidencjavatRK").getAttribute("aria-hidden");
         if (czywidzialne === "false"){
             var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
-            $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-            $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-            //$('#ewidencjavatRK\\:klientRK_input').focus();
-            //$('#ewidencjavatRK\\:klientRK_input').select();
-            PF('poleklientawpisywaniefkRK').search(szukana);
+            //$('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //$('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            $('#ewidencjavatRK\\:klientRK_input').focus();
+            $('#ewidencjavatRK\\:klientRK_input').select();
+            //PF('poleklientawpisywaniefkRK').search(szukana);
         }
     } catch (e) {
     }

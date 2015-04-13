@@ -9,16 +9,16 @@
               resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
         <h:form id="formprojektwzorcowy">
             <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 200px;">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
-                <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
+                <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRWzorcowyView.rozwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
             </p:panelGrid>
             <p:panelGrid columns="3" style="width: 920px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
@@ -27,7 +27,7 @@
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad}"/>
                     </f:facet>
-                    <p:ajax event="select" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
