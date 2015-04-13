@@ -10,7 +10,7 @@
             width: 180px !important;
         }
     </style>
-    <p:dialog id="dialogEdycja" header="Dane nowego klienta:aa ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" modal="false" appendTo="dialogpierwszy"
+    <p:dialog id="dialogEdycja" header="Dane nowego klienta:aa ( * - dane fakultatywne)" widgetVar="dlgwprowadzanieklienta" resizable="false" modal="false" appendTo="@(body)"
               onShow="ustawdialog('dialogEdycja','menudokumenty',1100,200);" focus=":formXNowyKlient:nazwaPole" onHide="resetujdialog('dialogEdycja');" >
         <h:form id="formXNowyKlient" >
             <p:panel >
