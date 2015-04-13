@@ -15,7 +15,7 @@ var skopiujdanenowegoklientafk = function () {
     PF('dlgwprowadzanieklienta').hide();
     try {
         var czywidzialne = rj("dialog_kliencifk_dolaczanie").getAttribute("aria-hidden");
-        if (czywidzialne === "true"){
+        if (czywidzialne === "false"){
             var czy_toKlienci_fk = $('#kliencifk\\:wyborkontrahenta_input').val();
             $('#kliencifk\\:wyborkontrahenta_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#kliencifk\\:wyborkontrahenta_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
@@ -28,13 +28,13 @@ var skopiujdanenowegoklientafk = function () {
     //nie potrzebne bo mamy kopiowanie w funkcji
     try {
         var czywidzialne = rj("dialogpierwszy").getAttribute("aria-hidden");
-        if (czywidzialne === "true"){
+        if (czywidzialne === "false"){
             var czy_wpisywaniedok_fk = $('#formwpisdokument\\:acForce_input').val();
-            $('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-            $('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //$('#formwpisdokument\\:acForce_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //$('#formwpisdokument\\:acForce_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
+            //PF('poleklientawpisywaniefk').search(szukana);
             $('#formwpisdokument\\:acForce_input').focus();
             $('#formwpisdokument\\:acForce_input').select();
-            PF('poleklientawpisywaniefk').search(szukana);
 //            r('formwpisdokument:opisdokumentu').focus();
 //            r('formwpisdokument:opisdokumentu').select();
         }
@@ -42,12 +42,12 @@ var skopiujdanenowegoklientafk = function () {
     }
     try {
         var czywidzialne = rj("dialogewidencjavatRK").getAttribute("aria-hidden");
-        if (czywidzialne === "true"){
+        if (czywidzialne === "false"){
             var czy_wpisywaniedok_fk = $('#ewidencjavatRK\\:klientRK_input').val();
             $('#ewidencjavatRK\\:klientRK_input').val(document.getElementById('formXNowyKlient:nazwaPole').value);
             $('#ewidencjavatRK\\:klientRK_hinput').val(document.getElementById('formXNowyKlient:nazwaPole').value);
-            $('#ewidencjavatRK\\:klientRK_input').focus();
-            $('#ewidencjavatRK\\:klientRK_input').select();
+            //$('#ewidencjavatRK\\:klientRK_input').focus();
+            //$('#ewidencjavatRK\\:klientRK_input').select();
             PF('poleklientawpisywaniefkRK').search(szukana);
         }
     } catch (e) {
