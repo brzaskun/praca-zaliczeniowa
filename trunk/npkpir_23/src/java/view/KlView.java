@@ -171,13 +171,17 @@ public class KlView implements Serializable{
       //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
         if (dokfkView.getSelected() != null) {
             dokfkView.getSelected().setKontr(selected);
-            selected = new Klienci();
             RequestContext.getCurrentInstance().update("formwpisdokument:acForce");
             RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania");
             RequestContext.getCurrentInstance().update("formXNowyKlient:polawprowadzania1");
         } else {
             selected = new Klienci();
         }
+        if (dokfkView.getEwidencjaVatRK() != null) {
+            dokfkView.getEwidencjaVatRK().setKlient(selected);
+            RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
+        }
+        selected = new Klienci();
    }
     
     

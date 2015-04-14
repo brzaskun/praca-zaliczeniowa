@@ -40,8 +40,8 @@ public class WalutyKursRecznieView implements Serializable{
         Integer numertabeli;
 //        datawstepna = "2013-12-30";
 //        numertabeli = 250;
-        datawstepna = "2014-01-01";
-        numertabeli = 1;
+        datawstepna = "2012-12-31";
+        numertabeli = 252;
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         try {
             wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
