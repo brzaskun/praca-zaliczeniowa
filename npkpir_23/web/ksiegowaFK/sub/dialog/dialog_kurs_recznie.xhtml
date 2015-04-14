@@ -11,14 +11,14 @@
         <h:form id="formkursrecznie">
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
-                    <p:inputText id="numertabeli" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" placeholder="###/A/NBP/rrrr" maxlength="14"/>
+                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <p:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
-                        <f:selectItems value="#{walutyViewFK.pobranewalutyrecznykurs}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
@@ -27,7 +27,7 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="@form, :wprowadzonekursy"
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" update="@form, :wprowadzonekursy, :wprowadzonekursyrecznie"
                                      />
                 </p:column>
             </p:dataTable>

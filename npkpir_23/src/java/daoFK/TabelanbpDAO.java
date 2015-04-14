@@ -43,7 +43,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
             return null;
         }
    }
-    public  List<Tabelanbp> findKursyRok(String rok){
+    public  List<Tabelanbp> findKursyRokNBP(String rok){
         try {
             List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
             List<Tabelanbp> nowalista = new ArrayList<>();
@@ -51,7 +51,25 @@ public class TabelanbpDAO extends DAO implements Serializable {
             while (it.hasNext()) {
                 Tabelanbp p = (Tabelanbp) it.next();
                 String rokp = p.getDatatabeli().substring(0,4);
-                if (rokp.equals(rok)) {
+                if (rokp.equals(rok)&&p.isRecznie()==false) {
+                    nowalista.add(p);
+                }
+            }
+            return nowalista;
+        } catch (Exception e) {
+            return null;
+        }
+   }
+    
+    public  List<Tabelanbp> findKursyRokNieNBP(String rok){
+        try {
+            List<Tabelanbp> kursyrok = tabelanbpFacade.findAll(Tabelanbp.class);
+            List<Tabelanbp> nowalista = new ArrayList<>();
+            Iterator it = kursyrok.iterator();
+            while (it.hasNext()) {
+                Tabelanbp p = (Tabelanbp) it.next();
+                String rokp = p.getDatatabeli().substring(0,4);
+                if (rokp.equals(rok)&&p.isRecznie()==true) {
                     nowalista.add(p);
                 }
             }

@@ -441,3 +441,8 @@ var skopiujKwoteZeStronaWn = function (idwiersza) {
           biezacastronawierszaH.val(zrobFloat(kwotawierszWn));
   }
 };
+
+var powrotpozmianietabeli = function() {
+    r(MYAPP.lpwiersza).focus();
+    r(MYAPP.lpwiersza).select();
+};

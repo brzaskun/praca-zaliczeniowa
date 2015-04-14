@@ -36,11 +36,12 @@ public class WalutyViewFK implements Serializable {
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private TabelanbpDAO tabelanbpDAO;
-    private List<Waluty> pobranewaluty;
-    private List<Waluty> pobranewalutyrecznykurs;
+    private List<Waluty> pobraneRodzajeWalut;
+    private List<Waluty> walutywuzyciu;
     private List<String> symboleWalut;
     private List<Tabelanbp> pobranekursy;
     private List<Tabelanbp> pobranekursyRok;
+    private List<Tabelanbp> wprowadzonekursyRok;
     @Inject
     private Tabelanbp kurswprowadzonyrecznie;
     @Inject
@@ -51,21 +52,23 @@ public class WalutyViewFK implements Serializable {
     private WpisView wpisView;
 
     public WalutyViewFK() {
-        pobranewaluty = new ArrayList<>();
+        pobraneRodzajeWalut = new ArrayList<>();
         pobranekursy = new ArrayList<>();
+        walutywuzyciu = new ArrayList<>();
         symboleWalut = new ArrayList<>();
-        pobranewalutyrecznykurs = new ArrayList<>();
+        wprowadzonekursyRok = new ArrayList<>();
     }
 
     @PostConstruct
     private void init() {
-        pobranewaluty = walutyDAOfk.findAll();
+        pobraneRodzajeWalut = walutyDAOfk.findAll();
         pobranekursy = tabelanbpDAO.findAll();
-        pobranekursyRok = tabelanbpDAO.findKursyRok(wpisView.getRokWpisuSt());
-        for (Waluty w : pobranewaluty) {
+        pobranekursyRok = tabelanbpDAO.findKursyRokNBP(wpisView.getRokWpisuSt());
+        wprowadzonekursyRok = tabelanbpDAO.findKursyRokNieNBP(wpisView.getRokWpisuSt());
+        for (Waluty w : pobraneRodzajeWalut) {
             symboleWalut.add(w.getSymbolwaluty());
             if (!w.getSymbolwaluty().equals("PLN")) {
-                pobranewalutyrecznykurs.add(w);
+                walutywuzyciu.add(w);
             }
         }
     }
@@ -75,7 +78,7 @@ public class WalutyViewFK implements Serializable {
             nowawaluta.setSymbolwaluty(nowawaluta.getSymbolwaluty().toUpperCase(new Locale("pl")));
             nowawaluta.setNazwawaluty(nowawaluta.getNazwawaluty().toLowerCase(new Locale("pl")));
             walutyDAOfk.dodaj(nowawaluta);
-            pobranewaluty.add(nowawaluta);
+            pobraneRodzajeWalut.add(nowawaluta);
             nowawaluta = new Waluty();
             Msg.msg("i", "Dodano nową walute");
         } catch (Exception e) {
@@ -95,7 +98,7 @@ public class WalutyViewFK implements Serializable {
     public void usunwalute(Waluty waluty) {
         try {
             walutyDAOfk.destroy(waluty);
-            pobranewaluty.remove(waluty);
+            pobraneRodzajeWalut.remove(waluty);
             Msg.msg("Usunięto walutę.");
         } catch (Exception e) {
             Msg.msg("e","Istnieją zapisy w walucie, nie można jej usunąć!");
@@ -105,15 +108,15 @@ public class WalutyViewFK implements Serializable {
     public void dodajkurs(Tabelanbp tabelanbp) {
         try {
             tabelanbp.setNrtabeli(tabelanbp.getNrtabeli().toUpperCase(new Locale("PL")));
+            tabelanbp.setRecznie(true);
             tabelanbpDAO.dodaj(tabelanbp);
-            pobranekursyRok.add(tabelanbp);
+            wprowadzonekursyRok.add(tabelanbp);
             tabelanbp = null;
             Msg.msg("Dodałem tabelę NBP");
             RequestContext.getCurrentInstance().update("formkursrecznie");
-            RequestContext.getCurrentInstance().execute("PF('dialogkursrecznie').hide();");
         } catch (Exception e) {
             List<Tabelanbp> kursypokrewne = new ArrayList<>();
-            for (Tabelanbp p : pobranekursy) {
+            for (Tabelanbp p : wprowadzonekursyRok) {
                 if (p.getNrtabeli().contains(tabelanbp.getNrtabeli().substring(3))) {
                     kursypokrewne.add(p);
                 }
@@ -140,12 +143,12 @@ public class WalutyViewFK implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     
-    public List<Waluty> getPobranewalutyrecznykurs() {
-        return pobranewalutyrecznykurs;
+    public List<Waluty> getWalutywuzyciu() {
+        return walutywuzyciu;
     }
 
-    public void setPobranewalutyrecznykurs(List<Waluty> pobranewalutyrecznykurs) {
-        this.pobranewalutyrecznykurs = pobranewalutyrecznykurs;
+    public void setWalutywuzyciu(List<Waluty> walutywuzyciu) {
+        this.walutywuzyciu = walutywuzyciu;
     }
 
     public Tabelanbp getKurswprowadzonyrecznie() {
@@ -173,12 +176,12 @@ public class WalutyViewFK implements Serializable {
         this.symboleWalut = symboleWalut;
     }
 
-    public List<Waluty> getPobranewaluty() {
-        return pobranewaluty;
+    public List<Waluty> getPobraneRodzajeWalut() {
+        return pobraneRodzajeWalut;
     }
 
-    public void setPobranewaluty(List<Waluty> pobranewaluty) {
-        this.pobranewaluty = pobranewaluty;
+    public void setPobraneRodzajeWalut(List<Waluty> pobraneRodzajeWalut) {
+        this.pobraneRodzajeWalut = pobraneRodzajeWalut;
     }
 
     public List<Tabelanbp> getPobranekursy() {
@@ -216,6 +219,17 @@ public class WalutyViewFK implements Serializable {
         this.wpisView = wpisView;
     }
 
+    
+
+    public List<Tabelanbp> getWprowadzonekursyRok() {
+        return wprowadzonekursyRok;
+    }
+
+    public void setWprowadzonekursyRok(List<Tabelanbp> wprowadzonekursyRok) {
+        this.wprowadzonekursyRok = wprowadzonekursyRok;
+    }
+    
+    
     
     
     //</editor-fold>

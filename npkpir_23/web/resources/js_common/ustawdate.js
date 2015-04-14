@@ -139,12 +139,16 @@ function ustawDateFK(rok,mc, koncowkaadresu, zapisz0edytuj1){
    };
    
    var weryfikujnumertabeli = function () {
-       var nrTabeli = document.getElementById("formkursrecznie:dataKursReczny:0:numertabeli");
-       var re = /\d{3}[\/]\w{1}[\/]\w{3}[\/]\d{4}/;
-       var testw = nrTabeli.value;
-         if (!testw.match(re)){
-             nrTabeli.value = "b\u0142ędny numer tabeli";
-         }
+       try {
+        var nrTabeli = document.getElementById("formkursrecznie:dataKursReczny:0:numertabeli");
+        var re = /\d{3}[\/]\w{1}[\/]\w{3}[\/]\d{4}/;
+        var testw = nrTabeli.value;
+          if (!testw.match(re)){
+              nrTabeli.value = "b\u0142ędny numer tabeli";
+          }
+      } catch (e) {
+          
+      }
    };
    
    function ustawDateFKRK(rok,mc, koncowkaadresu){

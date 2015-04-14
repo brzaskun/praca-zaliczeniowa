@@ -416,7 +416,7 @@
                         </p:autoComplete>
                     </p:column>
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
-                        <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"/>
+                    <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.tabelanbp.recznie eq true ? 'color: red;' : null}"/>
                     </p:column>
 <!--                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                     <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.obliczsaldo(loop) : null) : null }"
@@ -458,13 +458,15 @@
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
                 <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
-                <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
+                <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
+                                 actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" global="false" update=":formwpisdokument" style="display: none;"/>
                 <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;" />
                 <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false" style="margin-left: 10px;"  update=":formwpisdokument:dataList"/>
-                <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" global="false" style="margin-left: 10px; display: none;" />
+                <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
+                                 global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>

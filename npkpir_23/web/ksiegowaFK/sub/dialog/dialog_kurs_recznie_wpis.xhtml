@@ -7,19 +7,19 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogkursrecznie" header="Wprowadzenie kursu ręcznie" widgetVar="dialogkursrecznie"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,150);" closeOnEscape="true" 
-              onHide="resetujdialog('dialogkursrecznie');r('formwpisdokument:opisdokumentu').focus();" >
+              resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,550);" closeOnEscape="true" 
+              onHide="resetujdialog('dialogkursrecznie');" >
         <h:form id="formkursrecznie">
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 780px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 700px;">
                 <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
-                    <p:inputText id="numertabeli" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" placeholder="###/A/NBP/rrrr" maxlength="14"/>
+                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
                     <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
-                        <f:selectItems value="#{walutyViewFK.pobranewalutyrecznykurs}" var="item" itemLabel="#{item.symbolwaluty}"/>
+                        <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
                     </h:selectOneMenu>
                 </p:column>
                 <p:column headerText="wartość w pln" width="100" style="text-align: center;">
@@ -28,11 +28,41 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update="@form, :formwpisdokument:panelTabelaNBP"
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update="@form, :formwpisdokument:panelTabelaNBP, :wprowadzonekursyrecznie"
                                      />
                 </p:column>
             </p:dataTable>
         </h:form>
-      
+      <h:form id="wprowadzonekursyrecznie">
+            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
+                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="350" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}">
+                <p:ajax event="filter" global="false"/>
+                 <f:facet name="header">  
+                    <h:outputText value="Zestawienie zaksięgowanych tabel nieNBP " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('dataTablekursy').filter();" style="width:150px" />  
+                </f:facet>
+                <p:column selectionMode="single" style="width: 16px; text-align: center;"/>
+                <p:column headerText="nr tabeli" width="100" style="text-align: center;" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
+                    <h:outputText value="#{wpis.nrtabeli}" />
+                </p:column>
+                <p:column headerText="data tabeli" width="100" style="text-align: center;" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}" filterStyle="display : none;" filterMatchMode="contains">
+                    <h:outputText value="#{wpis.datatabeli}" />
+                </p:column>
+                <p:column headerText="symbol waluty" width="100" style="text-align: center;" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}" filterStyle="display : none;" filterMatchMode="contains">
+                    <h:outputText value="#{wpis.waluta.symbolwaluty}" />
+                </p:column>
+                <p:column headerText="kurs do pln" width="100" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}" filterStyle="display : none;" filterMatchMode="contains">
+                    <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                
+            </p:dataTable>
+             <div style="padding: 10px;">
+                 <p:commandButton id="walutynowabutton" value="pobierz" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
+                                  actionListener="#{dokfkView.zamienkursnareczny()}" style="width: 120px;"/>
+            </div>
+        </h:form>
     </p:dialog>
 </ui:composition>

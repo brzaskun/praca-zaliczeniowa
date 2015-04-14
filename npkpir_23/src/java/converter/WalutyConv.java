@@ -27,7 +27,7 @@ public class WalutyConv implements javax.faces.convert.Converter{
     public Object getAsObject(FacesContext facesContext, UIComponent component, String submittedValue) {
         FacesContext context = FacesContext.getCurrentInstance();
         WalutyViewFK walutyViewFK = (WalutyViewFK) context.getELContext().getELResolver().getValue(context.getELContext(), null,"walutyViewFK");
-        List<Waluty> listaWalut = walutyViewFK.getPobranewaluty();
+        List<Waluty> listaWalut = walutyViewFK.getPobraneRodzajeWalut();
         if (submittedValue.trim().isEmpty()) {  
             return null;  
         } else {  
