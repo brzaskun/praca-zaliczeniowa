@@ -170,6 +170,7 @@ private static final long serialVersionUID = 1L;
     private Integer nrgrupyaktualny;
     private boolean potraktujjakoNowaTransakcje;
     private List<Tabelanbp> tabelenbp;
+    private Tabelanbp tabelanbprecznie;
     @Inject
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
@@ -2914,10 +2915,12 @@ public void updatenetto(EVatwpisFK e, String form) {
 //        } else if (wierszbiezacy.getDataWalutyWiersza().length()== 1) {
 //            wierszbiezacy.setDataWalutyWiersza("0"+wierszbiezacy.getDataWalutyWiersza());
 //        }
-        pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
+        if (wierszbiezacy.getTabelanbp().isRecznie()==false) {
+            pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
+            przepiszWaluty(wierszbiezacy);
+        }
         int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
         String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
-        przepiszWaluty(wierszbiezacy);
         RequestContext.getCurrentInstance().update(update);
     }
 
@@ -3396,6 +3399,19 @@ public void updatenetto(EVatwpisFK e, String form) {
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
     
+    public void zamienkursnareczny() {
+        try {
+            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
+            wiersz.setTabelanbp(tabelanbprecznie);
+            przepiszWaluty(wiersz);
+            int lpwtabeli = wiersz.getIdporzadkowy()-1;
+            String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
+            RequestContext.getCurrentInstance().update(update);
+        } catch (Exception e) {
+            
+        }
+    }
+    
 
 //<editor-fold defaultstate="collapsed" desc="comment">
      public String getWybranakategoriadok() {
@@ -3785,6 +3801,14 @@ public void updatenetto(EVatwpisFK e, String form) {
 
     public void setDokumentypodatnika(List dokumentypodatnika) {
         this.dokumentypodatnika = dokumentypodatnika;
+    }
+
+    public Tabelanbp getTabelanbprecznie() {
+        return tabelanbprecznie;
+    }
+
+    public void setTabelanbprecznie(Tabelanbp tabelanbprecznie) {
+        this.tabelanbprecznie = tabelanbprecznie;
     }
 
    

@@ -70,6 +70,8 @@ public class Tabelanbp implements Serializable {
     @NotNull
     @Column(name = "kurssredni", nullable = false)
     private double kurssredni;
+    @Column(name = "recznie")
+    private boolean recznie;
     //to jest dlatego ze dla faktury typu FVZ caly dokument jest w jednym kursie
     @OneToMany(mappedBy = "tabelanbp", fetch = FetchType.LAZY)
     private List<Dokfk> Dokfk;
@@ -144,6 +146,16 @@ public class Tabelanbp implements Serializable {
     public void setWiersze(List<Wiersz> Wiersze) {
         this.Wiersze = Wiersze;
     }
+
+    public boolean isRecznie() {
+        return recznie;
+    }
+
+    public void setRecznie(boolean recznie) {
+        this.recznie = recznie;
+    }
+    
+    
 
     @Override
     public int hashCode() {
