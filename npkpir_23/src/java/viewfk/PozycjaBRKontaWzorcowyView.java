@@ -72,23 +72,23 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void pobierzukladkontoR() {
-        przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKontaWzorcowy(kontoDAO, kontopozycjaDAO, uklad, wpisView);
-        pozycje = new ArrayList<>();
-        try {
-            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-            if (pozycje.isEmpty()) {
-                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                Msg.msg("i", "Dodaje pusta pozycje");
-            }
-        } catch (Exception e) {
-        }
-        drugiinit();
-        uzupelnijpozycjeOKontaR(pozycje);
-        rootProjektKonta.getChildren().clear();
-        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
-        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
-        Msg.msg("i", "Pobrano układ ");
+//        przyporzadkowanekonta = new ArrayList<>();
+//        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKontaWzorcowy(kontoDAO, kontopozycjaDAO, uklad, wpisView);
+//        pozycje = new ArrayList<>();
+//        try {
+//            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+//            if (pozycje.isEmpty()) {
+//                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+//                Msg.msg("i", "Dodaje pusta pozycje");
+//            }
+//        } catch (Exception e) {
+//        }
+//        drugiinit();
+//        uzupelnijpozycjeOKontaR(pozycje);
+//        rootProjektKonta.getChildren().clear();
+//        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
+//        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
+//        Msg.msg("i", "Pobrano układ ");
     }
 
     public void pobierzukladkontoB(String aktywapasywa) {
@@ -118,10 +118,10 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     private void drugiinit() {
-        wykazkont.clear();
-        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomneWzorcowy(wpisView, "0", "wynikowe");
-        PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiWzorcowy(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView);
-        Collections.sort(wykazkont, new Kontocomparator());
+//        wykazkont.clear();
+//        List<Konto> pobraneKontaSyntetyczne = kontoDAO.findKontaPotomneWzorcowy(wpisView, "0", "wynikowe");
+//        PozycjaRZiSFKBean.wyluskajNieprzyporzadkowaneAnalitykiWzorcowy(pobraneKontaSyntetyczne, wykazkont, kontoDAO, wpisView);
+//        Collections.sort(wykazkont, new Kontocomparator());
     }
 
     private void drugiinitbilansowe() {
@@ -138,9 +138,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     private void uzupelnijpozycjeOKontaR(List<PozycjaRZiSBilans> pozycje) {
-        for (PozycjaRZiSBilans p : pozycje) {
-            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRListaWzorcowy(kontoDAO, p, pozycjaRZiSDAO, wpisView, aktywa0pasywa1);
-        }
+//        for (PozycjaRZiSBilans p : pozycje) {
+//            PozycjaRZiSFKBean.wyszukajprzyporzadkowaneRListaWzorcowy(kontoDAO, p, pozycjaRZiSDAO, wpisView, aktywa0pasywa1);
+//        }
     }
 
     public void onKontoDropR(Konto konto, String br) {
