@@ -40,7 +40,7 @@
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
                     <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
-                    <f:selectItems value="#{WpisView.podatnikObiekt.dokumentyksiegowe}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
             </p:panelGrid>
             

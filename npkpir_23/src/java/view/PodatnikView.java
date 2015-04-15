@@ -1045,20 +1045,21 @@ public class PodatnikView implements Serializable {
     }
     
     private void zweryfikujBazeBiezacegoPodatnika() {
-        List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
-        if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
-            for (Rodzajedok p : selected.getDokumentyksiegowe()) {
-                RodzajedokPK rodzajedokPK = new RodzajedokPK(p.getSkrot());
-                p.setRodzajedokPK(rodzajedokPK);
-                p.setPodatnikObj(selected);
-                rodzajedokDAO.dodaj(p);
-            }
-            rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
-            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
-        } else {
-            rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
-            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
-        }
+        // to bylo nam potrzebne do transformacji teraz jest juz zbedne bo klineci maja przeniesione dokumenty
+//        List<Rodzajedok> listaRodzajeDokPodatnika = rodzajedokDAO.findListaPodatnik(selected);
+//        if (listaRodzajeDokPodatnika == null || listaRodzajeDokPodatnika.size() == 0) {
+//            for (Rodzajedok p : selected.getDokumentyksiegowe()) {
+//                RodzajedokPK rodzajedokPK = new RodzajedokPK(p.getSkrot());
+//                p.setRodzajedokPK(rodzajedokPK);
+//                p.setPodatnikObj(selected);
+//                rodzajedokDAO.dodaj(p);
+//            }
+//            rodzajeDokumentowLista.addAll(rodzajedokDAO.findListaPodatnik(selected));
+//            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+//        } else {
+//            rodzajeDokumentowLista.addAll(listaRodzajeDokPodatnika);
+//            RequestContext.getCurrentInstance().update("akordeon:form6:parametryDokKsi");
+//        }
     }
     
     private void uzupelnijListyKont() {

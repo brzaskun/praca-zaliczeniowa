@@ -212,7 +212,7 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
-            rodzajedokKlienta.addAll(podX.getDokumentyksiegowe());
+            rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX));
             nieVatowiec = ParametrView.zwrocParametr(podX.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
         }
         //pobranie ostatniego dokumentu

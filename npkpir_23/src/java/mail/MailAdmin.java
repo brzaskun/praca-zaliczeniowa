@@ -28,10 +28,10 @@ import view.WpisView;
 @Stateless
 public class MailAdmin implements Serializable {
 
-    public static void mailAdmin(String adres, String temat, String tresc) throws MessagingException {
-        MailSetUp mailSetUp = new MailSetUp();
-        MimeMessage message = mailSetUp.logintoMailAdmin(adres);
+    public static void mailAdmin(String adres, String temat, String tresc)  {
         try {
+            MailSetUp mailSetUp = new MailSetUp();
+            MimeMessage message = mailSetUp.logintoMailAdmin(adres);
             message.setSubject(MimeUtility.encodeText(temat, "UTF-8", "Q"));
             MimeBodyPart mbp1 = new MimeBodyPart();
             String tresczpodpisem = tresc.concat(Mail.stopka);
@@ -74,7 +74,7 @@ public class MailAdmin implements Serializable {
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
-         }
+         } 
         
     }
     
@@ -102,7 +102,7 @@ public class MailAdmin implements Serializable {
              
          } catch (MessagingException e) {
              throw new RuntimeException(e);
-         }
+        } 
         
     }
     

@@ -8,6 +8,8 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -43,7 +45,7 @@ public class MailSetUp implements Serializable{
 //        firmafaktury = wpisView.getPodatnikObiekt().getNazwadlafaktury();
 //    }
 
-    public static MimeMessage logintoMail(WpisView wpisView) throws MessagingException, UnsupportedEncodingException {
+    public static MimeMessage logintoMail(WpisView wpisView) {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -62,8 +64,18 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
+        try {
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
         try {
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
@@ -74,7 +86,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView) throws MessagingException, UnsupportedEncodingException {
+    public static MimeMessage logintoMailFakt(Klienci klient, WpisView wpisView)  {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
         Properties props = new Properties();
@@ -93,8 +105,18 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
+        try {
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(klient.getEmail()));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
         try {
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
@@ -105,7 +127,7 @@ public class MailSetUp implements Serializable{
         return message;
     }
     
-     public static MimeMessage logintoMailAdmin(String adreskontrahenta) throws MessagingException, UnsupportedEncodingException {
+     public static MimeMessage logintoMailAdmin(String adreskontrahenta) {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -125,12 +147,22 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
+        try {
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return message;
     }
      
-     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) throws MessagingException, UnsupportedEncodingException {
+     public static MimeMessage logintoMailZUS(String adreskontrahenta, String wysylajacy) {
         final String username = "info@e-taxman.pl";
         final String password = "Pufikun7005*";
 
@@ -149,9 +181,15 @@ public class MailSetUp implements Serializable{
                     }
                 });
         MimeMessage message = new MimeMessage(session);
-        message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
-        message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
-        message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
+        try {
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
+            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));
+        } catch (MessagingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return message;
     }
     
