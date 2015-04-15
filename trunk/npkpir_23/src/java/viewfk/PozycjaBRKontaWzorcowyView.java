@@ -8,7 +8,7 @@ package viewfk;
 import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaDAO;
+import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
@@ -47,7 +47,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
-    private KontopozycjaDAO kontopozycjaDAO;
+    private KontopozycjaBiezacaDAO kontopozycjaDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject

@@ -27,7 +27,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-<!--                <p:commandButton value="zapamiętaj" actionListener="9{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>-->
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>
             </p:panelGrid>
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 

@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "ukladBR, konto")
+        @UniqueConstraint(columnNames = "ukladBR, kontoID")
 })
 @XmlRootElement
 @NamedQueries({
@@ -32,6 +32,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaZapis.findByRok", query = "SELECT k FROM KontopozycjaZapis k WHERE k.ukladBR.rok = :rok")})
 public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public KontopozycjaZapis() {
+    }
+
+    
+    public KontopozycjaZapis(KontopozycjaBiezaca p) {
+        this.idKP = p.idKP;
+        this.kontoID = p.kontoID;
+        this.pozycjaMa = p.pozycjaMa;
+        this.pozycjaWn = p.pozycjaWn;
+        this.stronaMa = p.stronaMa;
+        this.stronaWn = p.stronaWn;
+        this.syntetykaanalityka = p.syntetykaanalityka;
+        this.ukladBR = p.ukladBR;
+    }
+
+       
 
     public Integer getIdKP() {
         return idKP;

@@ -8,7 +8,7 @@ package beansFK;
 
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaDAO;
+import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.KontoKwota;
@@ -109,13 +109,13 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaDAO kontopozycjarzisDAO, UkladBR uklad, WpisView wpisView) {
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjarzisDAO, UkladBR uklad, WpisView wpisView) {
         List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
         for (Konto p : kontapobrane) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
         }
-        List<KontopozycjaBiezaca> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(uklad);
+        List<KontopozycjaBiezaca> kontopozycjarzis = kontopozycjarzisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
         for (KontopozycjaBiezaca p : kontopozycjarzis) {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(p);
@@ -263,7 +263,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaDAO kontopozycjaDAO) {
+    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaBiezacaDAO kontopozycjaDAO) {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto);
         for (Konto p : lista) {
             if (pozycja == null) {

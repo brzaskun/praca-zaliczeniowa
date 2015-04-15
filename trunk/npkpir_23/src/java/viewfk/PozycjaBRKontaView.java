@@ -8,12 +8,15 @@ package viewfk;
 import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
-import daoFK.KontopozycjaDAO;
+import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
+import entityfk.KontopozycjaSuper;
+import entityfk.KontopozycjaZapis;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -47,7 +50,9 @@ public class PozycjaBRKontaView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
-    private KontopozycjaDAO kontopozycjaDAO;
+    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
@@ -73,7 +78,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void pobierzukladkontoR() {
         przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaDAO, uklad, wpisView);
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, uklad, wpisView);
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
@@ -93,7 +98,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void pobierzukladkontoB(String aktywapasywa) {
         przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaDAO, uklad, wpisView);
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, uklad, wpisView);
         pozycje = new ArrayList<>();
         try {
             if (aktywapasywa.equals("aktywa")) {
@@ -180,7 +185,7 @@ public class PozycjaBRKontaView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaDAO);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaBiezacaDAO);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
@@ -233,7 +238,7 @@ public class PozycjaBRKontaView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaDAO);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaBiezacaDAO);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
@@ -581,7 +586,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaDAO);
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaBiezacaDAO);
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
@@ -660,7 +665,7 @@ public class PozycjaBRKontaView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaDAO);
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaBiezacaDAO);
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
@@ -754,6 +759,23 @@ public class PozycjaBRKontaView implements Serializable {
             Collections.sort(kontabezprzydzialu, new Kontocomparator());
         }
     }
+    
+    public void zaksiegujzmianypozycji(String rb) {
+        if (rb.equals("r")) {
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+            List pozycjezapisane = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+            if (pozycjezapisane != null) {
+                for (Object p : pozycjezapisane) {
+                    kontopozycjaZapisDAO.destroy(p);
+                }
+            }
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            }
+        }
+        Msg.msg("Zapamiętano przyporządkowane pozycje");
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
 
     public ArrayList<PozycjaRZiSBilans> getPozycje() {
@@ -853,4 +875,10 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
 //</editor-fold>
+    public static void main(String[] args) {
+        KontopozycjaBiezaca kb = new KontopozycjaBiezaca();
+        KontopozycjaZapis kz = new KontopozycjaZapis(kb);
+        System.out.println("k");
+    }
 }
+
