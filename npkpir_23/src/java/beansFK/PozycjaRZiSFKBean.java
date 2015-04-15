@@ -9,12 +9,14 @@ package beansFK;
 import converter.RomNumb;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
+import entityfk.KontopozycjaZapis;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
@@ -109,16 +111,16 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjarzisDAO, UkladBR uklad, WpisView wpisView) {
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView) {
         List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
         for (Konto p : kontapobrane) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
         }
-        List<KontopozycjaBiezaca> kontopozycjarzis = kontopozycjarzisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
-        for (KontopozycjaBiezaca p : kontopozycjarzis) {
+        List<KontopozycjaZapis> kontopozycjarzis = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+        for (KontopozycjaZapis p : kontopozycjarzis) {
             Konto konto = p.getKontoID();
-            konto.setKontopozycjaID(p);
+            konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
             kontoDAO.edit(konto);
         }
     }

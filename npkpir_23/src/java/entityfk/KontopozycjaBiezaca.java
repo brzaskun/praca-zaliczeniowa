@@ -33,6 +33,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public KontopozycjaBiezaca(KontopozycjaZapis p) {
+        this.idKP = p.idKP;
+        this.kontoID = p.kontoID;
+        this.pozycjaMa = p.pozycjaMa;
+        this.pozycjaWn = p.pozycjaWn;
+        this.stronaMa = p.stronaMa;
+        this.stronaWn = p.stronaWn;
+        this.syntetykaanalityka = p.syntetykaanalityka;
+        this.ukladBR = p.ukladBR;
+    }
+
+    public KontopozycjaBiezaca() {
+    }
+    
+    
+
     public Integer getIdKP() {
         return idKP;
     }
