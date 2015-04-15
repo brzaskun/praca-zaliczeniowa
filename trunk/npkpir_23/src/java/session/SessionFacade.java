@@ -526,8 +526,8 @@ public class SessionFacade<T> implements Serializable{
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
     
-    public Konto findKontoWzorcowy(String numer) {
-        return (Konto) em.createNamedQuery("Konto.findByPelnynumerWzorcowy").setParameter("pelnynumer", numer).setParameter("podatnik", "Wzorcowy").getSingleResult();
+    public Konto findKontoWzorcowy(String numer, int rok) {
+        return (Konto) em.createNamedQuery("Konto.findByPelnynumerWzorcowy").setParameter("pelnynumer", numer).setParameter("podatnik", "Wzorcowy").setParameter("rok", rok).getSingleResult();
     }
     
     public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
@@ -785,11 +785,27 @@ public class SessionFacade<T> implements Serializable{
             return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         }
     }
+    
+    public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        }
+    }
     public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView,String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } else {
             return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        }
+    }
+    
+    public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, WpisView wpisView,String aktywa0pasywa1) {
+        if (bilansowewynikowe.equals("bilansowe")) {
+            return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+        } else {
+            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", "Wzorcowy").setParameter("rok",  wpisView.getRokWpisu()).getResultList();
         }
     }
 
