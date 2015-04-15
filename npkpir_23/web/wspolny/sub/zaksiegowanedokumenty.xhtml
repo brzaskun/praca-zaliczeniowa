@@ -49,7 +49,7 @@
                          rowKey="#{item}" selectionMode="single" 
                          style="width: 1250px;" skipChildren="true"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
-                         sortBy="#{item}" sortFunction="#{dokfkView.sortZaksiegowaneDok}" >
+                         sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}" >
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column width="20">

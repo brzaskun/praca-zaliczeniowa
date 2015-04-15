@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.KontopozycjaBiezaca;
+import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.List;
@@ -20,24 +21,24 @@ import session.SessionFacade;
  */
 @Named
 @Stateless
-public class KontopozycjaDAO extends DAO implements Serializable{
+public class KontopozycjaZapisDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade sessionFacade;
 
-    public KontopozycjaDAO() {
-        super(KontopozycjaBiezaca.class);
+    public KontopozycjaZapisDAO() {
+        super(KontopozycjaZapis.class);
     }
 
-    public KontopozycjaDAO(Class entityClass) {
+    public KontopozycjaZapisDAO(Class entityClass) {
         super(entityClass);
     }
     
     
-    public List<KontopozycjaBiezaca> findKontaPodatnikUklad (UkladBR uklad) {
+    public List<KontopozycjaZapis> findKontaPozycjaBiezacaPodatnikUklad (UkladBR uklad) {
        try {
-            return sessionFacade.findKontaPodatnikUklad(uklad);
+            return sessionFacade.findKontaZapisPodatnikUklad(uklad);
         } catch (Exception e) {
             return null;
         }
