@@ -14,7 +14,7 @@ import daoFK.PozycjaRZiSDAO;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Kontopozycja;
+import entityfk.KontopozycjaBiezaca;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
@@ -115,8 +115,8 @@ public class PozycjaRZiSFKBean {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
         }
-        List<Kontopozycja> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(uklad);
-        for (Kontopozycja p : kontopozycjarzis) {
+        List<KontopozycjaBiezaca> kontopozycjarzis = kontopozycjarzisDAO.findKontaPodatnikUklad(uklad);
+        for (KontopozycjaBiezaca p : kontopozycjarzis) {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(p);
             kontoDAO.edit(konto);
@@ -247,7 +247,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void oznaczmacierzyste(Konto dziecko, Kontopozycja kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static void oznaczmacierzyste(Konto dziecko, KontopozycjaBiezaca kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView) {
         Konto kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), wpisView);
         if (kontomacierzyste.getKontopozycjaID() == null) {
             kp.setSyntetykaanalityka("analityka");
@@ -263,7 +263,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaDAO kontopozycjaDAO) {
+    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaDAO kontopozycjaDAO) {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto);
         for (Konto p : lista) {
             if (pozycja == null) {
@@ -281,7 +281,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma) {
+    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma) {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
         for (Konto p : lista) {
              if (pozycja == null) {
@@ -304,13 +304,13 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(Konto konto, Kontopozycja pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma, boolean aktywa0pasywa1) {
+    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma, boolean aktywa0pasywa1) {
         List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
         for (Konto p : lista) {
              if (pozycja == null) {
                 p.setKontopozycjaID(null);
             } else {
-                Kontopozycja kp = p.getKontopozycjaID();
+                KontopozycjaBiezaca kp = p.getKontopozycjaID();
                 if (wnma.equals("wn")) {
                     kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                     kp.setPozycjaWn(pozycja.getPozycjaWn());

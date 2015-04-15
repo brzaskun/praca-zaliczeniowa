@@ -5,7 +5,7 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.Kontopozycja;
+import entityfk.KontopozycjaBiezaca;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.List;
@@ -27,7 +27,7 @@ public class KontopozycjaDAO extends DAO implements Serializable{
     private SessionFacade sessionFacade;
 
     public KontopozycjaDAO() {
-        super(Kontopozycja.class);
+        super(KontopozycjaBiezaca.class);
     }
 
     public KontopozycjaDAO(Class entityClass) {
@@ -35,7 +35,7 @@ public class KontopozycjaDAO extends DAO implements Serializable{
     }
     
     
-    public List<Kontopozycja> findKontaPodatnikUklad (UkladBR uklad) {
+    public List<KontopozycjaBiezaca> findKontaPodatnikUklad (UkladBR uklad) {
        try {
             return sessionFacade.findKontaPodatnikUklad(uklad);
         } catch (Exception e) {

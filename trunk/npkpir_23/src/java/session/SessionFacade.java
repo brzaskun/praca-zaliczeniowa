@@ -47,7 +47,7 @@ import entityfk.DokfkPK;
 import entityfk.EVatwpisFK;
 import entityfk.Kliencifk;
 import entityfk.Konto;
-import entityfk.Kontopozycja;
+import entityfk.KontopozycjaBiezaca;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
 import entityfk.PozycjaBilans;
@@ -872,8 +872,8 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
-    public List<Kontopozycja> findKontaPodatnikUklad(UkladBR uklad) {
-        return em.createNamedQuery("Kontopozycja.findByUklad").setParameter("uklad", uklad).getResultList();
+    public List<KontopozycjaBiezaca> findKontaPodatnikUklad(UkladBR uklad) {
+        return em.createNamedQuery("KontopozycjaBiezaca.findByUklad").setParameter("uklad", uklad).getResultList();
     }
 
     public Object findVatuepodatnik(String rokWpisu, String symbolokresu, String podatnikWpisu) {

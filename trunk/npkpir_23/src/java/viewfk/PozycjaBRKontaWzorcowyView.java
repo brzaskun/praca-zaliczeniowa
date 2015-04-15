@@ -13,7 +13,7 @@ import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
-import entityfk.Kontopozycja;
+import entityfk.KontopozycjaBiezaca;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -168,7 +168,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = new Kontopozycja();
+                KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
                 kp.setPozycjaWn(wybranapozycja);
                 kp.setPozycjaMa(wybranapozycja);
                 kp.setStronaWn("99");
@@ -216,7 +216,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = new Kontopozycja();
+                KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
                 kp.setPozycjaWn(wybranapozycja);
                 kp.setPozycjaMa(wybranapozycja);
                 if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -259,7 +259,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = new Kontopozycja();
+                KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     kp.setStronaWn("88");
@@ -306,7 +306,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = konto.getKontopozycjaID();
+                KontopozycjaBiezaca kp = konto.getKontopozycjaID();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     kp.setStronaWn("88");
@@ -345,7 +345,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = new Kontopozycja();
+                KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -385,7 +385,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = new Kontopozycja();
+                KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -440,7 +440,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 wykazkont.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = konto.getKontopozycjaID();
+                KontopozycjaBiezaca kp = konto.getKontopozycjaID();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -472,7 +472,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                     przyporzadkowanekonta.remove(konto);
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-                Kontopozycja kp = konto.getKontopozycjaID();
+                KontopozycjaBiezaca kp = konto.getKontopozycjaID();
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach

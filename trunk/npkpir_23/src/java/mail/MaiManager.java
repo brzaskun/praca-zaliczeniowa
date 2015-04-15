@@ -24,7 +24,7 @@ import javax.mail.internet.MimeUtility;
 @Stateless
 public class MaiManager implements Serializable {
 
-    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException {
+    public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException, UnsupportedEncodingException {
         MailSetUp mailSetUp = new MailSetUp();
         MimeMessage message = mailSetUp.logintoMailZUS(adres, wysylajacy);
         try {
@@ -45,6 +45,10 @@ public class MaiManager implements Serializable {
     }
     
     public static void main (String[] args) throws MessagingException {
-        MaiManager.mailManagerZUS("brzaskun@wp.pl", "Test", "test \n test", "brzaskun@wp.pl");
+        try {
+            MaiManager.mailManagerZUS("brzaskun@wp.pl", "Test", "test \n test", "brzaskun@wp.pl");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(MaiManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

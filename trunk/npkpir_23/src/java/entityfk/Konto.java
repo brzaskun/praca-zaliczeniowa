@@ -143,7 +143,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String zwyklerozrachszczegolne;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
-    private Kontopozycja kontopozycjaID;
+    private KontopozycjaBiezaca kontopozycjaID;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -324,11 +324,11 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         this.level = level;
     }
 
-    public Kontopozycja getKontopozycjaID() {
+    public KontopozycjaBiezaca getKontopozycjaID() {
         return kontopozycjaID;
     }
 
-    public void setKontopozycjaID(Kontopozycja kontopozycjaID) {
+    public void setKontopozycjaID(KontopozycjaBiezaca kontopozycjaID) {
         this.kontopozycjaID = kontopozycjaID;
     }
 
