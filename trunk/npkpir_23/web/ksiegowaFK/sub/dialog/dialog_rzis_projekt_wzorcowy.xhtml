@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:dialog id="dialogrzisprojektwzorcowy" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="rzisprojektwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
+              resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
         <h:form id="formprojektwzorcowy">
             <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 200px;">
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>

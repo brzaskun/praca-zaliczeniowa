@@ -75,28 +75,28 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void pobierzukladkontoR() {
-//        przyporzadkowanekonta = new ArrayList<>();
-//        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKontaWzorcowy(kontoDAO, kontopozycjaDAO, uklad, wpisView);
-//        pozycje = new ArrayList<>();
-//        try {
-//            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
-//            if (pozycje.isEmpty()) {
-//                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-//                Msg.msg("i", "Dodaje pusta pozycje");
-//            }
-//        } catch (Exception e) {
-//        }
-//        drugiinit();
-//        uzupelnijpozycjeOKontaR(pozycje);
-//        rootProjektKonta.getChildren().clear();
-//        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
-//        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
-//        Msg.msg("i", "Pobrano układ ");
+        przyporzadkowanekonta = new ArrayList<>();
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true);
+        pozycje = new ArrayList<>();
+        try {
+            pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
+            if (pozycje.isEmpty()) {
+                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+        } catch (Exception e) {
+        }
+        drugiinit();
+        uzupelnijpozycjeOKontaR(pozycje);
+        rootProjektKonta.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
+        Msg.msg("i", "Pobrano układ ");
     }
 
     public void pobierzukladkontoB(String aktywapasywa) {
         przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView);
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true);
         pozycje = new ArrayList<>();
         try {
             if (aktywapasywa.equals("aktywa")) {

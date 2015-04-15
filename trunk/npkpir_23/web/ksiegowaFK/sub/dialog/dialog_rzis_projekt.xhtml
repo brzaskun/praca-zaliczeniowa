@@ -27,7 +27,7 @@
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
                     </f:facet>
-                    <p:ajax event="select" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <p:spacer width="20"/>
