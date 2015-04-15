@@ -27,7 +27,8 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.zwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.zwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-<!--                <p:commandButton value="zapamiętaj" actionListener="9{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>-->
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked"/>
+
             </p:panelGrid>
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
@@ -47,7 +48,7 @@
                     </p:column>
                 </p:treeTable>
                 <p:column>
-                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.wykazkont}" emptyMessage="wszystkie konta przyporządkowane"
+                        <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
                                      style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>

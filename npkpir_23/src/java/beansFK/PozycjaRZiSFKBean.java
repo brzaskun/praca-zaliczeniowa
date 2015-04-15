@@ -34,7 +34,7 @@ import view.WpisView;
 @Stateless
 public class PozycjaRZiSFKBean {
     
-    public static void wyluskajNieprzyporzadkowaneAnalityki(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getKontopozycjaID() != null) {
                 if (p.getKontopozycjaID().getPozycjaWn() == null) {
@@ -42,8 +42,13 @@ public class PozycjaRZiSFKBean {
                         wykazkont.add(p);
                     }
                 } else if (p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
-                    wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, wpisView);
+                    List<Konto> potomki = null;
+                    if (wzorcowy) {
+                        potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, p.getPelnynumer());
+                    } else {
+                        potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+                    }
+                    wyluskajNieprzyporzadkowaneAnalitykiRZiS(potomki, wykazkont, kontoDAO, wpisView, wzorcowy);
                 }
             } else {
                     wykazkont.add(p);
@@ -51,7 +56,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-     public static void wyluskajNieprzyporzadkowaneAnalityki(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, boolean aktywa0pasywa1) {
+     public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getKontopozycjaID() != null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null)) {
@@ -60,14 +65,24 @@ public class PozycjaRZiSFKBean {
                     }
                     //tu szukamy przyporzadkowanych analitych
                 } else if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+                    List<Konto> potomki = null;
+                    if (wzorcowy) {
+                        potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, p.getPelnynumer());
+                    } else {
+                        potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+                    }
                     for (Konto r : potomki) {
-                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, wpisView, aktywa0pasywa1);
+                        wyluskajNieprzyporzadkowaneAnalitykiBilans(potomki, wykazkont, kontoDAO, wpisView, aktywa0pasywa1, wzorcowy);
                     }
                 } else if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    List<Konto> potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+                    List<Konto> potomki = null;
+                    if (wzorcowy) {
+                        potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, p.getPelnynumer());
+                    } else {
+                        potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+                    }
                     for (Konto r : potomki) {
-                        wyluskajNieprzyporzadkowaneAnalityki(potomki, wykazkont, kontoDAO, wpisView, aktywa0pasywa1);
+                        wyluskajNieprzyporzadkowaneAnalitykiBilans(potomki, wykazkont, kontoDAO, wpisView, aktywa0pasywa1, wzorcowy);
                     }
                 //ta czesc dotyczy rozrachunkowych, to nie bedzie dotyczych zwykłych
                 } else if (p.getKontopozycjaID().getPozycjaWn() == null && aktywa0pasywa1 == false) {
@@ -79,7 +94,6 @@ public class PozycjaRZiSFKBean {
                         wykazkont.add(p);
                     }
                 }
-
             } else {
                wykazkont.add(p);
             }
@@ -130,22 +144,29 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", wpisView, aktywa0pasywa1);
+    public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy) {
+        List<Konto> przyporzadkowane = null;
+        if (wzorcowy) {
+            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja, "wynikowe", wpisView, aktywa0pasywa1);
+        } else {
+            przyporzadkowane = kontoDAO.findKontaPrzyporzadkowane(pozycja, "wynikowe", wpisView, aktywa0pasywa1);
+        }
         List<Konto> returnlist = new ArrayList<>();
         int level = 0;
-        for (Konto p : lista) {
-            if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja)) {
-                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                     if (!returnlist.contains(p)) {
-                        returnlist.add(p);
-                     }
+        if (przyporzadkowane != null) {
+            for (Konto p : przyporzadkowane) {
+                if (p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaWn().equals(pozycja)) {
+                    if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                         if (!returnlist.contains(p)) {
+                            returnlist.add(p);
+                         }
+                    }
                 }
-            }
-            if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja)) {
-                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                    if (!returnlist.contains(p)) {
-                        returnlist.add(p);
+                if (p.getKontopozycjaID().getPozycjaMa() != null && p.getKontopozycjaID().getPozycjaMa().equals(pozycja)) {
+                    if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                        if (!returnlist.contains(p)) {
+                            returnlist.add(p);
+                        }
                     }
                 }
             }
@@ -192,18 +213,24 @@ public class PozycjaRZiSFKBean {
 
     }
     
-    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, boolean aktywa0pasywa1) {
-        List<Konto> lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", wpisView, aktywa0pasywa1);
+    public static void wyszukajprzyporzadkowaneRLista(KontoDAOfk kontoDAO, PozycjaRZiSBilans pozycja, PozycjaRZiSDAO pozycjaRZiSDAO, WpisView wpisView, boolean wzorcowy) {
+        List<Konto> lista = new ArrayList<>();
+        if (wzorcowy) {
+            lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "wynikowe", wpisView, wzorcowy);
+        } else {
+            lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", wpisView, wzorcowy);
+        }
         List<KontoKwota> kontokwotalist = new ArrayList<>();
-        for (Konto p : lista) {
-            if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                KontoKwota t = new KontoKwota(p,0.0);
-                kontokwotalist.add(t);
+        if (lista != null) {
+            for (Konto p : lista) {
+                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                    KontoKwota t = new KontoKwota(p,0.0);
+                    kontokwotalist.add(t);
+                }
             }
         }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
         pozycjaRZiSDAO.edit(pozycja);
-
     }
     
     public static String zwrocNastepnySymbol(int level) {
@@ -254,8 +281,13 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void oznaczmacierzyste(Konto dziecko, KontopozycjaBiezaca kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView) {
-        Konto kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), wpisView);
+    public static void oznaczmacierzyste(Konto dziecko, KontopozycjaBiezaca kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy) {
+        Konto kontomacierzyste = null;
+        if (wzorcowy) {
+            kontomacierzyste = kontoDAO.findKontoWzorcowy(dziecko.getMacierzyste(), wpisView);
+        } else {
+            kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), wpisView);
+        }
         if (kontomacierzyste.getKontopozycjaID() == null) {
             kp.setSyntetykaanalityka("analityka");
             kp.setStronaWn(dziecko.getKontopozycjaID().getStronaWn());
@@ -265,48 +297,62 @@ public class PozycjaRZiSFKBean {
             kontomacierzyste.setKontopozycjaID(kp);
             kontoDAO.edit(kontomacierzyste);
             if (kontomacierzyste.getMacierzysty() > 0) {
-                oznaczmacierzyste(kontomacierzyste, kp, uklad, kontoDAO, wpisView);
+                oznaczmacierzyste(kontomacierzyste, kp, uklad, kontoDAO, wpisView, wzorcowy);
             }
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaBiezacaDAO kontopozycjaDAO) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto);
-        for (Konto p : lista) {
-            if (pozycja == null) {
-                p.setKontopozycjaID(null);
-            } else {
-                pozycja.setKontoID(p);
-                pozycja.setSyntetykaanalityka("syntetyka");
-                p.setKontopozycjaID(pozycja);
-                
-            }
-            kontoDAO.edit(p);
-            if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, wpisView, kontopozycjaDAO);
+    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaBiezacaDAO kontopozycjaDAO, boolean wzorcowy) {
+        List<Konto> potomki = null;
+        if (wzorcowy) {
+            potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, konto);
+        } else {
+            potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, konto);
+        }
+        if (potomki != null) {
+            for (Konto p : potomki) {
+                if (pozycja == null) {
+                    p.setKontopozycjaID(null);
+                } else {
+                    pozycja.setKontoID(p);
+                    pozycja.setSyntetykaanalityka("syntetyka");
+                    p.setKontopozycjaID(pozycja);
+
+                }
+                kontoDAO.edit(p);
+                if (p.isMapotomkow() == true) {
+                    przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, wpisView, kontopozycjaDAO, wzorcowy);
+                }
             }
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma) {
-        List<Konto> lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
-        for (Konto p : lista) {
-             if (pozycja == null) {
-                p.setKontopozycjaID(null);
-            } else {
-                 if (wnma.equals("wn")) {
-                    pozycja.setKontoID(p);
-                    pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
-                 } else {
-                    pozycja.setKontoID(p);
-                    pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
-                 }
-                pozycja.setSyntetykaanalityka("syntetyka");
-                p.setKontopozycjaID(pozycja);
-            }
-            kontoDAO.edit(p);
-            if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowRozrachunkowe(p, pozycja, kontoDAO, wpisView, wnma);
+    public static void przyporzadkujpotkomkowRozrachunkowe(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma, boolean wzorcowy) {
+         List<Konto> potomki = null;
+        if (wzorcowy) {
+            potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, konto.getPelnynumer());
+        } else {
+            potomki = kontoDAO.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+        }
+        if (potomki != null) {
+            for (Konto p : potomki) {
+                 if (pozycja == null) {
+                    p.setKontopozycjaID(null);
+                } else {
+                     if (wnma.equals("wn")) {
+                        pozycja.setKontoID(p);
+                        pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                     } else {
+                        pozycja.setKontoID(p);
+                        pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
+                     }
+                    pozycja.setSyntetykaanalityka("syntetyka");
+                    p.setKontopozycjaID(pozycja);
+                }
+                kontoDAO.edit(p);
+                if (p.isMapotomkow() == true) {
+                    przyporzadkujpotkomkowRozrachunkowe(p, pozycja, kontoDAO, wpisView, wnma, wzorcowy);
+                }
             }
         }
     }
