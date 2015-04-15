@@ -111,8 +111,13 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView) {
-        List<Konto> kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy) {
+        List<Konto> kontapobrane = new ArrayList<>();
+        if (wzorcowy) {
+            kontapobrane = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
+        } else {
+            kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
+        }
         for (Konto p : kontapobrane) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
