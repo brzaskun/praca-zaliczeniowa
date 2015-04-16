@@ -134,7 +134,7 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
       name="Dokfk_Cechazapisu",
       joinColumns={

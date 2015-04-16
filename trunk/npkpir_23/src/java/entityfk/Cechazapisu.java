@@ -36,9 +36,9 @@ public class Cechazapisu implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CechazapisuPK cechazapisuPK  = new CechazapisuPK();
-    @ManyToMany(mappedBy = "cechadokumentuLista", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "cechadokumentuLista")
     private List<Dokfk> dokfkLista;
-    @ManyToMany(mappedBy = "cechazapisuLista", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "cechazapisuLista")
     private List<StronaWiersza> stronaWierszaLista;
             
     
