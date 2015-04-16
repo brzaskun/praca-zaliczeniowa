@@ -466,7 +466,7 @@ public class PlanKontView implements Serializable {
      private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
         konto.setPodatnik("Wzorcowy");
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAOfk.findKontoWzorcowy(pelnynumer);
+            Konto macierzyste = kontoDAOfk.findKontoWzorcowy(pelnynumer, wpisView);
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
@@ -536,7 +536,7 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontWzorcowych() {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy");
+        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy", wpisView);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
 

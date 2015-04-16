@@ -58,7 +58,7 @@ public class KontaFKBean implements Serializable{
         }
     }
     
-    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy) {
+    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -69,7 +69,7 @@ public class KontaFKBean implements Serializable{
          for (Konto p : wykazkont) {
             if (!"0".equals(p.getMacierzyste())) {
                 try {
-                    Konto macierzyste = kontoDAO.findKontoWzorcowy(p.getMacierzyste());
+                    Konto macierzyste = kontoDAO.findKontoWzorcowy(p.getMacierzyste(), wpisView);
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
