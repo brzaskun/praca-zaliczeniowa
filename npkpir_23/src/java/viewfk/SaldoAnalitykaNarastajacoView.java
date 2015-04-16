@@ -146,11 +146,11 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
 
     private void dodajdolisty(SaldoKontoNarastajaco saldoKonto, List<SaldoKontoNarastajaco> przygotowanalista) {
-        if (saldoKonto.getObrotyBoWn() > 0.0) {
+        if (saldoKonto.getObrotyBoWn() != 0.0 || saldoKonto.getBoWn() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }
-        if (saldoKonto.getObrotyBoMa() > 0.0) {
+        if (saldoKonto.getObrotyBoMa() != 0.0 || saldoKonto.getBoMa() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }
