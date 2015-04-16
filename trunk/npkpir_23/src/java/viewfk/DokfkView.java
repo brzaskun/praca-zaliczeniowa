@@ -391,7 +391,7 @@ private static final long serialVersionUID = 1L;
                     selected.uzupelnijwierszeodane();
                     //selected.przeliczKwotyWierszaDoSumyDokumentu();
                 } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
-                    dolaczNowyWiersz(wierszbiezacy, false, nrgrupyaktualny);
+                    dolaczNowyWiersz(wierszbiezacy, false, nrgrupy);
                 }
             }
         } catch (Exception e) {
@@ -931,24 +931,29 @@ private static final long serialVersionUID = 1L;
     }
     
     public void edytujWierszZKwotamiRK() {
-        String dzien = ewidencjaVatRK.getDatadokumentu().split("-")[2];
-        wierszRK.setDataWalutyWiersza(dzien);
-        EVatwpisFK e = ewidencjaVatRK;
-        Wiersz w = e.getWiersz();
-        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
-        if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            rozliczEdytujVatKosztRK(e, wartosciVAT);
-        } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            rozliczEdytujVatPrzychodRK(e, wartosciVAT);
-        } 
-        for (Wiersz p : selected.getListawierszy()) {
-            przepiszWaluty(p);
+        if (ewidencjaVatRK.getNetto() == 0.0 && ewidencjaVatRK.getVat() == 0.0) {
+            selected.getEwidencjaVAT().remove(ewidencjaVatRK);
+            Msg.msg("Usunieto ewidencje VAT do bieżącego wiersza");
+        } else {
+            String dzien = ewidencjaVatRK.getDatadokumentu().split("-")[2];
+            wierszRK.setDataWalutyWiersza(dzien);
+            EVatwpisFK e = ewidencjaVatRK;
+            Wiersz w = e.getWiersz();
+            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
+            if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
+                rozliczEdytujVatKosztRK(e, wartosciVAT);
+            } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
+                rozliczEdytujVatPrzychodRK(e, wartosciVAT);
+            } 
+            for (Wiersz p : selected.getListawierszy()) {
+                przepiszWaluty(p);
+            }
+            ObslugaWiersza.przenumerujSelected(selected);
+            String update = "formwpisdokument:dataList";
+            RequestContext.getCurrentInstance().update(update);
+            ewidencjaVatRK = new EVatwpisFK();
+            Msg.msg("Zachowano zapis w ewidencji VAT");
         }
-        ObslugaWiersza.przenumerujSelected(selected);
-        String update = "formwpisdokument:dataList";
-        RequestContext.getCurrentInstance().update(update);
-        ewidencjaVatRK = new EVatwpisFK();
-        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
     

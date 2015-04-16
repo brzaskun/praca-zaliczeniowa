@@ -157,6 +157,7 @@ public class EwidencjaVatView implements Serializable {
             stworzenieEwidencjiCzescWspolna(vatokres);
             RequestContext.getCurrentInstance().update("form:akorderonbis");
         } catch (Exception e) {
+            System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje
     }
@@ -503,8 +504,12 @@ public class EwidencjaVatView implements Serializable {
                     List<EVatwpisFK> listatymczasowa = new ArrayList<>();
                     for (EVatwpisFK p : listadokvat) {
                         //if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
-                        if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
-                            listatymczasowa.add(p);
+                        try {
+                            if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
+                                listatymczasowa.add(p);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("bledny rok mc w "+p.toString());
                         }
                     }
                     return listatymczasowa;
