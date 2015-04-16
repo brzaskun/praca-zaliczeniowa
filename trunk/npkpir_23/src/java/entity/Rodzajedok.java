@@ -85,6 +85,11 @@ public class Rodzajedok implements Serializable {
         this.rodzajedokPK = new RodzajedokPK();
     }
 
+    public Rodzajedok(RodzajedokPK rodzajedokPK) {
+        this.rodzajedokPK = rodzajedokPK;
+    }
+
+    
     public Rodzajedok(String skrot) {
         RodzajedokPK rodzajedokPK = new RodzajedokPK(skrot);
         this.setRodzajedokPK(rodzajedokPK);
@@ -92,6 +97,10 @@ public class Rodzajedok implements Serializable {
     
     public Rodzajedok(String skrot, Podatnik podatnik) {
         this.rodzajedokPK = new RodzajedokPK("VAT", podatnik.getNazwapelna());
+    }
+    
+     public Rodzajedok(String skrot, String skrot2) {
+        this.skrot = skrot;
     }
 
     public String getSkrot() {
