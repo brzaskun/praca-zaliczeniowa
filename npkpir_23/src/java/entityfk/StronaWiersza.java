@@ -101,7 +101,7 @@ public class StronaWiersza implements Serializable{
     private List<Transakcja> nowetransakcje;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
     private List<Transakcja> platnosci;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
       name="StronaWiersza_Cechazapisu",
       joinColumns={
