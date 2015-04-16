@@ -62,10 +62,12 @@
                 </p:column>
               
             </p:panelGrid>
+
+
             <p:dataTable id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym/nie pobrano jeszcze zapisów"
                          styleClass="grid1"  widgetVar="tablicasaldaanalitycznenarastajaco"
-                         frozenColumns="3" scrollable="true" scrollHeight="625" selectionMode="single" style="max-width: 100%"
+                         frozenColumns="3" scrollable="true" scrollHeight="500" scrollRows="10" selectionMode="single" style="max-width: 100%; padding: -10px;"
                          >
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
@@ -76,10 +78,10 @@
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
                 <p:column styleClass="kontofrozen" headerText="konto pełny numer" width="50" >
-                    <h:outputText value="#{loop.konto.pelnynumer}"/>
+                    <h:outputText  value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  styleClass="opisfrozen" headerText="opis" width="100" >
-                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                    <h:outputText  value="#{loop.konto.nazwapelna.length() gt 37 ? loop.konto.nazwapelna.substring(0,36) : loop.konto.nazwapelna.toLowerCase()}"/>
                 </p:column>
                 <p:column headerText="boWn" width="50" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
@@ -165,6 +167,8 @@
                     <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
             </p:dataTable>
+            <p:spacer height="10"/>
+            <h:outputText value="lolo"/>
         </h:form>
     </p:dialog>
 </ui:composition>
