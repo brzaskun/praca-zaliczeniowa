@@ -37,6 +37,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class CitView implements Serializable {
+    private static final long serialVersionUID = 1L;
     private List<CitBiezacyPozycja> listaPrzychody;
     private List<CitBiezacyPozycja> listaKoszty;
     private double razemprzychody;
