@@ -2184,6 +2184,17 @@ public void updatenetto(EVatwpisFK e, String form) {
         }
     }
 
+    public void naprawwiersznkup () {
+        if (wybranyWiersz == null) {
+            Msg.msg("e", "Nie wybrano wiersza do naprawy.");
+        } else {
+            StronaWiersza stronaWn = new StronaWiersza(wybranyWiersz, "Wn");
+            wybranyWiersz.setStronaWn(stronaWn);
+             Msg.msg("i", "Naprawilem wiersz.");
+        }
+    }
+        
+    
     public void usunWskazanyWiersz() {
         int flag = 0;
         if (wybranyWiersz == null) {
