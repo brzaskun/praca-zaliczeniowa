@@ -7,6 +7,7 @@ package comparator;
 
 import embeddable.EVatViewPola;
 import entityfk.EVatwpisFK;
+import entityfk.Wiersz;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,8 +26,10 @@ public class EVatwpisFKcomparator implements Comparator<EVatwpisFK> {
 
     @Override
     public int compare(EVatwpisFK o1, EVatwpisFK o2) {
-        String datao1 = o1.getDataoperacji();
-        String datao2 = o2.getDataoperacji();
+        Wiersz wo1 = o1.getWiersz();
+        Wiersz wo2 = o2.getWiersz();
+        String datao1 = wo1 != null ? o1.getDataoperacji() : o1.getDokfk().getDataoperacji();
+        String datao2 = wo2 != null ? o2.getDataoperacji() : o2.getDokfk().getDataoperacji();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
