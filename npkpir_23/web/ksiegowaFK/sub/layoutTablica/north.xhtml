@@ -9,24 +9,24 @@
     <p:layoutUnit position="north" size="10 0" resizable="true" closable="true" collapsible="true">
         <h:form>
             <p:menubar autoDisplay="true">
-                <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
-                <p:menuitem icon="ui-icon-document" value="dokumenty" outcome="menudokumentyFK"/>
-                <p:menuitem icon="ui-icon-pencil" value="zapisy kont" outcome="raportyFK"/>
-                <p:menuitem icon="ui-icon-contact" value="rejestry" outcome="rejestryFK"/>
-                <p:menuitem icon="ui-icon-search" value="rozrachunki" outcome="menurozrachunkiFK" />
-                <p:menuitem icon="ui-icon-note" value="słowniki" outcome="kartotekiFK"/>
-                <p:menuitem icon="ui-icon-gear" value="ustawienia" outcome="menuustawieniaFK"/>
-                <p:menuitem icon="ui-icon-star" value="bilanse" outcome="bilanseFK"/>
-                <p:menuitem icon="ui-icon-calendar" value="deklaracje" />
-                <p:menuitem icon="ui-icon-note" value="środki trw." outcome="srodkitrwaleFK"/>
-                <p:menuitem icon="ui-icon-note" value="rmk" outcome="rmkFK"/>
-                <p:menuitem icon="ui-icon-note" value="zestawienia" outcome="guestzestFK"/>
+                < <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
+                <p:menuitem icon="fa fa-stack-overflow" value="dokumenty" outcome="menudokumentyFK"/>
+                <p:menuitem icon="fa fa-pencil" value="zapisy kont" outcome="raportyFK"/>
+                <p:menuitem icon="fa fa-tasks" value="rejestry" outcome="rejestryFK"/>
+                <p:menuitem icon="fa fa-money" value="rozrachunki" outcome="menurozrachunkiFK" />
+                <p:menuitem icon="fa fa-file-text-o" value="słowniki" outcome="kartotekiFK"/>
+                <p:menuitem icon="fa fa-wrench" value="ustawienia" outcome="menuustawieniaFK"/>
+                <p:menuitem icon="fa fa-building-o" value="bilanse" outcome="bilanseFK"/>
+                <p:menuitem icon="fa fa-columns" value="deklaracje" />
+                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK"/>
+                <p:menuitem icon="fa fa-clock-o" value="rmk" outcome="rmkFK"/>
+                <p:menuitem icon="fa fa-newspaper-o" value="zestawienia" outcome="guestzestFK"/>
                 <p:menuitem value=" | "/>
-                <p:menuitem icon="ui-icon-refresh" value="inna firma" outcome="BookkeeperFK"/>
+                <p:menuitem icon="fa fa-exchange" value="inna firma" outcome="BookkeeperFK"/>
                 <p:menuitem value=" | "/>
-                <p:menuitem icon="ui-icon-help" value="pomoc" />
+                <p:menuitem icon="fa fa-question-circle" value="pomoc" />
                 <p:menuitem  value=" | " />
-                <p:menuitem icon="ui-icon-arrowrefresh-1-n" value="wyloguj" action="#{Logowanie.logout()}" />
+                <p:menuitem icon="fa fa-toggle-off" value="wyloguj" action="#{Logowanie.logout()}" />
             </p:menubar>
         </h:form>
         
