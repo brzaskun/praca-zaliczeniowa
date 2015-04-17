@@ -57,6 +57,12 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "wzorzec")
     private String wzorzec;
+//    <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+//    <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+//    <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+//    <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
+//    <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+//    <f:selectItem itemLabel="płatności" itemValue="0"/>
     @Column(name = "kategoriadokumentu")
     private int kategoriadokumentu;
     @MapsId("podatnik")

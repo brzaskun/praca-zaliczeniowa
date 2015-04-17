@@ -16,8 +16,11 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.Kwartaly;
 import embeddable.Mce;
+import embeddable.Parametr;
 import embeddablefk.SaldoKonto;
+import entity.Dok;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -86,6 +89,7 @@ public class KontaVatFKView implements Serializable {
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         int licznik = 0;
+        String vatokres = sprawdzjakiokresvat();
         for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setId(licznik++);
@@ -94,7 +98,7 @@ public class KontaVatFKView implements Serializable {
             if (p.getPelnynumer().equals("221-4")) {
                 naniesZapisyNaKonto2214(saldoKonto, p);
             } else {
-                naniesZapisyNaKonto(saldoKonto, p);
+                naniesZapisyNaKonto(saldoKonto, p, vatokres);
             }
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
@@ -118,16 +122,10 @@ public class KontaVatFKView implements Serializable {
 //        }
 //    }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, String vatokres) {
         List<StronaWiersza> zapisyRok  = null;
-//        if (kontonastepnymc(p)) {
-//            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-//            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
-//                zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
-//            }
-//        } else  {
-            zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), stronaWierszaDAO);
-//        }
+        String okresvat = sprawdzjakiokresvat();
+        zapisyRok = zmodyfikujlisteMcKw(KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO), okresvat);
         double sumawn = 0.0;
         double sumama = 0.0;
         if (zapisyRok != null) {
@@ -144,9 +142,67 @@ public class KontaVatFKView implements Serializable {
         saldoKonto.setObrotyMa(sumama);
     }
     
+    private String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        Integer sumaszukana = rok + mc;
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for (Parametr p : parametry) {
+            if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
+                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                if (wynikPo > 1 && wynikPrzed < 0) {
+                    return p.getParametr();
+                }
+            } else {
+                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                if (wynik >= 0) {
+                    return p.getParametr();
+                }
+            }
+        }
+        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
+        return "blad";
+    }
+    
+    private List<StronaWiersza> zmodyfikujlisteMcKw(List<StronaWiersza> listadokvat, String vatokres){
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": {
+                    List<StronaWiersza> listatymczasowa = new ArrayList<>();
+                    for (StronaWiersza p : listadokvat) {
+                        if (p.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                            listatymczasowa.add(p);
+                        }
+                    }
+                    return listatymczasowa;
+                }
+                default: {
+                    List<StronaWiersza> listatymczasowa = new ArrayList<>();
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    for (StronaWiersza p : listadokvat) {
+                        String mc = p.getDokfk().getMiesiac();
+                        if (mc.equals(miesiacewkwartale.get(0)) || mc.equals(miesiacewkwartale.get(1)) || mc.equals(miesiacewkwartale.get(2))) {
+                                listatymczasowa.add(p);
+                        }
+                    }
+                    return listatymczasowa;
+                }
+            }
+        } catch (Exception e) {
+            Msg.msg("e", "Blada nietypowy plik KontaVarFKView zmodyfikujliste ");
+            return null;
+        }
+    }
+    
     private void naniesZapisyNaKonto2214(SaldoKonto saldoKonto, Konto p) {
-        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        int granicaDolna = Mce.getMiesiacToNumber().get("01");
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> zapisyRok  = null;
 //        if (kontonastepnymc(p)) {
 //            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());

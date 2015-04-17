@@ -54,7 +54,7 @@ public class PdfMain {
         dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
         infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
         //dodajTabele(document, testobjects.testobjects.getTabela());
-        //dodajTabele(document, testobjects.testobjects.getTabelaKonta());
+        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
         dodajpodpis(document,"Jan","Kowalski");
         dodajStopke(writer);
         finalizacjaDokumentu(document);
@@ -124,7 +124,7 @@ public class PdfMain {
         try {
             Paragraph poledaty = new Paragraph(new Phrase("Szczecin, dnia " + datawystawienia, ft[2]));
             poledaty.setAlignment(Element.ALIGN_RIGHT);
-            poledaty.setLeading(50);
+            poledaty.setLeading(10);
             document.add(poledaty);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -138,12 +138,22 @@ public class PdfMain {
             Paragraph opiswstepny;
             switch (selected.getRodzajedok().getSkrot()) {
                 case "PK":
+                    opiswstepny = new Paragraph(new Phrase("Polecenie księgowania " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
                 case "OT":
+                    opiswstepny = new Paragraph(new Phrase("Przyjęcie środka trwałego " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                case "RK":
+                    opiswstepny = new Paragraph(new Phrase("Raport kasowy " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
                 case "IN":
                     opiswstepny = new Paragraph(new Phrase("Polecenie księgowania " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
                 case "AMO":
                     opiswstepny = new Paragraph(new Phrase("Umorzenie miesięczne " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                case "DEL":
+                    opiswstepny = new Paragraph(new Phrase("Delegacja numer " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
                 case "LP":
                     opiswstepny = new Paragraph(new Phrase("Lista płac " + selected.getNumerwlasnydokfk(), ft[2]));
@@ -154,8 +164,21 @@ public class PdfMain {
                 case "RF":
                     opiswstepny = new Paragraph(new Phrase("Zestawienie - kasa fiskalna " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
-                default:
+                case "ZZ":
+                case "SZ":
                     opiswstepny = new Paragraph(new Phrase("Faktura VAT " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                case "WDT":
+                    opiswstepny = new Paragraph(new Phrase("Faktura WDT " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                case "WNT":
+                    opiswstepny = new Paragraph(new Phrase("Faktura WNT " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                case "WB":
+                    opiswstepny = new Paragraph(new Phrase("Wyciąg bankowy " + selected.getNumerwlasnydokfk(), ft[2]));
+                    break;
+                default:
+                    opiswstepny = new Paragraph(new Phrase("Zaksięgowany dok. nr " + selected.getNumerwlasnydokfk(), ft[2]));
                     break;
             }
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
@@ -193,8 +216,8 @@ public class PdfMain {
             document.add(danefirmy);
             danefirmy = new Paragraph(new Phrase("NIP: " + pod.getNip(), ft[1]));
             document.add(danefirmy);
-            String rodzajdok = selected.getRodzajedok().getSkrot();
-            if (!rodzajdok.equals("PK") && !rodzajdok.equals("OT") && !rodzajdok.equals("IN") && !rodzajdok.equals("ZUS") && !rodzajdok.equals("AMO")) {
+            int rodzajdok = selected.getRodzajedok().getKategoriadokumentu();
+            if (rodzajdok != 0 && rodzajdok != 5) {
                 document.add(Chunk.NEWLINE);
                 danefirmy = new Paragraph(new Phrase("Kontrahent: " + selected.getKontr().getNpelna(), ft[1]));
                 document.add(danefirmy);
@@ -367,18 +390,30 @@ public class PdfMain {
             try {
                 if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                     WierszTabeli p = (WierszTabeli) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 10));
-                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                    if (p.getWartosc() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    }
                 }
                 if (nazwaklasy.equals("testobjects.WierszKonta")) {
                     WierszKonta p = (WierszKonta) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 10));
-                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotawn())), "right", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpiskontawn(), "left", 10));
-                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotama())), "right", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpiskontama(), "left", 10));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                    if (p.getKwotawn() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotawn())), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    }
+                    table.addCell(ustawfrazeAlign(p.getOpiskontawn(), "left", 9));
+                    if (p.getKwotama() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotama())), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    }
+                    table.addCell(ustawfrazeAlign(p.getOpiskontama(), "left", 9));
                 }
             } catch (DocumentException ex) {
                 System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain ustawwiersze");

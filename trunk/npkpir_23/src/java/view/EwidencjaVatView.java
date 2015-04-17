@@ -150,6 +150,7 @@ public class EwidencjaVatView implements Serializable {
             List<EVatwpisFK> listadokvat = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
             List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(listadokvat, vatokres);
+            Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
             transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
             sumujprzesuniete();
             List<EVatwpisFK> przesunieteBardziejKoszt = zmodyfikujlisteMcKwFKBardziej(listadokvat, vatokres, 1);
@@ -496,7 +497,6 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private List<EVatwpisFK> zmodyfikujlisteMcKwFK(List<EVatwpisFK> listadokvat, String vatokres) throws Exception {
-        Collections.sort(listadokvat,new EVatwpisFKcomparator());
         try {
             switch (vatokres) {
                 case "blad":
