@@ -113,14 +113,19 @@
                 </p:column>
                 <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">
                     <h:outputText value="#{item.nrdziennika eq null ? 'b' : item.nrdziennika}"/>
-                </p:column>         
-                <p:column width="80" style="text-align: center;" >
-                    <p:commandButton id="edytujbutton" value="edytuj" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" icon="ui-icon-document" 
-                                     update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
-                                     rendered="#{!item.wTrakcieEdycji}" style="width: 70px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
-                <p:column width="80" style="text-align: center;">
-                    <p:commandButton value="usuń" actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" oncomplete="PF('confirm3').show();" global="false"  style="width: 70px;" update=":potwierdzeniazestawieniedok"/>
+                <p:column width="40" style="text-align: center;" >
+                    <p:commandButton id="rukujbutton" value="d" actionListener="#{pdfView.drukujzaksiegowanydokument(item)}" accesskey="q" styleClass="fkbutton"
+                                     update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;" >
+                    <p:commandButton id="edytujbutton" value="e" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" 
+                                     update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
+                                     rendered="#{!item.wTrakcieEdycji}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" 
+                                     oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;" update=":potwierdzeniazestawieniedok"/>
                 </p:column>
             </p:dataTable>
         </h:form>

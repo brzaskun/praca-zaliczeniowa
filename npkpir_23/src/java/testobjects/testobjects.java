@@ -88,7 +88,7 @@ public class testobjects {
        return tabela;
    }
    
-   public static List[] getTabelaKonta() {
+   public static List[] getTabelaKonta(List<Wiersz> wiersze) {
        List n = new ArrayList();
        n.add("lp");
        n.add("opis");
@@ -96,7 +96,7 @@ public class testobjects {
        n.add("konto Wn");
        n.add("kwota Ma");
        n.add("konto Ma");
-       List t = getWierszeKonta(getWiersze());
+       List t = getWierszeKonta(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = t;

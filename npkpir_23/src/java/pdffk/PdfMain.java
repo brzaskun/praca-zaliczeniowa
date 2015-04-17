@@ -43,6 +43,8 @@ public class PdfMain {
     
     public static final Font[] ft = czcionki();
     
+    
+    
     public static void main (String[] args) {
         Document document = inicjacjaDokumentu();
         PdfWriter writer = inicjacjaWritera(document, "testowy", "tytul pliku");
@@ -52,8 +54,8 @@ public class PdfMain {
         dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
         infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
         //dodajTabele(document, testobjects.testobjects.getTabela());
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta());
-        dodajpodpis(document);
+        //dodajTabele(document, testobjects.testobjects.getTabelaKonta());
+        dodajpodpis(document,"Jan","Kowalski");
         dodajStopke(writer);
         finalizacjaDokumentu(document);
     }
@@ -269,14 +271,10 @@ public class PdfMain {
         return formatter;
     }
     
-    public static void dodajpodpis(Document document) {
+    public static void dodajpodpis(Document document, String imie, String nazwisko) {
         try {
-            //Uz uz = uzDAO.find(selected.getWprowadzil());
-            Uz uz = new Uz();
-            uz.setImie("Jan");
-            uz.setNazw("Kowalski");
             document.add(Chunk.NEWLINE);
-            document.add(new Paragraph(String.valueOf(uz.getImie() + " " + uz.getNazw()), ft[1]));
+            document.add(new Paragraph(String.valueOf(imie + " " + nazwisko), ft[1]));
             document.add(new Paragraph("___________________________", ft[1]));
             document.add(new Paragraph("sporządził", ft[1]));
         } catch (DocumentException ex) {
@@ -378,9 +376,9 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 10));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 10));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotawn())), "right", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpiskontawn(), "right", 10));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontawn(), "left", 10));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotama())), "right", 10));
-                    table.addCell(ustawfrazeAlign(p.getOpiskontama(), "right", 10));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontama(), "left", 10));
                 }
             } catch (DocumentException ex) {
                 System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain ustawwiersze");
