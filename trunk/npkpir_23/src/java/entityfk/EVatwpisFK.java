@@ -284,7 +284,7 @@ public class EVatwpisFK implements Serializable {
 
     @Override
     public String toString() {
-        return "EVatwpisFK{" + "ewidencja=" + ewidencja + ", netto=" + netto + ", vat=" + vat + ", dokfk=" + dokfk + ", wiersz=" + wiersz + ", klient=" + klient + '}';
+        return "EVatwpisFK{" + "ewidencja=" + ewidencja + ", netto=" + netto + ", vat=" + vat + ", dokfk=" + dokfk + ", wiersz=" + wiersz.tostring2() + ", klient=" + klient + '}';
     }
 
     

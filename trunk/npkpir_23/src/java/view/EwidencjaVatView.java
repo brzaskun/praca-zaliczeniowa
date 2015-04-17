@@ -5,6 +5,7 @@
 package view;
 
 import comparator.Dokcomparator;
+import comparator.EVatwpisFKcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
@@ -495,6 +496,7 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private List<EVatwpisFK> zmodyfikujlisteMcKwFK(List<EVatwpisFK> listadokvat, String vatokres) throws Exception {
+        Collections.sort(listadokvat,new EVatwpisFKcomparator());
         try {
             switch (vatokres) {
                 case "blad":
@@ -509,7 +511,7 @@ public class EwidencjaVatView implements Serializable {
                                 listatymczasowa.add(p);
                             }
                         } catch (Exception e) {
-                            System.out.println("bledny rok mc w "+p.toString());
+                            System.out.println("bledny zmodyfikujlisteMcKwFK  miesiecznie mc/rok w "+p.toString());
                         }
                     }
                     return listatymczasowa;
@@ -519,16 +521,22 @@ public class EwidencjaVatView implements Serializable {
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     for (EVatwpisFK p : listadokvat) {
-                        if (p.getRokEw().equals(wpisView.getRokWpisuSt())) {
-                            if (p.getMcEw().equals(miesiacewkwartale.get(0)) || p.getMcEw().equals(miesiacewkwartale.get(1)) || p.getMcEw().equals(miesiacewkwartale.get(2))) {
-                                listatymczasowa.add(p);
+                        try {
+                            if (p.getRokEw().equals(wpisView.getRokWpisuSt())) {
+                                if (p.getMcEw().equals(miesiacewkwartale.get(0)) || p.getMcEw().equals(miesiacewkwartale.get(1)) || p.getMcEw().equals(miesiacewkwartale.get(2))) {
+                                    listatymczasowa.add(p);
+                                }
                             }
+                        } catch (Exception e) {
+                            System.out.println("bledny zmodyfikujlisteMcKwFK kwartalnie mc/rok w "+p.toString());
                         }
+                           
                     }
                     return listatymczasowa;
                 }
             }
         } catch (Exception e) {
+            System.out.println("Blada nietypowy plik VatView zmodyfikujliste "+e.toString());
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
         }
@@ -544,11 +552,15 @@ public class EwidencjaVatView implements Serializable {
                     List<EVatwpisFK> listatymczasowa = new ArrayList<>();
                     int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                     for (EVatwpisFK p : listadokvat) {
-                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
-                            int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
-                            if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
-                                listatymczasowa.add(p);
+                        try {
+                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
+                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
+                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+                                    listatymczasowa.add(p);
+                                }
                             }
+                        } catch (Exception e) {
+                            System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.toString());
                         }
                     }
                     return listatymczasowa;
@@ -559,18 +571,23 @@ public class EwidencjaVatView implements Serializable {
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     String ostatnimc = miesiacewkwartale.get(miesiacewkwartale.size()-1);
                     for (EVatwpisFK p : listadokvat) {
-                        if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
-                            int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
-                            int mc = Mce.getMiesiacToNumber().get(p.getWiersz().getDokfk().getMiesiac());
-                            if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
-                                listatymczasowa.add(p);
+                        try {
+                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
+                                int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
+                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
+                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+                                    listatymczasowa.add(p);
+                                }
                             }
+                        } catch (Exception e) {
+                            System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej kwartalnie mc/rok w "+p.toString());
                         }
                     }
                     return listatymczasowa;
                 }
             }
         } catch (Exception e) {
+            System.out.println("Blad EwidencjaVATView zmodyfikujlisteMcKwFKBardziej");
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
         }
