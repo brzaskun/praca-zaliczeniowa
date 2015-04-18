@@ -103,6 +103,27 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaWDTWNT(List<Wiersz> wiersze) {
+       List n = new ArrayList();
+       n.add("id");
+       n.add("data dok.");
+       n.add("id dok");
+       n.add("nr własny");
+       n.add("lp wiersza");
+       n.add("opis");
+       n.add("kg");
+       n.add("szt");
+       n.add("kwota Wn");
+       n.add("konto Wn");
+       n.add("kwota Ma");
+       n.add("konto Ma");
+       List t = getWierszeWNTWDTKonta(wiersze);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List<Wiersz> getWiersze() {
        List<Wiersz> l = new ArrayList<>();
        Wiersz w = new Wiersz(1,0);
@@ -121,14 +142,31 @@ public class testobjects {
        for (Wiersz p : wiersze) {
            WierszKonta r = new WierszKonta(p.getIdporzadkowy(), p.getOpisWiersza());
            if (p.getStronaWn() != null) {
-               r.setKwotawn(p.getStronaWn().getKwota());
-               r.setOpiskontawn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
+               r.setKwotaWn(p.getStronaWn().getKwota());
+               r.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
            }
            if (p.getStronaMa() != null) {
-               r.setKwotama(p.getStronaMa().getKwota());
-               r.setOpiskontama(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
+               r.setKwotaMa(p.getStronaMa().getKwota());
+               r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
            }
            w.add(r);
+       }
+       return w;
+   }
+   
+   public static List<WierszWNTWDT> getWierszeWNTWDTKonta(List<Wiersz> wiersze) {
+       List<WierszWNTWDT> w = new ArrayList<WierszWNTWDT>();
+       for (Wiersz p : wiersze) {
+           WierszWNTWDT l = new WierszWNTWDT(p.getIdwiersza(), p.getDataksiegowania() , p.getDokfkS(), p.getDokfk().getNumerwlasnydokfk(), p.getIdporzadkowy(),  p.getOpisWiersza(), p.getIlosc_kg(), p.getIlosc_szt());
+           if (p.getStronaWn() != null) {
+               l.setKwotaWn(p.getStronaWn().getKwota());
+               l.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
+           }
+           if (p.getStronaMa() != null) {
+               l.setKwotaMa(p.getStronaMa().getKwota());
+               l.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
+           }
+           w.add(l);
        }
        return w;
    }

@@ -7,6 +7,7 @@ package pdffk;
 
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
+import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -15,6 +16,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -22,6 +24,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -33,6 +36,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
+import testobjects.WierszWNTWDT;
 
 /**
  *
@@ -43,25 +47,46 @@ public class PdfMain {
     
     public static final Font[] ft = czcionki();
     
-    
-    
     public static void main (String[] args) {
-        Document document = inicjacjaDokumentu();
-        PdfWriter writer = inicjacjaWritera(document, "testowy", "tytul pliku");
-        dodajNaglowek(writer);
-        informacjaoZaksiegowaniu(document, "1233");
-        dodajDate(document, "2015-05-02");
+        Document document = inicjacjaA4Landscape();
+        PdfWriter writer = inicjacjaWritera(document, "testowy2");
+        naglowekStopkaL(writer);
+        otwarcieDokumentu(document, "tytul pliku");
+        //informacjaoZaksiegowaniu(document, "1233");
+        //dodajDate(document, "2015-05-02");
         dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
-        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
-        //dodajTabele(document, testobjects.testobjects.getTabela());
+//        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
+//        //dodajTabele(document, testobjects.testobjects.getTabela());
         dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
-        dodajpodpis(document,"Jan","Kowalski");
-        dodajStopke(writer);
+//        dodajpodpis(document,"Jan","Kowalski");
+        //dodajStopke(writer);
         finalizacjaDokumentu(document);
+        
     }
     
-    public static Document inicjacjaDokumentu() {
+    
+//    public static void main (String[] args) {
+//        Document document = inicjacjaA4Portrait();
+//        PdfWriter writer = inicjacjaWritera(document, "testowy");
+//        otwarcieDokumentu(document, "tytul pliku");  
+//        dodajNaglowek(writer);
+//        informacjaoZaksiegowaniu(document, "1233");
+//        dodajDate(document, "2015-05-02");
+//        dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
+//        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
+//        //dodajTabele(document, testobjects.testobjects.getTabela());
+//        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
+//        dodajpodpis(document,"Jan","Kowalski");
+//        dodajStopke(writer);
+//        finalizacjaDokumentu(document);
+//    }
+    
+    public static Document inicjacjaA4Portrait() {
         return new Document(PageSize.A4, 20, 20, 40, 20);
+    }
+    
+    public static Document inicjacjaA4Landscape() {
+        return new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 40, 20);
     }
     
        
@@ -69,9 +94,9 @@ public class PdfMain {
         try {
             Font[] czcionki = new Font[3];
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica, 12);
-            Font fontM = new Font(helvetica, 10);
-            Font fontS = new Font(helvetica, 6);
+            Font font = new Font(helvetica, 11);
+            Font fontM = new Font(helvetica, 9);
+            Font fontS = new Font(helvetica, 5);
             czcionki[0] = fontS;
             czcionki[1] = fontM;
             czcionki[2] = font;
@@ -87,18 +112,16 @@ public class PdfMain {
         }
     }
 
-    public static PdfWriter inicjacjaWritera(Document document, String nazwapliku, String tytul) {
+    public static PdfWriter inicjacjaWritera(Document document, String nazwapliku) {
         try {
             String nazwa = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/" + nazwapliku + ".pdf";
+            File file = new File(nazwa);
+            if (file.isFile()) {
+                file.delete();
+            }
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwa));
             writer.setInitialLeading(16);
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
-            document.addTitle(tytul);
-            document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-            document.addSubject("Wydruk danych z programu księgowego");
-            document.addKeywords("PKPiR, PDF");
-            document.addCreator("Grzegorz Grzelczyk");
-            document.open();
             return writer;
         } catch (FileNotFoundException ex) {
             System.out.println("Problem z zachowaniem pliku PDFMain inicjacjaWritera");
@@ -110,11 +133,32 @@ public class PdfMain {
             return null;
         }
     }
+    
+    public static void otwarcieDokumentu(Document document, String tytul) {
+        document.addTitle(tytul);
+        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+        document.addSubject("Wydruk danych z programu księgowego");
+        document.addKeywords("PKPiR, PDF");
+        document.addCreator("Grzegorz Grzelczyk");
+        document.open();
+    }
 
     public static void finalizacjaDokumentu(Document document) {
         document.close();
     }
 
+    public static void naglowekStopkaL(PdfWriter writer) {
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(1);
+        writer.setBoxSize("art", new Rectangle(842, 595, 0, 0));
+        writer.setPageEvent(headerfoter);
+    }
+    
+    public static void naglowekStopkaP(PdfWriter writer) {
+        PdfHeaderFooter headerfoter = new PdfHeaderFooter(1);
+        writer.setBoxSize("art", new Rectangle(595, 842, 0, 0));
+        writer.setPageEvent(headerfoter);
+    }
+    
     public static void dodajNaglowek(PdfWriter writer) {
         absText(writer, "Biuro Rachunkowe Taxman - program księgowy online", 15, 820, 6);
         prost(writer.getDirectContent(), 12, 817, 560, 10);
@@ -267,6 +311,21 @@ public class PdfMain {
                     col2[i] = 3;
                 }
                 return col2;
+            case "testobjects.WierszWNTWDT":
+                int[] col3 = new int[size];
+                col3[0] = 1;
+                col3[1] = 2;
+                col3[2] = 2;
+                col3[3] = 2;
+                col3[4] = 1;
+                col3[5] = 3;
+                col3[6] = 2;
+                col3[7] = 2;
+                col3[8] = 2;
+                col3[9] = 4;
+                col3[10] = 2;
+                col3[11] = 4;
+                return col3;
         }
         return null;
     }
@@ -402,18 +461,33 @@ public class PdfMain {
                     WierszKonta p = (WierszKonta) it.next();
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
-                    if (p.getKwotawn() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotawn())), "right", 9));
+                    if (p.getKwotaWn() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotaWn())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontawn(), "left", 9));
-                    if (p.getKwotama() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotama())), "right", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
+                    if (p.getKwotaMa() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotaMa())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontama(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 9));
+                }
+                if (nazwaklasy.equals("testobjects.WierszWNTWDT")) {
+                    WierszWNTWDT p = (WierszWNTWDT) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getData(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getIddok(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getNrwlasny(), "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLpwiersza()), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getKg()), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getSzt()), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getKwotaWn()), "right", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getKwotaMa()), "right", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 9));
                 }
             } catch (DocumentException ex) {
                 System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain ustawwiersze");

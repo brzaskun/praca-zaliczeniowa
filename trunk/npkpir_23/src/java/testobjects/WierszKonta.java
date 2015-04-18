@@ -15,10 +15,10 @@ public class WierszKonta implements Serializable {
     private static final long serialVersionUID = 1L;
     private int lp;
     private String opis;
-    private double kwotawn;
-    private String opiskontawn;
-    private double kwotama;
-    private String opiskontama;
+    private double kwotaWn;
+    private String opiskontaWn;
+    private double kwotaMa;
+    private String opiskontaMa;
 
     public WierszKonta() {
     }
@@ -26,10 +26,10 @@ public class WierszKonta implements Serializable {
     public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama) {
         this.lp = lp;
         this.opis = opis;
-        this.kwotawn = kwotawn;
-        this.opiskontawn = opiskontawn;
-        this.kwotama = kwotama;
-        this.opiskontama = opiskontama;
+        this.kwotaWn = kwotawn;
+        this.opiskontaWn = opiskontawn;
+        this.kwotaMa = kwotama;
+        this.opiskontaMa = opiskontama;
     }
 
     public WierszKonta(int lp, String opis) {
@@ -41,7 +41,7 @@ public class WierszKonta implements Serializable {
     
     @Override
     public String toString() {
-        return "WierszKonta{" + "lp=" + lp + ", opis=" + opis + ", kwotawn=" + kwotawn + ", opiskontawn=" + opiskontawn + ", kwotama=" + kwotama + ", opiskontama=" + opiskontama + '}';
+        return "WierszKonta{" + "lp=" + lp + ", opis=" + opis + ", kwotawn=" + kwotaWn + ", opiskontawn=" + opiskontaWn + ", kwotama=" + kwotaMa + ", opiskontama=" + opiskontaMa + '}';
     }
 
     public int getLp() {
@@ -60,36 +60,36 @@ public class WierszKonta implements Serializable {
         this.opis = opis;
     }
 
-    public double getKwotawn() {
-        return kwotawn;
+    public double getKwotaWn() {
+        return kwotaWn;
     }
 
-    public void setKwotawn(double kwotawn) {
-        this.kwotawn = kwotawn;
+    public void setKwotaWn(double kwotaWn) {
+        this.kwotaWn = kwotaWn;
     }
 
-    public String getOpiskontawn() {
-        return opiskontawn;
+    public String getOpiskontaWn() {
+        return opiskontaWn;
     }
 
-    public void setOpiskontawn(String opiskontawn) {
-        this.opiskontawn = opiskontawn;
+    public void setOpiskontaWn(String opiskontaWn) {
+        this.opiskontaWn = opiskontaWn;
     }
 
-    public double getKwotama() {
-        return kwotama;
+    public double getKwotaMa() {
+        return kwotaMa;
     }
 
-    public void setKwotama(double kwotama) {
-        this.kwotama = kwotama;
+    public void setKwotaMa(double kwotaMa) {
+        this.kwotaMa = kwotaMa;
     }
 
-    public String getOpiskontama() {
-        return opiskontama;
+    public String getOpiskontaMa() {
+        return opiskontaMa;
     }
 
-    public void setOpiskontama(String opiskontama) {
-        this.opiskontama = opiskontama;
+    public void setOpiskontaMa(String opiskontaMa) {
+        this.opiskontaMa = opiskontaMa;
     }
     
     

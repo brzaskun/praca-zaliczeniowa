@@ -9,7 +9,7 @@
     <p:dialog id="zapisywdokumentachWNT" header="Zestawienie zapisów w dokumentach WNT - #{WpisView.podatnikWpisu}" widgetVar="zapisywdokumentachWNT" dynamic="true"
               resizable="false"  onShow="ustawdialog('zapisywdokumentachWNT','menudokumenty', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('zapisywdokumentachWNT');" maximizable="true">
         <h:form id="formzapisywdokumentachWNT">
-            <p:panelGrid columns="7" style="margin-left: 2%;" >
+            <p:panelGrid columns="8" style="margin-left: 2%;" >
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -25,8 +25,10 @@
                 <bcf:outputpl value="#{wierszeView.sumakg}" style="margin-left: 30px;"/>
                 <h:outputText value="suma szt" style="margin-left: 30px;"/>
                 <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
+                <p:commandButton id="rukujbutton" value="drukuj" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWNT)}" styleClass="fkbutton"
+                                     update=":formwpisdokument" style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
-            <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="width: 1200px; height: 700px;" widgetVar="zapisywdokumentachWNTdataList"
+            <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="wheight: 700px;" widgetVar="zapisywdokumentachWNTdataList"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWNT}"  sortBy="#{loop.dokfk.datadokumentu}"
                          emptyMessage="nie pobrano wierszy/ nie ma wierszy WNT w tym miesiącu">
                 <f:facet name="header">  
@@ -44,17 +46,17 @@
                 <p:column headerText="data dokum" width="50">
                     <h:outputText value="#{loop.dokfk.datadokumentu}"/>
                 </p:column>
-                <p:column headerText="id dokumentu" width="100">
+                <p:column headerText="id dokumentu" width="90">
                     <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk}/#{loop.dokfk.dokfkPK.nrkolejnywserii}/#{loop.dokfk.dokfkPK.rok}"/>
                 </p:column>
-                <p:column headerText="nr własny" width="100">
+                <p:column headerText="nr własny" width="90">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="lp wiersza" width="50" filterBy="#{loop.idporzadkowy}" style="text-align: center;"
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.idporzadkowy}">
                     <h:outputText value="#{loop.idporzadkowy}" />
                 </p:column>
-                <p:column headerText="opis" width="200" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                <p:column headerText="opis" width="150" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
                     <h:outputText value="#{loop.opisWiersza}" />
                 </p:column>
                 <p:column headerText="ilość kg" width="60" filterBy="#{loop.ilosc_kg}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.ilosc_kg}">

@@ -336,4 +336,8 @@ public class Wiersz implements Serializable {
         }
     }
     
+    public String getDokfkS() {
+        return this.getDokfk().getDokfkPK().toString2();
+    }
+    
 }
