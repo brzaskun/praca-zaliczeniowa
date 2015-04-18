@@ -8,27 +8,30 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:dialog id="dialogkursy" header="Zestawienie kursów walut NBP" widgetVar="wykazkursow"  
               resizable="false"  onShow="ustawdialog('dialogkursy','menukartoteki',900,700);" closeOnEscape="true" onHide="resetujdialog('dialogkursy');" >
-        <bcf:ajaxs/>
+        
         <h:form id="wprowadzonekursy">
-            <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.pobranekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych kursow" 
-                         scrollable="true" style="width: 855px;" scrollHeight="550" widgetVar="dataTablekursy">
+            <p:dataTable id="dataTablekursy" var="wpisT" value="#{walutyViewFK.pobranekursyRok}"  emptyMessage="Nie ma wprowadzonych kursow" 
+                         widgetVar="dataTablekursyT"  style="overflow-y: scroll; height: 600px;" rowKey="#{wpisT.idtabelanbp}"
+                         >
                 <p:ajax event="filter" global="false"/>
+                <p:ajax event="sort" global="false"/>
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel NBP " />  
-                    <h:outputText value="- wyszukiwanie: " />  
-                    <p:inputText id="globalFilter" onkeyup="PF('dataTablekursy').filter();" style="width:150px" />  
-                </f:facet>
-                <p:column headerText="nr tabeli" width="100" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}" filterStyle="display : none;" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.nrtabeli}" />
+                 </f:facet>
+                <p:column headerText="lp" width="20" sortBy="#{wpisT.idtabelanbp}">
+                    <h:outputText value="#{wpisT.idtabelanbp}" style="width: 20px;"/>
                 </p:column>
-                <p:column headerText="data tabeli" width="100" sortBy="#{wpis.datatabeli}" filterBy="#{wpis.datatabeli}" filterStyle="display : none;" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.datatabeli}" />
+                <p:column headerText="nr tabeli" width="150" sortBy="#{wpisT.nrtabeli}" filterBy="#{wpisT.nrtabeli}"  filterMatchMode="contains">
+                    <h:outputText value="#{wpisT.nrtabeli}" />
                 </p:column>
-                <p:column headerText="symbol waluty" width="100" sortBy="#{wpis.waluta.symbolwaluty}" filterBy="#{wpis.waluta.symbolwaluty}" filterStyle="display : none;" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.waluta.symbolwaluty}" />
+                <p:column headerText="data tabeli" width="150" sortBy="#{wpisT.datatabeli}" filterBy="#{wpisT.datatabeli}"  filterMatchMode="contains">
+                    <h:outputText value="#{wpisT.datatabeli}" />
                 </p:column>
-                <p:column headerText="kurs do pln" width="100" sortBy="#{wpis.kurssredni}" filterBy="#{wpis.kurssredni}" filterStyle="display : none;" filterMatchMode="contains">
-                    <h:outputText value="#{wpis.kurssredni}" style="float: right; padding-right: 20px;">
+                <p:column headerText="symbol waluty" width="150" sortBy="#{wpisT.waluta.symbolwaluty}" filterBy="#{wpisT.waluta.symbolwaluty}"  filterMatchMode="contains">
+                    <h:outputText value="#{wpisT.waluta.symbolwaluty}" />
+                </p:column>
+                <p:column headerText="kurs do pln" width="150" sortBy="#{wpisT.kurssredni}" filterBy="#{wpisT.kurssredni}"  filterMatchMode="contains">
+                    <h:outputText value="#{wpisT.kurssredni}" style="float: right;">
                         <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
