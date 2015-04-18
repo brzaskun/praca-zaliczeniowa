@@ -140,6 +140,11 @@ public class WalutyViewFK implements Serializable {
             RequestContext.getCurrentInstance().execute("r('formkursrecznie:dataKursReczny:0:numertabeli').focus();");
         }
     }
+    
+    public void usuntabele(Tabelanbp tabelanbp) {
+        tabelanbpDAO.destroy(tabelanbp);
+        wprowadzonekursyRok.remove(tabelanbp);
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     
