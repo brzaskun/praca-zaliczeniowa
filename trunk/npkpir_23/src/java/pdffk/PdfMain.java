@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import testobjects.WierszCecha;
 import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
@@ -326,6 +327,18 @@ public class PdfMain {
                 col3[10] = 2;
                 col3[11] = 4;
                 return col3;
+            case "testobjects.WierszCecha":
+                int[] col4 = new int[size];
+                col4[0] = 1;
+                col4[1] = 2;
+                col4[2] = 2;
+                col4[3] = 2;
+                col4[4] = 2;
+                col4[5] = 2;
+                col4[6] = 4;
+                col4[7] = 4;
+                col4[8] = 2;
+                return col4;
         }
         return null;
     }
@@ -456,6 +469,18 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
+                }
+                if (nazwaklasy.equals("testobjects.WierszCecha")) {
+                    WierszCecha p = (WierszCecha) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwacechy(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getRodzajcechy(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDokfks(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
                 }
                 if (nazwaklasy.equals("testobjects.WierszKonta")) {
                     WierszKonta p = (WierszKonta) it.next();
