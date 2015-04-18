@@ -117,7 +117,7 @@
 
                                 <p:commandButton value="przelicz"  action="#{ZestawienieView.obliczPit()}" update="@form" type="submit" style="width: 140px"/>
                                 <p:splitButton value="zachowaj pit"  action="#{ZestawienieView.zachowajPit()}" update="@form" type="submit" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
-                                    <p:menuitem value="dodatkowy-13" actionListener="#{ZestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
+                                    <p:menuitem global="false" value="dodatkowy-13" actionListener="#{ZestawienieView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                                 </p:splitButton>
                             </p:panelGrid>
                         </p:panelGrid>
@@ -210,7 +210,7 @@
 
                             <p:commandButton value="przelicz"  action="#{ZestawienieRyczaltView.obliczPit()}" update="@form, :akordeon:formpit1:" type="submit" style="width: 140px"/>
                              <p:splitButton value="zachowaj pit"  action="#{ZestawienieRyczaltView.zachowajPit()}" update="@form, :akordeon:formpit1:" type="submit" >
-                                    <p:menuitem value="dodatkowy-13" actionListener="#{ZestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
+                                    <p:menuitem global="false" value="dodatkowy-13" actionListener="#{ZestawienieRyczaltView.zachowajPit13()}" icon="ui-icon-arrowrefresh-1-w"/>  
                              </p:splitButton>
                         </p:panelGrid>
                     </p:panelGrid>

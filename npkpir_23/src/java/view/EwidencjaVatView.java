@@ -108,7 +108,7 @@ public class EwidencjaVatView implements Serializable {
         suma3 = 0.0;
     }
 
-    @PostConstruct
+    
     private void init() {
         try {
             Ewidencjevat pobrane = ewidencjeVatDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
@@ -139,6 +139,7 @@ public class EwidencjaVatView implements Serializable {
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
             transferujDokdoEVatwpis1();
             stworzenieEwidencjiCzescWspolna(vatokres);
+            RequestContext.getCurrentInstance().update("akorderonbis");
         } catch (Exception e) {
         }
         //drukuj ewidencje
