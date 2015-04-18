@@ -35,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import testobjects.WierszCecha;
+import testobjects.WierszDokfk;
 import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
@@ -237,6 +238,20 @@ public class PdfMain {
         }
     }
     
+    public static void dodajOpisWstepny(Document document, String opis, String mc, String rok) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + mc + "/" + rok, ft[1]));
+            document.add(opiswstepny);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String)");
+            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void informacjaoZaksiegowaniu(Document document, String lp) {
         try {
             document.add(new Chunk("Biuro Rachunkowe Taxman"));
@@ -339,6 +354,18 @@ public class PdfMain {
                 col4[7] = 4;
                 col4[8] = 2;
                 return col4;
+            case "testobjects.WierszDokfk":
+                int[] col5 = new int[size];
+                col5[0] = 1;
+                col5[1] = 2;
+                col5[2] = 2;
+                col5[3] = 2;
+                col5[4] = 4;
+                col5[5] = 2;
+                col5[6] = 3;
+                col5[7] = 2;
+                col5[8] = 1;
+                return col5;
         }
         return null;
     }
@@ -458,6 +485,7 @@ public class PdfMain {
 
     private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy) {
         NumberFormat formatter = getNumFormater();
+        int i = 1;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
             try {
                 if (nazwaklasy.equals("testobjects.WierszTabeli")) {
@@ -481,6 +509,18 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 9));
                     table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 9));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                }
+                if (nazwaklasy.equals("testobjects.WierszDokfk")) {
+                    WierszDokfk p = (WierszDokfk) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getIddok(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
+                    table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 9));
                 }
                 if (nazwaklasy.equals("testobjects.WierszKonta")) {
                     WierszKonta p = (WierszKonta) it.next();

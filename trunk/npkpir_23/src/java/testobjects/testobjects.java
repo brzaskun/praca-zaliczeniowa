@@ -123,6 +123,24 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaZaksiegowane(List<Dokfk> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data dok");
+       n.add("data operacji");
+       n.add("id dok");
+       n.add("kontrahent");
+       n.add("numer wlasny");
+       n.add("opis");  
+       n.add("wartość");
+       n.add("waluta");
+       List t = getWierszeDokfk(wiersze);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaWDTWNT(List<Wiersz> wiersze) {
        List n = new ArrayList();
        n.add("id");
@@ -196,6 +214,16 @@ public class testobjects {
        for (CechaStronaWiersza p : wiersze) {
            String opiskonta = p.getStronaWiersza().getKonto().getPelnynumer()+ " " + p.getStronaWiersza().getKonto().getNazwapelna();
            WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getCechazapisuPK().getNazwacechy(), p.getCechazapisu().getCechazapisuPK().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN());
+           w.add(r);
+       }
+       return w;
+   }
+   
+   public static List<WierszDokfk> getWierszeDokfk(List<Dokfk> wiersze) {
+       List<WierszDokfk> w = new ArrayList<WierszDokfk>();
+       for (Dokfk p : wiersze) {
+           String kontrahent = p.getKontr().getNpelna()+" "+p.getKontr().getNip();
+           WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.getDokfkPK().toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), p.getWalutadokumentu().getSymbolwaluty());
            w.add(r);
        }
        return w;
