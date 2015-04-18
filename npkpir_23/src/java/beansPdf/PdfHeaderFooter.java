@@ -38,6 +38,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
         
 
         Phrase[] header = new Phrase[2];
+        Phrase[] footer = new Phrase[2];
 
         @Override
         public void onOpenDocument(PdfWriter writer, Document document) {
@@ -47,6 +48,7 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
             } catch (Exception ex) {}
             Font font = new Font(helvetica,6);
             header[0] = new Phrase("Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
+            footer[0] = new Phrase(String.format("strona %d", liczydlo),font);
         }
 
         @Override
@@ -57,19 +59,14 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
         @Override
         public void onEndPage(PdfWriter writer, Document document) {
             Rectangle rect = writer.getBoxSize("art");
-            BaseFont helvetica = null;
-            try {
-                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            } catch (Exception ex) {}
-            Font font = new Font(helvetica,8);
             //dodawanie headera
             ColumnText.showTextAligned(writer.getDirectContent(),
                     Element.ALIGN_LEFT, header[0],
                     25, rect.getBottom() - 18, 0);
-            
+            //dodawanie footera
             ColumnText.showTextAligned(writer.getDirectContent(),
-                    Element.ALIGN_CENTER, new Phrase(String.format("strona %d", liczydlo),font),
-                    (rect.getLeft() + rect.getRight()) / 2, rect.getBottom() - 18, 0);
+                    Element.ALIGN_CENTER, footer[0],
+                    (rect.getLeft() + rect.getRight()) / 2 , rect.getTop() + 18, 0);
         }
 
         @Override

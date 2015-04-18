@@ -15,17 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import static pdffk.PdfMain.dodajDate;
-import static pdffk.PdfMain.dodajNaglowek;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajStopke;
-import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.dodajpodpis;
-import static pdffk.PdfMain.finalizacjaDokumentu;
-import static pdffk.PdfMain.infooFirmie;
-import static pdffk.PdfMain.informacjaoZaksiegowaniu;
-import static pdffk.PdfMain.inicjacjaDokumentu;
-import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.*;
 import view.WpisView;
 
 /**
@@ -34,7 +24,7 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class PdfView implements Serializable {
+public class PdfDokfkView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -43,16 +33,16 @@ public class PdfView implements Serializable {
     public void drukujzaksiegowanydokument(Dokfk selected) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokument";
         Uz uz = wpisView.getWprowadzil();
-        Document document = inicjacjaDokumentu();
-        PdfWriter writer = inicjacjaWritera(document, nazwa, "Wydruk zaksięgowanego dokumentu");
-        dodajNaglowek(writer);
+        Document document = inicjacjaA4Portrait();
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
         informacjaoZaksiegowaniu(document, String.valueOf(selected.getNrdziennika()));
         dodajDate(document, selected.getDatawplywu());
         dodajOpisWstepny(document, selected);
         infooFirmie(document, selected);
         dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()));
         dodajpodpis(document, uz.getImie(), uz.getNazw());
-        dodajStopke(writer);
         finalizacjaDokumentu(document);
     }
 
