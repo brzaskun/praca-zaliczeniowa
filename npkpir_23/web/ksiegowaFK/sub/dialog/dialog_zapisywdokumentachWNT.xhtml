@@ -26,7 +26,7 @@
                 <h:outputText value="suma szt" style="margin-left: 30px;"/>
                 <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
                 <p:commandButton id="rukujbutton" value="drukuj" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWNT)}" styleClass="fkbutton"
-                                     update=":formwpisdokument" style="margin-left: 100px; width: 120px;" />
+                                      style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
             <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="wheight: 700px;" widgetVar="zapisywdokumentachWNTdataList"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWNT}"  sortBy="#{loop.dokfk.datadokumentu}"

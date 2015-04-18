@@ -16,6 +16,8 @@ import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.List;
+import viewfk.CechyzapisuPrzegladView;
+import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 
 /**
  *
@@ -103,6 +105,24 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaCechyZapisow(List<CechaStronaWiersza> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nazwa cechy");
+       n.add("rodzaj cechy");
+       n.add("id dokumentu");
+       n.add("data dok");
+       n.add("data operacji");
+       n.add("opis");
+       n.add("konto");
+       n.add("kwota");
+       List t = getWierszeCechyZapisow(wiersze);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaWDTWNT(List<Wiersz> wiersze) {
        List n = new ArrayList();
        n.add("id");
@@ -167,6 +187,16 @@ public class testobjects {
                l.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
            }
            w.add(l);
+       }
+       return w;
+   }
+   
+   public static List<WierszCecha> getWierszeCechyZapisow(List<CechaStronaWiersza> wiersze) {
+       List<WierszCecha> w = new ArrayList<WierszCecha>();
+       for (CechaStronaWiersza p : wiersze) {
+           String opiskonta = p.getStronaWiersza().getKonto().getPelnynumer()+ " " + p.getStronaWiersza().getKonto().getNazwapelna();
+           WierszCecha r = new WierszCecha(p.getId(), p.getCechazapisu().getCechazapisuPK().getNazwacechy(), p.getCechazapisu().getCechazapisuPK().getRodzajcechy(), p.getStronaWiersza().getDokfkS(), p.getStronaWiersza().getDokfk().getDatawystawienia(), p.getStronaWiersza().getDokfk().getDataoperacji(), p.getStronaWiersza().getWiersz().getOpisWiersza(), opiskonta, p.getStronaWiersza().getKwotaPLN());
+           w.add(r);
        }
        return w;
    }
