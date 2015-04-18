@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -44,25 +45,13 @@ public class RMKDokView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
-    @Inject
-    private DokDAOfk dokDAOfk;
-    @Inject
-    private KlienciDAO klienciDAO;
-    @Inject
-    private RodzajedokDAO rodzajedokDAO;
-    @Inject
-    private TabelanbpDAO tabelanbpDAO;
-    @Inject
-    private WalutyDAOfk walutyDAOfk;
-    @Inject
-    private AmoDokDAO amoDokDAO;
     private double obrotyWn;
     
     
-    @PostConstruct
     private void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);
+       RequestContext.getCurrentInstance().update("transakcje");
     }
     
     

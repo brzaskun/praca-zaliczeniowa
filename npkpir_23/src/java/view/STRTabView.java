@@ -94,7 +94,7 @@ public class STRTabView implements Serializable {
         amodoklist = new ArrayList<>();
     }
 
-    @PostConstruct
+    
     public void init() {
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
@@ -165,6 +165,8 @@ public class STRTabView implements Serializable {
             } catch (Exception e) {
             }
         }
+        RequestContext.getCurrentInstance().update("srodkiamo");
+        RequestContext.getCurrentInstance().update("formSTRUmorzenie");
     }
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy

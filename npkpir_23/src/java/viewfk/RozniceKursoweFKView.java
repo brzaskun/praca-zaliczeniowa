@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -64,9 +65,10 @@ public class RozniceKursoweFKView implements Serializable {
         pobranetransakcje = new ArrayList<>();
     }
 
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
         pobranetransakcje = transakcjaDAO.findPodatnikRokRozniceKursowe(wpisView);
+        RequestContext.getCurrentInstance().update("transakcje");
     }
 
     public void generowanieDokumentuRRK() {

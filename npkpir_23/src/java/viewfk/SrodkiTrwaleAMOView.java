@@ -39,6 +39,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 import waluty.Z;
 
@@ -72,10 +73,11 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private double roznicasald;
     
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);
+        RequestContext.getCurrentInstance().update("srodkiamo");
     }
     
     
