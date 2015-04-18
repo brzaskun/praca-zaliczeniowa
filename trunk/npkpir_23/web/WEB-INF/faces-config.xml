@@ -354,6 +354,10 @@
             <to-view-id>/ksiegowaFK/guestFKFaktury.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>guestfakturaplatnosciFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKFakturyPlatnosci.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>guestdokumentyFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKDokumenty.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

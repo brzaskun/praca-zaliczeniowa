@@ -5,8 +5,21 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
+  
+    <script>
+        var wydrukFakturyPlatnosci = function(kto){
+            window.open('../wydruki/'+kto+'fakturyplatnosci.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        }
+        var wydrukFakturyPlatnosciN = function(kto){
+            window.open('../wydruki/'+kto+'fakturyplatnosciN.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+        }
+    </script>
 
     <h:form id="fakturyniezaplacone">
+        <p:commandButton id="drukujbutton" global="false" value="drukuj niezapłacone" actionListener="#{pdfFakturyPlatnosciView.drukujzaksiegowanydokument(fakturyPlatnosciView.fakturyniezaplacone,'niezapłaconych')}" styleClass="fkbutton"
+                                      style="margin-left: 20px; width: 200px;" />
+        <p:commandButton id="drukujbutton2" global="false" value="drukuj zapłacone" actionListener="#{pdfFakturyPlatnosciView.drukujzaksiegowanydokument(fakturyPlatnosciView.fakturyzaplacone, 'zapłaconych')}" styleClass="fkbutton"
+                                      style="margin-left: 20px; width: 200px;" />
         <p:dataTable id="fakturyniezaplaconedataTable" value="#{fakturyPlatnosciView.fakturyniezaplacone}" var="wpis" emptyMessage="nie ma faktur niezapłaconych" style="width: 1200px; padding: 5px;"
                      sortBy="#{wpis.fakturaPK.numerkolejny}" sortFunction="#{fakturaView.sortZaksiegowaneFaktury}">
             <f:facet name="header">

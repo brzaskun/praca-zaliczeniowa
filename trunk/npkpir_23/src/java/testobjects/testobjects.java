@@ -5,6 +5,7 @@
  */
 package testobjects;
 
+import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -141,6 +142,26 @@ public class testobjects {
        return tabela;
    }
    
+    public static List[] getTabelaFakturyPlatnosci(List<Faktura> wiersze, String zn) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wystawienia");
+       n.add("nr kolejny");
+       n.add("kontrahent");
+       n.add("opis");  
+       n.add("wartość");
+       if (zn.equals("niezapłaconych")) {
+           n.add("termin płatności");
+       } else {
+           n.add("zapłacono dnia");
+       }
+       List t = wiersze;
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaWDTWNT(List<Wiersz> wiersze) {
        List n = new ArrayList();
        n.add("id");
@@ -228,7 +249,8 @@ public class testobjects {
        }
        return w;
    }
-
+   
+  
    public static void main(String[] args) {
        Dokfk p = getDokfk("PK");
        List[] t = getTabela();

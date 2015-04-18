@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
@@ -366,6 +367,17 @@ public class PdfMain {
                 col5[7] = 2;
                 col5[8] = 1;
                 return col5;
+            case "entity.Faktura":
+                int[] col6 = new int[size];
+                col6[0] = 1;
+                col6[1] = 2;
+                col6[2] = 2;
+                col6[3] = 4;
+                col6[4] = 4;
+                col6[5] = 2;
+                col6[6] = 2;
+                return col6;
+                
         }
         return null;
     }
@@ -553,6 +565,16 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getKwotaMa()), "right", 9));
                     table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 9));
+                }
+                if (nazwaklasy.equals("entity.Faktura")) {
+                    Faktura p = (Faktura) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getFakturaPK().getNumerkolejny(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna()+" "+p.getKontrahent().getNip(), "left", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "center", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getBrutto())), "right", 9));
+                    table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 9));
                 }
             } catch (DocumentException ex) {
                 System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain ustawwiersze");
