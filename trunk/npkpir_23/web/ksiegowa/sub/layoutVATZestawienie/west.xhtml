@@ -22,12 +22,12 @@
             
                 <p:panelGrid columns="1">
                     <p:menu >
-                        <p:menuitem value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="deklaracja"  outcome="vaty" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-                        <p:menuitem value="wysyłka"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="potwierdzenia"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="korekty"  outcome="korektavat" icon="ui-icon-circle-arrow-e"/>  
-                        <p:menuitem value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="deklaracja"  outcome="vaty" icon="ui-icon-circle-arrow-e" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
+                        <p:menuitem global="false" value="wysyłka"  outcome="vatydowyslania" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem global="false" value="potwierdzenia"  outcome="vatywyslane" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="korekty"  outcome="korektavat" icon="ui-icon-circle-arrow-e"/>  
+                        <p:menuitem global="false" value="VAT-UE"  outcome="vatue" icon="ui-icon-circle-arrow-e"/>
                     </p:menu> 
                     <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>

@@ -144,8 +144,8 @@
             </p:panelGrid>
 <!--            sprzedawanie srodkow trwalych-->
             <p:contextMenu for="panelewidencji">
-                <p:menuitem value="Sprzedaż" onclick="PF('confirmation').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
-                <p:menuitem value="Odkup" onclick="PF('confirmation1').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
+                <p:menuitem global="false" value="Sprzedaż" onclick="PF('confirmation').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
+                <p:menuitem global="false" value="Odkup" onclick="PF('confirmation1').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
             </p:contextMenu>
             <p:panel id="panelewidencji" style="max-width: 1100px;">
                 <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" rendered="#{DokumentView.pokazEST}"

@@ -18,12 +18,12 @@
              
                  <p:panelGrid columns="1">
                     <p:menu >
-                        <p:menuitem value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/> 
-                        <p:menuitem value="umorzenie"  outcome="srodkidok" icon="ui-icon-circle-arrow-e"/> 
-                        <p:menuitem value="ewidencja"  outcome="srodkiewidencja" icon="ui-icon-circle-arrow-e"/> 
-                        <p:menuitem value="wyposazenie"  outcome="wyposazenie" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="inwestycje"  outcome="inwestycje" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem global="false" value="powrót"  outcome="dokumentyzaksiegowane" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="środki trwałe"  outcome="srodki" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem global="false" value="umorzenie"  outcome="srodkidok" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem global="false" value="ewidencja"  outcome="srodkiewidencja" icon="ui-icon-circle-arrow-e"/> 
+                        <p:menuitem global="false" value="wyposazenie"  outcome="wyposazenie" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem global="false" value="inwestycje"  outcome="inwestycje" icon="ui-icon-circle-arrow-e"/> 
                     </p:menu> 
                     <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}"/>
                 </p:panelGrid>
