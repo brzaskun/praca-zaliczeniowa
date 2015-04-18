@@ -34,6 +34,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 import waluty.Z;
 
@@ -76,11 +77,12 @@ public class RMKView  implements Serializable {
         this.listarmk = new ArrayList<>();
     }
     
-    @PostConstruct
+    
     public void init() {
         listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
+        RequestContext.getCurrentInstance().update("transakcje");
     }
     
     public void dodajNoweRMKDokfk(Dokfk wybranydok) {

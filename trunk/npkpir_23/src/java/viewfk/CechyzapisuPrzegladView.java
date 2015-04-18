@@ -19,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -44,7 +45,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     }
     
     
-    private void init() {
+    public void init() {
         this.zapisyZCecha = new ArrayList<>();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
@@ -63,6 +64,7 @@ public class CechyzapisuPrzegladView implements Serializable{
             p.setId(i++);
         }
         System.out.println("liczba "+zapisyZCecha.size());
+        RequestContext.getCurrentInstance().update("formcechyzapisow");
     }
 
     private Collection<? extends CechaStronaWiersza> pobierzstrony(Cechazapisu r, List<Wiersz> listawierszy) {
