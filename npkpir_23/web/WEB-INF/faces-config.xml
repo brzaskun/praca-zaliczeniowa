@@ -470,6 +470,10 @@
             <to-view-id>/guestFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfkVAT</from-outcome>
+            <to-view-id>/guestFK/guestFKVAT.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gfkBudzet</from-outcome>
             <to-view-id>/guestFK/guestFKBudzet.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
