@@ -12,8 +12,7 @@
                     <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
-                    <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
-                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
+                    
                 </p:menu>
             </h:form>
         </p:tab>  
@@ -22,24 +21,28 @@
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                     <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" 
                                 global="false"></p:menuitem>
+                    <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
+                                rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                 </p:menu>
+                
             </h:form>
         </p:tab>
          <p:tab title="Bilans wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                     <h:form id="dialog1menu3">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansukladwzorcowy').show();"></p:menuitem>
-                            <p:menuitem value="projekt układu" onclick="PF('bilansprojektwzorcowy').show();"></p:menuitem>
-                            <p:menuitem value="definiowanie układu" onclick="PF('bilansprojektukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Przyporządkowanie kont" onclick="PF('bilansukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Projekt układu" onclick="PF('bilansprojektwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Definiowanie układu" onclick="PF('bilansprojektukladwzorcowy').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>
                 <p:tab title="RZiS wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                     <h:form id="dialog1menu4">
                         <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisukladwzorcowy').show();"></p:menuitem>
-                            <p:menuitem value="projekt układu" onclick="PF('rzisprojektwzorcowy').show();"></p:menuitem>
-                            <p:menuitem value="definiowanie układu" onclick="PF('rzisprojektukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Przyporządkowanie kont" onclick="PF('rzisukladwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Projekt układu" onclick="PF('rzisprojektwzorcowy').show();"></p:menuitem>
+                            <p:menuitem value="Kopiowanie wzorcowego układu RZiS" onclick="PF('dialog_ukladwzorcowy_kopiuj').show();"></p:menuitem>
+                            <p:menuitem value="Definiowanie układu" onclick="PF('rzisprojektukladwzorcowy').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>

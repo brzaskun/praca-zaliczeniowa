@@ -7,13 +7,12 @@ package viewfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
-import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
-import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -45,6 +44,8 @@ public class UkladBRView implements Serializable{
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+  
+
     
 
     public UkladBRView() {
@@ -64,6 +65,12 @@ public class UkladBRView implements Serializable{
     }
     
     public void dodaj() {
+        for (UkladBR p : listaWzorcowy) {
+            if (p.getUklad().equals(nazwanowegoukladu)) {
+                Msg.msg("e", "Nazwa nowego układu jest już wykorzystana we wzorcach. Nie można dodać układu.");
+                return;
+            }
+        }
         try {
             UkladBR ukladBR = new UkladBR();
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
@@ -141,6 +148,8 @@ public class UkladBRView implements Serializable{
         }
     }
     
+    
+   
     //<editor-fold defaultstate="collapsed" desc="comment">
     public UkladBR getSelected() {
         return selected;
@@ -182,6 +191,9 @@ public class UkladBRView implements Serializable{
     public void setUkladBRDAO(UkladBRDAO ukladBRDAO) {
         this.ukladBRDAO = ukladBRDAO;
     }
+
+   
+
     
     public List<UkladBR> getListaWzorcowy() {
         return listaWzorcowy;
@@ -292,7 +304,8 @@ public class UkladBRView implements Serializable{
         }
         return null;
     }
-   
+
+    
    
     
     

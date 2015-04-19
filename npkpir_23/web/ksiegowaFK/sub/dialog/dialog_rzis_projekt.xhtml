@@ -40,12 +40,13 @@
                         <h:outputText value="#{loop.przychod0koszt1 eq false ? 'przychód' : 'koszt'}"/>
                     </p:column>
                 </p:treeTable>
-                <p:panel id="wyborrzis" header="pobierz układ" style="margin-top: -50px;">
+                <p:panel id="wyborrzis" header="pobierz układ" style="margin-top: -50px;" >
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
-                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad}" itemValue="#{loop}"/>
+                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px; margin-top: 4px;" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{loop}"/>
+                        <p:ajax event="change" global="false" listener="#{pozycjaBRView.wybranoUklad}" partialSubmit="true"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt"/>
+                    <p:commandButton value="wybierz" style="width: 100px; margin-top: 10px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

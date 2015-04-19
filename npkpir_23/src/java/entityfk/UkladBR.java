@@ -47,12 +47,12 @@ public class UkladBR implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
-    private String uklad;
+    private String podatnik;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(nullable = false, length = 255)
-    private String podatnik;
+    private String uklad;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 4)
@@ -62,6 +62,8 @@ public class UkladBR implements Serializable {
     @NotNull
     @Column(nullable = false, name = "blokada")
     private boolean blokada;
+    @Column(name = "importowany")
+    private boolean importowany;
 
 
     public UkladBR() {
@@ -74,6 +76,13 @@ public class UkladBR implements Serializable {
         this.blokada = blokada;
     }
 
+    public UkladBR(UkladBR ukladBR) {
+        this.uklad = ukladBR.getUklad();
+        this.podatnik = ukladBR.getPodatnik();
+        this.rok = ukladBR.getRok();
+        this.blokada = ukladBR.getBlokada();
+        this.importowany = ukladBR.isImportowany();
+    }
   
    
     public boolean getBlokada() {
@@ -116,6 +125,16 @@ public class UkladBR implements Serializable {
     public void setRok(String rok) {
         this.rok = rok;
     }
+
+    public boolean isImportowany() {
+        return importowany;
+    }
+
+    public void setImportowany(boolean importowany) {
+        this.importowany = importowany;
+    }
+    
+    
     
 
     @Override
@@ -150,9 +169,10 @@ public class UkladBR implements Serializable {
 
     @Override
     public String toString() {
-        return "UkladBR{" + "lp=" + lp + ", uklad=" + uklad + ", podatnik=" + podatnik + ", rok=" + rok + ", blokada=" + blokada + '}';
+        return String.valueOf(this.lp);
     }
 
+   
        
     
 }

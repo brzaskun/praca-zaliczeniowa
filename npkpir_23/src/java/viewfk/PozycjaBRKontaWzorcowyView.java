@@ -12,6 +12,7 @@ import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
@@ -52,8 +53,10 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
-;   @Inject
+    @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
     private String wnmaPrzypisywanieKont;
@@ -774,6 +777,35 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje wzorcowe");
     }
+     
+     public void importujwzorcoweprzyporzadkowanie(String rb) {
+         if (uklad == null) {
+             Msg.msg("e", "Nie wybrano układu. Nie można zaimplementować przyporządkowania.");
+         }
+         if (kontabezprzydzialu.size() > 0) {
+             Msg.msg("w", "Istnieją nie przypisane konta. Nie można zaimplementować przyporządkowania.");
+             //return;
+         }
+         List<UkladBR> ukladyPodatnika = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+         if (ukladyPodatnika != null && ukladyPodatnika.size() > 0) {
+             boolean czyJestTakiUklad = sprawdzNazwyUkladu(ukladyPodatnika, uklad);
+             if (czyJestTakiUklad == false) {
+                 Msg.msg("e", "W układach podatnika nie ma układu o takiej nazwie jak wzorcowy.  Nie można zaimplementować przyporządkowania");
+             }
+             Msg.msg("Rozpoczynam implementacje");
+         } else {
+             Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
+         }
+     }
+     
+     private boolean sprawdzNazwyUkladu (List<UkladBR> ukladyPodatnika, UkladBR ukladBR) {
+         for (UkladBR p : ukladyPodatnika) {
+             if (p.isImportowany() == true && p.getUklad().equals(uklad.getUklad()) && p.getRok().equals(ukladBR.getRok())) {
+                 return true;
+             }
+         }
+         return false;
+     }
 //<editor-fold defaultstate="collapsed" desc="comment">
 
     public ArrayList<PozycjaRZiSBilans> getPozycje() {
