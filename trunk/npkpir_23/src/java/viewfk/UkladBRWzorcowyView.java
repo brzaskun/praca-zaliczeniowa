@@ -12,6 +12,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -42,6 +43,10 @@ public class UkladBRWzorcowyView implements Serializable{
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private UkladBR ukladzrodlowy;
+    private String ukladdocelowynazwa;
+    private String ukladdocelowyrok;
     
 
     public UkladBRWzorcowyView() {
@@ -98,16 +103,83 @@ public class UkladBRWzorcowyView implements Serializable{
         }
     }
     
-//     private void implementujRZiS(UkladBR ukladBR) {
-//        List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
-//        List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje);
-//        int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
-//        for(int i = 1; i <= maxlevel;i++) {
-//                macierzyste = skopiujlevel(pozycje, macierzyste,i);
-//        }
-//        System.out.println("Kopiuje");
-//    }
-//
+    public void kopiujukladwzorcowy() {
+        if (ukladzrodlowy != null) {
+            try {
+                UkladBR ukladdocelowy = new UkladBR(ukladzrodlowy);
+                ukladdocelowy.setUklad(ukladdocelowynazwa);
+                ukladdocelowy.setRok(ukladdocelowyrok);
+                ukladBRDAO.dodaj(ukladdocelowy);
+                lista.add(ukladdocelowy);
+                implementujRZiS(ukladzrodlowy,ukladdocelowyrok);
+                Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
+            } catch (Exception e) {
+                Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
+                System.out.println("Blad UkladBrView kopiujukladwzorcowy"+e.toString());
+            }
+        }
+    }
+    
+        
+     private void implementujRZiS(UkladBR ukladzrodlowy, String rok) {
+        List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladzrodlowy);
+        List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje, rok);
+        int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladzrodlowy);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevel(pozycje, macierzyste,i, rok);
+        }
+        System.out.println("Kopiuje");
+    }
+     
+      private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje, String rok) {
+        List<PozycjaRZiS> macierzyste = new ArrayList<>();
+        for (PozycjaRZiS p : pozycje) {
+            if (p.getLevel()==0) {
+                PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                r.setPodatnik("Wzorcowy");
+                r.setRok(rok);
+                try {
+                    pozycjaRZiSDAO.dodaj(r);
+                } catch (Exception e) {
+                    
+                }
+                macierzyste.add(r);
+            }
+        }
+        return macierzyste;
+    }
+
+    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String rok) {
+         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
+        for (PozycjaRZiS p : pozycje) {
+            if (p.getLevel()==i) {
+                try {
+                    PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik("Wzorcowy");
+                    r.setRok(rok);
+                    r.setLp(null);
+                    PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
+                    r.setMacierzysty(macierzyste.getLp());
+                    pozycjaRZiSDAO.dodaj(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {
+                    
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+    
+     private PozycjaRZiS wyszukajmacierzyste(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
+        PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
+        for (PozycjaRZiS p : macierzystelista) {
+            if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
+                return p;
+            }
+        }
+        return null;
+    }
+
 //    private void implementujBilans(UkladBR ukladBR) {
 //        List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
 //        List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje);
@@ -131,7 +203,29 @@ public class UkladBRWzorcowyView implements Serializable{
     public void setSelected(UkladBR selected) {
         this.selected = selected;
     }
-    
+     public UkladBR getUkladzrodlowy() {
+        return ukladzrodlowy;
+    }
+
+    public void setUkladzrodlowy(UkladBR ukladzrodlowy) {
+        this.ukladzrodlowy = ukladzrodlowy;
+    }
+
+    public String getUkladdocelowynazwa() {
+        return ukladdocelowynazwa;
+    }
+
+    public void setUkladdocelowynazwa(String ukladdocelowynazwa) {
+        this.ukladdocelowynazwa = ukladdocelowynazwa;
+    }
+
+    public String getUkladdocelowyrok() {
+        return ukladdocelowyrok;
+    }
+
+    public void setUkladdocelowyrok(String ukladdocelowyrok) {
+        this.ukladdocelowyrok = ukladdocelowyrok;
+    }
     public String getNazwanowegoukladu() {
         return nazwanowegoukladu;
     }

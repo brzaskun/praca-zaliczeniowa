@@ -25,7 +25,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRWzorcowyView.uklad.uklad} - #{pozycjaBRWzorcowyView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRWzorcowyView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
@@ -43,7 +43,7 @@
                 <p:panel id="wyborrziswzorcowy" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
-                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad}" itemValue="#{loopik}"/>
+                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{loopik}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>
                 </p:panel>

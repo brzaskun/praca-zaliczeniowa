@@ -32,7 +32,9 @@ public class UkladBRDAO extends DAO implements Serializable{
     public UkladBRDAO(Class entityClass) {
         super(entityClass);
     }
-    
+    public UkladBR findukladBR(UkladBR ukladBR) {
+        return sessionFacade.findUkladBRUklad(ukladBR);
+    }
     public  List<UkladBR> findAll(){
         try {
             return sessionFacade.findAll(UkladBR.class);
