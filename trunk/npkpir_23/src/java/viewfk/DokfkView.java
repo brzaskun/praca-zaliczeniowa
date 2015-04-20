@@ -2408,7 +2408,14 @@ public void updatenetto(EVatwpisFK e, String form) {
                 listaroznice.add(p);
             }
         }
-        Msg.msg("i", "Ilosc roznych dokummentow "+listaroznice.size());
+        String main = "Występują różnice w "+listaroznice.size()+" dokumentach";
+        String details = "";
+        StringBuilder b = new StringBuilder();
+        for (Dokfk p : listaroznice) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        Msg.msg("i",main, b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie");
         System.out.println("Ilosc roznych dokummentow "+listaroznice.size());
     }
     
