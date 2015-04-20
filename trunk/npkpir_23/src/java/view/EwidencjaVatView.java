@@ -60,6 +60,8 @@ import waluty.Z;
 public class EwidencjaVatView implements Serializable {
 
     private HashMap<String, List<EVatViewPola>> listaewidencji;
+    private List<String> nazwyewidencji;
+    private List<List<EVatViewPola>> ewidencje;
     private HashMap<String, EVatwpisSuma> sumaewidencji;
     private List<EVatwpisSuma> goscwybralsuma;
     private List<EVatwpisSuma> sumydowyswietleniasprzedaz;
@@ -85,6 +87,7 @@ public class EwidencjaVatView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private List<EVatViewPola> goscwybral;
+    private List<EVatViewPola> filtered;
     private List<String> listanowa;
     private Double suma1;
     private Double suma2;
@@ -97,6 +100,8 @@ public class EwidencjaVatView implements Serializable {
     private String nazwaewidencjiMail;
 
     public EwidencjaVatView() {
+        nazwyewidencji = new ArrayList<>();
+        ewidencje = new ArrayList<>();
         listadokvat = new ArrayList<>();
         listadokvatFK = new ArrayList<>();
         listadokvatprzetworzona = new ArrayList<>();
@@ -121,6 +126,9 @@ public class EwidencjaVatView implements Serializable {
     }
 
     private void zerujListy() {
+        ewidencje = new ArrayList<>();
+        goscwybral = new ArrayList<>();
+        nazwyewidencji = new ArrayList<>();
         listaewidencji = new HashMap<>();
         sumydowyswietleniasprzedaz = new ArrayList<>();
         sumydowyswietleniazakupy = new ArrayList<>();
@@ -139,7 +147,13 @@ public class EwidencjaVatView implements Serializable {
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
             transferujDokdoEVatwpis1();
             stworzenieEwidencjiCzescWspolna(vatokres);
-            RequestContext.getCurrentInstance().update("akorderonbis");
+            for (String k : listaewidencji.keySet()) {
+                nazwyewidencji.add(k);
+            }
+            for (List<EVatViewPola> p : listaewidencji.values()) {
+                ewidencje.add(p);
+            }
+            RequestContext.getCurrentInstance().update("form");
         } catch (Exception e) {
         }
         //drukuj ewidencje
@@ -158,7 +172,14 @@ public class EwidencjaVatView implements Serializable {
             listaprzesunietychBardziej = przesunieteBardziejKoszt;
             sumujprzesunieteBardziej(przesunieteBardziejKoszt);
             stworzenieEwidencjiCzescWspolna(vatokres);
-            RequestContext.getCurrentInstance().update("form:akorderonbis");
+            for (String k : listaewidencji.keySet()) {
+                nazwyewidencji.add(k);
+            }
+            for (List<EVatViewPola> p : listaewidencji.values()) {
+                ewidencje.add(p);
+            }
+            RequestContext.getCurrentInstance().update("form");
+            RequestContext.getCurrentInstance().update("formEwidencjeGuest");
         } catch (Exception e) {
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
@@ -650,9 +671,16 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    public void drukujPdfEwidencje() {
+    public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
-            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO);
+            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, false);
+        } catch (Exception e) {
+
+        }
+    }
+    public void drukujPdfEwidencjeWartosc(String nazwaewidencji) {
+        try {
+            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, true);
         } catch (Exception e) {
 
         }
@@ -660,7 +688,15 @@ public class EwidencjaVatView implements Serializable {
     
     public void drukujPdfWszystkie() {
         try {
-            PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO);
+            PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO, false);
+        } catch (Exception e) {
+
+        }
+    }
+    
+     public void drukujPdfWszystkieWartosc() {
+        try {
+            PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO, true);
         } catch (Exception e) {
 
         }
@@ -982,6 +1018,22 @@ public class EwidencjaVatView implements Serializable {
 
     public void setListaprzesunietychBardziej(List<EVatwpisFK> listaprzesunietychBardziej) {
         this.listaprzesunietychBardziej = listaprzesunietychBardziej;
+    }
+
+    public List<EVatViewPola> getFiltered() {
+        return filtered;
+    }
+
+    public void setFiltered(List<EVatViewPola> filtered) {
+        this.filtered = filtered;
+    }
+
+    public List<List<EVatViewPola>> getEwidencje() {
+        return ewidencje;
+    }
+
+    public void setEwidencje(List<List<EVatViewPola>> ewidencje) {
+        this.ewidencje = ewidencje;
     }
     
     
