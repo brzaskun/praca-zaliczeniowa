@@ -25,7 +25,6 @@
                                  header="#{naglowek != null ? naglowek : ''}" severity="alert" widgetVar="confirm#{lp != null ? lp : '1'}" width="500" appendTo="@(body)"
                                  >
                     <h:form>
-                        <p:growl autoUpdate="true"/>
                         <c:choose>
                             <c:when test="#{listenerPresent}">
                                 <p:commandButton id="confirm" value="Akceptuj"  oncomplete="zamknijdialog('#{closeDialog}'); PF('confirm#{lp != null ? lp : '1'}').hide();"
