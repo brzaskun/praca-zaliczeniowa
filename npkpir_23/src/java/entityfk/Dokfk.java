@@ -154,6 +154,8 @@ public class Dokfk implements Serializable {
     private boolean importowany;
     @Column(name = "lp")
     private int lp;
+    @Column(name = "wzorzec")
+    private boolean wzorzec;
  
 
     
@@ -228,6 +230,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public boolean isWzorzec() {
+        return wzorzec;
+    }
+
+    public void setWzorzec(boolean wzorzec) {
+        this.wzorzec = wzorzec;
     }
 
     public int getLp() {

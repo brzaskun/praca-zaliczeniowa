@@ -56,15 +56,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -175,6 +172,7 @@ private static final long serialVersionUID = 1L;
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
+    
     
 
     public DokfkView() {
@@ -2408,14 +2406,14 @@ public void updatenetto(EVatwpisFK e, String form) {
                 listaroznice.add(p);
             }
         }
-        String main = "Występują różnice w "+listaroznice.size()+" dokumentach";
-        String details = "";
+        String main = "Występują różnice w "+listaroznice.size()+" dokumentach: ";
         StringBuilder b = new StringBuilder();
+        b.append(main);
         for (Dokfk p : listaroznice) {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i",main, b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie");
+        Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         System.out.println("Ilosc roznych dokummentow "+listaroznice.size());
     }
     
@@ -3432,6 +3430,20 @@ public void updatenetto(EVatwpisFK e, String form) {
             RequestContext.getCurrentInstance().update(update);
         } catch (Exception e) {
             
+        }
+    }
+    
+    public void oznaczDokfkJakoWzorzec() {
+        if (selected == null) {
+            Msg.msg("e", "Nie wybrano dokumentu");
+        } else {
+            selected.setWzorzec(!selected.isWzorzec());
+            dokDAOfk.edit(selected);
+            if (selected.isWzorzec()==true) {
+                Msg.msg("Oznaczono dokument jako wzorzec.");
+            } else {
+                Msg.msg("w","Odznaczono dokument jako wzorzec.");
+            }
         }
     }
     
