@@ -130,6 +130,7 @@ public class PodatnikView implements Serializable {
     @PostConstruct
     public void init() {
         nazwaWybranegoPodatnika = wpisView.getPodatnikWpisu();
+        rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         try {
             selected = wpisView.getPodatnikObiekt();
             pobierzogolneDokKsi();
@@ -780,7 +781,7 @@ public class PodatnikView implements Serializable {
     
     public void editdok() {
         try {
-            rodzajedokDAO.edit(selectedDokKsi);
+                rodzajedokDAO.edit(selectedDokKsi);
             selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
         } catch (Exception e) {
