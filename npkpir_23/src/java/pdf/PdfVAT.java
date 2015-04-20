@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.EVatViewPolaWartosccomparator;
 import comparator.EVatViewPolacomparator;
 import dao.EwidencjeVatDAO;
 import embeddable.EVatViewPola;
@@ -49,7 +50,7 @@ import view.WpisView;
 @Stateless
 public class PdfVAT {
 
-    public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, String nazwaewidencji, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         try {
             List<Parametr> param = pod.getVatokres();
@@ -65,116 +66,120 @@ public class PdfVAT {
             HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             Set<String> nazwy = mapa.keySet();
             for (String p : nazwy) {
-                Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
-                String nowanazwa;
-                if (p.contains("sprzedaż")) {
-                    nowanazwa = p.substring(0, p.length() - 1);
-                } else {
-                    nowanazwa = p;
-                }
-                PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf"));
-                int liczydlo = 0;
-                PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
-                writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
-                writer.setPageEvent(headerfoter);
-                pdf.addTitle("Ewidencja VAT");
-                pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-                pdf.addSubject("Wydruk danych z ewidencji VAT");
-                pdf.addKeywords("VAT, PDF");
-                pdf.addCreator("Grzegorz Grzelczyk");
-                pdf.open();
-                BaseFont helvetica = null;
-                try {
-                    helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-                } catch (IOException ex) {
-                    Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
-//    Chunk id = new Chunk("Wielka linijka do wklejenia. Chunk", font);
-//    id.setBackground(BaseColor.BLACK);
-//    Paragraph parag = new Paragraph();
-//    parag.setLeading(100);
-//    parag.add(id);
-//    parag.add(Chunk.NEWLINE);
-//    Pdf.add(parag);
-                font = new Font(helvetica, 8);
-                pdf.setPageSize(PageSize.A4);
-                PdfPTable table = new PdfPTable(10);
-                table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
-                PdfPCell cell = new PdfPCell();
-                try {
-                    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                    table.addCell(ustawfraze("wydruk ewidencji vat " + p, 2, 0));
-                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
-                    table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
-                    table.addCell(ustawfraze("lp", 0, 2));
-                    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
-                    table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
-                    table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
-                    table.addCell(ustawfraze("Kontrahent", 2, 0));
-                    table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
-                    table.addCell(ustawfraze("Netto", 0, 2));
-                    table.addCell(ustawfraze("Vat", 0, 2));
-                    table.addCell(ustawfraze("Brutto", 0, 2));
-
-
-                    table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
-                    table.addCell(ustawfrazeAlign("adres", "center", 6));
-
-                    table.addCell(ustawfrazeAlign("1", "center", 6));
-                    table.addCell(ustawfrazeAlign("2", "center", 6));
-                    table.addCell(ustawfrazeAlign("3", "center", 6));
-                    table.addCell(ustawfrazeAlign("4", "center", 6));
-                    table.addCell(ustawfrazeAlign("5", "center", 6));
-                    table.addCell(ustawfrazeAlign("6", "center", 6));
-                    table.addCell(ustawfrazeAlign("7", "center", 6));
-                    table.addCell(ustawfrazeAlign("8", "center", 6));
-                    table.addCell(ustawfrazeAlign("9", "center", 6));
-                    table.addCell(ustawfrazeAlign("10", "center", 6));
-
-
-                    table.addCell(ustawfrazeAlign("1", "center", 6));
-                    table.addCell(ustawfrazeAlign("2", "center", 6));
-                    table.addCell(ustawfrazeAlign("3", "center", 6));
-                    table.addCell(ustawfrazeAlign("4", "center", 6));
-                    table.addCell(ustawfrazeAlign("5", "center", 6));
-                    table.addCell(ustawfrazeAlign("6", "center", 6));
-                    table.addCell(ustawfrazeAlign("7", "center", 6));
-                    table.addCell(ustawfrazeAlign("8", "center", 6));
-                    table.addCell(ustawfrazeAlign("9", "center", 6));
-                    table.addCell(ustawfrazeAlign("10", "center", 6));
-                    
-
-                    table.setHeaderRows(5);
-                    table.setFooterRows(1);
-                } catch (IOException ex) {
-                    Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                List<EVatViewPola> ew = lista.getEwidencje().get(p);
-                int size = ew.size();
-                EVatViewPola polesuma = ew.get(size-1);
-                ew.remove(polesuma);
-                Collections.sort(ew, new EVatViewPolacomparator());
-                ew.add(polesuma);
-                Integer i = 1;
-                for (EVatViewPola rs : ew) {
-                    if (p.equals("zakup")) {
-                        if (rs.getVat() != 0) {
-                            dodajwiersztabeli(table, rs, i) ;
-                        }
+                if (p.equals(nazwaewidencji)) {
+                    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+                    String nowanazwa;
+                    if (p.contains("sprzedaż")) {
+                        nowanazwa = p.substring(0, p.length() - 1);
                     } else {
-                      dodajwiersztabeli(table, rs, i) ;
+                        nowanazwa = p;
                     }
-                    i++;
+                    String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    try {
+                        File file = new File(nazwapliku);
+                        if (file.isFile()) {
+                            file.delete();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+                    int liczydlo = 0;
+                    PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+                    writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
+                    writer.setPageEvent(headerfoter);
+                    pdf.addTitle("Ewidencja VAT");
+                    pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+                    pdf.addSubject("Wydruk danych z ewidencji VAT");
+                    pdf.addKeywords("VAT, PDF");
+                    pdf.addCreator("Grzegorz Grzelczyk");
+                    pdf.open();
+                    BaseFont helvetica = null;
+                    try {
+                        helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+                    font = new Font(helvetica, 8);
+                    pdf.setPageSize(PageSize.A4);
+                    PdfPTable table = new PdfPTable(10);
+                    table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
+                    PdfPCell cell = new PdfPCell();
+                    try {
+                        table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+                        table.addCell(ustawfraze("wydruk ewidencji vat " + p, 2, 0));
+                        table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
+                        table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
+                        table.addCell(ustawfraze("lp", 0, 2));
+                        table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+                        table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
+                        table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+                        table.addCell(ustawfraze("Kontrahent", 2, 0));
+                        table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+                        table.addCell(ustawfraze("Netto", 0, 2));
+                        table.addCell(ustawfraze("Vat", 0, 2));
+                        table.addCell(ustawfraze("Brutto", 0, 2));
+
+                        table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
+                        table.addCell(ustawfrazeAlign("adres", "center", 6));
+
+                        table.addCell(ustawfrazeAlign("1", "center", 6));
+                        table.addCell(ustawfrazeAlign("2", "center", 6));
+                        table.addCell(ustawfrazeAlign("3", "center", 6));
+                        table.addCell(ustawfrazeAlign("4", "center", 6));
+                        table.addCell(ustawfrazeAlign("5", "center", 6));
+                        table.addCell(ustawfrazeAlign("6", "center", 6));
+                        table.addCell(ustawfrazeAlign("7", "center", 6));
+                        table.addCell(ustawfrazeAlign("8", "center", 6));
+                        table.addCell(ustawfrazeAlign("9", "center", 6));
+                        table.addCell(ustawfrazeAlign("10", "center", 6));
+
+                        table.addCell(ustawfrazeAlign("1", "center", 6));
+                        table.addCell(ustawfrazeAlign("2", "center", 6));
+                        table.addCell(ustawfrazeAlign("3", "center", 6));
+                        table.addCell(ustawfrazeAlign("4", "center", 6));
+                        table.addCell(ustawfrazeAlign("5", "center", 6));
+                        table.addCell(ustawfrazeAlign("6", "center", 6));
+                        table.addCell(ustawfrazeAlign("7", "center", 6));
+                        table.addCell(ustawfrazeAlign("8", "center", 6));
+                        table.addCell(ustawfrazeAlign("9", "center", 6));
+                        table.addCell(ustawfrazeAlign("10", "center", 6));
+
+                        table.setHeaderRows(5);
+                        table.setFooterRows(1);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    List<EVatViewPola> ew = lista.getEwidencje().get(p);
+                    int size = ew.size();
+                    EVatViewPola polesuma = ew.get(size - 1);
+                    ew.remove(polesuma);
+                    if (wartosc==true) {
+                        Collections.sort(ew, new EVatViewPolaWartosccomparator());
+                    } else {
+                        Collections.sort(ew, new EVatViewPolacomparator());
+                    }
+                    ew.add(polesuma);
+                    Integer i = 1;
+                    for (EVatViewPola rs : ew) {
+                        if (p.equals("zakup")) {
+                            if (rs.getVat() != 0) {
+                                dodajwiersztabeli(table, rs, i);
+                            }
+                        } else {
+                            dodajwiersztabeli(table, rs, i);
+                        }
+                        i++;
+                    }
+                    pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+                    pdf.add(table);
+                    pdf.addAuthor("Biuro Rachunkowe Taxman");
+                    pdf.close();
+
                 }
-                pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
-                pdf.add(table);
-                pdf.addAuthor("Biuro Rachunkowe Taxman");
-                pdf.close();
-
             }
-
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
         }
@@ -204,7 +209,7 @@ public class PdfVAT {
         i++;
     }
     
-    public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
         try {
@@ -257,7 +262,7 @@ public class PdfVAT {
                 Collections.sort(nazwy);
                 for (Iterator<String> nazwa = nazwy.iterator(); nazwa.hasNext();) {
                   String p = nazwa.next();
-                  pdf.add(stworztabele(lista, p, wpisView));
+                  pdf.add(stworztabele(lista, p, wpisView, wartosc));
                   if (nazwa.hasNext()) {
                     Paragraph parag = new Paragraph();
                     parag.setLeading(20);
@@ -273,7 +278,7 @@ public class PdfVAT {
         }
     }
     
-    private static PdfPTable stworztabele(Ewidencjevat lista, String nazwaewidencji, WpisView wpisView) {
+    private static PdfPTable stworztabele(Ewidencjevat lista, String nazwaewidencji, WpisView wpisView, boolean wartosc) {
         try {
             PdfPTable table = new PdfPTable(10);
             table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
@@ -325,6 +330,11 @@ public class PdfVAT {
             }
 
             List<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
+            if (wartosc==true) {
+                Collections.sort(ew, new EVatViewPolaWartosccomparator());
+            } else {
+                Collections.sort(ew, new EVatViewPolacomparator());
+            }
             Integer i = 1;
              for (EVatViewPola rs : ew) {
                     if (nazwaewidencji.equals("zakup")) {

@@ -11,9 +11,6 @@
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                             <p:menuitem value="przeglądanie rejestrów vat" oncomplete="PF('dialogewidencjevat').show();" >
                                 <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
-                                <f:actionListener binding="#{ewidencjaVatView.drukujPdfEwidencje()}"/>
-                                <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>
-                                <f:actionListener binding="#{ewidencjaVatView.drukujPdfWszystkie()}"/>
                             </p:menuitem>
                         </p:menu>
                     </h:form>

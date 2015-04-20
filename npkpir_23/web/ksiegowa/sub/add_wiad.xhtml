@@ -58,7 +58,7 @@
                 <p:autoComplete id="acForce" value="#{DokumentView.selDokument.kontr}" completeMethod="#{klienciConverterView.completeKL}"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
-                                widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" queryDeletionDelay="10" 
+                                widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
                                 required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                     <f:ajax event="blur" execute="@this"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" />
