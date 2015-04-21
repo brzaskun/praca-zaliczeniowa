@@ -19,10 +19,10 @@
                 <p:menuitem value="Usuń" actionListener="#{planKontView.usun(planKontView.rootwzorcowy)}" icon="ui-icon-trash" update=":formwzorcowy:dataListwzorcowy"/>
                 <p:menuitem value="Usuń wszystkie" actionListener="#{planKontView.usunieciewszystkichKontWzorcowy()}" global="false" icon="ui-icon-trash" update=":formwzorcowy"/>
                 <p:separator/>
-                <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Porządkuj konta" actionListener="${planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":form, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form, :formwzorcowy"/>
+                <p:menuitem value="Implem. konto" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowego()}" icon="ui-icon-trash" update=":form_dialog_plankont, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontaWzorcowegoZAnalitykom()}" icon="ui-icon-tag" update=":form_dialog_plankont, :formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Porządkuj konta" actionListener="${planKontView.porzadkowanieKontWzorcowych()}" icon="ui-icon-note" update=":formwzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":formwzorcowy"/>
             </p:contextMenu>
             <!--            <script>
             
@@ -43,7 +43,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form:dataList" style="float: left; width: 130px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" global="false"/>
+                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form_dialog_plankont:dataList" style="float: left; width: 130px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" global="false"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
