@@ -1810,6 +1810,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow");
                 RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
             } catch (Exception e) {
+                System.out.println("Nie udało się dodac dokumentu " + e.getMessage());
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }

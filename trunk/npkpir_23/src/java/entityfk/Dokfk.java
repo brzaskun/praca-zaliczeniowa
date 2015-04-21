@@ -635,10 +635,10 @@ public class Dokfk implements Serializable {
             boolean jestrozrachunkowe = p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe");
             boolean jestnowatransakcja = p.isNowatransakcja();
             boolean saplatnosci = p.getRozliczono() > 0;
-            if (jestrozrachunkowe && (jestnowatransakcja || saplatnosci)) {
-                
-            } else {
-                brakrozrachunkow = 1;
+            if (jestrozrachunkowe == true) {
+                if (jestnowatransakcja == false && saplatnosci == false) {
+                    brakrozrachunkow = 1;
+                }
             }
         }
         return brakrozrachunkow;
