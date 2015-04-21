@@ -901,9 +901,9 @@ public class PodatnikView implements Serializable {
 
     public void naniesRozliczenieStrat() {
         Msg.msg("i", "Rozpoczynam rozliczanie strat");
-        List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "12", wpisView.getPodatnikWpisu());
+        List<Pitpoz> pitpoz = pitDAO.findList(wpisView.getRokUprzedniSt(), "13", wpisView.getPodatnikWpisu());
         if (pitpoz.isEmpty()) {
-            Msg.msg("e", "Nie sporządzono pitu za grudzień poprzedniego roku. Przerywam nanoszenie strat");
+            Msg.msg("e", "Nie sporządzono pitu za 13-mc poprzedniego roku. Przerywam nanoszenie strat");
             return;
         }
         Double strataRozliczonaWDanymRoku = 0.0;
