@@ -206,7 +206,7 @@ public class PdfVAT {
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right", 7));
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getVat()), "right", 7));
         table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto() + rs.getVat()), "right", 7));
-        i++;
+        
     }
     
     public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
@@ -344,6 +344,7 @@ public class PdfVAT {
                     } else {
                       dodajwiersztabeli(table, rs, i) ;
                     }
+                    i++;
                 }
             return table;
         } catch (Exception e) {
