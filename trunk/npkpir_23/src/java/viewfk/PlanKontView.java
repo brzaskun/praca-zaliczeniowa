@@ -501,7 +501,8 @@ public class PlanKontView implements Serializable {
                     return;
                 }
             }
-            RequestContext.getCurrentInstance().update("form:dataList");
+            wykazkont = new ArrayList<>();
+            RequestContext.getCurrentInstance().update("form_dialog_plankont:dataList");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
