@@ -169,9 +169,10 @@ public class UkladBR implements Serializable {
 
     @Override
     public String toString() {
-        return String.valueOf(this.lp);
+        return "UkladBR{" + "lp=" + lp + ", podatnik=" + podatnik + ", uklad=" + uklad + ", rok=" + rok + ", blokada=" + blokada + ", importowany=" + importowany + '}';
     }
 
+    
    
        
     
