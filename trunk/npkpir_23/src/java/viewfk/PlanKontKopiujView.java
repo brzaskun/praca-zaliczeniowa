@@ -94,7 +94,7 @@ public class PlanKontKopiujView implements Serializable{
                 r.setRok(Integer.parseInt(rokDocelowy));
                 try {
                     kontoDAOfk.dodaj(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
                 macierzyste.add(r);
@@ -119,7 +119,7 @@ public class PlanKontKopiujView implements Serializable{
                         kontoDAOfk.dodaj(r);
                         nowemacierzyste.add(r);
                     }
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
             }
@@ -140,7 +140,7 @@ public class PlanKontKopiujView implements Serializable{
                     r.setMacierzysty(macierzyste.getId());
                     kontoDAOfk.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
             }

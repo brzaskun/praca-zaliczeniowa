@@ -194,7 +194,7 @@ public class KontaVatFKView implements Serializable {
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Blada nietypowy plik KontaVarFKView zmodyfikujliste ");
             return null;
         }
@@ -319,7 +319,7 @@ public class KontaVatFKView implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentvat);
             Msg.msg("Zaksięgowano dokument VAT");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu VAT");
         }
     }
@@ -378,7 +378,7 @@ public class KontaVatFKView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }

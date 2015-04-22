@@ -57,7 +57,7 @@ public class UkladBRView implements Serializable{
        try {
             lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
-        } catch (Exception e) {} 
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());} 
     }
     
     public void wybranouklad() {
@@ -80,7 +80,7 @@ public class UkladBRView implements Serializable{
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
             Msg.msg("i", "Dodano nowy układ");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
@@ -97,7 +97,7 @@ public class UkladBRView implements Serializable{
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
             Msg.msg("i", "Dodano nowy układ");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
@@ -111,7 +111,7 @@ public class UkladBRView implements Serializable{
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
             pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
             Msg.msg("i", "Usunięto wybrany układ");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
         }
     }
@@ -218,7 +218,7 @@ public class UkladBRView implements Serializable{
                 r.setRok(wpisView.getRokWpisuSt());
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
                 macierzyste.add(r);
@@ -240,7 +240,7 @@ public class UkladBRView implements Serializable{
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
             }
@@ -267,7 +267,7 @@ public class UkladBRView implements Serializable{
                 r.setRok(wpisView.getRokWpisuSt());
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
                 macierzyste.add(r);
@@ -289,7 +289,7 @@ public class UkladBRView implements Serializable{
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaBilansDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
             }
