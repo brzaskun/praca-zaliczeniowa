@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package viewfk;
 
 import beansFK.PlanKontFKBean;
@@ -32,16 +31,23 @@ import view.WpisView;
  */
 @ManagedBean
 @ViewScoped
-public class KliencifkView implements Serializable{
+public class KliencifkView implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    @Inject private KlienciDAO klienciDAO;
-    @Inject private Klienci wybranyklient;
+    @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
+    private Klienci wybranyklient;
     private List<Klienci> listawszystkichklientow;
     private List<Kliencifk> listawszystkichklientowFk;
-    @Inject private Kliencifk klientMaKonto;
-    @Inject private Kliencifk klientBezKonta;
-    @Inject private KliencifkDAO kliencifkDAO;
-    @Inject private KontoDAOfk kontoDAOfk;
+    @Inject
+    private Kliencifk klientMaKonto;
+    @Inject
+    private Kliencifk klientBezKonta;
+    @Inject
+    private KliencifkDAO kliencifkDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{dokfkView}")
@@ -60,10 +66,10 @@ public class KliencifkView implements Serializable{
         listawszystkichklientow = klienciDAO.findAll();
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
     }
-    
-    public void pobieraniekontaFKWpis(){
+
+    public void pobieraniekontaFKWpis() {
         if (dokfkView.isNiedodawajkontapole() == false) {
-            if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5 ) {
+            if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5) {
                 wybranyklient = dokfkView.selected.getKontr();
                 if (!wybranyklient.getNpelna().equals("nowy klient")) {
                     int wynik = pobieraniekontaFK();
@@ -74,16 +80,14 @@ public class KliencifkView implements Serializable{
             }
         }
     }
-    
+
     public void resetujmakontoniemakonta() {
-        makonto0niemakonta1= false;
+        makonto0niemakonta1 = false;
         RequestContext.getCurrentInstance().update("formwpisdokument:wybranawaluta");
     }
-    
-    
-    
+
     public void pobieraniekontaFKWpisCD() {
-         //tworzenie nowego
+        //tworzenie nowego
         klientBezKonta = new Kliencifk();
         klientBezKonta.setNazwa(wybranyklient.getNpelna());
         klientBezKonta.setNip(wybranyklient.getNip());
@@ -94,7 +98,7 @@ public class KliencifkView implements Serializable{
         resetujmakontoniemakonta();
         planKontCompleteView.init();
     }
-    
+
     public int pobieraniekontaFK() {
         if (wybranyklient instanceof Klienci && !wybranyklient.getNpelna().equals("nowy klient")) {
             try {
@@ -111,37 +115,37 @@ public class KliencifkView implements Serializable{
                     return 1;
                 }
             } catch (Exception e) {
+                System.out.println("Blad " + e.getStackTrace()[0].toString());
             }
         }
         return -1;
     }
-    
-    
-    
-    public void przyporzadkujdokonta(){
+
+    public void przyporzadkujdokonta() {
         try {
             kliencifkDAO.dodaj(klientBezKonta);
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(klientBezKonta, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
         }
         wybranyklient = new Klienci();
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
-    
 
     private String pobierznastepnynumer() {
         try {
             List<Kliencifk> przyporzadkowani = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
-            return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size()-1).getNrkonta())+1);
+            return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
             return "1";
         }
     }
-    
+
     public int sortKliencifk(Object o1, Object o2) {
         int nr1 = Integer.parseInt(((Kliencifk) o1).getNrkonta());
         int nr2 = Integer.parseInt(((Kliencifk) o2).getNrkonta());
@@ -152,21 +156,22 @@ public class KliencifkView implements Serializable{
         }
         return 0;
     }
-    
-    public void remove(Kliencifk klientkontodousuniecia){
+
+    public void remove(Kliencifk klientkontodousuniecia) {
         try {
             kliencifkDAO.destroy(klientkontodousuniecia);
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenciRemove(klientkontodousuniecia, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
-            Msg.msg("Usunięto konta słownikowe dla klienta "+klientkontodousuniecia.getNazwa());
+            Msg.msg("Usunięto konta słownikowe dla klienta " + klientkontodousuniecia.getNazwa());
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
             Msg.msg("e", "Wystąpił problem z usuwaniem kont słownikowych dla klienta");
         }
         wybranyklient = new Klienci();
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
-    
+
     public boolean isMakonto0niemakonta1() {
         return makonto0niemakonta1;
     }
@@ -179,7 +184,7 @@ public class KliencifkView implements Serializable{
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
     }
-    
+
     public void setListawszystkichklientow(List<Klienci> listawszystkichklientow) {
         this.listawszystkichklientow = listawszystkichklientow;
     }
@@ -191,35 +196,35 @@ public class KliencifkView implements Serializable{
     public void setDokfkView(DokfkView dokfkView) {
         this.dokfkView = dokfkView;
     }
-    
+
     public Klienci getWybranyklient() {
         return wybranyklient;
     }
-    
+
     public void setWybranyklient(Klienci wybranyklient) {
         this.wybranyklient = wybranyklient;
     }
-    
+
     public WpisView getWpisView() {
         return wpisView;
     }
-    
+
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
+
     public Kliencifk getKlientMaKonto() {
         return klientMaKonto;
     }
-    
+
     public void setKlientMaKonto(Kliencifk klientMaKonto) {
         this.klientMaKonto = klientMaKonto;
     }
-    
+
     public Kliencifk getKlientBezKonta() {
         return klientBezKonta;
     }
-    
+
     public void setKlientBezKonta(Kliencifk klientBezKonta) {
         this.klientBezKonta = klientBezKonta;
     }
@@ -231,18 +236,14 @@ public class KliencifkView implements Serializable{
     public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
         this.planKontCompleteView = planKontCompleteView;
     }
-    
+
     public List<Kliencifk> getListawszystkichklientowFk() {
         return listawszystkichklientowFk;
     }
-    
+
     public void setListawszystkichklientowFk(List<Kliencifk> listawszystkichklientowFk) {
         this.listawszystkichklientowFk = listawszystkichklientowFk;
     }
-    
-    
-    
+
 //</editor-fold>
-    
-    
 }

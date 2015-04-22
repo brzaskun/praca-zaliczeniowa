@@ -69,7 +69,7 @@ public class BilansPodgladView  implements Serializable{
             level = root.ustaldepthDT(kontadlanodes)-1;
             root.expandAll();
             Msg.msg("Rozwinięto maksymalnie");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Brak kont bilansowych u podatnika");
         }
     }  

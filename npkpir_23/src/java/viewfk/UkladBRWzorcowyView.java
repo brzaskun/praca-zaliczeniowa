@@ -9,6 +9,7 @@ import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class UkladBRWzorcowyView implements Serializable{
     private void init() {
        try {
             lista =  ukladBRDAO.findPodatnik("Wzorcowy");
-        } catch (Exception e) {} 
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());} 
     }
     
     public void wybranouklad() {
@@ -74,7 +75,7 @@ public class UkladBRWzorcowyView implements Serializable{
             lista.add(ukladBR);
             nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
@@ -98,7 +99,7 @@ public class UkladBRWzorcowyView implements Serializable{
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
             pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
             Msg.msg("i", "Usunięto wybrany układ");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
         }
     }
@@ -112,10 +113,11 @@ public class UkladBRWzorcowyView implements Serializable{
                 ukladBRDAO.dodaj(ukladdocelowy);
                 lista.add(ukladdocelowy);
                 implementujRZiS(ukladzrodlowy,ukladdocelowyrok);
+                implementujBilans(ukladzrodlowy,ukladdocelowyrok);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
             } catch (Exception e) {
+                System.out.println("Blad "+e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
-                System.out.println("Blad UkladBrView kopiujukladwzorcowy"+e.toString());
             }
         }
     }
@@ -123,15 +125,31 @@ public class UkladBRWzorcowyView implements Serializable{
         
      private void implementujRZiS(UkladBR ukladzrodlowy, String rok) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladzrodlowy);
-        List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje, rok);
+        List<PozycjaRZiS> macierzyste = skopiujlevel0RZiS(pozycje, rok);
         int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevel(pozycje, macierzyste,i, rok);
+                macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, rok);
         }
         System.out.println("Kopiuje");
     }
      
-      private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje, String rok) {
+      private void implementujBilans(UkladBR ukladzrodlowy, String rok) {
+        List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladzrodlowy);
+        List<PozycjaBilans> macierzyste = skopiujlevel0Bilans(pozycje, rok);
+        int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladzrodlowy);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
+        }
+        pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladzrodlowy);
+        macierzyste = skopiujlevel0Bilans(pozycje, rok);
+        maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladzrodlowy);
+        for(int i = 1; i <= maxlevel;i++) {
+                macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
+        }
+        System.out.println("Kopiuje");
+    }
+     
+      private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, String rok) {
         List<PozycjaRZiS> macierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==0) {
@@ -140,7 +158,25 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                    
+                }
+                macierzyste.add(r);
+            }
+        }
+        return macierzyste;
+    }
+      
+      private List<PozycjaBilans> skopiujlevel0Bilans(List<PozycjaBilans> pozycje, String rok) {
+        List<PozycjaBilans> macierzyste = new ArrayList<>();
+        for (PozycjaBilans p : pozycje) {
+            if (p.getLevel()==0) {
+                PozycjaBilans r = serialclone.SerialClone.clone(p);
+                r.setPodatnik("Wzorcowy");
+                r.setRok(rok);
+                try {
+                    pozycjaRZiSDAO.dodaj(r);
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
                 macierzyste.add(r);
@@ -149,7 +185,7 @@ public class UkladBRWzorcowyView implements Serializable{
         return macierzyste;
     }
 
-    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String rok) {
+    private List<PozycjaRZiS> skopiujlevelRZiS(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String rok) {
          List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==i) {
@@ -158,11 +194,11 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setPodatnik("Wzorcowy");
                     r.setRok(rok);
                     r.setLp(null);
-                    PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
+                    PozycjaRZiS macierzyste = wyszukajmacierzysteRZiS(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                     
                 }
             }
@@ -170,9 +206,40 @@ public class UkladBRWzorcowyView implements Serializable{
         return nowemacierzyste;
     }
     
-     private PozycjaRZiS wyszukajmacierzyste(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
+    private List<PozycjaBilans> skopiujlevelBilans(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, String rok) {
+         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
+        for (PozycjaBilans p : pozycje) {
+            if (p.getLevel()==i) {
+                try {
+                    PozycjaBilans r = serialclone.SerialClone.clone(p);
+                    r.setPodatnik("Wzorcowy");
+                    r.setRok(rok);
+                    r.setLp(null);
+                    PozycjaBilans macierzyste = wyszukajmacierzysteBilans(p, macierzystelista);
+                    r.setMacierzysty(macierzyste.getLp());
+                    pozycjaRZiSDAO.dodaj(r);
+                    nowemacierzyste.add(r);
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                    
+                }
+            }
+        }
+        return nowemacierzyste;
+    }
+    
+    private PozycjaRZiS wyszukajmacierzysteRZiS(PozycjaRZiS macierzyste, List<PozycjaRZiS> macierzystelista) {
         PozycjaRZiS mac = pozycjaRZiSDAO.findRzisLP(macierzyste.getMacierzysty());
         for (PozycjaRZiS p : macierzystelista) {
+            if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    private PozycjaBilans wyszukajmacierzysteBilans(PozycjaBilans macierzyste, List<PozycjaBilans> macierzystelista) {
+        PozycjaBilans mac = pozycjaBilansDAO.findBilansLP(macierzyste.getMacierzysty());
+        for (PozycjaBilans p : macierzystelista) {
             if (p.getNazwa().equals(mac.getNazwa()) && p.getPozycjaString().equals(mac.getPozycjaString())) {
                 return p;
             }
@@ -272,7 +339,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
 //                    pozycjaRZiSDAO.dodaj(r);
-//                } catch (Exception e) {
+//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
 //                    
 //                }
 //                macierzyste.add(r);
@@ -294,7 +361,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setMacierzysty(macierzyste.getLp());
 //                    pozycjaRZiSDAO.dodaj(r);
 //                    nowemacierzyste.add(r);
-//                } catch (Exception e) {
+//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
 //                    
 //                }
 //            }
@@ -321,7 +388,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
 //                    pozycjaRZiSDAO.dodaj(r);
-//                } catch (Exception e) {
+//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
 //                    
 //                }
 //                macierzyste.add(r);
@@ -343,7 +410,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setMacierzysty(macierzyste.getLp());
 //                    pozycjaBilansDAO.dodaj(r);
 //                    nowemacierzyste.add(r);
-//                } catch (Exception e) {
+//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
 //                    
 //                }
 //            }

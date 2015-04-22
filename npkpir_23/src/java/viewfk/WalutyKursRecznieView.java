@@ -56,7 +56,7 @@ public class WalutyKursRecznieView implements Serializable{
         for (Tabelanbp p : wierszepobranezNBP) {
             try {
                 tabelanbpDAO.dodaj(p);
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 
             }
         }

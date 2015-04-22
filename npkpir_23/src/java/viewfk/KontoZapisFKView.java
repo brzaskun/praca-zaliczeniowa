@@ -227,7 +227,7 @@ public class KontoZapisFKView implements Serializable{
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
               return kontoDAOfk.findKontaPotomnePodatnik(wpisView,macierzyste.getPelnynumer());
-          } catch (Exception e) {
+          } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
           return null;
@@ -272,7 +272,7 @@ public class KontoZapisFKView implements Serializable{
             listasum.get(0).setSumaMa(sumaMa);
             listasum.get(0).setSaldoWn(saldoWn);
             listasum.get(0).setSaldoMa(saldoMa);
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
         }
     }
@@ -335,7 +335,7 @@ public class KontoZapisFKView implements Serializable{
             }
             RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
             RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }
@@ -357,7 +357,7 @@ public class KontoZapisFKView implements Serializable{
             } else {
                 return porownajseriedok(((StronaWiersza) o1),((StronaWiersza) o2));
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             return 0;
         }
     }
@@ -401,7 +401,7 @@ public class KontoZapisFKView implements Serializable{
             PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto);
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
 
         }
     }

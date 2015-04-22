@@ -88,7 +88,7 @@ public class RMKView  implements Serializable {
     public void dodajNoweRMKDokfk(Dokfk wybranydok) {
         try {
             this.dokfk = wybranydok;
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
         }
     }
     
@@ -129,7 +129,7 @@ public class RMKView  implements Serializable {
         try {
             rmkdao.destroy(rmk);
             listarmk.remove(rmk);
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }
@@ -140,7 +140,7 @@ public class RMKView  implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentRMK);
             Msg.msg("Zaksięgowano dokument RMK");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RMK");
         }
     }
@@ -185,7 +185,7 @@ public class RMKView  implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }
@@ -250,7 +250,7 @@ public class RMKView  implements Serializable {
            for (int i = 0;i < odelgloscwmcach+1;i++){
                p.getUjetewksiegach().add(p.getPlanowane().get(i));
            }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             p.setRozliczony(true);
         }
         return kwota;

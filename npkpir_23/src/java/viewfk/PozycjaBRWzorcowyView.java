@@ -157,7 +157,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             System.out.println("Blad przy pobieraniu ukladu "+e.toString());
         }   
         root.getChildren().clear();
@@ -174,7 +174,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
         }
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
@@ -222,7 +222,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
         }
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
@@ -343,7 +343,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję syntetyczną");
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
             nowyelementRZiS = new PozycjaRZiS();
@@ -387,7 +387,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję analityczną");
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
             nowyelementRZiS = new PozycjaRZiS();
@@ -428,7 +428,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję syntetyczną");
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
             nowyelementBilans = new PozycjaBilans();
@@ -472,7 +472,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję analityczną");
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
             nowyelementBilans = new PozycjaBilans();
@@ -495,7 +495,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
             PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
             level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
             Msg.msg("i", "Usuwam w RZiS");
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
         }
     }

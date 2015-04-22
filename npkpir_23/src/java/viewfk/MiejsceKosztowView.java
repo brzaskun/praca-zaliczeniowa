@@ -59,7 +59,7 @@ public class MiejsceKosztowView  implements Serializable{
     public void init() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }
@@ -69,7 +69,7 @@ public class MiejsceKosztowView  implements Serializable{
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             listasummiejsckosztow = new LinkedHashSet<>();
             obliczsumymiejsc();
-        } catch (Exception e) {
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
             
         }
     }

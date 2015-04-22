@@ -151,7 +151,7 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                     saldoKonto.getZapisy().add(r);
                 }
-            } catch (Exception e) {
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
                 if (wierszenieuzupelnione.size() > 0) {
                     boolean jest = false;
                     for (StronaWiersza t : wierszenieuzupelnione) {
