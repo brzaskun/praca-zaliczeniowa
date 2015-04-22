@@ -9,9 +9,11 @@
     <style>
        
     </style>
-    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" dynamic="true" fitViewport="true"
+    
+    <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" fitViewport="true"
               resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
+           
             <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
                 <p:menuitem id="nowesyntetyczne" value="Nowe syntetyczne" icon="ui-icon-circle-plus" onclick="PF('nowekontosyntetyczne').show();" />
                 <p:menuitem id="noweanalityczne" value="Nowe analityczne" icon="ui-icon-circle-plus" onclick="PF('nowekontoanalityczne').show();" />
@@ -26,7 +28,8 @@
                 <p:menuitem value="Blokada wszystkie" actionListener="#{planKontView.obslugaBlokadyKontaWszystkie()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>
                 <p:menuitem value="Porządkuj konta" onclick="PF('confirm3').show();" global="false" icon="ui-icon-tag" update=":form_dialog_plankont" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Weryfikuj słowniki" onclick="PF('confirm4').show();" global="false" icon="ui-icon-note" update=":form_dialog_plankont" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
-                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" global="false" icon="ui-icon-trash" update=":form_dialog_plankont" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+                <p:menuitem value="Usuń wszystkie" onclick="PF('confirm2').show();" 
+                            global="false" icon="ui-icon-trash"  rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:contextMenu>
 <!--            <script>
 
@@ -58,7 +61,7 @@
                              style="width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
                              sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
                              >
-                    <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
                     <p:columnGroup type="header">
                         <p:row>
                             <p:column colspan="1" headerText="" width="1" />

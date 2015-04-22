@@ -11,8 +11,8 @@
             width: 200px;
         }
     </style>
-    <p:dialog id="dialog_ukladwzorcowy_kopiuj" header="Kopiowanie układu wzorcowego w inny ukłąd wzorcowy" widgetVar="dialog_ukladwzorcowy_kopiuj" dynamic="true"
-              resizable="false" onShow="ustawdialog('dialog_ukladwzorcowy_kopiuj','menuustawienia', 730, 180);" closeOnEscape="true" onHide="resetujdialog('dialog_ukladwzorcowy_kopiuj');"  >
+    <p:dialog id="dialog_ukladwzorcowy_kopiuj" header="Kopiowanie układu wzorcowego w inny układ wzorcowy" widgetVar="dialog_ukladwzorcowy_kopiuj" dynamic="true"
+              resizable="false" onShow="ustawdialog('dialog_ukladwzorcowy_kopiuj','menuustawienia', 630, 180);" closeOnEscape="true" onHide="resetujdialog('dialog_ukladwzorcowy_kopiuj');"  >
         <h:form id="formdialog_ukladwzorcowy_kopiuj">
             <p:panelGrid  columns="2">
                 <h:outputText value="Wybrany układ wzorcowy" style="width: 250px;"/>
@@ -25,8 +25,8 @@
                 <p:inputText value="#{ukladBRWzorcowyView.ukladdocelowyrok}"/>
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{ukladBRWzorcowyView.kopiujukladwzorcowy}" type="submit" 
-                                 style="margin-left: 180px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_ukladwzorcowy_kopiuj').hide();"
-                                 update=":form, :formprojektukladwzorcowy, :formprojektwzorcowy"/>
+                                 style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_ukladwzorcowy_kopiuj').hide();"
+                                 update=":formprojektukladwzorcowy, :formprojektwzorcowy"/>
             <p:commandButton value="anuluj" type="button" 
                                  onclick="PF('dialog_ukladwzorcowy_kopiuj').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
         </h:form>

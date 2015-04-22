@@ -37,7 +37,7 @@ public class UkladBRView implements Serializable{
 
     @Inject
     private UkladBR selected;
-    private String nazwanowegoukladu;
+    private UkladBR wybranyukladwzorcowy;
     @Inject
     private UkladBRDAO ukladBRDAO;
     @Inject
@@ -66,7 +66,7 @@ public class UkladBRView implements Serializable{
     
     public void dodaj() {
         for (UkladBR p : listaWzorcowy) {
-            if (p.getUklad().equals(nazwanowegoukladu)) {
+            if (p.getUklad().equals(wybranyukladwzorcowy)) {
                 Msg.msg("e", "Nazwa nowego układu jest już wykorzystana we wzorcach. Nie można dodać układu.");
                 return;
             }
@@ -75,10 +75,10 @@ public class UkladBRView implements Serializable{
             UkladBR ukladBR = new UkladBR();
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
-            ukladBR.setUklad(nazwanowegoukladu);
+            ukladBR.setUklad(wybranyukladwzorcowy.getUklad());
             ukladBRDAO.dodaj(ukladBR);
             lista.add(ukladBR);
-            nazwanowegoukladu = "";
+            wybranyukladwzorcowy = null;
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
@@ -87,29 +87,22 @@ public class UkladBRView implements Serializable{
     
     public void implementuj() {
         try {
-            UkladBR ukladBR = serialclone.SerialClone.clone(pobierzzlistyWzorcowy());
+            UkladBR ukladBR = serialclone.SerialClone.clone(wybranyukladwzorcowy);
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
+            ukladBR.setImportowany(true);
             ukladBRDAO.dodaj(ukladBR);
-            implementujRZiS(pobierzzlistyWzorcowy());
-            implementujBilans(pobierzzlistyWzorcowy());
+            implementujRZiS(wybranyukladwzorcowy);
+            implementujBilans(wybranyukladwzorcowy);
             lista.add(ukladBR);
-            nazwanowegoukladu = null;
+            wybranyukladwzorcowy = null;
             Msg.msg("i", "Dodano nowy układ");
         } catch (Exception e) {
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
     
-    private UkladBR pobierzzlistyWzorcowy() {
-        for (UkladBR p : listaWzorcowy) {
-            if (p.getUklad().equals(nazwanowegoukladu)) {
-                return p;
-            }
-        }
-        return null;
-    }
-
+ 
 
     public void usun(UkladBR ukladBR) {
         try {
@@ -125,26 +118,34 @@ public class UkladBRView implements Serializable{
     
      private void implementujRZiS(UkladBR ukladBR) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
-        List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje);
-        int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
-        for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevel(pozycje, macierzyste,i);
+        if (pozycje != null && pozycje.size() > 0) {
+            List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje);
+            int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
+            for(int i = 1; i <= maxlevel;i++) {
+                    macierzyste = skopiujlevel(pozycje, macierzyste,i);
+            }
+            System.out.println("Kopiuje");
+        } else {
+            Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
-        System.out.println("Kopiuje");
     }
 
     private void implementujBilans(UkladBR ukladBR) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
-        List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje);
-        int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladBR);
-        for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevelB(pozycje, macierzyste,i);
-        }
-        pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
-        macierzyste = skopiujlevel0B(pozycje);
-        maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
-        for(int i = 1; i <= maxlevel;i++) {
-                macierzyste = skopiujlevelB(pozycje, macierzyste,i);
+        if (pozycje != null && pozycje.size() > 0) {
+            List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje);
+            int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladBR);
+            for(int i = 1; i <= maxlevel;i++) {
+                    macierzyste = skopiujlevelB(pozycje, macierzyste,i);
+            }
+            pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
+            macierzyste = skopiujlevel0B(pozycje);
+            maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
+            for(int i = 1; i <= maxlevel;i++) {
+                    macierzyste = skopiujlevelB(pozycje, macierzyste,i);
+            }
+        } else {
+            Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
         }
     }
     
@@ -158,14 +159,16 @@ public class UkladBRView implements Serializable{
     public void setSelected(UkladBR selected) {
         this.selected = selected;
     }
-    
-    public String getNazwanowegoukladu() {
-        return nazwanowegoukladu;
+
+    public UkladBR getWybranyukladwzorcowy() {
+        return wybranyukladwzorcowy;
+    }
+
+    public void setWybranyukladwzorcowy(UkladBR wybranyukladwzorcowy) {
+        this.wybranyukladwzorcowy = wybranyukladwzorcowy;
     }
     
-    public void setNazwanowegoukladu(String nazwanowegoukladu) {
-        this.nazwanowegoukladu = nazwanowegoukladu;
-    }
+   
 
     public List<UkladBR> getLista() {
         return lista;

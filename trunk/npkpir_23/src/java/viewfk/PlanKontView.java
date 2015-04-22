@@ -72,7 +72,7 @@ public class PlanKontView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
@@ -502,7 +502,7 @@ public class PlanKontView implements Serializable {
                 }
             }
             wykazkont = new ArrayList<>();
-            RequestContext.getCurrentInstance().update("form_dialog_plankont:dataList");
+            RequestContext.getCurrentInstance().update("form_dialog_plankont");
             Msg.msg("Zakonczono z sukcesem usuwanie kont u bieżącego podatnika");
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
@@ -553,7 +553,7 @@ public class PlanKontView implements Serializable {
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
             } else if (kontoDoUsuniecia.isMapotomkow() == true && !kontoDoUsuniecia.getNrkonta().equals("0")) {
-                Msg.msg("e", "Konto ma analitykę, nie można go usunąć.", "formX:messages");
+                Msg.msg("e", "Konto ma analitykę, nie można go usunąć.");
             } else {
                 try {
                     if (czyoddacdowzorca == true) {
@@ -584,14 +584,14 @@ public class PlanKontView implements Serializable {
                             kontoDAOfk.edit(kontomacierzyste);
                         }
                     }
-                    RequestContext.getCurrentInstance().update("form");
-                    Msg.msg("i", "Usuwam konto", "formX:messages");
+                    RequestContext.getCurrentInstance().update("form_dialog_plankont");
+                    Msg.msg("i", "Usuwam konto");
                 } catch (Exception e) {
                     Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");
                 }
             }
         } else {
-            Msg.msg("e", "Nie wybrano konta", "formX:messages");
+            Msg.msg("e", "Nie wybrano konta");
         }
     }
 

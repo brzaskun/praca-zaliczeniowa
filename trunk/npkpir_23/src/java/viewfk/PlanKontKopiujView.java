@@ -32,6 +32,8 @@ public class PlanKontKopiujView implements Serializable{
     private String rokdocelowy;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{planKontView}")
+    private PlanKontView planKontView;
     @Inject
     private KontoDAOfk kontoDAOfk;
     
@@ -75,9 +77,10 @@ public class PlanKontKopiujView implements Serializable{
         List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikWpisu(), wykazkont, rokdocelowy);
         int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy));
         for(int i = 1; i <= maxlevel;i++) {
-            macierzyste = skopiujlevel("Wzorocwy", wpisView.getPodatnikWpisu(),wykazkont, macierzyste,i, rokdocelowy);
+            macierzyste = skopiujlevel("Wzorcowy", wpisView.getPodatnikWpisu(),wykazkont, macierzyste,i, rokdocelowy);
         }
-        System.out.println("Kopiuje");
+        System.out.println("Implementuje plan kont");
+        planKontView.init();
     }
     
     
@@ -162,6 +165,14 @@ public class PlanKontKopiujView implements Serializable{
     
     public void setPodatnikzrodlowy(Podatnik podatnikzrodlowy) {
         this.podatnikzrodlowy = podatnikzrodlowy;
+    }
+
+    public PlanKontView getPlanKontView() {
+        return planKontView;
+    }
+
+    public void setPlanKontView(PlanKontView planKontView) {
+        this.planKontView = planKontView;
     }
     
     public Podatnik getPodatnikdocelowy() {
