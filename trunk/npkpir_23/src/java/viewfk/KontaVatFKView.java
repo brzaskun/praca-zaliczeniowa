@@ -359,6 +359,7 @@ public class KontaVatFKView implements Serializable {
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
         ustawwiersze(nd);
+        nd.przeliczKwotyWierszaDoSumyDokumentu();
         return nd;
     }
 

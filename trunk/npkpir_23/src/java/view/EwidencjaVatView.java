@@ -122,7 +122,7 @@ public class EwidencjaVatView implements Serializable {
             rozdzielsumeEwidencjiNaPodlisty();
         } catch (Exception e) {
 
-        }
+       }
     }
 
     private void zerujListy() {
@@ -166,7 +166,7 @@ public class EwidencjaVatView implements Serializable {
             String vatokres = sprawdzjakiokresvat();
             List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(listadokvat, vatokres);
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
-            transferujEVatwpisFKDoEVatViewPola(listaprzetworzona);
+            transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
             sumujprzesuniete();
             List<EVatwpisFK> przesunieteBardziejKoszt = zmodyfikujlisteMcKwFKBardziej(listadokvat, vatokres, 1);
             listaprzesunietychBardziej = przesunieteBardziejKoszt;
@@ -374,7 +374,9 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private void transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona) {
+    private void transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
+        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
         int k = 1;
         for (EVatwpisFK ewidwiersz : listaprzetworzona) {
             if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
@@ -405,8 +407,22 @@ public class EwidencjaVatView implements Serializable {
                 listadokvatprzetworzona.add(wiersz);
             }
             //kosztyprzesuniete
-            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
-                listaprzesunietychKoszty.add(ewidwiersz);
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": 
+                    if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
+                       listaprzesunietychKoszty.add(ewidwiersz);
+                    }
+                    break;
+                default:
+                    if (!miesiacewkwartale.contains(ewidwiersz.getMcEw())) {
+                        if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
+                            listaprzesunietychKoszty.add(ewidwiersz);
+                        }
+                    }
+                    break;
             }
         }
     }

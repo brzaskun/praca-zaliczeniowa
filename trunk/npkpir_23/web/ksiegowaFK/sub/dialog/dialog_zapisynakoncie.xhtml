@@ -154,10 +154,10 @@
                         <p:column headerText="data" width="30" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(5,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="40" style="font-size: x-small;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
+                        <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
                         </p:column>
-                        <p:column headerText="nr wl" width="50"  style="text-align: center; font-size: x-small;" sortBy="#{loop.dokfk.numerwlasnydokfk}">
+                        <p:column headerText="nr wl" width="50"  style="text-align: center; font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.dokfk.numerwlasnydokfk}">
                             <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="kontr" width="100" sortBy="#{loop.dokfk.kontr.npelna}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'wszystkie'}">
