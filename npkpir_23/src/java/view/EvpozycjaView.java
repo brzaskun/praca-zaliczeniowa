@@ -40,7 +40,7 @@ public class EvpozycjaView {
     private void init() {
         try{
         lista.addAll(epozycjaDAO.findAll());
-        } catch (Exception e){}
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     }
 
     public void dodaj() {
@@ -55,7 +55,7 @@ public class EvpozycjaView {
             }
             epozycjaDAO.dodaj(selected);
             lista.add(selected);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -64,7 +64,7 @@ public class EvpozycjaView {
     public void edytuj(RowEditEvent ev) {
         try {
             epozycjaDAO.edit(selected);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

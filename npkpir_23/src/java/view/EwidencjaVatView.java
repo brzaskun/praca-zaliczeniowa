@@ -120,7 +120,7 @@ public class EwidencjaVatView implements Serializable {
             listaewidencji = pobrane.getEwidencje();
             sumaewidencji = pobrane.getSumaewidencji();
             rozdzielsumeEwidencjiNaPodlisty();
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
        }
     }
@@ -154,7 +154,7 @@ public class EwidencjaVatView implements Serializable {
                 ewidencje.add(p);
             }
             RequestContext.getCurrentInstance().update("form");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         //drukuj ewidencje
     }
@@ -180,7 +180,7 @@ public class EwidencjaVatView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("form");
             RequestContext.getCurrentInstance().update("formEwidencjeGuest");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje
@@ -202,7 +202,7 @@ public class EwidencjaVatView implements Serializable {
             przetransformujIZachowajwBD(vatokres);
             obliczwynikokresu();
 
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         //drukuj ewidencje
     }
@@ -236,7 +236,7 @@ public class EwidencjaVatView implements Serializable {
             pobrane.setEwidencje(listaewidencji);
             pobrane.setSumaewidencji(sumaewidencji);
             ewidencjeVatDAO.edit(pobrane);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Ewidencjevat ewidencjaVatDoBazy = new Ewidencjevat();
             ewidencjaVatDoBazy.setPodatnik(pod);
             ewidencjaVatDoBazy.setRok(rok);
@@ -290,7 +290,7 @@ public class EwidencjaVatView implements Serializable {
                     listadokvat.add(tmpx);
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
     }
 
@@ -298,7 +298,7 @@ public class EwidencjaVatView implements Serializable {
         try {
             return eVatwpisFKDAO.findPodatnik(wpisView.getPodatnikObiekt());
             //sortowanie dokumentów
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             return null;
         }
     }
@@ -326,7 +326,7 @@ public class EwidencjaVatView implements Serializable {
             try {
                 Collection c = listaewidencji.get(nazwaewidencji);
                 listatmp.addAll(c);
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 try {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
                     Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
@@ -528,7 +528,7 @@ public class EwidencjaVatView implements Serializable {
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
         }
@@ -548,7 +548,7 @@ public class EwidencjaVatView implements Serializable {
                             if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
                                 listatymczasowa.add(p);
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                             System.out.println("bledny zmodyfikujlisteMcKwFK  miesiecznie mc/rok w "+p.toString());
                         }
                     }
@@ -565,7 +565,7 @@ public class EwidencjaVatView implements Serializable {
                                     listatymczasowa.add(p);
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                             System.out.println("bledny zmodyfikujlisteMcKwFK kwartalnie mc/rok w "+p.toString());
                         }
                            
@@ -573,7 +573,7 @@ public class EwidencjaVatView implements Serializable {
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             System.out.println("Blada nietypowy plik VatView zmodyfikujliste "+e.toString());
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
@@ -597,7 +597,7 @@ public class EwidencjaVatView implements Serializable {
                                     listatymczasowa.add(p);
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                             System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.toString());
                         }
                     }
@@ -617,14 +617,14 @@ public class EwidencjaVatView implements Serializable {
                                     listatymczasowa.add(p);
                                 }
                             }
-                        } catch (Exception e) {
+                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                             System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej kwartalnie mc/rok w "+p.toString());
                         }
                     }
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             System.out.println("Blad EwidencjaVATView zmodyfikujlisteMcKwFKBardziej");
             Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
             return null;
@@ -664,7 +664,7 @@ public class EwidencjaVatView implements Serializable {
     public void vatewidencja() {
         try {
             MailOther.vatewidencja(wpisView, nazwaewidencjiMail);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -682,7 +682,7 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfSuma() {
         try {
             PdfVATsuma.drukuj(ewidencjeVatDAO, wpisView);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -690,14 +690,14 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
             PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, false);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
     public void drukujPdfEwidencjeWartosc(String nazwaewidencji) {
         try {
             PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, true);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -705,7 +705,7 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfWszystkie() {
         try {
             PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO, false);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -713,7 +713,7 @@ public class EwidencjaVatView implements Serializable {
      public void drukujPdfWszystkieWartosc() {
         try {
             PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO, true);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }

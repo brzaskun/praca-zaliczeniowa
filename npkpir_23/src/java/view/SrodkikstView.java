@@ -89,7 +89,7 @@ public class SrodkikstView implements Serializable {
             wykaz.add(p);
             try{
                 srodkikstDAO.destroy(p);
-            } catch (Exception e){
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
         for(Srodkikst w : wykaz){

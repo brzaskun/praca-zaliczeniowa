@@ -23,7 +23,7 @@ public class DFKWiersze {
             wn = wiersz.getStronaWn();
             ma = wiersz.getStronaMa();
         }  catch (Exception e) {
-            System.out.println("Blad przy pobieranu StronaWiersza DFKWiersze.java zaznaczNowaTransakcja(args[])");
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
         StronaWiersza stw = null;
         if (wnma.equals("Wn") && wn != null) {

@@ -303,6 +303,7 @@ public class PlanKontFKBean {
             try {
                 kontoDAO.destroy(p);
             } catch (Exception e) {
+                System.out.println("Blad " + e.getStackTrace()[0].toString());
                 System.out.println("blad podczas usuwania konta slownikowego aktualizujslownikKontrahenciRemove()");
             }
         }

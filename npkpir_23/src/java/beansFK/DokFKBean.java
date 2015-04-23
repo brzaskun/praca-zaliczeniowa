@@ -34,6 +34,7 @@ public class DokFKBean {
         try {
             tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
         }
         if (tabelanbpPLN == null) {
             tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000",walutyDAOfk.findWalutaBySymbolWaluty("PLN"),"2012-01-01"));
@@ -73,6 +74,7 @@ public class DokFKBean {
                 return porownajseriedok(((Dokfk) o1),((Dokfk) o2));
             }
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
             return 0;
         }
     }

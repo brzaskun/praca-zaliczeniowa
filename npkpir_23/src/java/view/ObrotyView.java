@@ -195,7 +195,7 @@ public class ObrotyView implements Serializable{
    public void mailobroty() {
        try {
            MailOther.obroty(wpisView);
-       } catch (Exception e) {
+       } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
            
        }
    }
@@ -203,7 +203,7 @@ public class ObrotyView implements Serializable{
    public void drukujObroty() {
         try {
             PdfObroty.drukuj(goscwybral, wpisView);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }

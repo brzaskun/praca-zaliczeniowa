@@ -209,7 +209,7 @@ public final class DokView implements Serializable {
                 selDokument.setDokumentProsty(true);
             }
             RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
             rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX));
@@ -228,13 +228,13 @@ public final class DokView implements Serializable {
                 }
             }
         }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
         try {
             selDokument.setVatM(wpisView.getMiesiacWpisu());
             selDokument.setVatR(wpisView.getRokWpisuSt());
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         this.typdokumentu = "ZZ";
         Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -249,7 +249,7 @@ public final class DokView implements Serializable {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
             typdokumentu = selDokument.getTypdokumentu();
             dokDAO.destroy(selDokument);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
     }
@@ -392,7 +392,7 @@ public final class DokView implements Serializable {
                                 sumbrutto = ewidencjaAddwiad.get(4).getBrutto();
                                 break;
                             }
-                    } catch (Exception e) {
+                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                         ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
                         ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                         sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
@@ -534,7 +534,7 @@ public final class DokView implements Serializable {
             String wzorzec = rodzajdok.getWzorzec();
             try {
                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                nowynumer = wzorzec;
             }
             renderujwyszukiwarke(rodzajdok);
@@ -603,7 +603,7 @@ public final class DokView implements Serializable {
                 Msg.msg("e", "Błąd. Nie wybrano nazwy inwestycji podczas wprowadzania dokumentu inwestycyjnego. Dokument niewprowadzony");
                 return;
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         selDokument.setWprowadzil(wpisView.getWprowadzil().getLogin());
         selDokument.setPkpirM(wpisView.getMiesiacWpisu());
@@ -706,7 +706,7 @@ public final class DokView implements Serializable {
                     if (!probsymbolu.equals("wybierz")) {
                         aktualizujInwestycje(selDokument);
                     }
-                } catch (Exception e) {
+                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 }
                 wysDokument = new Dok();
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
@@ -722,7 +722,7 @@ public final class DokView implements Serializable {
             } else {
                 dokDAO.edit(selDokument);
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystąpił błąd. Dokument nie został zaksiegowany " + e.getMessage() + " " + e.getStackTrace().toString());
         }
         //robienie srodkow trwalych
@@ -758,7 +758,7 @@ public final class DokView implements Serializable {
             for (EVatwpis1 p : selDokument.getEwidencjaVAT1()) {
                 vat += p.getVat();
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         try {
             selectedSTR.setNetto(selDokument.getNetto());
@@ -771,7 +771,7 @@ public final class DokView implements Serializable {
             selectedSTR.setDatasprzedazy("");
             dodajSTR();
 
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
     }
 
@@ -868,7 +868,7 @@ public final class DokView implements Serializable {
                         }
                     }
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 Msg.msg("e", "Wystąpił błąd. Nie ma zaksięgowanego odpisu w poprzednim miesiącu, a jest dokument umorzeniowy za ten okres!");
                 return;
             }
@@ -912,7 +912,7 @@ public final class DokView implements Serializable {
                 } else {
                     Msg.msg("e", "Kwota umorzenia wynosi 0zł. Dokument nie został zaksiegowany!");
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 Msg.msg("e", "Wystąpił błąd, dokument AMO nie zaksięgowany!");
             }
         } else {
@@ -994,7 +994,7 @@ public final class DokView implements Serializable {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Kwota storno wynosi 0zł. Dokument nie został zaksiegowany", "");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e","Wystąpił błąd, dokument strono nie zaksięgowany!");
 //        }
         }
@@ -1021,7 +1021,7 @@ public final class DokView implements Serializable {
                 RequestContext.getCurrentInstance().execute("$('#dodWiad\\\\:numerwlasny').select();");
             } else {
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("w", "Blad w DokView sprawdzCzyNieDuplikatwtrakcie");
         }
     }
@@ -1078,7 +1078,7 @@ public final class DokView implements Serializable {
                 selectedSTR.setUmorzeniepoczatkowe(0.0);
                 selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
                 RequestContext.getCurrentInstance().update("dodWiad:nowypanelsrodki");
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
     }
@@ -1102,7 +1102,7 @@ public final class DokView implements Serializable {
         temp.setDokument(wpis);
         try {
             ostatnidokumentDAO.dodaj(temp);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             ostatnidokumentDAO.edit(temp);
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
@@ -1157,7 +1157,7 @@ public final class DokView implements Serializable {
                 Msg.msg("i", "Aktualizuje inwestycje " + symbol, "dodWiad:mess_add");
 
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Błąd nie zaktualizowałem inwestycji!", "dodWiad:mess_add");
         }
     }
@@ -1183,7 +1183,7 @@ public final class DokView implements Serializable {
             podepnijListe(skrot);
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         RequestContext.getCurrentInstance().update("dodWiad:wprowadzanie");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:dataPole')).select();");
@@ -1232,7 +1232,7 @@ public final class DokView implements Serializable {
                 sumbrutto += s.getNetto() + s.getVat();
                 this.ewidencjaAddwiad.add(ewidencjaAddwiad);
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             for (KwotaKolumna1 p : selDokument.getListakwot1()) {
                 sumbrutto += p.getNetto();
             }
@@ -1277,7 +1277,7 @@ public final class DokView implements Serializable {
             selectedKlient.setUlica(formatka);
             try {
                 selectedKlient.getKrajnazwa();
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 selectedKlient.setKrajnazwa("Polska");
             }
             String kraj = selectedKlient.getKrajnazwa();
@@ -1290,7 +1290,7 @@ public final class DokView implements Serializable {
             RequestContext.getCurrentInstance().update("formX:");
             RequestContext.getCurrentInstance().update("formY:tabelaKontr");
             Msg.msg("i", "Dodano nowego klienta" + selectedKlient.getNpelna(), "formX:mess_add");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Nie dodano nowego klienta. Klient o takim Nip juz istnieje", "formX:mess_add");
         }
 
@@ -1366,7 +1366,7 @@ public final class DokView implements Serializable {
                     RequestContext.getCurrentInstance().update("dodWiad:opis");
                     RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:numerwlasny')).select();");
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
             }
         }
@@ -1638,7 +1638,7 @@ public final class DokView implements Serializable {
     //            Date day8 = calendar.getTime();
     //            System.out.println("  day8 = " + sdf.format(day8));
     //
-    //        } catch (Exception e) {
+    //        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
     //        }
     //    }
     //      public void uporzadkujbrutto(){
@@ -1647,7 +1647,7 @@ public final class DokView implements Serializable {
     //                Double kwota = sel.getKwota();
     //                try{
     //                kwota = kwota + sel.getKwotaX();
-    //                } catch (Exception e){}
+    //                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     //
     //                double kwotavat = 0;
     //                try{
@@ -1655,10 +1655,10 @@ public final class DokView implements Serializable {
     //                    for(EVatwpis1 p : listavat){
     //                        kwotavat = kwotavat + p.getVat();
     //                    }
-    //                } catch (Exception e){}
+    //                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     //                try{
     //                kwota = kwota + kwotavat;
-    //                } catch (Exception e){}
+    //                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     //                sel.setBrutto(kwota);
     //                dokDAO.edit(sel);
     //          }
@@ -1690,7 +1690,7 @@ public final class DokView implements Serializable {
     //                  pierwszy.setBrutto(tmp1.doubleValue());
     //                  pierwszy.setNazwakolumny(p.getPkpirKol());
     //                  wiersz.add(pierwszy);
-    //              } catch (Exception e){}
+    //              } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     //              try {
     //                  drugi.setNetto(p.getKwotaX());
     //                  drugi.setVat(0.0);
@@ -1698,7 +1698,7 @@ public final class DokView implements Serializable {
     //                  drugi.setNazwakolumny(p.getPkpirKolX());
     //                  drugi.setDowykorzystania("dosprawdzenia");
     //                  wiersz.add(drugi);
-    //              } catch (Exception e){}
+    //              } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     //              p.setListakwot1(wiersz);
     //              dokDAO.edit(p);
     //              System.out.println("Przearanżowano "+p.getNrWlDk()+" - "+p.getPodatnik());

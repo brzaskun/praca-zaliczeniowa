@@ -125,7 +125,7 @@ public class Vat7DKView implements Serializable {
         String kodus = tKodUS.getMapaUrzadKod().get(pod.getUrzadskarbowy());
         try {
             boolean equals = kodus.isEmpty();
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
             setFlaga(1);
         }
@@ -143,7 +143,7 @@ public class Vat7DKView implements Serializable {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
             setFlaga(1);
         }
@@ -162,7 +162,7 @@ public class Vat7DKView implements Serializable {
                     RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                     Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                     pobierz47zustawien();
                     najpierwszadeklaracja();
             }
@@ -261,7 +261,7 @@ public class Vat7DKView implements Serializable {
                     break;
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             //klient swiezak nie ma zadnej deklaracji
             pozycjeDeklaracjiVAT.setCelzlozenia("1");
             nowadeklaracja.setNrkolejny(1);
@@ -282,7 +282,7 @@ public class Vat7DKView implements Serializable {
             }
             deklaracjawyslana.setIdentyfikator("lolo");
             deklaracjawyslana.setPodatnik("manolo");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             setFlaga(1);
             Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  ","form:msg");
         }
@@ -305,7 +305,7 @@ public class Vat7DKView implements Serializable {
             }
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
             //nie bylo takiej wiec cofa sie o miesiac
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             String mcX = "";
             String rokX = "";
             int oilesiecofnac = 1;
@@ -347,7 +347,7 @@ public class Vat7DKView implements Serializable {
                 flaga = 1;
                 Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!", "form:msg");
             }
-        } catch (Exception e){
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }
@@ -358,7 +358,7 @@ public class Vat7DKView implements Serializable {
             try {
                 pozycjeSzczegoloweVAT.setPole47(deklaracjakorygowana.getPozycjeszczegolowe().getPole47());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracjakorygowana.getPozycjeszczegolowe().getPoleI47());
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
             }
@@ -398,7 +398,7 @@ public class Vat7DKView implements Serializable {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             badana = deklaracjawyslana;
             if (badana.getIdentyfikator().isEmpty()) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");

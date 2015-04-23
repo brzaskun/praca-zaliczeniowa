@@ -80,7 +80,7 @@ public class WpisView implements Serializable {
         String wprowadzilX = null;
         try {
             wprowadzilX = principal.getName();
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         if (wprowadzilX != null) {
             wprowadzil = uzDAO.find(wprowadzilX);
@@ -98,7 +98,7 @@ public class WpisView implements Serializable {
                 try {
                     nipfirmy = podatnikwpisu.getFirma();
                     nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
-                } catch (Exception e) {
+                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                     //laduje demofirme jak cos pojdzie zle
                     nipfirmy = "1111005008";
                     nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
@@ -128,7 +128,7 @@ public class WpisView implements Serializable {
                     this.miesiacOd = wpis.getMiesiacOd();
                     this.miesiacDo = wpis.getMiesiacDo();
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 this.miesiacOd = wpis.getMiesiacOd();
                 this.miesiacDo = wpis.getMiesiacDo();
             }
@@ -195,7 +195,7 @@ public class WpisView implements Serializable {
         if (podatnikWpisu != null) {
             try {
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 podatnikWpisu = "GRZELCZYK";
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
             }
@@ -211,7 +211,7 @@ public class WpisView implements Serializable {
                 } else {
                     ksiegirachunkowe = false;
                 }
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
         if (miesiacWpisu != null) {
