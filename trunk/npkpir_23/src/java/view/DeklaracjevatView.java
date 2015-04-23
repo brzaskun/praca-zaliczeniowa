@@ -72,7 +72,7 @@ public class DeklaracjevatView implements Serializable {
         try{
             List<Deklaracjevat> pobranadeklaracja = deklaracjevatDAO.findDeklaracjeDowyslaniaList(wpisView.getPodatnikWpisu());
                   oczekujace.addAll(pobranadeklaracja);
-        } catch (Exception e){}
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
          try{
             wyslane =  deklaracjevatDAO.findDeklaracjeWyslane(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
             for(Deklaracjevat p : wyslane){
@@ -80,7 +80,7 @@ public class DeklaracjevatView implements Serializable {
                     if(p.isTestowa()){
                         wyslanetestowe.add(p);
                     }
-                    } catch (Exception e) {}
+                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
             }
             for(Deklaracjevat p : wyslane){
                     if(!wyslanetestowe.contains(p)){
@@ -94,7 +94,7 @@ public class DeklaracjevatView implements Serializable {
                     }
                     
                 }
-        } catch (Exception e){}
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
          Collections.sort(wyslanenormalne, new Vatcomparator());
     }
     
@@ -104,7 +104,7 @@ public class DeklaracjevatView implements Serializable {
             deklaracjevatDAO.edit(selected);
             FacesMessage msg = new FacesMessage("Nowy dokytkownik edytowany " + ex.getObject().toString(), selected.getPodatnik());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             FacesMessage msg = new FacesMessage("Dokytkownik nie zedytowany", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -119,7 +119,7 @@ public class DeklaracjevatView implements Serializable {
                oczekujace.remove(selected);
                deklaracjevatDAO.destroy(selected);
                 Msg.msg("i","Deklaracja usunięta","formX:msg");
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 Msg.msg("e","Deklaracja nie usunięta","formX:msg");
             }
            
@@ -131,7 +131,7 @@ public class DeklaracjevatView implements Serializable {
                wyslanetestowe.remove(selected);
                deklaracjevatDAO.destroy(selected);
                 Msg.msg("i","Deklaracja usunięta","formX:msg");
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 Msg.msg("e","Deklaracja nie usunięta","formX:msg");
             }
            
@@ -140,7 +140,7 @@ public class DeklaracjevatView implements Serializable {
     public void mailvat7(int row) {
         try {
             MailOther.vat7(row, wpisView);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }
@@ -148,7 +148,7 @@ public class DeklaracjevatView implements Serializable {
     public void drukujprzygotowanedowysylki(Deklaracjevat d) {
         try {
             PdfVAT7.drukujwys(podatnikDAO, d);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }
@@ -185,7 +185,7 @@ public class DeklaracjevatView implements Serializable {
     public void drukujdeklaracje(Deklaracjevat dkl, int index) {
         try {
             PdfVAT7.drukuj(dkl, index, podatnikDAO);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }

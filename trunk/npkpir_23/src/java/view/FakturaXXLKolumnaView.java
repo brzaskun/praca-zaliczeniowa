@@ -34,7 +34,7 @@ public class FakturaXXLKolumnaView implements Serializable {
     private void init() {
         try {
             selected = fakturaXXLKolumnaDAO.findXXLByPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -44,7 +44,7 @@ public class FakturaXXLKolumnaView implements Serializable {
             selected.setPodatnik(wpisView.getPodatnikObiekt());
             fakturaXXLKolumnaDAO.edit(selected);
             Msg.msg("Naniesiono opisy kolumn dla faktury xxl");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystąpił błąd. Nie naniesiono zmian.");
         }
     }

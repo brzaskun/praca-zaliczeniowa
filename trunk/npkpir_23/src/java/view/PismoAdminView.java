@@ -102,7 +102,7 @@ public class PismoAdminView implements Serializable{
                  listapism.add(pismoadmin);
                  Msg.msg("i", "Udało się dodać infomację dla Admina");
              }
-         } catch (Exception e) {
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
              Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
          }
      }
@@ -119,7 +119,7 @@ public class PismoAdminView implements Serializable{
                  MailAdmin.usterkausunieta(p, uz, wpisView);
                  Msg.msg("i", "Poinformowano zlecającego o załatwieniu sprawy.");
              }
-         } catch (Exception e) {
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
              Msg.msg("e", "Wystąpił błąd, nie udało się dodać infomacji dla Admina");
          }
      }
@@ -139,7 +139,7 @@ public class PismoAdminView implements Serializable{
             pismoadminDAO.destroy(p);
             listapismwszytskie.remove(p);
             Msg.msg("i", "Udało się usunąć infomację dla Admina");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystąpił błąd, nie udało się usunąć infomacji dla Admina");
         }
     }

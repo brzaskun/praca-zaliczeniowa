@@ -58,7 +58,7 @@ public class Vat7ORDZUView extends Vat7DKView implements Serializable{
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono wyjaśnienie.","formX:msg");
-        } catch (Exception e){
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e","Wystapil błąd. NIe udało się załączyć załącznika.","formX:msg");
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");

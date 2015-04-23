@@ -44,7 +44,7 @@ public class EvewidencjaView {
     private void init() {
         try{
         lista.addAll(eewidencjaDAO.findAll());
-        } catch (Exception e){}
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
     }
 
     public void dodaj() {
@@ -52,7 +52,7 @@ public class EvewidencjaView {
         selected.setNrpolanetto(ewodszukana.getNrpolanetto());
         try{
         selected.setNrpolavat(ewodszukana.getNrpolavat());
-        } catch (Exception e){}
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
         Iterator it;
         it = lista.iterator();
         try {
@@ -65,7 +65,7 @@ public class EvewidencjaView {
             eewidencjaDAO.dodaj(selected);
             lista.add(selected);
             Msg.msg("i", "Dodano nową ewidencję VAT");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -75,7 +75,7 @@ public class EvewidencjaView {
         try {
             eewidencjaDAO.edit(selected);
             Msg.msg("i", "Poprawiono ewidencję VAT");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

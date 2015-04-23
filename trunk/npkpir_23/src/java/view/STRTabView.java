@@ -102,7 +102,7 @@ public class STRTabView implements Serializable {
             List<SrodekTrw> c = new ArrayList<>();
             try {
                 c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
             if (!c.isEmpty()) {
                 int i = 1;
@@ -162,7 +162,7 @@ public class STRTabView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
         RequestContext.getCurrentInstance().update("srodkiamo");
@@ -188,7 +188,7 @@ public class STRTabView implements Serializable {
         try {
             srodek.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
             sTRDAO.edit(srodek);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -273,7 +273,7 @@ public class STRTabView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
     }
@@ -301,7 +301,7 @@ public class STRTabView implements Serializable {
             sTRDAO.destroy(dokdoUsuniecia);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
         }
 
@@ -353,7 +353,7 @@ public class STRTabView implements Serializable {
             sprzedane.add(p);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
             Msg.msg("i", "Naniesiono wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystapił błąd - nie naniesiono wycofania: " + p.getNazwa(), "dodWiad:mess_add");
         }
     }
@@ -370,7 +370,7 @@ public class STRTabView implements Serializable {
             Collections.sort(posiadane, new SrodekTrwcomparator());
             sprzedane.remove(p);
             Msg.msg("i", "Cofnięto sprzedaż/wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystapił błąd - nie cofnięto sprzedaży/wycofania: " + p.getNazwa(), "dodWiad:mess_add");
         }
     }
@@ -549,7 +549,7 @@ public class STRTabView implements Serializable {
                 selectedSTR.setUmorzeniepoczatkowe(0.0);
                 selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
                 RequestContext.getCurrentInstance().update("formdialogsrodki:tabelasrodkitrwaleOT");
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
         }
     }
@@ -575,7 +575,7 @@ public class STRTabView implements Serializable {
             sTRDAO.dodaj(selectedSTR);
             posiadane.add(selectedSTR);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
     }
 

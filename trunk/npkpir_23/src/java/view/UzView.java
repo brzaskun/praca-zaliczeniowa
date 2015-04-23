@@ -63,7 +63,7 @@ public class UzView implements Serializable {
         List<Uz> c = new ArrayList<>();;
         try {
             c.addAll(uzDAO.findAll());
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
         }
         for (Uz p : c) {
             obiektUZjsf.add(p);
@@ -86,7 +86,7 @@ public class UzView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
 
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim loginie już istnieje. Wprowadź inny login.", e.getStackTrace().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
@@ -112,7 +112,7 @@ public class UzView implements Serializable {
                     Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin());
                     nowehaslo = null;
                     nowedrugiehaslo = null;
-                } catch (Exception e) {
+                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                     Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła/adresu email.");
                 }
             }
@@ -137,7 +137,7 @@ public class UzView implements Serializable {
         try {
             selUzytkownik = uzDAO.find(login);
             selUzytkownik.setHaslo(firstPassword);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");
             login = null;
             return "failure";
@@ -150,7 +150,7 @@ public class UzView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 return "failure";
 
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
@@ -183,7 +183,7 @@ public class UzView implements Serializable {
             obiektUZjsf.remove(uzytkownik);
             obiektUZjsfselected.remove(uzytkownik);
             Msg.msg("i", "Usunąłem użytkownika " + uzytkownik.getLogin());
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Wystąpił błąd. Nie usunąłem użytkownika " + uzytkownik.getLogin());
         }
     }
@@ -196,7 +196,7 @@ public class UzView implements Serializable {
             System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
             FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
             FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -237,7 +237,7 @@ public class UzView implements Serializable {
         try {
             uzDAO.edit(selUzytkownik);
             Msg.msg("i", "Dane zmienione dla:" + selUzytkownik.getLogin(), "form:mess_add");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Błąd! Dane nie zmienione", "form:mess_add");
         }
     }

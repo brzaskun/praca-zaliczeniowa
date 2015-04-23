@@ -72,7 +72,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, true, gora, lewy);
         try {
             pozycjeDAO.dodaj(pozycje);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             pozycjeDAO.edit(pozycje);
         }
         Msg.msg("i", pozycje.toString(), "form:messages");
@@ -91,7 +91,7 @@ public class PozycjeNaFakturzeView implements Serializable {
                     coTablica = coTablica + p.getPozycjenafakturzePK().getNazwa() + ",";
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("i", "Elementy faktury nie są ustawione");
         }
     }

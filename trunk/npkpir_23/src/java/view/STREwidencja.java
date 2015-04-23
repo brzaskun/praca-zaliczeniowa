@@ -77,7 +77,7 @@ public class STREwidencja implements Serializable {
             List<SrodekTrw> c = new ArrayList<>();
             try {
                 c = sTRDAO.findStrPod(podatnikwpisu);
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             }
             if (!c.isEmpty()) {
                 int i = 1;
@@ -191,7 +191,7 @@ public class STREwidencja implements Serializable {
                     }
                 }
                 strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO));
             }
             strdocelowy.setPozostaloDoUmorzenia(new BigDecimal(strdocelowy.getNetto()).subtract(strdocelowy.getUmorzeniaDo().add(new BigDecimal(strdocelowy.getOdpisrok()))));
@@ -247,7 +247,7 @@ public class STREwidencja implements Serializable {
     public void mailewidencjaSTR() {
         try {
             MailOther.ewidencjaSTR(wpisView);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }
@@ -255,7 +255,7 @@ public class STREwidencja implements Serializable {
     public void drukewidencjaSTR() {
         try {
             PdfSTR.drukuj(wpisView, strtabela);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
 
         }
     }

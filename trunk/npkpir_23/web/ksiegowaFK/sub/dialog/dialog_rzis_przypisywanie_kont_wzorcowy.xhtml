@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList, :formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList, :formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.rozwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
@@ -35,7 +35,7 @@
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:selected"/>
+                    <p:ajax event="select" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRKontaWzorcowyView.uklad.uklad}"/>
                     </f:facet>
@@ -49,21 +49,23 @@
                     </p:column>
                 </p:treeTable>
                 <p:column>
-                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.kontabezprzydzialu}" emptyMessage="wszystkie konta przyporządkowane"
+                    <p:dataTable id="dostepnekonta" var="konto" value="#{pozycjaBRKontaWzorcowyView.kontabezprzydzialu}"
+                                 emptyMessage="wszystkie konta przyporządkowane"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
                         <p:column  style="height: 30px; width: 80%" headerText="nazwa konta">
-                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                           actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected"
+                            <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false"
+                                           actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" 
+                                           update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                            rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
-                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
+                                <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}" global="false"  update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
+                                <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}" global="false" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
                             </p:splitButton>
-                            <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected"
+                            <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" global="false"
+                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"
                                              style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                              rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>
@@ -77,14 +79,15 @@
                     </p:dataTable>
                 </p:column>
                 <p:column>
-                    <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaWzorcowyView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
+                    <p:dataTable id="kontaprzypisane" var="konto" value="#{pozycjaBRKontaWzorcowyView.przyporzadkowanekonta}"
+                                 emptyMessage="brak przyporządkowanych kont"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
-                            <h:outputText value="konta przypisane"/>
+                            <h:outputText value="konta przypisane do #{pozycjaBRKontaWzorcowyView.wybranapozycja}"/>
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
-                            <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:selected"/>
+                            <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" global="global"
+                                             actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveR(konto,'r')}" update=":formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane, :formprzypisywaniekont:dataList"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>

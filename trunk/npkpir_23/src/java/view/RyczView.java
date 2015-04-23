@@ -55,7 +55,7 @@ public class RyczView implements Serializable {
     public void drukujRyczalt() {
         try {
             PdfPIT28.drukuj(biezacyPit, wpisView, podatnikDAO);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             
         }
     }

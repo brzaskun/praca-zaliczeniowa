@@ -72,7 +72,7 @@ public class RozrachunkiView implements Serializable {
                 int index = wpisView.getPodatnikObiekt().getNumerpkpir().size() - 1;
                 String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
                 numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) {
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
@@ -172,7 +172,7 @@ public class RozrachunkiView implements Serializable {
             niezaplacone.add(tmp);
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
             Msg.msg("i", "Dokument z nowymi datami zaksięgowany: " + tmp.getOpis(), "form:messages");
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
             Msg.msg("e", "Nie udało się usunąć rozliczeń: " + tmp.getOpis() + "Sprawdź obecność storno.", "form:messages");
         }
     }
