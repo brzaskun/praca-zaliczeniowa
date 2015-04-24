@@ -28,7 +28,7 @@ public class AmoDokDAO extends DAO implements Serializable {
     public  List<Amodok> findAll(){
         try {
             return amodokFacade.findAll(Amodok.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -36,7 +36,7 @@ public class AmoDokDAO extends DAO implements Serializable {
      public  Amodok findMR(String pod, Integer rok, String mc){
         try {
             return amodokFacade.findMR(pod,rok,mc);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

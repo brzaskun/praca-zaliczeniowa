@@ -766,6 +766,10 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
     
+    public List<Konto> findKontaSiostrzaneWzorcowy(WpisView wpisView, String macierzyste) {
+        return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
+    
     public Object findKontaPotomnePodatnikCount(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
@@ -1412,6 +1416,14 @@ public class SessionFacade<T> implements Serializable{
 
     public UkladBR findUkladBRUklad(UkladBR ukladBR) {
         return (UkladBR) em.createNamedQuery("UkladBR.findByUkladPodRok").setParameter("uklad", ukladBR.getUklad()).setParameter("podatnik", ukladBR.getPodatnik()).setParameter("rok", ukladBR.getRok()).getSingleResult();
+    }
+
+    public void usunZapisaneKontoPozycjaPodatnikUklad(UkladBR uklad, String rb) {
+        if (rb.equals("wynikowe")) {
+            em.createNamedQuery("KontopozycjaZapis.DeleteWynikowe").setParameter("uklad", uklad).executeUpdate();
+        } else {
+            em.createNamedQuery("KontopozycjaZapis.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
+        }
     }
   
 }

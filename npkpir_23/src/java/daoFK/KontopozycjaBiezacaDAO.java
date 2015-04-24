@@ -38,7 +38,7 @@ public class KontopozycjaBiezacaDAO extends DAO implements Serializable{
     public List<KontopozycjaBiezaca> findKontaPozycjaBiezacaPodatnikUklad (UkladBR uklad) {
        try {
             return sessionFacade.findKontaBiezacePodatnikUklad(uklad);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
     }

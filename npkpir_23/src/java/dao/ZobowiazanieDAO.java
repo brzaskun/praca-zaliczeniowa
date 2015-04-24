@@ -32,7 +32,7 @@ public class ZobowiazanieDAO extends DAO implements Serializable{
      public  List<Zobowiazanie> findAll(){
         try {
             return zobowiazanieFacade.findAll(Zobowiazanie.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 })
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "KontopozycjaZapis.DeleteWynikowe", query = "DELETE FROM KontopozycjaZapis p WHERE p.ukladBR = :uklad AND  p.wynik0bilans1 = false"),
+    @NamedQuery(name = "KontopozycjaZapis.DeleteBilansowe", query = "DELETE FROM KontopozycjaZapis p WHERE p.ukladBR = :uklad AND  p.wynik0bilans1 = true"),
     @NamedQuery(name = "KontopozycjaZapis.findAll", query = "SELECT k FROM KontopozycjaZapis k"),
     @NamedQuery(name = "KontopozycjaZapis.findByPozycjaWn", query = "SELECT k FROM KontopozycjaZapis k WHERE k.pozycjaWn = :pozycjaWn"),
     @NamedQuery(name = "KontopozycjaZapis.findByPozycjaMa", query = "SELECT k FROM KontopozycjaZapis k WHERE k.pozycjaMa = :pozycjaMa"),
@@ -46,6 +48,7 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
         this.stronaWn = p.stronaWn;
         this.syntetykaanalityka = p.syntetykaanalityka;
         this.ukladBR = p.ukladBR;
+        this.wynik0bilans1 = p.wynik0bilans1;
     }
 
        
@@ -113,6 +116,17 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
     public void setKontoID(Konto kontoID) {
         this.kontoID = kontoID;
     }
+
+    public boolean isWynik0bilans1() {
+        return wynik0bilans1;
+    }
+
+    public void setWynik0bilans1(boolean wynik0bilans1) {
+        this.wynik0bilans1 = wynik0bilans1;
+    }
+
+    
+    
     
 
     

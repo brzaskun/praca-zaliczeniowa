@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import comparator.UkladBRcomparator;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
@@ -13,6 +14,8 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -58,6 +61,7 @@ public class UkladBRWzorcowyView implements Serializable{
     private void init() {
        try {
             lista =  ukladBRDAO.findPodatnik("Wzorcowy");
+            Collections.sort(lista, new UkladBRcomparator());
         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());} 
     }
     

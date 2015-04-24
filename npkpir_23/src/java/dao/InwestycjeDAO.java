@@ -28,7 +28,7 @@ public class InwestycjeDAO  extends DAO implements Serializable {
         try {
             List<Inwestycje> lista = inwestycjeFacade.findInwestycje(podatnik, zakonczona);
             return lista;
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
