@@ -45,7 +45,7 @@ public abstract class DAO<T> {
         }  catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
-        }  catch (Exception e) {
+        }  catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new PersistenceException(e.getCause().getMessage(), e);
         }
@@ -61,7 +61,7 @@ public abstract class DAO<T> {
         }  catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
-        }  catch (Exception e) {
+        }  catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new PersistenceException(e.getCause().getMessage(), e);
         }
@@ -77,7 +77,7 @@ public abstract class DAO<T> {
         }  catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
-        }  catch (Exception e) {
+        }  catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new PersistenceException(e.getCause().getMessage(), e);
         }

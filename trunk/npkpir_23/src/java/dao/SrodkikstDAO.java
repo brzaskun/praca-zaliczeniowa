@@ -38,7 +38,7 @@ public class SrodkikstDAO extends DAO implements Serializable{
     public  List<Srodkikst> findAll(){
         try {
             return srodkikstFacade.findAll(Srodkikst.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

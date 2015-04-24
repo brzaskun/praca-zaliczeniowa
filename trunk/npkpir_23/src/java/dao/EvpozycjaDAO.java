@@ -32,7 +32,7 @@ public class EvpozycjaDAO extends DAO implements Serializable {
     public  List<Evpozycja> findAll(){
         try {
             return evpozycjaFacade.findAll(Evpozycja.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

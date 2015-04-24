@@ -29,7 +29,7 @@ public class WierszeDAO extends DAO implements Serializable{
     public  List<Wiersz> findAll(){
         try {
             return wierszeFacade.findAll(Wiersz.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

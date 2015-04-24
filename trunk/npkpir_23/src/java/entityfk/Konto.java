@@ -249,6 +249,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
         }
     }
     
+
+    
     public void getAllChildrenRok(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
         List<Konto> children = kontoFacade.findKontaPotomnePodatnikRok(podatnik, this.pelnynumer);
         if (!children.isEmpty()) {

@@ -39,7 +39,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public  List<Tabelanbp> findAll(){
         try {
             return tabelanbpFacade.findAll(Tabelanbp.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -56,7 +56,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
                 }
             }
             return nowalista;
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -74,7 +74,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
                 }
             }
             return nowalista;
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -82,7 +82,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public List<Tabelanbp> findLast(){
         try {
             return tabelanbpFacade.findXLast(Tabelanbp.class,1);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
     }
@@ -90,7 +90,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
          try {
             return tabelanbpFacade.findByDateWaluta(datatabeli, nazwawaluty);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
     }
@@ -98,7 +98,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
          try {
             return tabelanbpFacade.findByDateWalutaLista(datatabeli, nazwawaluty);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
     }
@@ -106,7 +106,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public Tabelanbp findByTabelaPLN() {
          try {
             return tabelanbpFacade.findTabelaPLN();
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
     }

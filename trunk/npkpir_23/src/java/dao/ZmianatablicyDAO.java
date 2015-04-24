@@ -30,7 +30,7 @@ public class ZmianatablicyDAO implements Serializable{
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
             sessionFacade.create(zmianatablicy);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             throw new PersistenceException();
         }
     }
@@ -43,7 +43,7 @@ public class ZmianatablicyDAO implements Serializable{
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
             sessionFacade.edit(zmianatablicy);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             throw new PersistenceException();
         }
     }

@@ -32,7 +32,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
      public  List<Evewidencja> findAll(){
         try {
             return evewidencjaFacade.findAll(Evewidencja.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -45,7 +45,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
                 mapaewidencji.put(p.getNazwa(), p);
             }
             return mapaewidencji;
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -55,7 +55,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
         try {
             tmp = evewidencjaFacade.findEvewidencjaByName(nazwa);
             return tmp;
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
              return null;
         }
     }
@@ -63,7 +63,7 @@ public class EvewidencjaDAO extends DAO implements Serializable {
     public List<Evewidencja> znajdzpotransakcji(String nazwa) throws Exception {
         try {
             return evewidencjaFacade.findEvewidencjaByTransakcja(nazwa);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             throw new Exception();
         }
     }

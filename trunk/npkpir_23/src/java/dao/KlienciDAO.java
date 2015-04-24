@@ -30,7 +30,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<Klienci> findAll(){
         try {
             return klienciFacade.findAll(Klienci.class);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -38,7 +38,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<String> findNIP(){
         try {
             return klienciFacade.findKlienciNIP();
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }
@@ -46,7 +46,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<String> findNazwaPelna(String nowanazwa){
         try {
             return klienciFacade.findNazwaPelna(nowanazwa);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return null;
         }
    }

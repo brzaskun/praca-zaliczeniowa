@@ -33,7 +33,7 @@ public class WierszBODAO extends DAO implements Serializable {
     public List<WierszBO> lista(String grupa, Podatnik podatnik) {
         try {
             return wierszBOFacade.findBOLista0(grupa, podatnik);
-        } catch (Exception e) {
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
             return new ArrayList<>();
         }
     }
