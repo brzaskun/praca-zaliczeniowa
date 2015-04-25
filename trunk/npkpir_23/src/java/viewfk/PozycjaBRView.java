@@ -167,7 +167,7 @@ public class PozycjaBRView implements Serializable {
     }
 
     public void pobierzukladprzegladRZiS() {
-        pozycje = new ArrayList<>();
+       pozycje = new ArrayList<>();
        try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
             if (pozycje.isEmpty()) {

@@ -33,7 +33,7 @@
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                              emptyMessage="Brak pozycji RZiS">
-                    <p:ajax event="select" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeRZiS}" update=":formprzypisywaniekont:kontaprzypisane"/>
                     <f:facet name="header">
                         <h:outputText value="uklad #{pozycjaBRKontaWzorcowyView.uklad.uklad}"/>
                     </f:facet>
