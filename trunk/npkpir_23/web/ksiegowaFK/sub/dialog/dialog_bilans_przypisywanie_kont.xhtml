@@ -86,7 +86,7 @@
                     <p:dataTable id="selected" var="konto" value="#{pozycjaBRKontaView.przyporzadkowanekonta}" emptyMessage="brak przyporządkowanych kont"
                                  style="margin-top: -13%; height: 650px; width: 450px; overflow-y: scroll" >
                         <f:facet name="header">
-                            <h:outputText value="konta przypisane"/>
+                            <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>
                         <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
