@@ -136,7 +136,9 @@ public class PozycjaRZiSFKBean {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
         }
-        List<KontopozycjaZapis> kontopozycjarzis = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+        List<KontopozycjaZapis> kontopozycjarzis = new ArrayList<>();
+        kontopozycjarzis.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
+        kontopozycjarzis.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
         for (KontopozycjaZapis p : kontopozycjarzis) {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));

@@ -8,11 +8,12 @@
     <p:dialog id="dialogrzisprojekt" header="Projekt Rachunku Zysków i Strat - #{WpisView.podatnikWpisu}" widgetVar="rzisprojekt" 
               resizable="false" onShow="ustawdialog('dialogrzisprojekt','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojekt');"  >
         <h:form id="formprojekt">
-            <p:contextMenu for="formprojekt:dataList" style="width: 200px;">
-                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczne').show();"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
-                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektanalityczne').show();"/>
-                <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt"/>
+            <p:contextMenu id="formprojectmenu" for="formprojekt:dataList" style="width: 200px;">
+                <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektsyntetyczneformula').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" update=":formprojekt" onclick="PF('rzisprojektanalityczne').show();" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="Usuń" actionListener="#{pozycjaBRView.usunpozycje}" icon="ui-icon-trash" update=":formprojekt" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'true' : 'false'}"/>
+                <p:menuitem value="nie można modyfikować importowanego układu" rendered="#{pozycjaBRView.uklad.importowany eq false ? 'false' : 'true'}"/>
             </p:contextMenu>
             <p:panelGrid columns="4" >
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprojekt:dataList" style="float: left;" />
@@ -25,7 +26,7 @@
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
                              emptyMessage="Brak wybranego układu lub pozycji w wybranym RZiS">
                     <f:facet name="header">
-                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad}"/>
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad} #{pozycjaBRView.uklad.rok}"/>
                     </f:facet>
                     <p:ajax event="select" global="false" listener="#{pozycjaBRView.wybranopozycjeRZiS}"/>
                     <p:column headerText="symbol i nazwa pozycji">
@@ -43,7 +44,7 @@
                 <p:panel id="wyborrzis" header="pobierz układ" style="margin-top: -50px;" >
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px; margin-top: 4px;" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{loop}"/>
                         <p:ajax event="change" global="false" listener="#{pozycjaBRView.wybranoUklad}" partialSubmit="true"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz" style="width: 100px; margin-top: 10px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt"/>
