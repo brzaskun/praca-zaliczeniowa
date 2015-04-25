@@ -412,6 +412,7 @@ public class PozycjaRZiSFKBean {
             double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
+                System.out.println(p.getKonto().getPelnynumer());
                 Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
@@ -430,7 +431,7 @@ public class PozycjaRZiSFKBean {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString());
+                System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString());
             }
             
         }

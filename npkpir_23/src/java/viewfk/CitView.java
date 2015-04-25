@@ -81,7 +81,7 @@ public class CitView implements Serializable {
             if (pozycje.isEmpty()) {
                 Msg.msg("i", "Brak zdefiniowanych pozycjiw RZiS");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);

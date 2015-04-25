@@ -152,7 +152,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji("do zapłaty", Z.z0(podatek-zaplacono)));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -175,7 +175,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
                 podatnikkwota.put(p.getNazwiskoimie(),Z.z0(podstawaopodatkowania*0.19));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -190,7 +190,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty", Z.z(dowyplaty-zaplacono)));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -203,7 +203,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         try {
             wynikFKRokMcDAO.destroy(wynikFKRokMc);
             listamiesiecy.remove(wynikFKRokMc);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Wystąpił bład. Nie usunięto wyniku za mc "+wynikFKRokMc.getMc());
         }
     }

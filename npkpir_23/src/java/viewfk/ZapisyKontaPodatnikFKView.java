@@ -170,7 +170,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         List<String> mce = null;
             try {
                 mce = Mce.zakresmiesiecy(wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
             }
             for (Iterator it = kontozapisy.iterator(); it.hasNext();) {
@@ -245,7 +245,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
               return kontoDAOfk.findKontaPotomnePodatnik(wpisView,macierzyste.getPelnynumer());
-          } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+          } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
           return null;
@@ -290,7 +290,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             listasum.get(0).setSumaMa(sumaMa);
             listasum.get(0).setSaldoWn(saldoWn);
             listasum.get(0).setSaldoMa(saldoMa);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
         }
     }
@@ -353,7 +353,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             }
             RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
             RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -385,7 +385,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             } else {
                 return porownajseriedok(o1,o2);
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             return 0;
         }
     }

@@ -80,7 +80,7 @@ public class RozniceKursoweFKView implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentvat);
             Msg.msg("Zaksięgowano dokument RRK");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RRK");
         }
     }
@@ -125,7 +125,7 @@ public class RozniceKursoweFKView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }

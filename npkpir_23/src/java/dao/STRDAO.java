@@ -40,7 +40,7 @@ public class STRDAO extends DAO implements Serializable{
    public  List<SrodekTrw> findAll(){
         try {
             return strFacade.findAll(SrodekTrw.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -48,7 +48,7 @@ public class STRDAO extends DAO implements Serializable{
    public  List<SrodekTrw> findStrPod(String pod){
         try {
             return strFacade.findStrPod(pod);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

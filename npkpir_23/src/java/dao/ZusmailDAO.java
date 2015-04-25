@@ -30,7 +30,7 @@ public class ZusmailDAO extends DAO implements Serializable {
     public Zusmail findZusmail(Zusmail zusmail) {
         try {
             return sessionFacade.findZusmail(zusmail);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
         }
         return null;
     }
@@ -38,7 +38,7 @@ public class ZusmailDAO extends DAO implements Serializable {
     public List<Zusmail> findZusRokMc(String rok, String mc) {
         try {
             return sessionFacade.findZusRokMc(rok,mc);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
         }
         return null;
     }

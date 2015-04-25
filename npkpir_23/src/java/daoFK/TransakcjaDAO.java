@@ -44,7 +44,7 @@ public class TransakcjaDAO  extends DAO implements Serializable {
     public void usunniezaksiegowane(String podatnik) {
         try {
             sessionFacade.usunTransakcjeNiezaksiegowane(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             
         }
     }

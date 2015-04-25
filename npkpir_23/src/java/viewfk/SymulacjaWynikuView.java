@@ -210,7 +210,7 @@ public class SymulacjaWynikuView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), podatek));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -274,12 +274,12 @@ public class SymulacjaWynikuView implements Serializable {
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         try {
             wynikFKRokMcDAO.edit(wynikFKRokMc);
             Msg.msg("Zachowano wynik");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
         }
     }
@@ -296,7 +296,7 @@ public class SymulacjaWynikuView implements Serializable {
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty #"+String.valueOf(i), Z.z(dowyplaty-zaplacono)));
                 i++;
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }

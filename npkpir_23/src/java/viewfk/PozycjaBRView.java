@@ -158,7 +158,7 @@ public class PozycjaBRView implements Serializable {
                     Msg.msg("i", "Dodaje pusta pozycje");
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }   
         root.getChildren().clear();
         PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
@@ -174,7 +174,8 @@ public class PozycjaBRView implements Serializable {
                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         rootProjektRZiS.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
@@ -188,6 +189,7 @@ public class PozycjaBRView implements Serializable {
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             rootProjektRZiS.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
         }
@@ -222,7 +224,8 @@ public class PozycjaBRView implements Serializable {
                pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
@@ -230,13 +233,7 @@ public class PozycjaBRView implements Serializable {
         zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
-            Konto kontowyniku = null;
-            for (Konto p : plankont) {
-                if (p.getPelnynumer().equals("860")) {
-                    kontowyniku = p;
-                    break;
-                }
-            }
+            Konto kontowyniku = kontoDAO.findKonto860(wpisView);
             double wynikfinansowy = pozycjawynikfin.getKwota();
             double wf = Math.abs(wynikfinansowy);
             if (wynikfinansowy > 0) {//zysk
@@ -262,6 +259,7 @@ public class PozycjaBRView implements Serializable {
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e){
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             rootBilansAktywa.getChildren().clear();
             rootBilansPasywa.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
@@ -343,7 +341,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję syntetyczną");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
             nowyelementRZiS = new PozycjaRZiS();
@@ -387,7 +385,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję analityczną");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
             nowyelementRZiS = new PozycjaRZiS();
@@ -428,7 +426,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję syntetyczną");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji syntetycznej");
             }
             nowyelementBilans = new PozycjaBilans();
@@ -472,7 +470,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
                 level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
                 Msg.msg("i", "Dodano nowa pozycję analityczną");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Wystąpił błąd - nie dodano nowej pozycji analitycznej");
             }
             nowyelementBilans = new PozycjaBilans();
@@ -495,7 +493,7 @@ public class PozycjaBRView implements Serializable {
             PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektRZiS, pozycje);
             level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
             Msg.msg("i", "Usuwam w RZiS");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie udało się usunąć pozycji w RZiS");
         }
     }

@@ -28,7 +28,7 @@ public class PismoadminDAO extends DAO implements Serializable{
         try {
             List<Pismoadmin> lista = sessionFacade.findAll(Pismoadmin.class);
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -37,7 +37,7 @@ public class PismoadminDAO extends DAO implements Serializable{
         try {
             List<Pismoadmin> lista = sessionFacade.findPismoadminBiezace();
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

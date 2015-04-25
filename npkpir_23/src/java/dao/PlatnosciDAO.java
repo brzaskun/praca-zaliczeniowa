@@ -36,7 +36,7 @@ public class PlatnosciDAO extends DAO implements Serializable{
      public  List<Platnosci> findAll(){
         try {
             return platnosciFacade.findAll(Platnosci.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

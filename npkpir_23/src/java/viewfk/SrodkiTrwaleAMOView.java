@@ -155,7 +155,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             try {
                 dokDAOfk.dodaj(dokumentamo);
                 Msg.msg("Zaksięgowano dokument AMO");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
             }
         } else {
@@ -174,7 +174,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             if (popDokfk != null) {
                 dokDAOfk.destroy(popDokfk);
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -207,7 +207,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -236,7 +236,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private Amodok odnajdzdokumorzeniowy(WpisView wpisView) {
         try {
            return amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "brak wygenerowanych dokumentów umorzeniowych za bieżących miesiąc");
             return null;
         }

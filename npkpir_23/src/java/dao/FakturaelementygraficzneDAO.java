@@ -31,7 +31,7 @@ public class FakturaelementygraficzneDAO  extends DAO implements Serializable {
     public  Fakturaelementygraficzne findFaktElementyGraficznePodatnik(String podatnik){
         try {
             return fakturaelementygraficzneFacade.findFaktElementyGraficzne(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
