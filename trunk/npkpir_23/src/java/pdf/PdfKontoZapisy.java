@@ -172,7 +172,7 @@ public class PdfKontoZapisy {
 
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
-            System.out.println("Blad "+e.getStackTrace()[0].toString());
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
     }
     

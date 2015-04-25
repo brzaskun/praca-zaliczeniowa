@@ -44,7 +44,7 @@ public class PitDAO extends DAO implements Serializable {
         try {
             List<Pitpoz> lista = pitpozFacade.findPitpozAll()   ;
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

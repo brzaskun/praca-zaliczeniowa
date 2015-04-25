@@ -28,7 +28,7 @@ public class SumypkpirDAO extends DAO implements Serializable {
     public  List<Sumypkpir> findAll(){
         try {
             return sumypkpirFacade.findAll(Sumypkpir.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -36,7 +36,7 @@ public class SumypkpirDAO extends DAO implements Serializable {
    public  List<Sumypkpir> findS(String podatnik, String rok){
         try {
             return sumypkpirFacade.findSumy(podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

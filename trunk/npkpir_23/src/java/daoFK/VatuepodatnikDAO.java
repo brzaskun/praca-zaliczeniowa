@@ -37,7 +37,7 @@ public class VatuepodatnikDAO extends DAO<Vatuepodatnik> implements Serializable
     public  List<Vatuepodatnik> findAll(){
         try {
             return sessionFacade.findAll(Vatuepodatnik.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -45,7 +45,7 @@ public class VatuepodatnikDAO extends DAO<Vatuepodatnik> implements Serializable
     public Vatuepodatnik find(String rokWpisu, String miesiacWpisu, String podatnikWpisu) {
         try {
             return (Vatuepodatnik) sessionFacade.findVatuepodatnik(rokWpisu, miesiacWpisu, podatnikWpisu);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }

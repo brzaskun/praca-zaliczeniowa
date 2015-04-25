@@ -76,7 +76,7 @@ public class KontoView  implements Serializable {
      public int sortujKonto(Object o1, Object o2) {
          try {
             return KontoSortBean.sortZaksiegowaneDok((Konto) o1, (Konto) o2);
-         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
              return 0;
          }
      }

@@ -39,7 +39,7 @@ public class KliencifkDAO extends DAO implements Serializable{
         try {
             Kliencifk kf = sessionFacade.znajdzkontofk(nip, podatniknip);
             return kf;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }

@@ -34,14 +34,14 @@ public class EwidencjeVatDAO extends DAO implements Serializable {
             Ewidencjevat tmp = find(ew.getRok(),ew.getMiesiac(),ew.getPodatnik());
             destroy(tmp);
             dodaj(ew);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             dodaj(ew);
         }
     }
     public  List<Ewidencjevat> findAll(){
         try {
             return ewidencjevatFacade.findAll(Ewidencjevat.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

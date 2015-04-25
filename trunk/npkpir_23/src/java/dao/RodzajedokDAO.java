@@ -37,7 +37,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public  List<Rodzajedok> findAll(){
         try {
             return rodzajedokFacade.findAll(Rodzajedok.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -45,7 +45,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public  List<Rodzajedok> findListaWspolne(){
         try {
             return rodzajedokFacade.findListaWspolne();
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -53,7 +53,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
         try {
             return rodzajedokFacade.findListaPodatnik(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }

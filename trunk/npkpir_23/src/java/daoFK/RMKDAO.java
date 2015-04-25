@@ -35,7 +35,7 @@ public class RMKDAO extends DAO implements Serializable {
     public List<RMK> findAll() {
         try {
             return sessionFacade.findAll(RMK.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }
@@ -43,7 +43,7 @@ public class RMKDAO extends DAO implements Serializable {
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         try {
             return sessionFacade.findRMKByPodatnikRok(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }

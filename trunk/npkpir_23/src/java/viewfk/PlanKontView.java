@@ -320,7 +320,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji zagranicznych");
                     }
                 }
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             }
         }
     }
@@ -493,7 +493,7 @@ public class PlanKontView implements Serializable {
                     try {
                         kontoDAOfk.destroy(p);
                         it.remove();
-                    } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                    } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                         Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                     }
                 } else {
@@ -514,7 +514,7 @@ public class PlanKontView implements Serializable {
             for (Konto p : wykazkontwzor) {
                 try {
                     kontoDAOfk.destroy(p);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                 }
             }
@@ -586,7 +586,7 @@ public class PlanKontView implements Serializable {
                     }
                     RequestContext.getCurrentInstance().update("form_dialog_plankont");
                     Msg.msg("i", "Usuwam konto");
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");
                 }
             }
@@ -637,7 +637,7 @@ public class PlanKontView implements Serializable {
                 }
             }
             kontoDAOfk.edit(selectednodekonto);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -656,7 +656,7 @@ public class PlanKontView implements Serializable {
                 }
             }
             kontoDAOfk.edit(selectednodekontowzorcowy);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -687,7 +687,7 @@ public class PlanKontView implements Serializable {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
                     PlanKontFKBean.porzadkujslownikKontrahenci(p, kontoDAOfk, wpisView);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     
                 }
             }

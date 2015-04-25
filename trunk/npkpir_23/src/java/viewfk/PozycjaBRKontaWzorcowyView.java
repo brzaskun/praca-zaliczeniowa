@@ -90,7 +90,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         drugiinit();
         uzupelnijpozycjeOKontaR(pozycje);
@@ -117,7 +117,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 pozycje.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
         }
         drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
@@ -686,7 +686,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         try {
             level = root.ustaldepthDT(pozycje) - 1;
             root.expandAll();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -702,7 +702,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         try {
             root.foldAll();
             level = 0;
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }

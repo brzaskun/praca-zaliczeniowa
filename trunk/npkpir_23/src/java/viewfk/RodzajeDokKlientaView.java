@@ -38,7 +38,7 @@ public class RodzajeDokKlientaView implements Serializable {
         try {
             rodzajedokKlienta = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokKlienta, new Rodzajedokcomparator());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }

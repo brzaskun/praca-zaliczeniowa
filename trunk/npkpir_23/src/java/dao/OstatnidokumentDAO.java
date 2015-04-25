@@ -55,7 +55,7 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
     public  List<Ostatnidokument> findAll(){
         try {
             return ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }

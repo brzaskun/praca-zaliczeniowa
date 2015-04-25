@@ -29,7 +29,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
     public  List<Fakturyokresowe> findAll(){
         try {
             return fakturyokresoweFacade.findAll(Fakturyokresowe.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
    }
@@ -38,7 +38,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
         List<Fakturyokresowe> zwrot = new ArrayList<>();
         try {
             zwrot = fakturyokresoweFacade.findPodatnik(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()); }
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
         return zwrot;
     }
 }

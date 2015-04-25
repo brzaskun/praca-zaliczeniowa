@@ -59,7 +59,7 @@ public class DelegacjeView  implements Serializable{
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, false);
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,true);
             obliczsumymiejsc();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
         listadelegacja = new HashMap<>();

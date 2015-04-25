@@ -391,7 +391,7 @@ public class UkladBRView implements Serializable {
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     
                 }
                 macierzyste.add(r);
@@ -409,7 +409,7 @@ public class UkladBRView implements Serializable {
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     
                 }
                 macierzyste.add(r);
@@ -431,7 +431,7 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     
                 }
             }
@@ -452,7 +452,7 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                     
                 }
             }

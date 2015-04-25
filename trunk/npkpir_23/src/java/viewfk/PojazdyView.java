@@ -60,7 +60,7 @@ public class PojazdyView  implements Serializable{
     public void init() {
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
@@ -70,7 +70,7 @@ public class PojazdyView  implements Serializable{
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
             listasumpojazdy = new LinkedHashSet<>();
             obliczsumy();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString());
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             
         }
     }
