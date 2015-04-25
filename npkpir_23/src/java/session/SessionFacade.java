@@ -893,8 +893,12 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
-    public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad) {
-        return em.createNamedQuery("KontopozycjaBiezaca.findByUklad").setParameter("uklad", uklad).getResultList();
+    public List<KontopozycjaBiezaca> findKontaBiezacePodatnikUklad(UkladBR uklad, String rb) {
+        if (rb.equals("wynikowe")) {
+            return em.createNamedQuery("KontopozycjaBiezaca.findByUkladWynikowe").setParameter("uklad", uklad).getResultList();
+        } else {
+            return em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).getResultList();
+        }
     }
     public List<KontopozycjaZapis> findKontaZapisPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {

@@ -52,6 +52,17 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
         this.ukladBR = p.ukladBR;
         this.wynik0bilans1 = p.wynik0bilans1;
     }
+    
+    public KontopozycjaZapis(KontopozycjaZapis p, Konto konto, UkladBR ukladBR) {
+        this.kontoID = konto;
+        this.ukladBR = ukladBR;
+        this.pozycjaMa = p.pozycjaMa;
+        this.pozycjaWn = p.pozycjaWn;
+        this.stronaMa = p.stronaMa;
+        this.stronaWn = p.stronaWn;
+        this.syntetykaanalityka = p.syntetykaanalityka;
+        this.wynik0bilans1 = p.wynik0bilans1;
+    }
 
        
 
