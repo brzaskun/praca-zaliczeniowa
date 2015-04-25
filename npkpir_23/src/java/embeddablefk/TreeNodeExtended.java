@@ -188,34 +188,43 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     public void addNumbers(List<StronaWiersza> zapisynakontach, List<Konto> plankont) throws Exception {
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
-        for (StronaWiersza p: zapisynakontach) {
+        for (StronaWiersza stronaWiersza : zapisynakontach) {
             //pobiermay dane z poszczegolnego konta
-            double kwotaWn = p.getWnma().equals("Wn") ? p.getKwotaPLN(): 0.0;
-            double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
+            double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
+            double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
-                Konto kontopobrane = plankont.get(plankont.indexOf(p.getKonto()));
-                String pozycjaRZiS = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                for (TreeNodeExtended r : finallNodes) {
+                Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
+                String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                for (TreeNodeExtended wybranapozycja : finallNodes) {
                     //sprawdzamy czy dane konto nalezy do danego wezla
-                        PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
-                        if ((pozycja.getPozycjaString()).equals(pozycjaRZiS)) {
+                    PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) wybranapozycja.getData();
+                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_wn)) {
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
                         boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")){
-                            if (przychod0koszt1 == false) {
-                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa - kwotaWn, p);
-                                donaniesienia = kwotaMa - kwotaWn + kwotapierwotna;
-                            } else {
-                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn - kwotaMa, p);
-                                donaniesienia = kwotaWn - kwotaMa + kwotapierwotna;
-                            }
+                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")) {
+                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                            donaniesienia = kwotaWn + kwotapierwotna;
                         } else {
-                            donaniesienia = p.getKwota() + kwotapierwotna;
+                            donaniesienia = stronaWiersza.getKwota() + kwotapierwotna;
                         }
                         pozycja.setKwota(donaniesienia);
+                    }
+                    if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_ma)) {
+                        //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                        double kwotapierwotna = pozycja.getKwota();
+                        double donaniesienia = 0.0;
+                        boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
+                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")) {
+                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                            donaniesienia = kwotaMa + kwotapierwotna;
+                        } else {
+                            donaniesienia = stronaWiersza.getKwota() + kwotapierwotna;
                         }
+                        pozycja.setKwota(donaniesienia);
+                    }
                 }
             } catch (Exception e) {
                 //throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
