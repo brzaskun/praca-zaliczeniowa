@@ -12,6 +12,7 @@ import daoFK.KontopozycjaBiezacaDAO;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontopozycjaBiezaca;
@@ -55,6 +56,8 @@ public class PozycjaBRKontaView implements Serializable {
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
     private String wnmaPrzypisywanieKont;
@@ -763,12 +766,14 @@ public class PozycjaBRKontaView implements Serializable {
     public void zaksiegujzmianypozycji(String rb) {
         if (rb.equals("r")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
-            List pozycjezapisane = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
-            if (pozycjezapisane != null) {
-                for (Object p : pozycjezapisane) {
-                    kontopozycjaZapisDAO.destroy(p);
-                }
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
             }
+        }
+        if (rb.equals("b")) {
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
             }
@@ -776,6 +781,52 @@ public class PozycjaBRKontaView implements Serializable {
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
     
+    
+    public void importujwzorcoweprzyporzadkowanie(String rb) {
+         if (uklad == null) {
+             Msg.msg("e", "Nie wybrano układu. Nie można zaimplementować przyporządkowania.");
+         }
+         if (kontabezprzydzialu.size() > 0) {
+             Msg.msg("w", "Istnieją nie przypisane konta. Nie można zaimplementować przyporządkowania.");
+             //return;
+         }
+         List<UkladBR> ukladyPodatnika = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+         if (ukladyPodatnika != null && ukladyPodatnika.size() > 0) {
+             UkladBR czyJestTakiUklad = sprawdzNazwyUkladu(ukladyPodatnika, uklad);
+             if (czyJestTakiUklad == null) {
+                 Msg.msg("e", "W układach podatnika nie ma układu o takiej nazwie jak wzorcowy.  Nie można zaimplementować przyporządkowania");
+             }
+
+             Msg.msg("Rozpoczynam implementacje");
+         } else {
+             Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
+         }
+     }
+     private UkladBR sprawdzNazwyUkladu (List<UkladBR> ukladyPodatnika, UkladBR ukladBR) {
+         for (UkladBR p : ukladyPodatnika) {
+             if (p.isImportowany() == true && p.getUklad().equals(uklad.getUklad()) && p.getRok().equals(ukladBR.getRok())) {
+                 return p;
+             }
+         }
+         return null;
+     }
+//     private boolean sprawdzPozycjeUkladow(UkladBR ukladklienta, UkladBR ukladwzorcowy) {
+//        List<String> nazwyUkladuKlienta = new ArrayList<>();
+//        List<String> nazwyUkladuWzorcowego = new ArrayList();
+//        ArrayList<PozycjaRZiSBilans> pozycjeRZiS = new ArrayList<>();
+//        ArrayList<PozycjaRZiSBilans> pozycjeAktywa = new ArrayList<>();
+//        ArrayList<PozycjaRZiSBilans> pozycjePasywa = new ArrayList<>();
+//        pozycjeRZiS.addAll(pozycjaRZiSDAO.findRzisuklad(ukladklienta));
+//        pozycjeAktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(ukladklienta));
+//        pozycjePasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(ukladklienta));
+//        ArrayList<PozycjaRZiSBilans> pozycjeRZiSWzorcowy = new ArrayList<>();
+//        ArrayList<PozycjaRZiSBilans> pozycjeAktywaWzorcowy = new ArrayList<>();
+//        ArrayList<PozycjaRZiSBilans> pozycjePasywaWzorcowy = new ArrayList<>();
+//        pozycjeRZiSWzorcowy.addAll(pozycjaRZiSDAO.findRzisuklad(ukladwzorcowy));
+//        pozycjeAktywaWzorcowy.addAll(pozycjaBilansDAO.findBilansukladAktywa(ukladwzorcowy));
+//        pozycjePasywaWzorcowy.addAll(pozycjaBilansDAO.findBilansukladPasywa(ukladwzorcowy));
+//        return false;
+//     }
 //<editor-fold defaultstate="collapsed" desc="comment">
 
     public ArrayList<PozycjaRZiSBilans> getPozycje() {
