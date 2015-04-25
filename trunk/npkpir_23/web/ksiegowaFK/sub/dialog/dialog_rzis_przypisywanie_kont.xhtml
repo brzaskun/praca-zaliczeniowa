@@ -29,10 +29,10 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="fa fa-lock"/>
                 <p:spacer width="40"/>
-                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" icon="fa fa-sign-in"/>
+                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form" icon="fa fa-sign-in"/>
             </p:panelGrid>
             <p:panelGrid columns="3">
-                <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
+                <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 450px; overflow-y: scroll;"
                               emptyMessage="Brak pozycji RZiS">
                     <p:ajax event="select" listener="#{pozycjaBRKontaView.wybranopozycjeRZiS}" update=":form:selected"/>

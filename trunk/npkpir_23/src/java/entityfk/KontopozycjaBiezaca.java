@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "KontopozycjaBiezaca.findByPozycjaMa", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.pozycjaMa = :pozycjaMa"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByPodatnik", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR = :podatnik"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByUklad", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR = :uklad"),
+    @NamedQuery(name = "KontopozycjaBiezaca.findByUkladWynikowe", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = false"),
+    @NamedQuery(name = "KontopozycjaBiezaca.findByUkladBilansowe", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR = :uklad AND  k.wynik0bilans1 = true"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByKontoId", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.kontoID.id = :kontoId"),
     @NamedQuery(name = "KontopozycjaBiezaca.findByRok", query = "SELECT k FROM KontopozycjaBiezaca k WHERE k.ukladBR.rok = :rok")})
 public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializable {

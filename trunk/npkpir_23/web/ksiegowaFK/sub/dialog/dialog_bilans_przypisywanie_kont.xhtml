@@ -30,11 +30,11 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('b')}" icon="fa fa-lock"/>
                 <p:spacer width="40"/>
-                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" icon="fa fa-sign-in"/>
+                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" update=":formbilansuklad" icon="fa fa-sign-in"/>
             </p:panelGrid>
             <p:panelGrid columns="3" >
                 <p:column>
-                    <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKonta}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
+                    <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
                                  styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 420px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu">
                         <p:ajax event="select" listener="#{pozycjaBRKontaView.wybranopozycjeBilans()}" update=":formbilansuklad:selected"/>
