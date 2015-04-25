@@ -64,7 +64,8 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     private boolean aktywa0pasywa1;
     private List<Konto> kontabezprzydzialu;
     private ArrayList<Konto> przyporzadkowanekonta;
-    private TreeNodeExtended rootProjektKonta;
+    private TreeNodeExtended rootProjektKontaRZiS;
+    private TreeNodeExtended rootProjektKontaBilans;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private int level = 0;
@@ -73,7 +74,8 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
 
     public PozycjaBRKontaWzorcowyView() {
         this.kontabezprzydzialu = new ArrayList<>();
-        this.rootProjektKonta = new TreeNodeExtended("root", null);
+        this.rootProjektKontaRZiS = new TreeNodeExtended("root", null);
+        this.rootProjektKontaBilans = new TreeNodeExtended("root", null);
         this.pozycje = new ArrayList<>();
         this.przyporzadkowanekonta = new ArrayList<>();
     }
@@ -92,9 +94,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
         drugiinit();
         uzupelnijpozycjeOKontaR(pozycje);
-        rootProjektKonta.getChildren().clear();
-        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
-        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
+        rootProjektKontaRZiS.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaRZiS, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaRZiS, pozycje);
         Msg.msg("i", "Pobrano układ ");
     }
 
@@ -119,9 +121,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
         drugiinitbilansowe();
         uzupelnijpozycjeOKonta(pozycje);
-        rootProjektKonta.getChildren().clear();
-        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKonta, pozycje);
-        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKonta, pozycje);
+        rootProjektKontaBilans.getChildren().clear();
+        PozycjaRZiSFKBean.ustawRootaprojekt(rootProjektKontaBilans, pozycje);
+        level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaBilans, pozycje);
         Msg.msg("i", "Pobrano układ ");
     }
 
@@ -750,7 +752,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     
      public void zaksiegujzmianypozycji(String rb) {
         if (rb.equals("r")) {
-            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 if (p.isWynik0bilans1() == false) {
@@ -759,7 +761,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             }
         }
         if (rb.equals("b")) {
-            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad);
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 if (p.isWynik0bilans1() == true) {
@@ -781,6 +783,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
 
     public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
+    }
+
+    public TreeNodeExtended getRootProjektKontaBilans() {
+        return rootProjektKontaBilans;
+    }
+
+    public void setRootProjektKontaBilans(TreeNodeExtended rootProjektKontaBilans) {
+        this.rootProjektKontaBilans = rootProjektKontaBilans;
     }
 
     public UkladBR getUklad() {
@@ -823,12 +833,12 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         this.przyporzadkowanekonta = przyporzadkowanekonta;
     }
 
-    public TreeNodeExtended getRootProjektKonta() {
-        return rootProjektKonta;
+    public TreeNodeExtended getRootProjektKontaRZiS() {
+        return rootProjektKontaRZiS;
     }
 
-    public void setRootProjektKonta(TreeNodeExtended rootProjektKonta) {
-        this.rootProjektKonta = rootProjektKonta;
+    public void setRootProjektKontaRZiS(TreeNodeExtended rootProjektKontaRZiS) {
+        this.rootProjektKontaRZiS = rootProjektKontaRZiS;
     }
 
     public int getLevel() {
