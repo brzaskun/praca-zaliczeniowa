@@ -47,6 +47,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByPodatnikBez0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta != '0' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByKontaPodatnikaBO", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.pelnynumer LIKE :wzorzec AND k.mapotomkow = 0 AND k.bilansowewynikowe = 'bilansowe' AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.nrkonta != 0  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikWynikowe", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBilansoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'bilansowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0 AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikWynikoweBezPotomkow", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.bilansowewynikowe = 'wynikowe' AND k.kontopozycjaID IS NOT NULL AND k.mapotomkow = 0  AND k.nrkonta != 0  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnik490", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta = '490' AND k.rok = :rok"),

@@ -796,12 +796,57 @@ public class PozycjaBRKontaView implements Serializable {
              if (czyJestTakiUklad == null) {
                  Msg.msg("e", "W układach podatnika nie ma układu o takiej nazwie jak wzorcowy.  Nie można zaimplementować przyporządkowania");
              }
-
              Msg.msg("Rozpoczynam implementacje");
+             UkladBR ukladwzorcowy = znajdzUkladWzorcowy(uklad);
+             if (ukladwzorcowy == null) {
+                 Msg.msg("e", "Nie odnaleziono odpowiadającego układu wzorcowego. Przewywam implementację");
+             } else {
+                skopiujPozycje(rb, uklad, ukladwzorcowy);
+             }
          } else {
              Msg.msg("e", "Podatnik nie posiada zdefiniowanych układów Bilansu i RZiS. Nie można zaimplementować przyporządkowania.");
          }
      }
+    
+    private UkladBR znajdzUkladWzorcowy(UkladBR ukladpodatnika) {
+        List<UkladBR> lista = ukladBRDAO.findPodatnik("Wzorcowy");
+        for (UkladBR p : lista) {
+            if (p.getUklad().equals(ukladpodatnika.getUklad()) && p.getRok().equals(ukladpodatnika.getRok())) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    private void skopiujPozycje(String rb, UkladBR ukladpodatnika, UkladBR ukladwzorcowy) {
+        if (rb.equals("r")) {
+            wyczyscKonta("wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+          
+        }
+        if (rb.equals("b")) {
+           
+        }
+        Msg.msg("Zapamiętano przyporządkowane pozycje");
+    }
+    
+    private void wyczyscKonta(String rb) {
+        List<Konto> konta = null;
+        if (rb.equals("wynikowe")) {
+            konta = kontoDAO.findWszystkieKontaWynikowePodatnika(wpisView);
+        } else {
+            konta = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
+        }
+        for (Konto p : konta) {
+            p.setKontopozycjaID(null);
+            kontoDAO.edit(p);
+        }
+    }
+    
+    private List<KontopozycjaZapis> pobiezpozycjeZapisane (UkladBR ukladwzorcowy, String rb) {
+        return kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, rb);
+    }
+    
      private UkladBR sprawdzNazwyUkladu (List<UkladBR> ukladyPodatnika, UkladBR ukladBR) {
          for (UkladBR p : ukladyPodatnika) {
              if (p.isImportowany() == true && p.getUklad().equals(uklad.getUklad()) && p.getRok().equals(ukladBR.getRok())) {
