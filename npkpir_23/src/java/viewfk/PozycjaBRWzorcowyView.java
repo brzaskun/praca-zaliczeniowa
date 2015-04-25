@@ -74,6 +74,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
     private UkladBR uklad;
+    private String nowanazwa;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -581,8 +582,38 @@ public class PozycjaBRWzorcowyView implements Serializable {
             }
         }
     }
+    
+    public void skopiujnazwe(String rb) {
+        if (rb.equals("b")) {
+            nowanazwa = ((PozycjaBilans) wybranynodekonta.getData()).getNazwa();
+        } else {
+            nowanazwa = ((PozycjaRZiS) wybranynodekonta.getData()).getNazwa();
+        }
+    }
+    
+    public void zmiennazwepozycji() {
+        String classname = wybranynodekonta.getData().getClass().getName();
+        if (classname.equals("entityfk.PozycjaBilans")) {
+            PozycjaBilans p = (PozycjaBilans) wybranynodekonta.getData();
+            p.setNazwa(nowanazwa);
+            pozycjaBilansDAO.edit(p);
+        } else {
+            PozycjaRZiS r = (PozycjaRZiS) wybranynodekonta.getData();
+            r.setNazwa(nowanazwa);
+            pozycjaBilansDAO.edit(r);
+        }
+        Msg.msg("Zmieniono nazwę pozycji bilansu");
+    }
        
     //<editor-fold defaultstate="collapsed" desc="comment">
+
+    public String getNowanazwa() {
+        return nowanazwa;
+    }
+
+    public void setNowanazwa(String nowanazwa) {
+        this.nowanazwa = nowanazwa;
+    }
     
     
 
@@ -746,4 +777,5 @@ public class PozycjaBRWzorcowyView implements Serializable {
     //</editor-fold>
 
 }
+
 

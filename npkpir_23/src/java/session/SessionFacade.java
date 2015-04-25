@@ -1437,5 +1437,13 @@ public class SessionFacade<T> implements Serializable{
             em.createNamedQuery("KontopozycjaZapis.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
         }
     }
+    
+    public void usunZapisaneKontoPozycjaBiezacaPodatnikUklad(UkladBR uklad, String rb) {
+        if (rb.equals("wynikowe")) {
+            em.createNamedQuery("KontopozycjaBiezaca.DeleteWynikowe").setParameter("uklad", uklad).executeUpdate();
+        } else {
+            em.createNamedQuery("KontopozycjaBiezaca.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
+        }
+    }
   
 }

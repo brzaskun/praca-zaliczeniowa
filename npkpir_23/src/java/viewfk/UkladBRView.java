@@ -4,6 +4,8 @@
  */
 package viewfk;
 
+import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
@@ -12,7 +14,6 @@ import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -45,6 +46,10 @@ public class UkladBRView implements Serializable {
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBR ukladzrodlowy;
     private String ukladdocelowynazwa;
@@ -110,6 +115,10 @@ public class UkladBRView implements Serializable {
 
     public void usun(UkladBR ukladBR) {
         try {
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
             ukladBRDAO.destroy(ukladBR);
             lista.remove(ukladBR);
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
