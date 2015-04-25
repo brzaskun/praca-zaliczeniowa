@@ -21,7 +21,6 @@
                             <p:menuitem value="przegladaj Bilans zapisy" onclick="PF('bilansprzegladukladzapisy').show();"></p:menuitem>
                             <p:menuitem value="przyporządkowanie kont" onclick="PF('bilansuklad').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('bilansprojekt').show();"></p:menuitem>
-                            <p:menuitem value="definiowanie układu" onclick="PF('bilansprojektuklad').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>
@@ -31,10 +30,17 @@
                             <p:menuitem value="przegladaj RZiS" onclick="PF('rzisprzeglad').show();"></p:menuitem>
                             <p:menuitem value="przyporządkowanie kont" onclick="PF('rzisuklad').show();"></p:menuitem>
                             <p:menuitem value="projekt układu" onclick="PF('rzisprojekt').show();"></p:menuitem>
-                            <p:menuitem value="definiowanie układu" onclick="PF('rzisprojektuklad').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>
+                <p:tab title="Układ RZiS/Bilans" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
+                   <h:form id="dialog1menu5">
+                       <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                           <p:menuitem value="Kopiowanie układu RZiS/Bilans" onclick="PF('dialog_uklad_kopiuj').show();"></p:menuitem>
+                           <p:menuitem value="Definiowanie układu" onclick="PF('dialogprojektuklad').show();"></p:menuitem>
+                       </p:menu>  
+                   </h:form>
+               </p:tab>
                 <p:tab title="CIT">
                     <h:form id="dialog1menu4">
                         <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
