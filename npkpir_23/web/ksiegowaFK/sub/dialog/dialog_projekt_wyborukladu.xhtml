@@ -52,7 +52,7 @@
                         <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                         <p:inputText value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; margin-top: 10px;"/>
                         <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;"
-                                         update=":formprojektuklad"/>
+                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt"/>
                     </p:panel>
                 </h:form>
                 <h:form>
@@ -62,7 +62,7 @@
                             <f:selectItems value="#{ukladBRView.listaWzorcowy}" var="item" itemLabel="#{item.uklad} - #{item.rok}" itemValue="#{item}"/>
                         </p:selectOneListbox>
                         <p:commandButton value="implementuj" actionListener="#{ukladBRView.implementuj}" style="width: 120px; margin-top: 10px;"
-                                         update=":formprojektuklad"/>
+                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt"/>
                     </p:panel>
                 </h:form>
             </p:panelGrid>
