@@ -416,30 +416,31 @@ public class PozycjaRZiSFKBean {
                 Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
-                double sumaObrotyWnBO = k.getObrotyWn()+k.getBoWn();
-                double sumaObrotyMaBO = k.getObrotyMa()+k.getBoMa();
-                if (sumaObrotyWnBO == sumaObrotyMaBO) {
-                    k.setSaldoWn(0.0);
-                    k.setSaldoMa(0.0);
-                } else {
-                    if (sumaObrotyWnBO > sumaObrotyMaBO) {
-                        k.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
-                        k.setSaldoMa(0.0);
-                    } else {
-                        k.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
-                        k.setSaldoWn(0.0);
-                    }
-                }
             } catch (Exception e) {
                 System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString());
             }
             
         }
-        //a teraz trzeba podsumowac konta bez obrotow ale z bo
+        //a teraz trzeba podsumowac konta bez obrotow ale z bo no i z obrotami (wyjalem to z gory)
         for (Konto r : plankont) {
             if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
                 r.setSaldoWn(r.getBoWn());
                 r.setSaldoMa(r.getBoMa());
+            } else {
+                double sumaObrotyWnBO = r.getObrotyWn()+r.getBoWn();
+                double sumaObrotyMaBO = r.getObrotyMa()+r.getBoMa();
+                if (sumaObrotyWnBO == sumaObrotyMaBO) {
+                    r.setSaldoWn(0.0);
+                    r.setSaldoMa(0.0);
+                } else {
+                    if (sumaObrotyWnBO > sumaObrotyMaBO) {
+                        r.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                        r.setSaldoMa(0.0);
+                    } else {
+                        r.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
+                        r.setSaldoWn(0.0);
+                    }
+                }
             }
         }
     }
