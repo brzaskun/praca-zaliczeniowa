@@ -150,7 +150,7 @@ public class UzView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 return "failure";
 
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString()); 
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wystąpił błąd. Reset hasła nie udany.", e.getStackTrace().toString());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
             }
