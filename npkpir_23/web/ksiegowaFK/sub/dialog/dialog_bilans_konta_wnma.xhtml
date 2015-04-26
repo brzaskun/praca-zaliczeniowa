@@ -19,7 +19,9 @@
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalne()}" oncomplete="PF('kontownmawybor').hide();"/>
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaView.onKontoDropKontaSpecjalne()}" 
+                                     update=":formbilansuklad, :formkontowybor"
+                                     oncomplete="PF('kontownmawybor').hide();"/>
                 </p:focus>
             </p:panelGrid>
         </h:form>

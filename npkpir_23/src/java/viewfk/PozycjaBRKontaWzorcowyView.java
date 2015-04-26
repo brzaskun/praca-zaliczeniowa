@@ -434,7 +434,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
             //trzeba wyszukac konto bo nie odswiezalem listy i w zwiazku z tym encja z listy nie zgadza sie z encja z bazy;
-            Konto konto = kontoDAO.findKonto(boxNaKonto.getPelnynumer(), wpisView);
+            Konto konto = kontoDAO.findKontoWzorcowy(boxNaKonto.getPelnynumer(), wpisView);
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("vat")) {
                 przyporzadkowanekonta.add(konto);
@@ -473,6 +473,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 }
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
                 KontopozycjaBiezaca kp = konto.getKontopozycjaID();
+                kp.setWynik0bilans1(true);
                 if (wnmaPrzypisywanieKont.equals("wn")) {
                     kp.setPozycjaWn(wybranapozycja);
                     if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
