@@ -161,7 +161,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 if (konto.getKontopozycjaID() == null) {
                     RequestContext.getCurrentInstance().update("kontownmawyborRZiS");
-                    RequestContext.getCurrentInstance().execute("PF('kontownmawyborRZiS').show();");
+                    RequestContext.getCurrentInstance().execute("PF('dialog_rzis_konta_wnma_wzorcowy').show();");
                     Msg.msg("Konto niezwykle");
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
@@ -210,7 +210,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             if (konto.getZwyklerozrachszczegolne().equals("rozrachunkowe") || konto.getZwyklerozrachszczegolne().equals("szczególne") || konto.getZwyklerozrachszczegolne().equals("vat")) {
                 if (konto.getKontopozycjaID() == null) {
                     RequestContext.getCurrentInstance().update("kontownmawybor");
-                    RequestContext.getCurrentInstance().execute("PF('kontownmawybor').show();");
+                    RequestContext.getCurrentInstance().execute("PF('dialog_bilans_konta_wnma_wzorcowy').show();");
                     Msg.msg("Konto niezwykle");
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
