@@ -32,7 +32,7 @@
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans()}" update=":formprzegladbilans"/>
                 </p:panelGrid>

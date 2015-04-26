@@ -7,8 +7,10 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
+import embeddable.Mce;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -67,9 +69,25 @@ public class StronaWierszaBean {
         }
      
      public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
-        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        if (!wpisView.getMiesiacWpisu().equals("01")) {
-            pobranezapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokMcWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni()));
+        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+            StronaWiersza p = it.next();
+            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                it.remove();
+            }
+        }
+        return pobranezapisy;
+    }
+     
+     public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+            StronaWiersza p = it.next();
+            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                it.remove();
+            }
         }
         return pobranezapisy;
     }
