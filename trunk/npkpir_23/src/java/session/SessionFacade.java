@@ -76,7 +76,8 @@ import view.WpisView;
  * @param <T>
  */
 @Stateless
-public class SessionFacade<T> implements Serializable{
+public class SessionFacade<T> implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @PersistenceContext(unitName = "npkpir_22PU")
@@ -90,7 +91,6 @@ public class SessionFacade<T> implements Serializable{
         return em;
     }
 
-       
     public List<T> findAll(Class<T> entityClass) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         cq.select(cq.from(entityClass));
@@ -100,7 +100,7 @@ public class SessionFacade<T> implements Serializable{
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
-    
+
     public T findEntity(Class<T> entityClass, T entityPK) {
         T find = getEntityManager().find(entityClass, entityPK);
         return find;
@@ -113,16 +113,16 @@ public class SessionFacade<T> implements Serializable{
     public void edit(T entity) {
         getEntityManager().merge(entity);
     }
-    
-    public List<T> findXLast(Class<T> entityClass,int ile) {
+
+    public List<T> findXLast(Class<T> entityClass, int ile) {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
         javax.persistence.criteria.Root<T> rt = cq.from(entityClass);
         cq.select(getEntityManager().getCriteriaBuilder().count(rt));
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         int ilosc = ((Number) q.getSingleResult()).intValue();
-        int kontrolailosci = ilosc-ile;
-        if(kontrolailosci<0){
-            kontrolailosci=0;
+        int kontrolailosci = ilosc - ile;
+        if (kontrolailosci < 0) {
+            kontrolailosci = 0;
         }
         int[] range = {ilosc, kontrolailosci};
         cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -132,7 +132,6 @@ public class SessionFacade<T> implements Serializable{
         q.setFirstResult(range[1]);
         return q.getResultList();
     }
-    
 
     public Evewidencja findEvewidencjaByName(String nazwa) {
         return (Evewidencja) em.createNamedQuery("Evewidencja.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
@@ -142,21 +141,21 @@ public class SessionFacade<T> implements Serializable{
         return (Evpozycja) em.createNamedQuery("Evpozycja.findByNazwapola").setParameter("nazwapola", nazwapola).getSingleResult();
     }
 
-    public List<Pitpoz> findPitpozAll(){
+    public List<Pitpoz> findPitpozAll() {
         List<Pitpoz> lista = em.createNamedQuery("Pitpoz.findAll").getResultList();
         return lista;
     }
-    
+
     public Pitpoz findPitpoz(String rok, String mc, String pod) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
-    
+
     public List<Pitpoz> findPitpozLista(String rok, String mc, String pod) {
-       List<Pitpoz> lista =  em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getResultList();
-       return lista;
+        List<Pitpoz> lista = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getResultList();
+        return lista;
     }
-     
+
     public Pitpoz findPitpoz(String rok, String mc, String pod, String udzialowiec) {
         Pitpoz tmp = (Pitpoz) em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
         return tmp;
@@ -166,17 +165,17 @@ public class SessionFacade<T> implements Serializable{
         List<Pitpoz> tmp = em.createQuery("SELECT p FROM Pitpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
-    
-     public List<Ryczpoz> findRyczAll(){
+
+    public List<Ryczpoz> findRyczAll() {
         List<Ryczpoz> lista = em.createNamedQuery("Ryczpoz.findAll").getResultList();
         return lista;
     }
-    
+
     public Ryczpoz findRycz(String rok, String mc, String pod) {
         Ryczpoz tmp = (Ryczpoz) em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
-     
+
     public Ryczpoz findRycz(String rok, String mc, String pod, String udzialowiec) {
         Ryczpoz tmp = (Ryczpoz) em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.pkpirM = :pkpirM AND p.podatnik = :podatnik AND p.udzialowiec = :udzialowiec").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", pod).setParameter("udzialowiec", udzialowiec).getSingleResult();
         return tmp;
@@ -186,25 +185,21 @@ public class SessionFacade<T> implements Serializable{
         List<Ryczpoz> tmp = em.createQuery("SELECT p FROM Ryczpoz p WHERE p.pkpirR = :pkpirR AND p.podatnik = :podatnik").setParameter("pkpirR", rok).setParameter("podatnik", pod).getResultList();
         return tmp;
     }
-    
-    
 
     public Ewidencjevat findEwidencjeVAT(String rok, String mc, String pod) {
         Ewidencjevat tmp = (Ewidencjevat) em.createQuery("SELECT p FROM  Ewidencjevat p WHERE p.rok = :rok AND p.miesiac = :miesiac AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
         return tmp;
     }
 
-    
     public Uz findUzNP(String np) {
         Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
         return tmp;
     }
-    
 
     public Sesja findSesja(String nrsesji) {
         try {
-        return (Sesja) em.createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
-        } catch (Exception e){
+            return (Sesja) em.createNamedQuery("Sesja.findByNrsesji").setParameter("nrsesji", nrsesji).getSingleResult();
+        } catch (Exception e) {
             return null;
         }
     }
@@ -228,7 +223,7 @@ public class SessionFacade<T> implements Serializable{
         Platnosci tmp = (Platnosci) em.createNamedQuery("Platnosci.findByKey").setParameter("podatnik", key.getPodatnik()).setParameter("rok", key.getRok()).setParameter("miesiac", key.getMiesiac()).getSingleResult();
         return tmp;
     }
-    
+
     public List<Platnosci> findPlatnosciPodRok(String rok, String podatnik) throws Exception {
         List<Platnosci> tmp = em.createNamedQuery("Platnosci.findByPodRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
         return tmp;
@@ -239,31 +234,34 @@ public class SessionFacade<T> implements Serializable{
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
         return wynik;
     }
-    
-     public Dok dokumentDuplicatAMO(Dok selD, String pkpirR) throws Exception {
+
+    public Dok dokumentDuplicatAMO(Dok selD, String pkpirR) throws Exception {
         Dok wynik = null;
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findDuplicateAMO").setParameter("podatnik", selD.getPodatnik()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
         return wynik;
     }
-    
-     public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
+
+    public Dok dokumentDuplicatwtrakcie(Dok selD, String nazwapelna, String typdokumentu) {
         List<Dok> wynik = null;
         try {
             wynik = em.createNamedQuery("Dok.findDuplicatewTrakcie").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("podatnik", nazwapelna).setParameter("typdokumentu", typdokumentu).getResultList();
             if (!wynik.isEmpty()) {
-                return wynik.get(wynik.size()-1);
+                return wynik.get(wynik.size() - 1);
             } else {
                 return null;
             }
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -274,15 +272,16 @@ public class SessionFacade<T> implements Serializable{
             Zobowiazanie tmp = (Zobowiazanie) em.createQuery("SELECT p FROM Zobowiazanie p WHERE p.zobowiazaniePK.rok = :rok AND p.zobowiazaniePK.mc = :mc").setParameter("rok", nowedane[0]).setParameter("mc", nowedane[1]).getSingleResult();
             return tmp;
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             throw new Exception();
         }
     }
 
     public StornoDok findStornoDok(Integer rok, String mc, String podatnik) {
         try {
-        StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getSingleResult();
-        return tmp;
-        } catch (Exception e){
+            StornoDok tmp = (StornoDok) em.createQuery("SELECT p FROM StornoDok p WHERE p.rok = :rok AND p.mc = :mc AND p.podatnik = :podatnik").setParameter("rok", rok).setParameter("mc", mc).setParameter("podatnik", podatnik).getSingleResult();
+            return tmp;
+        } catch (Exception e) {
             return null;
         }
     }
@@ -303,6 +302,7 @@ public class SessionFacade<T> implements Serializable{
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR", rok).setParameter("pkpirM", mcS).setParameter("opis", "umorzenie za miesiac").getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
         return wynik;
@@ -313,13 +313,14 @@ public class SessionFacade<T> implements Serializable{
         wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrot").setParameter("skrot", skrot).getSingleResult();
         return wynik;
     }
-    
+
     public Rodzajedok findRodzajedokPodatnik(String skrot, Podatnik podatnik) {
         Rodzajedok wynik = null;
         try {
             wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
-            
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+
         }
         return wynik;
     }
@@ -334,6 +335,7 @@ public class SessionFacade<T> implements Serializable{
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findStornoDok").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", podatnik).setParameter("opis", "storno za miesiac").getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
         return wynik;
@@ -344,6 +346,7 @@ public class SessionFacade<T> implements Serializable{
             em.createNamedQuery("SrodekTrw.findSTR").setParameter("podatnik", podatnik).setParameter("netto", netto).setParameter("podatnik", podatnik).setParameter("nrwldokzak", numer).getSingleResult();
             return true;
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return false;
         }
     }
@@ -356,6 +359,7 @@ public class SessionFacade<T> implements Serializable{
         try {
             return (Wpis) em.createNamedQuery("Wpis.findByWprowadzil").setParameter("wprowadzil", login).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             Wpis wpis = new Wpis();
             wpis.setWprowadzil(login);
             getEntityManager().persist(wpis);
@@ -374,7 +378,7 @@ public class SessionFacade<T> implements Serializable{
     public Srodkikst findSrodekkst1(String nazwa) {
         return (Srodkikst) em.createNamedQuery("Srodkikst.findByNazwa").setParameter("nazwa", nazwa).getSingleResult();
     }
-    
+
     public Deklaracjevat findDeklaracjevat(String rok, String mc, String pod) {
         return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByRokMcPod").setParameter("rok", rok).setParameter("miesiac", mc).setParameter("podatnik", pod).getSingleResult();
     }
@@ -386,38 +390,37 @@ public class SessionFacade<T> implements Serializable{
     public Deklaracjevat findDeklaracjewysylka(String pod) {
         try {
             return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getSingleResult();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
     public List<Deklaracjevat> findDeklaracjewysylkaLista(String pod) {
         try {
             return em.createNamedQuery("Deklaracjevat.findByPodatnikWysylka").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
     public List<Deklaracjevat> findDeklaracjewyslane(String pod) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslane").setParameter("podatnik", pod).setParameter("identyfikator", "").getResultList();
     }
-    
+
     public Deklaracjevat findDeklaracjaPodatnik(String identyfikator, String podatnik) {
         return (Deklaracjevat) em.createNamedQuery("Deklaracjevat.findByIdentyfikatorPodatnik").setParameter("identyfikator", identyfikator).setParameter("podatnik", podatnik).getSingleResult();
     }
-    
-    
+
     public List<Deklaracjevat> findDeklaracjewyslane(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Deklaracjevat> findDeklaracjewyslane200(String pod, String rok) {
         return em.createNamedQuery("Deklaracjevat.findByPodatnikWyslaneRok200").setParameter("podatnik", pod).setParameter("identyfikator", "").setParameter("rok", rok).getResultList();
     }
 
     public Srodkikst findSr(Srodkikst srodek) {
-       return em.find(Srodkikst.class, srodek);
+        return em.find(Srodkikst.class, srodek);
     }
 
     public EVatOpis findEVatOpis(String name) {
@@ -427,31 +430,32 @@ public class SessionFacade<T> implements Serializable{
     public List<Dok> findDokBK(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBK").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }
+
     public List<Dok> findDokRok(String rok) {
         return em.createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList();
     }
-    
+
     public List<Dok> findDokBKVAT(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
     }
-    
+
     public List<Dok> findDokfkBKVAT(Podatnik pod, String rok) {
         return em.createNamedQuery("Dokfk.findByBKVAT").setParameter("podatnik", pod).setParameter("vatR", rok).getResultList();
     }
-    
-    public Dok findDokTPR(String typdokumentu,String pod, String rok) {
+
+    public Dok findDokTPR(String typdokumentu, String pod, String rok) {
         List<Dok> lista = em.createNamedQuery("Dok.findByTPR").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).getResultList();
-        return lista.get(lista.size()-1);
+        return lista.get(lista.size() - 1);
     }
 
     public List<Dok> findDokBK(String pod, String rok, String mc) {
         return em.createNamedQuery("Dok.findByBKM").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
     }
-    
+
     public Object findDokBKCount(String pod, String rok, String mc) {
         return em.createNamedQuery("Dok.findByPkpirRMCount").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
     }
-    
+
     public List<Dok> findDokDuplikat(String pod, String rok) {
         return em.createNamedQuery("Dok.findByDuplikat").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }
@@ -473,51 +477,52 @@ public class SessionFacade<T> implements Serializable{
         try {
             return em.createNamedQuery("SrodekTrw.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
 
     public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc) {
-         try {
-            return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu",typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
-            } catch (Exception e) {
+        try {
+            return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu", typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
-    
+
     public List<Inwestycje> findInwestycje(String podatnik, boolean zakonczona) {
         return em.createNamedQuery("Inwestycje.findByPodatnikZakonczona").setParameter("podatnik", podatnik).setParameter("zakonczona", zakonczona).getResultList();
     }
 
     public List<Amodok> findPod(String podatnik) {
-        try{
+        try {
             return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
     public List<Amodok> AmoDokPodRok(String podatnik, String rok) {
-        try{
+        try {
             return em.createNamedQuery("Amodok.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
     public Amodok AmoDokPodMcRok(String podatnik, String mc, Integer rok) {
-        try{
+        try {
             return (Amodok) em.createNamedQuery("Amodok.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("mc", Mce.getMiesiacToNumber().get(mc)).setParameter("rok", rok).getSingleResult();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
     public List<Amodok> findAmoDokBiezacy(String podatnik, String mc, String rok) {
-        try{
+        try {
             return em.createNamedQuery("Amodok.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        } catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
@@ -525,43 +530,43 @@ public class SessionFacade<T> implements Serializable{
     public Konto findKonto(String numer, String podatnik, int rok) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
-    
+
     public Konto findKontoWzorcowy(String numer, int rok) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerWzorcowy").setParameter("pelnynumer", numer).setParameter("podatnik", "Wzorcowy").setParameter("rok", rok).getSingleResult();
     }
-    
+
     public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
         return (Konto) em.createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nazwaskrocona).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
-    
+
     public List<Konto> findKontaNazwaPodatnik(String nazwaskrocona, WpisView wpisView) {
         return em.createNamedQuery("Konto.findByNazwaPodatnik").setParameter("nazwaskrocona", nazwaskrocona).setParameter("podatnik", wpisView.getPodatnikObiekt().getNazwapelna()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaRozrachunkowe(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByRozrachunkowePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByRozrachunkiPodatnikWszystkie").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaVAT(String podatnik, int rok) {
         return em.createNamedQuery("Konto.findByVATPodatnik").setParameter("zwyklerozrachszczegolne", "vat").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Konto> findKontaSrodkiTrw(String podatnik, int rok) {
         return em.createNamedQuery("Konto.findBySrodkiTrwPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Konto> findKontaRMK(String podatnik, int rok) {
         return em.createNamedQuery("Konto.findByRMKPodatnik").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Konto> findKontaRZiS(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByBilansowewynikowePodatnik").setParameter("bilansowewynikowe", "wynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public Konto findKonto(int id) {
         return (Konto) em.createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
     }
@@ -577,14 +582,15 @@ public class SessionFacade<T> implements Serializable{
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
-    
+
     public List<Fakturywystokresowe> findPodatnikFaktury(String podatnik) {
         return em.createNamedQuery("Fakturywystokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
+
     public Fakturywystokresowe findFakturaOkresowaById(Integer id) {
         return (Fakturywystokresowe) em.createNamedQuery("Fakturywystokresowe.findById").setParameter("id", id).getSingleResult();
     }
-    
+
     public List<Fakturywystokresowe> findPodatnikRokFaktury(String podatnik, String rok) {
         return em.createNamedQuery("Fakturywystokresowe.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
@@ -600,19 +606,19 @@ public class SessionFacade<T> implements Serializable{
     public List<Faktura> findByKontrahent_nip(String kontrahent_nip, String wystawca) {
         return em.createNamedQuery("Faktura.findByKontrahent").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).getResultList();
     }
-    
+
     public List<Faktura> findByKontrahentNipRok(String kontrahent_nip, String wystawca, String rok) {
         return em.createNamedQuery("Faktura.findByKontrahentRok").setParameter("kontrahent_nip", kontrahent_nip).setParameter("wystawcanazwa", wystawca).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Faktura> findFakturyByRok(String rok) {
         return em.createNamedQuery("Faktura.findByRok").setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Faktura> findFakturyByRokPodatnik(String rok, String wystawcanazwa) {
         return em.createNamedQuery("Faktura.findByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).getResultList();
     }
-    
+
     public Faktura findOstatniaFakturaByRokPodatnik(String rok, String wystawcanazwa) {
         return (Faktura) em.createNamedQuery("Faktura.findOstatniaFakturaByRokPodatnik").setParameter("rok", rok).setParameter("wystawcanazwa", wystawcanazwa).setMaxResults(1).getSingleResult();
     }
@@ -621,20 +627,23 @@ public class SessionFacade<T> implements Serializable{
         return em.createNamedQuery("Fakturadodelementy.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
     }
 
-  
     public List<Faktura> findByPodatnik(String podatnik) {
         return em.createNamedQuery("Faktura.findByWystawcanazwa").setParameter("wystawcanazwa", podatnik).getResultList();
     }
+
     public Faktura findByNumerPodatnik(String numerkolejny, String podatnik) {
         return (Faktura) em.createNamedQuery("Faktura.findByNumerkolejnyWystawcanazwa").setParameter("wystawcanazwa", podatnik).setParameter("numerkolejny", numerkolejny).getSingleResult();
     }
+
     public List<Faktura> findByPodatnikRok(String podatnik, String rok) {
         return em.createNamedQuery("Faktura.findByWystawcanazwaRok").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).getResultList();
-}
+    }
+
     public List<Faktura> findByPodatnikRokMc(String podatnik, String rok, String mc) {
         return em.createNamedQuery("Faktura.findByWystawcanazwaRokMc").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
-    public List<Faktura> findByPodatnikRokMcPlatnosci(String podatnik, String rok, String mc,  boolean niezaplacone0zaplacone1) {
+
+    public List<Faktura> findByPodatnikRokMcPlatnosci(String podatnik, String rok, String mc, boolean niezaplacone0zaplacone1) {
         if (niezaplacone0zaplacone1 == false) {
             return em.createNamedQuery("Faktura.findByWystawcanazwaRokMcNiezaplacone").setParameter("wystawcanazwa", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
         } else {
@@ -649,24 +658,23 @@ public class SessionFacade<T> implements Serializable{
     public Dok findFaktWystawione(String nazwapelna, Klienci kontrahent, String numerkolejny, double brutto) {
         return (Dok) em.createNamedQuery("Dok.findByFakturaWystawiona").setParameter("podatnik", nazwapelna).setParameter("kontr", kontrahent).setParameter("nrWlDk", numerkolejny).setParameter("brutto", brutto).getSingleResult();
     }
-    
+
     public List<Wiersz> findWierszefkRozrachunki(String podatnik, Konto konto, DokfkPK dokfkPK) {
         return em.createNamedQuery("Wiersz.findByRozrachunki").setParameter("podatnik", podatnik).setParameter("konto", konto).setParameter("dokfkPK", dokfkPK).getResultList();
     }
-    
-    
+
     public List<Wiersz> findWierszeZapisy(String podatnik, String konto) {
         return em.createNamedQuery("Wiersz.findByZapisy").setParameter("podatnik", podatnik).setParameter("konto", konto).getResultList();
     }
-    
+
     public List<Wiersz> findWierszePodatnikMcRok(Podatnik podatnik, WpisView wpisView) {
         return em.createNamedQuery("Wiersz.findByPodatnikMcRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     }
-    
+
     public List<Wiersz> findWierszePodatnikMcRokWNTWDT(Podatnik podatnik, WpisView wpisView, String wntwdt) {
         return em.createNamedQuery("Wiersz.findByPodatnikMcRokWNTWDT").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("wntwdt", wntwdt).getResultList();
     }
-    
+
     public List<Wiersz> findWierszePodatnikRok(Podatnik podatnik, WpisView wpisView) {
         return em.createNamedQuery("Wiersz.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
@@ -675,7 +683,6 @@ public class SessionFacade<T> implements Serializable{
 //    public List<Wiersze> findWierszefkRozrachunki(String podatnik, String kontonumer) {
 //        return em.createNamedQuery("Wiersz.findByRozrachunki1").setParameter("podatnik", podatnik).getResultList();
 //    }
-
     public Dokfk findDokfk(Dokfk selected) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByDokEdycjaFK")
@@ -686,14 +693,15 @@ public class SessionFacade<T> implements Serializable{
                     .setParameter("kontrahent", selected.getKontr())
                     .getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public Dokfk findDokfkObject(Dokfk selected) {
         return em.find(Dokfk.class, selected.getDokfkPK());
     }
-    
+
     public Dokfk findDokfkKontrahent(Dokfk selected) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByDuplikatKontrahent")
@@ -704,6 +712,7 @@ public class SessionFacade<T> implements Serializable{
                     .setParameter("kontrahent", selected.getKontr())
                     .getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -711,77 +720,77 @@ public class SessionFacade<T> implements Serializable{
     public List<Konto> findKontaOstAlityka(String podatnik, Integer rok) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Konto> findKontaOstAlitykaWynikowe(String podatnik, Integer rok) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnikWynikowe").setParameter("mapotomkow", false).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<Konto> findKontaOstAlityka5(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByMapotomkowMaSlownikPodatnik5").setParameter("mapotomkow", false).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
 
     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
         switch (mc) {
-            case "01" : 
+            case "01":
                 return em.createNamedQuery("Fakturywystokresowe.findByM1").setParameter("podatnik", podatnik).getResultList();
-            case "02" : 
+            case "02":
                 return em.createNamedQuery("Fakturywystokresowe.findByM2").setParameter("podatnik", podatnik).getResultList();
-            case "03" : 
+            case "03":
                 return em.createNamedQuery("Fakturywystokresowe.findByM3").setParameter("podatnik", podatnik).getResultList();
-            case "04" : 
+            case "04":
                 return em.createNamedQuery("Fakturywystokresowe.findByM4").setParameter("podatnik", podatnik).getResultList();
-            case "05" : 
+            case "05":
                 return em.createNamedQuery("Fakturywystokresowe.findByM5").setParameter("podatnik", podatnik).getResultList();
-            case "06" : 
+            case "06":
                 return em.createNamedQuery("Fakturywystokresowe.findByM6").setParameter("podatnik", podatnik).getResultList();
-            case "07" : 
+            case "07":
                 return em.createNamedQuery("Fakturywystokresowe.findByM7").setParameter("podatnik", podatnik).getResultList();
-            case "08" : 
+            case "08":
                 return em.createNamedQuery("Fakturywystokresowe.findByM8").setParameter("podatnik", podatnik).getResultList();
-            case "09" : 
+            case "09":
                 return em.createNamedQuery("Fakturywystokresowe.findByM9").setParameter("podatnik", podatnik).getResultList();
-            case "10" : 
+            case "10":
                 return em.createNamedQuery("Fakturywystokresowe.findByM10").setParameter("podatnik", podatnik).getResultList();
-            case "11" : 
+            case "11":
                 return em.createNamedQuery("Fakturywystokresowe.findByM11").setParameter("podatnik", podatnik).getResultList();
-            case "12" : 
+            case "12":
                 return em.createNamedQuery("Fakturywystokresowe.findByM12").setParameter("podatnik", podatnik).getResultList();
         }
         return null;
     }
-  
+
     public List<Konto> findKontaPotomnePodatnik(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaPotomnePodatnikRok(String podatnik, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", 2015).getResultList();
     }
-    
+
     public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaSiostrzanePodatnik(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaSiostrzaneWzorcowy(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findBySiostrzaneBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public Object findKontaPotomnePodatnikCount(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
-    
+
     public Object findKontaPotomneWzorcowyCount(WpisView wpisView, String macierzyste) {
         return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
-    
+
     public List<Konto> findKontaMaSlownik(WpisView wpisView, int idslownika) {
         return em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaPotomne(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
@@ -789,7 +798,7 @@ public class SessionFacade<T> implements Serializable{
             return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         }
     }
-    
+
     public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByMacierzysteBilansowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
@@ -797,27 +806,28 @@ public class SessionFacade<T> implements Serializable{
             return em.createNamedQuery("Konto.findByMacierzysteWynikowe").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
         }
     }
-    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView,String aktywa0pasywa1) {
+
+    public List<Konto> findKontaPrzyporzadkowane(String pozycja, String bilansowewynikowe, WpisView wpisView, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } else {
             return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
         }
     }
-    
-    public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, WpisView wpisView,String aktywa0pasywa1) {
+
+    public List<Konto> findKontaPrzyporzadkowaneWzorcowy(String pozycja, String bilansowewynikowe, WpisView wpisView, String aktywa0pasywa1) {
         if (bilansowewynikowe.equals("bilansowe")) {
             return em.createNamedQuery("Konto.findByPozycjaBilansowe").setParameter("pozycja", pozycja).setParameter("aktywa0pasywa1", aktywa0pasywa1).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
         } else {
-            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", "Wzorcowy").setParameter("rok",  wpisView.getRokWpisu()).getResultList();
+            return em.createNamedQuery("Konto.findByPozycjaWynikowe").setParameter("pozycja", pozycja).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
         }
     }
 
-   
     public Dokfk findDokfkLastofaType(Podatnik podatnik, String seriadokfk, String rok) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -826,27 +836,28 @@ public class SessionFacade<T> implements Serializable{
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("kontr", kontr).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public Dok findDokLastofaTypeKontrahent(String podatnik, Klienci kontr, String pkpirR) {
         try {
             return (Dok) em.createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-   
-    
+
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
     }
-    
+
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
         return em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList();
     }
-    
+
     public Tabelanbp findTabelaPLN() {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findBySymbolWaluty").setParameter("symbolwaluty", "PLN").getSingleResult();
     }
@@ -855,11 +866,11 @@ public class SessionFacade<T> implements Serializable{
         try {
             return (Waluty) em.createNamedQuery("Waluty.findBySymbolwaluty").setParameter("symbolwaluty", staranazwa).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
 
- 
     public List<Sesja> findUser(String user) {
         return em.createNamedQuery("Sesja.findByUzytkownik").setParameter("uzytkownik", user).getResultList();
     }
@@ -874,18 +885,18 @@ public class SessionFacade<T> implements Serializable{
         String rok = u.getRok();
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
         String rok = u.getRok();
         return em.createNamedQuery("PozycjaBilans.findByUkladPodRokAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<PozycjaRZiS> findBilansukladPasywa(UkladBR u) {
         String uklad = u.getUklad();
         String podatnik = u.getPodatnik();
@@ -900,6 +911,7 @@ public class SessionFacade<T> implements Serializable{
             return em.createNamedQuery("KontopozycjaBiezaca.findByUkladBilansowe").setParameter("uklad", uklad).getResultList();
         }
     }
+
     public List<KontopozycjaZapis> findKontaZapisPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
             return em.createNamedQuery("KontopozycjaZapis.findByUkladWynikowe").setParameter("uklad", uklad).getResultList();
@@ -917,21 +929,22 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Kliencifk znajdzkontofk(String nip, String podatniknip) {
-        try { 
+        try {
             return (Kliencifk) em.createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
 
     public List<Kliencifk> znajdzkontofkKlient(String podatniknip) {
         return em.createNamedQuery("Kliencifk.findByPodatniknip").setParameter("podatniknip", podatniknip).getResultList();
-    } 
+    }
 
     public List<Podatnik> findPodatnikFK() {
         return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
     }
-    
+
     public List<Podatnik> findPodatnikNieFK() {
         return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", false).getResultList();
     }
@@ -939,39 +952,39 @@ public class SessionFacade<T> implements Serializable{
     public List<Podatnik> findPodatnikZUS() {
         return em.createNamedQuery("Podatnik.findByZUS").getResultList();
     }
+
     public List<Konto> findKontoPodatnik(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findByPodatnik").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
-    
+
     public List<Konto> findKontoPodatnikBez0(String podatnik, String rok) {
-        return em.createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok",  Integer.parseInt(rok)).getResultList();
+        return em.createNamedQuery("Konto.findByPodatnikBez0").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
-    
+
     public List<Konto> findWszystkieKontaPodatnikaBO(WpisView wpisView, String kategoriaKonta) {
         return em.createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("wzorzec", kategoriaKonta).getResultList();
     }
-    
+
     public List<Konto> findWszystkieKontaBilansowePodatnika(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findWszystkieKontaWynikowePodatnika(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikWynikoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByPodatnikBilansoweBezPotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public Konto findKonto860(WpisView wpisView) {
         return (Konto) em.createNamedQuery("Konto.findByKonto860").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
-    
-        
+
     public Konto findKontoPodatnik490(WpisView wpisView) {
         return (Konto) em.createNamedQuery("Konto.findByPodatnik490").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
@@ -979,7 +992,7 @@ public class SessionFacade<T> implements Serializable{
     public int resetujKolumneMapotomkow(WpisView wpisView) {
         return em.createNamedQuery("Konto.updateMapotomkow").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
-    
+
     public int resetujKolumneZablokowane(WpisView wpisView) {
         return em.createNamedQuery("Konto.updateZablokowane").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).executeUpdate();
     }
@@ -987,7 +1000,7 @@ public class SessionFacade<T> implements Serializable{
     public List<String> findKlienciNIP() {
         return em.createNamedQuery("Klienci.findKlienciNip").getResultList();
     }
-    
+
     public List<String> findNazwaPelna(String nowanazwa) {
         return em.createNamedQuery("Klienci.findByNpelna").setParameter("npelna", nowanazwa).getResultList();
     }
@@ -1003,15 +1016,15 @@ public class SessionFacade<T> implements Serializable{
     public List<Dokfk> findDokfkPodatnikRokMc(WpisView w) {
         return em.createNamedQuery("Dokfk.findByPodatnikRokMc").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).getResultList();
     }
-    
+
     public List<Dokfk> findDokfkPodatnikRok(WpisView w) {
         return em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
     }
-    
+
     public List<Dokfk> findDokfkPodatnikRokMcKategoria(WpisView w, String kategoria) {
         return em.createNamedQuery("Dokfk.findByPodatnikRokMcKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).setParameter("kategoria", kategoria).getResultList();
     }
-    
+
     public List<Dokfk> findDokfkPodatnikRokKategoria(WpisView w, String kategoria) {
         return em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
     }
@@ -1033,33 +1046,35 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public int usunTransakcjeNiezaksiegowane(String podatnik) {
-        return em.createNamedQuery("Transakcja.usunNiezaksiegowane").setParameter("podatnik",podatnik).executeUpdate();
+        return em.createNamedQuery("Transakcja.usunNiezaksiegowane").setParameter("podatnik", podatnik).executeUpdate();
     }
 
     public Transakcja findTransakcja(int rozliczany, int sparowany) {
         try {
             return (Transakcja) em.createNamedQuery("Transakcja.findByRozliczanySparowany").setParameter("rozliczany", rozliczany).setParameter("sparowany", sparowany).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
-     }
+    }
 
     public List<Transakcja> findTransakcjeRozliczonyID(int idrozrachunku) {
         try {
             return em.createNamedQuery("Transakcja.findByRozliczonyID").setParameter("rozliczany", idrozrachunku).getResultList();
         } catch (Exception e) {
-            return null;
-        }
-    }
-    
-    public List<Transakcja> findTransakcjeSparowanyID(String podatnik) {
-        try {
-            return em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
-        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
 
+    public List<Transakcja> findTransakcjeSparowanyID(String podatnik) {
+        try {
+            return em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            return null;
+        }
+    }
 
     public List<Dok> znajdzOdDo(long odd, long dod) {
         return em.createNamedQuery("Dok.findByIdDokOdDo").setParameter("odd", odd).setParameter("dod", dod).getResultList();
@@ -1070,9 +1085,10 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public Klienci findKlientByNip(String nip) {
-        try  {
+        try {
             return (Klienci) em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -1089,46 +1105,52 @@ public class SessionFacade<T> implements Serializable{
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
-    
+
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaBO(Konto konto, String symbolwaluty, String wnma) {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -1144,71 +1166,73 @@ public class SessionFacade<T> implements Serializable{
     public List<StronaWiersza> findStronaByPodatnikKontoRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
+
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteRokWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty, MiejsceKosztow p) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteRokWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWaluta(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, MiejsceKosztow p) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpismiejsca()).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaPojazdy(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Pojazdy p) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getNrrejestracyjny()).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoMacierzysteMcWalutaDelegacja(Podatnik podatnik, Konto konto, String mc, String skrotWaluty, Delegacja p) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoMacierzysteMcWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto.getPelnynumer()).setParameter("mc", mc).setParameter("symbolwaluty", skrotWaluty).setParameter("nazwapelna", p.getOpisdlugi()).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoBOWaluta(Podatnik podatnik, Konto konto, String rok, String skrotWaluty) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWaluta").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoBOWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoBOWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
-    
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutaWszystkie(Podatnik podatnik, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutaWszystkie(Podatnik podatnik, Konto konto, String rok, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieNT(Podatnik podatnik, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieNT(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
+
     public List<StronaWiersza> findStronaByPodatnikRokWynik(Podatnik podatnik, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikRokMcWynik(Podatnik podatnik, String rok, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
-    
-     public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok) {
+
+    public List<StronaWiersza> findStronaByPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRok").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilans(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
+
     public List<StronaWiersza> findStronaByPodatnikRokBilans(Podatnik podatnik, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokBilans").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikRokWalutaBilansBO(Podatnik podatnik, String rok, String skrotWaluty) {
-        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok). setParameter("symbolwaluty", skrotWaluty).getResultList();
+        return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaBilansBO").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();
     }
 
     public List<WierszBO> findBOLista0(String grupa, Podatnik podatnik) {
@@ -1218,7 +1242,7 @@ public class SessionFacade<T> implements Serializable{
     public List<WierszBO> findWierszBOPodatnikRok(Podatnik podatnik, String rok) {
         return em.createNamedQuery("WierszBO.findByPodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
-    
+
     public List<WierszBO> findWierszBOPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
         return em.createNamedQuery("WierszBO.findByPodatnikRokRozrachunkowe").setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
@@ -1234,13 +1258,13 @@ public class SessionFacade<T> implements Serializable{
     public List<Transakcja> findByNowaTransakcja(StronaWiersza s) {
         return em.createNamedQuery("Transakcja.findByNowaTransakcja").setParameter("nowatransakcja", s).getResultList();
     }
-  
+
     public List<Transakcja> findByRozliczajacy(StronaWiersza s) {
         return em.createNamedQuery("Transakcja.findByRozliczajacy").setParameter("rozliczajacy", s).getResultList();
     }
 
     public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
-        return (Dok) em.createNamedQuery("Dok.znajdzInwestycja").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("data", r.getDataWyst()).setParameter("netto", r.getNetto() ).setParameter("numer", r.getNrWlDk()).getSingleResult();
+        return (Dok) em.createNamedQuery("Dok.znajdzInwestycja").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("data", r.getDataWyst()).setParameter("netto", r.getNetto()).setParameter("numer", r.getNrWlDk()).getSingleResult();
     }
 
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {
@@ -1250,38 +1274,39 @@ public class SessionFacade<T> implements Serializable{
     public List<Konto> findlistaKontKasaBank(WpisView wpisView) {
         return em.createNamedQuery("Konto.findlistaKontKasaBank").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findlistaKontGrupa3(WpisView wpisView) {
         return em.createNamedQuery("Konto.findlistaKontGrupa3").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+
     public List<Konto> findlistaKontGrupa0(WpisView wpisView) {
         return em.createNamedQuery("Konto.findlistaKontGrupa0").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findlistaKontGrupa4(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findlistaKontGrupa4").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
-    
+
     public List<Konto> findlistaKontGrupa6(String podatnik, String rok) {
         return em.createNamedQuery("Konto.findlistaKontGrupa6").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
 
     public List<Transakcja> findByKonto(Konto wybraneKontoNode) {
         return em.createNamedQuery(("Transakcja.findByKonto")).setParameter("konto", wybraneKontoNode).getResultList();
-    } 
+    }
 
     public List<Transakcja> findByPodatniRok(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }
-    
+
     public List<Transakcja> findByPodatnikBO(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikBO").setParameter("podatnik", wpisView.getPodatnikWpisu()).getResultList();
     }
-    
+
     public List<Transakcja> findByPodatniRokRozniceKursowe(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikRokRozniceKursowe").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }
-    
+
     public List<Transakcja> findByPodatnikBORozniceKursowe(WpisView wpisView) {
         return em.createNamedQuery("Transakcja.findByPodatnikBORozniceKursowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisuSt()).setParameter("mc", wpisView.getMiesiacWpisu()).getResultList();
     }
@@ -1294,6 +1319,7 @@ public class SessionFacade<T> implements Serializable{
         try {
             return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             return null;
         }
     }
@@ -1301,15 +1327,15 @@ public class SessionFacade<T> implements Serializable{
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcWalutyWszystkie(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokMcVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokMcVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).setParameter("mc", mc).getResultList();
     }
-    
+
     public List<StronaWiersza> findStronaByPodatnikKontoRokVAT(Podatnik podatnikObiekt, Konto konto, String rokWpisuSt) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokVAT").setParameter("podatnikObj", podatnikObiekt).setParameter("konto", konto).setParameter("rok", rokWpisuSt).getResultList();
     }
@@ -1341,7 +1367,7 @@ public class SessionFacade<T> implements Serializable{
     public long countPojazdy(Podatnik podatnikObiekt) {
         return (long) em.createNamedQuery("Pojazdy.countByPodatnik").setParameter("podatnik", podatnikObiekt).getSingleResult();
     }
-    
+
     public List<Delegacja> findDelegacjaPodatnik(WpisView wpisView, boolean krajowa0zagraniczna1) {
         return em.createNamedQuery("Delegacja.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getResultList();
     }
@@ -1349,7 +1375,7 @@ public class SessionFacade<T> implements Serializable{
     public long countDelegacja(WpisView wpisView, boolean krajowa0zagraniczna1) {
         return (long) em.createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult();
     }
-    
+
     public List<Uz> findMultiuser() {
         return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", "Multiuser").getResultList();
     }
@@ -1381,14 +1407,14 @@ public class SessionFacade<T> implements Serializable{
     public int findMaxLevelRzisuklad(String uklad, String podatnik, String rok) {
         return (int) em.createNamedQuery("PozycjaRZiS.findByMaxLevelPodatnik").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
-    
+
     public int findMaxLevelBilansukladAktywa(String uklad, String podatnik, String rok) {
         return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
     public int findMaxLevelBilansukladPasywa(String uklad, String podatnik, String rok) {
         return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
-    }   
+    }
 
     public PozycjaRZiS findPozycjaRZiSLP(int lp) {
         return (PozycjaRZiS) em.createNamedQuery("PozycjaRZiS.findByLp").setParameter("lp", lp).getSingleResult();
@@ -1399,11 +1425,11 @@ public class SessionFacade<T> implements Serializable{
     }
 
     public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
-        return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok",wpisView.getRokWpisu()).getResultList();
+        return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
-    
+
     public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
-        return em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok",2015).getResultList();
+        return em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok", 2015).getResultList();
     }
 
     public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
@@ -1437,7 +1463,7 @@ public class SessionFacade<T> implements Serializable{
             em.createNamedQuery("KontopozycjaZapis.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
         }
     }
-    
+
     public void usunZapisaneKontoPozycjaBiezacaPodatnikUklad(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
             em.createNamedQuery("KontopozycjaBiezaca.DeleteWynikowe").setParameter("uklad", uklad).executeUpdate();
@@ -1445,5 +1471,5 @@ public class SessionFacade<T> implements Serializable{
             em.createNamedQuery("KontopozycjaBiezaca.DeleteBilansowe").setParameter("uklad", uklad).executeUpdate();
         }
     }
-  
+
 }

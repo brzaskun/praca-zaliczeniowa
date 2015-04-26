@@ -2319,7 +2319,8 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) { 
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
