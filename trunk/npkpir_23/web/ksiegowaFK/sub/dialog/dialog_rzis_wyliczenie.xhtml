@@ -30,7 +30,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="5">
+            <p:panelGrid columns="6">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
@@ -38,6 +38,12 @@
                     </p:selectOneMenu>
                     <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update=":formprzeglad"/>
                 </p:panelGrid>
+                <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}" update="@form" />
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />

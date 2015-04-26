@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import beansFK.BOFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import converter.RomNumb;
@@ -11,8 +12,10 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.KontoKwota;
+import embeddablefk.SaldoKonto;
 import embeddablefk.StronaWierszaKwota;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
@@ -33,6 +36,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -75,6 +79,8 @@ public class PozycjaBRView implements Serializable {
     private PozycjaBilansDAO pozycjaBilansDAO;
     @Inject
     private UkladBR uklad;
+    @Inject
+    private WierszBODAO wierszBODAO;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -229,8 +235,7 @@ public class PozycjaBRView implements Serializable {
         }
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
-        List<StronaWiersza> zapisy = new ArrayList<>();
-        zapisy.addAll(stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt()));
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             Konto kontowyniku = kontoDAO.findKonto860(wpisView);
@@ -253,6 +258,9 @@ public class PozycjaBRView implements Serializable {
                 p.setPrzyporzadkowanestronywiersza(null);
                 p.setPrzyporzadkowanekonta(null);
             }
+//            for (Konto p : plankont) {
+//                naniesBOnaKonto(p);
+//            }
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont,"pasywa");
@@ -266,7 +274,16 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    
+    private void naniesBOnaKonto(Konto p) {
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+        for (StronaWiersza r : zapisyBO) {
+            if (r.getWnma().equals("Wn")) {
+                p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
+            } else {
+                p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
+            }
+        }
+    }
     
    
    
@@ -574,10 +591,26 @@ public class PozycjaBRView implements Serializable {
         }
         for (KontoKwota p : sumaPodpietychKont) {
             List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p.getKonto(), wpisView.getRokWpisuSt());
-            for (StronaWiersza r : stronywiersza) {
-                podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+            int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {
+                StronaWiersza r = (StronaWiersza) it.next();
+                if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) > granicagorna) {
+                    it.remove();
+                } else {
+                    podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+                }
             }
         }
+    }
+    
+    public void odswiezrzis() {
+        wpisView.wpisAktualizuj();
+        pobierzukladprzegladRZiS();
+    }
+    
+    public void odswiezbilans() {
+        wpisView.wpisAktualizuj();
+        pobierzukladprzegladBilans("aktywa");
     }
        
     //<editor-fold defaultstate="collapsed" desc="comment">

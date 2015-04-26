@@ -29,7 +29,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="5">
+            <p:panelGrid columns="6">
                 <p:panelGrid columns="4">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
@@ -38,6 +38,12 @@
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
                 </p:panelGrid>
+                 <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilans()}" update="@form" />
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                </p:column>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilanszapisy:dataList" style="float: left;" />
