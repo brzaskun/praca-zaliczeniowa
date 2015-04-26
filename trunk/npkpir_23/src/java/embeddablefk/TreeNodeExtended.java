@@ -275,10 +275,18 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
                                 double kwotapierwotna = pozycja.getKwota();
                                 if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                    pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                    if (stronaWn==false && stronaMa==false) {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn()-p.getSaldoMa());
+                                    } else {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                    }
                                     pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                                 } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                    pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                    if (stronaWn==true && stronaMa==true) {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa()-p.getSaldoWn());
+                                    } else {
+                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                    }
                                     pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
