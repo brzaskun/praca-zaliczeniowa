@@ -398,7 +398,7 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto);
+            PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum);
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
