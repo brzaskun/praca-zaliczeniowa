@@ -68,7 +68,7 @@ public class RemanentView implements Serializable {
                     }
                     //remnierem = "Wartość ostatniego remanentu za " + tmp.getRokOd() + " wynosi: " + tmp.getParametr();
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
                     Msg.msg("e", "Nie wprowadzono remanentu! Program nie obliczy PIT-u za grudzien.");
             }
         } catch (Exception ex) {

@@ -46,7 +46,7 @@ public class OdsetkiView implements Serializable{
          Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
          String ndX = formatterX.format(selected.getDataodD());
          selected.setDataod(ndX);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
          if(sprawdz()==0){
          odsetkiDAO.dodaj(selected);
          lista.add(selected);

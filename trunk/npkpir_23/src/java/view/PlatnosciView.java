@@ -85,7 +85,7 @@ public class PlatnosciView implements Serializable {
         String nazwapodatnika = principal.getName();
         try {
             biezacyPodanik = podatnikDAO.find(wpisView.findNazwaPodatnika());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         pokazzobowiazania();
     }
@@ -103,7 +103,7 @@ public class PlatnosciView implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             edytujplatnosc = true;
             RequestContext.getCurrentInstance().update("form:formZob");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             nowezobowiazanie();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wprowadź nowe daty przelewów.", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -136,7 +136,7 @@ public class PlatnosciView implements Serializable {
         try {
             pitpoz = pitDAO.find(rok, mc, podatnik);
             selectedZob.setPit5(pitpoz.getNaleznazal().doubleValue());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             selectedZob.setPit5(0.0);
         }
         //pobierz VAT-7
@@ -150,10 +150,10 @@ public class PlatnosciView implements Serializable {
                 } else {
                     selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
                 selectedZob.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             selectedZob.setVat(0.0);
         }
         List<Zobowiazanie> terminy = new ArrayList<>();
@@ -197,7 +197,7 @@ public class PlatnosciView implements Serializable {
             platnosciPK.setPodatnik(podatnik);
             platnosci.setPlatnosciPK(platnosciPK);
             platnosciDAO.edit(platnosci);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         //selectedZob.setVatsuma(selectedZob.getVat()+selectedZob.getVatods());
     }
@@ -233,7 +233,7 @@ public class PlatnosciView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob:wiad");
@@ -265,7 +265,7 @@ public class PlatnosciView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
@@ -297,7 +297,7 @@ public class PlatnosciView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
@@ -329,7 +329,7 @@ public class PlatnosciView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Platnosci nie zachowane - PodatekView", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             RequestContext.getCurrentInstance().update("akordeon:formZob1:wiad1");
@@ -390,7 +390,7 @@ public class PlatnosciView implements Serializable {
                 if ((dataod.getTime() >= tmp.getDataodD().getTime()) && (dataod.getTime() <= tmp.getDatadoD().getTime())) {
                     return tmp;
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
                 break;
             }
         }

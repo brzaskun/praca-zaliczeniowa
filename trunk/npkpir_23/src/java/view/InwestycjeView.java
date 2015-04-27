@@ -89,7 +89,7 @@ public class InwestycjeView implements Serializable{
             selected.setSkrot("");
             Msg.msg("i","Dodałem nową inwestycję","form:messages");
             inwestycjerozpoczete.add(selected);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystąpił błąd. Nie dodałem nowej inwestycji","form:messages");
         }
     }
@@ -104,7 +104,7 @@ public class InwestycjeView implements Serializable{
                 inwestycjerozpoczete.remove(wybrany);
                 Msg.msg("i","Usunąłem wybrną inwestycję","form:messages");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystąpił błąd. Nie usunąłem wkazanej inwestycji","form:messages");
         }
     }
@@ -118,7 +118,7 @@ public class InwestycjeView implements Serializable{
             inwestycjerozpoczete.remove(wybrany);
             inwestycjezakonczone.add(wybrany);
             Msg.msg("i","Zamknąłem wybrną inwestycję","form:messages");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystąpił błąd. Nie zamknąłem wkazanej inwestycji","form:messages");
         }
     }
@@ -133,7 +133,7 @@ public class InwestycjeView implements Serializable{
             inwestycjezakonczone.remove(wybrany);
             inwestycjerozpoczete.add(wybrany);
             Msg.msg("i","Otworzyłem ponownie wybrną inwestycję","form:messages");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystąpił błąd. Nie można było ponownie otworzyć inwestycji","form:messages");
         }
     }
@@ -159,7 +159,7 @@ public class InwestycjeView implements Serializable{
     public void drukujInwestycje(Inwestycje wybrany) {
         try {
             PdfInwestycja.drukujinwestycje(wybrany, wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             
         }
     }

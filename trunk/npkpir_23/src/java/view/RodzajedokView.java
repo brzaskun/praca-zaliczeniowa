@@ -56,7 +56,7 @@ public class RodzajedokView implements Serializable {
         try {
             listaWspolnych = rodzajedokDAO.findListaWspolne();
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
 
     }
@@ -69,7 +69,7 @@ public class RodzajedokView implements Serializable {
             listaWspolnych.add(wprowadzany);
             wprowadzany = new Rodzajedok();
             Msg.msg("Dodatno nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Niedodatno nowego rodzaju dokumentu. Sprawdz czy skrót się nie powtarza.");
         }
 
@@ -79,7 +79,7 @@ public class RodzajedokView implements Serializable {
         try {
             rodzajedokDAO.edit(wprowadzany);
             Msg.msg("Wyedytowano nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Niewyedytowano rodzaju dokumentu. Wystąpił błąd");
         }
 
@@ -97,7 +97,7 @@ public class RodzajedokView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wzorzec NIE usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

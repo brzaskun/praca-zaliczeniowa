@@ -80,7 +80,7 @@ public class FakturyPlatnosciView  implements Serializable {
             fakturyzaplacone.add(selected);
             datazaplaty = null;
             Msg.msg("Naniesiono płatność");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Wystąpił błąd, nie naniesiono płatności");
         }
         
@@ -94,7 +94,7 @@ public class FakturyPlatnosciView  implements Serializable {
             fakturyniezaplacone.add(f);
             datazaplaty = null;
             Msg.msg("wyzerowano płatność");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Wystąpił błąd, nie wyzerowano płatności.");
         }
     }

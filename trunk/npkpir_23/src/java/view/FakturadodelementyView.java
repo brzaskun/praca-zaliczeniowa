@@ -65,7 +65,7 @@ public class FakturadodelementyView implements Serializable {
                     fakturadodelementy.add(f);
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -75,7 +75,7 @@ public class FakturadodelementyView implements Serializable {
                 fakturadodelementyDAO.dodaj(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             for (Fakturadodelementy p : fakturadodelementy) {
                 fakturadodelementyDAO.edit(p);
             }

@@ -105,7 +105,7 @@ public class FakturyokresoweView implements Serializable{
             Podatnik pod = wpisView.getPodatnikObiekt();
             try {
                 dokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             }
             for(Dok p : dokumenty){
                 for (Fakturyokresowe r : faktury){

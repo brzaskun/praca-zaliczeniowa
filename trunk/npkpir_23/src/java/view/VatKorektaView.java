@@ -110,7 +110,7 @@ public class VatKorektaView implements Serializable {
                 }
             }
             rodzajedokKlienta.addAll(rodzajedokumentowFilter);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         Collections.sort(deklaracjeWyslane, new Vatcomparator());
     }
@@ -273,7 +273,7 @@ public class VatKorektaView implements Serializable {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!");
                 return 1;
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
                 return 0;   
         }
         return 0;
@@ -297,7 +297,7 @@ public class VatKorektaView implements Serializable {
         String kodus = tKodUS.getMapaUrzadKod().get(wpisView.getPodatnikObiekt().getUrzadskarbowy());
         try {
             boolean equals = kodus.isEmpty();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
         }
         try {
@@ -314,7 +314,7 @@ public class VatKorektaView implements Serializable {
                     break;
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
         }
         return kwotaautoryzujaca;
@@ -323,7 +323,7 @@ public class VatKorektaView implements Serializable {
     public void drukujkorektareczna() {
         try {
             PdfVATKorektaReczna.drukuj(vATDeklaracjaKorektaDok, wpisView, podatnikDAO);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             
         }
     }

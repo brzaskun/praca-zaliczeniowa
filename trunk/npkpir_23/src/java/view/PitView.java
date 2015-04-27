@@ -74,7 +74,7 @@ public class PitView implements Serializable {
      public void drukujarch() {
          try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
              
          }
      }
@@ -82,7 +82,7 @@ public class PitView implements Serializable {
      public void mailPIT5() {
          try {
              MailOther.pit5(wpisView);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
              
          }
      }

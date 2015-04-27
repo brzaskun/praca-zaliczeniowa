@@ -49,7 +49,7 @@ public class PodStawkiView implements Serializable{
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr podatkowy za rok:", selected.getRok().toString() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru podatkowego. Wystapil błąd.", "");
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
        

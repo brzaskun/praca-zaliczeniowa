@@ -53,7 +53,7 @@ public class ZobowiazanieView implements Serializable{
             if(request.isUserInRole("Manager")){
                 wpisView.setRokWpisuSt(rok);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
     }
     
      public void dodaj(){
@@ -63,7 +63,7 @@ public class ZobowiazanieView implements Serializable{
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno zobowiązanie za rok i mc:", selected.getZobowiazaniePK().getRok().concat(selected.getZobowiazaniePK().getMc()) );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno zobowiązania. Wystapil błąd.", "");
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
        

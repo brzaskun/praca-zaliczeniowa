@@ -82,7 +82,7 @@ public class FakturaZestView implements Serializable {
                     Podatnik odnalezionyPodatnik = null;
                     try {
                         odnalezionyPodatnik = podatnikDAO.findPodatnikByNIP(n);
-                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); }
+                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
                     FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     if (odnalezionyPodatnik != null) {
                         f.setPodatnik(odnalezionyPodatnik);

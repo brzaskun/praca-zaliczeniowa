@@ -305,7 +305,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
             //trzeba wyszukac konto bo nie odswiezalem listy i w zwiazku z tym encja z listy nie zgadza sie z encja z bazy;
-            Konto konto = kontoDAO.findKonto(boxNaKonto.getPelnynumer(), wpisView);
+            Konto konto = boxNaKonto;
             //to duperele porzadkujace sytuacje w okienkach
             if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 if (przyporzadkowanekonta.contains(konto)) {
