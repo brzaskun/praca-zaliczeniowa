@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -125,7 +126,11 @@ public class PdfVATsuma {
                 tableSprzedaz.addCell(ustawfrazeAlign("brutto","center",10));
                 tableSprzedaz.setHeaderRows(1);
                 int i = 1;
+                double nettosuma = 0.0;
+                double vatsuma = 0.0;
                 for(EVatwpisSuma p : sumaVatSprzedaz){
+                    nettosuma += p.getNetto().doubleValue();
+                    vatsuma += p.getVat().doubleValue();
                     tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
                     tableSprzedaz.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
                     tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
@@ -136,6 +141,13 @@ public class PdfVATsuma {
                         tableSprzedaz.addCell(ustawfrazeAlign("","right",10));
                     }
                     i++;
+                }
+                if (tableSprzedaz.size() > 1) {
+                    tableSprzedaz.addCell(ustawfrazeAlign("","center",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign("podsumowanie","left",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettosuma)),"right",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatsuma)),"right",10));
+                    tableSprzedaz.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(nettosuma+vatsuma))),"right",10));
                 }
                } catch (DocumentException | IOException e){
                 
@@ -154,7 +166,11 @@ public class PdfVATsuma {
                 tableZakup.addCell(ustawfrazeAlign("brutto","center",10));
                 tableZakup.setHeaderRows(1);
                 int i = 1;
+                double nettosuma = 0.0;
+                double vatsuma = 0.0;
                 for(EVatwpisSuma p : sumaVatZakup){
+                    nettosuma += p.getNetto().doubleValue();
+                    vatsuma += p.getVat().doubleValue();
                     tableZakup.addCell(ustawfrazeAlign(String.valueOf(i),"center",10));
                     tableZakup.addCell(ustawfrazeAlign(p.getEwidencja().getNazwa(),"left",10));
                     tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())),"right",10));
@@ -165,6 +181,13 @@ public class PdfVATsuma {
                         tableZakup.addCell(ustawfrazeAlign("","right",10));
                     }
                     i++;
+                }
+                if (tableZakup.size()>1) {
+                    tableZakup.addCell(ustawfrazeAlign("","center",10));
+                    tableZakup.addCell(ustawfrazeAlign("podsumowanie","left",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(nettosuma)),"right",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(vatsuma)),"right",10));
+                    tableZakup.addCell(ustawfrazeAlign(String.valueOf(formatter.format(Z.z(nettosuma+vatsuma))),"right",10));
                 }
                } catch (DocumentException | IOException e){
                 

@@ -191,7 +191,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaBiezacaDAO, true, "wynik");
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, true, "wynik");
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
@@ -244,7 +244,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, kontopozycjaBiezacaDAO, true, "bilans");
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, true, "bilans");
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
@@ -579,7 +579,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaBiezacaDAO, true, "bilans");
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, true, "bilans");
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {
@@ -657,7 +657,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             kontoDAO.edit(konto);
             //zerujemy potomkow
             if (konto.isMapotomkow() == true) {
-                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, kontopozycjaBiezacaDAO, true, "wynik");
+                PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), null, kontoDAO, wpisView, true, "wynik");
             }
             //zajmujemy sie macierzystym, ale sprawdzamy czy nie ma siostr
             if (konto.getMacierzysty() > 0) {

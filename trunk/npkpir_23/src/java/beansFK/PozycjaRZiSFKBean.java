@@ -319,7 +319,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaBiezacaDAO kontopozycjaDAO, boolean wzorcowy, String bilanswynik) {
+    public static void przyporzadkujpotkomkowZwykle(String konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String bilanswynik) {
         List<Konto> potomki = null;
         if (wzorcowy) {
             potomki = kontoDAO.findKontaPotomneWzorcowy(wpisView, konto);
@@ -343,7 +343,7 @@ public class PozycjaRZiSFKBean {
                 }
                 kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {
-                    przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, wpisView, kontopozycjaDAO, wzorcowy, bilanswynik);
+                    przyporzadkujpotkomkowZwykle(p.getPelnynumer(), pozycja, kontoDAO, wpisView, wzorcowy, bilanswynik);
                 }
             }
         }
