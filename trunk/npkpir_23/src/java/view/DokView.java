@@ -534,7 +534,7 @@ public final class DokView implements Serializable {
             String wzorzec = rodzajdok.getWzorzec();
             try {
                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { 
                nowynumer = wzorzec;
             }
             renderujwyszukiwarke(rodzajdok);
