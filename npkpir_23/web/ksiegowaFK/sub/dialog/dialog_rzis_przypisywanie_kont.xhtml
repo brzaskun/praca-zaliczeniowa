@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form:dataList, :form:dostepnekonta, :form:selected"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
@@ -29,7 +29,7 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="fa fa-lock"/>
                 <p:spacer width="40"/>
-                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form" icon="fa fa-sign-in"/>
+                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form:dataList, :form:dostepnekonta, :form:selected" icon="fa fa-sign-in"/>
             </p:panelGrid>
             <p:panelGrid columns="3">
                 <p:treeTable id="dataList" value="#{pozycjaBRKontaView.rootProjektKontaRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaView.wybranynodekonta}" 
@@ -56,14 +56,14 @@
                         </f:facet>
                             <p:column  style="height: 30px; width: 80%" headerText="nazwa konta">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
-                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected"
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form"
                                                style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                                rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
-                                    <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":form:dostepnekonta, :form:selected" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
+                                    <p:menuitem value="analityka" actionListener="#{pozycjaBRKontaView.rozwinrzadanalityki(konto)}"  update=":form" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.mapotomkow}"/>  
+                                    <p:menuitem value="syntetyka" actionListener="#{pozycjaBRKontaView.zwinrzadanalityki(konto)}"  update=":form" icon="ui-icon-arrowrefresh-1-w" rendered="#{konto.level != 0}"/>  
                                 </p:splitButton>
                                 <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form:dostepnekonta, :form:selected"
+                                               actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form"
                                                style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                                rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                                 </p:commandButton>
@@ -84,7 +84,7 @@
                         </f:facet>
                             <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
-                                                 actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":form:dostepnekonta, :form:selected"/>
+                                                 actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":form"/>
                             </p:column>
                          <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
