@@ -83,6 +83,10 @@ public class STRTabView implements Serializable {
     private int zakupionewbiezacyrok;
 
     public STRTabView() {
+        ustawTabele();
+    }
+    
+    private void ustawTabele() {
         selectedSTR = new SrodekTrw();
         obiektDOKjsf = new ArrayList<>();
         obiektDOKjsfSel = new ArrayList<>();
@@ -96,6 +100,7 @@ public class STRTabView implements Serializable {
 
     
     public void init() {
+        ustawTabele();
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
         if (wpisView.getPodatnikWpisu() != null) {
@@ -165,8 +170,6 @@ public class STRTabView implements Serializable {
             } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             }
         }
-        RequestContext.getCurrentInstance().update("srodkiamo");
-        RequestContext.getCurrentInstance().update("formSTRUmorzenie");
     }
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
