@@ -77,7 +77,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             }
             if (czywprowadzonostawki()) {
                 if (tmp.contains(wprowadzaniezusstawki)) {
@@ -93,7 +93,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             } else {
               Msg.msg("e","Nie wprowadzono stawek. Nie można zachować miesiąca");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystąpił nieokreślony błąd podczas dodawania stawek. "+e.getMessage());
         }
     }
@@ -125,7 +125,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             }
             Iterator it = tmp.iterator();
             while (it.hasNext()) {
@@ -142,7 +142,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             podatnikDAO.edit(selected);
             wprowadzaniezusstawki = new Zusstawki();
             ustawRokMc();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -153,7 +153,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             wprowadzaniezusstawki =  new Zusstawki();
             ustawRokMc();
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("Nieusunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         }
     }
@@ -191,7 +191,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             }
             podatnikDAO.edit(podatnik);
             Msg.msg("Uzupełniono płatności ZUS podatnika za ostatni rok obrachunkowy");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("Wystąpił błąd podczas uzupełniania miesięcy");
         }
     }

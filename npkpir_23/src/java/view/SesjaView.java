@@ -41,7 +41,7 @@ public class SesjaView implements Serializable {
     public void pobierzsesje() {
         try {
             wykazsesji = sesjaDAO.findAll();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -53,7 +53,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscwydrukow(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -65,7 +65,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscmaili(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -77,7 +77,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscdokumentow(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
 
     }

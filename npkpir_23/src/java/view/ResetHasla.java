@@ -25,7 +25,7 @@ public class ResetHasla implements Serializable {
     public void reset(){
         try {
             user = uzDAO.find(login);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Podany login: '"+login+"' nie istnieje","formlog1:logowanie");
             login = null;
             return;

@@ -58,7 +58,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono VAT-ZT.","formX:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT.","formX:msg");
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");

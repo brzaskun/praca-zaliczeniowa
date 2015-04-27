@@ -297,10 +297,10 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
-    public List<Konto> findKontaWszystkiePotomneRok(String podatnik,Konto macierzyste) {
+    public List<Konto> findKontaWszystkiePotomneRok(WpisView wpisView,Konto macierzyste) {
         List<Konto> listakontwszystkie = new ArrayList<>();
         try {
-            macierzyste.getAllChildrenRok(listakontwszystkie, podatnik, kontoFacade);
+            macierzyste.getAllChildrenRok(listakontwszystkie, wpisView, kontoFacade);
             return listakontwszystkie;
         } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;

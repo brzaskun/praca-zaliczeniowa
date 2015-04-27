@@ -42,7 +42,7 @@ public class ZUSstawkiView implements Serializable{
     private void init() {
         try {
             listapobranychstawek = zusDAO.findAll();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         biezacadata = String.valueOf(new DateTime().getYear());
     }
@@ -54,7 +54,7 @@ public class ZUSstawkiView implements Serializable{
             listapobranychstawek = zusDAO.findAll();
             wprowadzanie = new Zusstawki();
             Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+wprowadzanie.getZusstawkiPK().getMiesiac());
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
              Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+wprowadzanie.getZusstawkiPK().getRok()+" i miesiąc "+wprowadzanie.getZusstawkiPK().getMiesiac()+" już istnieje");
        }
         
@@ -68,7 +68,7 @@ public class ZUSstawkiView implements Serializable{
          wprowadzanie = new Zusstawki();
          Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
        
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
          Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
          }
         
@@ -82,7 +82,7 @@ public class ZUSstawkiView implements Serializable{
             listapobranychstawek = zusDAO.findAll();
             wprowadzanie = new Zusstawki();
             Msg.msg("Usunieto parametr ZUS do podatnika za m-c: "+zusstawki.getZusstawkiPK().getMiesiac());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
         }
      }

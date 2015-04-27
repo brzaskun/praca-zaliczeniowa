@@ -121,7 +121,7 @@ public class KlView implements Serializable{
         selected.setUlica(formatka);
         try {
             selected.getKrajnazwa();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             selected.setKrajnazwa("Polska");
         }
         String kraj = selected.getKrajnazwa();
@@ -135,7 +135,7 @@ public class KlView implements Serializable{
         RequestContext.getCurrentInstance().update("formX:");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje","formX:mess_add");
         }
          
@@ -152,7 +152,7 @@ public class KlView implements Serializable{
         selected.setNskrocona(formatka);
         try {
             selected.getKrajnazwa();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             selected.setKrajnazwa("Polska");
         }
         String kraj = selected.getKrajnazwa();
@@ -165,7 +165,7 @@ public class KlView implements Serializable{
         planKontCompleteView.init();
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
        
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }
       //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
@@ -316,7 +316,7 @@ public class KlView implements Serializable{
             kl1.addAll(klDAO.findAll());
             FacesMessage msg = new FacesMessage("Zapisano zmienione dane klienta",  selected.getNpelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             FacesMessage msg = new FacesMessage("Wystąpił błąd. Nie zapisano zmienionych danych klienta", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -341,7 +341,7 @@ public class KlView implements Serializable{
             klienciFiltered.remove(doUsuniecia);
             RequestContext.getCurrentInstance().update("formY:");
             Msg.msg("i","Usunięto wskazanego klienta","formX:mess_add");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("i","Nie można usunąć klienta. Nazwa klienta występuje w zaksiękowancyh dokumentach.");
         }
       

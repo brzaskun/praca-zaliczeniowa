@@ -70,7 +70,7 @@ public class FakturaelementygraficzneView implements Serializable {
 //                    fakturaelementygraficzne.add(f);
 //                }
 //            }
-//        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+//        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
 //        }
     }
 
@@ -89,7 +89,7 @@ public class FakturaelementygraficzneView implements Serializable {
                 fakturaelementygraficzneDAO.dodaj(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
                 fakturaelementygraficzneDAO.edit(p);
             }
@@ -139,7 +139,7 @@ public class FakturaelementygraficzneView implements Serializable {
         }
         try {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         Fakturaelementygraficzne f = new Fakturaelementygraficzne();
         f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
@@ -188,7 +188,7 @@ public class FakturaelementygraficzneView implements Serializable {
                 }
             }
             RequestContext.getCurrentInstance().update("akordeon:formelementy");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
     

@@ -249,14 +249,15 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     
 
     
-    public void getAllChildrenRok(List<Konto> listakontwszystkie, String podatnik, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomnePodatnikRok(podatnik, this.pelnynumer);
+    public List<Konto> getAllChildrenRok(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
+        List<Konto> children = kontoFacade.findKontaPotomnePodatnik(wpisView, this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);
-                o.getAllChildrenRok(listakontwszystkie,podatnik, kontoFacade);
+                o.getAllChildrenRok(listakontwszystkie,wpisView, kontoFacade);
             }
         }
+        return children;
     }
    
     public void getAllChildrenWzorcowy(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {

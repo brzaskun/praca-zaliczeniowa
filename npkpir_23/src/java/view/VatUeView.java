@@ -73,7 +73,7 @@ public class VatUeView implements Serializable {
             for (Dok p : obiektDOKjsfSel) {
                 p.setNrWpkpir(numerkolejny++);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
         String m = wpisView.getMiesiacWpisu();
         Integer m1 = Integer.parseInt(m);
@@ -100,7 +100,7 @@ public class VatUeView implements Serializable {
         zachowajwbazie(String.valueOf(rok), m, podatnik);
         try {
             pobierzdanezdeklaracji();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
         }
     }
 
@@ -117,11 +117,11 @@ public class VatUeView implements Serializable {
         //bo czasami nie edytowalo nie wiem dlaczego
         try {
             vatuepodatnikDAO.destroy(vatuepodatnik);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); };
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); };
         try {
             vatuepodatnikDAO.dodaj(vatuepodatnik);
             Msg.msg("i", "Zachowano dane do VAT-EU");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
         }
     }
@@ -209,7 +209,7 @@ public class VatUeView implements Serializable {
     public void drukujewidencjeUE() {
       try {
           PdfVatUE.drukujewidencje(vatuepodatnikDAO, wpisView);
-      }  catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString()); 
+      }  catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
           
       }
     } 
