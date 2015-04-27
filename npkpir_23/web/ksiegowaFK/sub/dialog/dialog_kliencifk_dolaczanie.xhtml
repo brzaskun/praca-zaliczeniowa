@@ -20,6 +20,7 @@
                                 widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
                                 required="true" requiredMessage="Pole klienta nie może być puste" >
                 <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFK}" update=":kontoformV, :kontoformE" global="false"/>
+                <p:ajax event="query" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
