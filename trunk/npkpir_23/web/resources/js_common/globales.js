@@ -2,6 +2,10 @@
 
 var MYAPP = {};
 
+Number.prototype.round = function(places) {
+  return +(Math.round(this + "e+" + places)  + "e-" + places);
+};
+
 var zrobFloat = function (kwota){
     try {
         var strX = kwota.replace(",",".");

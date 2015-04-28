@@ -211,7 +211,8 @@ public class WpisView implements Serializable {
                 } else {
                     ksiegirachunkowe = false;
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { 
+                System.out.println("Blad " + e.toString()); 
             }
         }
         if (miesiacWpisu != null) {

@@ -235,7 +235,7 @@ var doklejsumowaniewprowadzonych = function() {
         var kwotapierwotna = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
         $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
         $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna-wprowadzono));
-        MYAPP.limit = kwotapierwotna-wprowadzono;
+        MYAPP.limit = (kwotapierwotna-wprowadzono).round(2);
         for (var i = 0; i < iloscpozycji; i = i + 2) {
             if (MYAPP.limit < 0) {
                 $(wszystkiewiersze[i]).css("font-weight", "900");
