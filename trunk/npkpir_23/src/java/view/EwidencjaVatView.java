@@ -326,7 +326,8 @@ public class EwidencjaVatView implements Serializable {
             try {
                 Collection c = listaewidencji.get(nazwaewidencji);
                 listatmp.addAll(c);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { 
+                System.out.println("Blad " + e.toString()); 
                 try {
                     listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
                     Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
