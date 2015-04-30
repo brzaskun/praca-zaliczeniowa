@@ -19,7 +19,7 @@
                         <f:selectItem itemLabel="płatność" itemValue="płatność"/>
                         <f:selectItem itemLabel="rachunek" itemValue="rachunek"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD(dokfkView.wnmadoprzeniesienia)}"/>
+                    <p:commandButton value="ok" type="submit" oncomplete="pokazwybortransakcjidialog();PF('transakcjawybor').hide();" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD(dokfkView.wnmadoprzeniesienia)}" update=":parametry"/>
                 </p:focus>
             </p:panelGrid>
         </h:form>

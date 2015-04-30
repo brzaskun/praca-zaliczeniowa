@@ -20,8 +20,7 @@ var TabKeyDown;
             var enterdefault = taregetId.indexOf("enterdefault");
             var rozrachunki = taregetId.indexOf("rozrachunki");
             var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
-            var wierszid = $(document.getElementById("wpisywaniefooter:wierszid")).val();
-            var wierszlp = parseInt(wierszid);
+            var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
         } catch (e1) {
             
         }
@@ -38,23 +37,25 @@ var TabKeyDown;
                 event.stopImmediatePropagation();
             } else {
                 var war1 = isTabKey(event);
-                var war2 = dlugoscwierszy === wierszlp;
-                var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === "1";
-                var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
-                if ($(event.target).is("button") === false) {
-                    if (war1 && war2 && war3 || war1 && war2 && war4) {
-                        $(document.getElementById("formwpisdokument:dodajPustyWierszNaKoncu")).click();
-                            event.preventDefault();
-                            event.stopPropagation();
-                            event.stopImmediatePropagation();
-                            return false;
-                    } else if (isTabKey(event)) {
-                        var isTabSuccessful = tab(true, event.shiftKey, $target);
-                        if (isTabSuccessful === true) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                            event.stopImmediatePropagation();
-                            return false;
+                if (war1===true) {
+                    var war2 = dlugoscwierszy === wierszlp;
+                    var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === "1";
+                    var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
+                    if ($(event.target).is("button") === false) {
+                        if (war1 && war2 && war3 || war1 && war2 && war4) {
+                            $(document.getElementById("formwpisdokument:dodajPustyWierszNaKoncu")).click();
+                                event.preventDefault();
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
+                                return false;
+                        } else if (isTabKey(event)) {
+                            var isTabSuccessful = tab(true, event.shiftKey, $target);
+                            if (isTabSuccessful === true) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                event.stopImmediatePropagation();
+                                return false;
+                            }
                         }
                     }
                 }
