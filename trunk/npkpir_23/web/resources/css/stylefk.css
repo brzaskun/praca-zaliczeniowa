@@ -55,6 +55,12 @@
     color: #6374AB !important;
 }
 
+.kontorozrachunki, .kontorozrachunki .ui-inputfield, .wierszpiatkowy span {
+    font-style: italic !important;
+    color: green !important;
+}
+
+
 .pe-inputNumber {
     text-align: right;
  }

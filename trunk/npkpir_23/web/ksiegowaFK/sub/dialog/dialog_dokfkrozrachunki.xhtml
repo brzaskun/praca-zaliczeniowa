@@ -16,16 +16,17 @@
             height: 20px !important;
         }
         .rozrachunkidatalist td {
-            height: 30px;
+            height: 20px;
         }
     </style>
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
-              resizable="false"  onShow="rozrachunkiOnShow();znadzpasujacepolerozrachunku('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}');" closeOnEscape="true" onHide="rozrachunkiOnHide();" >
+              resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" >
        
-            <h:form id="rozrachunki" >
-                <div style="height: 640px;">
-                    <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;">
+            <h:form id="rozrachunki"  >
+                <div style="height: 640px;" >
+                    <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;" >
                         <h:outputText value="nr dokumentu: "/>
                         <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.dokfkS}" 
                                       style="font-weight: bold;"/>
@@ -68,11 +69,11 @@
                         <h:outputText value="Nowa transakcja czy nowa płatność"/>
                         
                     </p:panel>
+                  
                     <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
-                        <p:focus for="rozrachunki:dataList" >
-                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; "
+                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; " 
                                      emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                     scrollRows="20" scrollable="true" scrollHeight="400"
+                                     scrollRows="20" scrollable="true" scrollHeight="400" 
                                      >
                             <f:facet name="header">
                                 <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów - wyszukiwanie "/>
@@ -88,7 +89,7 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL" />
                                 </h:outputText>
                             </p:column>
-                              <p:column headerText="nr własny dokumentu" width="90">
+                            <p:column headerText="nr własny dokumentu" width="90" >
                                 <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                                 <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                             </p:column>
@@ -180,7 +181,6 @@
                             </p:column>
 
                         </p:dataTable>
-                    </p:focus>
                     </p:panel>
                </div>
                 <div style="height: 35px;">

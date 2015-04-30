@@ -81,6 +81,10 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
 }
 
 var znadzpasujacepolerozrachunku = function(kwota) {
+    setTimeout(znadzpasujacepolerozrachunku2(kwota), 5000);
+};
+
+var znadzpasujacepolerozrachunku2 = function(kwota) {
     var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
     var opisy = new Array();
     var sumarozliczonych = 0.0;
@@ -125,8 +129,8 @@ var znadzpasujacepolerozrachunku = function(kwota) {
                     $(document.getElementById(dopasowanywiersz)).keyup();
                     $(document.getElementById(dopasowanywiersz)).select();
                 } else {
-                    dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-                    dopasowanywierszH = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_hinput";
+                    dopasowanywiersz = "rozrachunki:dataList:" + 1 + ":kwotarozliczenia_input";
+                    dopasowanywierszH = "rozrachunki:dataList:" + 1 + ":kwotarozliczenia_hinput";
                     var zastanakwota = $(document.getElementById(dopasowanywiersz)).val();
                     if (zastanakwota === "0.00" && dlwiersze === 1) {
                         $(document.getElementById(dopasowanywiersz)).val(kwota);
@@ -136,12 +140,12 @@ var znadzpasujacepolerozrachunku = function(kwota) {
                     $(document.getElementById(dopasowanywiersz)).select();
                 }
             } else {
-                dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+                dopasowanywiersz = "rozrachunki:dataList:" + 1 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
                 $(document.getElementById(dopasowanywiersz)).select();  
             }
         } catch (el) {
-             dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+             dopasowanywiersz = "rozrachunki:dataList:" + 1 + ":kwotarozliczenia_input";
              $(document.getElementById(dopasowanywiersz)).keyup();
              $(document.getElementById(dopasowanywiersz)).select();
         }

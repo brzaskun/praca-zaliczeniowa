@@ -370,21 +370,20 @@
                         <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                         minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
-                                        converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}" 
+                                        converterMessage="Nieudana konwersja Klient" 
+                                        styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();"
-                                        readonly="#{loop.stronaWn.typStronaWiersza != 0}"
-                                        ><!--to teraz powoduje blad-->
+                                        >
+                            <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry"/>
                             <p:ajax event="query" global="false"/>
-                            <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" />
-                            <p:ajax global="false" event="focus" partialSubmit="true" />
+                            <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry"/>
                         </p:autoComplete>
                     </p:column>
                     <p:column headerText="kwota" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}"
+                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}" 
                                         valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">
                             <p:ajax global="false" event="change" partialSubmit="true"  />
                             <p:ajax global="false" event="blur" partialSubmit="true"  onstart="skopiujKwoteZeStronaWn(#{loop.idporzadkowy-1}, 'Wn');"/>
@@ -407,13 +406,13 @@
                         <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
                                         minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
-                                        converterMessage="Nieudana konwersja Klient"  style="margin-left: auto; margin-right: auto;"
-                                        styleClass="kontoinput, #{loop.czworka ne null ? 'wierszpiatkowy' : null}"
+                                        converterMessage="Nieudana konwersja Klient"  
+                                        styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                         onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();" 
-                                        readonly="#{loop.stronaMa.typStronaWiersza != 0}"
                                         >
+                            <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry"/>
                             <p:ajax event="query" global="false"/>
-                            <p:ajax global="false" event="itemSelect" partialSubmit="true" update=":formwpisdokument:wartoscdokumentu" />
+                            <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry" />
                         </p:autoComplete>
                     </p:column>
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
@@ -454,18 +453,26 @@
             <h:form id="wpisywaniefooter">
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
-                <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoRachunekPlatnosc()}" 
-                                 oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox, @form, :rozrachunki, :transakcjawybor"/>
-                <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
-                <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
-                <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
+                <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
+                                 oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
+                
+                <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
+                                 onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
+                <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
+                                 actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
+                <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
+                                 style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
-                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
+                <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
+                                 global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
-                <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" global="false" update=":formwpisdokument" style="display: none;"/>
-                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" global="false" style="display: none;" />
-                <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false" style="margin-left: 10px;"  update=":formwpisdokument:dataList"/>
+                <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" 
+                                 global="false" update=":formwpisdokument" style="display: none;"/>
+                <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" 
+                                 global="false" style="display: none;" />
+                <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false" 
+                                 style="margin-left: 10px;"  update=":formwpisdokument:dataList"/>
                 <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
                                  global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
@@ -474,8 +481,9 @@
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
-                <h:outputText id="aktualnywierszrozrachunkow" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.zwyklerozrachszczegolne}"  style="display: none;"/>
-                
+            </h:form>
+            <h:form id="parametry">
+                <h:inputText id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
             </h:form>
         </f:facet>
 

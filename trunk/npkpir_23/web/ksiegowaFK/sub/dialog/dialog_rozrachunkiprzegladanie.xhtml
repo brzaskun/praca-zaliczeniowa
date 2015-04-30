@@ -9,7 +9,7 @@
     <style>
 
     </style>
-   
+
     <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach - #{WpisView.podatnikWpisu}" widgetVar="rozrachunkiPrzeglad" dynamic="true"
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
@@ -53,14 +53,14 @@
                     <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                        $(document).on("click", '.grid tr', function(e) {
+                        $(document).on("click", '.grid tr', function (e) {
                             try {
                                 zachowajobiekt(this, e);
                             } catch (ex) {
                                 alert('error dialog zapisynakoncie' + ex.toString());
                             }
                         });
-                        $(document).on("click", '.grid1 tr', function(e) {
+                        $(document).on("click", '.grid1 tr', function (e) {
                             var lolo = $("#tabelanowerozrachunki\\:tabela_data").children("tr");
                             var pierwszy = $(lolo[0]).find(".lpwiersza").text();
                             try {
@@ -145,42 +145,42 @@
                                     }
                                 </style>
                                 <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
-                                <p:column headerText="kwota trans." >
-                                <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
-                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                                </p:column>
-                                <p:column headerText="data trans.">
-                                <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
-                                </h:outputText>
-                                </p:column>
-                                <p:column headerText="kwota rozl.">
-                                    <h:outputText value="#{subwpis.rozliczajacy.kwotaR}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                                </p:column>
-                                  <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}"/>
-                                </p:column>
-                                <p:column headerText="różnice kurs." rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                                    <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                                </p:column>
-                                <p:column headerText="nr dok rozl." style="text-align: center;">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
-                                </p:column>
-                                <p:column headerText="lp wiersza" style="text-align: center;">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
-                                </p:column>
-                                <p:column headerText="nr wlasny">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
-                                </p:column>
-                                <p:column headerText="opis wiersza" width="280">
-                                    <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:column>
+                                    <p:column headerText="kwota trans." >
+                                        <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="data trans.">
+                                        <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="kwota rozl.">
+                                        <h:outputText value="#{subwpis.rozliczajacy.kwotaR}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}"/>
+                                    </p:column>
+                                    <p:column headerText="różnice kurs." rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                        <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
+                                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="nr dok rozl." style="text-align: center;">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                                    </p:column>
+                                    <p:column headerText="lp wiersza" style="text-align: center;">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
+                                    </p:column>
+                                    <p:column headerText="nr wlasny">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
+                                    </p:column>
+                                    <p:column headerText="opis wiersza" width="280">
+                                        <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:column>
                         </p:rowExpansion>
                     </p:dataTable>
                 </h:form>  
@@ -188,14 +188,14 @@
             <p:layoutUnit position="south">  
                 <p:panelGrid id="sumy" columns="8" style="float: right; width: 1000px;">
                     <h:form>
-                    <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
-                        <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
-                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
-                        <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
-                        <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
-                        <f:selectItem itemLabel="nowe" itemValue="nowe"/>
-                    </p:selectOneMenu>
-                        </h:form>
+                        <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
+                            <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
+                            <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                            <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
+                            <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
+                            <f:selectItem itemLabel="nowe" itemValue="nowe"/>
+                        </p:selectOneMenu>
+                    </h:form>
                 </p:panelGrid>
             </p:layoutUnit>  
         </p:layout>  

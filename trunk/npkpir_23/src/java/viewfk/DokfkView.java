@@ -117,6 +117,7 @@ private static final long serialVersionUID = 1L;
     @Inject
     protected TransakcjaDAO transakcjaDAO;
     private StronaWiersza aktualnyWierszDlaRozrachunkow;
+    private int rodzaj;
     //a to sa listy do sortowanie transakcji na poczatku jedna mega do zbiorki wszystkich dodanych coby nie ginely
     private List<Transakcja> biezacetransakcje;
     private List<Transakcja> transakcjejakosparowany;
@@ -2519,7 +2520,30 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
 
-    
+    public void pobranieStronaWiersza(StronaWiersza strW) {
+        rodzaj = -1;
+        if (strW.getKonto() != null && strW.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            lpWierszaWpisywanie = strW.getWiersz().getIdporzadkowy();
+            stronawiersza = strW.getWnma();
+            Wiersz wiersz = strW.getWiersz();
+            biezacetransakcje = new ArrayList<>();
+            aktualnyWierszDlaRozrachunkow = strW;
+            potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
+            rodzaj = strW.getTypStronaWiersza();
+            if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+                rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+            }
+            if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
+                tworzenieTransakcjiRachunek(stronawiersza);
+                //platnosc
+            } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
+                tworzenieTransakcjiPlatnosc(stronawiersza);
+            } else {
+                System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
+            }
+            System.out.println(strW.toString());
+        }
+    }
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoRachunekPlatnosc() {
@@ -2598,19 +2622,17 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
             if (rachunekCzyPlatnosc.equals("rachunek")) {
                 oznaczJakoRachunek();
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                RequestContext.getCurrentInstance().update("parametry");
                 return;
             } else {
                 oznaczJakoPlatnosc();
-                //to raczej nie jest konieczne, bo jak zapisze transakcje to blokuje pola javascript
-                // nieprawda, potrzebne. skad bowiem javascript ma miec ino co jest blokowane
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                RequestContext.getCurrentInstance().update("parametry");
             }
         }
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             tworzenieTransakcjiRachunek(stronawiersza);
-            //platnosc
+        //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             tworzenieTransakcjiPlatnosc(stronawiersza);
         } else {
@@ -2621,17 +2643,16 @@ public void updatenetto(EVatwpisFK e, String form) {
     public void oznaczJakoPlatnosc() {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         selected.setZablokujzmianewaluty(true);
+        rodzaj = 2;
         RequestContext.getCurrentInstance().update("rozrachunki");
         RequestContext.getCurrentInstance().update("formcheckbox");
-        RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
     }
 
     public void oznaczJakoRachunek() {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
         aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
+        rodzaj = 1;
         selected.setZablokujzmianewaluty(true);
-        RequestContext.getCurrentInstance().execute("PF('transakcjawybor').hide();");
-        RequestContext.getCurrentInstance().execute("powrotDoStronyPoWyborzeRachunekPlatnosc();");
     }
 
     private StronaWiersza pobierzStronaWierszaDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
@@ -2682,10 +2703,8 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("dialogdrugi");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
-                if (biezacetransakcje.size() > 0) {
-                    RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
-                } else {
-                    aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
+                if (biezacetransakcje.size() == 0) {
+                    RequestContext.getCurrentInstance().execute("PF('rozrachunki').hide();");
                     RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
                 }
             } else {
@@ -2724,10 +2743,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
-                RequestContext.getCurrentInstance().execute("PF('rozrachunki').show();");
                 String znajdz = "znadzpasujacepolerozrachunku(" + aktualnyWierszDlaRozrachunkow.getPozostalo() + ")";
                 RequestContext.getCurrentInstance().execute(znajdz);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+                
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
@@ -3848,7 +3866,15 @@ public void updatenetto(EVatwpisFK e, String form) {
         this.tabelanbprecznie = tabelanbprecznie;
     }
 
-   
+    public int getRodzaj() {
+        return rodzaj;
+    }
+
+    public void setRodzaj(int rodzaj) {
+        this.rodzaj = rodzaj;
+    }
+
+  
     
     
 
