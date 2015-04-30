@@ -22,7 +22,7 @@
 
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
-              closeOnEscape="true" onHide="rozrachunkiOnHide();" >
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki">
        
             <h:form id="rozrachunki"  >
                 <div style="height: 640px;" >
@@ -89,11 +89,11 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL" />
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="nr własny dokumentu" width="90" >
+                            <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
                                 <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                                 <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                             </p:column>
-                             <p:column headerText="zostało do rozliczenia" width="50">
+                             <p:column headerText="zostało do rozliczenia" width="50" >
                                 <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK != null ? loop.nowaTransakcja.pozostalo+loop.kwotawwalucierachunku : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
