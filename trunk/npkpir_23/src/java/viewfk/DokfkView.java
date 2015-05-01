@@ -2704,8 +2704,9 @@ public void updatenetto(EVatwpisFK e, String form) {
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() == 0) {
+                    rodzaj = -2;
+                    RequestContext.getCurrentInstance().update("parametry");
                     RequestContext.getCurrentInstance().execute("PF('rozrachunki').hide();");
-                    RequestContext.getCurrentInstance().execute("PF('niemarachunkow').show();");
                 }
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
