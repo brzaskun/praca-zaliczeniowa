@@ -5,9 +5,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-        
+
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-   <style>
+    <style>
         .ui-inputNum .ui-widget {
             width: 80px;
         }
@@ -23,190 +23,193 @@
     <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
               closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki">
-       
-            <h:form id="rozrachunki"  >
-                <div style="height: 640px;" >
-                    <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;" >
-                        <h:outputText value="nr dokumentu: "/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.dokfkS}" 
-                                      style="font-weight: bold;"/>
-                        <h:outputText value="treść dokumentu: "/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.opisdokfk}" style="font-weight: bold;"/>
-                        <h:outputText value="konto: "/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.pelnynumer}" style="font-weight: bold;"/>
-                        <h:outputText value="kontrahent: "/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.nazwapelna}" style="font-weight: bold; max-width: 400px;"/>
-                        <h:outputText value="opis wiersza: "/>
-                        <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
-                        <h:outputText value="waluta: "/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
-                                      style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
-                        <h:outputText value="kurs: " style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.kursBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold; width: 50px;
-                                      color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="tabela: "  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
-                                      style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
-                        <h:outputText value="kwota pierwotna: " style="width: 120;" />
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwota}" id="dorozliczenia" style="font-weight: bold; width: 130px;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
-                        <h:outputText value="już rozliczono w kwocie: " style="width: 120;"/>
-                        <h:outputText id="juzrozliczono" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="font-weight: bold; width: 130px;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
-                        <h:outputText value="kwota pozostala do rozliczenia: " style="width: 120;"/>
-                        <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="font-weight: bold; width: 130px;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
-                        <h:outputText value="kwota pierwotna w PLN: " style="width: 120;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
-                        <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaPLN}" id="dorozliczeniaPLN" style="font-weight: bold; width: 130px;"
-                                       rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
-                    </p:panelGrid>
-                    <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza == 0}" >
-                        <h:outputText value="Nowa transakcja czy nowa płatność"/>
-                        
-                    </p:panel>
-                  
-                    <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
-                        <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; " 
-                                     emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                     scrollRows="20" scrollable="true" scrollHeight="400" 
-                                     >
-                            <f:facet name="header">
-                                <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów - wyszukiwanie "/>
-<!--                                <p:inputText id="globalFilter" onkeyup="PF('rozrachunkiKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
-                            </f:facet>
-                            <p:ajax event="filter" global="false"/>
-                            <p:column headerText="kwota rozlicz. - bieżący dok." width="70" >
-                                <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 60px;"
-                                                decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
-                                    <p:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"/>
-                                </pe:inputNumber>
-                                <h:outputText value="#{loop.kwotatransakcji}" style="text-align: right; float: right; width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL" />
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
-                                <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
-                                <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
-                            </p:column>
-                             <p:column headerText="zostało do rozliczenia" width="50" >
-                                <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK != null ? loop.nowaTransakcja.pozostalo+loop.kwotawwalucierachunku : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                                <h:outputText id="pozostaloMa" value="#{loop.transakcjaPK != null ? loop.rozliczajacy.pozostalo+loop.kwotawwalucierachunku : loop.rozliczajacy.pozostalo}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="opis wiersza dok sparowanego" width="110" filterBy="#{loop.nowaTransakcja.wiersz.opisWiersza}, #{loop.nowaTransakcja.opisBO}" filterStyle="display: none;">
-                                <h:outputText id="opiswierszaWn" value="#{loop.nowaTransakcja.wiersz.opisWiersza.length() > 40 ? loop.nowaTransakcja.wiersz.opisWiersza.substring(0,39) : loop.nowaTransakcja.wiersz.opisWiersza}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
-                                <h:outputText id="opiswierszaMa" value="#{loop.rozliczajacy.wiersz.opisWiersza.length() > 40 ? loop.rozliczajacy.wiersz.opisWiersza.substring(0,39) : loop.rozliczajacy.wiersz.opisWiersza}"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText id="opiswierszaBO" value="#{loop.nowaTransakcja.opisBO.length() > 40 ? loop.nowaTransakcja.opisBO.substring(0,39) : loop.nowaTransakcja.opisBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
-                            </p:column>
-                            <p:column headerText="symbol dok." width="40" style="text-align: center;">
-                                <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}"
-                                              style="width: 60px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"  style="width: 60px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                            </p:column>
-                            <p:column headerText="kwota w walucie rach." width="50">
-                                <h:outputText id="kwotawwalucierachunku" value="#{loop.kwotawwalucierachunku}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                           
-                            <p:column headerText="kwota rozlicz. innymi dok." width="50">
-                                <h:outputText value="#{loop.transakcjaPK  != null ? loop.nowaTransakcja.rozliczono-loop.kwotawwalucierachunku : loop.nowaTransakcja.rozliczono}" 
-                                              style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                                <h:outputText value="#{loop.transakcjaPK != null ? loop.rozliczajacy.rozliczono-loop.kwotawwalucierachunku : loop.rozliczajacy.rozliczono}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="kwota transakcji" width="50" filterBy="#{loop.nowaTransakcja.kwotaR}" filterStyle="display: none;">
-                                <h:outputText value="#{loop.nowaTransakcja.kwotaR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                                <h:outputText value="#{loop.rozliczajacy.kwotaR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="kwota trans. w PLN" width="50" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty != 'PLN'}">
-                                <h:outputText value="#{loop.nowaTransakcja.kwotaPLNR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                                <h:outputText value="#{loop.rozliczajacy.kwotaPLNR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="waluta" width="30" style="text-align: center">
-                                <h:outputText id="walutaWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp eq null ? loop.nowaTransakcja.symbolWalutyBO : loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}" 
-                                              rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText id="walutaMa" value="#{loop.rozliczajacy.wiersz.tabelanbp eq null ? loop.rozliczajacy.symbolWalutyBO : loop.rozliczajacy.wiersz.tabelanbp.waluta.symbolwaluty}"
-                                              rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                                <h:outputText id="walutaMaBO" value="#{loop.nowaTransakcja.symbolWalutyBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
-                            </p:column>
-                            <p:column headerText="kurs" width="40">
-                                <h:outputText id="kursWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp eq null ? loop.nowaTransakcja.kursBO : loop.nowaTransakcja.wiersz.tabelanbp.kurssredni}"  
-                                              style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="4" locale="PL"/>
-                                </h:outputText>
-                                <h:outputText id="kursMa" value="#{loop.rozliczajacy.wiersz.tabelanbp eq null ? loop.rozliczajacy.kursBO : loop.rozliczajacy.wiersz.tabelanbp.kurssredni}" 
-                                              style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                                    <f:convertNumber minFractionDigits="4" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="roznica kursowa" width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
-                                <h:outputText id="roznicakursowa" value="#{loop.roznicekursowe}"  style="float: right;">
-                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
-                            </p:column>
-                            
-                          
-                           
-                            <p:column headerText="wiersz" width="30"  style="text-align: center;">
-                                <h:outputText value="#{loop.nowaTransakcja.wiersz.idporzadkowy}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 30px;"/>
-                                <h:outputText value="#{loop.rozliczajacy.wiersz.idporzadkowy}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 30px;"/>
-                            </p:column>
-                            <p:column headerText="poch. zapisu" width="50">
-                                    <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
-                                                  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
-                                    <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
-                                                  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
-                                    <h:outputText value="zapis z BO"
-                                                  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
-                            </p:column>
 
-                        </p:dataTable>
-                    </p:panel>
-               </div>
-                <div style="height: 35px;">
-                    <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
-                                     type="submit" oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
-                                     update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
-                </div>
-             
+        <h:form id="rozrachunki"  >
+            <div style="height: 640px;" >
+                <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;" >
+                    <h:outputText value="nr dokumentu: "/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.dokfkS}" 
+                                  style="font-weight: bold;"/>
+                    <h:outputText value="treść dokumentu: "/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.opisdokfk}" style="font-weight: bold;"/>
+                    <h:outputText value="konto: "/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.pelnynumer}" style="font-weight: bold;"/>
+                    <h:outputText value="kontrahent: "/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.nazwapelna}" style="font-weight: bold; max-width: 400px;"/>
+                    <h:outputText value="opis wiersza: "/>
+                    <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
+                    <h:outputText value="waluta: "/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
+                                  style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
+                    <h:outputText value="kurs: " style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.kursBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold; width: 50px;
+                                  color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
+                    <h:outputText value="tabela: "  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
+                                  style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
+                    <h:outputText value="kwota pierwotna: " style="width: 120;" />
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwota}" id="dorozliczenia" style="font-weight: bold; width: 130px;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="już rozliczono w kwocie: " style="width: 120;"/>
+                    <h:outputText id="juzrozliczono" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="font-weight: bold; width: 130px;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="kwota pozostala do rozliczenia: " style="width: 120;"/>
+                    <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="font-weight: bold; width: 130px;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                    <h:outputText value="kwota pierwotna w PLN: " style="width: 120;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaPLN}" id="dorozliczeniaPLN" style="font-weight: bold; width: 130px;"
+                                  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:panelGrid>
+                <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza == 0}" >
+                    <h:outputText value="Nowa transakcja czy nowa płatność"/>
+
+                </p:panel>
+
+                <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
+                    <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; " 
+                                 emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
+                                 scrollRows="20" scrollable="true" scrollHeight="400" 
+                                 >
+                        <f:facet name="header">
+                            <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów - wyszukiwanie "/>
+                            <!--                                <p:inputText id="globalFilter" onkeyup="PF('rozrachunkiKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
+                        </f:facet>
+                        <p:ajax event="filter" global="false"/>
+                        <p:column headerText="kwota rozlicz. - bieżący dok." width="70" >
+                            <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 60px;"
+                                            decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
+                                <p:ajax event="keyup" listener="#{dokfkView.wyliczroznicekursowa(loop, row)}" partialSubmit="true" global="false"/>
+                            </pe:inputNumber>
+                            <h:outputText value="#{loop.kwotatransakcji}" style="text-align: right; float: right; width: 80px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
+                            <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
+                            <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
+                        </p:column>
+                        <p:column headerText="zostało do rozliczenia" width="50" >
+                            <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK != null ? loop.nowaTransakcja.pozostalo+loop.kwotawwalucierachunku : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="pozostaloMa" value="#{loop.transakcjaPK != null ? loop.rozliczajacy.pozostalo+loop.kwotawwalucierachunku : loop.rozliczajacy.pozostalo}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="opis wiersza dok sparowanego" width="140" filterBy="#{loop.nowaTransakcja.wiersz.opisWiersza}, #{loop.nowaTransakcja.opisBO}" filterStyle="display: none;">
+                            <h:outputText id="opiswierszaWn" value="#{loop.nowaTransakcja.wiersz.opisWiersza.length() > 40 ? loop.nowaTransakcja.wiersz.opisWiersza.substring(0,39) : loop.nowaTransakcja.wiersz.opisWiersza}" 
+                                          style="font-size: x-small; width: 130px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
+                            <h:outputText id="opiswierszaMa" value="#{loop.rozliczajacy.wiersz.opisWiersza.length() > 40 ? loop.rozliczajacy.wiersz.opisWiersza.substring(0,39) : loop.rozliczajacy.wiersz.opisWiersza}"  
+                                          style="font-size: x-small; width: 130px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                            <h:outputText id="opiswierszaBO" value="#{loop.nowaTransakcja.opisBO.length() > 40 ? loop.nowaTransakcja.opisBO.substring(0,39) : loop.nowaTransakcja.opisBO}"  
+                                          style="font-size: x-small; width: 130px;" rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
+                        </p:column>
+                        <p:column headerText="symbol dok." width="40" style="text-align: center;">
+                            <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}"
+                                          style="width: 60px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                            <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"  style="width: 60px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                        </p:column>
+                        <p:column headerText="kwota w walucie rach." width="50">
+                            <h:outputText id="kwotawwalucierachunku" value="#{loop.kwotawwalucierachunku}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="kwota rozlicz. innymi dok." width="50">
+                            <h:outputText value="#{loop.transakcjaPK  != null ? loop.nowaTransakcja.rozliczono-loop.kwotawwalucierachunku : loop.nowaTransakcja.rozliczono}" 
+                                          style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{loop.transakcjaPK != null ? loop.rozliczajacy.rozliczono-loop.kwotawwalucierachunku : loop.rozliczajacy.rozliczono}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="kwota transakcji" width="50" filterBy="#{loop.nowaTransakcja.kwotaR}" filterStyle="display: none;">
+                            <h:outputText value="#{loop.nowaTransakcja.kwotaR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{loop.rozliczajacy.kwotaR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="kwota trans. w PLN" width="50" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty != 'PLN'}">
+                            <h:outputText value="#{loop.nowaTransakcja.kwotaPLNR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText value="#{loop.rozliczajacy.kwotaPLNR}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="waluta" width="30" style="text-align: center">
+                            <h:outputText id="walutaWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp eq null ? loop.nowaTransakcja.symbolWalutyBO : loop.nowaTransakcja.wiersz.tabelanbp.waluta.symbolwaluty}" 
+                                          rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                            <h:outputText id="walutaMa" value="#{loop.rozliczajacy.wiersz.tabelanbp eq null ? loop.rozliczajacy.symbolWalutyBO : loop.rozliczajacy.wiersz.tabelanbp.waluta.symbolwaluty}"
+                                          rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                            <h:outputText id="walutaMaBO" value="#{loop.nowaTransakcja.symbolWalutyBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
+                        </p:column>
+                        <p:column headerText="kurs" width="40">
+                            <h:outputText id="kursWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp eq null ? loop.nowaTransakcja.kursBO : loop.nowaTransakcja.wiersz.tabelanbp.kurssredni}"  
+                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kursMa" value="#{loop.rozliczajacy.wiersz.tabelanbp eq null ? loop.rozliczajacy.kursBO : loop.rozliczajacy.wiersz.tabelanbp.kurssredni}" 
+                                          style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                                <f:convertNumber minFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="roznica kursowa" width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                            <h:outputText id="roznicakursowa" value="#{loop.roznicekursowe}"  style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+
+
+
+                        <p:column headerText="wiersz" width="30"  style="text-align: center;">
+                            <h:outputText value="#{loop.nowaTransakcja.wiersz.idporzadkowy}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 30px;"/>
+                            <h:outputText value="#{loop.rozliczajacy.wiersz.idporzadkowy}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 30px;"/>
+                        </p:column>
+                        <p:column headerText="poch. zapisu" width="50">
+                            <h:outputText value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                          rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
+                            <h:outputText value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk eq  dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.seriadokfk ? (loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii eq dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.dokfkPK.nrkolejnywserii ? 'bieżący dok.' : 'inny dok.') : 'inny dok.'}"
+                                          rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz ne null}"/>
+                            <h:outputText value="zapis z BO"
+                                          rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
+                        </p:column>
+
+                    </p:dataTable>
+                </p:panel>
+            </div>
+            <div style="height: 35px;">
+                <p:commandButton id="zapiszrozrachunekButton" value="Zapisz" styleClass="fkbutton" accesskey="z" actionListener="#{dokfkView.zapistransakcji}" 
+                                 type="submit" oncomplete="PF('rozrachunki').hide();zablokujwierszereadonly();porzadkujwierszeporozrachunkach('#{dokfkView.selected.listawierszy.size()}');" 
+                                 update=":rozrachunki" style="margin-left: 10px; width: 150px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+            </div>
+
+        </h:form>
+        <f:facet name="footer" >
+            <div style="padding: 5px; height: 35px; margin-left: auto; margin-right: auto; text-align: center;">
+                <h:form id="formcheckbox">
+                    <h:selectBooleanCheckbox id="znaczniktransakcji" 
+                                             accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
+                                             value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
+                                             style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                        <p:ajax event="change" partialSubmit="true"/>
+                    </h:selectBooleanCheckbox>
+                    <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
+                                   <!--                        <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
+                                   PF('rozrachunki').hide();" style="float: right; width: 150px;" 
+                                   oncomplete="porzadkujwierszeporozrachunkach('9{dokfkView.selected.listawierszy.size()}');" 
+                                   />-->
             </h:form>
-            <f:facet name="footer" >
-                <div style="padding: 5px; height: 35px; margin-left: auto; margin-right: auto; text-align: center;">
-                    <h:form id="formcheckbox">
-                        <h:selectBooleanCheckbox id="znaczniktransakcji" 
-                            accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
-                            value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
-                            style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                            <p:ajax event="change" partialSubmit="true"/>
-                        </h:selectBooleanCheckbox>
-                        <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;" />
-<!--                        <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
-                            PF('rozrachunki').hide();" style="float: right; width: 150px;" 
-                                         oncomplete="porzadkujwierszeporozrachunkach('9{dokfkView.selected.listawierszy.size()}');" 
-                                         />-->
-                    </h:form>
-                </div>
-            </f:facet>
-       
-    </p:dialog>
+        </div>
+    </f:facet>
+
+</p:dialog>
 </ui:composition>

@@ -454,7 +454,7 @@
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
-                                 oncomplete="pokazwybortransakcji();" accesskey="r" global="false" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
+                                 oncomplete="setTimeout(pokazwybortransakcji(), 1000);" accesskey="r" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
                 
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
                                  onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />

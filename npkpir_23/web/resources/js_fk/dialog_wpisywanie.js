@@ -256,7 +256,7 @@ var usunpodswietlenie = function(source) {
 };
 
 var focusNowyWiersz = function () {
-    //setTimeout(robfocus(), 3000);
+    setTimeout(robfocus(), 3000);
 };
 
 var robfocus = function() {
@@ -347,13 +347,15 @@ var pokazwybortransakcji = function() {
     if (typkonta === "0") {
         var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
         if (czywidzialne === "true"){
-            setTimeout(PF('transakcjawybor').show(), 400);
+            setTimeout(PF('transakcjawybor').show(), 1000);
         }
-    } else {
-        var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
+    } else if (typkonta !== "-1") {
+        var czywidzialne = rj("niemarachunkow").getAttribute("aria-hidden");
         if (czywidzialne === "true"){
-            setTimeout(PF('rozrachunki').show(), 400);
+            setTimeout(PF('rozrachunki').show(), 2000);
         }
+    } else if (typkonta === "-2") {
+        setTimeout(PF('niemarachunkow').show(), 2000);
     }
 };
 
@@ -368,6 +370,8 @@ var pokazwybortransakcjidialog = function() {
     } else if (typkonta === "1") {
         PF('transakcjawybor').hide();
         powrotDoStronyPoWyborzeRachunekPlatnosc();
+    } else if (typkonta === "-2") {
+        setTimeout(PF('niemarachunkow').show(), 2000);
     }
 };
 
