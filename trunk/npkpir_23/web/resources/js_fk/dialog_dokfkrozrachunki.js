@@ -81,7 +81,7 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
 }
 
 var znadzpasujacepolerozrachunku = function(kwota) {
-    setTimeout(znadzpasujacepolerozrachunku2(kwota), 5000);
+    setTimeout(znadzpasujacepolerozrachunku2(kwota), 1000);
 };
 
 var znadzpasujacepolerozrachunku2 = function(kwota) {

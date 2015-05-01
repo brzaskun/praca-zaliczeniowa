@@ -2525,7 +2525,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         if (strW.getKonto() != null && strW.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             lpWierszaWpisywanie = strW.getWiersz().getIdporzadkowy();
             stronawiersza = strW.getWnma();
-            Wiersz wiersz = strW.getWiersz();
+            wnmadoprzeniesienia = strW.getWnma();
             biezacetransakcje = new ArrayList<>();
             aktualnyWierszDlaRozrachunkow = strW;
             potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
