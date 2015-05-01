@@ -79,7 +79,9 @@ var wydrukewidencjewszystkie = function(kto){
     window.open('../wydruki/vat-wszystko-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-
+var wydrukewidencjewszystkiewartosc = function(kto){
+    window.open('../wydruki/vat-wszystko-wartosc-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
 
 
 var wydrukvatListaVATKorekta = function(kto){

@@ -49,6 +49,7 @@ public class EVatViewPola implements Serializable{
     private String dataWyst;
     private String dataSprz;
     private String nrWlDk;
+    private String nrKolejny;
     private Klienci kontr;
     private String opis;
     private double netto;
@@ -169,6 +170,15 @@ public class EVatViewPola implements Serializable{
         this.innymc = innymc;
     }
 
+    public String getNrKolejny() {
+        return nrKolejny;
+    }
+
+    public void setNrKolejny(String nrKolejny) {
+        this.nrKolejny = nrKolejny;
+    }
+
+    
    
 
     

@@ -26,10 +26,9 @@ import javax.inject.Named;
 @Stateless
 public class PdfHeaderFooter extends PdfPageEventHelper {
     
-        private int liczydlo = 0;
+        private int liczydlo = 1;
 
         public PdfHeaderFooter() {
-            this.liczydlo = 0;
         }
         
         public PdfHeaderFooter(int l) {
@@ -48,12 +47,17 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
             } catch (Exception ex) {}
             Font font = new Font(helvetica,6);
             header[0] = new Phrase("Dokument wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. Nie wymaga podpisu.",font);
-            footer[0] = new Phrase(String.format("strona %d", liczydlo),font);
+            footer[0] = new Phrase(String.format("strona nr %d ", liczydlo),font);
         }
 
         @Override
         public void onStartPage(PdfWriter writer, Document document) {
-            liczydlo++;
+            BaseFont helvetica = null;
+            try {
+                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            } catch (Exception ex) {}
+            Font font = new Font(helvetica,6);
+            footer[0] = new Phrase(String.format("strona nr %d", liczydlo++),font);
         }
 
         @Override
@@ -71,7 +75,12 @@ public class PdfHeaderFooter extends PdfPageEventHelper {
 
         @Override
         public void onCloseDocument(PdfWriter writer, Document document){
-            liczydlo = 0;
+            BaseFont helvetica = null;
+            try {
+                helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            } catch (Exception ex) {}
+            Font font = new Font(helvetica,6);
+            footer[0] = new Phrase(String.format("strona nr %d - ostatnia", liczydlo),font);
         }
     
 }
