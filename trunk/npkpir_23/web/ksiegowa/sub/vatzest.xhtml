@@ -63,7 +63,8 @@
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
             <p:commandButton value="Drukuj" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
-            <p:commandButton value="Drukuj wszystkie" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
+            <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
+                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
                 <p:separator/>
             <p:separator/>
             <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 

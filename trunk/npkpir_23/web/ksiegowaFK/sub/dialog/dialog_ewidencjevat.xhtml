@@ -11,7 +11,17 @@
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
         <h:form id="form">
-
+    <style>
+        .ui-datatable .mc .ui-column-filter {
+            width: 25px !important;
+        }
+        .ui-datatable .nrwlasny .ui-column-filter {
+            width: 90px !important;
+        }
+        .ui-datatable .datawystawienia .ui-column-filter {
+            width: 75px !important;
+        }
+    </style>
             <p:tabView style="height: 700px; overflow-y: scroll;">
                 <p:tab title="ewidencje">
                     <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
@@ -22,27 +32,30 @@
                                 <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                             </p:commandButton>
                             <p:separator/>
-                            <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1100px; margin-bottom: 30px; height: 500px; overflow-y: scroll;">
+                            <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px; overflow-y: scroll;">
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji}" />  
                                 </f:facet>
-                                <p:column headerText="id" style="width: 30px;" sortBy="#{itemik.id}">
+                                <p:column headerText="id" style="width: 20px;" sortBy="#{itemik.id}">
                                     <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                                 </p:column>
-                                <p:column headerText="data wyst." style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
+                                <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.dataWyst}"/>
                                 </p:column>
-                                <p:column headerText="miesiąc" style="width: 100px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
+                                <p:column styleClass="mc" headerText="mc" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
                                           <h:outputText value="#{itemik.innymc}"/>
                                 </p:column>
-                                <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                                <p:column headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" filterMatchMode="contains">
+                                    <h:outputText value="#{itemik.nrKolejny}"/>
+                                </p:column>
+                                <p:column styleClass="nr wlasny" headerText="nr własny" style="width: 120px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.nrWlDk}"/>
                                 </p:column>
-                                <p:column headerText="nazwa kontrhenta" style="width: 180px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
-                                    <h:outputText value="#{itemik.kontr.npelna}"/>
+                                <p:column headerText="nazwa kontrhenta" style="width: 180px; font-size: 93%" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
+                                    <h:outputText value="#{itemik.kontr.npelna.length() > 30 ? itemik.kontr.npelna.substring(0,29) : itemik.kontr.npelna}"/>
                                 </p:column>
-                                <p:column headerText="opis trans." style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
-                                    <h:outputText value="#{itemik.opis}"/>
+                                <p:column headerText="opis trans." style="width: 170px; font-size: 93%;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
+                                    <h:outputText value="#{itemik.opis.length() > 30 ? itemik.opis.substring(0,29) : itemik.opis}"/>
                                 </p:column>
                                 <p:column headerText="netto" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
@@ -68,7 +81,7 @@
                     <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-left: 30px; margin-right: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>
                     <p:commandButton value="Drukuj" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
                     <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
-                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
+                    <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
                     <p:separator/>
                     <p:separator/>
                     <p:dataTable value="#{ewidencjaVatView.sumydowyswietleniasprzedaz}" var="itemik" 

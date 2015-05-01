@@ -361,6 +361,8 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setDataWyst(zaksiegowanafaktura.getDataWyst());
                         wiersz.setKontr(zaksiegowanafaktura.getKontr());
                         wiersz.setOpis(zaksiegowanafaktura.getOpis());
+                        String nr = zaksiegowanafaktura.getTypdokumentu()+"/"+zaksiegowanafaktura.getIdDok()+"/"+zaksiegowanafaktura.getPkpirR();
+                        wiersz.setNrKolejny(nr);
                         wiersz.setNrWlDk(zaksiegowanafaktura.getNrWlDk());
                         wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
                         wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
@@ -387,14 +389,16 @@ public class EwidencjaVatView implements Serializable {
                     wiersz.setDataWyst(ewidwiersz.getDatadokumentu());
                     wiersz.setKontr(ewidwiersz.getKlient());
                     String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
-                    wiersz.setNrWlDk(nrdok);
+                    wiersz.setNrKolejny(nrdok);
+                    wiersz.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     wiersz.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
                 } else {
                     wiersz.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
                     wiersz.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
                     wiersz.setKontr(ewidwiersz.getDokfk().getKontr());
                     String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2();
-                    wiersz.setNrWlDk(nrdok);
+                    wiersz.setNrKolejny(nrdok);
+                    wiersz.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     wiersz.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
                 }
                 wiersz.setId(k++);
@@ -706,7 +710,8 @@ public class EwidencjaVatView implements Serializable {
     public void drukujPdfWszystkie() {
         try {
             PdfVAT.drukujewidencjenajednejkartce(wpisView, ewidencjeVatDAO, false);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { 
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
 
         }
     }

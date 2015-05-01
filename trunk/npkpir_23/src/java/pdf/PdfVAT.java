@@ -67,7 +67,7 @@ public class PdfVAT {
             Set<String> nazwy = mapa.keySet();
             for (String p : nazwy) {
                 if (p.equals(nazwaewidencji)) {
-                    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+                    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
                     String nowanazwa;
                     if (p.contains("sprzedaż")) {
                         nowanazwa = p.substring(0, p.length() - 1);
@@ -103,18 +103,20 @@ public class PdfVAT {
                     Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
                     font = new Font(helvetica, 8);
                     pdf.setPageSize(PageSize.A4);
-                    PdfPTable table = new PdfPTable(10);
-                    table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
+                    PdfPTable table = new PdfPTable(11);
+                    table.setWidthPercentage(95);
+                    table.setWidths(new int[]{1, 2, 2, 2, 2, 4, 3, 4, 2, 2, 2});
                     PdfPCell cell = new PdfPCell();
                     try {
                         table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                        table.addCell(ustawfraze("wydruk ewidencji vat " + p, 2, 0));
+                        table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
                         table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
                         table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                         table.addCell(ustawfraze("lp", 0, 2));
                         table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
                         table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
                         table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+                        table.addCell(ustawfraze("Nr własny dok.", 0, 2));
                         table.addCell(ustawfraze("Kontrahent", 2, 0));
                         table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
                         table.addCell(ustawfraze("Netto", 0, 2));
@@ -134,6 +136,7 @@ public class PdfVAT {
                         table.addCell(ustawfrazeAlign("8", "center", 6));
                         table.addCell(ustawfrazeAlign("9", "center", 6));
                         table.addCell(ustawfrazeAlign("10", "center", 6));
+                        table.addCell(ustawfrazeAlign("11", "center", 6));
 
                         table.addCell(ustawfrazeAlign("1", "center", 6));
                         table.addCell(ustawfrazeAlign("2", "center", 6));
@@ -145,6 +148,7 @@ public class PdfVAT {
                         table.addCell(ustawfrazeAlign("8", "center", 6));
                         table.addCell(ustawfrazeAlign("9", "center", 6));
                         table.addCell(ustawfrazeAlign("10", "center", 6));
+                        table.addCell(ustawfrazeAlign("11", "center", 6));
 
                         table.setHeaderRows(5);
                         table.setFooterRows(1);
@@ -189,6 +193,7 @@ public class PdfVAT {
         table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
         table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getDataWyst(), "left", 7));
+        table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
         table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
         try {
             table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
@@ -211,7 +216,7 @@ public class PdfVAT {
     
     public static void drukujewidencjenajednejkartce(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {
         Podatnik pod = wpisView.getPodatnikObiekt();
-        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+        Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
         try {
             List<Parametr> param = pod.getVatokres();
             //problem kwartalu
@@ -226,13 +231,18 @@ public class PdfVAT {
             HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
             List<String> nazwy = new ArrayList<>();
             nazwy.addAll(mapa.keySet());
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = null;
+            if (wartosc) {
+                nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-wartosc-" + wpisView.getPodatnikWpisu() + ".pdf";
+            } else {
+                nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
+            }
                 File file = new File(nazwapliku);
                 if (file.isFile()) {
                     file.delete();
                 }
                 PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
-                int liczydlo = 0;
+                int liczydlo = 1;
                 PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                 writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
                 writer.setPageEvent(headerfoter);
@@ -274,24 +284,27 @@ public class PdfVAT {
                 pdf.close();
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             pdf.close();
         }
     }
     
     private static PdfPTable stworztabele(Ewidencjevat lista, String nazwaewidencji, WpisView wpisView, boolean wartosc) {
         try {
-            PdfPTable table = new PdfPTable(10);
-            table.setWidths(new int[]{1, 2, 2, 2, 4, 2, 2, 2, 2, 2});
+            PdfPTable table = new PdfPTable(11);
+            table.setWidths(new int[]{1, 2, 2, 2, 2, 4, 3, 4, 2, 2, 2});
+            table.setWidthPercentage(95);
             PdfPCell cell = new PdfPCell();
             try {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 2, 0));
+                table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 3, 0));
                 table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
                 table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                 table.addCell(ustawfraze("lp", 0, 2));
                 table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
                 table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
                 table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+                table.addCell(ustawfraze("Nr własny dok.", 0, 2));
                 table.addCell(ustawfraze("Kontrahent", 2, 0));
                 table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
                 table.addCell(ustawfraze("Netto", 0, 2));
@@ -311,6 +324,7 @@ public class PdfVAT {
                 table.addCell(ustawfrazeAlign("8", "center", 6));
                 table.addCell(ustawfrazeAlign("9", "center", 6));
                 table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
 
                 table.addCell(ustawfrazeAlign("1", "center", 6));
                 table.addCell(ustawfrazeAlign("2", "center", 6));
@@ -322,6 +336,7 @@ public class PdfVAT {
                 table.addCell(ustawfrazeAlign("8", "center", 6));
                 table.addCell(ustawfrazeAlign("9", "center", 6));
                 table.addCell(ustawfrazeAlign("10", "center", 6));
+                table.addCell(ustawfrazeAlign("11", "center", 6));
 
                 table.setHeaderRows(5);
                 table.setFooterRows(1);
@@ -348,6 +363,7 @@ public class PdfVAT {
                 }
             return table;
         } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
             return null;
         }
 
