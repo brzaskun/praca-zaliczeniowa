@@ -173,7 +173,7 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
 
     @Override
     public String toString() {
-        return "KontopozycjaZapis{" + "id=" + idKP + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + ", konto=" + kontoID + '}';
+        return "KontopozycjaZapis{" + ", konto=" + kontoID + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
     }
     
     

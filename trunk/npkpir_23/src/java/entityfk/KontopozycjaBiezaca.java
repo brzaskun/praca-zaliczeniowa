@@ -159,7 +159,7 @@ public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializab
 
     @Override
     public String toString() {
-        return "KontopozycjaBiezaca{" + "id=" + idKP + ", pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + ", konto=" + kontoID + '}';
+        return "KontopozycjaZapis{" + ", konto=" + kontoID + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
     }
     
     
