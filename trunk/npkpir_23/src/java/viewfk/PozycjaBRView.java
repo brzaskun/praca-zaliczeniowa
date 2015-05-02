@@ -543,22 +543,24 @@ public class PozycjaBRView implements Serializable {
     public void wyluskajStronyzPozycji() {
         sumaPodpietychKont = new ArrayList<>();
         podpieteStronyWiersza = new ArrayList<>();
-        for (TreeNode p : selectedNodes) {
-            PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
-            if (r.getPrzyporzadkowanestronywiersza() != null) {
-                podpieteStronyWiersza.addAll(r.getPrzyporzadkowanestronywiersza());
+        if (selectedNodes != null && selectedNodes.length > 0) {
+            for (TreeNode p : selectedNodes) {
+                PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
+                if (r.getPrzyporzadkowanestronywiersza() != null) {
+                    podpieteStronyWiersza.addAll(r.getPrzyporzadkowanestronywiersza());
+                }
             }
-        }
-        List<Konto> konta = new ArrayList<>();
-        for (StronaWierszaKwota p : podpieteStronyWiersza) {
-            Konto k = p.getStronaWiersza().getKonto();
-            if (!konta.contains(k)) {
-                konta.add(k);
-                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
-            } else {
-                for (KontoKwota r : sumaPodpietychKont) {
-                    if (r.getKonto().equals(k)) {
-                        r.setKwota(r.getKwota()+p.getKwota());
+            List<Konto> konta = new ArrayList<>();
+            for (StronaWierszaKwota p : podpieteStronyWiersza) {
+                Konto k = p.getStronaWiersza().getKonto();
+                if (!konta.contains(k)) {
+                    konta.add(k);
+                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                } else {
+                    for (KontoKwota r : sumaPodpietychKont) {
+                        if (r.getKonto().equals(k)) {
+                            r.setKwota(r.getKwota()+p.getKwota());
+                        }
                     }
                 }
             }
@@ -569,35 +571,35 @@ public class PozycjaBRView implements Serializable {
         podpieteStronyWiersza = new ArrayList<>();
         sumaPodpietychKont = new ArrayList<>();
         List<KontoKwota> podpieteKonta = new ArrayList<>();
-        for (TreeNode p : selectedNodes) {
-            PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
-            if (r.getPrzyporzadkowanekonta() != null) {
-                podpieteKonta.addAll(r.getPrzyporzadkowanekonta());
+        if (selectedNodes != null && selectedNodes.length > 0) {
+            for (TreeNode p : selectedNodes) {
+                PozycjaRZiSBilans r = (PozycjaRZiSBilans) p.getData();
+                if (r.getPrzyporzadkowanekonta() != null) {
+                    podpieteKonta.addAll(r.getPrzyporzadkowanekonta());
+                }
             }
-        }
-        List<Konto> konta = new ArrayList<>();
-        for (KontoKwota p : podpieteKonta) {
-            Konto k = p.getKonto();
-            if (!konta.contains(k)) {
-                konta.add(k);
-                sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
-            } else {
-                for (KontoKwota r : sumaPodpietychKont) {
-                    if (r.getKonto().equals(k)) {
-                        r.setKwota(r.getKwota()+p.getKwota());
+            List<Konto> konta = new ArrayList<>();
+            for (KontoKwota p : podpieteKonta) {
+                Konto k = p.getKonto();
+                if (!konta.contains(k)) {
+                    konta.add(k);
+                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                } else {
+                    for (KontoKwota r : sumaPodpietychKont) {
+                        if (r.getKonto().equals(k)) {
+                            r.setKwota(r.getKwota()+p.getKwota());
+                        }
                     }
                 }
             }
-        }
-        for (KontoKwota p : sumaPodpietychKont) {
-            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkie(wpisView.getPodatnikObiekt(), p.getKonto(), wpisView.getRokWpisuSt());
-            int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-            for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {
-                StronaWiersza r = (StronaWiersza) it.next();
-                if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) > granicagorna) {
-                    it.remove();
-                } else {
-                    podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (KontoKwota p : sumaPodpietychKont) {
+                int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacNastepny());
+                for (Iterator<StronaWiersza> it = stronywiersza.iterator(); it.hasNext(); ) {   
+                    StronaWiersza r = (StronaWiersza) it.next();
+                    if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p.getKonto())) {
+                        podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
+                    }
                 }
             }
         }

@@ -55,7 +55,7 @@
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;" rendered="#{pozycjaBRView.pokazaktywa}">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
-                        <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
                             <h:outputText value="aktywa"/>
                         </f:facet>
@@ -93,22 +93,22 @@
                 <p:column>
                     <p:panelGrid columns="1" >
                         <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="Nie ma podpiętych kont" var="loop"
-                                     style="height: 350px; margin-top: 0px; width: 550px; overflow-y: scroll;">
+                                     style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="podpięte salda kont"/>
                             </f:facet>
-                            <p:column >
+                            <p:column width="60">
                                 <h:outputText value="#{loop.konto.pelnynumer}"/>
                             </p:column>
-                            <p:column >
+                            <p:column width="350">
                                 <h:outputText value="#{loop.konto.nazwapelna}"/>
                             </p:column>
                             <p:column >
-                                <bcf:outputpl value="#{loop.kwota}" rendered="true"/>
+                                <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych kont" var="loop"
-                                     style="height: 300px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;">
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych zapisów" var="loop"
+                                     style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.stronaWiersza.konto.pelnynumer}">
                             <f:facet  name="header">
                                 <h:outputText value="podpięte zapisy"/>
                             </f:facet>
@@ -118,11 +118,11 @@
                             <p:column width="50">
                                 <h:outputText value="#{loop.stronaWiersza.wiersz.dataksiegowania}"/>
                             </p:column>
-                            <p:column width="50">
-                                <h:outputText value="#{loop.stronaWiersza.wiersz.opisWiersza}"/>
+                            <p:column width="180">
+                                <h:outputText value="#{loop.stronaWiersza.wiersz.opisWiersza.length() gt 38 ? loop.stronaWiersza.wiersz.opisWiersza.subSequence(0, 38) : loop.stronaWiersza.wiersz.opisWiersza}"/>
                             </p:column>
-                            <p:column width="30">
-                                <bcf:outputpl value="#{loop.kwota}" rendered="true"/>
+                            <p:column width="50">
+                                <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                             <p:column style="text-align: center;" width="40">
                                 <h:outputText value="#{loop.stronaWiersza.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.stronaWiersza.wiersz.dokfk.dokfkPK.nrkolejnywserii} z #{loop.stronaWiersza.wiersz.dokfk.miesiac}"/>

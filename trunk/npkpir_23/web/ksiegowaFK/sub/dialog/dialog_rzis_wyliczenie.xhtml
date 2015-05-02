@@ -58,7 +58,7 @@
                                 <h:outputText value="rachunek zysków i strat"/>
                             </f:facet>
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje, :formprzeglad:podpietekonta"/>
-                        <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje, :formprzeglad:podpietekonta"/>
+                        <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje, :formprzeglad:podpietekonta"/>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                             <h:outputText value=" " /> 
