@@ -30,7 +30,7 @@
                     }
                 }
             </script>
-            <p:panelGrid columns="6">
+            <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
@@ -48,6 +48,9 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
+                <p:column>
+                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiS()}"/>
+                </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>

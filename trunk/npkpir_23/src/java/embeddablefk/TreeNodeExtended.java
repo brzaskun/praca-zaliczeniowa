@@ -132,6 +132,29 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             return 0;
         }
     }
+      
+      public int ustaldepthDT() {
+        List<TreeNode> pozycje = this.getChildren();
+        int depth = 0;
+        int pobranawartosc = 0;
+        try {
+            for (TreeNode p : pozycje) {
+                try {
+//                    Method method = p.getClass().getMethod("getLevel");
+//                    pobranawartosc = (int) method.invoke(p);
+                    pobranawartosc = ((PozycjaRZiSBilans) p.getData()).getLevel();
+                } catch (Exception ex) {
+                    
+                }
+                if (depth < pobranawartosc) {
+                    depth = pobranawartosc;
+                }
+            }
+            return depth + 1;
+        } catch (NullPointerException e) {
+            return 0;
+        }
+    }
     
 //    
 //    //to tak smiesznie ze przekazuje pusta liste i ona dopiero sie zapelnia zadanymi Nodami
@@ -157,6 +180,20 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 ((TreeNodeExtended) o).getFinallChildren(finallNodes);
             }
             finallNodes.remove(this);
+        }
+    }
+    
+    public void getChildrenTree(List<TreeNodeExtended> nodes, List<T> pozycje) {
+        List<TreeNode> children = this.getChildren();
+        boolean madzieci = this.getChildCount() > 0;
+        if (madzieci == true) {
+            for (TreeNode o : children) {
+                nodes.add((TreeNodeExtended) o);
+                Object ob = ((TreeNodeExtended) o).getData();
+                pozycje.add((T) ob);
+                ((TreeNodeExtended) o).getChildrenTree(nodes, pozycje);
+            }
+            nodes.remove(this);
         }
     }
     

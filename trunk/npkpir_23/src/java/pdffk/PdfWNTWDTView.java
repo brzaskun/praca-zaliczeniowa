@@ -47,7 +47,7 @@ public class PdfWNTWDTView implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaL(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajTabele(document, testobjects.testobjects.getTabelaWDTWNT(wiersze));
+            dodajTabele(document, testobjects.testobjects.getTabelaWDTWNT(wiersze),100);
             finalizacjaDokumentu(document);
             String f = "wydrukWNTWDT('"+wpisView.getPodatnikObiekt().getNip()+"');";
             RequestContext.getCurrentInstance().execute(f);
