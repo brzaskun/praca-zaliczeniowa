@@ -68,7 +68,8 @@ public class PozycjaBRView implements Serializable {
     private List<StronaWierszaKwota> podpieteStronyWiersza;
     private List<KontoKwota> sumaPodpietychKont;
     private boolean pokazaktywa;
-    private double sumabilansowa;
+    private double sumabilansowaaktywa;
+    private double sumabilansowapasywa;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -211,15 +212,13 @@ public class PozycjaBRView implements Serializable {
         if (aktywapasywa.equals("aktywa")) {
             pokazaktywa = true;
             pobierzukladprzegladBilans();
-            sumaaktywaoblicz("aktywa");
         } else {
             pokazaktywa = false;
             pobierzukladprzegladBilans();
-            sumaaktywaoblicz("pasywa");
         }
     }
     
-    private void sumaaktywaoblicz(String aktywapasywa) {
+    private void sumaaktywapasywaoblicz(String aktywapasywa) {
         if (aktywapasywa.equals("aktywa")) {
             List<TreeNode> wezly = rootBilansAktywa.getChildren();
             double suma = 0.0;
@@ -227,7 +226,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
                 suma += p.getKwota();
             }
-            sumabilansowa = Z.z(suma);
+            sumabilansowaaktywa = Z.z(suma);
         } else {
             List<TreeNode> wezly = rootBilansPasywa.getChildren();
             double suma = 0.0;
@@ -235,7 +234,7 @@ public class PozycjaBRView implements Serializable {
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
                 suma += p.getKwota();
             }
-            sumabilansowa = Z.z(suma);
+            sumabilansowapasywa = Z.z(suma);
         }
     }
     
@@ -259,6 +258,8 @@ public class PozycjaBRView implements Serializable {
             //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansPasywa, pozycjepasywa, zapisy, plankont, "pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano układ ");
+            sumaaktywapasywaoblicz("aktywa");
+            sumaaktywapasywaoblicz("pasywa");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
             rootBilansAktywa.getChildren().clear();
@@ -663,12 +664,20 @@ public class PozycjaBRView implements Serializable {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
     }
 
-    public double getSumabilansowa() {
-        return sumabilansowa;
+    public double getSumabilansowaaktywa() {
+        return sumabilansowaaktywa;
     }
 
-    public void setSumabilansowa(double sumabilansowa) {
-        this.sumabilansowa = sumabilansowa;
+    public void setSumabilansowaaktywa(double sumabilansowaaktywa) {
+        this.sumabilansowaaktywa = sumabilansowaaktywa;
+    }
+
+    public double getSumabilansowapasywa() {
+        return sumabilansowapasywa;
+    }
+
+    public void setSumabilansowapasywa(double sumabilansowapasywa) {
+        this.sumabilansowapasywa = sumabilansowapasywa;
     }
 
     public List<KontoKwota> getSumaPodpietychKont() {
