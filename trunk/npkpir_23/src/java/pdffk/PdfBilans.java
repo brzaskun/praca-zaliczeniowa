@@ -65,4 +65,40 @@ public class PdfBilans {
         }
     }
     
+    public static void drukujBilansBO(TreeNodeExtended rootProjekt, WpisView wpisView, String ap) {
+        String nazwa = null;
+        if (ap.equals("a")) {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieA";
+        } else {
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieP";
+        }
+        File file = new File(nazwa);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjekt != null && rootProjekt.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            if (ap.equals("a")) {
+                dodajOpisWstepny(document, "Bilans Otwarcia Aktywa firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            } else {
+                dodajOpisWstepny(document, "Bilans Otwarcia Pasywa firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            }
+            dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75);
+            finalizacjaDokumentu(document);
+            String f = null;
+            if (ap.equals("a")) {
+                f = "wydrukBilansuA('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            } else {
+                f = "wydrukBilansuP('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            }
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano strony Bilansu do wydruku");
+        }
+    }
+    
 }
