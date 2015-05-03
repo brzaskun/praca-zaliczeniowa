@@ -114,3 +114,10 @@ var wydrukRZiS = function(kto){
     window.open('../wydruki/'+kto+'RZiSobliczenie.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
+var wydrukBilansuA = function(kto){
+    window.open('../wydruki/'+kto+'BilansobliczenieA.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
+var wydrukBilansuP = function(kto){
+    window.open('../wydruki/'+kto+'BilansobliczenieP.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+};
+

@@ -35,6 +35,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
+import pdffk.PdfBilans;
 import pdffk.PdfRZiS;
 import view.WpisView;
 import waluty.Z;
@@ -655,6 +656,14 @@ public class PozycjaBRView implements Serializable {
     
     public void drukujRZiS() {
         PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
+    }
+    
+    public void drukujBilans(String ap) {
+        if (ap.equals("a")) {
+            PdfBilans.drukujBilans(rootBilansAktywa, wpisView, ap);
+        } else {
+            PdfBilans.drukujBilans(rootBilansPasywa, wpisView, ap);
+        }
     }
        
     //<editor-fold defaultstate="collapsed" desc="comment">
