@@ -46,7 +46,7 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="aktywa"/>
+                        <h:outputText value="aktywa #{pozycjaBRView.sumabilansowaaktywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -63,7 +63,7 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="pasywa"/>
+                        <h:outputText value="pasywa #{pozycjaBRView.sumabilansowapasywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
