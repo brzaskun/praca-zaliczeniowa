@@ -134,7 +134,8 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
       
       public int ustaldepthDT() {
-        List<TreeNode> pozycje = this.getChildren();
+        ArrayList<TreeNodeExtended> pozycje = new ArrayList<TreeNodeExtended>();
+        this.getFinallChildren(pozycje);
         int depth = 0;
         int pobranawartosc = 0;
         try {

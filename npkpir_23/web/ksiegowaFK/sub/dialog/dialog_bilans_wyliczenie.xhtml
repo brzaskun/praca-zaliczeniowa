@@ -28,7 +28,7 @@
                         }
                     }
             </script>
-             <p:panelGrid columns="5">
+             <p:panelGrid columns="6">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
@@ -40,6 +40,10 @@
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
+                 <p:column>
+                    <p:commandButton value="drukuj aktywa" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}"/>
+                    <p:commandButton value="drukuj pasywa" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}"/>
+                </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 

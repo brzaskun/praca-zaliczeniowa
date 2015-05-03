@@ -25,6 +25,7 @@ import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
+import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import java.io.File;
@@ -385,9 +386,18 @@ public class PdfMain {
                 for (int i = 0; i < levele ; i++) {
                     col7[i] = 1;
                 }
-                col7[levele++] = 7;
-                col7[levele] = 2;
+                col7[levele++] = 10;
+                col7[levele] = 3;
                 return col7;
+            case "entityfk.PozycjaBilans":
+                int[] col8 = new int[size];
+                int leveleB = size-2;
+                for (int i = 0; i < leveleB ; i++) {
+                    col8[i] = 1;
+                }
+                col8[leveleB++] = 10;
+                col8[leveleB] = 3;
+                return col8;
                 
         }
         return null;
@@ -526,6 +536,38 @@ public class PdfMain {
                     int maxlevel = 0;
                     for (Iterator<PozycjaRZiS> itX = wiersze.iterator(); itX.hasNext();) {
                         PozycjaRZiS s = (PozycjaRZiS) itX.next();
+                        if (s.getLevel() > maxlevel) {
+                            maxlevel = s.getLevel();
+                        }
+                    }
+                    PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
+                    int levelPlus = p.getLevel()+1;
+                    if (p.getLevel() != 0) {
+                        for (int j = 0; j < p.getLevel(); j++) {
+                            table.addCell(ustawfrazeAlign("", "l", 9));
+                        }
+                    }
+                    table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 9));
+                    if (p.getLevel() < maxlevel) {
+                        for (int k = levelPlus; k <= maxlevel; k++) {
+                           table.addCell(ustawfrazeAlign("", "l", 9));
+                        }   
+                    }
+                    if (p.getLevel() == 0) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 10));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                    }
+                    if (p.getKwota() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    }
+                }
+                if (nazwaklasy.equals("entityfk.PozycjaBilans")) {
+                    int maxlevel = 0;
+                    for (Iterator<PozycjaBilans> itX = wiersze.iterator(); itX.hasNext();) {
+                        PozycjaBilans s = (PozycjaBilans) itX.next();
                         if (s.getLevel() > maxlevel) {
                             maxlevel = s.getLevel();
                         }
