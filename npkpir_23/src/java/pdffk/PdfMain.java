@@ -25,6 +25,8 @@ import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
+import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -60,7 +62,7 @@ public class PdfMain {
         dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
 //        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
 //        //dodajTabele(document, testobjects.testobjects.getTabela());
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()));
+        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100);
 //        dodajpodpis(document,"Jan","Kowalski");
         //dodajStopke(writer);
         finalizacjaDokumentu(document);
@@ -294,13 +296,13 @@ public class PdfMain {
         }
     }
     
-    public static void dodajTabele(Document document, List[] tabela) {
+    public static void dodajTabele(Document document, List[] tabela, int perc) {
         try {
             List naglowki = tabela[0];
             List wiersze = tabela[1];
             String nazwaklasy = wiersze.get(0).getClass().getName();
             int[] col = obliczKolumny(naglowki.size(), nazwaklasy);
-            PdfPTable table = przygotujtabele(naglowki.size(),col);
+            PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
             ustawnaglowki(table, naglowki);
             ustawwiersze(table,wiersze, nazwaklasy);
             document.add(table);
@@ -377,16 +379,25 @@ public class PdfMain {
                 col6[5] = 2;
                 col6[6] = 2;
                 return col6;
+            case "entityfk.PozycjaRZiS":
+                int[] col7 = new int[size];
+                int levele = size-2;
+                for (int i = 0; i < levele ; i++) {
+                    col7[i] = 1;
+                }
+                col7[levele++] = 7;
+                col7[levele] = 2;
+                return col7;
                 
         }
         return null;
     }
     
-    private static PdfPTable przygotujtabele(int size, int[] col) {
+    private static PdfPTable przygotujtabele(int size, int[] col, int perc) {
         try {
             PdfPTable p = new PdfPTable(size);
             p.setWidths(col);
-            p.setWidthPercentage(100);
+            p.setWidthPercentage(perc);
             p.setSpacingBefore(2f);
             p.setSpacingAfter(3f);
             return p;
@@ -494,6 +505,7 @@ public class PdfMain {
             Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy) {
         NumberFormat formatter = getNumFormater();
@@ -506,6 +518,38 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                     if (p.getWartosc() != 0.0) {
                         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    }
+                }
+                if (nazwaklasy.equals("entityfk.PozycjaRZiS")) {
+                    int maxlevel = 0;
+                    for (Iterator<PozycjaRZiS> itX = wiersze.iterator(); itX.hasNext();) {
+                        PozycjaRZiS s = (PozycjaRZiS) itX.next();
+                        if (s.getLevel() > maxlevel) {
+                            maxlevel = s.getLevel();
+                        }
+                    }
+                    PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
+                    int levelPlus = p.getLevel()+1;
+                    if (p.getLevel() != 0) {
+                        for (int j = 0; j < p.getLevel(); j++) {
+                            table.addCell(ustawfrazeAlign("", "l", 9));
+                        }
+                    }
+                    table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 9));
+                    if (p.getLevel() < maxlevel) {
+                        for (int k = levelPlus; k <= maxlevel; k++) {
+                           table.addCell(ustawfrazeAlign("", "l", 9));
+                        }   
+                    }
+                    if (p.getLevel() == 0) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 10));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                    }
+                    if (p.getKwota() != 0.0) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }

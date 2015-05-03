@@ -48,7 +48,7 @@ public class PdfZaksiegowaneView implements Serializable {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze));
+            dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100);
             finalizacjaDokumentu(document);
             String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
             RequestContext.getCurrentInstance().execute(f);

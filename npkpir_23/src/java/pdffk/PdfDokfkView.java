@@ -41,7 +41,7 @@ public class PdfDokfkView implements Serializable {
         dodajDate(document, selected.getDatawplywu());
         dodajOpisWstepny(document, selected);
         infooFirmie(document, selected);
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()));
+        dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()),100);
         dodajpodpis(document, uz.getImie(), uz.getNazw());
         finalizacjaDokumentu(document);
     }

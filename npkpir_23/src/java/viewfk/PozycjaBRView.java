@@ -35,6 +35,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
+import pdffk.PdfRZiS;
 import view.WpisView;
 import waluty.Z;
 
@@ -650,6 +651,10 @@ public class PozycjaBRView implements Serializable {
     public void odswiezbilans() {
         wpisView.wpisAktualizuj();
         pobierzukladprzegladBilans("aktywa");
+    }
+    
+    public void drukujRZiS() {
+        PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
     }
        
     //<editor-fold defaultstate="collapsed" desc="comment">

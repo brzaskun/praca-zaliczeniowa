@@ -5,6 +5,7 @@
  */
 package testobjects;
 
+import embeddablefk.TreeNodeExtended;
 import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
@@ -13,6 +14,7 @@ import entity.RodzajedokPK;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
+import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.util.ArrayList;
@@ -142,6 +144,21 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaRZiS(TreeNodeExtended rootProjektRZiS) {
+       int level = rootProjektRZiS.ustaldepthDT()+1;
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add("nazwa pozycji RZiS");
+       n.add("kwota");
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
     public static List[] getTabelaFakturyPlatnosci(List<Faktura> wiersze, String zn) {
        List n = new ArrayList();
        n.add("lp");
@@ -247,6 +264,13 @@ public class testobjects {
            WierszDokfk r = new WierszDokfk(p.getLp(), p.getDatadokumentu(), p.getDataoperacji(), p.getDokfkPK().toString2(), kontrahent, p.getNumerwlasnydokfk(), p.getOpisdokfk(), p.getWartoscdokumentu(), p.getWalutadokumentu().getSymbolwaluty());
            w.add(r);
        }
+       return w;
+   }
+   
+   public static List<PozycjaRZiSBilans> getWierszeRZiS(TreeNodeExtended rootProjektRZiS, int level) {
+       List<PozycjaRZiSBilans> w = new ArrayList<PozycjaRZiSBilans>();
+       rootProjektRZiS.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
+       System.out.println("");
        return w;
    }
    
