@@ -10,6 +10,8 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -17,6 +19,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -32,6 +35,8 @@ public class BilansPodgladView  implements Serializable{
     @Inject private KontoDAOfk kontoDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
+    private double sumawn;
+    private double sumama;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
@@ -39,8 +44,8 @@ public class BilansPodgladView  implements Serializable{
         this.root = new TreeNodeExtended("root", null);
     }
 
-    @PostConstruct
-    private void init(){
+    
+    public void init(){
         rozwinwszystkie();
     }
     
@@ -54,9 +59,11 @@ public class BilansPodgladView  implements Serializable{
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){
         this.root = new TreeNodeExtended("root", null);
-        ArrayList<Konto> kontadlanodes = new ArrayList<>();
-        kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView));
-        root.createTreeNodesForElement(kontadlanodes);
+        List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
+        level = root.ustaldepthDT(listakont)-1;
+        podsumujkonta(listakont, level);
+        usunzerowe(listakont);
+        root.createTreeNodesForElement(listakont);
         
     }
        
@@ -64,15 +71,54 @@ public class BilansPodgladView  implements Serializable{
     public void rozwinwszystkie(){
         try {
             getNodes();
-            ArrayList<Konto> kontadlanodes = new ArrayList<>();
-            kontadlanodes.addAll(kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView));
-            level = root.ustaldepthDT(kontadlanodes)-1;
             root.expandAll();
             Msg.msg("Rozwinięto maksymalnie");
         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Brak kont bilansowych u podatnika");
         }
-    }  
+    }
+    
+    private void podsumujkonta(List<Konto> listakont, int level) {
+        for (int i = level; i > -1 ; i--) {
+            for (Konto p : listakont) {
+                if (p.getLevel()==i) {
+                    Konto macierzyste = znajdzmacierzysty(p.getMacierzysty(), listakont);
+                    if (macierzyste != null) {
+                        macierzyste.setBoWn(macierzyste.getBoWn()+p.getBoWn());
+                        macierzyste.setBoMa(macierzyste.getBoMa()+p.getSaldoMa());
+                    }
+                }
+            }
+            sumawn = 0.0;
+            sumama = 0.0;
+            for (Konto r : listakont) {
+                if (r.getLevel()==0) {
+                    sumawn += r.getBoWn();
+                    sumama += r.getBoMa();
+                }
+            }
+            sumawn = Z.z(sumawn);
+            sumama = Z.z(sumama);
+        }
+    }
+    
+    private void usunzerowe(List<Konto> listakont) {
+        for (Iterator<Konto> it = listakont.iterator(); it.hasNext();) {
+            Konto p = (Konto) it.next();
+            if (p.getBoWn() == 0 && p.getBoMa() == 0) {
+                it.remove();
+            }
+        }
+    }
+    
+    private Konto znajdzmacierzysty(int macierzysty, List<Konto> listakont) {
+        for (Konto p : listakont) {
+            if (p.getId() == macierzysty) {
+                return p;
+            }
+        }
+        return null;
+    }
     
     public void rozwin(){
         ArrayList<Konto> kontadlanodes = new ArrayList<>();
@@ -118,6 +164,24 @@ public class BilansPodgladView  implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public double getSumawn() {
+        return sumawn;
+    }
+
+    public void setSumawn(double sumawn) {
+        this.sumawn = sumawn;
+    }
+
+    public double getSumama() {
+        return sumama;
+    }
+
+    public void setSumama(double sumama) {
+        this.sumama = sumama;
+    }
+
+    
     
 
     
