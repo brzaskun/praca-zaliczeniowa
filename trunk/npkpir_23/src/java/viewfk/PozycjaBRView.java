@@ -68,6 +68,7 @@ public class PozycjaBRView implements Serializable {
     private List<StronaWierszaKwota> podpieteStronyWiersza;
     private List<KontoKwota> sumaPodpietychKont;
     private boolean pokazaktywa;
+    private double sumabilansowa;
     
     @Inject
     private KontoDAOfk kontoDAO;
@@ -210,9 +211,31 @@ public class PozycjaBRView implements Serializable {
         if (aktywapasywa.equals("aktywa")) {
             pokazaktywa = true;
             pobierzukladprzegladBilans();
+            sumaaktywaoblicz("aktywa");
         } else {
             pokazaktywa = false;
             pobierzukladprzegladBilans();
+            sumaaktywaoblicz("pasywa");
+        }
+    }
+    
+    private void sumaaktywaoblicz(String aktywapasywa) {
+        if (aktywapasywa.equals("aktywa")) {
+            List<TreeNode> wezly = rootBilansAktywa.getChildren();
+            double suma = 0.0;
+            for (Iterator<TreeNode> it = wezly.iterator(); it.hasNext();) {
+                PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
+                suma += p.getKwota();
+            }
+            sumabilansowa = Z.z(suma);
+        } else {
+            List<TreeNode> wezly = rootBilansPasywa.getChildren();
+            double suma = 0.0;
+            for (Iterator<TreeNode> it = wezly.iterator(); it.hasNext();) {
+                PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next().getData();
+                suma += p.getKwota();
+            }
+            sumabilansowa = Z.z(suma);
         }
     }
     
@@ -230,6 +253,10 @@ public class PozycjaBRView implements Serializable {
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+            //nowy nie dziala - trzeba mocniej polowkowac. problem polea na tym ze pozycje zaleza od sald, czyli nie mozna isc po stronawiersza
+            //trzeba najpierw podsumowac konta
+            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansAktywa, pozycjeaktywa, zapisy, plankont, "aktywa");
+            //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansPasywa, pozycjepasywa, zapisy, plankont, "pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
@@ -634,6 +661,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setPodpieteStronyWiersza(List<StronaWierszaKwota> podpieteStronyWiersza) {
         this.podpieteStronyWiersza = podpieteStronyWiersza;
+    }
+
+    public double getSumabilansowa() {
+        return sumabilansowa;
+    }
+
+    public void setSumabilansowa(double sumabilansowa) {
+        this.sumabilansowa = sumabilansowa;
     }
 
     public List<KontoKwota> getSumaPodpietychKont() {

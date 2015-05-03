@@ -261,6 +261,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                                 pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
                                             }
                                         }
+                                        break;//tu break ma sens bo konto zwykle jest tylko w jednym miejscu
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
                                 double kwotapierwotna = pozycja.getKwota();
@@ -314,6 +315,104 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 }
             } catch (Exception e) {
                 throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
+            }
+        }
+    }
+    
+    public void addNumbersBilansNowy(List<StronaWiersza> zapisynakontach, List<Konto> plankont, String aktywapasywa) throws Exception {
+        ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
+        this.getFinallChildren(finallNodes);
+        for (StronaWiersza stronaWiersza : zapisynakontach) {
+            double kwotaWn = stronaWiersza.getWnma().equals("Wn") ? stronaWiersza.getKwotaPLN() : 0.0;
+            double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
+            try {
+                Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
+                String pozycjaBilansWn = null;
+                String pozycjaBilansMa = null;
+                boolean stronaWn;
+                boolean stronaMa;
+                if (kontopobrane.getKontopozycjaID() != null) {
+                    pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                    pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                    stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
+                    stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                    for (TreeNodeExtended r : finallNodes) {
+                        //sprawdzamy czy dane konto nalezy do danego wezla
+                            PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
+                            if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
+                                double kwotapierwotna = pozycja.getKwota();
+                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                    //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                                        if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
+                                            if (kontopobrane.getSaldoWn() > 0) {
+                                                pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                                            } else {
+                                                pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoMa());
+                                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                                            }
+                                        } else {
+                                            if (kontopobrane.getSaldoMa() > 0) {
+                                                pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                                            } else {
+                                                pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoWn());
+                                                pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                                            }
+                                        }
+                                }
+                            } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                                double kwotapierwotna = pozycja.getKwota();
+                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                    if (stronaWn==false && stronaMa==false) {
+                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn()-kontopobrane.getSaldoMa());
+                                    } else {
+                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                    }
+                                    pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                                } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                    if (stronaWn==true && stronaMa==true) {
+                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa()-kontopobrane.getSaldoWn());
+                                    } else {
+                                        pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                    }
+                                    pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                                }
+                            } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
+                                double kwotapierwotna = pozycja.getKwota();
+                                if (aktywapasywa.equals("aktywa")) {
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                        if (kontopobrane.getSaldoWn() != 0) {
+                                            pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoWn());
+                                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                                        }
+                                    } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                        if (kontopobrane.getSaldoMa() != 0) {
+                                            pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoMa());
+                                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                                        }
+                                    }
+                                } else {
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                        if (kontopobrane.getSaldoWn() != 0) {
+                                            pozycja.setKwota(kwotapierwotna-kontopobrane.getSaldoWn());
+                                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                                        }
+                                    } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                        if (kontopobrane.getSaldoMa() != 0) {
+                                            pozycja.setKwota(kwotapierwotna+kontopobrane.getSaldoMa());
+                                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                                        }
+                                    }
+                                }
+                                
+                            }
+                    }
+                }
+            } catch (Exception e) {
+                
             }
         }
     }

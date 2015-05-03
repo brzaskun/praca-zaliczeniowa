@@ -57,7 +57,7 @@
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="aktywa"/>
+                            <h:outputText value="aktywa #{pozycjaBRView.sumabilansowa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -76,7 +76,7 @@
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="pasywa"/>
+                            <h:outputText value="pasywa #{pozycjaBRView.sumabilansowa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
