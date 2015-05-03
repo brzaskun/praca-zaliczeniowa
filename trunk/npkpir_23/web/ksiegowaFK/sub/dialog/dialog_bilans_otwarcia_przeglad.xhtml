@@ -44,19 +44,19 @@
                     <p:column headerText="typ konta" style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
-                    <p:column headerText="przyporzadkowanie" style="width: 90px;">
-                        <h:outputText value="Wn : "/>
+                    <p:column headerText="Strona Wn" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? (loop.kontopozycjaID.stronaWn eq 1 ? 'pasywa':'aktywa') : ''}" /> 
-                        <h:outputText value=" Ma : "/>
+                    </p:column>
+                    <p:column headerText="Strona Ma" style="width: 70px; text-align: center;">
                         <h:outputText value="#{loop.kontopozycjaID.stronaMa != null ? (loop.kontopozycjaID.stronaMa eq 1 ? 'pasywa':'aktywa') : ''}" /> 
                     </p:column>
-                    <p:column headerText="Kwota Wn" style="width: 100px;">
-                        <h:outputText value="#{loop.boWn}" style="float: right;">
+                    <p:column headerText="Wn: #{bilansPodgladView.sumawn}" style="width: 100px;">
+                        <h:outputText value="#{loop.boWn ne 0 ? loop.boWn : ''}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column headerText="Kwota Ma" style="width: 100px;">
-                        <h:outputText value="#{loop.boMa}" style="float: right;">
+                    <p:column headerText="Ma: #{bilansPodgladView.sumama}" style="width: 100px;">
+                        <h:outputText value="#{loop.boMa ne 0 ? loop.boMa : ''}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
