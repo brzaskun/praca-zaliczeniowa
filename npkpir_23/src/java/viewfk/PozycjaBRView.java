@@ -173,31 +173,35 @@ public class PozycjaBRView implements Serializable {
     }
 
     public void pobierzukladprzegladRZiS() {
-       pozycje = new ArrayList<>();
-       try {
+        ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        pobierzPozycje(pozycje);
+        rootProjektRZiS.getChildren().clear();
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
+        try {
+            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
+            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            rootProjektRZiS.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+    
+    private void pobierzPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
+        try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
             if (pozycje.isEmpty()) {
                pozycje.add(new PozycjaRZiS(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
                 Msg.msg("i", "Dodaje pusta pozycje");
             }
-        } catch (Exception e) {  
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-        }
-        rootProjektRZiS.getChildren().clear();
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
-        List<Konto> plankont = kontoDAO.findKontaWynikowePodatnikaBezPotomkow(wpisView);
-        try {
             for (Iterator<PozycjaRZiSBilans> it = pozycje.iterator(); it.hasNext();) {
                 PozycjaRZiS p = (PozycjaRZiS) it.next();
                 p.setPrzyporzadkowanestronywiersza(null);
             }
-            PozycjaRZiSFKBean.ustawRoota(rootProjektRZiS, pozycje, zapisy, plankont);
-            level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e){
+        } catch (Exception e) {  
             System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-            rootProjektRZiS.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
         }
     }
     
@@ -213,33 +217,35 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
-        pobierzukladprzegladRZiS();
-        List<Object> listazwrotnapozycji = new ArrayList<>();
-        rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
-        PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size()-1);
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
         ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
-       try {
-                pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
-                pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
-            if (pozycjeaktywa.isEmpty()) {
-               pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                Msg.msg("i", "Dodaje pusta pozycje");
-            }
-            if (pozycjepasywa.isEmpty()) {
-               pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
-                Msg.msg("i", "Dodaje pusta pozycje");
-            }
-        } catch (Exception e) {  
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-        }
+        pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             Konto kontowyniku = kontoDAO.findKonto860(wpisView);
-            double wynikfinansowy = pozycjawynikfin.getKwota();
+            naniesKwoteWynikFinansowy(kontowyniku);
+            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
+            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont, "pasywa");
+            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            rootBilansAktywa.getChildren().clear();
+            rootBilansPasywa.getChildren().clear();
+            Msg.msg("e", e.getLocalizedMessage());
+        }
+    }
+
+    private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
+        pobierzukladprzegladRZiS();
+        List<Object> listazwrotnapozycji = new ArrayList<>();
+        rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
+        PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
+        double wynikfinansowy = pozycjawynikfin.getKwota();
             double wf = Math.abs(wynikfinansowy);
             if (wynikfinansowy > 0) {//zysk
                 kontowyniku.setObrotyMa(wf);
@@ -247,6 +253,20 @@ public class PozycjaBRView implements Serializable {
             } else {//strata
                 kontowyniku.setObrotyWn(wf);
                 kontowyniku.setSaldoWn(wf);
+            }
+    }
+    
+    private void pobierzPozycjeAktywaPasywa(ArrayList<PozycjaRZiSBilans> pozycjeaktywa, ArrayList<PozycjaRZiSBilans> pozycjepasywa) {
+        try {
+            pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
+            pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
+            if (pozycjeaktywa.isEmpty()) {
+                pozycjeaktywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
+            }
+            if (pozycjepasywa.isEmpty()) {
+                pozycjepasywa.add(new PozycjaBilans(1, "A", "A", 0, 0, "Kliknij tutaj i dodaj pierwszą pozycję", false));
+                Msg.msg("i", "Dodaje pusta pozycje");
             }
             for (Iterator<PozycjaRZiSBilans> it = pozycjeaktywa.iterator(); it.hasNext();) {
                 PozycjaBilans p = (PozycjaBilans) it.next();
@@ -258,19 +278,8 @@ public class PozycjaBRView implements Serializable {
                 p.setPrzyporzadkowanestronywiersza(null);
                 p.setPrzyporzadkowanekonta(null);
             }
-//            for (Konto p : plankont) {
-//                naniesBOnaKonto(p);
-//            }
-            PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont,"aktywa");
-            PozycjaRZiSFKBean.ustawRootaBilans(rootBilansPasywa, pozycjepasywa, plankont,"pasywa");
-            level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
-            Msg.msg("i", "Pobrano układ ");
-        } catch (Exception e){
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-            rootBilansAktywa.getChildren().clear();
-            rootBilansPasywa.getChildren().clear();
-            Msg.msg("e", e.getLocalizedMessage());
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
         }
     }
 

@@ -203,26 +203,16 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
-                        boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")) {
-                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
-                            donaniesienia = kwotaWn + kwotapierwotna;
-                        } else {
-                            donaniesienia = stronaWiersza.getKwota() + kwotapierwotna;
-                        }
+                        pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
+                        donaniesienia = kwotaWn + kwotapierwotna;
                         pozycja.setKwota(donaniesienia);
                     }
                     if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_ma)) {
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
-                        boolean przychod0koszt1 = pozycja.isPrzychod0koszt1();
-                        if (kontopobrane.getBilansowewynikowe().equals("wynikowe")) {
-                            pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
-                            donaniesienia = kwotaMa + kwotapierwotna;
-                        } else {
-                            donaniesienia = stronaWiersza.getKwota() + kwotapierwotna;
-                        }
+                        pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
+                        donaniesienia = kwotaMa + kwotapierwotna;
                         pozycja.setKwota(donaniesienia);
                     }
                 }
