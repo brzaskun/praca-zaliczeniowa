@@ -116,6 +116,14 @@ public class PozycjaRZiSFKBean {
         rootL.expandAll();
     }
     
+    public static void ustawRootaBilansNowy(TreeNodeExtended rootL, ArrayList<PozycjaRZiSBilans> pozycjeL, List<StronaWiersza> zapisy, List<Konto> plankont, String aktywapasywa) throws Exception {
+        rootL.createTreeNodesForElement(pozycjeL);
+        rootL.addNumbersBilansNowy(zapisy, plankont, aktywapasywa);
+        rootL.sumNodes();
+        rootL.resolveFormulas();
+        rootL.expandAll();
+    }
+    
     public static void ustawRootaprojekt(TreeNodeExtended rt, ArrayList<PozycjaRZiSBilans> pz) {
         rt.createTreeNodesForElement(pz);
         rt.expandAll();
@@ -417,7 +425,7 @@ public class PozycjaRZiSFKBean {
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString());
+                //System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString());
             }
             
         }
