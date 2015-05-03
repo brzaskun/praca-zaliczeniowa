@@ -35,6 +35,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
+import pdffk.PdfBilans;
 import view.WpisView;
 import waluty.Z;
 
@@ -650,6 +651,14 @@ public class PozycjaBRBOView implements Serializable {
     public void odswiezbilans() {
         wpisView.wpisAktualizuj();
         pobierzukladprzegladBilans("aktywa");
+    }
+    
+    public void drukujBilans(String ap) {
+        if (ap.equals("a")) {
+            PdfBilans.drukujBilansBO(rootBilansAktywa, wpisView, ap);
+        } else {
+            PdfBilans.drukujBilansBO(rootBilansPasywa, wpisView, ap);
+        }
     }
        
     //<editor-fold defaultstate="collapsed" desc="comment">

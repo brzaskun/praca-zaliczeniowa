@@ -250,8 +250,24 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
             opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + mc + "/" + rok, ft[1]));
             document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String)");
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
+            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public static void dodajOpisWstepny(Document document, String opis, String rok) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_CENTER);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+            opiswstepny = new Paragraph(new Phrase("na począek roku " + rok, ft[1]));
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, String)");
             Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
