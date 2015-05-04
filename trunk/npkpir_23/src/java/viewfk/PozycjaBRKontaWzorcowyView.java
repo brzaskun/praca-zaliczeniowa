@@ -772,8 +772,41 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje wzorcowe");
     }
-     
-     
+    
+    public void resetujprzyporzadkowanie(String rb) {
+        if (rb.equals("r")) {
+            wyczyscKonta("wynikowe");
+            kontabezprzydzialu = new ArrayList<>();
+            przyporzadkowanekonta = new ArrayList<>();
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            pobierzukladkontoR();
+        } else {
+            wyczyscKonta("bilansowe");
+            kontabezprzydzialu = new ArrayList<>();
+            przyporzadkowanekonta = new ArrayList<>();
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            if (aktywa0pasywa1==false) {
+                pobierzukladkontoB("aktywa");
+            } else {
+                pobierzukladkontoB("pasywa");
+            }
+        }
+    }
+    
+    private void wyczyscKonta(String rb) {
+        List<Konto> konta = null;
+        if (rb.equals("wynikowe")) {
+            konta = kontoDAO.findWszystkieKontaWynikoweWzorcowy(wpisView);
+        } else {
+            konta = kontoDAO.findWszystkieKontaBilansoweWzorcowy(wpisView);
+        }
+        for (Konto p : konta) {
+            p.setKontopozycjaID(null);
+            kontoDAO.edit(p);
+        }
+    }
      
     
 //<editor-fold defaultstate="collapsed" desc="comment">

@@ -649,7 +649,7 @@ public class PlanKontView implements Serializable {
                 p.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
                 p.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());
                 kontoDAOfk.edit(p);
-                Konto r = wykazkontwzor.get(wykazkont.indexOf(p));
+                Konto r = wykazkontwzor.get(wykazkontwzor.indexOf(p));
                 if (r != null) {
                     r.setZwyklerozrachszczegolne(selectednodekontowzorcowy.getZwyklerozrachszczegolne());
                     r.setBilansowewynikowe(selectednodekontowzorcowy.getBilansowewynikowe());

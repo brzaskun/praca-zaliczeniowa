@@ -1351,6 +1351,14 @@ public class SessionFacade<T> implements Serializable {
     public List<Konto> findKontaWzorcowy(WpisView wpisView) {
         return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findKontaWynikoweWzorcowy(WpisView wpisView) {
+        return em.createNamedQuery("Konto.findWzorcoweWynikowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
+    
+    public List<Konto> findKontaBilansoweWzorcowy(WpisView wpisView) {
+        return em.createNamedQuery("Konto.findWzorcoweBilansowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
 
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
