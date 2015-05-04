@@ -15,7 +15,7 @@
                             <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":formdialogbilansukladwzorcowy"/>
                         </p:contextMenu>
             -->           
-            <p:panelGrid columns="7">
+            <p:panelGrid columns="8">
                 <p:panelGrid columns="4">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv">
@@ -30,13 +30,14 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.zwin(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked"/>
+                <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy" style="margin-left: 10px;"/>
             </p:panelGrid>
             <p:panelGrid columns="3" >
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRKontaWzorcowyView.rootProjektKontaBilans}" var="loop" selectionMode="single" selection="#{pozycjaBRKontaWzorcowyView.wybranynodekonta}" 
                                  styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; margin-bottom: 50px; width: 420px; overflow-y: scroll;"
                                  emptyMessage="Brak pozycji Bilansu">
-                        <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeBilans()}" update=":formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dostepnekonta"/>
+                        <p:ajax event="select" global="false" listener="#{pozycjaBRKontaWzorcowyView.wybranopozycjeBilans()}" update=":formdialogbilansukladwzorcowy:kontaprzypisane"/>
                         <f:facet name="header">
                             <h:outputText value="uklad #{pozycjaBRKontaWzorcowyView.uklad.uklad}, strona #{pozycjaBRKontaWzorcowyView.aktywa0pasywa1 == false ? 'aktywa' : 'pasywa'}"/>
                         </f:facet>

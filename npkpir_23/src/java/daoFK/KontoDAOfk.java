@@ -406,6 +406,22 @@ public class KontoDAOfk extends DAO implements Serializable{
             return null;
         } 
     }
+    
+    public List<Konto> findWszystkieKontaWynikoweWzorcowy(WpisView wpisView) {
+        try {
+            return kontoFacade.findKontaWynikoweWzorcowy(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        } 
+    }
+    
+     public List<Konto> findWszystkieKontaBilansoweWzorcowy(WpisView wpisView) {
+        try {
+            return kontoFacade.findKontaBilansoweWzorcowy(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        } 
+    }
 
     public List<Konto> findWszystkieKontaPodatnikaBez0(String podatnikWpisu, String rokWpisuSt) {
         try {
