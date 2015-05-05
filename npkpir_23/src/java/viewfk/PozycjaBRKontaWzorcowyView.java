@@ -33,6 +33,7 @@ import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
+import pdffk.PdfBilans;
 import view.WpisView;
 
 /**
@@ -805,6 +806,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         for (Konto p : konta) {
             p.setKontopozycjaID(null);
             kontoDAO.edit(p);
+        }
+    }
+    
+     public void drukujBilansKonta() {
+        if (aktywa0pasywa1 == false) {
+            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "a");
+        } else {
+            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "p");
         }
     }
      

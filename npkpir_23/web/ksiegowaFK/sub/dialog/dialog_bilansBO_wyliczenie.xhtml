@@ -7,8 +7,9 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
 
-    <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilansBO_wyliczenie" 
-              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  >
+    <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku #{WpisView.rokWpisuSt} - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilansBO_wyliczenie" 
+              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1250, 750);" closeOnEscape="true" 
+              onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  style="overflow-y: scroll;">
         <h:form id="formdialog_bilansBO_wyliczenie">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -28,7 +29,7 @@
                         }
                     }
             </script>
-             <p:panelGrid columns="6">
+             <p:panelGrid columns="8">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRBOView.uklad}" converter="UkladBRConv">
@@ -41,14 +42,19 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRBOView.zwinwszystkie()}" update=":formdialog_bilansBO_wyliczenie:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRBOView.zwin()}" update=":formdialog_bilansBO_wyliczenie:dataList" style="float: left;" />
                   <p:column>
-                    <p:commandButton value="drukuj aktywa" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRBOView.drukujBilans('a')}"/>
-                    <p:commandButton value="drukuj pasywa" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRBOView.drukujBilans('p')}"/>
+                      <p:splitButton value="drukuj aktywa" style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRBOView.drukujBilans('a')}">
+                          <p:menuitem global="false" value="aktywa z nr kont" actionListener="#{pozycjaBRBOView.drukujBilansPozycje('a')}" icon="fa fa-print"/>  
+                      </p:splitButton>
+                      <p:splitButton value="drukuj pasywa" style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRBOView.drukujBilans('p')}">
+                          <p:menuitem global="false" value="pasywa z nr kont" actionListener="#{pozycjaBRBOView.drukujBilansPozycje('b')}" icon="fa fa-print"/>  
+                      </p:splitButton>
                 </p:column>
             </p:panelGrid>
-            <p:panelGrid columns="2" >
+            <p:panelGrid columns="1" >
                 <p:treeTable id="dataList" value="#{pozycjaBRBOView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRBOView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
-                             scrollable="true" style="width: 600px; max-height: 600px;" >
+                             scrollable="true" style="width: 1200px;" >
+                    <p:ajax event="select" global="false"/>
                     <f:facet name="header">
                         <h:outputText value="aktywa #{pozycjaBRBOView.sumabilansowaaktywa}"/>
                     </f:facet>
@@ -62,10 +68,13 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
+                    <p:column style="width: 550px;">
+                        <h:outputText value="#{loop.przyporzadkowanekonta}"/>
+                    </p:column>
                 </p:treeTable>
                 <p:treeTable id="dataList2" value="#{pozycjaBRBOView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRBOView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
-                             scrollable="true" style="width: 600px; max-height: 600px;">
+                             scrollable="true" style="width: 1200px; margin-top: 30px;">
                     <f:facet name="header">
                         <h:outputText value="pasywa #{pozycjaBRBOView.sumabilansowapasywa}"/>
                     </f:facet>
@@ -78,6 +87,9 @@
                         <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
+                    </p:column>
+                    <p:column style="width: 550px;">
+                        <h:outputText value="#{loop.przyporzadkowanekonta}"/>
                     </p:column>
                 </p:treeTable>
             </p:panelGrid>

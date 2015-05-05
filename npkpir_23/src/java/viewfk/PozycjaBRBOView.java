@@ -660,6 +660,14 @@ public class PozycjaBRBOView implements Serializable {
             PdfBilans.drukujBilansBO(rootBilansPasywa, wpisView, ap);
         }
     }
+    
+    public void drukujBilansPozycje(String ap) {
+        if (ap.equals("a")) {
+            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap);
+        } else {
+            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap);
+        }
+    }
        
     //<editor-fold defaultstate="collapsed" desc="comment">
     

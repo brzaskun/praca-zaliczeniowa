@@ -63,7 +63,7 @@ public class PdfMain {
         dodajOpisWstepny(document, testobjects.testobjects.getDokfk("PK"));
 //        infooFirmie(document, testobjects.testobjects.getDokfk("PK"));
 //        //dodajTabele(document, testobjects.testobjects.getTabela());
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100);
+        dodajTabele(document, testobjects.testobjects.getTabelaKonta(testobjects.testobjects.getWiersze()), 100,0);
 //        dodajpodpis(document,"Jan","Kowalski");
         //dodajStopke(writer);
         finalizacjaDokumentu(document);
@@ -313,15 +313,15 @@ public class PdfMain {
         }
     }
     
-    public static void dodajTabele(Document document, List[] tabela, int perc) {
+    public static void dodajTabele(Document document, List[] tabela, int perc, int modyfikator) {
         try {
             List naglowki = tabela[0];
             List wiersze = tabela[1];
             String nazwaklasy = wiersze.get(0).getClass().getName();
-            int[] col = obliczKolumny(naglowki.size(), nazwaklasy);
+            int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
             PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
             ustawnaglowki(table, naglowki);
-            ustawwiersze(table,wiersze, nazwaklasy);
+            ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
             document.add(table);
         } catch (DocumentException ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
@@ -329,7 +329,7 @@ public class PdfMain {
         }
     }
     
-    private static int[] obliczKolumny(int size, String classname) {
+    private static int[] obliczKolumny(int size, String classname, int modyfikator) {
         switch (classname) {
             case "testobjects.WierszTabeli":
                 int[] col = new int[size];
@@ -406,14 +406,35 @@ public class PdfMain {
                 col7[levele] = 3;
                 return col7;
             case "entityfk.PozycjaBilans":
-                int[] col8 = new int[size];
-                int leveleB = size-2;
-                for (int i = 0; i < leveleB ; i++) {
-                    col8[i] = 1;
+                if (modyfikator==1) {
+                    int[] col9 = new int[size];
+                    int leveleB = size-3;
+                    for (int i = 0; i < leveleB ; i++) {
+                        col9[i] = 1;
+                    }
+                    col9[leveleB++] = 10;
+                    col9[leveleB++] = 3;
+                    col9[leveleB] = 7;
+                    return col9;
+                } else if (modyfikator==2) {
+                    int[] col10 = new int[size];
+                    int leveleB = size-2;
+                    for (int i = 0; i < leveleB ; i++) {
+                        col10[i] = 1;
+                    }
+                    col10[leveleB++] = 10;
+                    col10[leveleB] = 8;
+                    return col10;
+                } else {
+                    int[] col8 = new int[size];
+                    int leveleB = size-2;
+                    for (int i = 0; i < leveleB ; i++) {
+                        col8[i] = 1;
+                    }
+                    col8[leveleB++] = 10;
+                    col8[leveleB] = 3;
+                    return col8;
                 }
-                col8[leveleB++] = 10;
-                col8[leveleB] = 3;
-                return col8;
                 
         }
         return null;
@@ -533,7 +554,7 @@ public class PdfMain {
     }
     
 
-    private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy) {
+    private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
         NumberFormat formatter = getNumFormater();
         int i = 1;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
@@ -606,10 +627,16 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
                     }
-                    if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    if (modyfikator != 2) {
+                        if (p.getKwota() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 9));
+                        }
+                    }
+                    if (modyfikator != 0) {
+                        String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
+                        table.addCell(ustawfrazeAlign(konta, "right", 9));
                     }
                 }
                 if (nazwaklasy.equals("testobjects.WierszCecha")) {

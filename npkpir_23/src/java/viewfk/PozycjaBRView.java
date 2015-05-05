@@ -665,6 +665,8 @@ public class PozycjaBRView implements Serializable {
             PdfBilans.drukujBilans(rootBilansPasywa, wpisView, ap);
         }
     }
+    
+   
        
     //<editor-fold defaultstate="collapsed" desc="comment">
     
