@@ -89,6 +89,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findByMaSlownik", query = "SELECT k FROM Konto k WHERE k.idslownika = :idslownika  AND k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByRozwin", query = "SELECT k FROM Konto k WHERE k.rozwin = :rozwin"),
     @NamedQuery(name = "Konto.updateMapotomkow", query = "UPDATE Konto k SET k.mapotomkow = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.NullPozycjaBilansoweWynikowe", query = "UPDATE Konto k SET k.kontopozycjaID = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa3", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '3%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '0%' AND k.rok = :rok"),

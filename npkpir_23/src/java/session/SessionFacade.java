@@ -1484,4 +1484,8 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
+    public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
+        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
+    }
+
 }

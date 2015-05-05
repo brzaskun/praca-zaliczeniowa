@@ -41,8 +41,12 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:column>
-                    <p:commandButton value="drukuj aktywa" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}"/>
-                    <p:commandButton value="drukuj pasywa" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}"/>
+                      <p:splitButton value="drukuj aktywa" style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}">
+                          <p:menuitem global="false" value="aktywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansPozycje('a')}" icon="fa fa-print"/>  
+                      </p:splitButton>
+                      <p:splitButton value="drukuj pasywa" style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}">
+                          <p:menuitem global="false" value="pasywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansPozycje('b')}" icon="fa fa-print"/>  
+                      </p:splitButton>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >
