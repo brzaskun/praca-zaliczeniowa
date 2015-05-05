@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
+import pdffk.PdfRZiS;
 import view.WpisView;
 
 /**
@@ -796,16 +797,11 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         }
     }
     
-    private void wyczyscKonta(String rb) {
-        List<Konto> konta = null;
+   private void wyczyscKonta(String rb) {
         if (rb.equals("wynikowe")) {
-            konta = kontoDAO.findWszystkieKontaWynikoweWzorcowy(wpisView);
+            kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
         } else {
-            konta = kontoDAO.findWszystkieKontaBilansoweWzorcowy(wpisView);
-        }
-        for (Konto p : konta) {
-            p.setKontopozycjaID(null);
-            kontoDAO.edit(p);
+            kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
         }
     }
     
@@ -815,6 +811,10 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
         } else {
             PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "p");
         }
+    }
+     
+     public void drukujWynikKonta() {
+            PdfRZiS.drukujRZiSKonta(rootProjektKontaRZiS, wpisView);
     }
      
     

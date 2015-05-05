@@ -397,14 +397,35 @@ public class PdfMain {
                 col6[6] = 2;
                 return col6;
             case "entityfk.PozycjaRZiS":
-                int[] col7 = new int[size];
-                int levele = size-2;
-                for (int i = 0; i < levele ; i++) {
-                    col7[i] = 1;
+                 if (modyfikator==1) {
+                    int[] col91 = new int[size];
+                    int leveleB = size-3;
+                    for (int i = 0; i < leveleB ; i++) {
+                        col91[i] = 1;
+                    }
+                    col91[leveleB++] = 10;
+                    col91[leveleB++] = 3;
+                    col91[leveleB] = 7;
+                    return col91;
+                } else if (modyfikator==2) {
+                    int[] col71 = new int[size];
+                    int levele = size-2;
+                    for (int i = 0; i < levele ; i++) {
+                        col71[i] = 1;
+                    }
+                    col71[levele++] = 10;
+                    col71[levele] = 8;
+                    return col71;
+                } else {
+                    int[] col7 = new int[size];
+                    int levele = size-2;
+                    for (int i = 0; i < levele ; i++) {
+                        col7[i] = 1;
+                    }
+                    col7[levele++] = 10;
+                    col7[levele] = 3;
+                    return col7;
                 }
-                col7[levele++] = 10;
-                col7[levele] = 3;
-                return col7;
             case "entityfk.PozycjaBilans":
                 if (modyfikator==1) {
                     int[] col9 = new int[size];
@@ -595,10 +616,16 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
                     }
-                    if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 9));
+                    if (modyfikator != 2) {
+                        if (p.getKwota() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 9));
+                        }
+                    }
+                    if (modyfikator != 0) {
+                        String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
+                        table.addCell(ustawfrazeAlign(konta, "right", 9));
                     }
                 }
                 if (nazwaklasy.equals("entityfk.PozycjaBilans")) {

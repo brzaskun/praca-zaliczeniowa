@@ -658,6 +658,10 @@ public class PozycjaBRView implements Serializable {
         PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
     }
     
+    public void drukujRZiSPozycje() {
+        PdfRZiS.drukujRZiSPozycje(rootProjektRZiS, wpisView);
+    }
+    
     public void drukujBilans(String ap) {
         if (ap.equals("a")) {
             PdfBilans.drukujBilans(rootBilansAktywa, wpisView, ap);
