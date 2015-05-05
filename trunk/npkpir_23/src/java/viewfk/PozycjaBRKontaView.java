@@ -34,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdffk.PdfBilans;
+import pdffk.PdfRZiS;
 import view.WpisView;
 
 /**
@@ -1013,6 +1014,10 @@ public class PozycjaBRKontaView implements Serializable {
         } else {
             PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "p");
         }
+    }
+    
+    public void drukujWynikKonta() {
+            PdfRZiS.drukujRZiSKonta(rootProjektKontaRZiS, wpisView);
     }
 //     private boolean sprawdzPozycjeUkladow(UkladBR ukladklienta, UkladBR ukladwzorcowy) {
 //        List<String> nazwyUkladuKlienta = new ArrayList<>();

@@ -51,4 +51,48 @@ public class PdfRZiS {
         }
     }
     
+    public static void drukujRZiSPozycje(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie";
+        File file = new File(nazwa);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiSKonta(rootProjektRZiS),95,1);
+            finalizacjaDokumentu(document);
+            String f = "wydrukRZiS('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano RZiS do wydruku");
+        }
+    }
+    
+    public static void drukujRZiSKonta(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie";
+        File file = new File(nazwa);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (rootProjektRZiS != null && rootProjektRZiS.getChildren().size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Rachunek Zysków i Strat z nr kont", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaRZiSKontaPrzyporządkowane(rootProjektRZiS),75,2);
+            finalizacjaDokumentu(document);
+            String f = "wydrukRZiS('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano RZiS do wydruku");
+        }
+    }
+    
 }

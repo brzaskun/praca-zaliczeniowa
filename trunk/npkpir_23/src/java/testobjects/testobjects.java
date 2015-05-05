@@ -159,6 +159,37 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaRZiSKonta(TreeNodeExtended rootProjektRZiS) {
+       int level = rootProjektRZiS.ustaldepthDT();
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add("nazwa pozycji RZiS");
+       n.add("kwota");
+       n.add("konta");
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
+   public static List[] getTabelaRZiSKontaPrzyporządkowane(TreeNodeExtended rootProjektRZiS) {
+       int level = rootProjektRZiS.ustaldepthDT();
+       List n = new ArrayList();
+       for (int i = 0; i < level; i++) {
+        n.add("");
+       }
+       n.add("nazwa pozycji RZiS");
+       n.add("konta");
+       List t = getWierszeRZiS(rootProjektRZiS, level);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaBilans(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();
