@@ -56,7 +56,7 @@ public class KontoKwota implements Serializable {
     
     @Override
     public String toString() {
-        return "KontoKwota{" + "konto=" + konto + ", Kwota=" + kwota + '}';
+        return konto.getPelnynumer() + " ";
     }
     
     
