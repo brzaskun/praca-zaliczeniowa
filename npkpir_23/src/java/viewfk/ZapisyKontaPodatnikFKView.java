@@ -23,7 +23,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
+import org.primefaces.context.RequestContext;
+import pdf.PdfKontoZapisy;
+import pdffk.PdfKontoZapisyLista;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -59,12 +64,25 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     private PlanKontView planKontView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
+    private String grupakont;
+    private List<String> grupykont;
 
     
 
     public ZapisyKontaPodatnikFKView() {
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
+        grupykont = new ArrayList<>();
+        grupykont.add("0");
+        grupykont.add("1");
+        grupykont.add("2");
+        grupykont.add("3");
+        grupykont.add("4");
+        grupykont.add("5");
+        grupykont.add("6");
+        grupykont.add("7");
+        grupykont.add("8");
+        grupakont = "wszystkie";
         wybranaWalutaDlaKont = "wszystkie";
         listasum = new ArrayList<>();
         ListaSum l = new ListaSum();
@@ -89,9 +107,16 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
                 KontoZapisy kz = new KontoZapisy(p);
                 for (StronaWiersza r : stronywiersza) {
                     if (r.getKonto().equals(p)) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <=granicaGorna) {
-                            kz.getStronywiersza().add(r);
+                        if (grupakont.equals("wszystkie")) {
+                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                            if (mc >= granicaDolna && mc <=granicaGorna) {
+                                kz.getStronywiersza().add(r);
+                            }
+                        } else if (r.getKonto().getPelnynumer().startsWith(grupakont)) {
+                            int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                            if (mc >= granicaDolna && mc <=granicaGorna) {
+                                kz.getStronywiersza().add(r);
+                            }
                         }
                     }
                 }
@@ -258,56 +283,65 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //      }
 //    
 //      
-//    public void sumazapisow(){
-//        try {
-//            sumaWn = 0.0;
-//            sumaMa = 0.0;
-//            for(StronaWiersza p : wybranekontadosumowania){
-//                    if (p.getWnma().equals("Wn")) {
-//                        sumaWn = Z.z(sumaWn + p.getKwota());
-//                    } else if (p.getWnma().equals("Ma")){
-//                        Z.z(sumaMa = sumaMa + p.getKwota());
-//                    }
-//            }
-//            saldoWn = 0.0;
-//            saldoMa = 0.0;
-//            if(sumaWn>sumaMa){
-//                saldoWn = Z.z(sumaWn-sumaMa);
-//            } else {
-//                saldoMa = Z.z(sumaMa-sumaWn);
-//            }
-//            listasum.get(0).setSumaWn(sumaWn);
-//            listasum.get(0).setSumaMa(sumaMa);
-//            listasum.get(0).setSaldoWn(saldoWn);
-//            listasum.get(0).setSaldoMa(saldoMa);
-//        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-//            Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
-//        }
-//    }
-//    
-//    public void sumazapisowpln(){
-//        sumaWnPLN = 0.0;
-//        sumaMaPLN = 0.0;
-//        for(StronaWiersza p : wybranekontadosumowania){
-//            if (p.getWnma().equals("Wn")) {
-//                Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
-//            } else if (p.getWnma().equals("Ma")){
-//                Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
-//            }
-//        }
-//        saldoWnPLN = 0.0;
-//        saldoMaPLN = 0.0;
-//        if(sumaWnPLN>sumaMaPLN){
-//            Z.z(saldoWnPLN = sumaWnPLN-sumaMaPLN);
-//        } else {
-//            Z.z(saldoMaPLN = sumaMaPLN-sumaWnPLN);
-//        }
-//        listasum.get(0).setSumaWnPLN(sumaWnPLN);
-//        listasum.get(0).setSumaMaPLN(sumaMaPLN);
-//        listasum.get(0).setSaldoWnPLN(saldoWnPLN);
-//        listasum.get(0).setSaldoMaPLN(saldoMaPLN);
-//    }
-//    
+    public void sumazapisow(){
+        try {
+            sumaWn = 0.0;
+            sumaMa = 0.0;
+            for(StronaWiersza p : wybranekontadosumowania){
+                    if (p.getWnma().equals("Wn")) {
+                        sumaWn = Z.z(sumaWn + p.getKwota());
+                    } else if (p.getWnma().equals("Ma")){
+                        Z.z(sumaMa = sumaMa + p.getKwota());
+                    }
+            }
+            saldoWn = 0.0;
+            saldoMa = 0.0;
+            if(sumaWn>sumaMa){
+                saldoWn = Z.z(sumaWn-sumaMa);
+            } else {
+                saldoMa = Z.z(sumaMa-sumaWn);
+            }
+            listasum.get(0).setSumaWn(sumaWn);
+            listasum.get(0).setSumaMa(sumaMa);
+            listasum.get(0).setSaldoWn(saldoWn);
+            listasum.get(0).setSaldoMa(saldoMa);
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
+        }
+    }
+    
+    public void sumazapisowpln(){
+        sumaWnPLN = 0.0;
+        sumaMaPLN = 0.0;
+        for(StronaWiersza p : wybranekontadosumowania){
+            if (p.getWnma().equals("Wn")) {
+                Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+            } else if (p.getWnma().equals("Ma")){
+                Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+            }
+        }
+        saldoWnPLN = 0.0;
+        saldoMaPLN = 0.0;
+        if(sumaWnPLN>sumaMaPLN){
+            Z.z(saldoWnPLN = sumaWnPLN-sumaMaPLN);
+        } else {
+            Z.z(saldoMaPLN = sumaMaPLN-sumaWnPLN);
+        }
+        listasum.get(0).setSumaWnPLN(sumaWnPLN);
+        listasum.get(0).setSumaMaPLN(sumaMaPLN);
+        listasum.get(0).setSaldoWnPLN(saldoWnPLN);
+        listasum.get(0).setSaldoMaPLN(saldoMaPLN);
+    }
+    
+    public void drukujPdfZapisyNaKoncie() {
+        try {
+            PdfKontoZapisyLista.pobierzlistekont(kontozapisy, wpisView);
+            String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
+            RequestContext.getCurrentInstance().execute(wydruk);
+        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+
+        }
+    }
 //    //poszukuje rozrachunkow do sparowania
 //    public void odszukajsparowanerozrachunki() {
 //        try {
@@ -615,6 +649,22 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 
     public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
         this.wybranekontoNode = wybranekontoNode;
+    }
+
+    public String getGrupakont() {
+        return grupakont;
+    }
+
+    public void setGrupakont(String grupakont) {
+        this.grupakont = grupakont;
+    }
+
+    public List<String> getGrupykont() {
+        return grupykont;
+    }
+
+    public void setGrupykont(List<String> grupykont) {
+        this.grupykont = grupykont;
     }
     
     public StronaWiersza getWybranyzapis() {

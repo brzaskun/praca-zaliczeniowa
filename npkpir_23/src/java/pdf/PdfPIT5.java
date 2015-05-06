@@ -93,7 +93,6 @@ public class PdfPIT5 {
                 formatter.setMaximumFractionDigits(2);
                 formatter.setMinimumFractionDigits(2);
                 formatter.setGroupingUsed(true);
-            try {
                 table0.addCell(ustawfrazeAlign("imię i nazwisko podatnika","center",10));
                 table0.addCell(ustawfrazeAlign(selected.getUdzialowiec(),"right",10));
                 table.addCell(ustawfrazeAlign("przychody narastająco","center",10));
@@ -112,12 +111,10 @@ public class PdfPIT5 {
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPrzychodyudzial())),"right",10));
                 table.addCell(ustawfrazeAlign("koszty narast./udział","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getKosztyudzial())),"right",10));
-               
                 table.addCell(ustawfrazeAlign("wynik od początku roku","center",10));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getWynik())),"right",10));
                 table.addCell(ustawfrazeAlign("","center",10));
                 table.addCell(ustawfrazeAlign("","center",10));
-                
                 table1.addCell(ustawfrazeAlign("ZUS 51","center",10));
                 if (selected.getZus51() != null) {
                     table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus51())),"right",10));
@@ -126,12 +123,10 @@ public class PdfPIT5 {
                 }
                 table1.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
-                
                 table1.addCell(ustawfrazeAlign("podstawa op.","center",10));
                 table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodstawa())),"right",10));
                 table1.addCell(ustawfrazeAlign("podatek brutto od pocz.roku","center",10));
                 table1.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPodatek())),"right",10));
-                
                 table2.addCell(ustawfrazeAlign("ZUS 52","center",10));
                 if (selected.getZus52() != null) {
                     table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getZus52())),"right",10));
@@ -140,21 +135,14 @@ public class PdfPIT5 {
                 }
                 table2.addCell(ustawfrazeAlign("strata z lat ub.","center",10));
                 table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getStrata())),"right",10));
-                
-                
                 table2.addCell(ustawfrazeAlign("podatek należny od pocz.roku","center",10));
                 table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getPododpoczrok())),"right",10));
                 table2.addCell(ustawfrazeAlign("zaliczki za pop.mce","center",10));
                 table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNalzalodpoczrok())),"right",10));
-
                 table2.addCell(ustawfrazeAlign("do zapłaty","center",10));
-                table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
-                table2.addCell(ustawfrazeAlign("termin płatności","center",10));
-                table2.addCell(ustawfrazeAlign(selected.getTerminwplaty(),"center",10));
-
-               } catch (DocumentException | IOException e){
-                
-            }
+        table2.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getDozaplaty())),"right",10));
+        table2.addCell(ustawfrazeAlign("termin płatności","center",10));
+        table2.addCell(ustawfrazeAlign(selected.getTerminwplaty(),"center",10));
             document.add(Chunk.NEWLINE);
             document.add(table0);
             document.add(Chunk.NEWLINE);

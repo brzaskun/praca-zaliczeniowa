@@ -48,29 +48,37 @@
               resizable="true" onShow="ustawdialog('zapisynakontachwmcu','menuzapisykont',1350,750);" onHide="resetujdialog('zapisynakontachwmcu');"  closeOnEscape="true" 
               >
         <h:form id="formzapisynakontachwmcu">
-            <p:panelGrid columns="8" style="margin-left: 2%;" >
+            <p:panelGrid columns="9" style="margin-left: 2%;" >
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                         <f:selectItems value="#{Roki.rokiList}"/>
                         <f:param name="rokWpisu" value="2012" />
                     </p:selectOneMenu>
                 </p:column>
-                <h:outputText value="od"/>
+                <h:outputText value="od "/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
-                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}"  partialSubmit="true" update=":formzapisynakontachwmcu"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <h:outputText value="do"/>
+                <h:outputText value="do "/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
-                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":formzapisynakontachwmcu"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" update="@form, :formzapisynakontachwmcu:tabelazapisywmcu"/>
-                <p:commandButton value="Drukuj" icon="ui-icon-print" actionListener="#{kontoZapisFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
+                <h:outputText value="grupa kont "/>
+                 <p:column>
+                    <p:selectOneMenu id="grupakont" value="#{zapisyKontaPodatnikFKView.grupakont}">
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":formzapisynakontachwmcu"/>
+                        <f:selectItem itemLabel="WS" itemValue="wszystkie"/>
+                        <f:selectItems value="#{zapisyKontaPodatnikFKView.grupykont}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:commandButton value="pobierz" actionListener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" style="width: 120px; margin-left: 10px;" update=":formzapisynakontachwmcu"/>
+                <p:commandButton value="drukuj" icon="ui-icon-print" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
 
             <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" rowKey="#{loop.konto.pelnynumer}" 
@@ -86,10 +94,10 @@
                     <p:rowToggler />
                 </p:column>
 
-                <p:column headerText="lp" width="20" >
+                <p:column headerText="lp" width="20" style="text-align: center;">
                     <h:outputText styleClass="lpwiersza"  value="#{rowindex1+1}"/>
                 </p:column>
-                <p:column headerText="ilość zapisów" width="30"  >
+                <p:column headerText="ilość zapisów" width="30"   style="text-align: center;">
                     <h:outputText value="#{loop.stronywiersza.size() gt 0 ? loop.stronywiersza.size() : null}"/>
                 </p:column>
                 <p:column headerText="numer konta" width="80"  >

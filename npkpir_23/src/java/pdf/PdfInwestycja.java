@@ -75,37 +75,28 @@ public class PdfInwestycja {
         //tabela naglowek inwestycji
         PdfPTable tableheader = new PdfPTable(7);
         tableheader.setWidths(new int[]{2, 1, 4, 1, 1, 2, 1});
-        try {
-            tableheader.addCell(ustawfrazeAlign("Symbol", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Skrót", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Opis", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Rozpoczęcie", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Zakończenie", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Wartość netto", "center",8));
-            tableheader.addCell(ustawfrazeAlign("Stan", "center",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getSymbol(), "left",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getSkrot(), "left",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getOpis(), "left",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getRokrozpoczecia()+"/"+inwestycja.getMcrozpoczecia(), "center",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getRokzakonczenia()+"/"+inwestycja.getMczakonczenia(), "center",8));
-            tableheader.addCell(ustawfrazeAlign(formatujWaluta(inwestycja.getTotal()), "right",8));
-            tableheader.addCell(ustawfrazeAlign(inwestycja.getZakonczona() == false ? "rozpoczęta" : "zakończona", "center",8));
-            
-        } catch (IOException ex1) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex1);
-        }
+        tableheader.addCell(ustawfrazeAlign("Symbol", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Skrót", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Opis", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Rozpoczęcie", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Zakończenie", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Wartość netto", "center",8));
+        tableheader.addCell(ustawfrazeAlign("Stan", "center",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getSymbol(), "left",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getSkrot(), "left",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getOpis(), "left",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getRokrozpoczecia()+"/"+inwestycja.getMcrozpoczecia(), "center",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getRokzakonczenia()+"/"+inwestycja.getMczakonczenia(), "center",8));
+        tableheader.addCell(ustawfrazeAlign(formatujWaluta(inwestycja.getTotal()), "right",8));
+        tableheader.addCell(ustawfrazeAlign(inwestycja.getZakonczona() == false ? "rozpoczęta" : "zakończona", "center",8));
         pdf.add(tableheader);
         PdfPTable tableyear = new PdfPTable(2);
         tableyear.setWidths(new int[]{1, 2});
-        try {
-            tableyear.addCell(ustawfrazeAlign("Rok kalendarzowy", "center",8));
-            tableyear.addCell(ustawfrazeAlign("Suma wydatków w roku kalendarzowym", "center",8));
-            for (Sumazalata tmp : inwestycja.getSumazalata()) {
-                tableyear.addCell(ustawfrazeAlign(tmp.getRok(), "center",8));
-                tableyear.addCell(ustawfrazeAlign(formatujWaluta(tmp.getKwota()), "right",8));
-            }
-        } catch (IOException ex1) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex1);
+        tableyear.addCell(ustawfrazeAlign("Rok kalendarzowy", "center",8));
+        tableyear.addCell(ustawfrazeAlign("Suma wydatków w roku kalendarzowym", "center",8));
+        for (Sumazalata tmp : inwestycja.getSumazalata()) {
+            tableyear.addCell(ustawfrazeAlign(tmp.getRok(), "center",8));
+            tableyear.addCell(ustawfrazeAlign(formatujWaluta(tmp.getKwota()), "right",8));
         }
         pdf.add(tableyear);
         pdf.add(Chunk.NEWLINE);
@@ -116,41 +107,37 @@ public class PdfInwestycja {
         //tablica z dokumentami
         PdfPTable table = new PdfPTable(9);
         table.setWidths(new int[]{1, 2, 5, 4, 3, 3, 3, 3, 3});
-        try {
-            table.addCell(ustawfrazeAlign("lp.", "center",8));
-            table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
-            table.addCell(ustawfrazeAlign("nazwa kontrahenta", "center",8));
-            table.addCell(ustawfrazeAlign("adres", "center",8));
-            table.addCell(ustawfrazeAlign("nip", "center",8));
-            table.addCell(ustawfrazeAlign("nr fakt", "center",8));
-            table.addCell(ustawfrazeAlign("netto", "center",8));
-            table.addCell(ustawfrazeAlign("vat", "center",8));
-            table.addCell(ustawfrazeAlign("brutto", "center",8));
-            table.addCell(ustawfrazeAlign("lp.", "center",8));
-            table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
-            table.addCell(ustawfrazeAlign("nazwa kontrahenta", "center",8));
-            table.addCell(ustawfrazeAlign("adres", "center",8));
-            table.addCell(ustawfrazeAlign("nip", "center",8));
-            table.addCell(ustawfrazeAlign("nr fakt", "center",8));
-            table.addCell(ustawfrazeAlign("netto", "center",8));
-            table.addCell(ustawfrazeAlign("vat", "center",8));
-            table.addCell(ustawfrazeAlign("brutto", "center",8));
-            for (Dok p : inwestycja.getDokumenty()) {
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center",8));
-                table.addCell(ustawfrazeAlign(p.getDataWyst(), "center",8));
-                table.addCell(ustawfrazeAlign(p.getKontr().getNpelna(), "left",8));
-                table.addCell(ustawfrazeAlign(p.getKontr().getMiejscowosc()+" "+p.getKontr().getUlica()+" "+p.getKontr().getDom(), "left",8));
-                table.addCell(ustawfrazeAlign(p.getKontr().getNip(), "center",8));
-                table.addCell(ustawfrazeAlign(p.getNrWlDk(), "left",8));
-                table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",8));
-                table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()-p.getNetto()), "right",8));
-                table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()), "right",8));
-            }
-            table.setHeaderRows(2);
-            table.setFooterRows(1);
-        } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        table.addCell(ustawfrazeAlign("lp.", "center",8));
+        table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
+        table.addCell(ustawfrazeAlign("nazwa kontrahenta", "center",8));
+        table.addCell(ustawfrazeAlign("adres", "center",8));
+        table.addCell(ustawfrazeAlign("nip", "center",8));
+        table.addCell(ustawfrazeAlign("nr fakt", "center",8));
+        table.addCell(ustawfrazeAlign("netto", "center",8));
+        table.addCell(ustawfrazeAlign("vat", "center",8));
+        table.addCell(ustawfrazeAlign("brutto", "center",8));
+        table.addCell(ustawfrazeAlign("lp.", "center",8));
+        table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
+        table.addCell(ustawfrazeAlign("nazwa kontrahenta", "center",8));
+        table.addCell(ustawfrazeAlign("adres", "center",8));
+        table.addCell(ustawfrazeAlign("nip", "center",8));
+        table.addCell(ustawfrazeAlign("nr fakt", "center",8));
+        table.addCell(ustawfrazeAlign("netto", "center",8));
+        table.addCell(ustawfrazeAlign("vat", "center",8));
+        table.addCell(ustawfrazeAlign("brutto", "center",8));
+        for (Dok p : inwestycja.getDokumenty()) {
+            table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center",8));
+            table.addCell(ustawfrazeAlign(p.getDataWyst(), "center",8));
+            table.addCell(ustawfrazeAlign(p.getKontr().getNpelna(), "left",8));
+            table.addCell(ustawfrazeAlign(p.getKontr().getMiejscowosc()+" "+p.getKontr().getUlica()+" "+p.getKontr().getDom(), "left",8));
+            table.addCell(ustawfrazeAlign(p.getKontr().getNip(), "center",8));
+            table.addCell(ustawfrazeAlign(p.getNrWlDk(), "left",8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(p.getNetto()), "right",8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()-p.getNetto()), "right",8));
+            table.addCell(ustawfrazeAlign(formatujWaluta(p.getBrutto()), "right",8));
         }
+        table.setHeaderRows(2);
+        table.setFooterRows(1);
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(table);
         pdf.close();

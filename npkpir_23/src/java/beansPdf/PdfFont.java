@@ -14,6 +14,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
@@ -25,18 +27,26 @@ import javax.inject.Named;
 @Stateless
 public class PdfFont {
 
-    public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp) throws DocumentException, IOException {
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font font = new Font(helvetica, 8);
-        PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
-        if (rowsp > 0) {
-            cell.setRowspan(rowsp);
-        } else {
-            cell.setColspan(colsp);
+    public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp){
+        try {
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 8);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            if (rowsp > 0) {
+                cell.setRowspan(rowsp);
+            } else {
+                cell.setColspan(colsp);
+            }
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        return cell;
     }
     
     public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) throws DocumentException, IOException {
@@ -53,26 +63,35 @@ public class PdfFont {
         return cell;
     }
 
-    public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) throws DocumentException, IOException {
-        BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        Font font = new Font(helvetica, fontsize);
-        PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        switch (orient) {
-            case "right":
-                cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                break;
-            case "left":
-                cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                break;
-            case "center":
-                cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                break;
-            case "just":
-                cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-                break;
+    public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize) {
+        try {
+            String fraza2 = String.valueOf(fraza);
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, fontsize);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            switch (orient) {
+                case "right":
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    break;
+                case "left":
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    break;
+                case "center":
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    break;
+                case "just":
+                    cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+                    break;
+            }
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return cell;
     }
 
     public static String formatujWaluta(Double wsad) {

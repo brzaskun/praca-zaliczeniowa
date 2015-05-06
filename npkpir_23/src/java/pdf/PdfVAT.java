@@ -107,54 +107,46 @@ public class PdfVAT {
                     table.setWidthPercentage(95);
                     table.setWidths(new int[]{1, 2, 2, 2, 2, 4, 3, 4, 2, 2, 2});
                     PdfPCell cell = new PdfPCell();
-                    try {
-                        table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                        table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
-                        table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
-                        table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
-                        table.addCell(ustawfraze("lp", 0, 2));
-                        table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
-                        table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
-                        table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
-                        table.addCell(ustawfraze("Nr własny dok.", 0, 2));
-                        table.addCell(ustawfraze("Kontrahent", 2, 0));
-                        table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
-                        table.addCell(ustawfraze("Netto", 0, 2));
-                        table.addCell(ustawfraze("Vat", 0, 2));
-                        table.addCell(ustawfraze("Brutto", 0, 2));
-
-                        table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
-                        table.addCell(ustawfrazeAlign("adres", "center", 6));
-
-                        table.addCell(ustawfrazeAlign("1", "center", 6));
-                        table.addCell(ustawfrazeAlign("2", "center", 6));
-                        table.addCell(ustawfrazeAlign("3", "center", 6));
-                        table.addCell(ustawfrazeAlign("4", "center", 6));
-                        table.addCell(ustawfrazeAlign("5", "center", 6));
-                        table.addCell(ustawfrazeAlign("6", "center", 6));
-                        table.addCell(ustawfrazeAlign("7", "center", 6));
-                        table.addCell(ustawfrazeAlign("8", "center", 6));
-                        table.addCell(ustawfrazeAlign("9", "center", 6));
-                        table.addCell(ustawfrazeAlign("10", "center", 6));
-                        table.addCell(ustawfrazeAlign("11", "center", 6));
-
-                        table.addCell(ustawfrazeAlign("1", "center", 6));
-                        table.addCell(ustawfrazeAlign("2", "center", 6));
-                        table.addCell(ustawfrazeAlign("3", "center", 6));
-                        table.addCell(ustawfrazeAlign("4", "center", 6));
-                        table.addCell(ustawfrazeAlign("5", "center", 6));
-                        table.addCell(ustawfrazeAlign("6", "center", 6));
-                        table.addCell(ustawfrazeAlign("7", "center", 6));
-                        table.addCell(ustawfrazeAlign("8", "center", 6));
-                        table.addCell(ustawfrazeAlign("9", "center", 6));
-                        table.addCell(ustawfrazeAlign("10", "center", 6));
-                        table.addCell(ustawfrazeAlign("11", "center", 6));
-
-                        table.setHeaderRows(5);
-                        table.setFooterRows(1);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+                    table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
+                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
+                    table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
+                    table.addCell(ustawfraze("lp", 0, 2));
+                    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+                    table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
+                    table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+                    table.addCell(ustawfraze("Nr własny dok.", 0, 2));
+                    table.addCell(ustawfraze("Kontrahent", 2, 0));
+                    table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+                    table.addCell(ustawfraze("Netto", 0, 2));
+                    table.addCell(ustawfraze("Vat", 0, 2));
+                    table.addCell(ustawfraze("Brutto", 0, 2));
+                    table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
+                    table.addCell(ustawfrazeAlign("adres", "center", 6));
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("11", "center", 6));
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("11", "center", 6));
+                    table.setHeaderRows(5);
+                    table.setFooterRows(1);
 
                     List<EVatViewPola> ew = lista.getEwidencje().get(p);
                     int size = ew.size();
@@ -295,54 +287,46 @@ public class PdfVAT {
             table.setWidths(new int[]{1, 2, 2, 2, 2, 4, 3, 4, 2, 2, 2});
             table.setWidthPercentage(95);
             PdfPCell cell = new PdfPCell();
-            try {
-                table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 3, 0));
-                table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
-                table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
-                table.addCell(ustawfraze("lp", 0, 2));
-                table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
-                table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
-                table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
-                table.addCell(ustawfraze("Nr własny dok.", 0, 2));
-                table.addCell(ustawfraze("Kontrahent", 2, 0));
-                table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
-                table.addCell(ustawfraze("Netto", 0, 2));
-                table.addCell(ustawfraze("Vat", 0, 2));
-                table.addCell(ustawfraze("Brutto", 0, 2));
-
-                table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
-                table.addCell(ustawfrazeAlign("adres", "center", 6));
-
-                table.addCell(ustawfrazeAlign("1", "center", 6));
-                table.addCell(ustawfrazeAlign("2", "center", 6));
-                table.addCell(ustawfrazeAlign("3", "center", 6));
-                table.addCell(ustawfrazeAlign("4", "center", 6));
-                table.addCell(ustawfrazeAlign("5", "center", 6));
-                table.addCell(ustawfrazeAlign("6", "center", 6));
-                table.addCell(ustawfrazeAlign("7", "center", 6));
-                table.addCell(ustawfrazeAlign("8", "center", 6));
-                table.addCell(ustawfrazeAlign("9", "center", 6));
-                table.addCell(ustawfrazeAlign("10", "center", 6));
-                table.addCell(ustawfrazeAlign("11", "center", 6));
-
-                table.addCell(ustawfrazeAlign("1", "center", 6));
-                table.addCell(ustawfrazeAlign("2", "center", 6));
-                table.addCell(ustawfrazeAlign("3", "center", 6));
-                table.addCell(ustawfrazeAlign("4", "center", 6));
-                table.addCell(ustawfrazeAlign("5", "center", 6));
-                table.addCell(ustawfrazeAlign("6", "center", 6));
-                table.addCell(ustawfrazeAlign("7", "center", 6));
-                table.addCell(ustawfrazeAlign("8", "center", 6));
-                table.addCell(ustawfrazeAlign("9", "center", 6));
-                table.addCell(ustawfrazeAlign("10", "center", 6));
-                table.addCell(ustawfrazeAlign("11", "center", 6));
-
-                table.setHeaderRows(5);
-                table.setFooterRows(1);
-            } catch (IOException ex) {
-                Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+            table.addCell(ustawfraze("wydruk ewidencji vat " + nazwaewidencji, 3, 0));
+            table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 4, 0));
+            table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
+            table.addCell(ustawfraze("lp", 0, 2));
+            table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+            table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
+            table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+            table.addCell(ustawfraze("Nr własny dok.", 0, 2));
+            table.addCell(ustawfraze("Kontrahent", 2, 0));
+            table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+            table.addCell(ustawfraze("Netto", 0, 2));
+            table.addCell(ustawfraze("Vat", 0, 2));
+            table.addCell(ustawfraze("Brutto", 0, 2));
+            table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
+            table.addCell(ustawfrazeAlign("adres", "center", 6));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
+            table.addCell(ustawfrazeAlign("7", "center", 6));
+            table.addCell(ustawfrazeAlign("8", "center", 6));
+            table.addCell(ustawfrazeAlign("9", "center", 6));
+            table.addCell(ustawfrazeAlign("10", "center", 6));
+            table.addCell(ustawfrazeAlign("11", "center", 6));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
+            table.addCell(ustawfrazeAlign("7", "center", 6));
+            table.addCell(ustawfrazeAlign("8", "center", 6));
+            table.addCell(ustawfrazeAlign("9", "center", 6));
+            table.addCell(ustawfrazeAlign("10", "center", 6));
+            table.addCell(ustawfrazeAlign("11", "center", 6));
+            table.setHeaderRows(5);
+            table.setFooterRows(1);
 
             List<EVatViewPola> ew = lista.getEwidencje().get(nazwaewidencji);
             if (wartosc==true) {

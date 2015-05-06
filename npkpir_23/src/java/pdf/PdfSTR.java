@@ -62,31 +62,26 @@ public class PdfSTR {
         PdfPTable table = new PdfPTable(19);
         table.setWidths(new int[]{1, 4, 2, 1, 2, 2, 2, 2,2,2,2,2,2,2,2,2,2,2,2});
         PdfPCell cell = new PdfPCell();
-        try {
-            table.addCell(ustawfrazeAlign("nr", "center",8));
-            table.addCell(ustawfrazeAlign("nazwa środka", "center",8));
-            table.addCell(ustawfrazeAlign("data przyj.", "center",8));
-            table.addCell(ustawfrazeAlign("KST", "center",8));
-            table.addCell(ustawfrazeAlign("cena zakupu", "center",8));
-            table.addCell(ustawfrazeAlign("odpis roczny", "center",8));
-            table.addCell(ustawfrazeAlign("umorz. dot.", "center",8));
-            table.addCell(ustawfrazeAlign("stycz.", "center",8));
-            table.addCell(ustawfrazeAlign("luty", "center",8));
-            table.addCell(ustawfrazeAlign("marzec", "center",8));
-            table.addCell(ustawfrazeAlign("kwiec.", "center",8));
-            table.addCell(ustawfrazeAlign("maj", "center",8));
-            table.addCell(ustawfrazeAlign("czerw.", "center",8));
-            table.addCell(ustawfrazeAlign("lip.", "center",8));
-            table.addCell(ustawfrazeAlign("sierp.", "center",8));
-            table.addCell(ustawfrazeAlign("wrześ", "center",8));
-            table.addCell(ustawfrazeAlign("paź", "center",8));
-            table.addCell(ustawfrazeAlign("list.", "center",8));
-            table.addCell(ustawfrazeAlign("grudz.", "center",8));
-            
-            table.setHeaderRows(1);
-        } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        table.addCell(ustawfrazeAlign("nr", "center",8));
+        table.addCell(ustawfrazeAlign("nazwa środka", "center",8));
+        table.addCell(ustawfrazeAlign("data przyj.", "center",8));
+        table.addCell(ustawfrazeAlign("KST", "center",8));
+        table.addCell(ustawfrazeAlign("cena zakupu", "center",8));
+        table.addCell(ustawfrazeAlign("odpis roczny", "center",8));
+        table.addCell(ustawfrazeAlign("umorz. dot.", "center",8));
+        table.addCell(ustawfrazeAlign("stycz.", "center",8));
+        table.addCell(ustawfrazeAlign("luty", "center",8));
+        table.addCell(ustawfrazeAlign("marzec", "center",8));
+        table.addCell(ustawfrazeAlign("kwiec.", "center",8));
+        table.addCell(ustawfrazeAlign("maj", "center",8));
+        table.addCell(ustawfrazeAlign("czerw.", "center",8));
+        table.addCell(ustawfrazeAlign("lip.", "center",8));
+        table.addCell(ustawfrazeAlign("sierp.", "center",8));
+        table.addCell(ustawfrazeAlign("wrześ", "center",8));
+        table.addCell(ustawfrazeAlign("paź", "center",8));
+        table.addCell(ustawfrazeAlign("list.", "center",8));
+        table.addCell(ustawfrazeAlign("grudz.", "center",8));
+        table.setHeaderRows(1);
 
 //        List<STRtabela> wykaz = obliczsume(sTRTabView.getStrtabela());
         for (STRtabela rs : wykaz) {
