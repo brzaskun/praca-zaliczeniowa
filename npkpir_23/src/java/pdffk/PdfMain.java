@@ -25,6 +25,7 @@ import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
+import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
@@ -456,7 +457,17 @@ public class PdfMain {
                     col8[leveleB] = 3;
                     return col8;
                 }
-                
+            case "entityfk.Konto":
+                int[] col10 = new int[size];
+                col10[0] = 3;
+                col10[1] = 9;
+                col10[2] = 6;
+                col10[3] = 3;
+                col10[4] = 3;
+                col10[5] = 2;
+                col10[6] = 3;
+                col10[7] = 3;
+                return col10;
         }
         return null;
     }
@@ -689,6 +700,17 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
                     table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 9));
+                }
+                if (nazwaklasy.equals("entityfk.Konto")) {
+                    Konto p = (Konto) it.next();
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
                 }
                 if (nazwaklasy.equals("testobjects.WierszKonta")) {
                     WierszKonta p = (WierszKonta) it.next();

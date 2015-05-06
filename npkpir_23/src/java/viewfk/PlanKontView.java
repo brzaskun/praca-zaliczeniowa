@@ -30,6 +30,7 @@ import javax.persistence.PersistenceException;
 import javax.persistence.RollbackException;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfPlanKont;
 import view.WpisView;
 
 /**
@@ -748,6 +749,10 @@ public class PlanKontView implements Serializable {
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
+     
+     public void drukujPlanKont() {
+         PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
