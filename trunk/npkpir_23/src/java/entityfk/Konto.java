@@ -91,10 +91,15 @@ import view.WpisView;
     @NamedQuery(name = "Konto.updateMapotomkow", query = "UPDATE Konto k SET k.mapotomkow = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok"),
     @NamedQuery(name = "Konto.NullPozycjaBilansoweWynikowe", query = "UPDATE Konto k SET k.kontopozycjaID = NULL WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.bilansowewynikowe = :bilansowewynikowe"),
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '0%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa1", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa2", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '2%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa3", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '3%' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '0%' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findlistaKontGrupa4", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '4%' AND k.rok = :rok"),
-    @NamedQuery(name = "Konto.findlistaKontGrupa6", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND  k.mapotomkow = false AND k.pelnynumer LIKE '6%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa4", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '4%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa5", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '5%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa6", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '6%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa7", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '7%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa8", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '8%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.updateZablokowane", query = "UPDATE Konto k SET k.blokada = '0' WHERE k.podatnik = :podatnik AND k.rok = :rok")})
 public class Konto extends ToBeATreeNodeObject implements Serializable {
     private static final long serialVersionUID = 1L;
