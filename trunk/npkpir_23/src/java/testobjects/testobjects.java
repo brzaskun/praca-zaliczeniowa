@@ -144,6 +144,22 @@ public class testobjects {
        return tabela;
    }
    
+    public static List[] getTabelaPlanKont(List<Konto> wiersze) {
+       List n = new ArrayList();
+       n.add("numer konta");
+       n.add("nazwa pełna");
+       n.add("nazwa skrócona");
+       n.add("typ konta");
+       n.add("ma subkonta");
+       n.add("pozycja Wn");
+       n.add("pozycja Ma");  
+       n.add("przychód/koszt");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+   
    public static List[] getTabelaRZiS(TreeNodeExtended rootProjektRZiS) {
        int level = rootProjektRZiS.ustaldepthDT();
        List n = new ArrayList();
