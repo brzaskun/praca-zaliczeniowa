@@ -15,26 +15,15 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
-import entityfk.Transakcja;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
-import org.primefaces.context.RequestContext;
-import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
-import org.primefaces.model.TreeNode;
 import view.WpisView;
-import waluty.Z;
 
 /**
  *
@@ -88,20 +77,37 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
         wybranaWalutaDlaKont = "wszystkie";
         kontozapisy = new ArrayList<>();
         pobierzZapisyNaKoncieNode(wykazkont);
+        usunzerowe();
     }
     
     public void pobierzZapisyNaKoncieNode(List<Konto> listakont) {
-        List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        for (Konto p : listakont) {
-            KontoZapisy kz = new KontoZapisy(p);
-            for (StronaWiersza r : stronywiersza) {
-                if (r.getKonto().equals(p)) {
-                    kz.getStronywiersza().add(r);
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        if (granicaDolna <= granicaGorna) {
+            List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            for (Konto p : listakont) {
+                KontoZapisy kz = new KontoZapisy(p);
+                for (StronaWiersza r : stronywiersza) {
+                    if (r.getKonto().equals(p)) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <=granicaGorna) {
+                            kz.getStronywiersza().add(r);
+                        }
+                    }
                 }
+               kontozapisy.add(kz);
             }
-           kontozapisy.add(kz);
         }
         System.out.println("odnalazlem pobierzZapisyNaKoncieNode(Konto wybraneKontoNode)");
+    }
+    
+    public void usunzerowe() {
+        for(Iterator<KontoZapisy> it = kontozapisy.iterator(); it.hasNext();) {
+            KontoZapisy p = (KontoZapisy) it.next();
+            if (p.getStronywiersza().size()==0) {
+                it.remove();
+            }
+        }
     }
     
     public void zapisykontmiesiace() {
