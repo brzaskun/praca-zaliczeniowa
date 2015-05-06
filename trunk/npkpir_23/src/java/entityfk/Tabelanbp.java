@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tabelanbp.findByKurssredni", query = "SELECT t FROM Tabelanbp t WHERE t.kurssredni = :kurssredni"),
     @NamedQuery(name = "Tabelanbp.findByNrtabeli", query = "SELECT t FROM Tabelanbp t WHERE t.nrtabeli = :nrtabeli"),
     @NamedQuery(name = "Tabelanbp.findBySymbolWaluty", query = "SELECT t FROM Tabelanbp t WHERE t.waluta.symbolwaluty = :symbolwaluty"),
-    @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.waluta.symbolwaluty = :symbolwaluty")
+    @NamedQuery(name = "Tabelanbp.findByDatatabeliSymbolwaluty", query = "SELECT t FROM Tabelanbp t WHERE t.datatabeli = :datatabeli AND t.waluta.symbolwaluty = :symbolwaluty AND t.nrtabeli LIKE '%/NBP/%'")
 })
 
 public class Tabelanbp implements Serializable {
