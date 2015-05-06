@@ -53,7 +53,19 @@
                   <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form:dataList_data')" global="false" style="float: left;" />
                   <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form:dataList_data')"  global="false" style="float: left;" />
-                  <p:commandButton value="drukuj" actionListener="#{planKontView.drukujPlanKont}" global="false" style="margin-left: 20px; width: 120px;"/>
+                  <p:splitButton value="drukuj" actionListener="#{planKontView.drukujPlanKont('all')}" global="false" style="margin-left: 20px;">
+                      <p:menuitem global="false" value="wynikowe" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="bilansowe" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 0" actionListener="#{planKontView.drukujPlanKont('grupa0')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 1" actionListener="#{planKontView.drukujPlanKont('grupa1')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 2" actionListener="#{planKontView.drukujPlanKont('grupa2')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 3" actionListener="#{planKontView.drukujPlanKont('grupa3')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 4" actionListener="#{planKontView.drukujPlanKont('grupa4')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 5" actionListener="#{planKontView.drukujPlanKont('grupa5')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 6" actionListener="#{planKontView.drukujPlanKont('grupa6')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 7" actionListener="#{planKontView.drukujPlanKont('grupa7')}" icon="fa fa-print"/>  
+                      <p:menuitem global="false" value="grupa 8" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
+                  </p:splitButton>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 

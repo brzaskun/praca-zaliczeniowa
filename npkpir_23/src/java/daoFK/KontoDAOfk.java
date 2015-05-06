@@ -94,13 +94,6 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
     
-    public List<Konto> findKontaGrupa3(WpisView wpisView) {
-        try {
-            return kontoFacade.findlistaKontGrupa3(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
-            return null;
-        }
-    }
     public List<Konto> findKontaGrupa0(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa0(wpisView);
@@ -109,17 +102,65 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
     
-    public List<Konto> findKontaGrupa4(String p, String rok) {
+    public List<Konto> findKontaGrupa1(WpisView wpisView) {
         try {
-            return kontoFacade.findlistaKontGrupa4(p, rok);
+            return kontoFacade.findlistaKontGrupa1(wpisView);
         } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }
     
-     public List<Konto> findKontaGrupa6(String p, String rok) {
+    public List<Konto> findKontaGrupa2(WpisView wpisView) {
         try {
-            return kontoFacade.findlistaKontGrupa6(p, rok);
+            return kontoFacade.findlistaKontGrupa2(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+    
+    public List<Konto> findKontaGrupa3(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa3(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+    
+    public List<Konto> findKontaGrupa4(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa4(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+    
+    public List<Konto> findKontaGrupa5(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa5(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+    
+     public List<Konto> findKontaGrupa6(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa6(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+     
+     public List<Konto> findKontaGrupa7(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa7(wpisView);
+        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            return null;
+        }
+    }
+     
+     public List<Konto> findKontaGrupa8(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa8(wpisView);
         } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }

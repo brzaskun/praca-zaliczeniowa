@@ -750,9 +750,58 @@ public class PlanKontView implements Serializable {
         }
     }
      
-     public void drukujPlanKont() {
-         PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
-     }
+    public void drukujPlanKont(String parametr) {
+        switch (parametr) {
+            case "all":
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "wynikowe":
+                wykazkont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "bilansowe":
+                wykazkont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa0":
+                wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa1":
+                wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa2":
+                wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa3":
+                wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa4":
+                wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa5":
+                wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa6":
+                wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa7":
+                wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+            case "grupa8":
+                wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
+                PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
+                break;
+        }
+
+    }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
