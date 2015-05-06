@@ -79,7 +79,7 @@ public class RMKView  implements Serializable {
     
     
     public void init() {
-        listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
         RequestContext.getCurrentInstance().update("transakcje");

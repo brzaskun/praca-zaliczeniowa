@@ -86,42 +86,35 @@ public class PdfVatUE {
                 PdfPTable table = new PdfPTable(7);
                 if (!p.getTransakcja().equals("podsumowanie")) {
                     table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
-                    try {
-                        table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                        table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
-                        table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
-                        table.addCell(ustawfraze("za okres: " + pobranyVatue.getVatuepodatnikPK().getRok() + "/" + pobranyVatue.getVatuepodatnikPK().getSymbolokresu(), 1, 0));
-
-                        table.addCell(ustawfraze("lp", 0, 1));
-                        table.addCell(ustawfraze("Transakcja", 0, 1));
-                        table.addCell(ustawfraze("Kod kraju", 0, 1));
-                        table.addCell(ustawfraze("NIP", 0, 1));
-                        table.addCell(ustawfraze("Kontrahent", 0, 1));
-                        table.addCell(ustawfraze("netto", 0, 1));
-                        table.addCell(ustawfraze("ilość dok.", 0, 1));
-
-                        table.addCell(ustawfrazeAlign("1", "center", 6));
-                        table.addCell(ustawfrazeAlign("2", "center", 6));
-                        table.addCell(ustawfrazeAlign("3", "center", 6));
-                        table.addCell(ustawfrazeAlign("4", "center", 6));
-                        table.addCell(ustawfrazeAlign("5", "center", 6));
-                        table.addCell(ustawfrazeAlign("6", "center", 6));
-                        table.addCell(ustawfrazeAlign("7", "center", 6));
-
-                        table.setHeaderRows(3);
-                        table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
-                        table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
-                        table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
-                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
-                        table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                        table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
-                        document.add(table);
-                        document.add(createsubtable(p.getZawiera()));
-                        document.add(Chunk.NEWLINE);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+                    table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
+                    table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
+                    table.addCell(ustawfraze("za okres: " + pobranyVatue.getVatuepodatnikPK().getRok() + "/" + pobranyVatue.getVatuepodatnikPK().getSymbolokresu(), 1, 0));
+                    table.addCell(ustawfraze("lp", 0, 1));
+                    table.addCell(ustawfraze("Transakcja", 0, 1));
+                    table.addCell(ustawfraze("Kod kraju", 0, 1));
+                    table.addCell(ustawfraze("NIP", 0, 1));
+                    table.addCell(ustawfraze("Kontrahent", 0, 1));
+                    table.addCell(ustawfraze("netto", 0, 1));
+                    table.addCell(ustawfraze("ilość dok.", 0, 1));
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.setHeaderRows(3);
+                    table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
+                    document.add(table);
+                    document.add(createsubtable(p.getZawiera()));
+                    document.add(Chunk.NEWLINE);
                 }
             }
             Uz uz = wpisView.getWprowadzil();

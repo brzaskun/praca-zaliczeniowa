@@ -95,7 +95,9 @@ public class PozycjaRZiSFKBean {
                     }
                 }
             } else {
-               wykazkont.add(p);
+                if (!wykazkont.contains(p)) {
+                    wykazkont.add(p);
+                }
             }
         }
     }

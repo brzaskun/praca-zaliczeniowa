@@ -29,6 +29,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.TreeNode;
 import pdf.PdfKontoZapisy;
+import pdffk.PdfKontoZapisyLista;
 import view.WpisView;
 import waluty.Z;
 
@@ -196,9 +197,6 @@ public class KontoZapisFKView implements Serializable{
                     }
                 }
             }
-            sumazapisow();
-            sumazapisowpln();
-            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
             System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
         }
     }

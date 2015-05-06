@@ -191,40 +191,35 @@ public class PdfPK {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
+        table.addCell(ustawfrazeAlign("lp", "center", 10));
+        table.addCell(ustawfrazeAlign("opis", "center", 10));
+        table.addCell(ustawfrazeAlign("netto", "center", 10));
+        table.addCell(ustawfrazeAlign("vat", "center", 10));
+        table.addCell(ustawfrazeAlign("brutto", "center", 10));
+        table.addCell(ustawfrazeAlign("symbol", "center", 10));
+        table.addCell(ustawfrazeAlign("kol. w pkpir", "center", 10));
+        table.setHeaderRows(1);
+        table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()), "center", 10));
+        table.addCell(ustawfrazeAlign(selected.getOpis(), "left", 10));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
         try {
-            table.addCell(ustawfrazeAlign("lp", "center", 10));
-            table.addCell(ustawfrazeAlign("opis", "center", 10));
-            table.addCell(ustawfrazeAlign("netto", "center", 10));
-            table.addCell(ustawfrazeAlign("vat", "center", 10));
-            table.addCell(ustawfrazeAlign("brutto", "center", 10));
-            table.addCell(ustawfrazeAlign("symbol", "center", 10));
-            table.addCell(ustawfrazeAlign("kol. w pkpir", "center", 10));
-            table.setHeaderRows(1);
-
-            table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()), "center", 10));
-            table.addCell(ustawfrazeAlign(selected.getOpis(), "left", 10));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto() - selected.getNetto())), "right", 10));
+            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 10));
+        } catch (Exception e) {
+            table.addCell(ustawfrazeAlign("0.00", "right", 10));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
-            try {
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto() - selected.getNetto())), "right", 10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBrutto())), "right", 10));
-            } catch (Exception e) {
-                table.addCell(ustawfrazeAlign("0.00", "right", 10));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
-            }
-            table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
-            String kolumny = "";
-            try {
-                for (KwotaKolumna1 p : selected.getListakwot1()) {
-                    kolumny = kolumny.concat(p.getNazwakolumny());
-                    kolumny = kolumny.concat("; ");
-                }
-            } catch (Exception e1) {
-            }
-            table.addCell(ustawfrazeAlign(kolumny, "center", 10));
-            return table;
-        } catch (DocumentException | IOException e) {
-            return null;
         }
+        table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
+        String kolumny = "";
+        try {
+            for (KwotaKolumna1 p : selected.getListakwot1()) {
+                kolumny = kolumny.concat(p.getNazwakolumny());
+                kolumny = kolumny.concat("; ");
+            }
+        } catch (Exception e1) {
+        }
+        table.addCell(ustawfrazeAlign(kolumny, "center", 10));
+        return table;
     }
     
     private static PdfPTable tabelaPK(Dok selected) throws DocumentException {
@@ -237,31 +232,26 @@ public class PdfPK {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
+        table.addCell(ustawfrazeAlign("lp", "center", 10));
+        table.addCell(ustawfrazeAlign("opis", "center", 10));
+        table.addCell(ustawfrazeAlign("kwota dok.", "center", 10));
+        table.addCell(ustawfrazeAlign("symbol dok.", "center", 10));
+        table.addCell(ustawfrazeAlign("kol. w pkpir", "center", 10));
+        table.setHeaderRows(1);
+        table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()), "center", 10));
+        table.addCell(ustawfrazeAlign(selected.getOpis(), "left", 10));
+        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
+        table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
+        String kolumny = "";
         try {
-            table.addCell(ustawfrazeAlign("lp", "center", 10));
-            table.addCell(ustawfrazeAlign("opis", "center", 10));
-            table.addCell(ustawfrazeAlign("kwota dok.", "center", 10));
-            table.addCell(ustawfrazeAlign("symbol dok.", "center", 10));
-            table.addCell(ustawfrazeAlign("kol. w pkpir", "center", 10));
-            table.setHeaderRows(1);
-
-            table.addCell(ustawfrazeAlign(String.valueOf(selected.getNrWpkpir()), "center", 10));
-            table.addCell(ustawfrazeAlign(selected.getOpis(), "left", 10));
-            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 10));
-            table.addCell(ustawfrazeAlign(selected.getTypdokumentu(), "center", 10));
-            String kolumny = "";
-            try {
-                for (KwotaKolumna1 p : selected.getListakwot1()) {
-                    kolumny = kolumny.concat(p.getNazwakolumny());
-                    kolumny = kolumny.concat("; ");
-                }
-            } catch (Exception e1) {
+            for (KwotaKolumna1 p : selected.getListakwot1()) {
+                kolumny = kolumny.concat(p.getNazwakolumny());
+                kolumny = kolumny.concat("; ");
             }
-            table.addCell(ustawfrazeAlign(kolumny, "center", 10));
-            return table;
-        } catch (DocumentException | IOException e) {
-            return null;
+        } catch (Exception e1) {
         }
+        table.addCell(ustawfrazeAlign(kolumny, "center", 10));
+        return table;
     }
 
  

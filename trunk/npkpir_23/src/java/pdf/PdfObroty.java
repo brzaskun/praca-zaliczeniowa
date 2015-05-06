@@ -64,21 +64,16 @@ public class PdfObroty  {
         PdfPTable table = new PdfPTable(9);
         table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2});
         PdfPCell cell = new PdfPCell();
-        try {
-            table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
-            table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
-            table.addCell(ustawfrazeAlign("kontrahent", "center",8));
-            table.addCell(ustawfrazeAlign("transakcja", "center",8));
-            table.addCell(ustawfrazeAlign("symbol dok.", "center",8));
-            table.addCell(ustawfrazeAlign("nr własny", "center",8));
-            table.addCell(ustawfrazeAlign("opis", "center",8));
-            table.addCell(ustawfrazeAlign("netto", "center",8));
-            table.addCell(ustawfrazeAlign("brutto", "center",8));
-            
-            table.setHeaderRows(1);
-        } catch (IOException ex) {
-            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
+        table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
+        table.addCell(ustawfrazeAlign("kontrahent", "center",8));
+        table.addCell(ustawfrazeAlign("transakcja", "center",8));
+        table.addCell(ustawfrazeAlign("symbol dok.", "center",8));
+        table.addCell(ustawfrazeAlign("nr własny", "center",8));
+        table.addCell(ustawfrazeAlign("opis", "center",8));
+        table.addCell(ustawfrazeAlign("netto", "center",8));
+        table.addCell(ustawfrazeAlign("brutto", "center",8));
+        table.setHeaderRows(1);
 
         List<Dok> wykaz = obliczsume(goscwybral);
         for (Dok rs : wykaz) {
