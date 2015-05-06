@@ -58,14 +58,14 @@
                 <h:outputText value="od"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisuOd" value="#{WpisView.miesiacOd}">
-                        <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}"  partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <h:outputText value="do"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisuDo" value="#{WpisView.miesiacDo}">
-                        <p:ajax event="change" listener="#{kontoZapisFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
+                        <p:ajax event="change" listener="#{zapisyKontaPodatnikFKView.zapisykontmiesiace}" partialSubmit="true" update=":tabelazzapisami:tabela, :tabelazsumami:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
@@ -74,9 +74,10 @@
             </p:panelGrid>
 
             <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" rowKey="#{loop.konto.pelnynumer}" 
-                         rowIndexVar="rowindex1" emptyMessage="Nie ma zapisów na koncie"
+                         rowIndexVar="rowindex1" emptyMessage="Nie ma zapisów na koncie" 
                          styleClass="tabelazapisywmcu"  style="overflow-y: scroll; height: 620px;" 
                          >
+                        
 <!--                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
@@ -87,6 +88,9 @@
 
                 <p:column headerText="lp" width="20" >
                     <h:outputText styleClass="lpwiersza"  value="#{rowindex1+1}"/>
+                </p:column>
+                <p:column headerText="ilość zapisów" width="30"  >
+                    <h:outputText value="#{loop.stronywiersza.size() gt 0 ? loop.stronywiersza.size() : null}"/>
                 </p:column>
                 <p:column headerText="numer konta" width="80"  >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -102,27 +106,27 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column>
-                        <p:dataTable value="#{loop.stronywiersza}" emptyMessage="dokument bez vat" var="loopik" rowIndexVar="rowindex" sortBy="#{loopik.wiersz.dokfk.datadokumentu.substring(5,10)}"
-                                     resizableColumns="true" style="width: 95%;">
-                            <p:column headerText="lp" width="20" style="text-align: center;">
+                        <p:dataTable value="#{loop.stronywiersza}" emptyMessage="dokument bez vat" var="loopik" rowIndexVar="rowindex"
+                                     resizableColumns="true" style="width: 95%;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}" >
+                            <p:column headerText="lp" width="15" style="text-align: center;">
                                 <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                             </p:column>
                             <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}">
                                 <h:outputText value="#{loopik.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                             </p:column>
-                            <p:column headerText="konto" width="60" sortBy="#{loopik.konto.pelnynumer}">
+                            <p:column headerText="konto" width="50" sortBy="#{loopik.konto.pelnynumer}">
                                 <h:outputText value="#{loopik.konto.pelnynumer}"/>
                             </p:column>
-                            <p:column headerText="konto nazwa" width="120" sortBy="#{loopik.konto.nazwapelna}">
-                                <h:outputText value="#{loopik.konto.nazwapelna}"/>
-                            </p:column>
-                            <p:column headerText="dok." width="40" sortBy="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}">
+                            <p:column headerText="dok.seria" width="50" sortBy="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}">
                                 <h:outputText value="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}/#{loopik.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                            </p:column>
+                            <p:column headerText="dok.nr" width="50" sortBy="#{loopik.wiersz.dokfk.numerwlasnydokfk}">
+                                <h:outputText value="#{loopik.wiersz.dokfk.numerwlasnydokfk}"/>
                             </p:column>
                             <p:column headerText="w." width="20"  style="text-align: center;" sortBy="#{loopik.wiersz.idporzadkowy}">
                                 <h:outputText value="#{loopik.wiersz.idporzadkowy}"/>
                             </p:column>
-                            <p:column headerText="opis" width="100" sortBy="#{loopik.wiersz.opisWiersza}">
+                            <p:column headerText="opis" width="200" sortBy="#{loopik.wiersz.opisWiersza}">
                                 <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                             </p:column>
                             <p:column headerText="kurs" width="30" sortBy="#{loopik.wiersz.tabelanbp.kurssredni}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
