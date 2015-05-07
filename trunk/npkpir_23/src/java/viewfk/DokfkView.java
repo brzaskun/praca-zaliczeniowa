@@ -2705,6 +2705,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //zerujemy rzeczy w dialogu
                 if (biezacetransakcje.size() == 0) {
                     rodzaj = -2;
+                    aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                     RequestContext.getCurrentInstance().update("parametry");
                     RequestContext.getCurrentInstance().execute("PF('rozrachunki').hide();");
                 }
