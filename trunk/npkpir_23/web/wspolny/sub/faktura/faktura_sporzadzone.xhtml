@@ -54,7 +54,7 @@
                           filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="kontrahent" width="80" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;"
+                <p:column headerText="kontrahent" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;"
                           style="line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
@@ -99,7 +99,7 @@
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                  <p:rowExpansion>
-                     <p:panelGrid  columns="2"  style="width:300px">
+                     <p:panelGrid  columns="2"  style="width:700px">
                         <h:outputText value="email kontrahenta"/>
                         <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
                         <h:outputText value="konto bankowe"/>
