@@ -102,12 +102,15 @@
                      <p:panelGrid  columns="2"  style="width:300px">
                         <h:outputText value="email kontrahenta"/>
                         <h:outputText value="#{wpis.kontrahent.email ne '' ? wpis.kontrahent.email : 'brak email'}"/>
+                        <h:outputText value="konto bankowe"/>
+                        <h:outputText value="#{wpis.nrkontabankowego}"/>
                         <h:outputText value="kwota netto"/>
                         <bcf:outputpl value="#{wpis.netto}"/>
                         <h:outputText value="kwota vat"/>
                         <bcf:outputpl value="#{wpis.vat}"/>
                         <h:outputText value="kwota brutto"/>
                         <bcf:outputpl value="#{wpis.brutto}"/>
+                        <h:outputText value="kwota brutto"/>
                      </p:panelGrid>
                 </p:rowExpansion>
             </p:dataTable>
