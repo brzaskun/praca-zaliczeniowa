@@ -85,12 +85,12 @@ public class WynikFKRokMc implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data")
     private Date data;
-    @Lob()
-    @Column(name = "listaprzychody")
-    private List<SaldoKonto> listaprzychody;
-    @Lob()
-    @Column(name = "listakoszty")
-    private List<SaldoKonto> listakoszty;
+//    @Lob()
+//    @Column(name = "listaprzychody")
+//    private List<SaldoKonto> listaprzychody;
+//    @Lob()
+//    @Column(name = "listakoszty")
+//    private List<SaldoKonto> listakoszty;
     
 
     public WynikFKRokMc() {
@@ -196,22 +196,22 @@ public class WynikFKRokMc implements Serializable {
         this.data = data;
     }
 
-    public List<SaldoKonto> getListaprzychody() {
-        return listaprzychody;
-    }
-
-    public void setListaprzychody(List<SaldoKonto> listaprzychody) {
-        this.listaprzychody = listaprzychody;
-    }
-
-    public List<SaldoKonto> getListakoszty() {
-        return listakoszty;
-    }
-
-    public void setListakoszty(List<SaldoKonto> listakoszty) {
-        this.listakoszty = listakoszty;
-    }
-    
+//    public List<SaldoKonto> getListaprzychody() {
+//        return listaprzychody;
+//    }
+//
+//    public void setListaprzychody(List<SaldoKonto> listaprzychody) {
+//        this.listaprzychody = listaprzychody;
+//    }
+//
+//    public List<SaldoKonto> getListakoszty() {
+//        return listakoszty;
+//    }
+//
+//    public void setListakoszty(List<SaldoKonto> listakoszty) {
+//        this.listakoszty = listakoszty;
+//    }
+//    
     
 
 
