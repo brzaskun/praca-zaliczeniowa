@@ -151,8 +151,8 @@
                         <p:column headerText="lp" width="10" style="text-align: center;">
                             <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="data" width="30" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
-                            <h:outputText value="#{loop.wiersz.dataksiegowania.substring(5,10)}"/>
+                        <p:column headerText="data" width="30" style="text-align: center;" sortBy="#{loop.wiersz.dokfk.datadokumentu}">
+                            <h:outputText value="#{loop.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" style="font-size: x-small; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;" sortBy="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText value="#{loop.dokfkS}-#{loop.wiersz.idporzadkowy}"/>
