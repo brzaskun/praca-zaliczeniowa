@@ -269,8 +269,9 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
         wynikFKRokMc.setWprowadzil(wpisView.getWprowadzil().getLogin());
         wynikFKRokMc.setData(new Date());
-        wynikFKRokMc.setListaprzychody(listakontaprzychody);
-        wynikFKRokMc.setListakoszty(listakontakoszty);
+        //wywalilem bo ozajmuje za duzo miejsca
+//        wynikFKRokMc.setListaprzychody(listakontaprzychody);
+//        wynikFKRokMc.setListakoszty(listakontakoszty);
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);

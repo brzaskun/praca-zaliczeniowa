@@ -13,7 +13,18 @@
             
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <p:outputPanel id="potwierdzeniazestawieniedok">
-            <bcf:confirm lp="1" wiadomosc="Dodać środek trwały?" listenerPresent="true" listener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}" closeDialog="dialogwpissrodkitrwale"/>
+            
+            <p:confirmDialog id="confirmDialog1" message="Dodać środek trwały?"  
+                             header="dodawanie środka trwałego z dokumentu" severity="alert" widgetVar="confirm1" width="500" appendTo="@(body)"
+                             >
+                <h:form>
+                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm1').hide();" global="false"
+                                             actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}"
+                                             style="float: left; width: 120px; margin-left: 2%;" update=":zestawieniedokumentow:dataList">
+                            </p:commandButton>
+                    <p:commandButton id="decline" global="false" value="Odwołaj" onclick="PF('confirm1').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                </h:form>
+            </p:confirmDialog> 
             <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>
 <!--            <bcf:confirm lp="3" wiadomosc="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}" listenerPresent="true" listener="#{dokfkView.usundokument()}" update=":zestawieniedokumentow:dataList"/>-->
             <p:confirmDialog id="confirmDialog3" message="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}"  
