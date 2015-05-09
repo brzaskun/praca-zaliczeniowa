@@ -313,7 +313,7 @@ public class Vat7DKView implements Serializable {
             deklaracjakorygowana = pobranalistadeklaracji.get(pobranalistadeklaracji.size() - 1);
             //nie bylo takiej wiec cofa sie o miesiac
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            System.out.println("Blad " + e.toString());
             String mcX = "";
             String rokX = "";
             int oilesiecofnac = 1;
