@@ -433,6 +433,7 @@ public class StronaWiersza implements Serializable{
     
     
     
+    
     @Override
     public int hashCode() {
         int hash = 7;

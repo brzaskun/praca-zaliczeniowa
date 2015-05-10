@@ -24,11 +24,12 @@
                 <p:commandButton value="pobierz" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
-                <p:menuitem value="Pokazdokument" icon="ui-icon-circle-plus" onclick="PF('wpisywanie').show();" oncomplete="$(document.getElementById('formwpisdokument:dataList:#{dokfkView.wierszDoPodswietlenia}:opis')).select();"/>
+                <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="PF('wpisywanie').show();$(document.getElementById('formwpisdokument:dataList:#{dokfkView.wierszDoPodswietlenia}:opis')).select();"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 670px; overflow-y: scroll;" widgetVar="dokwpisTable"
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 670px; overflow-y: scroll;" 
+                         widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}">
-                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}"/>
+                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":zestawieniezapisownakontach, :formwpisdokument"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  

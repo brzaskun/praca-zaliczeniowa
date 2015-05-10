@@ -82,7 +82,7 @@
                          selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
                          style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
-                         sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}" >
+                         >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
                 <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
