@@ -138,14 +138,16 @@ var wrocwiersz = function() {
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
-        var docViewTop = 220;
-        var docViewBottom = 750;
+        var docViewTop = 240;
+        var docViewBottom = 700;
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
         var przesuniecie = 0;
-        if (elemTop < (docViewTop + viewableheight)) {
-            przesuniecie += -viewableheight;
+        var zadanepolozenie = docViewTop + viewableheight
+        if (elemTop < (zadanepolozenie)) {
+            var obliczonaroznica = elemTop - zadanepolozenie;
+            przesuniecie += obliczonaroznica;
         }
         if (elemBottom > docViewBottom) {
             przesuniecie += elemBottom - docViewBottom;

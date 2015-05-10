@@ -159,10 +159,19 @@ public class KontoZapisFKView implements Serializable{
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
         for (Konto p : kontapotomneListaOstateczna) {
             for (StronaWiersza r : zapisyRok) {
-                if (r.getKonto().equals(p) && r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <=granicaGorna) {
-                        kontozapisy.add(r);
+                if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                    if (r.getKonto().equals(p)) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <= granicaGorna) {
+                            kontozapisy.add(r);
+                        }
+                    }
+                } else {
+                    if (r.getKonto().equals(p) && r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <= granicaGorna) {
+                            kontozapisy.add(r);
+                        }
                     }
                 }
             }
@@ -197,6 +206,8 @@ public class KontoZapisFKView implements Serializable{
                     }
                 }
             }
+            sumazapisow();
+            sumazapisowpln();
             System.out.println("odnalazlem pobierzZapisyNaKoncie() kontoZapisFKView");
         }
     }
