@@ -40,18 +40,18 @@ private static final long serialVersionUID = 1L;
 
     @PostConstruct
     private void init() {
-//        Calendar c = Calendar.getInstance();
-//        String rokdzisiejszy = null;
-//        String mcdzisiejszy = null;
-//        if (c.get(c.MONTH) == 0) {
-//            rokdzisiejszy = String.valueOf(c.get(c.YEAR) - 1);
-//            mcdzisiejszy = Mce.getNumberToMiesiac().get(12);
-//        } else {
-//            rokdzisiejszy = String.valueOf(c.get(c.YEAR));
-//            mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
-//        }
-//        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy);
-//        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy);
+        Calendar c = Calendar.getInstance();
+        String rokdzisiejszy = null;
+        String mcdzisiejszy = null;
+        if (c.get(c.MONTH) == 0) {
+            rokdzisiejszy = String.valueOf(c.get(c.YEAR) - 1);
+            mcdzisiejszy = Mce.getNumberToMiesiac().get(12);
+        } else {
+            rokdzisiejszy = String.valueOf(c.get(c.YEAR));
+            mcdzisiejszy = Mce.getNumberToMiesiac().get(c.get(c.MONTH));
+        }
+        deklaracjeniewyslane = deklaracjevatDAO.findDeklaracjeDowyslania(rokdzisiejszy, mcdzisiejszy);
+        deklaracjeniebezupo = deklaracjevatDAO.findDeklaracjeBezupo(rokdzisiejszy, mcdzisiejszy);
         /**
          * Klienci nie ruszeni zajmuja duzo czasu
          *
