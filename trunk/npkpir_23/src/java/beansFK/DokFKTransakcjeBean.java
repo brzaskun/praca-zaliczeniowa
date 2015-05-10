@@ -37,7 +37,7 @@ public class DokFKTransakcjeBean implements Serializable{
 // stare = pobiera tylko w walucie dokumentu rozliczeniowego        
 //      listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMaWaluta(stronaWiersza.getKonto(), stronaWiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), stronaWiersza.getWnma());
 // nowe pobiera wszystkie waluty        
-        listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), stronaWiersza.getWnma());
+        listaNowychRozrachunkow = stronaWierszaDAO.findStronaByKontoWnMa(stronaWiersza.getKonto(), wnma);
         if (listaNowychRozrachunkow != null && !listaNowychRozrachunkow.isEmpty()) {
             try {
                 DateFormat formatter;

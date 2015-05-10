@@ -30,12 +30,12 @@
                     <h:outputText value="nr dokumentu: "/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.dokfkS}" 
                                   style="font-weight: bold;"/>
-                    <h:outputText value="treść dokumentu: "/>
-                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.opisdokfk}" style="font-weight: bold;"/>
+                    <h:outputText value="treść dokumentu: " style="width: 100px"/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.dokfk.opisdokfk}" style="font-weight: bold; width: 120px;"/>
                     <h:outputText value="konto: "/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.pelnynumer}" style="font-weight: bold;"/>
                     <h:outputText value="kontrahent: "/>
-                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.nazwapelna}" style="font-weight: bold; max-width: 400px;"/>
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.konto.nazwapelna}" style="font-weight: bold; width: 200px; word-wrap: normal; overflow: auto !important; white-space: normal !important;"/>
                     <h:outputText value="opis wiersza: "/>
                     <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
                     <h:outputText value="waluta: "/>
@@ -47,19 +47,19 @@
                     <h:outputText value="tabela: "  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
                                   style="float: left; font-weight: bold; color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
-                    <h:outputText value="kwota pierwotna: " style="width: 120;" />
-                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwota}" id="dorozliczenia" style="font-weight: bold; width: 130px;">
+                    <h:outputText value="kwota pierwotna: " style="width: 120px;" />
+                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaR}" id="dorozliczenia" style="font-weight: bold; width: 130px;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="już rozliczono w kwocie: " style="width: 120;"/>
+                    <h:outputText value="już rozliczono w kwocie: " style="width: 120px;"/>
                     <h:outputText id="juzrozliczono" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.rozliczono}" style="font-weight: bold; width: 130px;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="kwota pozostala do rozliczenia: " style="width: 120;"/>
+                    <h:outputText value="kwota pozostała do rozliczenia: " style="width: 80px;"/>
                     <h:outputText  value="#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}" id="pozostalodorozliczenia" style="font-weight: bold; width: 130px;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                    <h:outputText value="kwota pierwotna w PLN: " style="width: 120;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                    <h:outputText value="kwota pierwotna w PLN: " style="width: 120px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.kwotaPLN}" id="dorozliczeniaPLN" style="font-weight: bold; width: 130px;"
                                   rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>

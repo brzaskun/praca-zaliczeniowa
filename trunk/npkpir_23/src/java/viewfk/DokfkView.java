@@ -2363,22 +2363,13 @@ public void updatenetto(EVatwpisFK e, String form) {
     }
 
 //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
-//    public void znajdzDokumentOznaczWierszDoPodswietlenia() {
-//        selected = wiersz.getDokfk();
-//        String szukanafrazazzapisu = wiersz.getOpisWiersza();
-//        liczbawierszyWDokumencie = selected.getListawierszy().size();
-//        List<Wiersze> zawartoscselected = new ArrayList<>();
-//        zawartoscselected = selected.getListawierszy();
-//        for (Wiersz p : zawartoscselected) {
-//            if (szukanafrazazzapisu.equals(p.getOpisWiersza())) {
-//                wierszDoPodswietlenia = p.getIdporzadkowy();
-//                wierszDoPodswietlenia--;
-//            }
-//        }
-//        setZapisz0edytuj1(true);
-//        RequestContext.getCurrentInstance().update("formwpisdokument");
-//        RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
-//    }
+    public void znajdzDokumentOznaczWierszDoPodswietlenia() {
+        selected = wiersz.getDokfk();
+        int numer = wiersz.getIdporzadkowy()-1;
+        wierszDoPodswietlenia = numer;
+        setZapisz0edytuj1(true);
+    }
+    
 //
 //    //on robi nie tylko to ze przywraca button, on jeszcze resetuje selected
 //    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
@@ -2447,6 +2438,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                }
            }
         }
+        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
     }
@@ -2677,6 +2669,13 @@ public void updatenetto(EVatwpisFK e, String form) {
         List<StronaWiersza> innezBazy = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(aktualnyWierszDlaRozrachunkow, stronawiersza)) {
+                if (aktualnyWierszDlaRozrachunkow.getKwota() < 0) {
+                    if (stronawiersza.equals("Wn")) {
+                        stronawiersza = "Ma";
+                    } else  {
+                        stronawiersza = "Wn";
+                    }
+                }
                 System.out.println("aktualny wiersz dla roarachunku "+aktualnyWierszDlaRozrachunkow.toString());
                 pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer(), stronawiersza, aktualnyWierszDlaRozrachunkow.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(aktualnyWierszDlaRozrachunkow, stronawiersza, stronaWierszaDAO);
