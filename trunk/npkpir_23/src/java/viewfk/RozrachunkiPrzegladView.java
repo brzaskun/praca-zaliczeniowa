@@ -6,6 +6,7 @@
 
 package viewfk;
 
+import comparator.Kontocomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
@@ -15,6 +16,8 @@ import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +92,6 @@ public class RozrachunkiPrzegladView implements Serializable{
     }
     
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
-        Iterator it = wykazKont.iterator();
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
         if (!wykazKont.isEmpty()) {
             r.createTreeNodesForElement(wykazKont);
