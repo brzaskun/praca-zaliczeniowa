@@ -5,6 +5,8 @@
 package viewfk;
 
 import dao.WierszeDAO;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,9 +37,36 @@ public class WierszeView implements Serializable {
     private double sumaszt;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private boolean tylkobezrozrachunkow;
     
     public void init(){
         wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
+        if (tylkobezrozrachunkow == true) {
+            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+                Wiersz p = (Wiersz) it.next();
+                Konto kwn = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
+                Konto kma = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
+                boolean kwnbrak = false;
+                boolean kmabrak = false;
+                if (kwn != null) {
+                    if (kwn.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                        if (p.getStronaWn().getTypStronaWiersza() == 0) {
+                            kwnbrak = true;
+                        }
+                    }
+                }
+                if (kma != null) {
+                    if (kma.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                        if (p.getStronaMa().getTypStronaWiersza() == 0) {
+                            kwnbrak = true;
+                        }
+                    }
+                }
+                if (kwnbrak == false && kmabrak == false) {
+                    it.remove();
+                }
+            }
+        }
     }
     
     public void initwierszeWNT(){
@@ -155,6 +184,14 @@ public class WierszeView implements Serializable {
 
     public void setWybranewierszeWDT(List<Wiersz> wybranewierszeWDT) {
         this.wybranewierszeWDT = wybranewierszeWDT;
+    }
+
+    public boolean isTylkobezrozrachunkow() {
+        return tylkobezrozrachunkow;
+    }
+
+    public void setTylkobezrozrachunkow(boolean tylkobezrozrachunkow) {
+        this.tylkobezrozrachunkow = tylkobezrozrachunkow;
     }
     
     

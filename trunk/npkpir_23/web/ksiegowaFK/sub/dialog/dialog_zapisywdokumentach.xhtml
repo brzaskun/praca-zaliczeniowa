@@ -22,6 +22,8 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="pobierz" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
+                <h:outputText value="tylko bez rozrachunkow"/>
+                <h:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
