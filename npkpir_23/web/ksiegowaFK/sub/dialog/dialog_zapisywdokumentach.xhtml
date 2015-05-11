@@ -24,19 +24,20 @@
                 <p:commandButton value="pobierz" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
-                <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="PF('wpisywanie').show();$(document.getElementById('formwpisdokument:dataList:#{dokfkView.wierszDoPodswietlenia}:opis')).select();"/>
+                <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
             </p:contextMenu>
             <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 670px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}">
-                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":zestawieniezapisownakontach, :formwpisdokument"/>
+                <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie wierszy w dokumentów " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="id wiersza" width="50" sortBy="#{loop.idwiersza}" style="text-align: center;">
-                    <h:outputText value="#{loop.idwiersza}"/>
+                <p:column headerText="bez rozr." width="50"  style="text-align: center;">
+                    <h:outputText value="#{loop.stronaWn.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaWn.typStronaWiersza eq 0 ? 'Wn ' : null) : null}"/>
+                    <h:outputText value="#{loop.stronaMa.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaMa.typStronaWiersza eq 0 ? 'Ma' : null) : null}"/>
                 </p:column>
                  <p:column headerText="data dokum" width="50">
                      <h:outputText value="#{loop.dokfk.datadokumentu}"/>
@@ -83,6 +84,9 @@
                     <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px; #{loop.stronaMa ne null ? (loop.stronaMa.konto.mapotomkow eq true ? 'color: red;' : null) : null}"/>
                 </p:column>
             </p:dataTable>
+        </h:form>
+        <h:form id="zestawieniezapisownakontachpola">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
         <f:facet name="footer">
             
