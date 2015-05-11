@@ -32,6 +32,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfRRK;
 import view.WpisView;
 
 /**
@@ -211,6 +212,12 @@ public class RozniceKursoweFKView implements Serializable {
         for (Transakcja p : lista) {
             p.setKwotawwalucierachunku(p.getKwotatransakcji());
             transakcjaDAO.edit(p);
+        }
+    }
+    
+    public void drukowanieRRK() {
+        if (!pobranetransakcje.isEmpty()) {
+            PdfRRK.drukujRKK(pobranetransakcje, wpisView);
         }
     }
 
