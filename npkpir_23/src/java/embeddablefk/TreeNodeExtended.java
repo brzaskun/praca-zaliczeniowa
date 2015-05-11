@@ -5,11 +5,13 @@
 package embeddablefk;
 
 import abstractClasses.ToBeATreeNodeObject;
+import comparator.Kontocomparator;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -612,7 +614,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         if (biezaca.size() > 0) {
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {
-                //Collections.sort((List<Konto>) biezaca, new Kontocomparator());
+                Collections.sort((List<Konto>) biezaca, new Kontocomparator());
             }
         }
     }
