@@ -460,19 +460,52 @@ public final class DokView implements Serializable {
     public void updatevat(EwidencjaAddwiad e) {
         try {
             int lp = e.getLp();
-            ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
-            String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-            if (skrotRT.contains("ZZP")) {
-                sumbrutto = e.getNetto() + (e.getVat() * 2);
+            double vat = 0.0;
+            try {
+                String ne = e.getOpis();
+                switch (ne) {
+                    case "sprzedaż 23%":
+                        vat = (e.getNetto()*0.23)+0.02;
+                        break;
+                    case "sprzedaż 8%":
+                       vat = (e.getNetto()*0.08)+0.02;
+                        break;
+                    case "sprzedaż 5%":
+                        vat = (e.getNetto()*0.05)+0.02;
+                        break;
+                    case "sprzedaż 0%":
+                    case "sprzedaż zw":
+                        break;
+                    default:
+                        vat = (e.getNetto()*0.23)+0.02;
+                        break;
+                }
+                } catch (Exception e2) {
+                    
+                }
+            if (e.getVat() > vat) {
+                e.setVat(0.0);
+                e.setBrutto(0.0);
+                Msg.msg("e","VAT jest za duży od wyliczonej kwoty");
+                String update = "dodWiad:tablicavat:" + lp + ":vat";
+                RequestContext.getCurrentInstance().update(update);
+                update = "dodWiad:tablicavat:" + lp + ":brutto";
+                RequestContext.getCurrentInstance().update(update);
+                update = "dodWiad:tabelapkpir2:0:sumbrutto";
+                RequestContext.getCurrentInstance().update(update);
             } else {
-                sumbruttoAddwiad();
+                ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
+                String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+                if (skrotRT.contains("ZZP")) {
+                    sumbrutto = e.getNetto() + (e.getVat() * 2);
+                } else {
+                    sumbruttoAddwiad();
+                }
+                String update = "dodWiad:tablicavat:" + lp + ":brutto";
+                RequestContext.getCurrentInstance().update(update);
+                update = "dodWiad:tabelapkpir2:0:sumbrutto";
+                RequestContext.getCurrentInstance().update(update);
             }
-            String update = "dodWiad:tablicavat:" + lp + ":brutto";
-            RequestContext.getCurrentInstance().update(update);
-            update = "dodWiad:tabelapkpir2:0:sumbrutto";
-            RequestContext.getCurrentInstance().update(update);
-            String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":brutto_input').select();";
-            RequestContext.getCurrentInstance().execute(activate);
         } catch (Exception ex) {
         }
     }
