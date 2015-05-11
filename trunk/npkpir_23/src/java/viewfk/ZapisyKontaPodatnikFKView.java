@@ -42,6 +42,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     @Inject private StronaWiersza wybranyzapis;
     private List<StronaWiersza> kontorozrachunki;
     private List<StronaWiersza> wybranekontadosumowania;
+    private List<KontoZapisy> wybranekontozapisy;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private TransakcjaDAO transakcjaDAO;
@@ -335,7 +336,11 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            PdfKontoZapisyLista.pobierzlistekont(kontozapisy, wpisView);
+            if (!wybranekontozapisy.isEmpty()) {
+                PdfKontoZapisyLista.pobierzlistekont(wybranekontozapisy, wpisView);
+            } else {
+                PdfKontoZapisyLista.pobierzlistekont(kontozapisy, wpisView);
+            }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
@@ -674,9 +679,19 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     public void setWybranyzapis(StronaWiersza wybranyzapis) {
         this.wybranyzapis = wybranyzapis;
     }
-//</editor-fold>
+    
+    
+    public List<KontoZapisy> getWybranekontozapisy() {
+        return wybranekontozapisy;
+    }
+
+    public void setWybranekontozapisy(List<KontoZapisy> wybranekontozapisy) {
+        this.wybranekontozapisy = wybranekontozapisy;
+    }
 
     
+//</editor-fold>
+
 
 }
 

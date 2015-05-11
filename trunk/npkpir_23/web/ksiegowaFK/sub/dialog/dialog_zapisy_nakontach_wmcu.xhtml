@@ -81,19 +81,20 @@
                 <p:commandButton value="drukuj" icon="ui-icon-print" actionListener="#{zapisyKontaPodatnikFKView.drukujPdfZapisyNaKoncie}"   style="width: 120px; margin-left: 30px;"/>
             </p:panelGrid>
 
-            <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" rowKey="#{loop.konto.pelnynumer}" 
+            <p:dataTable id="tabelazapisywmcu" value="#{zapisyKontaPodatnikFKView.kontozapisy}" var="loop" 
+                         rowKey="#{loop.konto.pelnynumer}" selection="#{zapisyKontaPodatnikFKView.wybranekontozapisy}"
                          rowIndexVar="rowindex1" emptyMessage="Nie ma zapisów na koncie" 
                          styleClass="tabelazapisywmcu"  style="overflow-y: scroll; height: 620px;" 
                          >
                         
-<!--                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
-                <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
+                <p:ajax event="rowSelectCheckbox" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:ajax event="toggleSelect" global="false"/>
+                <p:ajax event="rowSelect" global="false"/>-->
                 <p:column width="10">
                     <p:rowToggler />
                 </p:column>
-
+                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                 <p:column headerText="lp" width="20" style="text-align: center;">
                     <h:outputText styleClass="lpwiersza"  value="#{rowindex1+1}"/>
                 </p:column>
