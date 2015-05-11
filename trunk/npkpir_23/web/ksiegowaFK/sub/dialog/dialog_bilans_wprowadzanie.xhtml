@@ -11,17 +11,26 @@
         .ui-autocomplete-input {
             width: 250px;
         }
-        
+
         .kurswaluta input {
             width: 50px !important;
         }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            padding: 0px 1px  !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 30px !important;
+            padding: 0px 1px  !important;
+        }
+
     </style>
     <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  modal="true" appendTo="@(body)"
               resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item" style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -33,7 +42,7 @@
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="blur" global="false" partialSubmit="true"/>
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -43,20 +52,22 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -68,9 +79,19 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 0 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(0) - bilansWprowadzanieView.listaSumList.get('lista0').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista0').get(0) - bilansWprowadzanieView.listaSumList.get('lista0').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab title="1">
-                    <p:dataTable id="tabelakasa" value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable id="tabelakasa" value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -81,7 +102,7 @@
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column >
                             <f:facet name="header">
@@ -116,7 +137,7 @@
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
-                      <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -129,11 +150,11 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
-                             <h:outputText value="#{item.kwotaWnPLN}" style="float: right;">
-                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                              </h:outputText>
+                            <h:outputText value="#{item.kwotaWnPLN}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -146,9 +167,9 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
-                              <h:outputText value="#{item.kwotaMaPLN}" style="float: right;">
-                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                              </h:outputText>
+                            <h:outputText value="#{item.kwotaMaPLN}" style="float: right;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
@@ -159,9 +180,19 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 1 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(0) - bilansWprowadzanieView.listaSumList.get('lista1').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista1').get(0) - bilansWprowadzanieView.listaSumList.get('lista1').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -173,7 +204,7 @@
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="blur" global="false" partialSubmit="true"/>
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -208,7 +239,7 @@
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -225,7 +256,7 @@
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
                                             minValue="-1000000" styleClass="wiersznetto"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -234,11 +265,11 @@
                                 <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
-                              <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
                                             minValue="-1000000" styleClass="wiersznetto"/>
                         </p:column>
@@ -251,9 +282,19 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 2 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(0) - bilansWprowadzanieView.listaSumList.get('lista2').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista2').get(0) - bilansWprowadzanieView.listaSumList.get('lista2').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab title="3">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -264,7 +305,7 @@
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -274,20 +315,22 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista3)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto">
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -299,9 +342,19 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 3 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(0) - bilansWprowadzanieView.listaSumList.get('lista3').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista3').get(0) - bilansWprowadzanieView.listaSumList.get('lista3').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab title="6">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -312,7 +365,7 @@
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -322,20 +375,22 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista6)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -347,9 +402,19 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 6 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(0) - bilansWprowadzanieView.listaSumList.get('lista6').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista6').get(0) - bilansWprowadzanieView.listaSumList.get('lista6').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab title="8">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 440px;">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="Konto"/>
@@ -360,7 +425,7 @@
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);"
                                             ><!--to teraz powoduje blad-->
-                            </p:autoComplete>
+                                <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -370,20 +435,22 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista8)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -395,37 +462,47 @@
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid columns="1">
+                        <p:column>
+                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                                <h:outputText value="grupa 8 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" różnica: " style="margin-left: 10px;"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(0) - bilansWprowadzanieView.listaSumList.get('lista8').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista8').get(0) - bilansWprowadzanieView.listaSumList.get('lista8').get(1) != 0 ? 'red' : 'black'};"/>
+                            </p:panelGrid>
+                        </p:column>
+                    </p:panelGrid>
                 </p:tab>
                 <p:tab id="tabzbiorczy" title="W">
-                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item" style="overflow-y: scroll; height: 440px;">
-                                <p:column width="260">
-                                    <f:facet name="header">
-                                        <h:outputText value="Konto"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.konto.pelnynumer}" />
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="opis"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.wierszBOPK.opis}" />
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="KwotaWn"/>
-                                    </f:facet>
-                                    <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="true"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="KwotaMa"/>
-                                    </f:facet>
-                                    <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="true"/>
-                                </p:column>
-                            </p:dataTable>
+                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                        <p:column width="260">
+                            <f:facet name="header">
+                                <h:outputText value="Konto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.konto.pelnynumer}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="opis"/>
+                            </f:facet>
+                            <h:outputText value="#{item.wierszBOPK.opis}" />
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="KwotaWn"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="true"/>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <f:facet name="header">
+                                <h:outputText value="KwotaMa"/>
+                            </f:facet>
+                            <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="true"/>
+                        </p:column>
+                    </p:dataTable>
                 </p:tab>
             </p:tabView>
-            <p:panelGrid columns="2" id="sumyibutton">
+            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px;">
                 <p:column>
                     <p:commandButton value="zapisz kwoty i konta" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>
@@ -436,9 +513,9 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid id="kwotysum" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                        <h:outputText value="stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
-                        <h:outputText value="stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
-                        <h:outputText value="różnica: " style="margin-left: 10px;"/>
+                        <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
+                        <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
+                        <h:outputText value=" różnica: " style="margin-left: 10px;"/>
                         <bcf:outputpl value="#{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa != 0 ? 'red' : 'black'};"/>
                     </p:panelGrid>
                 </p:column>
