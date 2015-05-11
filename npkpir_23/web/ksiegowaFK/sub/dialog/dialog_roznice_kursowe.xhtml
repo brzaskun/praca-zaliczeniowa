@@ -50,7 +50,8 @@
                 </p:column>
             </p:dataTable>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięguj różnice" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="zaksięguj" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="drukuj" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
             </p:outputPanel>
         </h:form>
     </p:dialog>

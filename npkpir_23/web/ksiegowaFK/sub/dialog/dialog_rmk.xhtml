@@ -9,7 +9,7 @@
               resizable="false"  onShow="ustawdialog('dialogrmk','menurmk',1200,700);" closeOnEscape="true" onHide="resetujdialog('dialogrmk');" >
        
         <h:form id="kontoformLista">
-            <p:dataTable id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont rozrachunkowych z kontrahentami"
+            <p:dataTable id="infokonta" value="#{rMKView.listarmk}" var="item"  emptyMessage="Klient nie posiada kont z rozliczeniami rmk"
                          style="margin-top: 2%;height: 650px;" sortBy="#{item.id}" paginator="true" rows="10">
                 <f:facet name="header">
                     <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>

@@ -16,6 +16,7 @@ import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
+import entityfk.Transakcja;
 import entityfk.Wiersz;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,6 +155,22 @@ public class testobjects {
        n.add("pozycja Wn");
        n.add("pozycja Ma");  
        n.add("przychód/koszt");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getTabelaRRK(List<Transakcja> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("rachunek");
+       n.add("kurs rachunku");
+       n.add("płatność");
+       n.add("kurs płatności");
+       n.add("data zapłaty");
+       n.add("różnica kursowa");  
+       n.add("konto rozrachunkowe");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

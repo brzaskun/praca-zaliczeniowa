@@ -29,6 +29,7 @@ import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
+import entityfk.Transakcja;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -468,6 +469,17 @@ public class PdfMain {
                 col10[6] = 3;
                 col10[7] = 3;
                 return col10;
+            case "entityfk.Transakcja":
+                int[] col13 = new int[size];
+                col13[0] = 1;
+                col13[1] = 5;
+                col13[2] = 2;
+                col13[3] = 5;
+                col13[4] = 2;
+                col13[5] = 3;
+                col13[6] = 3;
+                col13[7] = 3;
+                return col13;
         }
         return null;
     }
@@ -702,6 +714,21 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
                 table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
                 table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
+            }
+            if (nazwaklasy.equals("entityfk.Transakcja")) {
+                Transakcja p = (Transakcja) it.next();
+                table.addCell(ustawfrazeAlign(i++, "center", 9));
+                String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
+                table.addCell(ustawfrazeAlign(rachunek, "left", 9));
+                double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+                table.addCell(ustawfrazeAlign(formatter.format(kurs), "right", 9));
+                String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
+                table.addCell(ustawfrazeAlign(platnosc, "left", 9));
+                kurs = p.getRozliczajacy().getKursBO() != 0.0 ? p.getRozliczajacy().getKursBO() : p.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
+                table.addCell(ustawfrazeAlign(formatter.format(kurs), "right", 9));
+                table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getRoznicekursowe()), "right", 9));
+                table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 9));
             }
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
                 WierszKonta p = (WierszKonta) it.next();

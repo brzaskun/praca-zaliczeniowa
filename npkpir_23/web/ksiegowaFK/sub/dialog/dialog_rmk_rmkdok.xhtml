@@ -11,7 +11,7 @@
         <bcf:ajaxs/>
         <h:form id="formrmk">
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 50%;" id="saldokontasrodkitrw">
+                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 50%;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
                     <p:column headerText="nr konta" width="50">
                         <h:outputText value="#{item.konto.pelnynumer}"/>
                     </p:column>
