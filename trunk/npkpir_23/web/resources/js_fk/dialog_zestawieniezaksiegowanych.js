@@ -32,3 +32,10 @@ var pokazeditbutton = function() {
         
     }
 };
+
+var zapisywierszywybordok = function() {
+    PF('wpisywanie').show();
+    var lp = document.getElementById('zestawieniezapisownakontachpola:wierszDoPodswietlenia').value;
+    var nazwa = 'formwpisdokument:dataList:'+lp+':opis';
+    $(document.getElementById(nazwa)).select();
+};
