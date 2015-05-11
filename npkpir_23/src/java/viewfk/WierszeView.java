@@ -45,7 +45,7 @@ public class WierszeView implements Serializable {
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
                 Wiersz p = (Wiersz) it.next();
                 Konto kwn = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
-                Konto kma = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
+                Konto kma = p.getStronaMa() != null ? p.getStronaMa().getKonto() : null;
                 boolean kwnbrak = false;
                 boolean kmabrak = false;
                 if (kwn != null) {
@@ -67,6 +67,7 @@ public class WierszeView implements Serializable {
                 }
             }
         }
+        System.out.println("d");
     }
     
     public void initwierszeWNT(){
