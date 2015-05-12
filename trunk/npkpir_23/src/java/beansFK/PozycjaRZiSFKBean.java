@@ -135,21 +135,14 @@ public class PozycjaRZiSFKBean {
         return rt.ustaldepthDT(pozycjeL) - 1;
     }
     
-    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy) {
-        List<Konto> kontapobrane = new ArrayList<>();
-        if (wzorcowy) {
-            kontapobrane = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
+    public static void naniesZachowanePozycjeNaKonta(KontoDAOfk kontoDAO, KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO, KontopozycjaZapisDAO kontopozycjaZapisDAO, UkladBR uklad, WpisView wpisView, boolean wzorcowy, String bilansowewynikowe) {
+        List<KontopozycjaZapis> kontopozycja = new ArrayList<>();
+        if (bilansowewynikowe.equals("wynikowe")) {
+            kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
         } else {
-            kontapobrane = kontoDAO.findWszystkieKontaPodatnika(uklad.getPodatnik(),wpisView.getRokWpisuSt());
+            kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
         }
-        for (Konto p : kontapobrane) {
-            p.setKontopozycjaID(null);
-            kontoDAO.edit(p);
-        }
-        List<KontopozycjaZapis> kontopozycjarzis = new ArrayList<>();
-        kontopozycjarzis.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"wynikowe"));
-        kontopozycjarzis.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
-        for (KontopozycjaZapis p : kontopozycjarzis) {
+        for (KontopozycjaZapis p : kontopozycja) {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
             kontoDAO.edit(konto);
