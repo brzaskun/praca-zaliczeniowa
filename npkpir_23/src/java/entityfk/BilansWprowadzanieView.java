@@ -266,6 +266,11 @@ public class BilansWprowadzanieView implements Serializable {
                                 }
                                 wierszBODAO.edit(p);
                             } catch (Exception e) {
+                                if (e.getStackTrace() != null) {
+                                    System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                                } else {
+                                    System.out.println("Blad "+e.toString());
+                                }
                             }
                         }
                     }
