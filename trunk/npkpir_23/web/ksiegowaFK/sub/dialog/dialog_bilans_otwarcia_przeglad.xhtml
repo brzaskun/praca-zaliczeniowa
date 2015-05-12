@@ -30,11 +30,14 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{bilansPodgladView.zwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{bilansPodgladView.zwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:spacer width="60"/>
+                <p:commandButton value="drukuj" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
             </p:panelGrid>
             <p:panelGrid columns="2">
-                <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selectionMode="single" selection="#{bilansPodgladView.selectednode}" 
+                <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1190px; max-height: 600px;">
+                             scrollable="true" style="width: 1190px; max-height: 600px;" >
+                    <p:ajax event="select" global="false"/>
+                    <p:ajax event="unselect" global="false" />
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
@@ -45,19 +48,31 @@
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 
                     </p:column>
                     <p:column headerText="Strona Wn" style="width: 70px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? (loop.kontopozycjaID.stronaWn eq 1 ? 'pasywa':'aktywa') : ''}" /> 
+                        <h:outputText value="#{loop.kontopozycjaID.stronaWn != null ? loop.kontopozycjaID.pozycjaWn : ''}" /> 
                     </p:column>
                     <p:column headerText="Strona Ma" style="width: 70px; text-align: center;">
-                        <h:outputText value="#{loop.kontopozycjaID.stronaMa != null ? (loop.kontopozycjaID.stronaMa eq 1 ? 'pasywa':'aktywa') : ''}" /> 
+                        <h:outputText value="#{loop.kontopozycjaID.stronaMa != null ? loop.kontopozycjaID.pozycjaMa : ''}" /> 
                     </p:column>
-                    <p:column headerText="Wn: #{bilansPodgladView.sumawn}" style="width: 100px;">
+                    <p:column style="width: 100px;">
+                        <f:facet name="header">
+                            <h:outputText value="Wn: "/>
+                            <h:outputText value="#{bilansPodgladView.sumawn}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </f:facet>
                         <h:outputText value="#{loop.boWn ne 0 ? loop.boWn : ''}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column headerText="Ma: #{bilansPodgladView.sumama}" style="width: 100px;">
+                    <p:column style="width: 100px;">
+                        <f:facet name="header">
+                            <h:outputText value="Ma: "/>
+                            <h:outputText value="#{bilansPodgladView.sumama}">
+                                <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </f:facet>
                         <h:outputText value="#{loop.boMa ne 0 ? loop.boMa : ''}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
                     <p:column headerText="zablokowane" style="width: 70px;">

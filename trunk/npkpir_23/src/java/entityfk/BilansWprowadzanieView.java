@@ -200,46 +200,46 @@ public class BilansWprowadzanieView implements Serializable {
         l.add(new WierszBO(p, r, w));
     }
 
-    public void usunwiersz(int kategoria) {
+    public void usunwiersz(int kategoria, WierszBO wierszBO) {
         switch (kategoria) {
             case 0:
-                usuwanielista(lista0);
+                usuwanielista(lista0, wierszBO);
                 podsumujWnMa(lista0, listaSumList.get("lista0"));
                 break;
             case 1:
-                usuwanielista(lista1);
+                usuwanielista(lista1, wierszBO);
                 podsumujWnMa(lista1, listaSumList.get("lista1"));
                 break;
             case 2:
-                usuwanielista(lista2);
+                usuwanielista(lista2, wierszBO);
                 podsumujWnMa(lista2, listaSumList.get("lista2"));
                 break;
             case 3:
-                usuwanielista(lista3);
+                usuwanielista(lista3, wierszBO);
                 podsumujWnMa(lista3, listaSumList.get("lista3"));
                 break;
             case 6:
-                usuwanielista(lista6);
+                usuwanielista(lista6, wierszBO);
                 podsumujWnMa(lista6, listaSumList.get("lista6"));
                 break;
             case 8:
-                usuwanielista(lista8);
+                usuwanielista(lista8, wierszBO);
                 podsumujWnMa(lista8, listaSumList.get("lista8"));
                 break;
         }
     }
 
-    private void usuwanielista(List<WierszBO> l) {
+    private void usuwanielista(List<WierszBO> l, WierszBO wierszBO) {
         try {
             Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
             Podatnik p = wpisView.getPodatnikObiekt();
             String r = wpisView.getRokWpisuSt();
             if (l.size() > 1) {
-                wierszBODAO.destroy(l.get(l.size() - 1));
-                l.remove(l.size() - 1);
+                wierszBODAO.destroy(wierszBO);
+                l.remove(wierszBO);
             } else {
-                wierszBODAO.destroy(l.get(l.size() - 1));
-                l.remove(l.size() - 1);
+                wierszBODAO.destroy(wierszBO);
+                l.remove(wierszBO);
                 l.add(new WierszBO(p, r, w));
             }
         } catch (Exception e) {
