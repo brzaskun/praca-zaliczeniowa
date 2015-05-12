@@ -84,7 +84,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
 
     public void pobierzukladkontoR() {
         przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true);
+        wyczyscKonta("wynikowe");
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "wynikowe");
         pozycje = new ArrayList<>();
         try {
             pozycje.addAll(pozycjaRZiSDAO.findRzisuklad(uklad));
@@ -105,7 +107,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
 
     public void pobierzukladkontoB(String aktywapasywa) {
         przyporzadkowanekonta = new ArrayList<>();
-        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true);
+        wyczyscKonta("bilansowe");
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+        PozycjaRZiSFKBean.naniesZachowanePozycjeNaKonta(kontoDAO, kontopozycjaBiezacaDAO, kontopozycjaZapisDAO, uklad, wpisView, true, "bilansowe");
         pozycje = new ArrayList<>();
         try {
             if (aktywapasywa.equals("aktywa")) {
