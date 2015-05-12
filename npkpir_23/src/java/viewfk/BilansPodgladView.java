@@ -18,6 +18,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.model.TreeNode;
+import pdffk.PdfBilansPodgladKonta;
 import view.WpisView;
 import waluty.Z;
 
@@ -35,6 +37,7 @@ public class BilansPodgladView  implements Serializable{
     @Inject private KontoDAOfk kontoDAO;
     private TreeNodeExtended<Konto> root;
     private TreeNodeExtended<Konto> selectednode;
+    private TreeNode[] selectednodes;
     private double sumawn;
     private double sumama;
     @ManagedProperty(value = "#{WpisView}")
@@ -85,7 +88,7 @@ public class BilansPodgladView  implements Serializable{
                     Konto macierzyste = znajdzmacierzysty(p.getMacierzysty(), listakont);
                     if (macierzyste != null) {
                         macierzyste.setBoWn(macierzyste.getBoWn()+p.getBoWn());
-                        macierzyste.setBoMa(macierzyste.getBoMa()+p.getSaldoMa());
+                        macierzyste.setBoMa(macierzyste.getBoMa()+p.getBoMa());
                     }
                 }
             }
@@ -139,6 +142,28 @@ public class BilansPodgladView  implements Serializable{
         root.foldLevel(--level);
     }  
     
+    public void drukuj() {
+        System.out.println("");
+        if (selectednodes != null && selectednodes.length > 0) {
+            List<Konto> w = new ArrayList<Konto>();
+            for (TreeNode p : selectednodes) {
+                Konto k = (Konto) p.getData();
+                if (!w.contains(k)) {
+                    List<Konto> tmp = new ArrayList<Konto>();
+                    ((TreeNodeExtended) p).getChildrenTree(new ArrayList<TreeNodeExtended>(), tmp);
+                    w.add(k);
+                    w.addAll(tmp);
+                }
+            }
+            System.out.println("1");
+            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
+        } else {
+            List<Konto> w = new ArrayList<Konto>();
+            root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
+            System.out.println("2");
+            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
+        }
+    }
    
      
     public TreeNodeExtended<Konto> getSelectednode() {
@@ -179,6 +204,14 @@ public class BilansPodgladView  implements Serializable{
 
     public void setSumama(double sumama) {
         this.sumama = sumama;
+    }
+
+    public TreeNode[] getSelectednodes() {
+        return selectednodes;
+    }
+
+    public void setSelectednodes(TreeNode[] selectednodes) {
+        this.selectednodes = selectednodes;
     }
 
     

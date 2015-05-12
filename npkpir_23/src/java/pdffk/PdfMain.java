@@ -460,16 +460,29 @@ public class PdfMain {
                     return col8;
                 }
             case "entityfk.Konto":
-                int[] col10 = new int[size];
-                col10[0] = 3;
-                col10[1] = 9;
-                col10[2] = 6;
-                col10[3] = 3;
-                col10[4] = 3;
-                col10[5] = 2;
-                col10[6] = 3;
-                col10[7] = 3;
-                return col10;
+                if (modyfikator==1) {
+                    int[] col10 = new int[size];
+                    col10[0] = 1;
+                    col10[1] = 2;
+                    col10[2] = 4;
+                    col10[3] = 3;
+                    col10[4] = 3;
+                    col10[5] = 3;
+                    col10[6] = 3;
+                    col10[7] = 3;
+                    return col10;
+                } else {
+                    int[] col10 = new int[size];
+                    col10[0] = 3;
+                    col10[1] = 9;
+                    col10[2] = 6;
+                    col10[3] = 3;
+                    col10[4] = 3;
+                    col10[5] = 2;
+                    col10[6] = 3;
+                    col10[7] = 3;
+                    return col10;
+                }
             case "entityfk.Transakcja":
                 int[] col13 = new int[size];
                 col13[0] = 1;
@@ -718,52 +731,74 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 9));
             }
             if (nazwaklasy.equals("entityfk.Konto")) {
-                Konto p = (Konto) it.next();
-                table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
-                table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
-                table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
+                if (modyfikator == 1) {
+                    Konto p = (Konto) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaWn(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaMa(), "center", 9));
+                    double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 9));
+                    }
+                    kwota = p.getBoMa() > 0 ? p.getBoMa() : 0;
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 9));
+                    }
+                } else {
+                    Konto p = (Konto) it.next();
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
+                }
             }
             if (nazwaklasy.equals("entityfk.WierszBO")) {
                 WierszBO p = (WierszBO) it.next();
-                table.addCell(ustawfrazeAlign(i++, "left", 9));
-                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 9));
-                String waluta = p.getWaluta().getSymbolwaluty();
-                table.addCell(ustawfrazeAlign(waluta, "center", 9));
+                table.addCell(ustawfrazeAlign(i++, "left", 7));
+                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
                 double kwota = p.getKurs();
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 9));
+                    table.addCell(ustawfrazeAlign("", "center", 7));
                 }
+                String waluta = p.getWaluta().getSymbolwaluty();
+                table.addCell(ustawfrazeAlign(waluta, "center", 7));
                 kwota = p.getKwotaWn(); 
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 9));
+                    table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaWnPLN();
                 if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 9));
+                    table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaMa();
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 9));
+                    table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaMaPLN();
                 if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 7));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 9));
+                    table.addCell(ustawfrazeAlign("", "center", 7));
                 }
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {

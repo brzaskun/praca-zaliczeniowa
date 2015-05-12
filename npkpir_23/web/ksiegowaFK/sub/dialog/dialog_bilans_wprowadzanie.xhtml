@@ -53,7 +53,7 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -62,7 +62,7 @@
                                 <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -77,7 +77,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update="@this:@parent:@parent"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -142,7 +142,7 @@
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -159,7 +159,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -182,7 +182,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update="@this:@parent:@parent"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -247,7 +247,7 @@
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -264,7 +264,7 @@
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
                                             minValue="-1000000" styleClass="wiersznetto"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -287,7 +287,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update="@this:@parent:@parent"/>
                             <p:spacer width="20"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -326,7 +326,7 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista3)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -335,7 +335,7 @@
                                 <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -350,7 +350,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update="@this:@parent:@parent"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -389,7 +389,7 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista6)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -398,7 +398,7 @@
                                 <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -413,7 +413,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update="@this:@parent:@parent"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -452,7 +452,7 @@
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista8)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
@@ -461,7 +461,7 @@
                                 <p:ajax event="change" global="false"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
@@ -476,7 +476,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update="@this:@parent:@parent"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" update="@this:@parent:@parent"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -507,13 +507,13 @@
                             </f:facet>
                             <h:outputText value="#{item.wierszBOPK.opis}" />
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="true"/>
                         </p:column>
-                        <p:column style="text-align: center;">
+                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>

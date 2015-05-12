@@ -110,6 +110,22 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaBOKonta(List<Konto> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nr konta");
+       n.add("nazwa pełna");
+       n.add("typ konta");
+       n.add("strona wn");
+       n.add("strona ma");
+       n.add("saldo wn");
+       n.add("saldo ma");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+   
    public static List[] getTabelaCechyZapisow(List<CechaStronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add("lp");
