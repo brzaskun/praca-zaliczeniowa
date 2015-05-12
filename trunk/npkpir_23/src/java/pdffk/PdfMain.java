@@ -733,12 +733,38 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(i++, "left", 9));
                 table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 9));
                 table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getKurs()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getWaluta().getSymbolwaluty(), "center", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaWn()), "right", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaWnPLN()), "right", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaMa()), "right", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaMaPLN()), "right", 9));
+                String waluta = p.getWaluta().getSymbolwaluty();
+                table.addCell(ustawfrazeAlign(waluta, "center", 9));
+                double kwota = p.getKurs();
+                if (kwota > 0) {
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 9));
+                }
+                kwota = p.getKwotaWn(); 
+                if (kwota > 0) {
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 9));
+                }
+                kwota = p.getKwotaWnPLN();
+                if (kwota > 0 && !waluta.equals("PLN")) {
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 9));
+                }
+                kwota = p.getKwotaMa();
+                if (kwota > 0) {
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 9));
+                }
+                kwota = p.getKwotaMaPLN();
+                if (kwota > 0 && !waluta.equals("PLN")) {
+                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 9));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 9));
+                }
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {
                 Transakcja p = (Transakcja) it.next();
