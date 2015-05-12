@@ -30,6 +30,7 @@ import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.Transakcja;
+import entityfk.WierszBO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -480,6 +481,18 @@ public class PdfMain {
                 col13[6] = 3;
                 col13[7] = 3;
                 return col13;
+            case "entityfk.WierszBO":
+                int[] col14 = new int[size];
+                col14[0] = 1;
+                col14[1] = 6;
+                col14[2] = 3;
+                col14[3] = 2;
+                col14[4] = 2;
+                col14[5] = 3;
+                col14[6] = 3;
+                col14[7] = 3;
+                col14[8] = 3;
+                return col14;
         }
         return null;
     }
@@ -714,6 +727,18 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
                 table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
                 table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
+            }
+            if (nazwaklasy.equals("entityfk.WierszBO")) {
+                WierszBO p = (WierszBO) it.next();
+                table.addCell(ustawfrazeAlign(i++, "left", 9));
+                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 9));
+                table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getKurs()), "center", 9));
+                table.addCell(ustawfrazeAlign(p.getWaluta().getSymbolwaluty(), "center", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaWn()), "right", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaWnPLN()), "right", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaMa()), "right", 9));
+                table.addCell(ustawfrazeAlign(formatter.format(p.getKwotaMaPLN()), "right", 9));
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {
                 Transakcja p = (Transakcja) it.next();

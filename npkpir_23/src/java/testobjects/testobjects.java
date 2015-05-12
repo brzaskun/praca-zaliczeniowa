@@ -18,6 +18,7 @@ import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.Wiersz;
+import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.List;
 import viewfk.CechyzapisuPrzegladView;
@@ -171,6 +172,23 @@ public class testobjects {
        n.add("data zapłaty");
        n.add("różnica kursowa");  
        n.add("konto rozrachunkowe");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getTabelaWierszBO(List<WierszBO> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("konto");
+       n.add("opis");
+       n.add("kurs");
+       n.add("waluta");
+       n.add("kwota Wn");
+       n.add("kwota Wn PLN");
+       n.add("kwota Ma");
+       n.add("kwota Ma PLN");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

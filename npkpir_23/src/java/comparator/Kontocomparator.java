@@ -33,15 +33,22 @@ public class Kontocomparator implements Comparator<Konto> {
     private int porownaj(String datao1, String datao2) {
         String[] o1l  = datao1.split("-");
         String[] o2l = datao2.split("-");
-        Integer o1 = Integer.parseInt(o1l[o1l.length-1]);
-        Integer o2 = Integer.parseInt(o2l[o2l.length-1]);
-        if (o1 > o2) {
-            return 1;
-        } else if ((o1 < o2)) {
-            return -1;
-        } else {
-            return 0;
+        int dlugosc = o1l.length;
+        int odpowiedz = 0;
+        for (int i = 0 ; i < dlugosc; i++) {
+            Integer o1 = Integer.parseInt(o1l[i]);
+            Integer o2 = Integer.parseInt(o2l[i]);
+            if (odpowiedz == 0) {
+                if (o1 > o2) {
+                    odpowiedz = 1;
+                } else if ((o1 < o2)) {
+                    odpowiedz = -1;
+                } else {
+                    odpowiedz = 0;
+                }
+            }
         }
+        return odpowiedz;
     }
     
 }

@@ -19,8 +19,7 @@ public class WierszBOcomparator  implements Comparator<WierszBO> {
     
     @Override
     public int compare(WierszBO o1, WierszBO o2) {
-        String konto1 = o1.getKonto().getPelnynumer();
-        String konto2 = o2.getKonto().getPelnynumer();
-        return konto1.compareTo(konto2);
+        Kontocomparator k = new Kontocomparator();
+        return k.compare(o1.getKonto(), o2.getKonto());
     }
 }

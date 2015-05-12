@@ -31,6 +31,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfWierszBO;
 import view.WpisView;
 
 /**
@@ -187,6 +188,9 @@ public class BilansWprowadzanieView implements Serializable {
                 podsumujWnMa(lista8, listaSumList.get("lista8"));
                 break;
         }
+        podsumujWnMa(listaW);
+        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
+
     }
 
     private void dodawanielista(List<WierszBO> l) {
@@ -370,8 +374,12 @@ public class BilansWprowadzanieView implements Serializable {
             } else {
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
-            podsumujWnMa(listaW);
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
+        } else {
+            if (strona.equals("Wn")) {
+                wiersz.setKwotaWnPLN(kwotaWwalucie);
+            } else {
+                wiersz.setKwotaMaPLN(kwotaWwalucie);
+            }
         }
     }
 
@@ -557,6 +565,10 @@ public class BilansWprowadzanieView implements Serializable {
         listasum.add(stronaWn);
         listasum.add(stronaMa);
         RequestContext.getCurrentInstance().update("formbilanswprowadzanie");
+    }
+    
+    public void drukuj(List<WierszBO> lista) {
+        PdfWierszBO.drukujRKK(lista, wpisView);
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
