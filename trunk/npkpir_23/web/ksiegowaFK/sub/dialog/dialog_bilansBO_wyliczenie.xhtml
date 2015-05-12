@@ -56,7 +56,10 @@
                              scrollable="true" style="width: 1200px;" >
                     <p:ajax event="select" global="false"/>
                     <f:facet name="header">
-                        <h:outputText value="aktywa #{pozycjaBRBOView.sumabilansowaaktywa}"/>
+                        <h:outputText value="aktywa:  "/>
+                        <h:outputText value="#{pozycjaBRBOView.sumabilansowaaktywa}">
+                            <f:convertNumber currencySymbol="PLN" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+                        </h:outputText>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -76,7 +79,10 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
                              scrollable="true" style="width: 1200px; margin-top: 30px;">
                     <f:facet name="header">
-                        <h:outputText value="pasywa #{pozycjaBRBOView.sumabilansowapasywa}"/>
+                        <h:outputText value="pasywa: "/>
+                        <h:outputText value="#{pozycjaBRBOView.sumabilansowapasywa}">
+                            <f:convertNumber currencySymbol="PLN" maxFractionDigits="2" minFractionDigits="2" groupingUsed="true"/>
+                        </h:outputText>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
