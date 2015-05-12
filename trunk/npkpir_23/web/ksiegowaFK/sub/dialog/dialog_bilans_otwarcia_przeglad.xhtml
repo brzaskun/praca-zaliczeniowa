@@ -75,8 +75,10 @@
                             <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText> 
                     </p:column>
-                    <p:column headerText="zablokowane" style="width: 70px;">
-                        <h:outputText value="#{loop.blokada eq true ? '&#x2713;' : null}" /> 
+                    <p:column headerText="różnica" style="width: 70px; text-align: right;">
+                        <h:outputText value="#{loop.boWn-loop.boMa}">
+                            <f:convertNumber type="number" minFractionDigits="2" maxFractionDigits="2"/>
+                        </h:outputText>
                     </p:column>
                 </p:treeTable>
             </p:panelGrid>
