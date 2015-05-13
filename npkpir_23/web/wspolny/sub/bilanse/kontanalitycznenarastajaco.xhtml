@@ -65,7 +65,7 @@
             <p:dataTable id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym/Nie pobrano zapisów"
                          styleClass="grid1"  widgetVar="tablicasaldaanalitycznenarastajaco"
-                         frozenColumns="3" scrollable="true" scrollHeight="625" selectionMode="single" style="width: 1200px;"
+                          scrollable="true" scrollHeight="625" selectionMode="single" style="width: 1200px;"
                          >
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
@@ -75,7 +75,7 @@
                 <p:column id="idcolumn" styleClass="idfrozen" headerText="id" width="20" sortBy="#{loop.id}" >
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
-                <p:column styleClass="kontofrozen" headerText="konto pełny numer" width="50" >
+                <p:column styleClass="kontofrozen" headerText="numer konta" width="50" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  styleClass="opisfrozen" headerText="opis" width="100" >

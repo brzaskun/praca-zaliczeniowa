@@ -129,7 +129,8 @@ public class DokTabView implements Serializable {
              int index = wpisView.getPodatnikObiekt().getNumerpkpir().size()-1;
              String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
              numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { 
+                System.out.println("Blad " + e.toString()); 
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
             }
