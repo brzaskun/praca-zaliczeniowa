@@ -64,7 +64,6 @@ var TabKeyDown;
             //dodaje kwoty z wiersza obok przy rozliczaniu rozachunkow
             if ($(event.target).is("button") === false) {
                 if (isTabKey(event)) {
-                    var isTabSuccessful = tab(true, event.shiftKey, $target);
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();

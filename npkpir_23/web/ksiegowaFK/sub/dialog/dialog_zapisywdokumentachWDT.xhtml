@@ -15,7 +15,7 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}"/>
+                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowaneWDT()}" update=":formzapisywdokumentachWDT"/>
                         <f:selectItem itemLabel="CR" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
@@ -28,7 +28,8 @@
                 <p:commandButton id="rukujbutton" value="drukuj" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWDT)}" styleClass="fkbutton"
                                      style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
-            <p:dataTable id="dataList" value="#{wierszeView.wierszeWDT}" var="loop" rowIndexVar="row" style="height: 700px;" widgetVar="zapisywdokumentachWDTdataList"
+            <p:dataTable id="dataList" value="#{wierszeView.wierszeWDT}" var="loop" rowIndexVar="row" style="height: 700px; height: 650px; overflow-y: scroll"
+                         widgetVar="zapisywdokumentachWDTdataList"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{wierszeView.wybranewierszeWDT}"  sortBy="#{loop.dokfk.datadokumentu}"
                          emptyMessage="nie pobrano wierszy/ nie ma wierszy WDT w tym miesiącu">
                 <f:facet name="header">  
@@ -40,23 +41,19 @@
                 <p:ajax event="rowUnselectCheckbox" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:ajax event="toggleSelect" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
-                <p:column headerText="id wiersza" width="50" sortBy="#{loop.idwiersza}" style="text-align: center;">
-                    <h:outputText value="#{loop.idwiersza}"/>
+                <p:column headerText="lp" width="20"  style="text-align: center;">
+                    <h:outputText value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="data dokum" width="50">
                     <h:outputText value="#{loop.dokfk.datadokumentu}"/>
                 </p:column>
                 <p:column headerText="id dokumentu" width="90">
-                    <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk}/#{loop.dokfk.dokfkPK.nrkolejnywserii}/#{loop.dokfk.dokfkPK.rok}"/>
+                    <h:outputText value="#{loop.dokfk.dokfkPK.seriadokfk ne null ? loop.dokfkS : ''}"/>
                 </p:column>
                 <p:column headerText="nr własny" width="90">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
-                <p:column headerText="lp wiersza" width="50" filterBy="#{loop.idporzadkowy}" style="text-align: center;"
-                          filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.idporzadkowy}">
-                    <h:outputText value="#{loop.idporzadkowy}" />
-                </p:column>
-                <p:column headerText="opis" width="150" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                <p:column headerText="opis" width="140" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
                     <h:outputText value="#{loop.opisWiersza}" />
                 </p:column>
                 <p:column headerText="ilość kg" width="60" filterBy="#{loop.ilosc_kg}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.ilosc_kg}">
@@ -69,20 +66,30 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="kwota Wn" width="70" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                <p:column headerText="Wn waluta" width="60" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
                     <h:outputText value="#{loop.stronaWn.kwota}" rendered="#{loop.stronaWn.kwota eq 0 ? false : true}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="konto Wn" width="80"  filterBy="#{loop.stronaWn.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.konto.pelnynumer}">
+                <p:column headerText="Wn PLN" width="60" filterBy="#{loop.stronaWn.kwotaPLN}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">
+                    <h:outputText value="#{loop.stronaWn.kwotaPLN}" rendered="#{loop.stronaWn.kwotaPLN eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto Wn" width="60"  filterBy="#{loop.stronaWn.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.konto.pelnynumer}">
                     <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" style="margin-left: 3px;"/>
                 </p:column>
-                <p:column headerText="kwota Ma" width="70" filterBy="#{loop.stronaMa.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
+                <p:column headerText="Ma waluta" width="60" filterBy="#{loop.stronaMa.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
                     <h:outputText value="#{loop.stronaMa.kwota}" rendered="#{loop.stronaMa.kwota eq 0 ? false : true}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="konto Ma" width="80"   filterBy="#{loop.stronaMa.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.konto.pelnynumer}">
+                <p:column headerText="Ma PLN" width="60" filterBy="#{loop.stronaMa.kwotaPLN}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
+                    <h:outputText value="#{loop.stronaMa.kwotaPLN}" rendered="#{loop.stronaMa.kwotaPLN eq 0 ? false : true}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="konto Ma" width="60"   filterBy="#{loop.stronaMa.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.konto.pelnynumer}">
                     <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px;"/>
                 </p:column>
             </p:dataTable>

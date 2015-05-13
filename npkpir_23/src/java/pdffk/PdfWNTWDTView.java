@@ -10,9 +10,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.sun.corba.se.impl.protocol.RequestCanceledException;
 import dao.UzDAO;
 import entity.Uz;
+import entityfk.Dokfk;
+import entityfk.DokfkPK;
+import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -36,6 +40,7 @@ public class PdfWNTWDTView implements Serializable {
     private UzDAO uzDAO;
     
     public void drukujzaksiegowanydokument(List<Wiersz> wiersze) {
+        dodajsume(wiersze);
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentwntwdt";
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -47,13 +52,50 @@ public class PdfWNTWDTView implements Serializable {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaL(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajTabele(document, testobjects.testobjects.getTabelaWDTWNT(wiersze),100,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaWDTWNT(wiersze),98,0);
             finalizacjaDokumentu(document);
             String f = "wydrukWNTWDT('"+wpisView.getPodatnikObiekt().getNip()+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }
+    }
+    
+    private void dodajsume(List<Wiersz> wiersze) {
+        double kg = 0.0;
+        double szt = 0.0;
+        double wartoscWnPLN = 0.0;
+        double wartoscMaPLN = 0.0;
+        for(Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+            Wiersz p = (Wiersz) it.next();
+            if (p.getIlosc_kg() == 0.0 && p.getIlosc_szt() == 0.0) {
+                it.remove();
+            }
+            if (p.getOpisWiersza().equals("podsumowanie")) {
+                it.remove();
+            } else {
+                kg += p.getIlosc_kg();
+                szt += p.getIlosc_szt();
+                wartoscWnPLN += p.getKwotaWnPLN();
+                wartoscMaPLN += p.getKwotaMaPLN();
+            }
+        }
+        Wiersz w = new Wiersz();
+        w.setIdwiersza(wiersze.get(wiersze.size()-1).getIdwiersza()+1);
+        w.setIdporzadkowy(wiersze.size());
+        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDataksiegowania("");
+        w.getDokfk().setNumerwlasnydokfk("");
+        w.setStronaWn(new StronaWiersza(w, "Wn"));
+        w.setStronaMa(new StronaWiersza(w, "Ma"));
+        w.setOpisWiersza("podsumowanie");
+        w.setIlosc_kg(kg);
+        w.setIlosc_szt(szt);
+        w.getStronaWn().setKwota(0.0);
+        w.getStronaMa().setKwota(0.0);
+        w.getStronaWn().setKwotaPLN(wartoscWnPLN);
+        w.getStronaMa().setKwotaPLN(wartoscMaPLN);
+        wiersze.add(w);
     }
 
     public WpisView getWpisView() {
