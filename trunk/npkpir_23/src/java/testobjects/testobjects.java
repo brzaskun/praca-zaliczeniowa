@@ -328,13 +328,14 @@ public class testobjects {
        n.add("data dok.");
        n.add("id dok");
        n.add("nr własny");
-       n.add("lp wiersza");
        n.add("opis");
        n.add("kg");
        n.add("szt");
        n.add("kwota Wn");
+       n.add("kwota Wn PLN");
        n.add("konto Wn");
        n.add("kwota Ma");
+       n.add("kwota Ma PLN");
        n.add("konto Ma");
        List t = getWierszeWNTWDTKonta(wiersze);
        List[] tabela = new List[2];
@@ -376,14 +377,29 @@ public class testobjects {
    public static List<WierszWNTWDT> getWierszeWNTWDTKonta(List<Wiersz> wiersze) {
        List<WierszWNTWDT> w = new ArrayList<WierszWNTWDT>();
        for (Wiersz p : wiersze) {
-           WierszWNTWDT l = new WierszWNTWDT(p.getIdwiersza(), p.getDataksiegowania() , p.getDokfkS(), p.getDokfk().getNumerwlasnydokfk(), p.getIdporzadkowy(),  p.getOpisWiersza(), p.getIlosc_kg(), p.getIlosc_szt());
+           WierszWNTWDT l = null;
+           if (p.getOpisWiersza().equals("podsumowanie")) {
+               l = new WierszWNTWDT(p.getIdwiersza(), "" , "", "", p.getIdporzadkowy(),  p.getOpisWiersza(), p.getIlosc_kg(), p.getIlosc_szt());
+           } else {
+               l = new WierszWNTWDT(p.getIdwiersza(), p.getDataksiegowania() , p.getDokfkS(), p.getDokfk().getNumerwlasnydokfk(), p.getIdporzadkowy(),  p.getOpisWiersza(), p.getIlosc_kg(), p.getIlosc_szt());
+           }
            if (p.getStronaWn() != null) {
                l.setKwotaWn(p.getStronaWn().getKwota());
-               l.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
+               l.setKwotaWnPLN(p.getStronaWn().getKwotaPLN());
+               if (p.getOpisWiersza().equals("podsumowanie")) {
+                   l.setOpiskontaWn("");
+               } else {
+                    l.setOpiskontaWn(p.getStronaWn().getKonto().getPelnynumer()+ " " + p.getStronaWn().getKonto().getNazwapelna());
+               }
            }
            if (p.getStronaMa() != null) {
                l.setKwotaMa(p.getStronaMa().getKwota());
-               l.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
+               l.setKwotaMaPLN(p.getStronaMa().getKwotaPLN());
+               if (p.getOpisWiersza().equals("podsumowanie")) {
+                   l.setOpiskontaMa("");
+               } else {
+                   l.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
+               }
            }
            w.add(l);
        }

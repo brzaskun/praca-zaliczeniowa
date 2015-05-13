@@ -17,13 +17,14 @@ public class WierszWNTWDT implements Serializable {
     private String data;
     private String iddok;
     private String nrwlasny;
-    private int lpwiersza;
     private String opis;
     private double kg;
     private double szt;
     private double kwotaWn;
+    private double kwotaWnPLN;
     private String opiskontaWn;
     private double kwotaMa;
+    private double kwotaMaPLN;
     private String opiskontaMa;
 
     public WierszWNTWDT() {
@@ -34,7 +35,6 @@ public class WierszWNTWDT implements Serializable {
         this.data = data;
         this.iddok = iddok;
         this.nrwlasny = nrwlasny;
-        this.lpwiersza = lpwiersza;
         this.opis = opis;
         this.kg = kg;
         this.szt = szt;
@@ -49,7 +49,6 @@ public class WierszWNTWDT implements Serializable {
         this.data = data;
         this.iddok = iddok;
         this.nrwlasny = nrwlasny;
-        this.lpwiersza = lpwiersza;
         this.opis = opis;
         this.kg = kg;
         this.szt = szt;
@@ -87,14 +86,7 @@ public class WierszWNTWDT implements Serializable {
         this.nrwlasny = nrwlasny;
     }
 
-    public int getLpwiersza() {
-        return lpwiersza;
-    }
-
-    public void setLpwiersza(int lpwiersza) {
-        this.lpwiersza = lpwiersza;
-    }
-
+   
     public String getOpis() {
         return opis;
     }
@@ -150,13 +142,29 @@ public class WierszWNTWDT implements Serializable {
     public void setOpiskontaMa(String opiskontaMa) {
         this.opiskontaMa = opiskontaMa;
     }
+
+    public double getKwotaWnPLN() {
+        return kwotaWnPLN;
+    }
+
+    public void setKwotaWnPLN(double kwotaWnPLN) {
+        this.kwotaWnPLN = kwotaWnPLN;
+    }
+
+    public double getKwotaMaPLN() {
+        return kwotaMaPLN;
+    }
+
+    public void setKwotaMaPLN(double kwotaMaPLN) {
+        this.kwotaMaPLN = kwotaMaPLN;
+    }
     
     
     
 
     @Override
     public String toString() {
-        return "WierszWNTWDT{" + "id=" + id + ", data=" + data + ", iddok=" + iddok + ", nrwlasny=" + nrwlasny + ", lpwiersza=" + lpwiersza + ", opis=" + opis + ", kg=" + kg + ", szt=" + szt + ", kwotaWn=" + kwotaWn + ", kontoWn=" + opiskontaWn + ", kwotaMa=" + kwotaMa + ", kontoMa=" + opiskontaMa + '}';
+        return "WierszWNTWDT{" + "id=" + id + ", data=" + data + ", iddok=" + iddok + ", nrwlasny=" + nrwlasny + ", opis=" + opis + ", kg=" + kg + ", szt=" + szt + ", kwotaWn=" + kwotaWn + ", kontoWn=" + opiskontaWn + ", kwotaMa=" + kwotaMa + ", kontoMa=" + opiskontaMa + '}';
     }
             
     

@@ -101,6 +101,7 @@ public class Wiersz implements Serializable {
         this.strona = new HashMap<>();
         this.piatki = new HashSet<>();
     }
+       
     
     //trzeba wstawiac numer porzadkowy dla celow funkcji javascript ktore odpowiednio obrabiaja wiersze w trakcie wprowadzania
     public Wiersz(int idporzadkowy, int typwiersza) {
@@ -174,6 +175,36 @@ public class Wiersz implements Serializable {
     
     public void setStronaMa(StronaWiersza stronaWiersza) {
         this.strona.put("Ma", stronaWiersza);
+    }
+    
+    public double getKwotaWn() {
+        if (this.getStronaWn() != null) {
+            return this.getStronaWn().getKwota();
+        } else {
+            return 0.0;
+        }
+    }
+    public double getKwotaWnPLN() {
+        if (this.getStronaWn() != null) {
+            return this.getStronaWn().getKwotaPLN();
+        } else {
+            return 0.0;
+        }
+    }
+    
+    public double getKwotaMa() {
+        if (this.getStronaMa() != null) {
+            return this.getStronaMa().getKwota();
+        } else {
+            return 0.0;
+        }
+    }
+    public double getKwotaMaPLN() {
+        if (this.getStronaMa() != null) {
+            return this.getStronaMa().getKwotaPLN();
+        } else {
+            return 0.0;
+        }
     }
     
     public StronaWiersza getStronaWn() {

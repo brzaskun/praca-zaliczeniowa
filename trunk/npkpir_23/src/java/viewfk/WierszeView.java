@@ -5,6 +5,8 @@
 package viewfk;
 
 import dao.WierszeDAO;
+import entityfk.Dokfk;
+import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
@@ -72,36 +74,101 @@ public class WierszeView implements Serializable {
     
     public void initwierszeWNT(){
         wierszeWNT = wierszeDAO.findWierszePodatnikMcRokWNTWDT(wpisView.getPodatnikObiekt(), wpisView, "WNT");
+        double kg = 0.0;
+        double szt = 0.0;
+        double wartoscWnPLN = 0.0;
+        double wartoscMaPLN = 0.0;
         for(Iterator<Wiersz> it = wierszeWNT.iterator(); it.hasNext();) {
             Wiersz p = (Wiersz) it.next();
             if (p.getIlosc_kg() == 0.0 && p.getIlosc_szt() == 0.0) {
                 it.remove();
             }
+            kg += p.getIlosc_kg();
+            szt += p.getIlosc_szt();
+            wartoscWnPLN += p.getKwotaWnPLN();
+            wartoscMaPLN += p.getKwotaMaPLN();
         }
+        Wiersz w = new Wiersz();
+        w.setIdwiersza(wierszeWNT.get(wierszeWNT.size()-1).getIdwiersza()+1);
+        w.setIdporzadkowy(wierszeWNT.size());
+        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDataksiegowania("");
+        w.getDokfk().setNumerwlasnydokfk("");
+        w.setStronaWn(new StronaWiersza(w, "Wn"));
+        w.setStronaMa(new StronaWiersza(w, "Ma"));
+        w.setOpisWiersza("podsumowanie");
+        w.setIlosc_kg(kg);
+        w.setIlosc_szt(szt);
+        w.getStronaWn().setKwota(0.0);
+        w.getStronaMa().setKwota(0.0);
+        w.getStronaWn().setKwotaPLN(wartoscWnPLN);
+        w.getStronaMa().setKwotaPLN(wartoscMaPLN);
+        wierszeWNT.add(w);
     }
     
     public void initwierszeWDT(){
         wierszeWDT = wierszeDAO.findWierszePodatnikMcRokWNTWDT(wpisView.getPodatnikObiekt(), wpisView, "WDT");
+        double kg = 0.0;
+        double szt = 0.0;
+        double wartoscWnPLN = 0.0;
+        double wartoscMaPLN = 0.0;
         for(Iterator<Wiersz> it = wierszeWDT.iterator(); it.hasNext();) {
             Wiersz p = (Wiersz) it.next();
             if (p.getIlosc_kg() == 0.0 && p.getIlosc_szt() == 0.0) {
                 it.remove();
             }
+            kg += p.getIlosc_kg();
+            szt += p.getIlosc_szt();
+            wartoscWnPLN += p.getKwotaWnPLN();
+            wartoscMaPLN += p.getKwotaMaPLN();
         }
+        Wiersz w = new Wiersz();
+        w.setIdwiersza(wierszeWDT.get(wierszeWDT.size()-1).getIdwiersza()+1);
+        w.setIdporzadkowy(wierszeWDT.size());
+        w.setDokfk(new Dokfk(new DokfkPK()));
+        w.setDataksiegowania("");
+        w.getDokfk().setNumerwlasnydokfk("");
+        w.setStronaWn(new StronaWiersza(w, "Wn"));
+        w.setStronaMa(new StronaWiersza(w, "Ma"));
+        w.setOpisWiersza("podsumowanie");
+        w.setIlosc_kg(kg);
+        w.setIlosc_szt(szt);
+        w.getStronaWn().setKwota(0.0);
+        w.getStronaMa().setKwota(0.0);
+        w.getStronaWn().setKwotaPLN(wartoscWnPLN);
+        w.getStronaMa().setKwotaPLN(wartoscMaPLN);
+        wierszeWDT.add(w);
     }
+    
     
     public void odswiezzaksiegowane() {
         if (wpisView.getMiesiacWpisu().equals("CR")) {
             wiersze = wierszeDAO.findWierszePodatnikRok(wpisView.getPodatnikObiekt(), wpisView);
-            wierszeWNT = new ArrayList<>();
-            wierszeWDT = new ArrayList<>();
             RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
         } else {
             wpisView.wpisAktualizuj();
             wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
-            initwierszeWNT();
-            initwierszeWDT();
             RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
+        }
+    }
+    
+    public void odswiezzaksiegowaneWNT() {
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            wierszeWNT = new ArrayList<>();
+            wierszeWDT = new ArrayList<>();
+        } else {
+            wpisView.wpisAktualizuj();
+            initwierszeWNT();
+        }
+    }
+    
+     public void odswiezzaksiegowaneWDT() {
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            wierszeWNT = new ArrayList<>();
+            wierszeWDT = new ArrayList<>();
+        } else {
+            wpisView.wpisAktualizuj();
+            initwierszeWDT();
         }
     }
 

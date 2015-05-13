@@ -356,14 +356,15 @@ public class PdfMain {
                 col3[1] = 2;
                 col3[2] = 2;
                 col3[3] = 2;
-                col3[4] = 1;
-                col3[5] = 3;
+                col3[4] = 3;
+                col3[5] = 2;
                 col3[6] = 2;
                 col3[7] = 2;
                 col3[8] = 2;
-                col3[9] = 4;
+                col3[9] = 3;
                 col3[10] = 2;
-                col3[11] = 4;
+                col3[11] = 2;
+                col3[12] = 3;
                 return col3;
             case "testobjects.WierszCecha":
                 int[] col4 = new int[size];
@@ -525,8 +526,16 @@ public class PdfMain {
         }
     }
     
-    private static NumberFormat getNumFormater() {
+    private static NumberFormat getCurrencyFormater() {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        return formatter;
+    }
+    
+    private static NumberFormat getNumberFormater() {
+        NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
@@ -617,7 +626,8 @@ public class PdfMain {
     
 
     private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
-        NumberFormat formatter = getNumFormater();
+        NumberFormat currency = getCurrencyFormater();
+        NumberFormat number = getNumberFormater();
         int i = 1;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
@@ -625,7 +635,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                 if (p.getWartosc() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 9));
                 } else {
                     table.addCell(ustawfrazeAlign("", "right", 9));
                 }
@@ -658,7 +668,7 @@ public class PdfMain {
                 }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
@@ -696,7 +706,7 @@ public class PdfMain {
                     }
                     if (modyfikator != 2) {
                         if (p.getKwota() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
                         } else {
                             table.addCell(ustawfrazeAlign("", "right", 9));
                         }
@@ -716,7 +726,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 9));
                 table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 9));
                 table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwota())), "right", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
             }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
                 WierszDokfk p = (WierszDokfk) it.next();
@@ -727,7 +737,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 9));
                 table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 9));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartosc())), "right", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 9));
                 table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 9));
             }
             if (nazwaklasy.equals("entityfk.Konto")) {
@@ -741,13 +751,13 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaMa(), "center", 9));
                     double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
                     if (kwota > 0) {
-                        table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 9));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 9));
                     }
                     kwota = p.getBoMa() > 0 ? p.getBoMa() : 0;
                     if (kwota > 0) {
-                        table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 9));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 9));
                     }
@@ -770,7 +780,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
                 double kwota = p.getKurs();
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
+                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 7));
                 }
@@ -778,25 +788,25 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(waluta, "center", 7));
                 kwota = p.getKwotaWn(); 
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
+                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaWnPLN();
                 if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "center", 7));
+                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaMa();
                 if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 7));
+                    table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 7));
                 }
                 kwota = p.getKwotaMaPLN();
                 if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(formatter.format(kwota), "right", 7));
+                    table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                 } else {
                     table.addCell(ustawfrazeAlign("", "center", 7));
                 }
@@ -807,13 +817,13 @@ public class PdfMain {
                 String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
                 table.addCell(ustawfrazeAlign(rachunek, "left", 9));
                 double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(formatter.format(kurs), "right", 9));
+                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 9));
                 String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
                 table.addCell(ustawfrazeAlign(platnosc, "left", 9));
                 kurs = p.getRozliczajacy().getKursBO() != 0.0 ? p.getRozliczajacy().getKursBO() : p.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(formatter.format(kurs), "right", 9));
+                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 9));
                 table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 9));
-                table.addCell(ustawfrazeAlign(formatter.format(p.getRoznicekursowe()), "right", 9));
+                table.addCell(ustawfrazeAlign(number.format(p.getRoznicekursowe()), "right", 9));
                 table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 9));
             }
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
@@ -821,13 +831,13 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
                     if (p.getKwotaWn() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotaWn())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
                     table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
                     if (p.getKwotaMa() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getKwotaMa())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 9));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 9));
                     }
@@ -835,18 +845,27 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("testobjects.WierszWNTWDT")) {
                 WierszWNTWDT p = (WierszWNTWDT) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getData(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "center", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLpwiersza()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getKg()), "right", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getSzt()), "right", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getKwotaWn()), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getKwotaMa()), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKg())), "right", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSzt())), "right", 8));
+                if (p.getOpis().equals("podsumowanie")) {
+                    table.addCell(ustawfrazeAlign("", "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
+                }
+                table.addCell(ustawfrazeAlign(String.valueOf(currency.format(p.getKwotaWnPLN())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
+                if (p.getOpis().equals("podsumowanie")) {
+                    table.addCell(ustawfrazeAlign("", "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
+                }
+                table.addCell(ustawfrazeAlign(String.valueOf(currency.format(p.getKwotaMaPLN())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
             }
             if (nazwaklasy.equals("entity.Faktura")) {
                 Faktura p = (Faktura) it.next();
@@ -855,7 +874,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getFakturaPK().getNumerkolejny(), "center", 9));
                 table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna()+" "+p.getKontrahent().getNip(), "left", 9));
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "center", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getBrutto())), "right", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 9));
                 table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 9));
             }
         }
