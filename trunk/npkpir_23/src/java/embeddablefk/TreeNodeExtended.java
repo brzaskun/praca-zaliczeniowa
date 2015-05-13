@@ -357,6 +357,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     }
                 }
             } catch (Exception e) {
+                if (e.getStackTrace() != null && e.getStackTrace().length >0) {
+                    System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                }
                 throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }
         }

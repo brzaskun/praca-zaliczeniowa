@@ -17,6 +17,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -30,9 +31,9 @@ public class WierszBODAO extends DAO implements Serializable {
     @Inject
     private SessionFacade wierszBOFacade;
     
-    public List<WierszBO> lista(String grupa, Podatnik podatnik) {
+    public List<WierszBO> lista(String grupa, WpisView wpisView) {
         try {
-            return wierszBOFacade.findBOLista0(grupa, podatnik);
+            return wierszBOFacade.findBOLista0(grupa, wpisView);
         } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return new ArrayList<>();
         }

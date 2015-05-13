@@ -99,37 +99,37 @@ public class BilansWprowadzanieView implements Serializable {
         String r = wpisView.getRokWpisuSt();
         Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         this.listaW = new ArrayList<>();
-        this.lista0.addAll(wierszBODAO.lista("0%", p));
+        this.lista0.addAll(wierszBODAO.lista("0%", wpisView));
         if (lista0.isEmpty()) {
             this.lista0.add(new WierszBO(p, r, w));
         } else {
             this.listaW.addAll(this.lista0);
         }
-        this.lista1.addAll(wierszBODAO.lista("1%", p));
+        this.lista1.addAll(wierszBODAO.lista("1%", wpisView));
         if (lista1.isEmpty()) {
             this.lista1.add(new WierszBO(p, r, w));
         } else {
             this.listaW.addAll(this.lista1);
         }
-        this.lista2.addAll(wierszBODAO.lista("2%", p));
+        this.lista2.addAll(wierszBODAO.lista("2%", wpisView));
         if (lista2.isEmpty()) {
             this.lista2.add(new WierszBO(p, r, w));
         } else {
             this.listaW.addAll(this.lista2);
         }
-        this.lista3.addAll(wierszBODAO.lista("3%", p));
+        this.lista3.addAll(wierszBODAO.lista("3%", wpisView));
         if (lista3.isEmpty()) {
             this.lista3.add(new WierszBO(p, r, w));
         } else {
             this.listaW.addAll(this.lista3);
         }
-        this.lista6.addAll(wierszBODAO.lista("6%", p));
+        this.lista6.addAll(wierszBODAO.lista("6%", wpisView));
         if (lista6.isEmpty()) {
             this.lista6.add(new WierszBO(p, r, w));
         } else {
             this.listaW.addAll(this.lista6);
         }
-        this.lista8.addAll(wierszBODAO.lista("8%", p));
+        this.lista8.addAll(wierszBODAO.lista("8%", wpisView));
         if (lista8.isEmpty()) {
             this.lista8.add(new WierszBO(p, r, w));
         } else {
