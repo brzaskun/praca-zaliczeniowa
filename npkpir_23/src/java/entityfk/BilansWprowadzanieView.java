@@ -284,8 +284,8 @@ public class BilansWprowadzanieView implements Serializable {
                 p.setBoWn(0.0);
                 p.setBoMa(0.0);
                 p.setBlokada(false);
-                kontoDAO.edit(p);
             }
+            kontoDAO.editList(listakont);
             for (WierszBO p : zachowaneWiersze) {
                 Konto k = listakont.get(listakont.indexOf(p.getKonto()));
                 k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());

@@ -142,11 +142,13 @@ public class PozycjaRZiSFKBean {
         } else {
             kontopozycja.addAll(kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad,"bilansowe"));
         }
+        List<Konto> l = new ArrayList<>();
         for (KontopozycjaZapis p : kontopozycja) {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
-            kontoDAO.edit(konto);
+            l.add(konto);
         }
+        kontoDAO.edit(l);
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy) {

@@ -5,6 +5,7 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
@@ -72,6 +73,18 @@ public abstract class DAO<T> {
      * @param selected
      */
     public void edit(T selected) {
+        try {
+            sessionFacade.edit(selected);
+        }  catch (EJBException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new EJBException(e.getCause().getMessage(), e);
+        }  catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
+            throw new PersistenceException(e.getCause().getMessage(), e);
+        }
+    }
+    
+    public void editList(List<T> selected) {
         try {
             sessionFacade.edit(selected);
         }  catch (EJBException e) {

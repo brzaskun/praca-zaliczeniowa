@@ -67,7 +67,11 @@ import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transaction;
 import view.WpisView;
 
 /**
@@ -112,6 +116,12 @@ public class SessionFacade<T> implements Serializable {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+    }
+    
+    public void edit(List<T> entityList) {
+        for (T p : entityList) {
+            getEntityManager().merge(p);
+        }
     }
 
     public List<T> findXLast(Class<T> entityClass, int ile) {
