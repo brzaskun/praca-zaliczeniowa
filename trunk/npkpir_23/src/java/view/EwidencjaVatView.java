@@ -164,6 +164,7 @@ public class EwidencjaVatView implements Serializable {
             zerujListy();
             List<EVatwpisFK> listadokvat = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
+            System.out.println("vat okres: "+vatokres);
             List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(listadokvat, vatokres);
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
             transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
@@ -180,7 +181,10 @@ public class EwidencjaVatView implements Serializable {
             }
             RequestContext.getCurrentInstance().update("form");
             RequestContext.getCurrentInstance().update("formEwidencjeGuest");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { 
+            if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
+                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            }
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje
