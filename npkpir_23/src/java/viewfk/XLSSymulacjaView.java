@@ -153,12 +153,17 @@ public class XLSSymulacjaView implements Serializable{
         List l = new ArrayList();
         int j = 1;
         int k = 1;
-        for (int i = 0; i < lista.size(); i = i+2) {
+        for (int i = 0; i < lista.size(); i = i+4) {
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++, nazwaudzialowca,p.getWartosc()));
-            String dowyplaty = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
-            l.add(new PozycjaObliczenia(j++,"do wypłaty #"+k, dowyplaty));
+            String nazleznazamc = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
+            l.add(new PozycjaObliczenia(j++,"należna za mc "+k, nazleznazamc));
+            SymulacjaWynikuView.PozycjeSymulacji p1 = lista.get(i+2);
+            double wyplaconopopmce = p1.getWartosc();
+            l.add(new PozycjaObliczenia(j++,"wypłacono pop mce "+k, wyplaconopopmce));
+            String dowyplaty = "round(wypłaconopopmce"+k+"+należnazamc"+k+",2)";
+            l.add(new PozycjaObliczenia(j++,"do wypłaty "+k, dowyplaty));
             k++;
         }
         return l;
