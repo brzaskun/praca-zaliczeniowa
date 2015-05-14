@@ -463,27 +463,28 @@ public final class DokView implements Serializable {
             double vat = 0.0;
             try {
                 String ne = e.getOpis();
+                double n = Math.abs(e.getNetto());
                 switch (ne) {
                     case "sprzedaż 23%":
-                        vat = (e.getNetto()*0.23)+0.02;
+                        vat = (n*0.23)+0.02;
                         break;
                     case "sprzedaż 8%":
-                       vat = (e.getNetto()*0.08)+0.02;
+                       vat = (n*0.08)+0.02;
                         break;
                     case "sprzedaż 5%":
-                        vat = (e.getNetto()*0.05)+0.02;
+                        vat = (n*0.05)+0.02;
                         break;
                     case "sprzedaż 0%":
                     case "sprzedaż zw":
                         break;
                     default:
-                        vat = (e.getNetto()*0.23)+0.02;
+                        vat = (n*0.23)+0.02;
                         break;
                 }
                 } catch (Exception e2) {
                     
                 }
-            if (e.getVat() > vat) {
+            if (Math.abs(e.getVat()) > vat) {
                 e.setVat(0.0);
                 e.setBrutto(0.0);
                 Msg.msg("e","VAT jest za duży od wyliczonej kwoty");
