@@ -12,6 +12,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
+import embeddable.Mce;
 import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
@@ -50,6 +51,8 @@ public class SymulacjaWynikuView implements Serializable {
     private List<PozycjeSymulacji> pozycjeDoWyplaty;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{symulacjaWynikuNarastajacoView}")
+    private SymulacjaWynikuNarastajacoView symulacjaWynikuNarastajacoView;
     @Inject
     private WierszBODAO wierszBODAO;
     @Inject
@@ -68,6 +71,7 @@ public class SymulacjaWynikuView implements Serializable {
     private double korektazapisycechaprzychod;
     private Map<String, Double> podatnikkwotarazem;
     private double wynikfinansowy;
+    private Map<String, Double> pozycjeDoWyplatyNarastajaco;
 
     public SymulacjaWynikuView() {
         sumaSaldoKontoPrzychody = new ArrayList<>();
@@ -91,7 +95,9 @@ public class SymulacjaWynikuView implements Serializable {
         listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
         pobierzzapisyzcechami();
         obliczsymulacje();
+        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
         obliczkwotydowyplaty();
+        System.out.println("");
     }
 
     public void odswiezsymulacjewynikuanalityczne() {
@@ -294,7 +300,23 @@ public class SymulacjaWynikuView implements Serializable {
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" udział", udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty #"+String.valueOf(i), Z.z(dowyplaty-zaplacono)));
+                double zamc = Z.z(dowyplaty-zaplacono);
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("należna za mc #"+String.valueOf(i), zamc));
+                double wyplaconopopmce = 0.0;
+                if (pozycjeDoWyplatyNarastajaco != null && pozycjeDoWyplatyNarastajaco.size() > 0) {
+                wyplaconopopmce = pozycjeDoWyplatyNarastajaco.get(p.getNazwiskoimie());
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("wypłacono pop mce #"+String.valueOf(i), Z.z(wyplaconopopmce)));
+                double roznica = Z.z(wyplaconopopmce+zamc);
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty od pocz. rok #"+String.valueOf(i), roznica));
+                } else {
+                    if (wpisView.getMiesiacWpisu().equals("01")) {
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("pierwszy mc #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("w roku #"+String.valueOf(i), 0.0));
+                    } else {
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("nie zachowano pop.mcy #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("nie można obliczyć #"+String.valueOf(i), 0.0));
+                    }
+                }
                 i++;
             }
         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
@@ -309,6 +331,14 @@ public class SymulacjaWynikuView implements Serializable {
 
     public void setWybraneprzychody(List<SaldoKonto> wybraneprzychody) {
         this.wybraneprzychody = wybraneprzychody;
+    }
+
+    public SymulacjaWynikuNarastajacoView getSymulacjaWynikuNarastajacoView() {
+        return symulacjaWynikuNarastajacoView;
+    }
+
+    public void setSymulacjaWynikuNarastajacoView(SymulacjaWynikuNarastajacoView symulacjaWynikuNarastajacoView) {
+        this.symulacjaWynikuNarastajacoView = symulacjaWynikuNarastajacoView;
     }
 
     public List<PozycjeSymulacji> getPozycjeDoWyplaty() {
