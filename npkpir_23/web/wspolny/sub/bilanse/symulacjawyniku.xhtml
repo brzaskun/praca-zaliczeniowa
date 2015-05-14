@@ -23,6 +23,8 @@
         <script>
             var pokazprzyciski = function() {
                 r('akordeon:formsymulacja:xlsbutton').show();
+                r('akordeon:formsymulacja:xlsbutton_button').show();
+                r('akordeon:formsymulacja:xlsbutton_menuButton').show();
                 r('akordeon:formsymulacja:drukujtab').show();
                 r('akordeon:formsymulacja:drukujszcz').show();
             };
@@ -44,8 +46,11 @@
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton id="drukujtab" value="drukuj tab." actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton id="drukujszcz" value="drukuj szcz." actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton id="xlsbutton" value="XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS()}" style="width: 120px; margin-left: 15px; display: none;" global="false" ajax="false"/>
+                <p:splitButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(0)}" style=" margin-left: 15px; display: none;" global="false" ajax="false">
+                    <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
+            </p:splitButton>
             </p:panelGrid>
+            
 
             <p:dataTable id="tablicasymulacjaP" value="#{symulacjaWynikuView.listakontaprzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach przychodowych w roku podatkowym" selection="#{symulacjaWynikuView.sumaSaldoKontoPrzychody}"
