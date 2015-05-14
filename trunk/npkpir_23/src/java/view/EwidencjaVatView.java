@@ -490,7 +490,7 @@ public class EwidencjaVatView implements Serializable {
             if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
                 int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
                 int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
-                if (wynikPo > 1 && wynikPrzed < 0) {
+                if (wynikPo > 0 && wynikPrzed < 0) {
                     return p.getParametr();
                 }
             } else {
