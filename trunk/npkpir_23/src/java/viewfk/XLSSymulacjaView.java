@@ -6,6 +6,7 @@
 package viewfk;
 
 import embeddablefk.SaldoKonto;
+import entityfk.StronaWiersza;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,9 +40,14 @@ public class XLSSymulacjaView implements Serializable{
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
-    public void zachowajSymulacjewXLS() {
+    public void zachowajSymulacjewXLS(int modulator) {
         try {
-            List przychody = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontaprzychody(),"p");
+            List przychody = null;
+            if (modulator == 1) {
+                przychody = transferToPozycjaPrzychod(symulacjaWynikuView.getListakontaprzychody(),"p");
+            } else {
+                przychody = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontaprzychody(),"p");
+            }
             List koszty = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontakoszty(),"k");
             List wynik = transferToPozycjaObliczeniaWynik(symulacjaWynikuView.getPozycjePodsumowaniaWyniku());
             List podatek = transferToPozycjaObliczeniaPodatek(symulacjaWynikuView.getPozycjeObliczeniaPodatku());
@@ -61,7 +67,7 @@ public class XLSSymulacjaView implements Serializable{
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.setResponseContentType("application/vnd.ms-excel");
-            String filename = "xlsfile.xlsx";
+            String filename = "wynikfin"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
             externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
             // Write file to response body.
             workbook.write(externalContext.getResponseOutputStream());
@@ -73,6 +79,29 @@ public class XLSSymulacjaView implements Serializable{
         }
     }
 
+    private List transferToPozycjaPrzychod (List<SaldoKonto> lista, String p_k) {
+        List l = new ArrayList();
+        int i = 1;
+        for (SaldoKonto p : lista) {
+            for (StronaWiersza r : p.getZapisy()) {
+                double kwota = 0.0;
+                if (r.getWnma().equals("Wn")) {
+                    kwota = -r.getKwotaPLN();
+                } else {
+                    kwota = r.getKwotaPLN();
+                }
+                String konto = p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna();
+                String fa = r.getDokfk().getKontr().getNskrocona()+" "+r.getDokfk().getNumerwlasnydokfk();
+                PozycjaPrzychodKoszt pozycjaPrzychodKoszt = new PozycjaPrzychodKoszt(i++, konto, fa, r.getDokfk().getOpisdokfk(), kwota);
+                l.add(pozycjaPrzychodKoszt);
+            }
+        }
+        l.add(new PozycjaPrzychodKoszt(i++, "", "pozycja dla symulacji", "", 0.0));
+        l.add(new PozycjaPrzychodKoszt(i++, "", "pozycja dla symulacji", "", 0.0));
+        l.add(new PozycjaPrzychodKoszt(i++, "", "pozycja dla symulacji", "", 0.0));
+        return l;
+    }
+    
     private List transferToPozycjaPrzychodKoszt (List<SaldoKonto> lista, String p_k) {
         List l = new ArrayList();
         int i = 1;
