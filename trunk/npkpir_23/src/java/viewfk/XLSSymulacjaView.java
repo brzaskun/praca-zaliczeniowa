@@ -91,7 +91,8 @@ public class XLSSymulacjaView implements Serializable{
                     kwota = r.getKwotaPLN();
                 }
                 String konto = p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna();
-                String fa = r.getDokfk().getKontr().getNskrocona()+" "+r.getDokfk().getNumerwlasnydokfk();
+                String kontr = r.getDokfk().getKontr().getNpelna().length() > 40 ? r.getDokfk().getKontr().getNpelna().substring(0,39) : r.getDokfk().getKontr().getNpelna();
+                String fa = kontr+" f:"+r.getDokfk().getNumerwlasnydokfk();
                 PozycjaPrzychodKoszt pozycjaPrzychodKoszt = new PozycjaPrzychodKoszt(i++, konto, fa, r.getDokfk().getOpisdokfk(), kwota);
                 l.add(pozycjaPrzychodKoszt);
             }
