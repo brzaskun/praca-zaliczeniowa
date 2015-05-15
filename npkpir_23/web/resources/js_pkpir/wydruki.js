@@ -66,7 +66,11 @@ var wydrukpit5 = function(kto){
     window.open('../wydruki/pit5'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydrukewidencje = function(kto,nazwa){
+var wydrukewidencje = function(kto,nazwa, target){
+    if (typeof target !== "undefined") {
+        var sib = r(target.source).siblings("button");
+        $(sib[1]).show();
+    }
     if(!nazwa.indexOf("sprzedaż", 0)){
     var nazwanowa = nazwa.substr(0, nazwa.length-1);
     } else {
