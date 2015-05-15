@@ -42,7 +42,7 @@ public class PdfFakturySporzadzone {
         try {
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf"));
-            int liczydlo = 0;
+            int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
             writer.setPageEvent(headerfoter);

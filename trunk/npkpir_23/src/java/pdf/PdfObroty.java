@@ -43,7 +43,7 @@ public class PdfObroty  {
     public static void drukuj(List<Dok> goscwybral, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf"));
-        int liczydlo = 0;
+        int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);

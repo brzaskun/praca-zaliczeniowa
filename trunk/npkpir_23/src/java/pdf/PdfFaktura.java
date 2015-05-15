@@ -299,7 +299,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         Document document = new Document();
         String nazwapliku = "C:/testowa.pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
-        int liczydlo = 0;
+        int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
         writer.setPageEvent(headerfoter);
