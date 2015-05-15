@@ -122,7 +122,7 @@ public class Pdf implements Serializable {
     @Inject
     protected VATDeklaracjaKorektaDokDAO vATDeklaracjaKorektaDokDAO;
 
-    protected int liczydlo = 0;
+    protected int liczydlo = 1;
 
     protected void init(String fileName) {
         try{

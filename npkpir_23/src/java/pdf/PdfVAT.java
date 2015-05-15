@@ -84,7 +84,7 @@ public class PdfVAT {
 
                     }
                     PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
-                    int liczydlo = 0;
+                    int liczydlo = 1;
                     PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                     writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
                     writer.setPageEvent(headerfoter);
@@ -196,16 +196,26 @@ public class PdfVAT {
         table.addCell(ustawfrazeAlign(rs.getNrKolejny(), "left", 6));
         table.addCell(ustawfrazeAlign(rs.getNrWlDk(), "left", 6));
         try {
-            table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
-            table.addCell(ustawfrazeAlign(rs.getKontr().getNip(), "left", 6));
-            if (rs.getKontr().getKodpocztowy() != null) {
+            if (rs.getKontr() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNpelna(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            if (rs.getKontr() != null && rs.getKontr().getNip() != null) {
+                table.addCell(ustawfrazeAlign(rs.getKontr().getNip(), "left", 6));
+            } else {
+                table.addCell(ustawfrazeAlign("", "left", 6));
+            }
+            if (rs.getKontr() != null && rs.getKontr().getKodpocztowy() != null) {
                 table.addCell(ustawfrazeAlign(rs.getKontr().getKodpocztowy() + " " + rs.getKontr().getMiejscowosc() + " ul. " + rs.getKontr().getUlica() + " " + rs.getKontr().getDom(), "left", 6));
             } else {
                 table.addCell(ustawfrazeAlign("", "left", 6));
             }
         } catch (Exception e) {
-            table.addCell(ustawfrazeAlign("", "left", 6));
-            table.addCell(ustawfrazeAlign("", "left", 6));
+            if (e.getStackTrace() != null) {
+                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            }
+            
         }
 
         table.addCell(ustawfrazeAlign(rs.getOpis(), "left", 6));
