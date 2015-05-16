@@ -2387,20 +2387,19 @@ public void updatenetto(EVatwpisFK e, String form) {
             double sumawn = 0.0;
             double sumama = 0.0;
             boolean jestkontonieostatnie = false;
-            for (Wiersz r : p.getListawierszy()) {
-                StronaWiersza wn = r.getStronaWn();
-                StronaWiersza ma = r.getStronaMa();
-                if (wn != null) {
-                    jestkontonieostatnie = wn.getKonto().isMapotomkow();
-                    sumawn += wn.getKwota();
+            if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
+                for (Wiersz r : p.getListawierszy()) {
+                    StronaWiersza wn = r.getStronaWn();
+                    StronaWiersza ma = r.getStronaMa();
+                    if (wn != null) {
+                        jestkontonieostatnie = wn.getKonto().isMapotomkow();
+                        sumawn += wn.getKwota();
+                    }
+                    if (ma != null) {
+                        jestkontonieostatnie = ma.getKonto().isMapotomkow();
+                        sumama += ma.getKwota();
+                    }
                 }
-                if (ma != null) {
-                    jestkontonieostatnie = ma.getKonto().isMapotomkow();
-                    sumama += ma.getKwota();
-                }
-            }
-            if (p.getDokfkPK().getSeriadokfk().equals("BO")) {
-                System.out.println("s");
             }
             if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnie) {
                 listaroznice.add(p);
