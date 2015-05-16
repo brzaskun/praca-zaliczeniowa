@@ -249,7 +249,7 @@ public class PozycjaBRView implements Serializable {
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
-            Konto kontowyniku = kontoDAO.findKonto860(wpisView);
+            Konto kontowyniku = findKonto860(plankont);
             naniesKwoteWynikFinansowy(kontowyniku);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
@@ -270,20 +270,33 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
+    private Konto findKonto860(List<Konto> plankont) {
+        for (Konto p : plankont) {
+            if (p.getPelnynumer().equals("860")) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
         pobierzukladprzegladRZiS();
         List<Object> listazwrotnapozycji = new ArrayList<>();
         rootProjektRZiS.getFinallChildrenData(new ArrayList<TreeNodeExtended>(), listazwrotnapozycji);
         PozycjaRZiS pozycjawynikfin = (PozycjaRZiS) listazwrotnapozycji.get(listazwrotnapozycji.size() - 1);
         double wynikfinansowy = pozycjawynikfin.getKwota();
-            double wf = Math.abs(wynikfinansowy);
-            if (wynikfinansowy > 0) {//zysk
-                kontowyniku.setObrotyMa(wf);
-                kontowyniku.setSaldoMa(wf);
-            } else {//strata
-                kontowyniku.setObrotyWn(wf);
-                kontowyniku.setSaldoWn(wf);
-            }
+        double wf = Z.z(Math.abs(wynikfinansowy));
+        if (wynikfinansowy > 0) {//zysk
+            kontowyniku.setObrotyMa(kontowyniku.getObrotyMa()+wf);
+        } else {//strata
+            kontowyniku.setObrotyWn(kontowyniku.getObrotyWn()+wf);
+        }
+        double wynikkwota = kontowyniku.getObrotyWn()-kontowyniku.getObrotyMa();
+        if ( wynikkwota > 0) {
+            kontowyniku.setSaldoWn(wynikkwota);
+        } else {
+            kontowyniku.setSaldoMa(Math.abs(wynikkwota));
+        }
     }
     
     private void pobierzPozycjeAktywaPasywa(ArrayList<PozycjaRZiSBilans> pozycjeaktywa, ArrayList<PozycjaRZiSBilans> pozycjepasywa) {
