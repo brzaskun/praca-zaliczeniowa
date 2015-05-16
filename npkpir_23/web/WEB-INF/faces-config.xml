@@ -366,6 +366,10 @@
             <to-view-id>/ksiegowaFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>guestbilansRZiSFK</from-outcome>
+            <to-view-id>/ksiegowaFK/guestFKBilansRZiS.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>gfkBudzetFK</from-outcome>
             <to-view-id>/ksiegowaFK/guestFKBudzet.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
@@ -468,6 +472,10 @@
         <navigation-case>
             <from-outcome>gfkBilanse</from-outcome>
             <to-view-id>/guestFK/guestFKBilanse.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>gfkBil</from-outcome>
+            <to-view-id>/guestFK/guestFKBilansRZiS.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfkVAT</from-outcome>
