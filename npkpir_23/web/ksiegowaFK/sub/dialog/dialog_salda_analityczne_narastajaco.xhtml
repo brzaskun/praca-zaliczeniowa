@@ -47,7 +47,7 @@
               onHide="resetujdialog('saldakontanalitycznychnarastajaco');"  closeOnEscape="true" 
               >
         <h:form id="formanalitykanar">
-            <p:panelGrid columns="3" style="margin-left: 2%;" >
+            <p:panelGrid columns="5" style="margin-left: 2%;" >
                  <p:column>
                     <h:outputText value="dane na koniec m-ca: "/>
                 </p:column>
@@ -60,7 +60,9 @@
                 <p:column>
                     <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                 </p:column>
-              
+               <p:column>
+                    <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                </p:column>
             </p:panelGrid>
 
 

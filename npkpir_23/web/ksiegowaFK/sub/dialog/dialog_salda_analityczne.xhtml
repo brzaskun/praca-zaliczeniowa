@@ -42,7 +42,7 @@
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="4" style="margin-left: 2%;" >
+            <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -59,7 +59,9 @@
                     <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamianalityka:sumy"/>
                 </p:column>
                 
-                    <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
+                    <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
+                    <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="drukuj szcz." actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
 <!--                     <p:commandLink id="pdf" ajax="false"> 
         <p:graphicImage name="/demo/images/pdf.png" />
         <pe:exporter type="pdf" target="tablicasaldaanalityczne" fileName="obrotykont"  orientation="Landscape"  
