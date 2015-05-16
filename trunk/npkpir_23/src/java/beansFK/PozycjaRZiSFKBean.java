@@ -148,7 +148,7 @@ public class PozycjaRZiSFKBean {
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
             l.add(konto);
         }
-        kontoDAO.edit(l);
+        kontoDAO.editList(l);
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy) {
