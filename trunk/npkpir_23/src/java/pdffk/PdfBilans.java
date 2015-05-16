@@ -55,9 +55,9 @@ public class PdfBilans {
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
-                f = "wydrukBilansuA('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             } else {
-                f = "wydrukBilansuP('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             }
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -68,9 +68,9 @@ public class PdfBilans {
     public static void drukujBilansBO(TreeNodeExtended rootProjekt, WpisView wpisView, String ap) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczenieA";
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczenieP";
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -91,9 +91,9 @@ public class PdfBilans {
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
-                f = "wydrukBilansuA('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             } else {
-                f = "wydrukBilansuP('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             }
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -104,9 +104,9 @@ public class PdfBilans {
     public static void drukujBilansBOPozycje(TreeNodeExtended rootProjekt, WpisView wpisView, String ap) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieA";
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieP";
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -127,9 +127,9 @@ public class PdfBilans {
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
-                f = "wydrukBilansuA('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             } else {
-                f = "wydrukBilansuP('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             }
             RequestContext.getCurrentInstance().execute(f);
         } else {
@@ -140,9 +140,9 @@ public class PdfBilans {
     public static void drukujBilansKonta(TreeNodeExtended rootProjekt, WpisView wpisView, String ap) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieA";
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieP";
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -155,17 +155,17 @@ public class PdfBilans {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Aktywa z nr kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Aktywa z nr kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Pasywa z nr kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, "Bilans Pasywa z nr kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowane(rootProjekt),95,2);
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
-                f = "wydrukBilansuA('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             } else {
-                f = "wydrukBilansuP('"+wpisView.getPodatnikObiekt().getNip()+"');";
+                f = "pokazwydruk('"+nazwa+"');";
             }
             RequestContext.getCurrentInstance().execute(f);
         } else {
