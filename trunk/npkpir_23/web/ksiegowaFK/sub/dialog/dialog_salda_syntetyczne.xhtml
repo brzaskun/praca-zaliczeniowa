@@ -22,7 +22,7 @@
         /* <![CDATA[ */
         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
         $(document).on("click", '.gridtablicaanalityczne tr', function(e) {
-            var pierwszywiersz = $("#formtablicaanalityczne\\:tablicasaldaanalityczne_data").children("tr");
+            var pierwszywiersz = $("#formtablicasyntetyczne\\:tablicasaldasyntetyczne_data").children("tr");
             var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaanalityka").text());
             try {
                 e.stopPropagation(); // will prevent double click events from link being clicked within row
@@ -37,11 +37,11 @@
     </script>
   
     <bcf:ajaxs/>
-    <p:dialog id="saldakontanalitycznych" header="Obroty i salda na kontach analitycznych na koniec miesiąca" widgetVar="saldakontanalitycznych"  maximizable="true"  dynamic="true"
-              resizable="true" onShow="ustawdialog('saldakontanalitycznych','menuzapisykont',1200,750);"
-              onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
+    <p:dialog id="saldakontsyntetycznych" header="Obroty i salda na kontach syntetycznych na koniec miesiąca" widgetVar="saldakontsyntetycznych"  maximizable="true"  dynamic="true"
+              resizable="true" onShow="ustawdialog('saldakontsyntetycznych','menuzapisykont',1200,750);"
+              onHide="resetujdialog('saldakontsyntetycznych');"  closeOnEscape="true" 
               >
-        <h:form id="formtablicaanalityczne">
+        <h:form id="formtablicasyntetyczne">
             <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
@@ -51,29 +51,29 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form, :tabelazsumamianalityka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldoanalityczne}" update="@form, :tabelazsumamisyntetyka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamianalityka:sumy"/>
+                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamisyntetyka:sumy"/>
                 </p:column>
                 
                     <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-                    <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-                    <p:commandButton value="drukuj szcz." actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="drukuj tab." actionListener="#{saldoSyntetykaView.drukujS(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="drukuj szcz." actionListener="#{saldoSyntetykaView.drukujS(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
 <!--                     <p:commandLink id="pdf" ajax="false"> 
         <p:graphicImage name="/demo/images/pdf.png" />
-        <pe:exporter type="pdf" target="tablicasaldaanalityczne" fileName="obrotykont"  orientation="Landscape"  
+        <pe:exporter type="pdf" target="tablicasaldasyntetyczne" fileName="obrotykont"  orientation="Landscape"  
                      tableTitle="Zestawienie obrotów na kontach w m-cu" facetBackground="#FFFFFF" facetFontSize="15"  
                      facetFontColor="#000000"  cellFontColor="#0000FF" cellFontSize="8"  datasetPadding="4"  
                      cellFontStyle="NORMAL"/>  
     </p:commandLink>-->
             </p:panelGrid>
 
-            <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
+            <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single"
-                         styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
+                         styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >
                
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
@@ -135,8 +135,8 @@
                 </p:column>
             </p:dataTable>
         </h:form>
-        <h:form id="tabelazsumamianalityka">
-            <p:dataTable id="sumy" value="#{saldoAnalitykaView.sumaSaldoKonto}" var="loop"
+        <h:form id="tabelazsumamisyntetyka">
+            <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop"
                          style="float: right; margin-right: 90px; width: 772px; height: 60px;" emptyMessage="Nie wybrano konta">
                 <p:column headerText="boWn" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
