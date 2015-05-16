@@ -30,13 +30,14 @@
                 }
             </script>
             <p:panelGrid columns="6">
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="5">
                     <h:outputText value="nazwa układu"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
-                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:commandButton value="oblicz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:commandButton value="pokaż aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('aktywa')}" update=":formprzegladbilanszapisy"/>
+                    <p:commandButton value="pokaż pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pokazukladprzegladBilans('pasywa')}" update=":formprzegladbilanszapisy"/>
                 </p:panelGrid>
                  <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">

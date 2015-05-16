@@ -59,6 +59,7 @@ public class PozycjaBRView implements Serializable {
     private TreeNodeExtended root;
     private TreeNodeExtended rootUklad;
     private TreeNodeExtended rootProjektRZiS;
+    private TreeNodeExtended rootBilans;
     private TreeNodeExtended rootBilansAktywa;
     private TreeNodeExtended rootBilansPasywa;
     private TreeNodeExtended rootProjektKonta;
@@ -209,14 +210,25 @@ public class PozycjaBRView implements Serializable {
         }
     }
     
-    
     public void pobierzukladprzegladBilans(String aktywapasywa) {
         if (aktywapasywa.equals("aktywa")) {
             pokazaktywa = true;
             pobierzukladprzegladBilans();
+            rootBilans = rootBilansAktywa;
         } else {
             pokazaktywa = false;
             pobierzukladprzegladBilans();
+            rootBilans = rootBilansPasywa;
+        }
+    }
+    
+    public void pokazukladprzegladBilans(String aktywapasywa) {
+        if (aktywapasywa.equals("aktywa")) {
+            pokazaktywa = true;
+            rootBilans = rootBilansAktywa;
+        } else {
+            pokazaktywa = false;
+            rootBilans = rootBilansPasywa;
         }
     }
     
@@ -689,6 +701,14 @@ public class PozycjaBRView implements Serializable {
             PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap);
         }
     }
+    
+    public void drukujBilansKonta(String ap) {
+        if (ap.equals("a")) {
+            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap);
+        } else {
+            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap);
+        }
+    }
    
        
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -855,6 +875,14 @@ public class PozycjaBRView implements Serializable {
 
     public void setRootUklad(TreeNodeExtended rootUklad) {
         this.rootUklad = rootUklad;
+    }
+
+    public TreeNodeExtended getRootBilans() {
+        return rootBilans;
+    }
+
+    public void setRootBilans(TreeNodeExtended rootBilans) {
+        this.rootBilans = rootBilans;
     }
 
     public TreeNodeExtended getRootProjektKonta() {

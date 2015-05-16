@@ -277,7 +277,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                     pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
                     stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
                     stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                    boolean zrobionoWn = false;
+                    boolean zrobionoMa = false;
                     for (TreeNodeExtended r : finallNodes) {
+                        if (zrobionoWn == true && zrobionoMa == true) {
+                            break;
+                        }
                         //sprawdzamy czy dane konto nalezy do danego wezla
                             PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
                             if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
@@ -287,18 +292,18 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                         if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
                                             if (p.getSaldoWn() > 0) {
                                                 pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
                                             } else if (p.getSaldoMa() > 0) {
                                                 pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
                                             }
                                         } else {
                                             if (p.getSaldoMa() > 0) {
                                                 pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
                                             } else if (p.getSaldoWn() > 0) {
                                                 pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
                                             }
                                         }
                                         break;//tu break ma sens bo konto zwykle jest tylko w jednym miejscu
@@ -309,17 +314,21 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                     if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                         if (stronaWn==false && stronaMa==false) {
                                             pozycja.setKwota(kwotapierwotna+p.getSaldoWn()-p.getSaldoMa());
+                                            pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn()-p.getSaldoMa(), p);
                                         } else {
                                             pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                            pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
                                         }
-                                        pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                        zrobionoWn = true;
                                     } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                         if (stronaWn==true && stronaMa==true) {
                                             pozycja.setKwota(kwotapierwotna+p.getSaldoMa()-p.getSaldoWn());
+                                            pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa()-p.getSaldoWn(), p);
                                         } else {
                                             pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                            pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
                                         }
-                                        pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                        zrobionoMa = true;
                                     }
                                 }
                             } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -329,27 +338,31 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                             if (p.getSaldoWn() != 0) {
                                                 pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
                                             }
+                                            zrobionoWn = true;
                                         } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                             if (p.getSaldoMa() != 0) {
                                                 pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
                                             }
+                                            zrobionoMa = true;
                                         }
                                     } else {
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
                                             if (p.getSaldoWn() != 0) {
                                                 pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
                                             }
+                                            zrobionoWn = true;
                                         } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
                                             if (p.getSaldoMa() != 0) {
                                                 pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(pozycja.getKwota(), p);
+                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
                                             }
+                                            zrobionoMa = true;
                                         }
                                     }
                                 }

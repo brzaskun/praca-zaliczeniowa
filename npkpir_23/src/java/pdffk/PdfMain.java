@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddablefk.KontoKwota;
 import entity.Faktura;
 import entity.Podatnik;
 import entity.Uz;
@@ -46,6 +47,7 @@ import testobjects.WierszDokfk;
 import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
+import waluty.Z;
 
 /**
  *
@@ -266,7 +268,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("na począek roku " + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase("na początek roku " + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -675,7 +677,7 @@ public class PdfMain {
                 }
                 if (modyfikator != 0) {
                     String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
-                    table.addCell(ustawfrazeAlign(konta, "right", 9));
+                    table.addCell(ustawfrazeAlign(konta, "left", 9));
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaBilans")) {
@@ -712,7 +714,12 @@ public class PdfMain {
                         }
                     }
                     if (modyfikator != 0) {
-                        String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
+                        String konta = "";
+                        if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
+                            for (KontoKwota u : p.getPrzyporzadkowanekonta()) {
+                                konta = konta+u.getKonto().getPelnynumer()+": "+Z.z(u.getKwota())+"; ";
+                            }
+                        }
                         table.addCell(ustawfrazeAlign(konta, "right", 9));
                     }
             }
