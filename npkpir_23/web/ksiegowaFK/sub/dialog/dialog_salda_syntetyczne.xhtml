@@ -51,12 +51,12 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldoanalityczne}" update="@form, :tabelazsumamisyntetyka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update="@form, :tabelazsumamisyntetyka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamisyntetyka:sumy"/>
+                    <p:commandButton value="pobierz" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamisyntetyka:sumy"/>
                 </p:column>
                 
                     <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
@@ -74,6 +74,7 @@
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single"
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
+                         rowIndexVar="row"
                          >
                
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>

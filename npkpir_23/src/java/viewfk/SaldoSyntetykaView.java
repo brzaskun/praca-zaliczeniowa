@@ -23,7 +23,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import msg.Msg;
 import pdf.PdfKonta;
 import view.WpisView;
 import waluty.Z;
@@ -35,7 +34,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class SaldoSyntetykaView implements Serializable {
-     private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
     private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
@@ -53,56 +52,33 @@ public class SaldoSyntetykaView implements Serializable {
     
     
     public void init() {
-       List<Konto> kontaanalityczne = kontoDAOfk.findKontaOstAlityka(wpisView);
-       kontoDAOfk.zerujkontazLevelu(wpisView,0);
-       List<Konto> kontasyntetyczne = kontoDAOfk.findKontazLevelu(wpisView,0);
-       listaSaldoKonto = przygotowanalistasald(kontasyntetyczne, kontaanalityczne);
+       List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
+       listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
-    public void odswiezsaldoanalityczne() {
+    public void odswiezsaldosyntetyczne() {
          wpisView.wpisAktualizuj();
          init();
     }
     
-     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontasyntetyczne, List<Konto> kontaanalityczne) {
+     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
-        List<SaldoKonto> przygotowanalistasyntetyczne = new ArrayList<>();
-        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
-        for (Konto p : kontaanalityczne) {
+        for (Konto p : kontaklienta) {
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
             naniesBOnaKonto(saldoKonto, p);
-            naniesZapisyNaKonto(saldoKonto, p , zapisyRok, wierszenieuzupelnione);
+            naniesZapisyNaKonto(saldoKonto, p, zapisyRok);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
-            saldoKonto.setNrpelnymacierzystego(p.getSyntetycznenumer());
-            Konto k = p.getSyntetyczne(kontasyntetyczne);
-            if (k == null) {
-                k = p.getSyntetyczne0(kontasyntetyczne);
-            }
-            naniesBOnaKontoSyntetyczne(k, saldoKonto);
-            naniesZapisyNaKontoSyntetyczne(k, saldoKonto);
             dodajdolisty(saldoKonto, przygotowanalista);
-        }
-        for (Konto p : kontasyntetyczne) {
-            SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setKonto(p);
-            naniesBOnaSaldo(saldoKonto, p);
-            naniesZapisyNaSaldoSyntetyczne(saldoKonto, p);
-            saldoKonto.sumujBOZapisy();
-            saldoKonto.wyliczSaldo();
-            dodajdolisty(saldoKonto, przygotowanalistasyntetyczne);
         }
         for (int i = 1; i < przygotowanalista.size()+1; i++) {
             przygotowanalista.get(i-1).setId(i);
         }
         sumaSaldoKonto = new ArrayList<>();
-        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalistasyntetyczne));
-        for (StronaWiersza t : wierszenieuzupelnione) {
-            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+t.getDokfkS());
-        }
-        return przygotowanalistasyntetyczne;
+        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+        return przygotowanalista;
     }
 
      //<editor-fold defaultstate="collapsed" desc="comment">
@@ -133,7 +109,7 @@ public class SaldoSyntetykaView implements Serializable {
 //</editor-fold>
 
     private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBOSyntetyka(kontoDAOfk, p, wierszBODAO, wpisView);
         for (StronaWiersza r : zapisyBO) {
             if (r.getWnma().equals("Wn")) {
                 saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
@@ -142,61 +118,19 @@ public class SaldoSyntetykaView implements Serializable {
             }
         }
     }
-    
-    
-    private void naniesBOnaKontoSyntetyczne(Konto k, SaldoKonto saldoKontoanalityka) {
-        if (saldoKontoanalityka.getBoWn() > 0.0) {
-            k.setBoWn(Z.z(k.getBoWn() + saldoKontoanalityka.getBoWn()));
-        } 
-        if (saldoKontoanalityka.getBoMa() > 0.0){
-            k.setBoMa(Z.z(k.getBoMa() + saldoKontoanalityka.getBoMa()));
-        }
-    }
-    
-    private void naniesBOnaSaldo(SaldoKonto saldoKontoanalityka, Konto k) {
-        if (k.getBoWn() > 0.0) {
-            saldoKontoanalityka.setBoWn(Z.z(saldoKontoanalityka.getBoWn() + k.getBoWn()));
-        } 
-        if (k.getBoMa() > 0.0){
-            saldoKontoanalityka.setBoMa(Z.z(saldoKontoanalityka.getBoMa() + k.getBoMa()));
-        }
-    }
-     
-    private void naniesZapisyNaKontoSyntetyczne(Konto k, SaldoKonto saldoKontoanalityka) {
-        if (saldoKontoanalityka.getObrotyWn() > 0.0) {
-            k.setObrotyWn(Z.z(k.getObrotyWn() + saldoKontoanalityka.getObrotyWn()));
-        }
-        if (saldoKontoanalityka.getObrotyMa() > 0.0){
-            k.setObrotyMa(Z.z(k.getObrotyMa() + saldoKontoanalityka.getObrotyMa()));
-        }
-    }
-    
-     private void naniesZapisyNaSaldoSyntetyczne(SaldoKonto saldoKontoanalityka, Konto k) {
-        if (k.getObrotyWn() > 0.0) {
-            saldoKontoanalityka.setObrotyWn(Z.z(saldoKontoanalityka.getObrotyWn() + k.getObrotyWn()));
-        }
-        if (k.getObrotyMa() > 0.0){
-            saldoKontoanalityka.setObrotyMa(Z.z(saldoKontoanalityka.getObrotyMa() + k.getObrotyMa()));
-        }
-    }
 
-    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok,  List<StronaWiersza> wierszenieuzupelnione) {
-        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+    private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
         for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
             StronaWiersza st = (StronaWiersza) it.next();
             if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
                 it.remove();
             }
         }
+        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
-            if (r.getKonto() == null) {
-                System.out.println(r.toString());
-            }
-            if (r.getWiersz().getDokfk().getMiesiac()==null) {
-                System.out.println(r.toString());
-            }
-            try {
-                if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+            //bez lub nie dodawaloby zapisow gdt konto levelu 0 jest jednoczenie analitycznym
+            if (p.getPelnynumer().equals(r.getKonto().getSyntetycznenumer()) || p.getPelnynumer().equals(r.getKonto().getPelnynumer())) {
+                if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     if (r.getWnma().equals("Wn")) {
                         saldoKonto.setObrotyWn(Z.z(saldoKonto.getObrotyWn() + r.getKwotaPLN()));
                     } else {
@@ -204,23 +138,9 @@ public class SaldoSyntetykaView implements Serializable {
                     }
                     saldoKonto.getZapisy().add(r);
                 }
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-                if (wierszenieuzupelnione.size() > 0) {
-                    boolean jest = false;
-                    for (StronaWiersza t : wierszenieuzupelnione) {
-                        if (t.getDokfkS().equals(r.getDokfkS())) {
-                            jest = true;
-                        }
-                    }
-                    if (jest==false) {
-                        wierszenieuzupelnione.add(r);
-                    }
-                } else {
-                    wierszenieuzupelnione.add(r);
-                }
             }
+            
         }
-       
     }
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
@@ -238,7 +158,7 @@ public class SaldoSyntetykaView implements Serializable {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
-   
+    
     public void drukuj(int i) {
         PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
     }
@@ -246,4 +166,6 @@ public class SaldoSyntetykaView implements Serializable {
     public void drukujS(int i) {
         PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1);
     }
+    
+    
 }
