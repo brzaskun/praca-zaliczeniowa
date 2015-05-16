@@ -263,12 +263,22 @@ public class KontoZapisFKView implements Serializable{
         try {
             sumaWn = 0.0;
             sumaMa = 0.0;
-            for(StronaWiersza p : wybranekontadosumowania){
-                    if (p.getWnma().equals("Wn")) {
-                        sumaWn = Z.z(sumaWn + p.getKwota());
-                    } else if (p.getWnma().equals("Ma")){
-                        Z.z(sumaMa = sumaMa + p.getKwota());
-                    }
+            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+                for(StronaWiersza p : wybranekontadosumowania){
+                        if (p.getWnma().equals("Wn")) {
+                            sumaWn = Z.z(sumaWn + p.getKwota());
+                        } else if (p.getWnma().equals("Ma")){
+                            Z.z(sumaMa = sumaMa + p.getKwota());
+                        }
+                }
+            } else {
+                for(StronaWiersza p : kontozapisy){
+                        if (p.getWnma().equals("Wn")) {
+                            sumaWn = Z.z(sumaWn + p.getKwota());
+                        } else if (p.getWnma().equals("Ma")){
+                            Z.z(sumaMa = sumaMa + p.getKwota());
+                        }
+                }
             }
             saldoWn = 0.0;
             saldoMa = 0.0;
@@ -289,11 +299,21 @@ public class KontoZapisFKView implements Serializable{
     public void sumazapisowpln(){
         sumaWnPLN = 0.0;
         sumaMaPLN = 0.0;
-        for(StronaWiersza p : wybranekontadosumowania){
-            if (p.getWnma().equals("Wn")) {
-                Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
-            } else if (p.getWnma().equals("Ma")){
-                Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            for(StronaWiersza p : wybranekontadosumowania){
+                if (p.getWnma().equals("Wn")) {
+                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                } else if (p.getWnma().equals("Ma")){
+                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                }
+            }
+        } else {
+            for(StronaWiersza p : kontozapisy){
+                if (p.getWnma().equals("Wn")) {
+                    Z.z(sumaWnPLN = sumaWnPLN + p.getKwotaPLN());
+                } else if (p.getWnma().equals("Ma")){
+                    Z.z(sumaMaPLN = sumaMaPLN + p.getKwotaPLN());
+                }
             }
         }
         saldoWnPLN = 0.0;

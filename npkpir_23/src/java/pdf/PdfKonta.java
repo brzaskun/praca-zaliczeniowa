@@ -69,7 +69,7 @@ public class PdfKonta {
     private static PdfPTable tablica(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(11);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
-        table.setWidthPercentage(100);
+        table.setWidthPercentage(95);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
             if (analit0synt1==1) {

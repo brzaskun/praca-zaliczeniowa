@@ -491,5 +491,9 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findSlownikoweKlienci(WpisView wpisView, Kliencifk kliencifk) {
         return kontoFacade.findSlownikoweKlienci(wpisView, kliencifk);
     }
+
+    public void zerujkontazLevelu(WpisView wpisView, int i) {
+        kontoFacade.zerujkontazLevelu(wpisView, i);
+    }
  
 }

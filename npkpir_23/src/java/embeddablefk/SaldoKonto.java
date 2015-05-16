@@ -31,6 +31,7 @@ public class SaldoKonto implements Serializable {
     private double obrotyBoMa;
     private double saldoWn;
     private double saldoMa;
+    private String nrpelnymacierzystego;
     private List<StronaWiersza> zapisy;
 
     public SaldoKonto() {
@@ -158,6 +159,16 @@ public class SaldoKonto implements Serializable {
     public void setZapisy(List<StronaWiersza> zapisy) {
         this.zapisy = zapisy;
     }
+
+    public String getNrpelnymacierzystego() {
+        return nrpelnymacierzystego;
+    }
+
+    public void setNrpelnymacierzystego(String nrpelnymacierzystego) {
+        this.nrpelnymacierzystego = nrpelnymacierzystego;
+    }
+
+    
     
     public void sumujBOZapisy() {
         double obrotyWn = Math.round((this.boWn + this.obrotyWn)*100);
