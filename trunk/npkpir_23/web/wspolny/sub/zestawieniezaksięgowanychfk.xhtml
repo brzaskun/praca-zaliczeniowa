@@ -76,7 +76,7 @@
                 <p:column headerText="data dok" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>
                 </p:column>
-                 <p:column headerText="symbol" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
+                <p:column headerText="symbolN" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                      <h:outputText value="#{item.dokfkLP}"/>
                 </p:column>
                 <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
