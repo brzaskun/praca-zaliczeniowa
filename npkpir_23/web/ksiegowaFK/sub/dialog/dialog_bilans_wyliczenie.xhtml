@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialogbilansprzeglad" header="Bilans za okres rozliczeniowy wyliczenie - #{WpisView.podatnikWpisu}" widgetVar="bilansprzegladuklad" 
               resizable="false" onShow="ustawdialog('dialogbilansprzeglad','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialogbilansprzeglad');"  >
@@ -54,7 +55,10 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="aktywa #{pozycjaBRView.sumabilansowaaktywa}"/>
+                        <h:outputText value="aktywa "/>
+                        <h:outputText value="#{pozycjaBRView.sumabilansowaaktywa}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -71,7 +75,10 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="pasywa #{pozycjaBRView.sumabilansowapasywa}"/>
+                        <h:outputText value="pasywa "/>
+                        <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

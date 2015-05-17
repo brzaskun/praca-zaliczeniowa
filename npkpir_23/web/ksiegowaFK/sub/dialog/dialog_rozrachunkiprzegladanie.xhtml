@@ -13,9 +13,9 @@
     <p:dialog id="rozrachunkiPrzeglad" header="Rozrachunki na kontach - #{WpisView.podatnikWpisu}" widgetVar="rozrachunkiPrzeglad" dynamic="true"
               resizable="false" onShow="ustawdialog('rozrachunkiPrzeglad','menurozrachunki',1450,750);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();" onHide="resetujdialog('rozrachunkiPrzeglad');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
+        <p:layout fullPage="false" style="width: 1450px; height: 700px;" >  
             <p:layoutUnit position="north" >
-                <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2" >
                     <h:form id="formwpiskonta">
                         <h:outputText value="wybierz konto: "/>
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
@@ -43,7 +43,7 @@
             </p:layoutUnit>  
             <!--            lewa strona z drzewem kont-->
             <p:layoutUnit id="westtree" position="west" size="350" >
-                <p:panelGrid columns="2" >
+                <p:panelGrid columns="2"  >
                     <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{rozrachunkiPrzegladView.rozwinwszystkie(rozrachunkiPrzegladView.root)}" update=":form:dataList" style="float: left;" />
                     <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{rozrachunkiPrzegladView.zwinwszystkie(rozrachunkiPrzegladView.root)}" update=":form:dataList" style="float: left;" />
                 </p:panelGrid>
