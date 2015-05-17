@@ -22,9 +22,9 @@
             width: 75px !important;
         }
     </style>
-            <p:tabView style="height: 700px; overflow-y: scroll;">
+            <p:tabView style="height: 700px; overflow-y: scroll;" dynamic="true" >
                 <p:tab title="ewidencje">
-                    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
+                    <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                         <p:tab title="#{item[0].nazwaewidencji}">
                             <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
                             <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
