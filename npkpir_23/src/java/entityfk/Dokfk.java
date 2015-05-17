@@ -493,25 +493,26 @@ public class Dokfk implements Serializable {
         return s.toString();
     }
 
-    public void dodajKwotyWierszaDoSumyDokumentu(int numerwiersza) {
+    public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
-            Wiersz biezacywiersz = this.listawierszy.get(numerwiersza);
             int typwiersza = biezacywiersz.getTypWiersza();
+            double wn = biezacywiersz.getStronaWn() != null ? biezacywiersz.getStronaWn().getKwota() : 0.0;
+            double ma = biezacywiersz.getStronaMa() != null ? biezacywiersz.getStronaMa().getKwota() : 0.0;
             double suma = 0.0;
             if (typwiersza==1) {
-                suma += biezacywiersz.getStronaWn().getKwota();
+                suma += wn;
             } else if (typwiersza==2) {
-                suma += biezacywiersz.getStronaMa().getKwota();
+                suma += ma;
             } else {
-                double kwotaWn = biezacywiersz.getStronaWn().getKwota();
-                double kwotaMa = biezacywiersz.getStronaMa().getKwota();
+                double kwotaWn = wn;
+                double kwotaMa = ma;
                 if (kwotaMa>kwotaWn) {
-                    suma += biezacywiersz.getStronaWn().getKwota();
+                    suma += wn;
                 } else {
-                    suma += biezacywiersz.getStronaMa().getKwota();
+                    suma += ma;
                 }
             }
-            this.wartoscdokumentu = this.wartoscdokumentu + suma;
+            this.wartoscdokumentu = suma;
         } catch (Exception e) {
             
         }
@@ -519,9 +520,8 @@ public class Dokfk implements Serializable {
     
     public void przeliczKwotyWierszaDoSumyDokumentu() {
         this.wartoscdokumentu = 0.0;
-        int liczbawierszy = this.listawierszy.size();
-        for (int i = 0; i < liczbawierszy; i++) {
-            dodajKwotyWierszaDoSumyDokumentu(i);
+        for (Wiersz p : this.listawierszy) {
+            dodajKwotyWierszaDoSumyDokumentu(p);
         }
     }
     

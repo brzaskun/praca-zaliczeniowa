@@ -435,7 +435,7 @@
                     <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
                     <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                      accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
-                                     onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
+                                     onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false" 
                                      />
                     <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                      accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach:dataList"
