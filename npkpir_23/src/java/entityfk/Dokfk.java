@@ -492,6 +492,16 @@ public class Dokfk implements Serializable {
         s.append(this.dokfkPK.getRok());
         return s.toString();
     }
+    
+    public String getDokfkSN() {
+        StringBuilder s = new StringBuilder();
+        s.append(this.dokfkPK.getSeriadokfk());
+        s.append("/");
+        s.append(this.dokfkPK.getNrkolejnywserii());
+        s.append("/");
+        s.append(this.dokfkPK.getRok());
+        return s.toString();
+    }
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
