@@ -1792,7 +1792,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
-                selected.dodajKwotyWierszaDoSumyDokumentu(selected.getListawierszy().size() - 1);
                 if (selected.sprawdzczynaniesionorozrachunki()==1) {
                     Msg.msg("w", "Nie naniesiono rozrachunków");
                 }
@@ -1808,8 +1807,6 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow");
-                RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
             } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
                 System.out.println("Nie udało się dodac dokumentu " + e.getMessage());
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
