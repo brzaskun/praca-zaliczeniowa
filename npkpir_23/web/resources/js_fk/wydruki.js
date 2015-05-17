@@ -48,7 +48,7 @@ var schowajmailbutton = function (index) {
         $(document.getElementById("formX:akordeon:dataList:"+index+":mailbutton")).attr('display','none');
     }
  };
-
+ 
 
 var wydrukobroty = function(kto){
     window.open('../wydruki/obroty'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
