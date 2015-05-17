@@ -512,7 +512,7 @@ public class Dokfk implements Serializable {
                     suma += ma;
                 }
             }
-            this.wartoscdokumentu = suma;
+            this.wartoscdokumentu += suma;
         } catch (Exception e) {
             
         }
