@@ -68,19 +68,33 @@ public class PlanKontView implements Serializable {
     private MiejsceKosztowDAO miejsceKosztowDAO;
     @Inject
     private DelegacjaDAO delegacjaDAO;
-
+    private String infozebrakslownikowych;
     public PlanKontView() {
     }
 
     @PostConstruct
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        int czysaslownikowe = sprawdzkonta();
+        if (czysaslownikowe==0) {
+            infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
+            RequestContext.getCurrentInstance().update("dialogpierwszy");
+        }
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         //rootwzorcowy = rootInit(wykazkontwzor);
     }
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
+    private int sprawdzkonta() {
+        for (Konto p: wykazkont) {
+            if (p.isSlownikowe()==true) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+    
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
         if (!wykazKont.isEmpty()) {
@@ -879,5 +893,14 @@ public class PlanKontView implements Serializable {
         this.selectednodekontowzorcowy = selectednodekontowzorcowy;
     }
 
+    public String getInfozebrakslownikowych() {
+        return infozebrakslownikowych;
+    }
+
+    public void setInfozebrakslownikowych(String infozebrakslownikowych) {
+        this.infozebrakslownikowych = infozebrakslownikowych;
+    }
+
+    
     
 }

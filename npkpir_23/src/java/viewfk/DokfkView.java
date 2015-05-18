@@ -241,7 +241,8 @@ private static final long serialVersionUID = 1L;
             zablokujprzyciskrezygnuj = false;
             wlaczZapiszButon = true;
             niedodawajkontapole = false;
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
         
@@ -1649,8 +1650,9 @@ private static final long serialVersionUID = 1L;
                 }
             }
             return konto;
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
-            Msg.msg("e", "Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont");
+        } catch (Exception e) {  
+            System.out.println("Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki "+e.getStackTrace()[0].toString()+" "+e.toString());
+            Msg.msg("e", "Brak w konatch słownikowych danego kontrahenta. Zweryfikuj plan kont czy sa podpiete slowniki");
             return null;
         }
     }
@@ -2123,7 +2125,8 @@ public void updatenetto(EVatwpisFK e, String form) {
             try {
                 Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), skrotnazwydokumentu, wpisView.getRokWpisuSt());
                 selected.getDokfkPK().setNrkolejnywserii(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejnywserii() + 1);
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) { 
+                System.out.println("Nie znaleziono poprzednich dokumentow "+e.getStackTrace()[0].toString()+" "+e.toString());
                 selected.getDokfkPK().setNrkolejnywserii(1);
             }
         }

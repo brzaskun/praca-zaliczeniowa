@@ -425,7 +425,8 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaNazwaPodatnik(String nip, WpisView wpisView) {
          try {
             return kontoFacade.findKontaNazwaPodatnik(nip, wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { 
+            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
             return null;
         }
     }

@@ -73,7 +73,7 @@
                         /* ]]> */
                     </script>-->
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
-    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu}" 
+    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu} #{planKontView.infozebrakslownikowych}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)"
               resizable="false" onShow="wpisywanieOnShow(1160,610);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
               closeOnEscape="true" focus=":formwpisdokument:data2DialogWpisywanie"
@@ -163,11 +163,11 @@
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidok" columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                    <p:panelGrid id="panelzkwotamidok" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2) and planKontView.infozebrakslownikowych eq ''}"
+                                 columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                         <h:outputText value="kontrahent" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dok"/>
-                       
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
@@ -201,6 +201,10 @@
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
+                    </p:panelGrid>
+                    <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu) and planKontView.infozebrakslownikowych ne ''}"
+                                 columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                        <h:outputText value="Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów." style="color: red; font-weight: 900;"/>
                     </p:panelGrid>
                     <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
                         <p:panelGrid  columns="1" style="min-width: 20%;"  styleClass="uipanelGrid0">
