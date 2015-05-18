@@ -33,29 +33,29 @@
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
                     <h:outputText value="nazwa układu"/>
-                    <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
+                    <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladRZiS()}" update=":formdialogrziszestawienie"/>
+                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRZestawienieView.pobierzukladprzegladRZiS()}" update=":formdialogrziszestawienie"/>
                 </p:panelGrid>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezrzis()}" update="@form" />
+                        <p:ajax event="change" listener="#{pozycjaBRZestawienieView.odswiezrzis()}" update="@form" />
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.rozwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRZestawienieView.rozwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRZestawienieView.zwinwszystkie(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:column>
-                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiS()}"/>
-                    <p:commandButton value="drukuj nr kont" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
+                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRZestawienieView.drukujRZiS()}"/>
+                    <p:commandButton value="drukuj nr kont" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRZestawienieView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
-                    <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
+                    <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
                                  styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Nie wybrano RZiS lub brak pozycji w wybranym RZiS"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
                         <f:facet  name="header">

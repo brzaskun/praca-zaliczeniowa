@@ -79,6 +79,8 @@ public class PlanKontView implements Serializable {
         if (czysaslownikowe==0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
             RequestContext.getCurrentInstance().update("dialogpierwszy");
+        } else {
+            infozebrakslownikowych = "";
         }
         //root = rootInit(wykazkont);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);

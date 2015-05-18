@@ -236,7 +236,12 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                boolean wn = false;
+                boolean ma = false;
                 for (TreeNodeExtended wybranapozycja : finallNodes) {
+                    if (wn==true && ma==true) {
+                        break;
+                    }
                     //sprawdzamy czy dane konto nalezy do danego wezla
                     PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) wybranapozycja.getData();
                     if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_wn)) {
@@ -246,6 +251,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
                         donaniesienia = kwotaWn + kwotapierwotna;
                         pozycja.setKwota(donaniesienia);
+                        wn = true;
                     }
                     if ((pozycja.getPozycjaString()).equals(pozycjaRZiS_ma)) {
                         //pobieramy kwoty oraz to czy jest to przychod czy koszt
@@ -254,6 +260,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
                         donaniesienia = kwotaMa + kwotapierwotna;
                         pozycja.setKwota(donaniesienia);
+                        ma = true;
                     }
                 }
             } catch (Exception e) {
