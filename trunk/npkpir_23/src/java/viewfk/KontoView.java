@@ -8,6 +8,7 @@ import dao.WierszeDAO;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import sortfunction.KontoSortBean;
 import view.WpisView;
 
@@ -76,7 +76,7 @@ public class KontoView  implements Serializable {
      public int sortujKonto(Object o1, Object o2) {
          try {
             return KontoSortBean.sortZaksiegowaneDok((Konto) o1, (Konto) o2);
-         } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+         } catch (Exception e) {  E.e(e);
              return 0;
          }
      }

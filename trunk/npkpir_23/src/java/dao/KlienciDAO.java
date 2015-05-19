@@ -5,10 +5,9 @@
 package dao;
 
 import entity.Klienci;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -30,7 +29,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<Klienci> findAll(){
         try {
             return klienciFacade.findAll(Klienci.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -38,7 +37,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<String> findNIP(){
         try {
             return klienciFacade.findKlienciNIP();
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -46,7 +45,7 @@ public class KlienciDAO extends DAO implements Serializable {
     public  List<String> findNazwaPelna(String nowanazwa){
         try {
             return klienciFacade.findNazwaPelna(nowanazwa);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

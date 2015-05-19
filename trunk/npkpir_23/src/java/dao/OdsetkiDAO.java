@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Odsetki;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class OdsetkiDAO extends DAO implements Serializable {
     public  List<Odsetki> findAll(){
         try {
             return odsetkiFacade.findAll(Odsetki.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

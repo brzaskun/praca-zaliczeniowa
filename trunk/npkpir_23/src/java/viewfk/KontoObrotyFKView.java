@@ -9,9 +9,9 @@ import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.ListaSum;
-import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,7 +22,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.event.NodeUnselectEvent;
 import view.WpisView;
 import waluty.Z;
 
@@ -129,7 +128,7 @@ public class KontoObrotyFKView implements Serializable{
       private List<Konto> pobierzpotomkow(Konto macierzyste) {
           try {
               return kontoDAOfk.findKontaPotomnePodatnik(wpisView, macierzyste.getPelnynumer());
-          } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+          } catch (Exception e) {  E.e(e);
               Msg.msg("e", "nie udane pobierzpotomkow");
           }
           return null;

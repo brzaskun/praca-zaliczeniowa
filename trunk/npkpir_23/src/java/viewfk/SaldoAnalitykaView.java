@@ -15,6 +15,7 @@ import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -151,7 +152,7 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                     saldoKonto.getZapisy().add(r);
                 }
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 if (wierszenieuzupelnione.size() > 0) {
                     boolean jest = false;
                     for (StronaWiersza t : wierszenieuzupelnione) {

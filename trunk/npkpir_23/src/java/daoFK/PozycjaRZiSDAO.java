@@ -7,6 +7,7 @@ package daoFK;
 import dao.DAO;
 import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -37,7 +38,7 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
       public  List<PozycjaRZiS> findAll(){
         try {
             return sessionFacade.findAll(PozycjaRZiS.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -45,7 +46,7 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
     public  PozycjaRZiS findRzisLP(int lp){
         try {
             return sessionFacade.findPozycjaRZiSLP(lp);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -53,7 +54,7 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
     public  List<PozycjaRZiS> findRzisuklad(UkladBR rzisuklad){
         try {
             return sessionFacade.findUkladBR(rzisuklad);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -61,7 +62,7 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
     public  List<PozycjaRZiS> findRzisuklad(String uklad, String podatnik, String rok){
         try {
             return sessionFacade.findUkladBR(uklad, podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -69,14 +70,14 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
     public void findRemoveRzisuklad(UkladBR ukladBR) {
         try {
             sessionFacade.findRemoveRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
     public int findMaxLevelPodatnik(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         return 0;
     }

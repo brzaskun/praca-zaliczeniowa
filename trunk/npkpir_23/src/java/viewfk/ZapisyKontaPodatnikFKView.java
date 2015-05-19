@@ -15,6 +15,7 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +26,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import pdf.PdfKontoZapisy;
 import pdffk.PdfKontoZapisyLista;
 import view.WpisView;
 import waluty.Z;
@@ -186,7 +186,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //        List<String> mce = null;
 //            try {
 //                mce = Mce.zakresmiesiecy(wpisView.getMiesiacOd(), wpisView.getMiesiacDo());
-//            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//            } catch (Exception e) {  E.e(e);
 //                Msg.msg("e", "Miesiąc Od jest późniejszy od miesiąca Do!");
 //            }
 //            for (Iterator it = kontozapisy.iterator(); it.hasNext();) {
@@ -261,7 +261,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //      private List<Konto> pobierzpotomkow(Konto macierzyste) {
 //          try {
 //              return kontoDAOfk.findKontaPotomnePodatnik(wpisView,macierzyste.getPelnynumer());
-//          } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//          } catch (Exception e) {  E.e(e);
 //              Msg.msg("e", "nie udane pobierzpotomkow");
 //          }
 //          return null;
@@ -306,7 +306,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             listasum.get(0).setSumaMa(sumaMa);
             listasum.get(0).setSaldoWn(saldoWn);
             listasum.get(0).setSaldoMa(saldoMa);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
         }
     }
@@ -343,7 +343,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
             }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
 
         }
     }
@@ -382,7 +382,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //            }
 //            RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
 //            RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
-//        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//        } catch (Exception e) {  E.e(e);
 //            
 //        }
 //    }
@@ -414,7 +414,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
 //            } else {
 //                return porownajseriedok(o1,o2);
 //            }
-//        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//        } catch (Exception e) {  E.e(e);
 //            return 0;
 //        }
 //    }

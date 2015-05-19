@@ -22,10 +22,10 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -81,7 +81,7 @@ public class RozniceKursoweFKView implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentvat);
             Msg.msg("Zaksięgowano dokument RRK");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RRK");
         }
     }
@@ -126,7 +126,7 @@ public class RozniceKursoweFKView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

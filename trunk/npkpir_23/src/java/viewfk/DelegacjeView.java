@@ -14,7 +14,7 @@ import daoFK.DelegacjaDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
-import entityfk.Pojazdy;
+import error.E;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ public class DelegacjeView  implements Serializable{
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, false);
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,true);
             obliczsumymiejsc();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
         listadelegacja = new HashMap<>();

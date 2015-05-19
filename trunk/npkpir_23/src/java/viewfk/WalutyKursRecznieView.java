@@ -6,9 +6,9 @@
 package viewfk;
 
 import daoFK.TabelanbpDAO;
-import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
@@ -56,7 +56,7 @@ public class WalutyKursRecznieView implements Serializable{
         for (Tabelanbp p : wierszepobranezNBP) {
             try {
                 tabelanbpDAO.dodaj(p);
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 
             }
         }

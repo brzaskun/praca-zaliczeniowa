@@ -15,7 +15,6 @@ import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
-import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Umorzenie;
@@ -27,13 +26,12 @@ import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
-import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -155,7 +153,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             try {
                 dokDAOfk.dodaj(dokumentamo);
                 Msg.msg("Zaksięgowano dokument AMO");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
             }
         } else {
@@ -174,7 +172,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
             if (popDokfk != null) {
                 dokDAOfk.destroy(popDokfk);
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -207,7 +205,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -236,7 +234,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private Amodok odnajdzdokumorzeniowy(WpisView wpisView) {
         try {
            return amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "brak wygenerowanych dokumentów umorzeniowych za bieżących miesiąc");
             return null;
         }

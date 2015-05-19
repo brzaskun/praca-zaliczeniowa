@@ -9,6 +9,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
+import error.E;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class WalutyViewFK implements Serializable {
             pobraneRodzajeWalut.add(nowawaluta);
             nowawaluta = new Waluty();
             Msg.msg("i", "Dodano nową walute");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie dodano nowej waluty");
         }
     }
@@ -100,7 +101,7 @@ public class WalutyViewFK implements Serializable {
             walutyDAOfk.destroy(waluty);
             pobraneRodzajeWalut.remove(waluty);
             Msg.msg("Usunięto walutę.");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e","Istnieją zapisy w walucie, nie można jej usunąć!");
         }
     }
@@ -114,7 +115,7 @@ public class WalutyViewFK implements Serializable {
             tabelanbp = null;
             Msg.msg("Dodałem tabelę NBP");
             RequestContext.getCurrentInstance().update("formkursrecznie");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             List<Tabelanbp> kursypokrewne = new ArrayList<>();
             for (Tabelanbp p : wprowadzonekursyRok) {
                 if (p.getNrtabeli().contains(tabelanbp.getNrtabeli().substring(3))) {

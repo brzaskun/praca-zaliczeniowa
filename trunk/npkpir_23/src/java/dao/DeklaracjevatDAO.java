@@ -5,9 +5,9 @@
 package dao;
 
 import entity.Deklaracjevat;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +30,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
      public  List<Deklaracjevat> findAll(){
         try {
             return deklaracjevatFacade.findAll(Deklaracjevat.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -47,7 +47,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     public Deklaracjevat findDeklaracjeDowyslania(String pod){
         try {
         return deklaracjevatFacade.findDeklaracjewysylka(pod);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -55,7 +55,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
     public List<Deklaracjevat> findDeklaracjeDowyslaniaList(String pod){
         try {
             return deklaracjevatFacade.findDeklaracjewysylkaLista(pod);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -82,7 +82,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane(pod,rok);
         } catch (Exception e) { 
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
+            E.e(e); }
        //szuka zawsze w roku poprzednim. jak nie ma wywala blad
        if (znalezionedeklaracje.isEmpty()) {
         String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);
@@ -95,7 +95,7 @@ public class DeklaracjevatDAO extends DAO implements Serializable{
        List<Deklaracjevat> znalezionedeklaracje = new ArrayList<>();
        try {
             znalezionedeklaracje = deklaracjevatFacade.findDeklaracjewyslane200(pod,rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
+        } catch (Exception e) { E.e(e); }
        //szuka zawsze w roku poprzednim. jak nie ma wywala blad
        if (znalezionedeklaracje.isEmpty()) {
         String rokuprzedni = String.valueOf(Integer.parseInt(rok)-1);

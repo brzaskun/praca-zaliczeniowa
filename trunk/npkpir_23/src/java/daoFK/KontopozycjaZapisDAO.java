@@ -5,9 +5,9 @@
 package daoFK;
 
 import dao.DAO;
-import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -39,7 +39,7 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
     public List<KontopozycjaZapis> findKontaPozycjaBiezacaPodatnikUklad (UkladBR uklad, String rb) {
        try {
             return sessionFacade.findKontaZapisPodatnikUklad(uklad, rb);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -48,7 +48,7 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         try {
             sessionFacade.usunZapisaneKontoPozycjaPodatnikUklad(uklad, rb);
         } catch (Exception e) {
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            E.e(e); 
         }
     }
     

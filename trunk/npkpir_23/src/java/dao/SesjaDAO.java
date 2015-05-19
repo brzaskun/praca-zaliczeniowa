@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Sesja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -29,7 +30,7 @@ public class SesjaDAO extends DAO implements Serializable {
    public  List<Sesja> findAll(){
         try {
             return sesjaFacade.findAll(Sesja.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -37,7 +38,7 @@ public class SesjaDAO extends DAO implements Serializable {
    public  List<Sesja> findUser(String user){
         try {
             return sesjaFacade.findUser(user);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -45,7 +46,7 @@ public class SesjaDAO extends DAO implements Serializable {
    public Sesja find(String nrsesji){
        try{
        return sesjaFacade.findSesja(nrsesji);
-       } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+       } catch (Exception e) { E.e(e); 
            return null;
        }
        

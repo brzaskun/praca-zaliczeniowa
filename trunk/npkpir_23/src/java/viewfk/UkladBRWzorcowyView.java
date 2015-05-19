@@ -11,6 +11,7 @@ import daoFK.UkladBRDAO;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +60,7 @@ public class UkladBRWzorcowyView implements Serializable{
        try {
             lista =  ukladBRDAO.findPodatnik("Wzorcowy");
             Collections.sort(lista, new UkladBRcomparator());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());} 
+        } catch (Exception e) {  E.e(e);} 
     }
     
     public void wybranouklad() {
@@ -76,7 +77,7 @@ public class UkladBRWzorcowyView implements Serializable{
             lista.add(ukladBR);
             nazwanowegoukladu = "";
             Msg.msg("i", "Dodano nowy układ");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nieudana próba dodania układu. "+e.getMessage());
         }
     }
@@ -100,7 +101,7 @@ public class UkladBRWzorcowyView implements Serializable{
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
             pozycjaBilansDAO.findRemoveBilansuklad(ukladBR);
             Msg.msg("i", "Usunięto wybrany układ");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nieudana próba usuniecia układu."+e.getMessage());
         }
     }
@@ -117,7 +118,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 implementujBilans(ukladzrodlowy,ukladdocelowyrok);
                 Msg.msg("Skopiowano ukłąd wzorcowy z pozycjami");
             } catch (Exception e) {
-                System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                E.e(e);
                 Msg.msg("e", "Wystąpił błąd. Nie skopiowano nowego układu.");
             }
         }
@@ -159,7 +160,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
                 macierzyste.add(r);
@@ -177,7 +178,7 @@ public class UkladBRWzorcowyView implements Serializable{
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
                 macierzyste.add(r);
@@ -199,7 +200,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }
@@ -220,7 +221,7 @@ public class UkladBRWzorcowyView implements Serializable{
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }
@@ -340,7 +341,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
 //                    pozycjaRZiSDAO.dodaj(r);
-//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//                } catch (Exception e) {  E.e(e);
 //                    
 //                }
 //                macierzyste.add(r);
@@ -362,7 +363,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setMacierzysty(macierzyste.getLp());
 //                    pozycjaRZiSDAO.dodaj(r);
 //                    nowemacierzyste.add(r);
-//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//                } catch (Exception e) {  E.e(e);
 //                    
 //                }
 //            }
@@ -389,7 +390,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                r.setRok(wpisView.getRokWpisuSt());
 //                try {
 //                    pozycjaRZiSDAO.dodaj(r);
-//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//                } catch (Exception e) {  E.e(e);
 //                    
 //                }
 //                macierzyste.add(r);
@@ -411,7 +412,7 @@ public class UkladBRWzorcowyView implements Serializable{
 //                    r.setMacierzysty(macierzyste.getLp());
 //                    pozycjaBilansDAO.dodaj(r);
 //                    nowemacierzyste.add(r);
-//                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//                } catch (Exception e) {  E.e(e);
 //                    
 //                }
 //            }

@@ -12,12 +12,12 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
-import embeddable.Mce;
 import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -216,7 +216,7 @@ public class SymulacjaWynikuView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), podatek));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -281,12 +281,12 @@ public class SymulacjaWynikuView implements Serializable {
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
         try {
             wynikFKRokMcDAO.edit(wynikFKRokMc);
             Msg.msg("Zachowano wynik");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");
         }
     }
@@ -319,7 +319,7 @@ public class SymulacjaWynikuView implements Serializable {
                 }
                 i++;
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }

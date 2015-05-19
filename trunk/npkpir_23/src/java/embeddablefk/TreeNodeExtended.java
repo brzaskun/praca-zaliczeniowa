@@ -9,6 +9,7 @@ import comparator.Kontocomparator;
 import entityfk.Konto;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -378,7 +379,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                 }
             } catch (Exception e) {
                 if (e.getStackTrace() != null && e.getStackTrace().length >0) {
-                    System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                    E.e(e);
                 }
                 throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }

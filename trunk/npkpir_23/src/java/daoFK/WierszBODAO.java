@@ -10,6 +10,7 @@ import dao.DAO;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.WierszBO;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class WierszBODAO extends DAO implements Serializable {
     public List<WierszBO> lista(String grupa, WpisView wpisView) {
         try {
             return wierszBOFacade.findBOLista0(grupa, wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return new ArrayList<>();
         }
     }

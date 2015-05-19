@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Evpozycja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class EvpozycjaDAO extends DAO implements Serializable {
     public  List<Evpozycja> findAll(){
         try {
             return evpozycjaFacade.findAll(Evpozycja.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

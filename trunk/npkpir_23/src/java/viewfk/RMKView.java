@@ -25,10 +25,10 @@ import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -88,7 +88,7 @@ public class RMKView  implements Serializable {
     public void dodajNoweRMKDokfk(Dokfk wybranydok) {
         try {
             this.dokfk = wybranydok;
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
     }
     
@@ -129,7 +129,7 @@ public class RMKView  implements Serializable {
         try {
             rmkdao.destroy(rmk);
             listarmk.remove(rmk);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -140,7 +140,7 @@ public class RMKView  implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentRMK);
             Msg.msg("Zaksięgowano dokument RMK");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RMK");
         }
     }
@@ -185,7 +185,7 @@ public class RMKView  implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -250,7 +250,7 @@ public class RMKView  implements Serializable {
            for (int i = 0;i < odelgloscwmcach+1;i++){
                p.getUjetewksiegach().add(p.getPlanowane().get(i));
            }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             p.setRozliczony(true);
         }
         return kwota;

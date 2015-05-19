@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Zmianatablicy;
+import error.E;
 import java.io.Serializable;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,7 +31,7 @@ public class ZmianatablicyDAO implements Serializable{
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
             sessionFacade.create(zmianatablicy);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             throw new PersistenceException();
         }
     }
@@ -43,7 +44,7 @@ public class ZmianatablicyDAO implements Serializable{
             zmianatablicy.setNazwatablicy(param);
             zmianatablicy.setZmiana(zmiana);
             sessionFacade.edit(zmianatablicy);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             throw new PersistenceException();
         }
     }

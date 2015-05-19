@@ -20,7 +20,6 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddablefk.SaldoKonto;
-import entity.Dok;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -29,6 +28,7 @@ import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -194,7 +194,7 @@ public class KontaVatFKView implements Serializable {
                     return listatymczasowa;
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Blada nietypowy plik KontaVarFKView zmodyfikujliste ");
             return null;
         }
@@ -319,7 +319,7 @@ public class KontaVatFKView implements Serializable {
         try {
             dokDAOfk.dodaj(dokumentvat);
             Msg.msg("Zaksięgowano dokument VAT");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu VAT");
         }
     }
@@ -378,7 +378,7 @@ public class KontaVatFKView implements Serializable {
         try {
             Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             nd.setKontr(k);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

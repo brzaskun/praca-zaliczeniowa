@@ -15,19 +15,16 @@ import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import pdf.PdfMiejsceKosztow;
 import pdf.PdfPojazdy;
 import view.WpisView;
 
@@ -60,7 +57,7 @@ public class PojazdyView  implements Serializable{
     public void init() {
         try {
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -70,7 +67,7 @@ public class PojazdyView  implements Serializable{
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
             listasumpojazdy = new LinkedHashSet<>();
             obliczsumy();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

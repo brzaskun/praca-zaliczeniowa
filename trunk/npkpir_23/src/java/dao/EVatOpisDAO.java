@@ -5,6 +5,7 @@
 package dao;
 
 import entity.EVatOpis;
+import error.E;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,7 +32,7 @@ public class EVatOpisDAO extends DAO implements Serializable {
     public  List<EVatOpis> findAll(){
         try {
             return eVatOpisFacade.findAll(EVatOpis.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

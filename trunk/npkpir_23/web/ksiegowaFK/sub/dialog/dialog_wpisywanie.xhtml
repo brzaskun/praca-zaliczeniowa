@@ -202,7 +202,7 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu) and planKontView.infozebrakslownikowych ne ''}"
+                    <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2) and planKontView.infozebrakslownikowych ne ''}"
                                  columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                         <h:outputText value="Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów." style="color: red; font-weight: 900;"/>
                     </p:panelGrid>

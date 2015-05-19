@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Pismoadmin;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class PismoadminDAO extends DAO implements Serializable{
         try {
             List<Pismoadmin> lista = sessionFacade.findAll(Pismoadmin.class);
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -37,7 +38,7 @@ public class PismoadminDAO extends DAO implements Serializable{
         try {
             List<Pismoadmin> lista = sessionFacade.findPismoadminBiezace();
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

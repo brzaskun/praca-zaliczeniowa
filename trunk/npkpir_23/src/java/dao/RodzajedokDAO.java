@@ -6,6 +6,7 @@ package dao;
 
 import entity.Podatnik;
 import entity.Rodzajedok;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -37,7 +38,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public  List<Rodzajedok> findAll(){
         try {
             return rodzajedokFacade.findAll(Rodzajedok.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -45,7 +46,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public  List<Rodzajedok> findListaWspolne(){
         try {
             return rodzajedokFacade.findListaWspolne();
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -53,7 +54,7 @@ public class RodzajedokDAO extends DAO implements Serializable{
     public List<Rodzajedok> findListaPodatnik(Podatnik podatnik) {
         try {
             return rodzajedokFacade.findListaPodatnik(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }

@@ -6,6 +6,7 @@ package dao;
 
 import entity.Fakturyokresowe;
 import entity.Fakturywystokresowe;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
     public  List<Fakturywystokresowe> findAll(){
         try {
             return fakturywystokresoweFacade.findAll(Fakturywystokresowe.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -38,7 +39,7 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
     public Fakturywystokresowe findFakturaOkresowaById(Integer id){
         try {
             return fakturywystokresoweFacade.findFakturaOkresowaById(id);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -47,7 +48,7 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
         List<Fakturywystokresowe> zwrot = new ArrayList<>();
         try {
             zwrot = fakturywystokresoweFacade.findPodatnikFaktury(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
+        } catch (Exception e) { E.e(e); }
         return zwrot;
     }
     
@@ -55,21 +56,21 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
         List<Fakturywystokresowe> zwrot = new ArrayList<>();
         try {
             zwrot = fakturywystokresoweFacade.findPodatnikRokFaktury(podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
+        } catch (Exception e) { E.e(e); }
         return zwrot;
     }
 
     public Fakturywystokresowe findOkresowa(String rok, String klientnip, String nazwapelna, double brutto) {
         try {
             return fakturywystokresoweFacade.findOkresowa(rok, klientnip, nazwapelna, brutto);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
      public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
         try {
             return fakturywystokresoweFacade.findOkresoweOstatnie(podatnik, mc);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
