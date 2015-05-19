@@ -12,6 +12,7 @@ import daoFK.UkladBRDAO;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -391,7 +392,7 @@ public class UkladBRView implements Serializable {
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
                 macierzyste.add(r);
@@ -409,7 +410,7 @@ public class UkladBRView implements Serializable {
                 r.setRok(rok);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
                 macierzyste.add(r);
@@ -431,7 +432,7 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }
@@ -452,7 +453,7 @@ public class UkladBRView implements Serializable {
                     r.setMacierzysty(macierzyste.getLp());
                     pozycjaRZiSDAO.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }

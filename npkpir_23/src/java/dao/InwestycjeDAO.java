@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Inwestycje;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class InwestycjeDAO  extends DAO implements Serializable {
         try {
             List<Inwestycje> lista = inwestycjeFacade.findInwestycje(podatnik, zakonczona);
             return lista;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

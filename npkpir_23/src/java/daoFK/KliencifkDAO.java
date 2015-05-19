@@ -8,6 +8,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Kliencifk;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -39,7 +40,7 @@ public class KliencifkDAO extends DAO implements Serializable{
         try {
             Kliencifk kf = sessionFacade.znajdzkontofk(nip, podatniknip);
             return kf;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }

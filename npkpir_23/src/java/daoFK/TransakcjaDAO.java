@@ -10,6 +10,7 @@ import dao.DAO;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -44,7 +45,7 @@ public class TransakcjaDAO  extends DAO implements Serializable {
     public void usunniezaksiegowane(String podatnik) {
         try {
             sessionFacade.usunTransakcjeNiezaksiegowane(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

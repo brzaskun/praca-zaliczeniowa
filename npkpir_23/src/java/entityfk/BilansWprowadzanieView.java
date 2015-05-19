@@ -17,6 +17,7 @@ import daoFK.WierszBODAO;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -267,7 +268,7 @@ public class BilansWprowadzanieView implements Serializable {
                                 wierszBODAO.edit(p);
                             } catch (Exception e) {
                                 if (e.getStackTrace() != null) {
-                                    System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                                    E.e(e);
                                 } else {
                                     System.out.println("Blad "+e.toString());
                                 }

@@ -8,11 +8,11 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -76,7 +76,7 @@ public class BilansPodgladView  implements Serializable{
             getNodes();
             root.expandAll();
             Msg.msg("Rozwinięto maksymalnie");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Brak kont bilansowych u podatnika");
         }
     }

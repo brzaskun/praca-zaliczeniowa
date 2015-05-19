@@ -25,6 +25,7 @@ import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -311,7 +312,7 @@ public class PdfKontoZapisyLista {
             listasum.get(0).setSumaMa(sumaMa);
             listasum.get(0).setSaldoWn(saldoWn);
             listasum.get(0).setSaldoMa(saldoMa);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

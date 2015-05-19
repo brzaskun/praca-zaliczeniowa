@@ -6,6 +6,7 @@ package dao;
 
 import entity.Dok;
 import entity.Ostatnidokument;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
     public  List<Ostatnidokument> findAll(){
         try {
             return ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

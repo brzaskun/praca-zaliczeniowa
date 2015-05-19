@@ -8,6 +8,7 @@ package viewfk;
 import comparator.Rodzajedokcomparator;
 import dao.RodzajedokDAO;
 import entity.Rodzajedok;
+import error.E;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public class RodzajeDokKlientaView implements Serializable {
         try {
             rodzajedokKlienta = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Collections.sort(rodzajedokKlienta, new Rodzajedokcomparator());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

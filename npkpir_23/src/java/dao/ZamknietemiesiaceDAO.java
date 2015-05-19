@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Zamknietemiesiace;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,7 +33,7 @@ public class ZamknietemiesiaceDAO extends DAO implements Serializable{
    public  List<Zamknietemiesiace> findAll(){
         try {
             return zamknietemiesiaceFacade.findAll(Zamknietemiesiace.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

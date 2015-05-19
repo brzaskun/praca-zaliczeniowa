@@ -8,6 +8,7 @@ package viewfk;
 import daoFK.KontoDAOfk;
 import entity.Podatnik;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class PlanKontKopiujView implements Serializable{
                 r.setRok(Integer.parseInt(rokDocelowy));
                 try {
                     kontoDAOfk.dodaj(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
                 macierzyste.add(r);
@@ -119,7 +120,7 @@ public class PlanKontKopiujView implements Serializable{
                         kontoDAOfk.dodaj(r);
                         nowemacierzyste.add(r);
                     }
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }
@@ -140,7 +141,7 @@ public class PlanKontKopiujView implements Serializable{
                     r.setMacierzysty(macierzyste.getId());
                     kontoDAOfk.dodaj(r);
                     nowemacierzyste.add(r);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                     
                 }
             }

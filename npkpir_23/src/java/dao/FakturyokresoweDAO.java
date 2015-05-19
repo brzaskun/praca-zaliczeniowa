@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Fakturyokresowe;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
     public  List<Fakturyokresowe> findAll(){
         try {
             return fakturyokresoweFacade.findAll(Fakturyokresowe.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -38,7 +39,7 @@ public class FakturyokresoweDAO  extends DAO implements Serializable {
         List<Fakturyokresowe> zwrot = new ArrayList<>();
         try {
             zwrot = fakturyokresoweFacade.findPodatnik(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); }
+        } catch (Exception e) { E.e(e); }
         return zwrot;
     }
 }

@@ -17,6 +17,7 @@ import entityfk.Konto;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -81,7 +82,7 @@ public class CitView implements Serializable {
             if (pozycje.isEmpty()) {
                 Msg.msg("i", "Brak zdefiniowanych pozycjiw RZiS");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
         TreeNodeExtended rootProjektRZiS =  new TreeNodeExtended("root", null);
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);

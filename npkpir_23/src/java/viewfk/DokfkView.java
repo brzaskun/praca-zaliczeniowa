@@ -44,6 +44,7 @@ import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -197,7 +198,8 @@ private static final long serialVersionUID = 1L;
             stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
+        
         }
         wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
         //usunRozrachunkiNiezaksiegowanychDokfk();
@@ -224,7 +226,7 @@ private static final long serialVersionUID = 1L;
             if (ostatniklient == null) {
                 ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
@@ -242,7 +244,7 @@ private static final long serialVersionUID = 1L;
             wlaczZapiszButon = true;
             niedodawajkontapole = false;
         } catch (Exception e) {  
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            E.e(e);
             Msg.msg("e", "Brak tabeli w danej walucie. Wystąpił błąd przy inicjalizacji dokumentu. Sprawdź to.");
         }
         
@@ -316,7 +318,7 @@ private static final long serialVersionUID = 1L;
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-                        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                        } catch (Exception e) {  E.e(e);
                             //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         }
                     }
@@ -331,13 +333,13 @@ private static final long serialVersionUID = 1L;
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.nastepnyWiersz(wierszbiezacy);
-                        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                        } catch (Exception e) {  E.e(e);
                             //ObslugaWiersza.wygenerujiDodajWiersz(selected, liczbawierszyWDokumencie, wierszbiezacyIndex, przenumeruj, roznica, 0);
                         }
                     }
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
         if (czyWszystkoWprowadzono) {
@@ -394,7 +396,7 @@ private static final long serialVersionUID = 1L;
                     dolaczNowyWiersz(wierszbiezacy, false, nrgrupy);
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
 
@@ -433,7 +435,7 @@ private static final long serialVersionUID = 1L;
                Konto k = selected.getRodzajedok().getKontorozrachunkowe();
                StronaWiersza wierszBiezacy = wiersz.getStronaWn();
                wierszBiezacy.setKonto(serialclone.SerialClone.clone(k));
-             } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+             } catch (Exception e) {  E.e(e);
                  
              }
             } else {
@@ -448,7 +450,7 @@ private static final long serialVersionUID = 1L;
                Konto k = selected.getRodzajedok().getKontorozrachunkowe();
                StronaWiersza wierszBiezacy = wiersz.getStronaMa();
                wierszBiezacy.setKonto(serialclone.SerialClone.clone(k));
-             } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+             } catch (Exception e) {  E.e(e);
                  
              }
             } else {
@@ -593,7 +595,7 @@ private static final long serialVersionUID = 1L;
 //                wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
 //                dolaczNowyWiersz(indexwTabeli, true, numergrupy);
 //                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//            } catch (Exception e) {  E.e(e);
 //                dolaczNowyWiersz(indexwTabeli, false, numergrupy);
 //                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
 //            }
@@ -615,7 +617,7 @@ private static final long serialVersionUID = 1L;
 //                        wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
 //                        dolaczNowyWiersz(indexwTabeli, true, numergrupy);
 //                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//                    } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//                    } catch (Exception e) {  E.e(e);
 //                        dolaczNowyWiersz(indexwTabeli, false, numergrupy);
 //                        RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
 //                    }
@@ -645,11 +647,11 @@ private static final long serialVersionUID = 1L;
 ////                            }
 ////                            i++;
 ////                        } while (i <= (selected.getListawierszy().size()-indexwTabeli));
-////                    } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+////                    } catch (Exception e) {  E.e(e);
 ////                        
 //                    //}
 //                }
-//            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//            } catch (Exception e) {  E.e(e);
 //
 //            }
 //        }
@@ -667,7 +669,7 @@ private static final long serialVersionUID = 1L;
 //                Wiersz wiersznastepny = selected.getListawierszy().get(indexwTabeli + 1);
 //                dolaczNowyWiersz(indexwTabeli, true, numergrupy);
 //                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+//            } catch (Exception e) {  E.e(e);
 //                dolaczNowyWiersz(indexwTabeli, false, numergrupy);
 //                RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
 //            }
@@ -717,7 +719,7 @@ private static final long serialVersionUID = 1L;
                         Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, true, roznica, 5, wierszbiezacy, konto490);
-                    } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                    } catch (Exception e) {  E.e(e);
                         Konto konto490 = kontoDAOfk.findKontoPodatnik490(wpisView);
                         ObslugaWiersza.wygenerujiDodajWierszPiatka(selected, wierszbiezacyIndex, false, roznica, 5, wierszbiezacy, konto490);
                     }
@@ -735,7 +737,7 @@ private static final long serialVersionUID = 1L;
                         // nie chce wiersza na koncu ni z tego ni z owego
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-                        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                        } catch (Exception e) {  E.e(e);
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacy, false, roznica, 0);
                         }
                     } else if (kwotaWn > kwotaMa) {
@@ -757,7 +759,7 @@ private static final long serialVersionUID = 1L;
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-                        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                        } catch (Exception e) {  E.e(e);
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacy, false, roznica, 0);
                         }
                     }
@@ -773,13 +775,13 @@ private static final long serialVersionUID = 1L;
                     } else {
                         try {
                             Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-                        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                        } catch (Exception e) {  E.e(e);
                             ObslugaWiersza.wygenerujiDodajWiersz(selected, wierszbiezacy, false, roznica, 0);
                         }
                     }
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
         }
         if (czyWszystkoWprowadzono) {
@@ -1678,7 +1680,7 @@ private static final long serialVersionUID = 1L;
                     }
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -1809,7 +1811,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 System.out.println("Nie udało się dodac dokumentu " + e.getMessage());
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -1864,7 +1866,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                      }
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("Blad DokfkView przepisz waluty");
         }
     }
@@ -1914,7 +1916,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                      }
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("Blad DokfkView przepisz waluty");
         }
     }
@@ -1942,7 +1944,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
         } else {
@@ -1956,7 +1958,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
             dokDAOfk.edit(selected);
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
         }
     }
@@ -1975,7 +1977,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             }
             dokumentdousuniecia = null;
             Msg.msg("i", "Dokument usunięty");
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK?");
         }
     }
@@ -2004,7 +2006,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                         liczbawierszyWDokumencie--;
                     }
                     Msg.msg("Wiersz usunięty.");
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
 
                 }
             }
@@ -2012,7 +2014,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("Błąd podczas usuwania wiersz");
         }
     }
@@ -2025,7 +2027,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Dokfk dokument = null;
                 try {
                     dokument = dokDAOfk.findDokfkObj(selected);
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                 }
                 if (dokument != null) {
                     wlaczZapiszButon = false;
@@ -2042,7 +2044,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             try {
                 Wiersz w = selected.getListawierszy().get(0);
                 w.setOpisWiersza(selected.getOpisdokfk());
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 
             }
     }
@@ -2052,7 +2054,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Dokfk dokument = null;
             try {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
             }
             if (dokument != null) {
                 wlaczZapiszButon = false;
@@ -2142,7 +2144,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 selected.setKontr(k);
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -2162,7 +2164,7 @@ public void updatenetto(EVatwpisFK e, String form) {
         } else {
             pokazPanelWalutowy = false;
         }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
@@ -2207,7 +2209,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
                 flag = 1;
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
         try {
             int liczbawierszyWDokumencie = selected.getListawierszy().size();
@@ -2217,7 +2219,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     flag = 1;
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
         }
         if (flag == 0) {
             //9 nie ma wiersza
@@ -2321,7 +2323,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
             }
         } catch (Exception e) { 
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
@@ -2357,7 +2359,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
@@ -2662,7 +2664,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 wiersz.getStronaMa().setWiersz(wiersz);
                 return wiersz.getStronaMa();
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
             return null;
         }
@@ -2718,7 +2720,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //zerujemy rzeczy w dialogu
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
             RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -2757,7 +2759,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 //zerujemy rzeczy w dialogu
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
             RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -2858,7 +2860,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                         tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
                         tabelanbpDAO.dodaj(tabelanbpPLN);
                     }
-                } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+                } catch (Exception e) {  E.e(e);
                 }
                 selected.setTabelanbp(tabelanbpPLN);
                 List<Wiersz> wiersze = selected.getListawierszy();
@@ -2936,7 +2938,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
     }
@@ -3030,7 +3032,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 }
             }
            
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
 
         }
     }
@@ -3045,7 +3047,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 wierszBiezacy.setKonto(kontoPoprzedni);
                 Msg.msg("Skopiowano konto z wiersza poprzedzającego");
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -3128,7 +3130,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                 if (nowynumer.endsWith(separator)) {
                     nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
                 }
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 nowynumer = wzorzec;
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
@@ -3207,7 +3209,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     ewidencjaVATRKzapis0edycja1 = false;
                 }
                 RequestContext.getCurrentInstance().update("ewidencjavatRK");
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 System.out.println("Blad DokfkView dataTableTest "+e.getLocalizedMessage());
             }
         }
@@ -3328,7 +3330,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     dokDAOfk.edit(p);
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -3339,7 +3341,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             try {
                 p.setRokEw(p.getDokfk().getVatR());
                 p.setMcEw(p.getDokfk().getVatM());
-            } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            } catch (Exception e) {  E.e(e);
                 
             }
         }
@@ -3392,7 +3394,7 @@ public void updatenetto(EVatwpisFK e, String form) {
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
     }
@@ -3454,7 +3456,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             int lpwtabeli = wiersz.getIdporzadkowy()-1;
             String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
             RequestContext.getCurrentInstance().update(update);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

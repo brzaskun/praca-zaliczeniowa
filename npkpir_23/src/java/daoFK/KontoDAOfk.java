@@ -7,6 +7,7 @@ package daoFK;
 import dao.DAO;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public  List<Konto> findAll(){
         try {
             return kontoFacade.findAll(Konto.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -49,7 +50,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaRozrachunkowe(WpisView wpisView){
        try {
             return kontoFacade.findKontaRozrachunkowe(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -57,7 +58,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView){
        try {
             return kontoFacade.findKontaRozrachunkoweWszystkie(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -65,7 +66,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaVAT(String podatnik, int rok){
        try {
             return kontoFacade.findKontaVAT(podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -73,7 +74,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaSrodkiTrw(String podatnik, int rok){
        try {
             return kontoFacade.findKontaSrodkiTrw(podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -81,7 +82,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaRMK(String podatnik, int rok){
        try {
             return kontoFacade.findKontaRMK(podatnik, rok);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -89,7 +90,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaRZiS(WpisView wpisView) {
         try {
             return kontoFacade.findKontaRZiS(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -97,7 +98,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa0(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa0(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -105,7 +106,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa1(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa1(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -113,7 +114,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa2(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa2(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -121,7 +122,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa3(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa3(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -129,7 +130,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa4(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa4(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -137,7 +138,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaGrupa5(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa5(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -145,7 +146,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findKontaGrupa6(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa6(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -153,7 +154,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findKontaGrupa7(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa7(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -161,7 +162,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findKontaGrupa8(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa8(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -169,7 +170,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public Konto findKonto(String numer, WpisView wpisView){
        try {
             return kontoFacade.findKonto(numer, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -177,7 +178,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public Konto findKontoWzorcowy(String numer, WpisView wpisView){
        try {
             return kontoFacade.findKontoWzorcowy(numer, wpisView.getRokWpisu());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -185,7 +186,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView){
        try {
             return kontoFacade.findKontoNazwaPodatnik(nazwaskrocona, wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -193,7 +194,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public Konto findKonto(int id){
        try {
             return kontoFacade.findKonto(id);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -201,7 +202,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaPodatnika(String podatnik, String rok){
        try {
             return kontoFacade.findKontoPodatnik(podatnik, rok); 
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -210,7 +211,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaPodatnikaBO(WpisView wpisView, String kategoriaKonta){
        try {
             return kontoFacade.findWszystkieKontaPodatnikaBO(wpisView, kategoriaKonta);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -218,7 +219,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaBilansowePodatnika(WpisView wpisView){
        try {
             return kontoFacade.findWszystkieKontaBilansowePodatnika(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -226,7 +227,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaWynikowePodatnika(WpisView wpisView){
        try {
             return kontoFacade.findWszystkieKontaWynikowePodatnika(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -250,7 +251,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public Konto findKontoPodatnik490(WpisView wpisView){
        try {
             return kontoFacade.findKontoPodatnik490(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -258,7 +259,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public List<Konto> findKontaOstAlityka (WpisView wpisView) {
       try {
             return kontoFacade.findKontaOstAlityka(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
    }
@@ -266,7 +267,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public List<Konto> findKontaOstAlitykaWynikowe(WpisView wpisView) {
       try {
             return kontoFacade.findKontaOstAlitykaWynikowe(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
    }
@@ -274,7 +275,7 @@ public class KontoDAOfk extends DAO implements Serializable{
    public List<Konto> findKontaOstAlityka5 (WpisView wpisView) {
       try {
             return kontoFacade.findKontaOstAlityka5(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
    }
@@ -287,7 +288,7 @@ public class KontoDAOfk extends DAO implements Serializable{
               aktywapasywa = "0";
           }
             return kontoFacade.findKontaPrzyporzadkowane(pozycja, bilansowewynikowe, wpisView, aktywapasywa);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
    }
@@ -301,7 +302,7 @@ public class KontoDAOfk extends DAO implements Serializable{
               aktywapasywa = "0";
           }
             return kontoFacade.findKontaPrzyporzadkowaneWzorcowy(pozycja, bilansowewynikowe, wpisView, aktywapasywa);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
    }
@@ -310,7 +311,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaPotomnePodatnik(WpisView wpisView,String macierzyste) {
         try {
             return kontoFacade.findKontaPotomnePodatnik(wpisView, macierzyste);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -318,7 +319,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView,String macierzyste) {
         try {
             return kontoFacade.findKontaPotomneWzorcowy(wpisView, macierzyste);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -328,7 +329,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         try {
             macierzyste.getAllChildren(listakontwszystkie, wpisView, kontoFacade);
             return listakontwszystkie;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -338,7 +339,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         try {
             macierzyste.getAllChildrenWzorcowy(listakontwszystkie, wpisView, kontoFacade);
             return listakontwszystkie;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -347,7 +348,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         try {
             macierzyste.getAllChildrenRok(listakontwszystkie, wpisView, kontoFacade);
             return listakontwszystkie;
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -359,7 +360,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaPotomne(WpisView wpisView,String macierzyste, String bilansowewynikowe) {
         try {
             return kontoFacade.findKontaPotomne(wpisView, macierzyste, bilansowewynikowe);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -367,7 +368,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView,String macierzyste, String bilansowewynikowe) {
         try {
             return kontoFacade.findKontaPotomneWzorcowy(wpisView, macierzyste, bilansowewynikowe);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -375,7 +376,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findKontaMaSlownik(WpisView wpisView, int idslownika) {
         try {
             return kontoFacade.findKontaMaSlownik(wpisView, idslownika);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -385,7 +386,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public int resetujKolumneMapotomkow(WpisView wpisView) {
         try {
             return kontoFacade.resetujKolumneMapotomkow(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return 1;
         }
     }
@@ -393,7 +394,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public int resetujKolumneZablokowane(WpisView wpisView) {
         try {
             return kontoFacade.resetujKolumneZablokowane(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return 1;
         }
     }
@@ -401,14 +402,14 @@ public class KontoDAOfk extends DAO implements Serializable{
     public int policzPotomne(WpisView wpisView, String macierzyste) {
           try {
             return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomnePodatnikCount(wpisView, macierzyste)));
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return 0;
         } 
     }
     public int policzPotomneWzorcowy(WpisView wpisView, String macierzyste) {
           try {
             return Integer.parseInt(String.valueOf(kontoFacade.findKontaPotomneWzorcowyCount(wpisView, macierzyste)));
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return 0;
         } 
     }
@@ -417,7 +418,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findListaKontRozrachunkowych(WpisView wpisView) {
          try {
             return kontoFacade.findKontaMaSlownik(wpisView, 1);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -426,7 +427,7 @@ public class KontoDAOfk extends DAO implements Serializable{
          try {
             return kontoFacade.findKontaNazwaPodatnik(nip, wpisView);
         } catch (Exception e) { 
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+            E.e(e); 
             return null;
         }
     }
@@ -448,7 +449,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaWzorcowy(WpisView wpisView) {
         try {
             return kontoFacade.findKontaWzorcowy(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -456,7 +457,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaWynikoweWzorcowy(WpisView wpisView) {
         try {
             return kontoFacade.findKontaWynikoweWzorcowy(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -464,7 +465,7 @@ public class KontoDAOfk extends DAO implements Serializable{
      public List<Konto> findWszystkieKontaBilansoweWzorcowy(WpisView wpisView) {
         try {
             return kontoFacade.findKontaBilansoweWzorcowy(wpisView);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
@@ -472,7 +473,7 @@ public class KontoDAOfk extends DAO implements Serializable{
     public List<Konto> findWszystkieKontaPodatnikaBez0(String podatnikWpisu, String rokWpisuSt) {
         try {
             return kontoFacade.findKontoPodatnikBez0(podatnikWpisu, rokWpisuSt);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         } 
     }

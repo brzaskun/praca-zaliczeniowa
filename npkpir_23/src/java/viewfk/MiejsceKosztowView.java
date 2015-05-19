@@ -15,6 +15,7 @@ import embeddablefk.MiejsceKosztowZest;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -59,7 +60,7 @@ public class MiejsceKosztowView  implements Serializable{
     public void init() {
         try {
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }
@@ -69,7 +70,7 @@ public class MiejsceKosztowView  implements Serializable{
             miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
             listasummiejsckosztow = new LinkedHashSet<>();
             obliczsumymiejsc();
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             
         }
     }

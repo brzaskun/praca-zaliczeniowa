@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -38,7 +39,7 @@ public class UkladBRDAO extends DAO implements Serializable{
     public  List<UkladBR> findAll(){
         try {
             return sessionFacade.findAll(UkladBR.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }
@@ -46,7 +47,7 @@ public class UkladBRDAO extends DAO implements Serializable{
     public List<UkladBR> findPodatnik(String nazwapelna) {
         try {
             return sessionFacade.findUkladBRPodatnik(nazwapelna);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
     }

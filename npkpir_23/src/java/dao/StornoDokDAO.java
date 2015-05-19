@@ -5,6 +5,7 @@
 package dao;
 
 import entity.StornoDok;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -24,7 +25,7 @@ public class StornoDokDAO extends DAO implements Serializable {
   public StornoDok find(Integer rok, String mc, String podatnik){
       try{
          return stornoFacade.findStornoDok(rok,mc,podatnik);
-      } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+      } catch (Exception e) { E.e(e); 
           return null;
       }
      }

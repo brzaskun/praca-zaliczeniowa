@@ -6,6 +6,7 @@ package dao;
 
 import entity.Platnosci;
 import entity.PlatnosciPK;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -36,7 +37,7 @@ public class PlatnosciDAO extends DAO implements Serializable{
      public  List<Platnosci> findAll(){
         try {
             return platnosciFacade.findAll(Platnosci.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

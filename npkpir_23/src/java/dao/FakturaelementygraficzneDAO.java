@@ -6,10 +6,9 @@
 
 package dao;
 
-import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
+import error.E;
 import java.io.Serializable;
-import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -31,7 +30,7 @@ public class FakturaelementygraficzneDAO  extends DAO implements Serializable {
     public  Fakturaelementygraficzne findFaktElementyGraficznePodatnik(String podatnik){
         try {
             return fakturaelementygraficzneFacade.findFaktElementyGraficzne(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

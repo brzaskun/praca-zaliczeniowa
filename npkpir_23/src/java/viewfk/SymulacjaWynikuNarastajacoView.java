@@ -9,6 +9,7 @@ import daoFK.WynikFKRokMcDAO;
 import embeddable.Mce;
 import embeddable.Udzialy;
 import entityfk.WynikFKRokMc;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
-import pdf.PdfSymulacjaWyniku;
 import pdf.PdfSymulacjaWynikuNarastajaco;
 import view.WpisView;
 import waluty.Z;
@@ -178,7 +178,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji("do zapłaty", Z.z0(podatek-zaplacono)));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -201,7 +201,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji("podatek dochodowy", Z.z0(podstawaopodatkowania*0.19)));
                 podatnikkwota.put(p.getNazwiskoimie(),Z.z0(podstawaopodatkowania*0.19));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -216,7 +216,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty", Z.z(dowyplaty-zaplacono)));
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -235,7 +235,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                     pozycjeDoWyplatyExport.put(p.getNazwiskoimie(), Z.z(dowyplaty-zaplacono));
                 }
             }
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
         }
     }
@@ -248,7 +248,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         try {
             wynikFKRokMcDAO.destroy(wynikFKRokMc);
             listamiesiecy.remove(wynikFKRokMc);
-        } catch (Exception e) {  System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+        } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił bład. Nie usunięto wyniku za mc "+wynikFKRokMc.getMc());
         }
     }

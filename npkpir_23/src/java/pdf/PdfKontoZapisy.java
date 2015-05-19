@@ -22,6 +22,7 @@ import embeddablefk.ListaSum;
 import entity.Podatnik;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -171,7 +172,7 @@ public class PdfKontoZapisy {
 
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
-            System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString());
+            E.e(e);
         }
     }
     

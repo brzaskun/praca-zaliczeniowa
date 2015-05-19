@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Fakturadodelementy;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +29,7 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     public  List<Fakturadodelementy> findAll(){
         try {
             return fakturadodelementyFacade.findAll(Fakturadodelementy.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
@@ -36,7 +37,7 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
     public  List<Fakturadodelementy> findFaktElementyPodatnik(String podatnik){
         try {
             return fakturadodelementyFacade.findFaktElementyPodatnik(podatnik);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }

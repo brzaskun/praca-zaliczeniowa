@@ -5,6 +5,7 @@
 package dao;
 
 import entity.Wpis;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -31,7 +32,7 @@ public class WpisDAO extends DAO implements Serializable {
     public  List<Wpis> findAll(){
         try {
             return wpisFacade.findAll(Wpis.class);
-        } catch (Exception e) { System.out.println("Blad "+e.getStackTrace()[0].toString()+" "+e.toString()); 
+        } catch (Exception e) { E.e(e); 
             return null;
         }
    }
