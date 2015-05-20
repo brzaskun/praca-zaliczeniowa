@@ -462,10 +462,6 @@
             <to-view-id>/wspolny/wspolnyFakturaPlatnosci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>gZaksiegowane</from-outcome>
-            <to-view-id>/wspolny/wspolnyDokumentyZaksiegowane.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-        <navigation-case>
             <from-outcome>gfakturaFakturaKontrahenci</from-outcome>
             <to-view-id>/wspolny/wspolnyKontrahenci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
