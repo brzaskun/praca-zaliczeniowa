@@ -12,9 +12,9 @@
              
                 <f:view contentType="text/html">
                     <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/south.xhtml"/>   <!-- panel poludniowy-->
-                        <ui:include src="sub/layoutTablicaSrodkiKsiegowa/west.xhtml"/>   <!-- panel zachodni-->
+                        <ui:include src="sub/layoutTablicaSrodkiGuest/north.xhtml"/>  <!-- panel polnocny-->
+                        <ui:include src="sub/layoutTablicaSrodkiGuest/south.xhtml"/>   <!-- panel poludniowy-->
+                        <ui:include src="#{STREwidencja.west}"/>   <!-- panel zachodni-->
                         <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/inwestycja.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
