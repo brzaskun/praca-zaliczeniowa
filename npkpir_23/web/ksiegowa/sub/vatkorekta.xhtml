@@ -37,7 +37,7 @@
                                 <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                                 <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                                 <h:outputText value="status"/><h:outputText value="#{item.status}"/>
-                                <h:outputText value="opis"/><h:outputText value="#{item.opis}"/>
+                                <h:outputText value="#{mgs.opis}"/><h:outputText value="#{item.opis}"/>
                                 <h:outputText value="data wysyłki"/><h:outputText value="#{item.datazlozenia}"/>
                                 <h:outputText value="data potwierdzenia"/><h:outputText value="#{item.dataupo}"/>
                             </h:panelGrid>
@@ -109,8 +109,8 @@
                                     <p:ajax event="change" listener="#{vatKorektaView.wyliczbrutto(item)}" />
                                 </pe:inputNumber>
                             </p:column>
-                            <p:column headerText="vat" style="width: 20%;">
-                                <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                            <p:column headerText="#{mgs.VAT}" style="width: 20%;">
+                                <pe:inputNumber id="#{mgs.VAT}" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax event="change" listener="#{vatKorektaView.wyliczbrutto(item)}" />
                                 </pe:inputNumber>
                             </p:column>
@@ -135,19 +135,19 @@
                     <p:dataTable value="#{vatKorektaView.listadokumentowDoKorekty}" var="item" emptyMessage="Nie wprowadzono żadnych dokumentów korygujących"
                                  selection="#{vatKorektaView.vatKorektaDok}" selectionMode="single" rowKey="#{item.id}" style="width: 900px;">
                         <p:ajax event="rowSelect" update=":akordeon:wprowadzDokument"/>
-                        <p:column headerText="lp" width="30" style="text-align: center;">
+                        <p:column headerText="#{mgs.numerkolejny}" width="30" style="text-align: center;">
                             <h:outputText value="#{item.id}"/>
                         </p:column>
                         <p:column headerText="nip">
                             <h:outputText value="#{item.nipKontrahenta}"/>
                         </p:column>
-                        <p:column headerText="numer">
+                        <p:column headerText="#{mgs.numer}">
                             <h:outputText value="#{item.nrwłasny}"/>
                         </p:column>
                         <p:column headerText="netto">
                             <bcf:outputpl value="#{item.netto}"/>
                         </p:column>
-                        <p:column headerText="vat">
+                        <p:column headerText="#{mgs.VAT}">
                             <bcf:outputpl value="#{item.vat}"/>
                         </p:column>
                         <p:column headerText="brutto">
@@ -170,7 +170,7 @@
                 </p:panelGrid>
                 <p:commandButton value="zachowaj" actionListener="#{vatKorektaView.przetworzListeVatKorektaDok()}" oncomplete="r('akordeon:listadodanychdok:drukujkorekta').show();"
                                  update=":akordeon:korekta, :akordeon:formpokorekcie" rendered="#{vatKorektaView.pokazFormularze}" style="width: 120px;"/>
-                <p:commandButton id="drukujkorekta" value="drukuj" actionListener="#{vatKorektaView.drukujkorektareczna()}" rendered="#{vatKorektaView.pokazFormularze}" style="display: none; width: 120px; margin-left: 1%;"/>
+                <p:commandButton id="drukujkorekta" value="#{mgs.drukuj}" actionListener="#{vatKorektaView.drukujkorektareczna()}" rendered="#{vatKorektaView.pokazFormularze}" style="display: none; width: 120px; margin-left: 1%;"/>
             </h:form>
         </p:tab>
         <p:tab title="Przed korektą">

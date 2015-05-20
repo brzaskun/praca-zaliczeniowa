@@ -31,7 +31,7 @@
 
             <p:contextMenu for="dokumentyLista">
                 <p:menuitem value="Okresowa"  icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowaGuest()}"/>
-                <p:menuitem value="Drukuj"  actionListener="#{DokTabGuestView.drukPIT5Pdf()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
+                <p:menuitem value="#{mgs.drukuj}"  actionListener="#{DokTabGuestView.drukPIT5Pdf()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
             </p:contextMenu>
          <p:outputPanel deferred="true">
             <script>
@@ -58,14 +58,14 @@
                     <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
                     <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
                 </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="20">  
+                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  width="20">  
                     <h:outputText value="#{wpis.nrWpkpir}" />
                 </p:column>
 
                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="70">  
                     <h:outputText value="#{wpis.dataWyst}"/>
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="180">  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="180">  
                     <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  />
                 </p:column>
                 <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.typdokumentu}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.typdokumentu}" width="40">  
@@ -81,7 +81,7 @@
                         </f:facet>  
                     </p:cellEditor>
                 </p:column>
-                <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="110">  
+                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="110">  
                     <p:cellEditor>  
                         <f:facet name="output">  
                             <h:outputText value="#{wpis.opis}"/>
@@ -119,7 +119,7 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn2" headerText="vat">  
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
                                 <h:outputText value="#{subwpis.vat}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>

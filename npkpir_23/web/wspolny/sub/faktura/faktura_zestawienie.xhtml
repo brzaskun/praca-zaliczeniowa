@@ -8,7 +8,7 @@
 
     <p:tab id="zestawienie" title="Faktury wystawione wg kontrahentow">
         <h:form id="formzestawienie">
-            <p><p:commandButton value="pobierz" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"/></p>
+            <p><p:commandButton value="#{mgs.pobierz}" actionListener="#{fakturaZestView.init()}" update="@form, :form1:messages" style="width: 120px;"/></p>
             <p:dataTable id="dokumentyZestawienie" value="#{fakturaZestView.fakturyZestawienie}" var="item"  rowIndexVar="row" 
                          rowKey="#{item.kontrahent.npelna}" style="max-width: 900px;" widgetVar="zestTable" sortBy="#{item.kontrahent.npelna}" sortOrder="DESCENDING"
                          rowSelectMode="add"  emptyMessage="nie pobrano wierszy" >
@@ -34,13 +34,13 @@
                         <p:column width="150" headerText="nr.fakt">
                             <h:outputText value="#{loop.nrfakt}"/>
                         </p:column>
-                        <p:column width="150" headerText="opis">
+                        <p:column width="150" headerText="#{mgs.opis}">
                             <h:outputText value="#{loop.opis}"/>
                         </p:column>
                         <p:column headerText="netto">
                             <bcf:outputpl value="#{loop.netto}"/>
                         </p:column>
-                        <p:column headerText="vat">
+                        <p:column headerText="#{mgs.VAT}">
                             <bcf:outputpl value="#{loop.vat}" />
                         </p:column>
                         <p:column headerText="brutto">

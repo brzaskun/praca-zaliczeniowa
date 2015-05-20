@@ -22,7 +22,7 @@
                     <p:column headerText="rok"  style="text-align: center">
                         <h:outputText value="#{loop.zusstawkiPK.rok}"   style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                     </p:column>
-                    <p:column headerText="miesiąc"  style="text-align: center">
+                    <p:column headerText="#{mgs.miesiąc}"  style="text-align: center">
                         <h:outputText value="#{loop.zusstawkiPK.miesiac}"  style="#{loop.zusstawkiPK.rok eq podatnikView.biezacadata ? 'color: green; font-weight: 900;' : null}"/>
                     </p:column>
                     <p:column headerText="ZUS 51">

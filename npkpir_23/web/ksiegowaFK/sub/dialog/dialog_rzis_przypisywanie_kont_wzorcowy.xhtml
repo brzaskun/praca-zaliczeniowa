@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaWzorcowyView.uklad}" converter="UkladBRWzorcowyConv" style="width: 200px;" >
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}" />
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList, :formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.pobierzukladkontoR()}" update=":formprzypisywaniekont:dataList, :formprzypisywaniekont:dostepnekonta, :formprzypisywaniekont:kontaprzypisane"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinwszystkie(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.rozwin(rootProjektKonta)}" update=":formprzypisywaniekont:dataList" style="float: left;" />
@@ -30,7 +30,7 @@
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('r')}" icon="ui-icon-locked" update=":formwzorcowy"/>
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('r')}" icon="ui-icon-locked" update=":formprzypisywaniekont" style="margin-left: 10px;"/>
                 <p:column>
-                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujWynikKonta()}"/>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujWynikKonta()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3">

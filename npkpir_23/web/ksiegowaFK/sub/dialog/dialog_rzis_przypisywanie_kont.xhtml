@@ -20,7 +20,7 @@
                     <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form"/>
                 </p:panelGrid>
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRKontaView.rozwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRKontaView.rozwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
@@ -31,7 +31,7 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form:dataList, :form:dostepnekonta, :form:selected" icon="fa fa-sign-in"/>
                 <p:column>
-                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}"/>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3">

@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamianalityka"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :akordeon:tabelazsumamianalityka"/>
                 </p:column>
                 
                     <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
@@ -58,7 +58,7 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="boWn" width="60" >
@@ -115,7 +115,7 @@
                         <p:column headerText="nr" width="100">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="kontrahent">
+                        <p:column headerText="#{mgs.kontrahent}">
                             <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                         </p:column>
                         <p:column headerText="wiersz">

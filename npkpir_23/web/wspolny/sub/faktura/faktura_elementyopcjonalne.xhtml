@@ -10,7 +10,7 @@
                   <f:facet name="header">
                       <h:outputText value="Wybierze elementy opcjonalne faktury"/>
                   </f:facet>
-                  <p:column headerText="wybierz" width="60">
+                  <p:column headerText="#{mgs.wybierzmcrok}" width="60">
                       <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu ne 'logo'}"/>
                       <p:selectBooleanCheckbox value="#{wpis.aktywny}" style="margin-left: 30%" rendered="#{wpis.fakturadodelementyPK.nazwaelementu eq 'logo' and fakturaelementygraficzneView.aktualnelogo() ne ''}"/>
                   </p:column>

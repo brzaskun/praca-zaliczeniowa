@@ -70,7 +70,7 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatwarColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="60">  
+                    <p:column id="vatwarColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="60">  
                         <h:outputText value="#{wpis.vat}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -243,7 +243,7 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="vatColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="60">  
+                    <p:column id="vatColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="60">  
 
                         <h:outputText value="#{wpis.vat}"  style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>

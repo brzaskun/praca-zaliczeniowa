@@ -7,7 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
     <h:form id="form">
         <p:outputPanel id="wrapper" deferred="true"> 
-            <p:commandButton value="Drukuj" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeView.drukujewidencjeUE()}">
+            <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeView.drukujewidencjeUE()}">
                 <!--            <p:printer target="form:dokumentyLista" />-->
             </p:commandButton>
             <p:growl id="messages"/>
@@ -33,7 +33,7 @@
                 <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.nip}" />
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.npelna}"  />
                 </p:column>
                 <p:column id="nettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
@@ -49,7 +49,7 @@
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
                         <p:dataTable var="subwpis" value="#{wpis.zawiera}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
-                            <p:column id="SubColumn0" headerText="lp" style="text-align: center;">  
+                            <p:column id="SubColumn0" headerText="#{mgs.numerkolejny}" style="text-align: center;">  
                                 <h:outputText value="#{subwpis.nrWpkpir}" />
                             </p:column>
                             <p:column id="SubColumn1" headerText="data wyst">  
@@ -58,7 +58,7 @@
                             <p:column id="SubColumn1b" headerText="nr własny">  
                                 <h:outputText value="#{subwpis.nrWlDk}" />
                             </p:column>
-                            <p:column id="SubColumn1c" headerText="opis">  
+                            <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
                                 <h:outputText value="#{subwpis.opis}" />
                             </p:column>
                             <p:column id="SubColumn1a"  headerText="netto">  
@@ -78,7 +78,7 @@
                 <p:column>
                     <h:outputText value="#{row.nazwa}"/>
                 </p:column>
-                <p:column headerText="miesiąc" style="text-align: center;">
+                <p:column headerText="#{mgs.miesiąc}" style="text-align: center;">
                     <h:outputText value="#{row.miesiac}"/>
                 </p:column>
                 <p:column headerText="wartość">

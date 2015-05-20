@@ -23,7 +23,7 @@
         
         <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
             <p:tab  title="#{item[0].nazwaewidencji}">
-                <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
+                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
@@ -78,7 +78,7 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="vat" style="width: 110px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="#{mgs.VAT}" style="width: 110px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -88,7 +88,7 @@
             </p:tab>
         </c:forEach>
         <p:tab title="podsumowanie">
-            <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
+            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
             <p:separator/>
             <p:panelGrid id="sumysum" columns="6" style="padding: 1%;">
                 <h:outputText value="suma wybranych ewiedencji - netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">

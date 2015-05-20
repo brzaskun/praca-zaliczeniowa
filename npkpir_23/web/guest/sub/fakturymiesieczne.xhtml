@@ -24,16 +24,16 @@
                 <p:column width="10">
                     <p:rowToggler />
                 </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.id}"  width="20">  
+                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.id}"  width="20">  
                     <h:outputText value="#{wpis.id}" />
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" filterBy="dokument.kontr.npelna" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.kontr.npelna}" width="110">  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="dokument.kontr.npelna" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.kontr.npelna}" width="110">  
                     <h:outputText value="#{wpis.dokument.kontr.npelna} #{wpis.dokument.kontr.miejscowosc} #{wpis.dokument.kontr.nip}"  />
                 </p:column>
                 <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="dokument.typdokumentu" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.typdokumentu}" width="110">  
                     <h:outputText value="#{wpis.dokument.typdokumentu}" />
                 </p:column>
-                <p:column id="opisColumn" headerText="opis" filterBy="dokument.opis" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.nrWlDk}" width="110">  
+                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="dokument.opis" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.nrWlDk}" width="110">  
                     <h:outputText value="#{wpis.dokument.opis}"/>
                 </p:column>
                 <p:column id="bruttoColumn" headerText="brutto" filterBy="dokument.brutto" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{dokument.brutto}" width="110">  
@@ -86,7 +86,7 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn2" headerText="vat">  
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
                                 <h:outputText value="#{subwpis.vat}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>

@@ -96,7 +96,7 @@
                         <p:column style="height: 19px; text-align: center;" width="20">
                             <p:rowToggler />
                         </p:column>
-                        <p:column headerText="lp" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
+                        <p:column headerText="#{mgs.numerkolejny}" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
                         <p:column headerText="waluta" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
@@ -114,7 +114,7 @@
                         <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="opis" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
+                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
                             <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk}"/>
                         </p:column>
                         <p:column headerText="kwota pierwotna" width="70">

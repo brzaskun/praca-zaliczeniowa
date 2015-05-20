@@ -32,7 +32,7 @@
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked"/>
                 <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy" style="margin-left: 10px;"/>
                 <p:column>
-                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujBilansKonta()}"/>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujBilansKonta()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3" >

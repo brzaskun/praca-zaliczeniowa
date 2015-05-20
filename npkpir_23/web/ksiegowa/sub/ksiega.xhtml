@@ -48,10 +48,10 @@
                 <p:columnGroup type="header">  
                     <p:row> 
                         <p:column rowspan="2" headerText="" width="20"/>  
-                        <p:column rowspan="2" headerText="lp" width="30"/>  
+                        <p:column rowspan="2" headerText="#{mgs.numerkolejny}" width="30"/>  
                         <p:column rowspan="2" headerText="Data zdarzenia gosp." width="60"/>  
                         <p:column rowspan="2" headerText="Nr dowodu księgowego" width="120"/>  
-                        <p:column colspan="2" headerText="Kontrahent" width="250"/>  
+                        <p:column colspan="2" headerText="#{mgs.kontrahent}" width="250"/>  
                         <p:column rowspan="2" headerText="Opis zdarzenia gospodarcz" width="120"/>  
                         <p:column colspan="3" headerText="Przychody" width="265"/>
                         <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu" width="90"/>  
@@ -93,7 +93,7 @@
                 <p:column style="height: 40px;" width="40"> 
                     <p:rowToggler rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}">  
+                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}">  
                     <h:outputText value="#{wpis.nrWpkpir}"  styleClass="lpwiersza" rendered="#{wpis.nrWpkpir eq 0 ? false : true}"/>
                 </p:column>
                 <p:column id="dataColumn" headerText="data wyst" >  
@@ -102,13 +102,13 @@
                 <p:column id="nrWlDokColumn" headerText="nr wł"  >  
                     <h:outputText value="#{wpis.nrWlDk}" style="line-break: loose;"/>
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" >  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" >  
                     <h:outputText value="#{wpis.kontr.npelna}"   />
                 </p:column>
-                <p:column id="kontrColumna" headerText="kontrahent">  
+                <p:column id="kontrColumna" headerText="#{mgs.kontrahent}">  
                     <h:outputText value="#{wpis.kontr.kodpocztowy} #{wpis.kontr.miejscowosc} #{wpis.kontr.ulica} #{wpis.kontr.dom} #{wpis.kontr.lokal}"   rendered="#{wpis.kontr.ulica ne 'dowód wewnętrzny'}"/>
                 </p:column>
-                <p:column id="opisColumn" headerText="opis" >  
+                <p:column id="opisColumn" headerText="#{mgs.opis}" >  
                     <h:outputText value="#{wpis.opis}" />
                 </p:column>
                 <p:column id="pkpirKolColumn" headerText="kolumna" >  
@@ -152,7 +152,7 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn2" headerText="vat">  
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
                                 <h:outputText value="#{subwpis.vat}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>

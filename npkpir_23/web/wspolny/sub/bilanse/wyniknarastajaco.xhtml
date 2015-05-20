@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" 
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" 
                                      oncomplete="r('akordeon:formsymulacjanarastajaco:drukujsymulacjanar').show();"
                                      update="@form"/>
                 </p:column>
@@ -45,7 +45,7 @@
                 <f:facet name="header">
                     <h:outputText value="pobranie wyników miesięcznych"/>
                 </f:facet>
-                <p:column headerText="miesiąc" width="40" style="text-align: center;">
+                <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
                     <h:outputText value="#{loop.mc}"/>
                 </p:column>
                 <p:column headerText="przychód" width="60" >
@@ -85,7 +85,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie wyniku"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >
@@ -99,7 +99,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie podatku za pop. m-c"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >
@@ -113,7 +113,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie podatku za m-c"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >
@@ -127,7 +127,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie kwot do wypłaty narastająco"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >

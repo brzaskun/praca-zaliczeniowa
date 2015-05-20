@@ -8,7 +8,7 @@
     <f:event type="preRenderView" listener="#{sesjaView.pobierzsesje()}"/>
     <p:outputPanel id="wrapper">
         <h:form id="form">
-            <p:commandButton value="pobierz" actionListener="#{sesjaView.pobierzsesje()}" update=":form" style="width: 120px; "/>
+            <p:commandButton value="#{mgs.pobierz}" actionListener="#{sesjaView.pobierzsesje()}" update=":form" style="width: 120px; "/>
             <p:dataTable  var="wpis" value="#{sesjaView.wykazsesji}" id="lista" 
                           paginator="true" paginatorAlwaysVisible="true" rows="20"
                           paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
@@ -32,7 +32,7 @@
                 <p:column headerText="logout" filterBy="#{wpis.wylogowanie}" filterMatchMode="contains" sortBy="#{wpis.wylogowanie}">  
                     <h:outputText value="#{wpis.wylogowanie}" />
                 </p:column>
-                <p:column headerText="dokumenty" filterBy="#{wpis.iloscdokumentow}" filterMatchMode="contains" sortBy="#{wpis.iloscdokumentow}">  
+                <p:column headerText="#{mgs.dokumenty}" filterBy="#{wpis.iloscdokumentow}" filterMatchMode="contains" sortBy="#{wpis.iloscdokumentow}">  
                     <h:outputText value="#{wpis.iloscdokumentow}" />
                 </p:column>
                 <p:column headerText="wydruki" filterBy="#{wpis.iloscwydrukow}" filterMatchMode="contains" sortBy="#{wpis.iloscwydrukow}">  

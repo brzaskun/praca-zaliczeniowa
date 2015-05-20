@@ -54,11 +54,11 @@
                           filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" style="line-break: loose;word-break: break-all;word-wrap: break-word !important;"/>
                 </p:column>
-                <p:column headerText="kontrahent" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;"
+                <p:column headerText="#{mgs.kontrahent}" width="120" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;"
                           style="line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="opis" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250" style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
+                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250" style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 

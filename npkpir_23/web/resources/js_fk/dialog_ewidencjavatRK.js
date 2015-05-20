@@ -11,7 +11,7 @@ var pokazewidencjevatRK = function() {
         var rodzajwiersza = "formwpisdokument:dataList:"+numerwiersza+":idwiersza";
         var typwiersza = rj(rodzajwiersza).innerHTML;
         MYAPP.nrwierszaRK = numerwiersza;
-        if (typwiersza === "0" && opis === "opis") {
+        if (typwiersza === "0" && opis === "#{mgs.opis}") {
             PF('dialogewidencjavatRK').show();
         }
     } catch (e) {}

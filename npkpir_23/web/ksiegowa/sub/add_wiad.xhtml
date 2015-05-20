@@ -286,8 +286,8 @@
                             <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
                         </pe:inputNumber>
                     </p:column>
-                    <p:column headerText="vat" style="width: 20%;">
-                        <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                    <p:column headerText="#{mgs.VAT}" style="width: 20%;">
+                        <pe:inputNumber id="#{mgs.VAT}" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
                         </pe:inputNumber>
                     </p:column>
@@ -340,10 +340,10 @@
                 <h:outputLabel value="nr kolejny" style="font-weight: 600"/>
                 <h:outputLabel value="data wyst" style="font-weight: 600"/>
                 <h:outputLabel value="data sprzedaży" style="font-weight: 600"/>
-                <h:outputLabel value="kontrahent" style="font-weight: 600"/>
+                <h:outputLabel value="#{mgs.kontrahent}" style="font-weight: 600"/>
                 <h:outputLabel value="rodzaj dokumentu" style="font-weight: 600"/>
                 <h:outputLabel value="nr wł" style="font-weight: 600"/>
-                <h:outputLabel value="opis" style="font-weight: 600"/>
+                <h:outputLabel value="#{mgs.opis}" style="font-weight: 600"/>
                 <h:outputLabel value="kwota i kolumna w pkpir" style="font-weight: 600"/>
                 <h:outputLabel value="k m-c" style="font-weight: 600"/>
                 <h:outputLabel value="k rok" style="font-weight: 600"/>
@@ -407,9 +407,9 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="idColumn3" headerText="vat">  
+                    <p:column id="idColumn3" headerText="#{mgs.VAT}">  
                         <f:facet name="header">  
-                            <h:outputText value="vat"/>  
+                            <h:outputText value="#{mgs.VAT}"/>  
                         </f:facet> 
                         <h:outputText value="#{p.vat}"  style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>

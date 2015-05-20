@@ -35,7 +35,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" style="width: 120px;"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" style="width: 120px;"/>
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
@@ -72,22 +72,22 @@
                          sortBy="#{item}" sortFunction="#{dokfkSortView.sortZaksiegowaneDok}" >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
-                <p:column headerText="lp." width="20" style="text-align: center; height: 35px;">
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
-                <p:column headerText="data dok" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.datadokumentu}"/>
                 </p:column>
-                <p:column headerText="symbol" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkPK.seriadokfk}" filterBy="#{item.dokfkPK.seriadokfk}">
                     <h:outputText value="#{item.dokfkPK.seriadokfk}/#{item.dokfkPK.nrkolejnywserii}/#{item.dokfkPK.rok}"/>
                 </p:column>
-                <p:column headerText="kontrahent" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
-                <p:column headerText="numer" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
                 </p:column>
-                <p:column headerText="opis" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
                 </p:column>
                 <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
@@ -98,7 +98,7 @@
                 <p:column headerText="waluta" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
-                <p:column headerText="VAT" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
                     <h:outputText value="#{item.vatM}"/>
                 </p:column>
                 <p:column headerText="b/k" width="30" sortBy="#{item.nrdziennika}" style="text-align: center;">

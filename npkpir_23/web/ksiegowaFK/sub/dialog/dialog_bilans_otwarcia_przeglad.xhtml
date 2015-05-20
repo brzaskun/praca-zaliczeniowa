@@ -30,7 +30,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{bilansPodgladView.zwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{bilansPodgladView.zwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:spacer width="60"/>
-                <p:commandButton value="drukuj" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"

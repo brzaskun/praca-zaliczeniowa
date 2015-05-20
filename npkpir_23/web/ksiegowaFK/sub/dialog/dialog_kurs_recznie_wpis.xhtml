@@ -60,7 +60,7 @@
                 
             </p:dataTable>
              <div style="padding: 10px;">
-                 <p:commandButton id="walutynowabutton" value="pobierz" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
+                 <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
                                   actionListener="#{dokfkView.zamienkursnareczny()}" style="width: 120px;"/>
             </div>
         </h:form>

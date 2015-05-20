@@ -47,7 +47,7 @@
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{loop}"/>
                         <p:ajax event="change" global="false" listener="#{pozycjaBRView.wybranoUklad}" partialSubmit="true"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz" style="width: 100px; margin-top: 10px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 100px; margin-top: 10px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('r', pozycjaBRView.rootProjektRZiS, '')}" update=":formprojekt"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

@@ -35,7 +35,7 @@
                     <p:selectOneMenu value="#{pozycjaBRBOView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRBOView.pobierzukladprzegladBilans()}" update=":formdialog_bilansBO_wyliczenie"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRBOView.pobierzukladprzegladBilans()}" update=":formdialog_bilansBO_wyliczenie"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRBOView.rozwinwszystkie()}" update=":formdialog_bilansBO_wyliczenie:dataList" style="float: left;" />
                  <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRBOView.rozwin()}" update=":formdialog_bilansBO_wyliczenie:dataList" style="float: left;" />

@@ -15,7 +15,7 @@
                 <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
             </f:facet>
             <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
-            <p:column headerText="njusy">
+            <p:column headerText="#{mgs['login.news']}">
                 <h:outputText value="#{loop.tresc}"/>
             </p:column>
         </p:dataTable>
@@ -42,7 +42,7 @@
                 <p:column >
                     <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
                                       style="width: 150px; float: right;"
-                                      actionListener="#{WpisView.wpisAktualizuj()}" value="wybierz" accesskey="s" />
+                                      actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}" accesskey="s" />
                 </p:column>
             </p:panelGrid>
         </p:panel>
@@ -67,7 +67,7 @@
             </p:dataList>
         </p:panel>-->
         <p:panel style="margin-top: 30px; margin-left: 60%; width: 120px">
-            <h:commandLink id="openPopUp" value="moje ustawienia" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
+            <h:commandLink id="openPopUp" value="#{mgs['login.mojeustawienia']}" onclick="window.open('ksiegowa/ustawienia.xhtml', 'popup', 'location=yes,links=no,scrollbars=no,toolbar=no,status=no,width=1200,height=300,top=150,left=300');" />
 <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">
                 <h:outputText value="tu bed amoje ustawienia" id="dokumentyLista"/>
             </h:outputLink>-->

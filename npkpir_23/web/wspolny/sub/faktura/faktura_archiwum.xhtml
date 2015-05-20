@@ -11,7 +11,7 @@
             <p:contextMenu for="dokumentyArchiwum" >
                 <p:menuitem value="Mail do kontr." update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.mailfaktura()}" >
                 </p:menuitem>
-                <p:menuitem value="Drukuj" update=":form1:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
+                <p:menuitem value="#{mgs.drukuj}" update=":form1:messages" actionListener="#{pdfFaktura.drukuj()}" icon="ui-icon-print" />
                 <p:menuitem value="Okresowa" update=":form1:messages" icon="ui-icon-arrowrefresh-1-s" actionListener="#{fakturaView.dodajfaktureokresowa()}"/>
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formarchiwum:dokumentyArchiwum" actionListener="#{fakturaView.destroyarchiwalne()}" icon="ui-icon-trash" />
                 <p:separator/>
@@ -44,10 +44,10 @@
                 <p:column headerText="nr kolejny" width="80" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
-                <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="opis" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="300">
+                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="300">
                     <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 

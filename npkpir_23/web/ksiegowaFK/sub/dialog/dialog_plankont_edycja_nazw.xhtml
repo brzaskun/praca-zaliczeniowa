@@ -27,7 +27,7 @@
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                         <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                        <f:selectItem itemLabel="vat" itemValue="vat"/>
+                        <f:selectItem itemLabel="#{mgs.VAT}" itemValue="#{mgs.VAT}"/>
                     </p:selectOneMenu>
                     <h:outputText value=""/>
                     <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykonta()}" accesskey="d" type="submit" update=":formedycjanazw, :form_dialog_plankont, :formwzorcowy" 

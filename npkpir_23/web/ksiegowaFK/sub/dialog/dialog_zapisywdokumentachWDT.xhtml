@@ -20,12 +20,12 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{wierszeView.initwierszeWDT()}" update="@form" style="margin-left: 20px; width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.initwierszeWDT()}" update="@form" style="margin-left: 20px; width: 120px;"/>
                 <h:outputText value="suma kg" style="margin-left: 30px;"/>
                 <bcf:outputpl value="#{wierszeView.sumakg}" style="margin-left: 30px;"/>
                 <h:outputText value="suma szt" style="margin-left: 30px;"/>
                 <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
-                <p:commandButton id="rukujbutton" value="drukuj" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWDT)}" styleClass="fkbutton"
+                <p:commandButton id="rukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWDT)}" styleClass="fkbutton"
                                      style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
             <p:dataTable id="dataList" value="#{wierszeView.wierszeWDT}" var="loop" rowIndexVar="row" style="height: 700px; height: 650px; overflow-y: scroll"
@@ -41,7 +41,7 @@
                 <p:ajax event="rowUnselectCheckbox" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:ajax event="toggleSelect" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
-                <p:column headerText="lp" width="20"  style="text-align: center;">
+                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center;">
                     <h:outputText value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="data dokum" width="50">
@@ -53,7 +53,7 @@
                 <p:column headerText="nr własny" width="90">
                     <h:outputText value="#{loop.dokfk.numerwlasnydokfk}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                <p:column headerText="#{mgs.opis}" width="140" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
                     <h:outputText value="#{loop.opisWiersza}" />
                 </p:column>
                 <p:column headerText="ilość kg" width="60" filterBy="#{loop.ilosc_kg}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.ilosc_kg}">

@@ -47,7 +47,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
@@ -90,7 +90,7 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista0)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista0)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
@@ -111,7 +111,7 @@
                         </p:column>
                         <p:column >
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 90%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista1)}"/>
@@ -195,11 +195,11 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista1)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista1)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
-                <p:tab title="2" id="rozrachunki">
+                <p:tab title="2" id="#{mgs.rozrachunki}">
                     <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
@@ -216,7 +216,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 90%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista2)}"/>
@@ -300,7 +300,7 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista2)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista2)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
@@ -320,7 +320,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista3)}"/>
@@ -363,7 +363,7 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista3)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista3)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
@@ -383,7 +383,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista6)}"/>
@@ -426,7 +426,7 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista6)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista6)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
@@ -446,7 +446,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista8)}"/>
@@ -489,7 +489,7 @@
                             </p:panelGrid>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista8)}" style="width: 120px; margin-left: 20px;"/>
+                            <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukuj(bilansWprowadzanieView.lista8)}" style="width: 120px; margin-left: 20px;"/>
                         </p:column>
                     </p:panelGrid>
                 </p:tab>
@@ -503,7 +503,7 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="opis"/>
+                                <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <h:outputText value="#{item.wierszBOPK.opis}" />
                         </p:column>

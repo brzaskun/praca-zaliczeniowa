@@ -47,7 +47,7 @@
                     <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
                         <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{loopik}"/>
                     </p:selectOneListbox>
-                    <p:commandButton value="wybierz" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>
+                    <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>
                 </p:panel>
             </p:panelGrid>
         </h:form>

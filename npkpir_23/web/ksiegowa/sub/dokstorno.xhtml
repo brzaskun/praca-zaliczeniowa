@@ -20,16 +20,16 @@
                 <h:outputText value="Zawartość dokumentu storno za wybrany okres" />  
             </f:facet>
             
-             <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="30">  
+             <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  width="30">  
                 <f:facet name="header">  
-                    <h:outputText value="lp" />  
+                    <h:outputText value="#{mgs.numerkolejny}" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
                 
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <f:facet name="header">  
-                    <h:outputText value="kontrahent" />  
+                    <h:outputText value="#{mgs.kontrahent}" />  
                 </f:facet> 
                 <h:outputText value="#{wpis.kontr.npelna} miejscowość:#{wpis.kontr.miejscowosc} nip:#{wpis.kontr.nip}"  />
             </p:column>
@@ -40,9 +40,9 @@
                 </f:facet> 
                         <h:outputText value="#{wpis.nrWlDk}"/>
             </p:column>
-            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opis}" >  
+            <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opis}" >  
                 <f:facet name="header">  
-                    <h:outputText value="opis" />  
+                    <h:outputText value="#{mgs.opis}" />  
                 </f:facet> 
                         <h:outputText value="#{wpis.opis}"/>
             </p:column>

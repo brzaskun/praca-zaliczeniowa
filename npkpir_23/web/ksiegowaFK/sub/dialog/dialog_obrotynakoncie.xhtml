@@ -99,7 +99,7 @@
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumamiobrotow:sumy" listener="#{kontoObrotyFKView.sumazapisowtotal}" global="false"/>
                         <p:column selectionMode="multiple" width="35"></p:column>
-                        <p:column headerText="miesiąc" width="70" sortBy="#{loop.miesiac}">
+                        <p:column headerText="#{mgs.miesiąc}" width="70" sortBy="#{loop.miesiac}">
                             <h:outputText value="#{loop.miesiac}"/>
                         </p:column>
                         <p:column headerText="kwota Wn" sortBy="#{loop.kwotaWn}">

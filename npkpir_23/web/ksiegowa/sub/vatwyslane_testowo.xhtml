@@ -25,7 +25,7 @@
             </p:column>
             <p:column width="200">
                 <f:facet name="header">
-                    <h:outputText value="Opis"/>
+                    <h:outputText value="#{mgs.opis}"/>
                 </f:facet>
                 <h:outputText value="#{item.opis}"/>
             </p:column>
@@ -65,7 +65,7 @@
             </p:column>
             <p:column width="80" style="text-align: center;">
                 <f:facet name="header">
-                    <h:outputText value="drukuj"/>
+                    <h:outputText value="#{mgs.drukuj}"/>
                 </f:facet>
                 <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item, row)}" style="width: 80px;" onclick="wydrukvat7('#{item.podatnik}');"
                                  rendered="#{!(item.status eq '')}"  />

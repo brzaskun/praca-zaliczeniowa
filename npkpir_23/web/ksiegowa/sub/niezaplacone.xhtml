@@ -45,10 +45,10 @@
                 <h:outputText value="Wykaz dokumentów niezapłaconych" />  
             </f:facet>
             
-            <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  width="20" style="height: 40px;">  
+            <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  width="20" style="height: 40px;">  
                 <h:outputText value="#{wpis.nrWpkpir}" />
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc} nip #{wpis.kontr.nip}"  />
             </p:column>
            
@@ -62,7 +62,7 @@
                     </f:facet>  
                 </p:cellEditor>
             </p:column>
-            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opis}"  width="100">  
+            <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opis}"  width="100">  
                  <p:cellEditor>  
                     <f:facet name="output">  
                         <h:outputText value="#{wpis.opis}"/>

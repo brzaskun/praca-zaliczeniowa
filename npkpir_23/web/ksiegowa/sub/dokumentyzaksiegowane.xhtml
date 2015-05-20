@@ -88,13 +88,13 @@
                     <p:rowToggler rendered="#{wpis.ewidencjaVAT1.size() gt 0}"/>
                     <h:outputText value="bez VAT" rendered="#{wpis.ewidencjaVAT1.size() eq null}"/>
                 </p:column>
-                <p:column id="idColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
+                <p:column id="idColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}"  style="width: 20px; text-align: center;">  
                     <h:outputText styleClass="lpwiersza" value="#{wpis.nrWpkpir}" />
                 </p:column>
                 <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.dataWyst}"  style="width: 50px; min-width: 70px;">  
                     <h:outputText value="#{wpis.dataWyst}"/>
                 </p:column>
-                <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
+                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
                     <h:outputText style="font-weight: bold;" value="#{wpis.kontr.npelna}"  />
                     <h:outputText value=" #{wpis.kontr.miejscowosc} - NIP #{wpis.kontr.nip}"  rendered="#{!(wpis.kontr.nip eq '0000000000')}"/>
                     <h:outputText value=" #{wpis.kontr.miejscowosc}"  rendered="#{wpis.kontr.nip eq '0000000000'}"/>
@@ -105,7 +105,7 @@
                 <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}"  style="width: 10%;" >   
                     <h:outputText value="#{wpis.nrWlDk}" />
                 </p:column>
-                <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
+                <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
                     <h:outputText value="#{wpis.opis}"/>
                 </p:column>
                 <p:column id="nettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.netto}"  style="width: 60px;">  
@@ -135,7 +135,7 @@
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn2" headerText="vat">  
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
                                 <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
@@ -154,7 +154,7 @@
                         </p:dataTable>
                     </p:column>
                 </p:rowExpansion>
-                <p:column id="vatMcColumn" headerText="vat" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}"  style="width: 14px; text-align: center;" filterMaxLength="2">  
+                <p:column id="vatMcColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vatM}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.vatM}"  style="width: 14px; text-align: center;" filterMaxLength="2">  
                     <h:outputText style="#{wpis.vatM eq wpis.pkpirM ? null : 'font-weight: bold; color: red;'}" value="#{wpis.vatM}"/>
                 </p:column >
                 <p:column id="status" headerText="status"  style="width: 5%; text-align: center;">
@@ -182,7 +182,7 @@
                 <p:panelGrid id="polawprowadzania" columns="6" >
                     <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
                     <h:outputLabel value="data sprzedaży" style="font-weight: 700"/>
-                    <h:outputLabel value="kontrahent" style="font-weight: 700"/>
+                    <h:outputLabel value="#{mgs.kontrahent}" style="font-weight: 700"/>
                     <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
                     <h:outputLabel value="nr własny" style="font-weight: 700;"/>
                     <h:outputLabel value="opis transakcji (F9)/nowa kol (F8)" style="font-weight: 700"/>
@@ -427,8 +427,8 @@
                             <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
                         </pe:inputNumber>
                     </p:column>
-                    <p:column headerText="vat" style="width: 20%;">
-                        <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                    <p:column headerText="#{mgs.VAT}" style="width: 20%;">
+                        <pe:inputNumber id="#{mgs.VAT}" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatevat(item)}" />
                         </pe:inputNumber>
                     </p:column>
