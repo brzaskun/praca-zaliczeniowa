@@ -56,12 +56,18 @@
                 <h:form>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" ajax="false"/>
                     <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" ajax="false"/>
+                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" type="submit" ajax="false"/>
                 </h:form>
             </p:panel>
             <h:form id="infologowanie" >
                 <p:panel style="margin-left: auto; margin-right: auto; width: 300px; border: none; text-align: center; font-size: smaller;" >
-                    <h:outputText value="twoje IP: #{Logowanie.ipusera} jest rejestrowane ze względów bezpieczeństwa" style="color: gray;"/><br/>
-                    <h:outputText value="liczba pozostałych dopuszczalnych prób logowań: #{Logowanie.liczniklogowan}"/>
+                    <h:outputFormat value="#{mgs.twojeIP1}" style="color: gray;">
+                        <f:param value="#{Logowanie.ipusera}"/>
+                    </h:outputFormat>
+                    <br/>
+                    <h:outputFormat value="#{mgs.twojeIP2}">
+                        <f:param value="#{Logowanie.liczniklogowan}"/>
+                    </h:outputFormat>
                 </p:panel>
             </h:form>
             <!--eefe-->
