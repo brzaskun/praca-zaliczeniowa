@@ -11,7 +11,7 @@
 
     <p:tabView>
         <p:tab id="ewid1" title="ewidencje">
-            <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
+            <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                 <p:tab id="ewid2" title="#{item[0].nazwaewidencji}">
                 <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}', this)"  style="width: 120px;"/>
                 <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}', this)"  style="width: 120px;"/>
