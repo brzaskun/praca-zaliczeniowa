@@ -62,7 +62,7 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="vat" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
+                                <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
@@ -79,7 +79,7 @@
                         <f:convertNumber minFractionDigits="0" locale="PL" />
                     </h:outputText>
                     <p:commandButton value="zaksięguj VAT" style="width: 120px; margin-left: 30px; margin-right: 30px;" actionListener="#{kontaVatFKView.generowanieDokumentuVAT()}"/>
-                    <p:commandButton value="Drukuj" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
+                    <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
                     <p:commandButton value="Drukuj wszyst. data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkie()}" onsuccess="wydrukewidencjewszystkie('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 100px;"/>
                     <p:commandButton value="Drukuj wszyst. wartosc" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfWszystkieWartosc()}" onsuccess="wydrukewidencjewszystkiewartosc('#{WpisView.podatnikWpisu}')"  style="width: 150px; margin-left: 10px;"/>
                     <p:separator/>
@@ -166,7 +166,7 @@
                                     <p:column headerText="nr" width="100">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
-                                    <p:column headerText="kontrahent">
+                                    <p:column headerText="#{mgs.kontrahent}">
                                         <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                                     </p:column>
                                     <p:column headerText="wiersz">

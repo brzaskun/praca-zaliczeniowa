@@ -18,7 +18,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Symbol"/>
+                        <h:outputText value="#{mgs.symbol}"/>
                     </f:facet>
                     <h:outputText value="#{item.symbol}"/>
                 </p:column>
@@ -30,7 +30,7 @@
                 </p:column>
                 <p:column width="250">
                     <f:facet name="header">
-                        <h:outputText value="Opis"/>
+                        <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
                     <h:outputText value="#{item.opis}"/>
                 </p:column>
@@ -78,13 +78,13 @@
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
-                            <p:column id="nrColumn" headerText="lp" sortBy="#{wpis.NrWpkpir}" width="50">  
+                            <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.NrWpkpir}" width="50">  
                                 <h:outputText value="#{wpis.nrWpkpir}"/>
                             </p:column>
                             <p:column id="dataColumn" headerText="data wyst" filterBy="#{wpis.dataWyst}" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                                 <h:outputText value="#{wpis.dataWyst}"/>
                             </p:column>
-                            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="250">  
+                            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="250">  
                                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc}" />
                             </p:column>
                             <p:column id="rodzTrColumn" headerText="nip" filterBy="#{wpis.kontr.nip}" filterMatchMode="contains" sortBy="#{wpis.kontr.nip}" width="110">  
@@ -116,7 +116,7 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                     <p:commandButton value="Drukuj" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 80px;"/>
+                     <p:commandButton value="#{mgs.drukuj}" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 80px;"/>
                 </p:column>
                 
             </p:dataTable>
@@ -136,7 +136,7 @@
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Symbol"/>
+                        <h:outputText value="#{mgs.symbol}"/>
                     </f:facet>
                     <h:outputText value="#{item.symbol}"/>
                 </p:column>
@@ -148,7 +148,7 @@
                 </p:column>
                 <p:column width="300">
                     <f:facet name="header">
-                        <h:outputText value="Opis"/>
+                        <h:outputText value="#{mgs.opis}"/>
                     </f:facet>
                     <h:outputText value="#{item.opis}"/>
                 </p:column>
@@ -196,13 +196,13 @@
                                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                                      rowsPerPageTemplate="20,100,250,500" paginatorPosition="top" paginator="true" style="width: 1100px;">
 
-                            <p:column id="nrColumn" headerText="lp" sortBy="#{wpis.nrWpkpir}" width="50">  
+                            <p:column id="nrColumn" headerText="#{mgs.numerkolejny}" sortBy="#{wpis.nrWpkpir}" width="50">  
                                 <h:outputText value="#{wpis.nrWpkpir}"/>
                             </p:column>
                             <p:column id="dataColumn" headerText="data wyst" filterBy="dataWyst" filterMatchMode="contains" sortBy="#{wpis.dataWyst}" width="110">  
                                 <h:outputText value="#{wpis.dataWyst}"/>
                             </p:column>
-                            <p:column id="kontrColumn" headerText="kontrahent" filterBy="kontr.npelna" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="250">  
+                            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="kontr.npelna" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" width="250">  
                                 <h:outputText value="#{wpis.kontr.npelna} #{wpis.kontr.miejscowosc}" />
                             </p:column>
                             <p:column id="rodzTrColumn" headerText="nip" filterBy="kontr.nip" filterMatchMode="contains" sortBy="#{wpis.kontr.nip}" width="110">  
@@ -234,7 +234,7 @@
                     <f:facet name="header">
                         <h:outputText value=""/>
                     </f:facet>
-                     <p:commandButton value="Drukuj" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
+                     <p:commandButton value="#{mgs.drukuj}" actionListener="#{inwestycjeView.drukujInwestycje(item)}" icon="ui-icon-print" style="width: 90px;"/>
                 </p:column>
                 
             </p:dataTable>

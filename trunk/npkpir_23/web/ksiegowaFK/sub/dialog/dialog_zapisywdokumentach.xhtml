@@ -25,7 +25,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
                 <h:outputText value="tylko bez rozrachunkow"/>
                 <h:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}"/>
             </p:panelGrid>
@@ -59,7 +59,7 @@
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.idporzadkowy}">
                     <h:outputText value="#{loop.idporzadkowy}" />
                 </p:column>
-                <p:column headerText="opis" width="190" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
+                <p:column headerText="#{mgs.opis}" width="190" filterBy="#{loop.opisWiersza}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.opisWiersza}">
                     <h:outputText value="#{loop.opisWiersza.length() gt 45 ? loop.opisWiersza.substring(0,44) : loop.opisWiersza}" />
                 </p:column>
                 <p:column headerText="kwota Wn" width="60" filterBy="#{loop.stronaWn.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.kwota}">

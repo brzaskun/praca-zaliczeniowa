@@ -17,7 +17,7 @@
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel nieNBP " />  
                 </f:facet>
-               <p:column headerText="lp" width="40" sortBy="#{wpis.idtabelanbp}">
+               <p:column headerText="#{mgs.numerkolejny}" width="40" sortBy="#{wpis.idtabelanbp}">
                     <h:outputText value="#{wpis.idtabelanbp}" style="width: 20px;"/>
                 </p:column>
                 <p:column headerText="nr tabeli" width="150" sortBy="#{wpis.nrtabeli}" filterBy="#{wpis.nrtabeli}"  filterMatchMode="contains">
@@ -39,7 +39,7 @@
                 </p:column>
             </p:dataTable>
 <!--             <div style="padding: 10px;">
-                 <p:commandButton id="walutynowabutton" value="pobierz" actionListener="#{walutyViewFK.pobierzkursy}" update=":wprowadzonekursyrecznie:dataTablekursy" style="width: 120px;"/>
+                 <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" actionListener="#{walutyViewFK.pobierzkursy}" update=":wprowadzonekursyrecznie:dataTablekursy" style="width: 120px;"/>
             </div>-->
         </h:form>
     </p:dialog>

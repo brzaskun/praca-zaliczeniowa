@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
                                      style="width: 120px; margin-left: 20px;" update="@form, :akordeon:formzestkontarokprocent"/>
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
@@ -49,7 +49,7 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="01" width="50" >
@@ -103,7 +103,7 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="01" width="50" >

@@ -29,7 +29,7 @@
                 <f:facet name="header">
                     <h:outputText value="Wykaz adresatów"/>
                 </f:facet>
-                <p:column headerText="lp">
+                <p:column headerText="#{mgs.numerkolejny}">
                     <h:outputText value="#{index}"/>
                 </p:column>
                 <p:column headerText="nazwa">
@@ -67,7 +67,7 @@
                 <f:facet name="header">
                     <h:outputText value="Wykaz wysłanych maili"/>
                 </f:facet>
-                <p:column headerText="lp">
+                <p:column headerText="#{mgs.numerkolejny}">
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
                     <p:column headerText="data wysyłki" width="150">

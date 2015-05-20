@@ -51,7 +51,7 @@
                                      type="currency"/>
                 </h:outputText>
             </p:column>
-            <p:column id="vatColumn" headerText="vat" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
+            <p:column id="vatColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vat}" filterMatchMode="contains" sortBy="#{wpis.vat}">  
 
                 <h:outputText value="#{wpis.vat}" >
                     <f:convertNumber maxFractionDigits="2"

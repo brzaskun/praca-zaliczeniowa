@@ -32,11 +32,11 @@
             <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
             </p:column>
-            <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" width="200"
+            <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
                       filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.kontrahent.npelna}"/>
             </p:column>
-            <p:column headerText="opis" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
                       filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
             </p:column>
@@ -68,11 +68,11 @@
             <p:column headerText="nr kolejny" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
             </p:column>
-            <p:column headerText="kontrahent" sortBy="#{wpis.kontrahent.npelna}" width="200"
+            <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" width="200"
                       filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.kontrahent.npelna}"/>
             </p:column>
-            <p:column headerText="opis" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
+            <p:column headerText="#{mgs.opis}" sortBy="#{wpis.pozycjenafakturze.get(0).nazwa}" width="400"
                       filterBy="#{wpis.pozycjenafakturze.get(0).nazwa}" filterMatchMode="contains" filterStyle="display : none;">
                 <h:outputText value="#{wpis.pozycjenafakturze.get(0).nazwa}"/>
             </p:column>

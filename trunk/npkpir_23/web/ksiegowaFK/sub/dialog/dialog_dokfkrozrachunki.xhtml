@@ -20,11 +20,11 @@
         }
     </style>
 
-    <p:dialog id="dialogdrugi" header="Rozrachunki" widgetVar="rozrachunki" modal="true" appendTo="@(body)"
+    <p:dialog id="dialogdrugi" header="#{mgs.rozrachunki}" widgetVar="#{mgs.rozrachunki}" modal="true" appendTo="@(body)"
               resizable="false"  onShow="rozrachunkiOnShow();setTimeout(znadzpasujacepolerozrachunku2('#{dokfkView.aktualnyWierszDlaRozrachunkow.pozostalo}'),5000);" 
-              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="rozrachunki">
+              closeOnEscape="true" onHide="rozrachunkiOnHide();" focus="#{mgs.rozrachunki}">
 
-        <h:form id="rozrachunki"  >
+        <h:form id="#{mgs.rozrachunki}"  >
             <div style="height: 640px;" >
                 <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;" >
                     <h:outputText value="nr dokumentu: "/>

@@ -28,7 +28,7 @@
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                         <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                        <f:selectItem itemLabel="vat" itemValue="vat"/>
+                        <f:selectItem itemLabel="#{mgs.VAT}" itemValue="#{mgs.VAT}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" 
                                      style="float: right;" onclick="PF('nowekontosyntetyczne').hide()" update=":formY, :form_dialog_plankont, :formwzorcowy">

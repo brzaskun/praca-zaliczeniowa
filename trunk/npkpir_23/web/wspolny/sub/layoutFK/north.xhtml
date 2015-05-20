@@ -10,13 +10,13 @@
             <h:form>
                 <p:menubar autoDisplay="true">
                     <p:menuitem icon="ui-icon-folder-open" value="firma" outcome="firmaFK"/>
-                    <p:menuitem icon="ui-icon-document" value="dokumenty" outcome="menudokumentyFK"/>
+                    <p:menuitem icon="ui-icon-document" value="#{mgs.dokumenty}" outcome="menudokumentyFK"/>
                     <p:menuitem icon="ui-icon-pencil" value="zapisy kont" outcome="raportyFK"/>
                     <p:menuitem icon="ui-icon-contact" value="rejestry" outcome="rejestryFK"/>
-                    <p:menuitem icon="ui-icon-search" value="rozrachunki" outcome="menurozrachunkiFK" />
+                    <p:menuitem icon="ui-icon-search" value="#{mgs.rozrachunki}" outcome="menurozrachunkiFK" />
                     <p:menuitem icon="ui-icon-note" value="kartoteki" outcome="kartotekiFK"/>
                     <p:menuitem icon="ui-icon-gear" value="ustawienia" outcome="menuustawieniaFK"/>
-                    <p:menuitem icon="ui-icon-star" value="bilanse" outcome="bilanseFK"/>
+                    <p:menuitem icon="ui-icon-star" value="#{mgs.bilans}" outcome="bilanseFK"/>
                     <p:menuitem icon="ui-icon-calendar" value="deklaracje" />
                     <p:menuitem icon="ui-icon-note" value="środki trw." outcome="srodkitrwaleFK"/>
                     <p:menuitem icon="ui-icon-note" value="rmk" outcome="rmkFK"/>

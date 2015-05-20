@@ -65,7 +65,7 @@
             <p:panelGrid id="panelzewidencjavat" columns="5"  styleClass="uipanelGrid0" style="min-width: 470px; margin-top: 2%;">
                 <h:outputText value="rodzaj ewidencji" style="width: 110px;"/>
                 <h:outputText value="netto" style="width: 95px;"/>
-                <h:outputText value="vat" style="width: 95px;"/>
+                <h:outputText value="#{mgs.VAT}" style="width: 95px;"/>
                 <h:outputText value="brutto" style="width: 95px;"/>
                 <h:outputText value="op/zw" style="width: 75px;"/>
                 <h:selectOneMenu value="#{dokfkView.ewidencjaVatRK.ewidencja}" converter="EVatwpisFKConv"
@@ -84,7 +84,7 @@
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
                 </pe:inputNumber>
-                <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
+                <pe:inputNumber id="#{mgs.VAT}" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 

@@ -92,7 +92,7 @@
                         <h:outputText value="d. oper.gosp."/>
                         
                         <h:outputText value="rok"/>
-                        <h:outputText value="miesiąc"/>
+                        <h:outputText value="#{mgs.miesiąc}"/>
                         <p:inputText id="data1DialogWpisywanie" value="#{dokfkView.selected.datawystawienia}" 
                                      onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data1DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                      title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
@@ -126,7 +126,7 @@
                         </p:inputText>
                     </p:panelGrid>
                     <p:panelGrid id="paneldaneogolnefaktury" columns="4"  styleClass="uipanelGrid0">
-                        <h:outputText value="symbol"/>
+                        <h:outputText value="#{mgs.symbol}"/>
                         <h:outputText value="nr kol"/>
                         <h:outputText value="numer własny"/>
 <!--                        <h:outputText value="rok VAT"/>
@@ -165,7 +165,7 @@
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2) and planKontView.infozebrakslownikowych eq ''}"
                                  columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
-                        <h:outputText value="kontrahent" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}"/>
+                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dok"/>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
@@ -262,8 +262,8 @@
                                 <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
                             </pe:inputNumber>
                         </p:column>
-                        <p:column headerText="vat" width="80">
-                            <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                        <p:column headerText="#{mgs.VAT}" width="80">
+                            <pe:inputNumber id="#{mgs.VAT}" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
                             </pe:inputNumber>
@@ -308,7 +308,7 @@
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
                              widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
 <!--                             paginator="true" rows="10" paginatorPosition="top">-->
-                    <p:column headerText="lp" width="10" style="text-align: center" >
+                    <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center" >
                         <h:outputText value="#{loop.idporzadkowy}"/>
                     </p:column>
                     <p:column headerText="opis transakcji" width="130" style="text-align: center;">

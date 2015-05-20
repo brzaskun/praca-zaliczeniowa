@@ -42,7 +42,7 @@
                 </p:menu>
                 <p:menu>
                     <p:menuitem value="PIT"  outcome="pitoblicz" icon="ui-icon-circle-arrow-e"/>
-                    <p:menuitem value="VAT" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+                    <p:menuitem value="#{mgs.VAT}" icon="ui-icon-circle-arrow-e" action="#{ewidencjaVatView.przekierowanieEwidencji()}" update="westWpis" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                         <f:actionListener binding="#{ewidencjaVatView.stworzenieEwidencjiZDokumentow()}"/>
                         <f:actionListener binding="#{ewidencjaVatView.drukujPdfEwidencje()}"/>
                         <f:actionListener binding="#{ewidencjaVatView.drukujPdfSuma()}"/>

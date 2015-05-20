@@ -32,7 +32,7 @@
                 <p:spacer width="10"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('b')}" update=":formbilansuklad" icon="fa fa-sign-in"/>
                 <p:column>
-                    <p:commandButton value="drukuj" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujBilansKonta()}"/>
+                    <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujBilansKonta()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="3" >

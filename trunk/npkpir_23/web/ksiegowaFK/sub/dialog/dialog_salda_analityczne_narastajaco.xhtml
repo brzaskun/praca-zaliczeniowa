@@ -58,7 +58,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                 </p:column>
                <p:column>
                     <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
@@ -82,7 +82,7 @@
                 <p:column styleClass="kontofrozen" headerText="konto pełny numer" width="50" >
                     <h:outputText  value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column  styleClass="opisfrozen" headerText="opis" width="100" >
+                <p:column  styleClass="opisfrozen" headerText="#{mgs.opis}" width="100" >
                     <h:outputText  value="#{loop.konto.nazwapelna.length() gt 37 ? loop.konto.nazwapelna.substring(0,36) : loop.konto.nazwapelna.toLowerCase()}"/>
                 </p:column>
                 <p:column headerText="boWn" width="50" >

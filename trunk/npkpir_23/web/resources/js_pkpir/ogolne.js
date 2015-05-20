@@ -85,7 +85,7 @@ var aktywujopis = function() {
 //            });
         $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('blur', function() {
 
-            if ($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val() === "wybierz") {
+            if ($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val() === "#{mgs.wybierzmcrok}") {
                 $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').focus();
             }
         });

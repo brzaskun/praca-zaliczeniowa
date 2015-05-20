@@ -39,7 +39,7 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="pobierz" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" 
                                      oncomplete="pokazprzyciski();"
                                      style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
@@ -73,7 +73,7 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="obrotyWn" width="60" >
@@ -110,7 +110,7 @@
                         <p:column headerText="nr" width="100">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="kontrahent">
+                        <p:column headerText="#{mgs.kontrahent}">
                             <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                         </p:column>
                         <p:column headerText="wiersz">
@@ -143,7 +143,7 @@
                 <p:column headerText="konto" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="obrotyWn" width="60" >
@@ -180,7 +180,7 @@
                         <p:column headerText="nr" width="100">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                         </p:column>
-                        <p:column headerText="kontrahent">
+                        <p:column headerText="#{mgs.kontrahent}">
                             <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                         </p:column>
                         <p:column headerText="wiersz">
@@ -200,7 +200,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie wyniku"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >
@@ -214,7 +214,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie podatku"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >
@@ -228,7 +228,7 @@
                 <f:facet name="header">
                     <h:outputText value="obliczenie kwot do wypłaty dla udziałowców"/>
                 </f:facet>
-                <p:column headerText="opis" width="140" >
+                <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
                 <p:column headerText="kwota" width="60" >

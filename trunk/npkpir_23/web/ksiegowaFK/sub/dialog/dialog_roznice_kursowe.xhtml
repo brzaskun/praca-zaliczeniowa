@@ -17,7 +17,7 @@
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('tabelaroznicekursowe').filter();" style="width:150px" />  
                 </f:facet>
-                <p:column headerText="lp" width="30"  >
+                <p:column headerText="#{mgs.numerkolejny}" width="30"  >
                     <h:outputText value="#{index+1}" />
                 </p:column>
                 <p:column headerText="rachunek" width="250">
@@ -51,7 +51,7 @@
             </p:dataTable>
             <p:outputPanel style="margin-top: 10px">
                 <p:commandButton value="zaksięguj" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
-                <p:commandButton value="drukuj" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
+                <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
             </p:outputPanel>
         </h:form>
     </p:dialog>

@@ -41,7 +41,7 @@
                     <f:convertDateTime dateStyle="medium"  />
                 </h:outputText>
             </p:column>
-            <p:column id="kontrColumn" headerText="kontrahent" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
+            <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}">  
                 <h:outputText value="#{wpis.kontr.npelna}"  />
             </p:column>
             <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" sortBy="#{wpis.rodzTrans}">  
@@ -53,7 +53,7 @@
             <p:column id="nrWlDokColumn" headerText="nr wł" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}">  
                <h:outputText value="#{wpis.nrWlDk}" />
             </p:column>
-            <p:column id="opisColumn" headerText="opis" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opi}" >  
+            <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opi}" >  
                 <h:outputText value="#{wpis.opis}" />
             </p:column>
             <p:column id="kwotanettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}">  

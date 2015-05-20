@@ -62,7 +62,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
             </p:panelGrid>
             <p:panel style="height: 600px">
                 <p:dataTable value="#{miejsceKosztowView.listasummiejsckosztow}" var="item" rowIndexVar="numer"
@@ -108,7 +108,7 @@
                                     <p:column headerText="nr" width="100">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
-                                    <p:column headerText="kontrahent">
+                                    <p:column headerText="#{mgs.kontrahent}">
                                         <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                                     </p:column>
                                     <p:column headerText="wiersz">

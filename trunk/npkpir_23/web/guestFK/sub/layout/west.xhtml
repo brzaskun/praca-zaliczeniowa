@@ -26,17 +26,17 @@
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                          <p:menu style="width: 180px;">
-                            <p:menuitem value="dokumenty"  outcome="gfktablica" icon="ui-icon-circle-arrow-e"/><p:menuitem value="faktury"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
-                            <p:menuitem value="płatności"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e"/>
-                            <p:menuitem value="kontrahenci"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e"/><p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                        <p:menu style="width: 180px;">
-                            <p:menuitem value="grupy kosztów"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>
-                            <p:menuitem value="zestawienia"  outcome="gfkBilanse" icon="ui-icon-circle-arrow-e"/><p:menuitem value="bilans"  outcome="gfkBil" icon="ui-icon-circle-arrow-e"/>
-                            <p:menuitem value="budżet"  outcome="gfkBudzet" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.grupykosztów}"  outcome="gfkZestawienia" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.zestawienia}"  outcome="gfkBilanse" icon="ui-icon-circle-arrow-e"/><p:menuitem value="#{mgs.bilans}"  outcome="gfkBil" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.budżet}"  outcome="gfkBudzet" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
                     <p:menu style="width: 180px;">
-                        <p:menuitem value="VAT"  outcome="gfkVAT" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.VAT}"  outcome="gfkVAT" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:menu style="width: 180px;">
                         <p:menuitem value="zobowiązania"  outcome="gfkZobowiazania" icon="ui-icon-circle-arrow-e"/>

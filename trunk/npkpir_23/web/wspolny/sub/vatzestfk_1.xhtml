@@ -34,7 +34,7 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:panel>
-                                <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 200px;"/>
+                                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 200px;"/>
                                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')" 
                                                  style="width: 120px; margin-left: 10px;">
                                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
@@ -78,7 +78,7 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="vat" style="width: 70px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
+                                <p:column headerText="#{mgs.VAT}" style="width: 70px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains" filterStyle="display: none;">
                                     <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
@@ -93,7 +93,7 @@
                         </p:tab>
                     </c:forEach>
                     <p:tab title="podsumowanie" >
-                        <p:commandButton value="Drukuj" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
+                        <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
                         <p:panelGrid id="sumysum" columns="6" >
                             <h:outputText value="suma wybranych ewidencji - netto: "/><h:outputText value="#{ewidencjaVatView.suma1}" style="font-weight: bold;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -188,7 +188,7 @@
                                     <p:column headerText="nr" width="100">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
-                                    <p:column headerText="kontrahent">
+                                    <p:column headerText="#{mgs.kontrahent}">
                                         <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                                     </p:column>
                                     <p:column headerText="wiersz">

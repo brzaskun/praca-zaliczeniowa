@@ -19,7 +19,7 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="pobierz" actionListener="#{pojazdyView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{pojazdyView.sumymiesiecy}" update="@form" style="width: 120px;"/>
                 <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
                 <p:commandButton value="drukuj tab." actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
                 <p:commandButton value="drukuj szcz." actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
@@ -69,7 +69,7 @@
                                 <p:column headerText="nr" width="100">
                                     <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                 </p:column>
-                                <p:column headerText="kontrahent">
+                                <p:column headerText="#{mgs.kontrahent}">
                                     <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                                 </p:column>
                                 <p:column headerText="wiersz">

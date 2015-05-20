@@ -30,7 +30,7 @@
         <h:form id="wpiswalut">
             <p:dataTable id="dataTablewpisywaniewalut" var="wpis" value="#{walutyViewFK.nowawaluta}" editable="true" style="display: none;">
                 <p:column width="100" style="text-align: center;">
-                    <p:inputText id="symbol" value="#{wpis.symbolwaluty}" style="width: 50px;" required="true" requiredMessage="Wpisz skrót waluty" maxlength="3"/>
+                    <p:inputText id="#{mgs.symbol}" value="#{wpis.symbolwaluty}" style="width: 50px;" required="true" requiredMessage="Wpisz skrót waluty" maxlength="3"/>
                 </p:column>
                 <p:column  width="200">
                     <p:inputText value="#{wpis.nazwawaluty}" style="width: 190px;"  required="true" requiredMessage="Wpisz nazwę waluty"/>
