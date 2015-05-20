@@ -6,7 +6,7 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="240" header="Zmień przeglądany okres" collapsible="true">
+    <p:layoutUnit position="west" size="240" header="#{mgs['guest.west.zmianaokresu']}" collapsible="true">
          <h:form id="westKsiegowa">
             <h:messages id="westmsg"/>
               <p:panelGrid  columns="2" >
@@ -45,7 +45,7 @@
                         <p:menuitem value="zobowiązania"  outcome="gfkZobowiazania" icon="ui-icon-circle-arrow-e"/>
                         <p:menuitem value="należności"  outcome="gfkNaleznosci" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
-                        <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
+                    <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
                     </p:panelGrid>
             </p:panel>
 

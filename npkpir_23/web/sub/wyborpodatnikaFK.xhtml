@@ -12,7 +12,7 @@
         <p:focus id="focus" context="panelwyboru"/>
         <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin-left: auto; margin-right: auto;">
             <f:facet name="header">
-                <h:outputText value="W celu rozpoczęcia wpisywania dokumentów proszę wybrać parametry" style="display: block; text-align: center"/>
+                <h:outputText value="#{mgs['guest.mcrok.header']}" style="display: block; text-align: center"/>
             </f:facet>
             <p:dataTable id="tablicanews" value="#{adminNews.newslist}" var="loop" rowKey="#{loop.id}" resizableColumns="true" >
             <p:column headerText="njusy">
@@ -71,6 +71,9 @@
 <!--            <h:outputLink value="./ksiegowa/ksiegowaUstawienia.xhtml?faces-redirect=true">
                 <h:outputText value="tu bed amoje ustawienia" id="dokumentyLista"/>
             </h:outputLink>-->
+<f:facet name="footer" >
+                <h:outputText style="display: block; text-align: center; color: red;" value="#{mgs['guest.mcrok.uwaga']}"/>
+            </f:facet>
         </p:panel>
     </h:form>
 

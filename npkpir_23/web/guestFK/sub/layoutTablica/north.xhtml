@@ -7,11 +7,10 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:layoutUnit position="north" size="50" resizable="true" closable="true" collapsible="true">
-    
-        <p:panelGrid columns="2" style="width: 90%">
-   
-            <h:outputText value="Biuro Rachunkowe Taxman Grzegorz Grzelczyk - Panel Podatnika. Firma - #{WpisView.podatnikWpisu}" style="width: 50%; font-size: 15px"/>
-            
+         <p:panelGrid columns="2" style="width: 90%">
+             <h:outputFormat value="#{mgs['guest.north.header']}" style="width: 50%; font-size: 15px">
+                <f:param value="#{WpisView.podatnikWpisu}"/>
+            </h:outputFormat>
         </p:panelGrid>
     </p:layoutUnit>
 </ui:composition>   
