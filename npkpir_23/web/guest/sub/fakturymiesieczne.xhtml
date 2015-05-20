@@ -7,7 +7,7 @@
 >
     <h:form id="form">
         <p:contextMenu for=":form:dokumentyLista">
-            <p:menuitem value="Usuń" update=":formM:messages, :form:dokumentyLista" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.usunfaktureokresowa()}"/>
+            <p:menuitem value="Usuń" update=":form:dokumentyLista" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.usunfaktureokresowa()}"/>
          </p:contextMenu>
         <p:outputPanel id="wrapper"  deferred="true"> 
             <p:dataTable  var="wpis" value="#{fakturyokresoweView.faktury}" id="dokumentyLista" editable="true" 

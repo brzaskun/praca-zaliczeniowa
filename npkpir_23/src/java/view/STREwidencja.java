@@ -63,6 +63,8 @@ public class STREwidencja implements Serializable {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.isUserInRole("Guest")) {
             west = "sub/layoutTablicaSrodkiGuest/west.xhtml";
+        } else  if (request.isUserInRole("Multiuser")) {
+            west = "sub/layoutTablicaSrodkiGuest/west.xhtml";
         } else if (request.isUserInRole("Bookkeeper")) {
             west = "sub/layoutTablicaSrodkiKsiegowa/west.xhtml";
         }
