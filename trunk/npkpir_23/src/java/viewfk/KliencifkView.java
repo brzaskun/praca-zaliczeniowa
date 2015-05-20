@@ -12,6 +12,7 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import entity.Klienci;
 import entityfk.Kliencifk;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,7 +116,7 @@ public class KliencifkView implements Serializable {
                     return 1;
                 }
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString());
+                E.e(e);
             }
         }
         return -1;
@@ -127,7 +128,7 @@ public class KliencifkView implements Serializable {
             int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(klientBezKonta, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
+            E.e(e);
             Msg.msg("e", "Nieudane przyporządkowanie klienta do konta");
         }
         wybranyklient = new Klienci();
@@ -141,7 +142,7 @@ public class KliencifkView implements Serializable {
             Collections.sort(przyporzadkowani, new Kliencifkcomparator());
             return String.valueOf(Integer.parseInt(przyporzadkowani.get(przyporzadkowani.size() - 1).getNrkonta()) + 1);
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
+            E.e(e);
             return "1";
         }
     }
@@ -164,7 +165,7 @@ public class KliencifkView implements Serializable {
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
             Msg.msg("Usunięto konta słownikowe dla klienta " + klientkontodousuniecia.getNazwa());
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString());
+            E.e(e);
             Msg.msg("e", "Wystąpił problem z usuwaniem kont słownikowych dla klienta");
         }
         wybranyklient = new Klienci();
