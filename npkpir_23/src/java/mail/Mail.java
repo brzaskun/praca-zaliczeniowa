@@ -8,6 +8,7 @@ package mail;
  *
  * @author Osito
  */
+import error.E;
 import java.util.Properties;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -63,7 +64,7 @@ public class Mail {
     public static void nadajMailRejestracjaNowegoUzera(String adres, String login) {
         try {
             MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -77,7 +78,7 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             Transport.send(message);
             message.setHeader("Content-Type", "text/html; charset=utf-8");
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -85,7 +86,7 @@ public class Mail {
     public static void udanazmianaHasla(String adres, String login) {
         try {
             MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -98,7 +99,7 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             Transport.send(message);
             message.setHeader("Content-Type", "text/html; charset=utf-8");
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -106,7 +107,7 @@ public class Mail {
     public static void nadanoUprawniednia(String adres, String login, String uprawnienia) {
         try {
             MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -123,8 +124,8 @@ public class Mail {
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
             System.out.println("wyslano mail nadano uprawnienia");
-        } catch (MessagingException e) {
-            System.out.println("Blad nadanoUprawniednia" +e.getLocalizedMessage());
+        } catch (Exception e) {
+            E.e(e);
             throw new RuntimeException(e);
         }
     }
@@ -132,7 +133,7 @@ public class Mail {
        public static void resetowaniehasla(String adres, String login) {
         try {
             MimeMessage message = new MimeMessage(logintoMail());
-            message.setFrom(new InternetAddress("info@e-taxman.pl"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(adres));
             message.setRecipients(Message.RecipientType.BCC,
@@ -148,7 +149,8 @@ public class Mail {
                     + stopka,  "text/html; charset=utf-8");
             message.setHeader("Content-Type", "text/html; charset=utf-8");
             Transport.send(message);
-        } catch (MessagingException e) {
+        } catch (Exception e) {
+            E.e(e);
             throw new RuntimeException(e);
         }
     }
