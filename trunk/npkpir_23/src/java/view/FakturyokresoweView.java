@@ -9,6 +9,7 @@ import dao.FakturyokresoweDAO;
 import entity.Dok;
 import entity.Fakturyokresowe;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +106,7 @@ public class FakturyokresoweView implements Serializable{
             Podatnik pod = wpisView.getPodatnikObiekt();
             try {
                 dokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             for(Dok p : dokumenty){
                 for (Fakturyokresowe r : faktury){

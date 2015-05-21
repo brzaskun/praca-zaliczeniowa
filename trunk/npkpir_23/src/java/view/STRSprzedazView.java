@@ -7,6 +7,7 @@ package view;
 
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -89,7 +90,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             try{
                 sTRDAO.edit(p);
                 Msg.msg("i","Naniesiono sprzedaż: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }
@@ -108,7 +109,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             try{
                 sTRDAO.edit(p);
                 Msg.msg("i","Cofnięto sprzedaż/wycofanie: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e","Wystapił błąd - nie cofnięto sprzedaży/wycofania: "+p.getNazwa(),"dodWiad:mess_add");
         }
       }

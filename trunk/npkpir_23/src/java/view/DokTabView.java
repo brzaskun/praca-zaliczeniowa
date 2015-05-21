@@ -22,6 +22,7 @@ import entity.Podatnik;
 import entity.StornoDok;
 import entity.Uz;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -110,7 +111,7 @@ public class DokTabView implements Serializable {
         inicjalizacjalist();
             try {
                 inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+            } catch (Exception e) { E.e(e); }
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             String podatnik = wpisView.getPodatnikWpisu();
@@ -138,7 +139,7 @@ public class DokTabView implements Serializable {
                 obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(),mc));
                 //sortowanie dokumentów
                     Collections.sort(obiektDOKjsfSel, new Dokcomparator());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik)+1;
             obiektDOKmrjsfSel.clear();
@@ -217,14 +218,14 @@ public class DokTabView implements Serializable {
                 if(!probsymbolu.equals("wybierz")&&(!probsymbolu.isEmpty())){
                     usunDokInwestycje(dokdoUsuniecia);
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             try {
                 dokDAO.destroy(dokdoUsuniecia);
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             Msg.msg("i", "Dokument usunięty " + dokdoUsuniecia.getIdDok().toString(), "form:messages");
         }
@@ -251,7 +252,7 @@ public class DokTabView implements Serializable {
                 obiektDOKjsfSel.remove(dokdoUsuniecia);
                 obiektDOKmrjsfSel.remove(dokdoUsuniecia);
                 dokumentyFiltered.remove(dokdoUsuniecia);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 throw new Exception();
             }
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dokument usunięty", dokdoUsuniecia.getIdDok().toString());
@@ -351,7 +352,7 @@ public class DokTabView implements Serializable {
                 Msg.msg("i","Usunąłem z inwestycji "+symbol,"dodWiad:mess_add");
                 
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
           Msg.msg("e","Błąd nie usunąłem z inwestycji!","dodWiad:mess_add");
         }
             }
@@ -386,7 +387,7 @@ public class DokTabView implements Serializable {
        public void printPDFPK() {
          try {
             PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              
          }
      }
@@ -394,7 +395,7 @@ public class DokTabView implements Serializable {
        public void printPDFPKWydruk() {
          try {
              PDFDirectPrint.silentPrintPdf(PdfPK.drukujPK(gosciuwybral, podatnikDAO, wpisView, uzDAO, amoDokDAO));
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              
          }
      }

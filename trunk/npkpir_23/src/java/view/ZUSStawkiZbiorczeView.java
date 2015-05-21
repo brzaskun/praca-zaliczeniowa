@@ -14,6 +14,7 @@ import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +26,6 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.context.RequestContext;
-import params.Params;
 
 /**
  *
@@ -40,7 +39,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private List<Podatnik> listapodatnikow;
     @Inject
     private Zusstawki zusstawki;
-    private Zusstawki wprowadzaniezusstawki;
+    private Zusstawki obrabianeparametryzus;
     @Inject
     private PodatnikDAO podatnikDAO;
     @Inject
@@ -63,11 +62,11 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private void ustawRokMc() {
         biezacyRok = String.valueOf(new DateTime().getYear());
         String biezacyMc = Mce.getNumberToMiesiac().get((new DateTime().getMonthOfYear())+1 > 12 ? 12 : (new DateTime().getMonthOfYear()));
-        if (wprowadzaniezusstawki == null) {
-            wprowadzaniezusstawki = new Zusstawki();
+        if (obrabianeparametryzus == null) {
+            obrabianeparametryzus = new Zusstawki();
         }
-        wprowadzaniezusstawki.getZusstawkiPK().setRok(biezacyRok);
-        wprowadzaniezusstawki.getZusstawkiPK().setMiesiac(biezacyMc);
+        obrabianeparametryzus.getZusstawkiPK().setRok(biezacyRok);
+        obrabianeparametryzus.getZusstawkiPK().setMiesiac(biezacyMc);
         dodaj0edtuj1 = false;
         pokazButtonUsun = false;
     }
@@ -77,44 +76,44 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (czywprowadzonostawki()) {
-                if (tmp.contains(wprowadzaniezusstawki)) {
+                if (tmp.contains(obrabianeparametryzus)) {
                     Msg.msg("e", "Stawki za dany okres rozliczeniowy są już wprowadzone");
                 } else {
-                    tmp.add(serialclone.SerialClone.clone(wprowadzaniezusstawki));
+                    tmp.add(serialclone.SerialClone.clone(obrabianeparametryzus));
                     selected.setZusparametr(tmp);
                     //musi byc edit bo dodajemy nowe stawki ale do istniejacego podatnika
                     podatnikDAO.edit(selected);
-                    wprowadzaniezusstawki =  new Zusstawki();
+                    obrabianeparametryzus =  new Zusstawki();
                 }
                 ustawRokMc();
             } else {
               Msg.msg("e","Nie wprowadzono stawek. Nie można zachować miesiąca");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e","Wystąpił nieokreślony błąd podczas dodawania stawek. "+e.getMessage());
         }
     }
       
     private boolean czywprowadzonostawki() {
-        if (wprowadzaniezusstawki.getZus51ch()!=null) {
+        if (obrabianeparametryzus.getZus51ch()!=null) {
             return true;
         }
-        if (wprowadzaniezusstawki.getZus51bch()!=null) {
+        if (obrabianeparametryzus.getZus51bch()!=null) {
             return true;
         }
-        if (wprowadzaniezusstawki.getZus52()!=null) {
+        if (obrabianeparametryzus.getZus52()!=null) {
             return true;
         }
-        if (wprowadzaniezusstawki.getZus52odl()!=null) {
+        if (obrabianeparametryzus.getZus52odl()!=null) {
             return true;
         }
-        if (wprowadzaniezusstawki.getZus53()!=null) {
+        if (obrabianeparametryzus.getZus53()!=null) {
             return true;
         }
-        if (wprowadzaniezusstawki.getPit4()!=null) {
+        if (obrabianeparametryzus.getPit4()!=null) {
             return true;
         }
         return false;
@@ -125,24 +124,24 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             Iterator it = tmp.iterator();
             while (it.hasNext()) {
                 Zusstawki p = (Zusstawki) it.next();
-                if (p.getZusstawkiPK().equals(wprowadzaniezusstawki.getZusstawkiPK())) {
+                if (p.getZusstawkiPK().equals(obrabianeparametryzus.getZusstawkiPK())) {
                     it.remove();
                     break;
                 }
             }
-            tmp.add(wprowadzaniezusstawki);
+            tmp.add(obrabianeparametryzus);
             selected.setZusparametr(null);
             podatnikDAO.edit(selected);
             selected.setZusparametr(tmp);
             podatnikDAO.edit(selected);
-            wprowadzaniezusstawki = new Zusstawki();
+            obrabianeparametryzus = new Zusstawki();
             ustawRokMc();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -150,10 +149,10 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         try {
             selected.getZusparametr().remove(zusstawki);
             podatnikDAO.edit(selected);
-            wprowadzaniezusstawki =  new Zusstawki();
+            obrabianeparametryzus =  new Zusstawki();
             ustawRokMc();
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("Nieusunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         }
     }
@@ -164,13 +163,13 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         Iterator it = tmp.iterator();
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
-            if (tmpX.getZusstawkiPK().equals(wprowadzaniezusstawki.getZusstawkiPK())) {
-                wprowadzaniezusstawki.setPit4(tmpX.getPit4());
-                wprowadzaniezusstawki.setZus51bch(tmpX.getZus51bch());
-                wprowadzaniezusstawki.setZus51ch(tmpX.getZus51ch());
-                wprowadzaniezusstawki.setZus52(tmpX.getZus52());
-                wprowadzaniezusstawki.setZus52odl(tmpX.getZus52odl());
-                wprowadzaniezusstawki.setZus53(tmpX.getZus53());
+            if (tmpX.getZusstawkiPK().equals(obrabianeparametryzus.getZusstawkiPK())) {
+                obrabianeparametryzus.setPit4(tmpX.getPit4());
+                obrabianeparametryzus.setZus51bch(tmpX.getZus51bch());
+                obrabianeparametryzus.setZus51ch(tmpX.getZus51ch());
+                obrabianeparametryzus.setZus52(tmpX.getZus52());
+                obrabianeparametryzus.setZus52odl(tmpX.getZus52odl());
+                obrabianeparametryzus.setZus53(tmpX.getZus53());
                 break;
             }
         }
@@ -191,20 +190,20 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             }
             podatnikDAO.edit(podatnik);
             Msg.msg("Uzupełniono płatności ZUS podatnika za ostatni rok obrachunkowy");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("Wystąpił błąd podczas uzupełniania miesięcy");
         }
     }
 
     public void pobierzzusPoprzedniMiesiac(Podatnik podatnik) {
-        int mcpoprzedni = Mce.getMiesiacToNumber().get(wprowadzaniezusstawki.getZusstawkiPK().getMiesiac())-1;
+        int mcpoprzedni = Mce.getMiesiacToNumber().get(obrabianeparametryzus.getZusstawkiPK().getMiesiac())-1;
         String mczusnowy = Mce.getNumberToMiesiac().get(mcpoprzedni);
         int rokpoprzedni = 0;
         if (mcpoprzedni==0) {
             mcpoprzedni = 12;
-            rokpoprzedni = Integer.parseInt(wprowadzaniezusstawki.getZusstawkiPK().getRok()) - 1;
+            rokpoprzedni = Integer.parseInt(obrabianeparametryzus.getZusstawkiPK().getRok()) - 1;
         } else {
-            rokpoprzedni = Integer.parseInt(wprowadzaniezusstawki.getZusstawkiPK().getRok());
+            rokpoprzedni = Integer.parseInt(obrabianeparametryzus.getZusstawkiPK().getRok());
         }
         List<Zusstawki> tmp = new ArrayList<>();
         tmp.addAll(podatnik.getZusparametr());
@@ -216,12 +215,12 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
             if (tmpX.getZusstawkiPK().equals(key)) {
-                wprowadzaniezusstawki.setPit4(tmpX.getPit4());
-                wprowadzaniezusstawki.setZus51bch(tmpX.getZus51bch());
-                wprowadzaniezusstawki.setZus51ch(tmpX.getZus51ch());
-                wprowadzaniezusstawki.setZus52(tmpX.getZus52());
-                wprowadzaniezusstawki.setZus52odl(tmpX.getZus52odl());
-                wprowadzaniezusstawki.setZus53(tmpX.getZus53());
+                obrabianeparametryzus.setPit4(tmpX.getPit4());
+                obrabianeparametryzus.setZus51bch(tmpX.getZus51bch());
+                obrabianeparametryzus.setZus51ch(tmpX.getZus51ch());
+                obrabianeparametryzus.setZus52(tmpX.getZus52());
+                obrabianeparametryzus.setZus52odl(tmpX.getZus52odl());
+                obrabianeparametryzus.setZus53(tmpX.getZus53());
                 break;
             }
         }
@@ -229,7 +228,7 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
     
     public void wybranowiadomosc(List<Zusstawki> zusparametr) {
-        wprowadzaniezusstawki = serialclone.SerialClone.clone(zusstawki);
+        obrabianeparametryzus = serialclone.SerialClone.clone(zusstawki);
         zonglerkaPrzyciskamiDodajEdytuj(zusparametr);
         pokazButtonUsun = true;
         Msg.msg("Wybrano stawki ZUS.");
@@ -258,15 +257,21 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     }
      
     public void zonglerkaPrzyciskamiDodajEdytuj(List<Zusstawki> zusparametr){
-        ZusstawkiPK zusstawkiPK = wprowadzaniezusstawki.getZusstawkiPK();
-        for (Zusstawki p : zusparametr) {
-            if (p.getZusstawkiPK().equals(zusstawkiPK)) {
-                dodaj0edtuj1 = true;
-                return;
+        try {
+            ZusstawkiPK zusstawkiPK = obrabianeparametryzus.getZusstawkiPK();
+            for (Zusstawki p : zusparametr) {
+                if (p.getZusstawkiPK().equals(zusstawkiPK)) {
+                    obrabianeparametryzus = serialclone.SerialClone.clone(p);
+                    dodaj0edtuj1 = true;
+                    pokazButtonUsun = true;
+                    return;
+                }
             }
+            dodaj0edtuj1 = false;
+            pokazButtonUsun = false;
+        } catch (Exception e) {
+            E.e(e);
         }
-        dodaj0edtuj1 = false;
-        pokazButtonUsun = false;
     }
 
     public List<Podatnik> getListapodatnikow() {
@@ -294,12 +299,12 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
         this.zusstawki = zusstawki;
     }
 
-    public Zusstawki getWprowadzaniezusstawki() {
-        return wprowadzaniezusstawki;
+    public Zusstawki getObrabianeparametryzus() {
+        return obrabianeparametryzus;
     }
 
-    public void setWprowadzaniezusstawki(Zusstawki wprowadzaniezusstawki) {
-        this.wprowadzaniezusstawki = wprowadzaniezusstawki;
+    public void setObrabianeparametryzus(Zusstawki obrabianeparametryzus) {
+        this.obrabianeparametryzus = obrabianeparametryzus;
     }
 
     public boolean isDodaj0edtuj1() {

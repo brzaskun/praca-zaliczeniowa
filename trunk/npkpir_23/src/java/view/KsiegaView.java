@@ -17,6 +17,7 @@ import entity.Podatnik;
 import entity.Sumypkpir;
 import entity.SumypkpirPK;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class KsiegaView implements Serializable {
                 //zmienia numer gdy srodek roku
                 String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getNumerpkpir(),rok,Mce.getMapamcyCalendar().get(mc));
                 numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
@@ -80,7 +81,7 @@ public class KsiegaView implements Serializable {
             obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString()));
             //sortowanie dokumentów
             Collections.sort(obiektDOKjsfSel, new Dokcomparator());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         List<Dok> obiektDOKmrjsfSel = new ArrayList<>();
         for (Dok tmpx : obiektDOKjsfSel) {
@@ -115,7 +116,7 @@ public class KsiegaView implements Serializable {
                     case "przych. sprz":
                         try {
                             dk.setKolumna7(dk.getKolumna7()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna7(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
@@ -123,7 +124,7 @@ public class KsiegaView implements Serializable {
                     case "pozost. przych.":
                         try {
                             dk.setKolumna8(dk.getKolumna8()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna8(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
@@ -131,7 +132,7 @@ public class KsiegaView implements Serializable {
                     case "zakup tow. i mat.":
                         try {
                             dk.setKolumna10(dk.getKolumna10()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna10(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
@@ -139,7 +140,7 @@ public class KsiegaView implements Serializable {
                     case "koszty ub.zak.":
                         try {
                             dk.setKolumna11(dk.getKolumna11()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna11(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna11(podsumowanie.getKolumna11() + tmpX.getNetto());
@@ -147,7 +148,7 @@ public class KsiegaView implements Serializable {
                     case "wynagrodzenia":
                         try {
                             dk.setKolumna12(dk.getKolumna12()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna12(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
@@ -155,7 +156,7 @@ public class KsiegaView implements Serializable {
                     case "poz. koszty":
                         try {
                             dk.setKolumna13(dk.getKolumna13()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna13(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
@@ -163,7 +164,7 @@ public class KsiegaView implements Serializable {
                     case "inwestycje":
                         try {
                             dk.setKolumna15(dk.getKolumna15()+tmpX.getNetto());
-                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                        } catch (Exception e) { E.e(e); 
                             dk.setKolumna15(tmpX.getNetto());
                         }
                         podsumowanie.setKolumna15(podsumowanie.getKolumna15() + tmpX.getNetto());
@@ -180,7 +181,7 @@ public class KsiegaView implements Serializable {
                 dk.setKolumna9(dk.getKolumna8());
                 try {
                     podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                 }
             }
             if (dk.getKolumna12() != null && dk.getKolumna13() != null) {
@@ -193,7 +194,7 @@ public class KsiegaView implements Serializable {
                 dk.setKolumna14(dk.getKolumna13());
                 try {
                     podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                 }
             }
             dk.setUwagi(tmp.getUwagi());
@@ -323,7 +324,7 @@ public class KsiegaView implements Serializable {
     public void mailpkpir() {
         try {
             MailOther.pkpir(wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }
@@ -331,7 +332,7 @@ public class KsiegaView implements Serializable {
     public void drukujPKPIR() {
         try {
             PdfPkpir.drukujksiege(lista, wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

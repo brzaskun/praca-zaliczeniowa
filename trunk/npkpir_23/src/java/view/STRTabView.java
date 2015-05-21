@@ -16,6 +16,7 @@ import entity.Amodok;
 import entity.AmodokPK;
 import entity.SrodekTrw;
 import entity.Srodkikst;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -107,7 +107,7 @@ public class STRTabView implements Serializable {
             List<SrodekTrw> c = new ArrayList<>();
             try {
                 c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (!c.isEmpty()) {
                 int i = 1;
@@ -167,7 +167,7 @@ public class STRTabView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
         }
     }
@@ -191,7 +191,7 @@ public class STRTabView implements Serializable {
         try {
             srodek.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
             sTRDAO.edit(srodek);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
 
         }
     }
@@ -276,7 +276,7 @@ public class STRTabView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
         }
     }
@@ -304,7 +304,7 @@ public class STRTabView implements Serializable {
             sTRDAO.destroy(dokdoUsuniecia);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Środek trwały usunięty", dokdoUsuniecia.getNazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Nie usnieto " + dokdoUsuniecia.getNazwa() + ". Umorzenie srodka w ksiegach", ":formSTR:mess_add");
         }
 
@@ -356,7 +356,7 @@ public class STRTabView implements Serializable {
             sprzedane.add(p);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
             Msg.msg("i", "Naniesiono wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystapił błąd - nie naniesiono wycofania: " + p.getNazwa(), "dodWiad:mess_add");
         }
     }
@@ -373,7 +373,7 @@ public class STRTabView implements Serializable {
             Collections.sort(posiadane, new SrodekTrwcomparator());
             sprzedane.remove(p);
             Msg.msg("i", "Cofnięto sprzedaż/wycofanie: " + p.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystapił błąd - nie cofnięto sprzedaży/wycofania: " + p.getNazwa(), "dodWiad:mess_add");
         }
     }
@@ -552,7 +552,7 @@ public class STRTabView implements Serializable {
                 selectedSTR.setUmorzeniepoczatkowe(0.0);
                 selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
                 RequestContext.getCurrentInstance().update("formdialogsrodki:tabelasrodkitrwaleOT");
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
         }
     }
@@ -578,7 +578,7 @@ public class STRTabView implements Serializable {
             sTRDAO.dodaj(selectedSTR);
             posiadane.add(selectedSTR);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 

@@ -18,7 +18,6 @@ import embeddable.Udzialy;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Rodzajedok;
-import entity.RodzajedokPK;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import entityfk.Konto;

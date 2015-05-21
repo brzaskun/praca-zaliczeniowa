@@ -7,6 +7,7 @@ package view;
 import dao.FakturadodelementyDAO;
 import entity.Fakturadodelementy;
 import entity.FakturadodelementyPK;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class FakturadodelementyView implements Serializable {
                     fakturadodelementy.add(f);
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -75,7 +76,7 @@ public class FakturadodelementyView implements Serializable {
                 fakturadodelementyDAO.dodaj(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             for (Fakturadodelementy p : fakturadodelementy) {
                 fakturadodelementyDAO.edit(p);
             }

@@ -3,6 +3,7 @@ package view;
 import dao.PodatnikDAO;
 import dao.RyczDAO;
 import entity.Ryczpoz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class RyczView implements Serializable {
     public void drukujRyczalt() {
         try {
             PdfPIT28.drukuj(biezacyPit, wpisView, podatnikDAO);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

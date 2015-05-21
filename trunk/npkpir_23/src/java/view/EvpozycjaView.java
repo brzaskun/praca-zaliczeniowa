@@ -6,6 +6,7 @@ package view;
 
 import dao.EvpozycjaDAO;
 import entity.Evpozycja;
+import error.E;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,7 +41,7 @@ public class EvpozycjaView {
     private void init() {
         try{
         lista.addAll(epozycjaDAO.findAll());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
     }
 
     public void dodaj() {
@@ -55,7 +56,7 @@ public class EvpozycjaView {
             }
             epozycjaDAO.dodaj(selected);
             lista.add(selected);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -64,7 +65,7 @@ public class EvpozycjaView {
     public void edytuj(RowEditEvent ev) {
         try {
             epozycjaDAO.edit(selected);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

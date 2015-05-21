@@ -12,6 +12,7 @@ import dao.UzDAO;
 import dao.WpisDAO;
 import entity.Dok;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,14 +58,14 @@ public class DokTabGuestView implements Serializable {
         try {
             pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()), wpisView.getMiesiacWpisu()));
             Collections.sort(pobranedokumenty, new Dokcomparator());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         //pobranie pierwszego numeru jezeli jest w trakcie roku
         int numerkolejny = 1;
         try {
             String wartosc = ParametrView.zwrocParametr(wpisView.getPodatnikObiekt().getNumerpkpir(), wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
             numerkolejny = Integer.parseInt(wartosc);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
         }
         numerkolejny = dokDAO.liczdokumenty(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu()) + 1;
@@ -105,7 +106,7 @@ public class DokTabGuestView implements Serializable {
      public void drukPIT5Pdf() {
          try {
              PdfPK.drukujPK(selected, podatnikDAO, wpisView, uzDAO, amoDokDAO);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              
          }
      }

@@ -22,6 +22,7 @@ import entity.Ryczpoz;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -44,7 +45,6 @@ import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfPIT28;
-import pdf.PdfZestRok;
 
 /**
  *
@@ -127,13 +127,13 @@ public class ZestawienieRyczaltView implements Serializable {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
 
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Nie uzupełniony wykaz udziałów", "formpit:messages");
             }
             Collection c = null;
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (c != null) {
                 for (int i = 0; i < 4; i++) {
@@ -477,7 +477,7 @@ public class ZestawienieRyczaltView implements Serializable {
                     }
                 }
                 }
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Ryczpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -502,7 +502,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 } else {
                     biezacyPit.setDozaplaty(BigDecimal.ZERO);
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych stawek podatkowych na dany rok! Nie można przeliczyć ryczałtu za okres ", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
@@ -511,7 +511,7 @@ public class ZestawienieRyczaltView implements Serializable {
             try {
                 Zobowiazanie data = zobowiazanieDAO.find(biezacyPit.getPkpirR(), biezacyPit.getPkpirM());
                 biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak wprowadzonych dat płatności zobowiazan  w danym okresie! Nie można przeliczyć ryczałtu", biezacyPit.getPkpirM());
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
@@ -546,7 +546,7 @@ public class ZestawienieRyczaltView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
     }
@@ -581,7 +581,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 pitDAO.dodaj(biezacyPit);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 pitDAO.dodaj(biezacyPit);
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Zachowano PIT " + biezacyPit.getUdzialowiec() + " za m-c:" + biezacyPit.getPkpirM(), null);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -669,7 +669,7 @@ public class ZestawienieRyczaltView implements Serializable {
             procent = procent.setScale(4, RoundingMode.HALF_EVEN);
             p.setUdzialprocentowy(procent.doubleValue());
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Brak przychodow w miesiacu", "");
            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -716,7 +716,7 @@ public class ZestawienieRyczaltView implements Serializable {
     public void pobierzPity() {
         try {
             pobierzPity.addAll(pitDAO.findAll());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         narPitpoz = new Ryczpoz();
         int index = 0;
@@ -738,7 +738,7 @@ public class ZestawienieRyczaltView implements Serializable {
     public void drukujRyczalt() {
         try {
             PdfPIT28.drukuj(biezacyPit, wpisView, podatnikDAO);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

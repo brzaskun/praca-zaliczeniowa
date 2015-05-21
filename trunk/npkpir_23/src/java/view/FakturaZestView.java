@@ -11,12 +11,12 @@ import dao.PodatnikDAO;
 import embeddable.FakturaZestawienie;
 import entity.Faktura;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -82,7 +82,7 @@ public class FakturaZestView implements Serializable {
                     Podatnik odnalezionyPodatnik = null;
                     try {
                         odnalezionyPodatnik = podatnikDAO.findPodatnikByNIP(n);
-                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+                    } catch (Exception e) { E.e(e); }
                     FakturaZestawienie.FZTresc ft = f.new FZTresc();
                     if (odnalezionyPodatnik != null) {
                         f.setPodatnik(odnalezionyPodatnik);

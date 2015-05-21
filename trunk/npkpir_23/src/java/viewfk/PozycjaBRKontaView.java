@@ -21,6 +21,7 @@ import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.UkladBR;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,7 +102,7 @@ public class PozycjaBRKontaView implements Serializable {
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
         }
 
     }
@@ -131,7 +132,7 @@ public class PozycjaBRKontaView implements Serializable {
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektKontaBilans, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
         }
 
     }
@@ -697,7 +698,7 @@ public class PozycjaBRKontaView implements Serializable {
             level = root.ustaldepthDT(pozycje) - 1;
             root.expandAll();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
 
         }
     }
@@ -714,7 +715,7 @@ public class PozycjaBRKontaView implements Serializable {
             root.foldAll();
             level = 0;
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
 
         }
     }
@@ -856,7 +857,7 @@ public class PozycjaBRKontaView implements Serializable {
                                 }
                             }
                         } catch (Exception e) {
-                            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                            E.e(e);
                         }
                     }
                 } else {
@@ -893,7 +894,7 @@ public class PozycjaBRKontaView implements Serializable {
                                   }
                              }
                          } catch (Exception e) {
-                             System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                             E.e(e);
                          }
                      }
                } else {

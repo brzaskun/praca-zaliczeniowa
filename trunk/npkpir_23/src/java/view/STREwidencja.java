@@ -9,6 +9,7 @@ import dao.STRDAO;
 import embeddable.STRtabela;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -79,7 +80,7 @@ public class STREwidencja implements Serializable {
             List<SrodekTrw> c = new ArrayList<>();
             try {
                 c = sTRDAO.findStrPod(podatnikwpisu);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (!c.isEmpty()) {
                 int i = 1;
@@ -193,7 +194,7 @@ public class STREwidencja implements Serializable {
                     }
                 }
                 strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO));
             }
             strdocelowy.setPozostaloDoUmorzenia(new BigDecimal(strdocelowy.getNetto()).subtract(strdocelowy.getUmorzeniaDo().add(new BigDecimal(strdocelowy.getOdpisrok()))));
@@ -249,7 +250,7 @@ public class STREwidencja implements Serializable {
     public void mailewidencjaSTR() {
         try {
             MailOther.ewidencjaSTR(wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
 
         }
     }
@@ -257,7 +258,7 @@ public class STREwidencja implements Serializable {
     public void drukewidencjaSTR() {
         try {
             PdfSTR.drukuj(wpisView, strtabela);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
 
         }
     }

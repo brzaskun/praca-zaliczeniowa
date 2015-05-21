@@ -63,7 +63,7 @@ public class TransformacjaView implements Serializable{
 //                if (klient != null) {
 //                    try {
 //                        klient = klienciDAO.findKlientByNazwa(klient.getNpelna());
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        try {
 //                            klient = klienciDAO.findKlientByNip(klient.getNip());
 //                        } catch (Exception ep) {
@@ -107,7 +107,7 @@ public class TransformacjaView implements Serializable{
 //                try {
 //                    dokPKPiRDAO.edit(l);
 //                    Msg.msg("Dodalem "+j);
-//                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                } catch (Exception e) { E.e(e); 
 //                    Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                }
 //            }
@@ -125,7 +125,7 @@ public class TransformacjaView implements Serializable{
 //                if (klient != null) {
 //                    try {
 //                        klient = klienciDAO.findKlientByNazwa(klient.getNpelna());
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        try {
 //                            klient = klienciDAO.findKlientByNip(klient.getNip());
 //                        } catch (Exception ep) {
@@ -143,7 +143,7 @@ public class TransformacjaView implements Serializable{
 //                try {
 //                    dokPKPiRDAO.edit(p);
 //                    Msg.msg("Dodalem "+j);
-//                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                } catch (Exception e) { E.e(e); 
 //                    Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                }
 //            }
@@ -173,7 +173,7 @@ public class TransformacjaView implements Serializable{
 //                    try {
 //                        dokPKPiRDAO.edit(p);
 //                        Msg.msg("Dodalem " + j);
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                    }
 //                }
@@ -207,7 +207,7 @@ public class TransformacjaView implements Serializable{
 //                    try {
 //                        dokPKPiRDAO.edit(p);
 //                        Msg.msg("Dodalem " + j);
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                    }
 //                }
@@ -240,7 +240,7 @@ public class TransformacjaView implements Serializable{
 //                    try {
 //                        dokPKPiRDAO.edit(p);
 //                        Msg.msg("Dodalem " + j);
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                    }
 //                }
@@ -267,7 +267,7 @@ public class TransformacjaView implements Serializable{
 //                        Evewidencja evewidencja = new Evewidencja();
 //                        try {
 //                            evewidencja = evewidencjaDAO.znajdzponazwie(pobranepola.get(0).getNazwaewidencji());
-//                        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+//                        } catch (Exception e) { E.e(e); }
 //                        EVatViewPola wiersz = pobranepola.get(0);
 //                        nowywpis.setEwidencja(evewidencja);
 //                        nowywpis.setMiesiac(wiersz.getDataSprz().substring(5,7));
@@ -281,7 +281,7 @@ public class TransformacjaView implements Serializable{
 //                    try {
 //                        deklaracjevatDAO.edit(p);
 //                        Msg.msg("Dodalem ");
-//                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//                    } catch (Exception e) { E.e(e); 
 //                        Msg.msg("Gupi blad" + e.getCause().getMessage());
 //                    }
 //                }

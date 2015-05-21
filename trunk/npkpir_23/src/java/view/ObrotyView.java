@@ -10,6 +10,7 @@ import dao.WpisDAO;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Wpis;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -27,10 +28,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
-import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfObroty;
-import pdf.PdfPkpir;
 
 /**
  *
@@ -195,7 +194,7 @@ public class ObrotyView implements Serializable{
    public void mailobroty() {
        try {
            MailOther.obroty(wpisView);
-       } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+       } catch (Exception e) { E.e(e); 
            
        }
    }
@@ -203,7 +202,7 @@ public class ObrotyView implements Serializable{
    public void drukujObroty() {
         try {
             PdfObroty.drukuj(goscwybral, wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

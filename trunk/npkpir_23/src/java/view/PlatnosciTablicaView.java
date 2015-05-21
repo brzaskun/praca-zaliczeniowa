@@ -19,6 +19,7 @@ import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
 import entity.Zusstawki;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
@@ -75,13 +76,13 @@ public class PlatnosciTablicaView implements Serializable {
         Podatnik biezacyPodatnik = null;
         try {
             biezacyPodatnik = podatnikDAO.findPodatnikByNIP(user.getFirma());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         try {
             for (String p : Mce.getNumberToMiesiac().values()) {
                 lista.add(nowezobowiazanie(rok, p, biezacyPodatnik));
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -108,7 +109,7 @@ public class PlatnosciTablicaView implements Serializable {
         try {
             pitpoz = pitDAO.find(rok, mc, biezacyPodatnik.getNazwapelna());
             platnosci.setPit5(pitpoz.getNaleznazal().doubleValue());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             platnosci.setPit5(0.0);
         }
         //pobierz VAT-7
@@ -122,10 +123,10 @@ public class PlatnosciTablicaView implements Serializable {
                 } else {
                     platnosci.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 platnosci.setVat(0 - Double.parseDouble(dekl.getPozycjeszczegolowe().getPole60()));
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             platnosci.setVat(0.0);
         }
         try {
@@ -134,7 +135,7 @@ public class PlatnosciTablicaView implements Serializable {
             platnosciPK.setRok(rok);
             platnosciPK.setPodatnik(biezacyPodatnik.getNazwapelna());
             platnosci.setPlatnosciPK(platnosciPK);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         //platnosci.setVatsuma(platnosci.getVat()+platnosci.getVatods());
         return platnosci;

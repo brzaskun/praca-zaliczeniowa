@@ -8,6 +8,7 @@ import dao.PozycjenafakturzeDAO;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Pozycjenafakturze;
 import entity.PozycjenafakturzePK;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class PozycjeNaFakturzeView implements Serializable {
         Pozycjenafakturze pozycje = new Pozycjenafakturze(klucz, true, gora, lewy);
         try {
             pozycjeDAO.dodaj(pozycje);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             pozycjeDAO.edit(pozycje);
         }
         Msg.msg("i", pozycje.toString(), "form:messages");
@@ -91,7 +92,7 @@ public class PozycjeNaFakturzeView implements Serializable {
                     coTablica = coTablica + p.getPozycjenafakturzePK().getNazwa() + ",";
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("i", "Elementy faktury nie są ustawione");
         }
     }

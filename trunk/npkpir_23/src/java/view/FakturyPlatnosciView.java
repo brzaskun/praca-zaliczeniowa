@@ -9,6 +9,7 @@ import dao.FakturaDAO;
 import dao.WpisDAO;
 import entity.Faktura;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -80,7 +81,7 @@ public class FakturyPlatnosciView  implements Serializable {
             fakturyzaplacone.add(selected);
             datazaplaty = null;
             Msg.msg("Naniesiono płatność");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd, nie naniesiono płatności");
         }
         
@@ -94,7 +95,7 @@ public class FakturyPlatnosciView  implements Serializable {
             fakturyniezaplacone.add(f);
             datazaplaty = null;
             Msg.msg("wyzerowano płatność");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd, nie wyzerowano płatności.");
         }
     }

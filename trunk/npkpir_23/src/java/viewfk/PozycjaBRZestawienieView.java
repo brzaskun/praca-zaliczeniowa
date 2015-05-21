@@ -188,7 +188,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             level = PozycjaRZiSFKBean.ustawLevel(rootProjektRZiS, pozycje);
             Msg.msg("i", "Pobrano układ ");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             rootProjektRZiS.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
         }
@@ -275,7 +275,7 @@ public class PozycjaBRZestawienieView implements Serializable {
             sumaaktywapasywaoblicz("aktywa");
             sumaaktywapasywaoblicz("pasywa");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             rootBilansAktywa.getChildren().clear();
             rootBilansPasywa.getChildren().clear();
             Msg.msg("e", e.getLocalizedMessage());
@@ -334,7 +334,7 @@ public class PozycjaBRZestawienieView implements Serializable {
                 p.setPrzyporzadkowanekonta(null);
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
         }
     }
 

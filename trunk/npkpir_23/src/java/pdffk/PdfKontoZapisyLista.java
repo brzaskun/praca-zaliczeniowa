@@ -127,7 +127,7 @@ public class PdfKontoZapisyLista {
                 //dodajpodsumowanie(listasum, table);
                 document.close();
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                E.e(e);
             }
         } catch (DocumentException ex) {
             Logger.getLogger(PdfKontoZapisyLista.class.getName()).log(Level.SEVERE, null, ex);
@@ -286,7 +286,7 @@ public class PdfKontoZapisyLista {
             table.addCell(ustawfrazeAlign("", "right", 7));
             table.addCell(ustawfrazeAlign("", "right", 7));
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
         }
     }
     
