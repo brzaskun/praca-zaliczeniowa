@@ -263,7 +263,7 @@
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="#{mgs.VAT}" width="80">
-                            <pe:inputNumber id="#{mgs.VAT}" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
                             </pe:inputNumber>
@@ -494,5 +494,4 @@
     </p:dialog>
 
 </ui:composition>
-
-    
+ 

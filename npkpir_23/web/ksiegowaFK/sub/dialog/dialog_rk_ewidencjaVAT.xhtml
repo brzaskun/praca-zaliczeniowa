@@ -84,7 +84,7 @@
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenettoRK()}" partialSubmit="true"/>
                 </pe:inputNumber>
-                <pe:inputNumber id="#{mgs.VAT}" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
+                <pe:inputNumber id="vat" value="#{dokfkView.ewidencjaVatRK.vat}" symbol=" zł" required="true" 
                                 requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
