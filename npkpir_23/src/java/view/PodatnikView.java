@@ -22,6 +22,7 @@ import entity.RodzajedokPK;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -136,7 +137,7 @@ public class PodatnikView implements Serializable {
             zweryfikujBazeBiezacegoPodatnika();
             uzupelnijListyKont();
             selectedStrata = podatnikDAO.find(wpisView.getPodatnikWpisu());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         biezacadata = String.valueOf(new DateTime().getYear());
@@ -151,7 +152,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.dodaj(selectedDod);
             selectedDod = null;
             Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         }
     }
@@ -166,7 +167,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
             selectedDod = null;
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
         }
         RequestContext.getCurrentInstance().reset("formwprowadzaniefirmy:panelwpisywanianowejfirmy");
@@ -178,7 +179,7 @@ public class PodatnikView implements Serializable {
             sformatuj(selected);
             podatnikDAO.edit(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
     }
@@ -190,7 +191,7 @@ public class PodatnikView implements Serializable {
             selected.setFirmafk(true);
             podatnikDAO.edit(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
         }
     }
@@ -200,7 +201,7 @@ public class PodatnikView implements Serializable {
             selected.setWysylkazusmail((Boolean) el.getNewValue());
             podatnikDAO.edit(selected);
             Msg.msg("i", "Zmieniono", "akordeon:form:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezmienione", "akordeon:form:msg");
         }
     }
@@ -339,7 +340,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getPodatekdochodowy());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzrok(parametr, lista) == 0) {
             lista.add(parametr);
@@ -359,7 +360,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getZawieszeniedzialalnosci());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         parametr.setRokDo(parametr.getRokOd());
         lista.add(parametr);
@@ -413,7 +414,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getVatokres());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzvat(parametr, lista) == 0) {
             lista.add(parametr);
@@ -468,7 +469,7 @@ public class PodatnikView implements Serializable {
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             sprawdzzus(tmp);
             tmp.add(zusstawki);
@@ -476,7 +477,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.edit(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru ZUS. Niedopasowane okresy.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -500,7 +501,7 @@ public class PodatnikView implements Serializable {
             List<Zusstawki> tmp = new ArrayList<>();
             try {
                 tmp.addAll(selected.getZusparametr());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (tmp.contains(zusstawki)) {
                 // to niby gupawe ale jest madre bo on rozpoznaje zus stawki po roku i miesiacu tylko
@@ -513,7 +514,7 @@ public class PodatnikView implements Serializable {
             } else {
                 Msg.msg("w", "Nie ma czego edytowac. Cos dziwnego sie stalo.Wolaj szefa (PodatnikView - edytujzus");
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -570,7 +571,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getRemanent());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzrok(parametr, lista) == 0) {
             lista.add(parametr);
@@ -596,7 +597,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getKwotaautoryzujaca());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzrok(parametr, lista) == 0) {
             String tmp = parametr.getParametr();
@@ -628,7 +629,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getNumerpkpir());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzrok(parametr, lista) == 0) {
             String tmp = parametr.getParametr();
@@ -660,7 +661,7 @@ public class PodatnikView implements Serializable {
         List<Parametr> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getFKpiatki());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (sprawdzrok(parametr, lista) == 0) {
             lista.add(parametr);
@@ -686,7 +687,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.edit(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno udziały.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno udziału.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -702,7 +703,7 @@ public class PodatnikView implements Serializable {
         List<Udzialy> lista = new ArrayList<>();
         try {
             lista.addAll(selected.getUdzialy());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         try {
             Integer sumaudzialow = 0;
@@ -740,7 +741,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.destroy(selected2);
             podatnikDAO.dodaj(selected);
             Msg.msg("i", "Wyedytowano udziały", "akordeon:form6:messages");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono udziałów", "akordeon:form6:messages");
         }
     }
@@ -784,7 +785,7 @@ public class PodatnikView implements Serializable {
             rodzajedokDAO.edit(selectedDokKsi);
             selectedDokKsi = new Rodzajedok();
             Msg.msg("i", "Wyedytowano wzorce dokumentów");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono dokumentów");
         }
     }
@@ -837,7 +838,7 @@ public class PodatnikView implements Serializable {
         try {
             List<Podatnik> lista = new ArrayList<>();
             lista.addAll(podatnikDAO.findAll());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -858,7 +859,7 @@ public class PodatnikView implements Serializable {
             stratyzlatub = selected.getStratyzlatub1();
             ostatnirok = stratyzlatub.get(stratyzlatub.size() - 1);
 
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             stratyzlatub = new ArrayList<>();
             ostatnirok.setRok("1900");
         }
@@ -881,7 +882,7 @@ public class PodatnikView implements Serializable {
             stratazostalo = "";
             Msg.msg("i", "Dodano stratę za rok " + stratarok, "akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd poczdas dodawania straty " + stratarok, "akordeon:form2:messages");
         }
     }
@@ -894,7 +895,7 @@ public class PodatnikView implements Serializable {
             podatnikDAO.edit(selectedStrata);
             Msg.msg("i", "Usunieto stratę za rok " + loop.getRok(), "akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Wołaj szefa " + loop, "akordeon:form2:messages");
         }
     }
@@ -924,7 +925,7 @@ public class PodatnikView implements Serializable {
                     }
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         //dodawanie straty jak nie bylo zysku
         if (wynikzarok < 0) {
@@ -1013,7 +1014,7 @@ public class PodatnikView implements Serializable {
                     sumabiezace += s.getKwotawykorzystania();
                     sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             r.setSumabiezace(String.valueOf(sumabiezace));
             double kwota = Double.parseDouble(r.getKwota());
@@ -1036,7 +1037,7 @@ public class PodatnikView implements Serializable {
                     sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         double kwota = Double.parseDouble(tmp.getKwota());
         double uprzednio = Double.parseDouble(tmp.getWykorzystano());
