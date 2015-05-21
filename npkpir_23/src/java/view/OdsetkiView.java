@@ -6,6 +6,7 @@ package view;
 
 import dao.OdsetkiDAO;
 import entity.Odsetki;
+import error.E;
 import java.io.Serializable;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ public class OdsetkiView implements Serializable{
          Format formatterX = new SimpleDateFormat("yyyy-MM-dd");
          String ndX = formatterX.format(selected.getDataodD());
          selected.setDataod(ndX);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
          if(sprawdz()==0){
          odsetkiDAO.dodaj(selected);
          lista.add(selected);

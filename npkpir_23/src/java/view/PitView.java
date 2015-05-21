@@ -9,6 +9,7 @@ import dao.PodatnikDAO;
 import dao.WpisDAO;
 import entity.Pitpoz;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class PitView implements Serializable {
      public void drukujarch() {
          try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              
          }
      }
@@ -82,7 +83,7 @@ public class PitView implements Serializable {
      public void mailPIT5() {
          try {
              MailOther.pit5(wpisView);
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              
          }
      }

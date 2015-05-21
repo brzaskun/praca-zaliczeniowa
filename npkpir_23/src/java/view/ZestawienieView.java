@@ -24,6 +24,7 @@ import entity.Podstawki;
 import entity.Wpis;
 import entity.Zobowiazanie;
 import entity.Zusstawki;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -37,7 +38,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
@@ -47,7 +47,6 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
@@ -151,13 +150,13 @@ public class ZestawienieView implements Serializable {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
 
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
             Collection c = null;
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             if (c != null) {
                 for (int i = 0; i < 10; i++) {
@@ -924,7 +923,7 @@ public class ZestawienieView implements Serializable {
                         //wyliczenie podatku poczatek
                         biezacyPit.setPodstawa(tmp);
                     }
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -936,7 +935,7 @@ public class ZestawienieView implements Serializable {
                 Podstawki skalaPodatkowaZaDanyRok;
                 try {
                     skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
@@ -980,7 +979,7 @@ public class ZestawienieView implements Serializable {
                             podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                             break;
                     }
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -1025,7 +1024,7 @@ public class ZestawienieView implements Serializable {
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                     RequestContext.getCurrentInstance().update("formpit:");
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -1046,10 +1045,10 @@ public class ZestawienieView implements Serializable {
             if(amortyzacjawmiesiacu.getUmorzenia().isEmpty()){
                 amortyzacjawmiesiacu=null;
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
         try {
             dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
         if(amortyzacjawmiesiacu!=null&&dokumentamo==null){
             Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
             flaga = 1;
@@ -1080,7 +1079,7 @@ public class ZestawienieView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
     }
@@ -1115,7 +1114,7 @@ public class ZestawienieView implements Serializable {
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad );
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Zachowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
                 Msg.msg("i", wiad );
@@ -1206,7 +1205,7 @@ private void aktualizujGuest(){
             }
 
             return tmp;
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
 
             return tmp;
         }
@@ -1292,7 +1291,7 @@ private void aktualizujGuest(){
                     break;
             }
             return suma;
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Nie było w tym roku żadnych przychodów");
             return new BigDecimal(BigInteger.ZERO);
         }
@@ -1401,7 +1400,7 @@ private void aktualizujGuest(){
                     break;
             }
             return suma;
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Nie było w tym roku żadnych kosztów");
             return new BigDecimal(BigInteger.ZERO);
         }
@@ -1410,7 +1409,7 @@ private void aktualizujGuest(){
     public void pobierzPity(){
         try {
             pobierzPity.addAll(pitDAO.findAll());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         narPitpoz = new Pitpoz();
         int index = 0;
@@ -1432,7 +1431,7 @@ private void aktualizujGuest(){
     public void drukujbiezacypit() {
         try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }
@@ -1440,7 +1439,7 @@ private void aktualizujGuest(){
      public void drukujPodsumowanieRoczne() {
         try {
             PdfZestRok.drukuj(wpisView, this);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }
@@ -1737,7 +1736,7 @@ private void aktualizujGuest(){
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca-3);
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
                     pierwszypitwrokuzaznacz = true;
                     return 1;
@@ -1748,7 +1747,7 @@ private void aktualizujGuest(){
             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
                     pierwszypitwrokuzaznacz = true;
                     return 1;

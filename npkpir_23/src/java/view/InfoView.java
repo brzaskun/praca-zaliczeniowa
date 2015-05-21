@@ -14,6 +14,7 @@ import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Zusstawki;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -128,7 +129,7 @@ public class InfoView implements Serializable{
             Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
             rodzajopodatkowania = "Rodzaj opod. pod.doch.: "+tmp.getParametr();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             rodzajopodatkowania = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -146,7 +147,7 @@ public class InfoView implements Serializable{
                 vatnievat = "Firma aktuanie jest płatnikiem VAT";
             }
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             vatnievat = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -164,7 +165,7 @@ public class InfoView implements Serializable{
                 ryczaltnieryczalt = "Firma aktuanie nie jest na ryczałcie";
             }
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             ryczaltnieryczalt = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -178,7 +179,7 @@ public class InfoView implements Serializable{
             Zusstawki tmp = zus.get(zus.size()-1);
             zusniezus = "Ostatni miesiąc z wprowadzonymi stawkami to: "+tmp.getZusstawkiPK().getRok()+"/"+tmp.getZusstawkiPK().getMiesiac();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             zusniezus = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -190,7 +191,7 @@ public class InfoView implements Serializable{
         } else {
             pole47niepole47 = "Wprowadzona wartość pola 47 deklaracji VAT to: "+pod.getPole47();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             pole47niepole47 = "Nie wprowadzono pola 47 deklaracji VAT! Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -202,12 +203,12 @@ public class InfoView implements Serializable{
                 for (Udzialy p : udz) {
                     try {
                         p.getRokDo().isEmpty();
-                    } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                    } catch (Exception e) { E.e(e); 
                         udzialy.add(p);
                     }
                 }
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
     
@@ -220,7 +221,7 @@ public class InfoView implements Serializable{
             Parametr tmp = remanent.get(remanent.size()-1);
             remnierem = "Wartość ostatniego remanentu za "+tmp.getRokOd()+" wynosi: "+tmp.getParametr();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             remnierem = "Nie wprowadzono remanentu! Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -234,7 +235,7 @@ public class InfoView implements Serializable{
             Parametr tmp = autor.get(autor.size()-1);
             kwotaautor = "Wartość ostatniej kwoty autoryzujacek - za "+tmp.getRokOd()+" wynosi: "+tmp.getParametr();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             kwotaautor = "Nie wprowadzono kwoty autoryzujacej! Program nie będzie funkcjonował poprawnie";  
         }
     }
@@ -248,7 +249,7 @@ public class InfoView implements Serializable{
             Parametr tmp = vatok.get(vatok.size()-1);
             vatokres = "Okres rozliczeniowy VAT bieżący od "+tmp.getRokOd()+"/"+tmp.getMcOd()+"  wynosi: "+tmp.getParametr();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             vatokres = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
         }
     }
@@ -262,7 +263,7 @@ public class InfoView implements Serializable{
             Pitpoz tmp = listapit.get(listapit.size()-1);
             liczbapit = "Sporządzono "+listapit.size()+" deklaracji w roku "+rok+". Ostatnia za "+tmp.getPkpirR()+"/"+tmp.getPkpirM();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
         try{
         List<Deklaracjevat> wyslane = deklaracjevatDAO.findDeklaracjeWyslane(podatnik,rok);
         if(wyslane.isEmpty()){
@@ -271,7 +272,7 @@ public class InfoView implements Serializable{
             Deklaracjevat tmp = wyslane.get(wyslane.size()-1);
             liczbavatwyslane = "Sporządzono "+wyslane.size()+" deklaracji w roku "+rok+". Ostatnia za "+tmp.getRok()+"/"+tmp.getMiesiac();
         }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
         try{
             Deklaracjevat wyslane1 = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(podatnik);
             if(wyslane1.getRok()!=null){
@@ -279,13 +280,13 @@ public class InfoView implements Serializable{
             } else {
                 liczbavatdopotw = "Nie ma deklaracji wymagających odebrania potwierdzenia";
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             liczbavatdopotw = "Nie ma deklaracji wymagających odebrania potwierdzenia";
         }
         try{
             Deklaracjevat wyslane1 = deklaracjevatDAO.findDeklaracjeDowyslania(podatnik);
             liczbavatdowyslania = "Należy wysłać przygotowaną deklarację za "+wyslane1.getRok()+"/"+wyslane1.getMiesiac();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             liczbavatdowyslania = "Nie ma deklaracji oczekujacych na wysyłkę";
         }
     }

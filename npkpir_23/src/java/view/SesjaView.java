@@ -6,6 +6,7 @@ package view;
 
 import dao.SesjaDAO;
 import entity.Sesja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -41,7 +42,7 @@ public class SesjaView implements Serializable {
     public void pobierzsesje() {
         try {
             wykazsesji = sesjaDAO.findAll();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -53,7 +54,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscwydrukow(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -65,7 +66,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscmaili(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -77,7 +78,7 @@ public class SesjaView implements Serializable {
             ilosc = ilosc + 1;
             sesja.setIloscdokumentow(ilosc);
             sesjaDAO.edit(sesja);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
 
     }

@@ -6,6 +6,7 @@ package view;
 
 import dao.EvopisDAO;
 import entity.Evopis;
+import error.E;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +42,7 @@ public class EvopisView {
     private void init() {
         try{
         lista.addAll(eopisDAO.findAll());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); }
+        } catch (Exception e) { E.e(e); }
     }
 
     public void dodaj() {
@@ -58,7 +59,7 @@ public class EvopisView {
             lista.add(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodano nowy opis", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka opis już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -69,7 +70,7 @@ public class EvopisView {
             eopisDAO.edit(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Edytowano opis", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka opis już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

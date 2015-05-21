@@ -18,6 +18,7 @@ import embeddable.TKodUS;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class Vat7DKView implements Serializable {
         try {
             boolean equals = kodus.isEmpty();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             Msg.msg("e", "Brak wpisanego urzędu skarbowego!", "form:msg");
             setFlaga(1);
         }
@@ -146,7 +147,7 @@ public class Vat7DKView implements Serializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             Msg.msg("e", "Wystapil blad, brak kwoty autoryzujacej w ustawieniach!", "form:msg");
             setFlaga(1);
         }
@@ -166,7 +167,7 @@ public class Vat7DKView implements Serializable {
                     Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                 }
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                E.e(e);
                 pobierz47zustawien();
                 najpierwszadeklaracja();
             }
@@ -267,7 +268,7 @@ public class Vat7DKView implements Serializable {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                E.e(e);
                 //klient swiezak nie ma zadnej deklaracji
                 pozycjeDeklaracjiVAT.setCelzlozenia("1");
                 nowadeklaracja.setNrkolejny(1);
@@ -289,7 +290,7 @@ public class Vat7DKView implements Serializable {
             deklaracjawyslana.setIdentyfikator("lolo");
             deklaracjawyslana.setPodatnik("manolo");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             setFlaga(1);
             Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  ", "form:msg");
         }
@@ -357,7 +358,7 @@ public class Vat7DKView implements Serializable {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!", "form:msg");
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
 
         }
     }
@@ -369,7 +370,7 @@ public class Vat7DKView implements Serializable {
                 pozycjeSzczegoloweVAT.setPole47(deklaracjakorygowana.getPozycjeszczegolowe().getPole47());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracjakorygowana.getPozycjeszczegolowe().getPoleI47());
             } catch (Exception e) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+                E.e(e);
                 pozycjeSzczegoloweVAT.setPole47(deklaracjawyslana.getPozycjeszczegolowe().getPole65());
                 pozycjeSzczegoloweVAT.setPoleI47(deklaracjawyslana.getPozycjeszczegolowe().getPoleI65());
             }
@@ -410,7 +411,7 @@ public class Vat7DKView implements Serializable {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             badana = deklaracjawyslana;
             if (badana.getIdentyfikator().isEmpty()) {
                 Msg.msg("e", "Wcześniej sporządzona deklaracja dot. poprzedniego miesiaca nie jest wyslana. Nie można utworzyć nowej!", "form:msg");

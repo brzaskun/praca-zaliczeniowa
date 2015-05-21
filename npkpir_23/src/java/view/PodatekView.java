@@ -11,9 +11,9 @@ import dao.PodatnikDAO;
 import dao.ZobowiazanieDAO;
 import entity.Dok;
 import entity.KwotaKolumna1;
-import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Podstawki;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -69,7 +69,7 @@ public class PodatekView implements Serializable{
         try{
             nazwapodatnika = wpisView.findNazwaPodatnika();
             selected = podatnikDAO.find(nazwapodatnika);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             nazwapodatnika = wpisView.findNazwaPodatnika();
             selected = podatnikDAO.find(nazwapodatnika);
         }
@@ -132,7 +132,7 @@ public class PodatekView implements Serializable{
         Podstawki skalaPodatkowaZaDanyRok;
         try {
             skalaPodatkowaZaDanyRok = podstawkiDAO.find(wpisView.getRokWpisu());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
             return;
         }
@@ -172,7 +172,7 @@ public class PodatekView implements Serializable{
                 podatek = podatek.subtract(BigDecimal.valueOf(selected.getZusparametr().get(selected.getZusparametr().size()-1).getZus52odl()));
                 podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                 break;
-        }} catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        }} catch (Exception e) { E.e(e); 
             Msg.msg("e", "Brak wprowadzonych stawek ZUS, nie wyliczam podatku!!!");
             return;
         }

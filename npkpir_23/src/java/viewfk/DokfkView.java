@@ -2538,7 +2538,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
                 tworzenieTransakcjiPlatnosc(stronawiersza);
             } else {
-                System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
+                System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
             }
             System.out.println(strW.toString());
         }
@@ -3087,13 +3087,7 @@ public void updatenetto(EVatwpisFK e, String form) {
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
             List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(podX);
-            Rodzajedok rodzajdok = new Rodzajedok();
-            for (Rodzajedok p : listaD) {
-                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
-                    rodzajdok = p;
-                    break;
-                }
-            }
+            Rodzajedok rodzajdok = selected.getRodzajedok();
             String wzorzec = rodzajdok.getWzorzec();
             //odnajdywanie podzielnika;
             String separator = null;
@@ -3130,7 +3124,8 @@ public void updatenetto(EVatwpisFK e, String form) {
                 if (nowynumer.endsWith(separator)) {
                     nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
                 }
-            } catch (Exception e) {  E.e(e);
+            } catch (Exception e) {  
+                System.out.println("Brak poprzedniego dokumnetu z wzorcem w numerze");
                 nowynumer = wzorzec;
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {

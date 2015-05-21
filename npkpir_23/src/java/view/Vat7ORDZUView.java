@@ -6,6 +6,7 @@ package view;
 
 import deklaracjaVAT7_13.ORDZU;
 import entity.Deklaracjevat;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -58,7 +59,7 @@ public class Vat7ORDZUView extends Vat7DKView implements Serializable{
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono wyjaśnienie.","formX:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e","Wystapil błąd. NIe udało się załączyć załącznika.","formX:msg");
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");

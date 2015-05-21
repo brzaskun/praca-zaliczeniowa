@@ -28,6 +28,7 @@ import embeddable.Kwartaly;
 import embeddable.Parametr;
 import entity.Ewidencjevat;
 import entity.Podatnik;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -213,7 +214,7 @@ public class PdfVAT {
             }
         } catch (Exception e) {
             if (e.getStackTrace() != null) {
-                System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                E.e(e); 
             }
             
         }
@@ -295,7 +296,7 @@ public class PdfVAT {
                 pdf.close();
             //Msg.msg("i","Wydrukowano ewidencje","form:messages");
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            E.e(e); 
             pdf.close();
         }
     }
@@ -374,7 +375,7 @@ public class PdfVAT {
                 }
             return table;
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            E.e(e); 
             return null;
         }
 

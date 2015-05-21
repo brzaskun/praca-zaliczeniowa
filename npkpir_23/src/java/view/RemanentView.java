@@ -6,13 +6,13 @@ package view;
 
 import embeddable.Parametr;
 import entity.Podatnik;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import msg.Msg;
 
 /**
@@ -68,7 +68,7 @@ public class RemanentView implements Serializable {
                     }
                     //remnierem = "Wartość ostatniego remanentu za " + tmp.getRokOd() + " wynosi: " + tmp.getParametr();
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nie wprowadzono remanentu! Program nie obliczy PIT-u za grudzien.");
             }
         } catch (Exception ex) {

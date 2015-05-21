@@ -7,14 +7,13 @@ package view;
 import dao.ZUSDAO;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
@@ -42,7 +41,7 @@ public class ZUSstawkiView implements Serializable{
     private void init() {
         try {
             listapobranychstawek = zusDAO.findAll();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         biezacadata = String.valueOf(new DateTime().getYear());
     }
@@ -54,7 +53,7 @@ public class ZUSstawkiView implements Serializable{
             listapobranychstawek = zusDAO.findAll();
             wprowadzanie = new Zusstawki();
             Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+wprowadzanie.getZusstawkiPK().getMiesiac());
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
              Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+wprowadzanie.getZusstawkiPK().getRok()+" i miesiąc "+wprowadzanie.getZusstawkiPK().getMiesiac()+" już istnieje");
        }
         
@@ -68,7 +67,7 @@ public class ZUSstawkiView implements Serializable{
          wprowadzanie = new Zusstawki();
          Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
        
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
          Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
          }
         
@@ -82,7 +81,7 @@ public class ZUSstawkiView implements Serializable{
             listapobranychstawek = zusDAO.findAll();
             wprowadzanie = new Zusstawki();
             Msg.msg("Usunieto parametr ZUS do podatnika za m-c: "+zusstawki.getZusstawkiPK().getMiesiac());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
         }
      }

@@ -9,6 +9,7 @@ import dao.STRDAO;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entityfk.Dokfk;
+import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -63,7 +64,7 @@ public class SrodkiTrwaleView implements Serializable {
     public void dodajSrodekTrwalyDokfk(Dokfk wybranydok) {
         try {
             this.dokfk = wybranydok;
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
     
@@ -79,7 +80,7 @@ public class SrodkiTrwaleView implements Serializable {
             selectedSTR.setDokfk(dokfk);
             selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
             dodajSrodekTrwaly(selectedSTR);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             System.out.println("StrodkiTrwaleView - dodajSrodekTrwalyFK() blad");
             Msg.msg("e", "Blad podczas dodawanie srodkow trwalych");
         }
@@ -132,7 +133,7 @@ public class SrodkiTrwaleView implements Serializable {
             sTRDAO.dodaj(dodawanysrodektrwaly);
             RequestContext.getCurrentInstance().update("srodki:panelekXA");
             Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nowy srodek nie zachowany", dodawanysrodektrwaly.getNazwa());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

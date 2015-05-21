@@ -11,6 +11,7 @@ import embeddable.Stornodoch;
 import entity.Dok;
 import entity.Rozrachunek1;
 import entity.StornoDok;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -98,13 +99,13 @@ public class StornoDokView implements Serializable {
         try {
             StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
             lista = (ArrayList<Dok>) tmp.getDokument();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         ArrayList<Dok> tmplist = new ArrayList<>();
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 tmplist.addAll(dokDAO.zwrocBiezacegoKlienta(wpisView.getPodatnikWpisu()));
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
             Integer r = wpisView.getRokWpisu();
             Iterator itx;
@@ -254,7 +255,7 @@ public class StornoDokView implements Serializable {
         try {
             stornoDok = stornoDokDAO.find(rok, mc, podatnik);
             listawew = (ArrayList) stornoDok.getDokument();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             stornoDok.setRok(rok);
             stornoDok.setMc(mc);
             stornoDok.setPodatnik(wpisView.getPodatnikWpisu());

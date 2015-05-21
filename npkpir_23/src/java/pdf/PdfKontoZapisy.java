@@ -221,7 +221,7 @@ public class PdfKontoZapisy {
             table.addCell(ustawfrazeAlign("", "right", 7));
             table.addCell(ustawfrazeAlign("", "right", 7));
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
         }
     }
     

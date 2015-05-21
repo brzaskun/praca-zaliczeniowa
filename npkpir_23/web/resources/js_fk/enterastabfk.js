@@ -81,8 +81,7 @@ var TabKeyDown;
                             $target.val(wartosc);
                         } else {
                             $target.val(limit);
-                            r("rozrachunki:zapiszrozrachunekButton").focus();
-                            r("rozrachunki:zapiszrozrachunekButton").select();
+                            var wprowadzonowpole = limit;
                         }
                     }
                 }

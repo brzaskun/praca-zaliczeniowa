@@ -7,11 +7,9 @@ package view;
 import dao.PodatnikDAO;
 import dao.RodzajedokDAO;
 import entity.Rodzajedok;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -56,7 +54,7 @@ public class RodzajedokView implements Serializable {
         try {
             listaWspolnych = rodzajedokDAO.findListaWspolne();
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
 
     }
@@ -69,7 +67,7 @@ public class RodzajedokView implements Serializable {
             listaWspolnych.add(wprowadzany);
             wprowadzany = new Rodzajedok();
             Msg.msg("Dodatno nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Niedodatno nowego rodzaju dokumentu. Sprawdz czy skrót się nie powtarza.");
         }
 
@@ -79,7 +77,7 @@ public class RodzajedokView implements Serializable {
         try {
             rodzajedokDAO.edit(wprowadzany);
             Msg.msg("Wyedytowano nowy rodzaj dokumentu: " + wprowadzany.getNazwa());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Niewyedytowano rodzaju dokumentu. Wystąpił błąd");
         }
 
@@ -97,7 +95,7 @@ public class RodzajedokView implements Serializable {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Wzorzec usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wzorzec NIE usunięty", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }

@@ -33,11 +33,11 @@ import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
 import entity.Fakturywystokresowe;
-import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Wpis;
 import entityfk.Dokfk;
+import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -266,7 +266,7 @@ public class FakturaView implements Serializable {
             if (fakturakorekta) {
                 FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
             return;
         }
@@ -283,7 +283,7 @@ public class FakturaView implements Serializable {
             fakturakorekta = false;
             selected = new Faktura();
             
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Faktura o takim numerze i dla takiego kontrahenta już istnieje");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
@@ -297,7 +297,7 @@ public class FakturaView implements Serializable {
             if (fakturakorekta) {
                 FakturaBean.ewidencjavatkorekta(selected, evewidencjaDAO);
             }
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd podczas tworzenia rejestru VAT. Nie zachowano faktury");
             return;
         }
@@ -328,7 +328,7 @@ public class FakturaView implements Serializable {
             fakturakorekta = false;
             selected = new Faktura();
             
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Błąd. Niedokonano edycji faktury.");
         }
         RequestContext.getCurrentInstance().update("akordeon:formstworz");
@@ -452,7 +452,7 @@ public class FakturaView implements Serializable {
                     zaktualizujokresowa(p);
                 }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny()+". Problem z aktualizacją okresowych.");
             }
         }
@@ -470,7 +470,7 @@ public class FakturaView implements Serializable {
                     zaktualizujokresowa(p);
                 }
                 Msg.msg("i", "Usunięto fakturę sporządzoną: " + p.getFakturaPK().getNumerkolejny());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury sporządzonej: " + p.getFakturaPK().getNumerkolejny());
             }
         }
@@ -489,7 +489,7 @@ public class FakturaView implements Serializable {
                 }
                 Msg.msg("i", "Usunięto fakturę archiwalną: " + p.getFakturaPK().getNumerkolejny());
                 usunfakturezaksiegowana(p);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Nie usunięto faktury archiwalnej: " + p.getFakturaPK().getNumerkolejny());
             }
             
@@ -627,7 +627,7 @@ public class FakturaView implements Serializable {
             p.setZaksiegowana(true);
             fakturaDAO.edit(p);
             Msg.msg("Zaksięgowano dokument SZ o nr własnym"+dokument.getNumerwlasnydokfk());
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu SZ");
         }
     }
@@ -685,7 +685,7 @@ public class FakturaView implements Serializable {
                 Msg.msg("i", wiadomosc);
                 faktura.setZaksiegowana(true);
                 fakturaDAO.edit(faktura);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 
             }
             RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
@@ -757,7 +757,7 @@ public class FakturaView implements Serializable {
                 fakturywystokresoweDAO.dodaj(nowafakturaokresowa);
                 fakturyokresowe.add(nowafakturaokresowa);
                 Msg.msg("i", "Dodano fakturę okresową");
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Msg.msg("e", "Błąd podczas zachowania faktury w bazie danych " + e.getMessage());
             }
         }
@@ -874,14 +874,14 @@ public class FakturaView implements Serializable {
             if (waloryzajca > 0) {
                 try {
                     waloryzacjakwoty(nowa, waloryzajca);
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:641");
                 }
             } else if (waloryzajca == -1) {
                 try {
                     FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
                 }
             }
@@ -967,7 +967,7 @@ public class FakturaView implements Serializable {
                     fakturywystokresoweDAO.edit(p);
                 }
                 Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
                 Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
             }
@@ -1155,7 +1155,7 @@ public class FakturaView implements Serializable {
         try {
             pdfFaktura.drukujmail(gosciwybral, wpisView);
             MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
             System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());
         }
@@ -1164,14 +1164,14 @@ public class FakturaView implements Serializable {
     public void pdffaktura() {
         try {
             pdfFaktura.drukuj(gosciwybral, wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
     
     public void drukujfaktura() {
         try {
             pdfFaktura.drukujPrinter(gosciwybral, wpisView);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
     
@@ -1188,7 +1188,7 @@ public class FakturaView implements Serializable {
     public void drukujokresowa() {
         try {
             pdfFaktura.drukujokresowa(gosciwybralokres);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
 
@@ -1240,7 +1240,7 @@ public class FakturaView implements Serializable {
                 file.delete();
             }
             PdfFakturySporzadzone.drukujzapisy(wpisView, gosciwybral);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             
         }
     }

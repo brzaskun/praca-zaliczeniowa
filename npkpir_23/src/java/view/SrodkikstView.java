@@ -6,6 +6,7 @@ package view;
 
 import dao.SrodkikstDAO;
 import entity.Srodkikst;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -89,7 +90,7 @@ public class SrodkikstView implements Serializable {
             wykaz.add(p);
             try{
                 srodkikstDAO.destroy(p);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
             }
         }
         for(Srodkikst w : wykaz){

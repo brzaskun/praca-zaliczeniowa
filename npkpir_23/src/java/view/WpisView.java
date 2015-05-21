@@ -13,6 +13,7 @@ import embeddable.Roki;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.List;
@@ -80,7 +81,7 @@ public class WpisView implements Serializable {
         String wprowadzilX = null;
         try {
             wprowadzilX = principal.getName();
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         if (wprowadzilX != null) {
             wprowadzil = uzDAO.find(wprowadzilX);
@@ -98,7 +99,7 @@ public class WpisView implements Serializable {
                 try {
                     nipfirmy = podatnikwpisu.getFirma();
                     nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
-                } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+                } catch (Exception e) { E.e(e); 
                     //laduje demofirme jak cos pojdzie zle
                     nipfirmy = "1111005008";
                     nazwapodatnika = podatnikDAO.findPodatnikByNIP(nipfirmy).getNazwapelna();
@@ -128,7 +129,7 @@ public class WpisView implements Serializable {
                     this.miesiacOd = wpis.getMiesiacOd();
                     this.miesiacDo = wpis.getMiesiacDo();
                 }
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 this.miesiacOd = wpis.getMiesiacOd();
                 this.miesiacDo = wpis.getMiesiacDo();
             }
@@ -195,7 +196,7 @@ public class WpisView implements Serializable {
         if (podatnikWpisu != null) {
             try {
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 podatnikWpisu = "GRZELCZYK";
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
             }

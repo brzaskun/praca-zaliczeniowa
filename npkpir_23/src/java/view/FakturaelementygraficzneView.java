@@ -7,8 +7,8 @@ package view;
 import dao.FakturadodelementyDAO;
 import dao.FakturaelementygraficzneDAO;
 import entity.Fakturadodelementy;
-import entity.FakturadodelementyPK;
 import entity.Fakturaelementygraficzne;
+import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -18,11 +18,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.apache.commons.io.FileUtils;
@@ -70,7 +68,7 @@ public class FakturaelementygraficzneView implements Serializable {
 //                    fakturaelementygraficzne.add(f);
 //                }
 //            }
-//        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+//        } catch (Exception e) { E.e(e); 
 //        }
     }
 
@@ -89,7 +87,7 @@ public class FakturaelementygraficzneView implements Serializable {
                 fakturaelementygraficzneDAO.dodaj(p);
             }
             Msg.msg("i", "Zachowano dodatkowe elementy faktury.");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             for (Fakturaelementygraficzne p : fakturaelementygraficzne) {
                 fakturaelementygraficzneDAO.edit(p);
             }
@@ -139,7 +137,7 @@ public class FakturaelementygraficzneView implements Serializable {
         }
         try {
            FileUtils.copyInputStreamToFile(uploadedFile.getInputstream(), newfile);
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
         Fakturaelementygraficzne f = new Fakturaelementygraficzne();
         f.getFakturaelementygraficznePK().setPodatnik(wpisView.getPodatnikWpisu());
@@ -188,7 +186,7 @@ public class FakturaelementygraficzneView implements Serializable {
                 }
             }
             RequestContext.getCurrentInstance().update("akordeon:formelementy");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
         }
     }
     

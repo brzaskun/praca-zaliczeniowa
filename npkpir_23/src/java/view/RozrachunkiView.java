@@ -11,6 +11,7 @@ import dao.StornoDokDAO;
 import entity.Dok;
 import entity.Rozrachunek1;
 import entity.StornoDok;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class RozrachunkiView implements Serializable {
                 int index = wpisView.getPodatnikObiekt().getNumerpkpir().size() - 1;
                 String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
                 numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+            } catch (Exception e) { E.e(e); 
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
         }
@@ -172,7 +173,7 @@ public class RozrachunkiView implements Serializable {
             niezaplacone.add(tmp);
             RequestContext.getCurrentInstance().update("form:dokumentyLista");
             Msg.msg("i", "Dokument z nowymi datami zaksięgowany: " + tmp.getOpis(), "form:messages");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Nie udało się usunąć rozliczeń: " + tmp.getOpis() + "Sprawdź obecność storno.", "form:messages");
         }
     }

@@ -6,6 +6,7 @@ package view;
 
 import dao.PodStawkiDAO;
 import entity.Podstawki;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +50,7 @@ public class PodStawkiView implements Serializable{
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr podatkowy za rok:", selected.getRok().toString() );
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus" , msg);
        
-         } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+         } catch (Exception e) { E.e(e); 
          FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru podatkowego. Wystapil błąd.", "");
          FacesContext.getCurrentInstance().addMessage(":formzus:msgzus", msg);
        

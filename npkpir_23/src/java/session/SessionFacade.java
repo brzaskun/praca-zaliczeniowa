@@ -62,16 +62,13 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import entityfk.WynikFKRokMc;
+import error.E;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transaction;
 import view.WpisView;
 
 /**
@@ -244,7 +241,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findDuplicate").setParameter("kontr", selD.getKontr()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("netto", selD.getNetto()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
         return wynik;
@@ -255,7 +252,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findDuplicateAMO").setParameter("podatnik", selD.getPodatnik()).setParameter("nrWlDk", selD.getNrWlDk()).setParameter("pkpirR", pkpirR).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
         return wynik;
@@ -271,7 +268,7 @@ public class SessionFacade<T> implements Serializable {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -282,7 +279,7 @@ public class SessionFacade<T> implements Serializable {
             Zobowiazanie tmp = (Zobowiazanie) em.createQuery("SELECT p FROM Zobowiazanie p WHERE p.zobowiazaniePK.rok = :rok AND p.zobowiazaniePK.mc = :mc").setParameter("rok", nowedane[0]).setParameter("mc", nowedane[1]).getSingleResult();
             return tmp;
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             throw new Exception();
         }
     }
@@ -312,7 +309,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findPoprzednik").setParameter("pkpirR", rok).setParameter("pkpirM", mcS).setParameter("opis", "umorzenie za miesiac").getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
         return wynik;
@@ -329,7 +326,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             wynik = (Rodzajedok) em.createNamedQuery("Rodzajedok.findBySkrotPodatnik").setParameter("skrot", skrot).setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
 
         }
         return wynik;
@@ -345,7 +342,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             wynik = (Dok) em.createNamedQuery("Dok.findStornoDok").setParameter("pkpirR", rok).setParameter("pkpirM", mc).setParameter("podatnik", podatnik).setParameter("opis", "storno za miesiac").getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
         return wynik;
@@ -356,7 +353,7 @@ public class SessionFacade<T> implements Serializable {
             em.createNamedQuery("SrodekTrw.findSTR").setParameter("podatnik", podatnik).setParameter("netto", netto).setParameter("podatnik", podatnik).setParameter("nrwldokzak", numer).getSingleResult();
             return true;
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return false;
         }
     }
@@ -369,7 +366,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Wpis) em.createNamedQuery("Wpis.findByWprowadzil").setParameter("wprowadzil", login).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             Wpis wpis = new Wpis();
             wpis.setWprowadzil(login);
             getEntityManager().persist(wpis);
@@ -487,7 +484,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("SrodekTrw.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -496,7 +493,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Dok) em.createNamedQuery("Dok.findByRMPT").setParameter("typdokumentu", typdokumentu).setParameter("podatnik", podatnik).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -703,7 +700,7 @@ public class SessionFacade<T> implements Serializable {
                     .setParameter("kontrahent", selected.getKontr())
                     .getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -722,7 +719,7 @@ public class SessionFacade<T> implements Serializable {
                     .setParameter("kontrahent", selected.getKontr())
                     .getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -837,7 +834,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -846,7 +843,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("kontr", kontr).setParameter("rok", rok).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -855,7 +852,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Dok) em.createNamedQuery("Dok.findByfindByLastofaTypeKontrahent").setParameter("podatnik", podatnik).setParameter("kontr", kontr).setParameter("pkpirR", pkpirR).setMaxResults(1).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -876,7 +873,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Waluty) em.createNamedQuery("Waluty.findBySymbolwaluty").setParameter("symbolwaluty", staranazwa).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -942,7 +939,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Kliencifk) em.createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1063,7 +1060,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Transakcja) em.createNamedQuery("Transakcja.findByRozliczanySparowany").setParameter("rozliczany", rozliczany).setParameter("sparowany", sparowany).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1072,7 +1069,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("Transakcja.findByRozliczonyID").setParameter("rozliczany", idrozrachunku).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1081,7 +1078,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("Transakcja.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1098,7 +1095,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Klienci) em.createNamedQuery("Klienci.findByNip").setParameter("nip", nip).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1115,7 +1112,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1124,7 +1121,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1133,7 +1130,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1142,7 +1139,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1151,7 +1148,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1160,7 +1157,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaBO").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }
@@ -1344,7 +1341,7 @@ public class SessionFacade<T> implements Serializable {
         try {
             return (Fakturaelementygraficzne) em.createNamedQuery("Fakturaelementygraficzne.findByPodatnik").setParameter("podatnik", podatnik).getSingleResult();
         } catch (Exception e) {
-            System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString());
+            E.e(e);
             return null;
         }
     }

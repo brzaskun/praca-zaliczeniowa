@@ -6,6 +6,7 @@ package view;
 
 import deklaracjaVAT7_13.VATZT;
 import entity.Deklaracjevat;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -58,7 +59,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         try{
             deklaracjevatDAO.edit(temp);
             Msg.msg("i","Sukces, załączono VAT-ZT.","formX:msg");
-        } catch (Exception e) { System.out.println("Blad " + e.getStackTrace()[0].toString() + " " + e.toString()); 
+        } catch (Exception e) { E.e(e); 
             Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT.","formX:msg");
         }
         FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");
