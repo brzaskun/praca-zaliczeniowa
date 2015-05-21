@@ -18,7 +18,7 @@ var TabKeyDown;
             var czyZawieraWn = taregetId.indexOf("kontown");
             var czyZawieraMa = taregetId.indexOf("kontoma");
             var enterdefault = taregetId.indexOf("enterdefault");
-            var rozrachunki = taregetId.indexOf("#{mgs.rozrachunki}");
+            var rozrachunki = taregetId.indexOf("rozrachunki");
             var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
             var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
         } catch (e1) {
