@@ -33,7 +33,7 @@
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{zestawienieWynikoweRokView.odswiezsymulacjewynikuanalityczne}" 
                                      style="width: 120px; margin-left: 20px;" update="@form, :akordeon:formzestkontarokprocent"/>
                 </p:column>
-                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
+                <h:outputText value="#{mgs.przetwarzanie}"/>
             </p:panelGrid>
 
             <p:dataTable id="tablicazestrokP" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
@@ -46,7 +46,7 @@
                 <!--                <p:ajax event="rowSelectCheckbox" update="@form" global="false"/>
                                 <p:ajax event="rowUnselectCheckbox" update="@form"  global="false"/>
                                 <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>-->
-                <p:column headerText="konto" width="40" >
+                <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -100,7 +100,7 @@
                                 <p:ajax event="rowUnselectCheckbox" update="@form"  global="false"/>
                                 <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>-->
 
-                <p:column headerText="konto" width="40" >
+                <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >

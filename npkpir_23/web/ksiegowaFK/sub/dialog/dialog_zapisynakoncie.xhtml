@@ -32,7 +32,7 @@
                         <h:outputText value="waluta dokumentu: " style="text-align: right;"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{kontoZapisFKView.wybranaWalutaDlaKont}" style="width: 100px;">
                             <p:ajax event="change" listener="#{kontoZapisFKView.pobierzZapisyZmianaWaluty}" update=":tabelazzapisami" />
-                            <f:selectItem itemValue="wszystkie" itemLabel="wszystkie"/>
+                            <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
@@ -194,7 +194,7 @@
                                 <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="Wal." width="30" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                        <p:column headerText="#{mgs.waluta}" width="30" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText id="waluta" value="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
                         <p:column headerText="Konto przeciw." width="40" sortBy="#{loop.wnma eq 'Wn' ? loop.wiersz.stronaMa.konto.pelnynumer : loop.wiersz.stronaWn.konto.pelnynumer}">

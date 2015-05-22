@@ -41,7 +41,7 @@
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
-                    <f:selectItem itemLabel="#{mgs.wartość}" itemValue="wszystkie"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
                 </p:selectOneMenu>
                  <p:column>
@@ -106,12 +106,12 @@
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
                 </p:column>
-                <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wal." styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">

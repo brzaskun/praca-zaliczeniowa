@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tab  title="Zestawienie kont analitycznych" >
+    <p:tab  title="#{mgs.zestawienieanalityczne}" >
         <style>
             .gridtablicaanalityczne .ui-datatable-odd td{
                 height : 25px !important;
@@ -40,9 +40,9 @@
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{guestFKDokumenty.pobierz()}" style="width: 120px; margin-left: 20px;" update="@form" oncomplete="PF('tablicadokumenty').clearFilters()"/>
                 </p:column>
                 
-                    <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-<!--                    <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-                    <p:commandButton value="drukuj szcz." actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>-->
+                    <h:outputText value="#{mgs.przetwarzanie}"/>
+<!--                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             
             <p:dataTable id="dataList" value="#{guestFKDokumenty.dokumenty}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
@@ -73,7 +73,7 @@
                 <p:column headerText="#{mgs.opis}" width="200" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
                 </p:column>
-                <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>

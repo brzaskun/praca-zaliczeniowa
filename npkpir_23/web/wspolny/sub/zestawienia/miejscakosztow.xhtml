@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tab id="nowa" title="Koszty wg miejsc powstawania" >
+    <p:tab id="nowa" title="#{mgs.miejscakosztow}" >
         <style>
 
             .kwotarozrachunku .pe-inputNumber{
@@ -25,13 +25,13 @@
                     </p:selectOneMenu>
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
-                <h:outputText value="(przetwarzanie trwa około 10 sek.)"/>
-                <p:commandButton value="drukuj tab." actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton value="drukuj szcz." actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
+                <h:outputText value="#{mgs.przetwarzanie}"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{miejsceKosztowView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{miejsceKosztowView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukmiejscakosztow('#{WpisView.podatnikWpisu}')"/>
             </p:panelGrid>
             <p:panel >
                 <p:dataTable value="#{miejsceKosztowView.listasummiejsckosztow}" var="item" rowIndexVar="numer"
-                             emptyMessage="nie ma ustalonych miejsc kosztów / nie pobrano jeszcze miejsc kosztów" rowKey="#{item.id}"
+                             emptyMessage="#{mgs.niemamiejsckosztow}" rowKey="#{item.id}"
                              selection="#{miejsceKosztowView.listawybranychmiejsckosztow}">
                     <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>

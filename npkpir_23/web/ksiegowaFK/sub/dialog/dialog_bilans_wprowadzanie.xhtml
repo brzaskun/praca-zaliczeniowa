@@ -34,7 +34,7 @@
                                  >
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -98,7 +98,7 @@
                     <p:dataTable id="tabelakasa" value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete1}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -203,7 +203,7 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete2}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -308,7 +308,7 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete3}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -371,7 +371,7 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete6}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -434,7 +434,7 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete8}" 
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
@@ -497,7 +497,7 @@
                     <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
                         <p:column width="260">
                             <f:facet name="header">
-                                <h:outputText value="Konto"/>
+                                <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <h:outputText value="#{item.konto.pelnynumer}" />
                         </p:column>
