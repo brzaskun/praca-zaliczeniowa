@@ -4,6 +4,7 @@
  */
 package entityfk;
 
+import data.Data;
 import embeddable.Mce;
 import entity.Klienci;
 import entity.Podatnik;
@@ -220,6 +221,9 @@ public class Dokfk implements Serializable {
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
+        String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        this.setDatawystawienia(data);
+        this.setDatawplywu(data);
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
     
@@ -535,29 +539,26 @@ public class Dokfk implements Serializable {
         }
     }
     
-    public void uzupelnijwierszeodane() {
-        //ladnie uzupelnia informacje o wierszu pk
-        List<Wiersz> wierszewdokumencie = this.listawierszy;
-        try {
-            for (Wiersz p : wierszewdokumencie) {
-                String opis = p.getOpisWiersza();
-                if (opis.contains("kontown")) {
-                    p.setDataksiegowania(this.datawystawienia);
-                    //p.setTypWiersza(1);
-                    p.setDokfk(this);
-                } else if (opis.contains("kontoma")) {
-                    p.setDataksiegowania(this.datawystawienia);
-                    //p.setTypWiersza(2);
-                    p.setDokfk(this);
-                } else {
-                    p.setDataksiegowania(this.datawystawienia);
-                    //p.setTypWiersza(0);
-                    p.setDokfk(this);
-                }
-            }
-        } catch (Exception e) {
-        }
-    }
+//    public void uzupelnijwierszeodane() {
+//        //ladnie uzupelnia informacje o wierszu pk
+//        List<Wiersz> wierszewdokumencie = this.listawierszy;
+//        try {
+//            for (Wiersz p : wierszewdokumencie) {
+//                String opis = p.getOpisWiersza();
+//                if (opis.contains("kontown")) {
+//                    p.setDataksiegowania(this.datawystawienia);
+//                    p.setDokfk(this);
+//                } else if (opis.contains("kontoma")) {
+//                    p.setDataksiegowania(this.datawystawienia);
+//                    p.setDokfk(this);
+//                } else {
+//                    p.setDataksiegowania(this.datawystawienia);
+//                    p.setDokfk(this);
+//                }
+//            }
+//        } catch (Exception e) {
+//        }
+//    }
     
     public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu,  Rodzajedok rodzajedok, WpisView wpisView) {
         this.dokfkPK = new DokfkPK();

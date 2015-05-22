@@ -6,8 +6,8 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
         MYAPP.zaznaczonepole = event.target;
         MYAPP.typwiersza = typwiersza;
         //document.getElementById("zaznaczonakomorka").innerHTML = event.target ;
-        $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
-        $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
+//        $(document.getElementById("wpisywaniefooter:wierszid")).val(lpwiersza);
+//        $(document.getElementById("wpisywaniefooter:wnlubma")).val(wnlubma);
         $(document.getElementById("wpisywaniefooter:typwiersza")).val(typwiersza);
         if (source.value === null) {
             MYAPP.liczydloWcisnietychEnter = 1;

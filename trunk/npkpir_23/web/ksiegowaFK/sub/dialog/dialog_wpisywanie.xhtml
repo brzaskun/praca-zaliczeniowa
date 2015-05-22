@@ -376,7 +376,7 @@
                                         minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
                                         converterMessage="Nieudana konwersja Klient" 
                                         styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
-                                        onfocus="usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();"
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();"
                                         >
                             <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry"/>
                             <p:ajax event="query" global="false"/>
@@ -412,7 +412,7 @@
                                         minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
                                         converterMessage="Nieudana konwersja Klient"  
                                         styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
-                                        onfocus="usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();" 
+                                        onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});usunspacje(this);pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});focusNowyWiersz();" 
                                         >
                             <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry"/>
                             <p:ajax event="query" global="false"/>
@@ -480,7 +480,7 @@
                 <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
                                  global="false" style="margin-left: 10px; display: none;" />
 <!--                <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
-                <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
+-->             <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/><!--
                 <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>-->
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
