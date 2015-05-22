@@ -27,6 +27,7 @@ import view.WpisView;
 public class PlanKontCompleteView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Konto> listakontOstatniaAnalitykaklienta;
+    private List<Konto> listakont;
     @Inject
     private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
@@ -35,6 +36,7 @@ public class PlanKontCompleteView implements Serializable {
   @PostConstruct
   public void init() {
       listakontOstatniaAnalitykaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+      listakont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
       System.out.println("Wywołanie PlanKontCompleteView init()");
   }
     
@@ -103,6 +105,15 @@ public class PlanKontCompleteView implements Serializable {
     public void setListakontOstatniaAnalitykaklienta(List<Konto> listakontOstatniaAnalitykaklienta) {
         this.listakontOstatniaAnalitykaklienta = listakontOstatniaAnalitykaklienta;
     }
+
+    public List<Konto> getListakont() {
+        return listakont;
+    }
+
+    public void setListakont(List<Konto> listakont) {
+        this.listakont = listakont;
+    }
+    
     
     
 }

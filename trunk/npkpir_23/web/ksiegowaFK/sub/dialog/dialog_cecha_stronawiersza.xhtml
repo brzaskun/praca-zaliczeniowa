@@ -6,7 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
-    <p:dialog id="dialogCechyStronaWiersza" header="Wykaz bieżących cech bieżącego zapisu" widgetVar="dialogCechyStronaWiersza" resizable="false" 
+    <p:dialog id="dialogCechyStronaWiersza" header="Wykaz przyporządkowanych cech dla bieżącego zapisu" widgetVar="dialogCechyStronaWiersza" resizable="false" 
               onShow="ustawdialog('dialogCechyStronaWiersza','dialogpierwszy',500,400);" onHide="focusNaStronieCechaWiersza()" focus=":formCHW"  modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCHW" >
@@ -19,7 +19,7 @@
                     <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton value="+" actionListener="#{dokfkView.dodajcechedostronawiersza(item)}" update="@form"/>
+                    <p:commandButton value="+" actionListener="#{dokfkView.dodajcechedostronawiersza(item)}" global="false" update="@form"/>
                 </p:column>
             </p:dataTable>
             <p:separator/>
@@ -32,7 +32,7 @@
                     <h:outputText value="#{item.cechazapisuPK.rodzajcechy}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton value="-" actionListener="#{dokfkView.usuncechedostronawiersza(item)}" update="@form"/>
+                    <p:commandButton value="-" actionListener="#{dokfkView.usuncechedostronawiersza(item)}" global="false" update="@form"/>
                 </p:column>
             </p:dataTable>
         </h:form>
