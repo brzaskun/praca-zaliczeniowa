@@ -39,7 +39,7 @@
                 </p:column>
                 <p:selectOneMenu value="#{dokfkView.wybranakategoriadokimport}" style="margin-left: 120px;" >
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowaneimport}"/>
-                    <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                    <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
              </p:selectOneMenu>
             </p:panelGrid>
@@ -90,7 +90,7 @@
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.opisdokfk}"/>
                 </p:column>
-                <p:column headerText="wartość" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>

@@ -28,7 +28,7 @@
                         <h:outputText value="waluta dokumentu " style="text-align: right;"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
-                            <f:selectItem itemValue="wszystkie" itemLabel="wszystkie"/>
+                            <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
@@ -186,7 +186,7 @@
                     <h:form>
                     <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
                         <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
-                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                         <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
                         <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
                         <f:selectItem itemLabel="nowe" itemValue="nowe"/>

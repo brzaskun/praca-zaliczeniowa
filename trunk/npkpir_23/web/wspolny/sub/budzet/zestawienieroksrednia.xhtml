@@ -28,7 +28,7 @@
                 <f:facet name="header">
                     <h:outputText value="udziały procentowe na kontach przychodowych za mce 01-#{WpisView.miesiacWpisu}"/>
                 </f:facet>
-                <p:column headerText="konto" width="40" >
+                <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
@@ -81,7 +81,7 @@
                 <f:facet name="header">
                     <h:outputText value="udziały procentowe na kontach kosztowych za mce 01-#{WpisView.miesiacWpisu}"/>
                 </f:facet>
-                <p:column headerText="konto" width="40" >
+                <p:column headerText="#{mgs.konto}" width="40" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >

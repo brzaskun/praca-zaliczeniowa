@@ -123,7 +123,7 @@
                             <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}">
                                 <h:outputText value="#{loopik.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                             </p:column>
-                            <p:column headerText="konto" width="50" sortBy="#{loopik.konto.pelnynumer}">
+                            <p:column headerText="#{mgs.konto}" width="50" sortBy="#{loopik.konto.pelnynumer}">
                                 <h:outputText value="#{loopik.konto.pelnynumer}"/>
                             </p:column>
                             <p:column headerText="dok.seria" width="50" sortBy="#{loopik.wiersz.dokfk.dokfkPK.seriadokfk}">
@@ -166,7 +166,7 @@
                                     <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Wal." width="30" sortBy="#{loopik.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
+                            <p:column headerText="#{mgs.waluta}" width="30" sortBy="#{loopik.wiersz.tabelanbp.waluta.symbolwaluty}" style="text-align: center;" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont ne 'PLN'}">
                                 <h:outputText id="waluta" value="#{loopik.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                             </p:column>
                             <p:column headerText="Konto przeciw." width="60" sortBy="#{loopik.wnma eq 'Wn' ? loopik.wiersz.stronaMa.konto.pelnynumer : loopik.wiersz.stronaWn.konto.pelnynumer}">

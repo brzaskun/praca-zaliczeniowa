@@ -61,7 +61,7 @@
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                 </p:column>
                <p:column>
-                    <p:commandButton value="drukuj tab." actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                 </p:column>
             </p:panelGrid>
 
@@ -85,12 +85,12 @@
                 <p:column  styleClass="opisfrozen" headerText="#{mgs.opis}" width="100" >
                     <h:outputText  value="#{loop.konto.nazwapelna.length() gt 37 ? loop.konto.nazwapelna.substring(0,36) : loop.konto.nazwapelna.toLowerCase()}"/>
                 </p:column>
-                <p:column headerText="boWn" width="50" >
+                <p:column headerText="#{mgs.boWn}" width="50" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="boMa" width="50" >
+                <p:column headerText="#{mgs.boMa}" width="50" >
                     <h:outputText value="#{loop.boMa != 0.0 ? loop.boMa : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -155,17 +155,17 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="saldoWn" width="55" >
+                <p:column headerText="#{mgs.saldoWn}" width="55" >
                     <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="saldoMa" width="55" >
+                <p:column headerText="#{mgs.saldoMa}" width="55" >
                     <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="konto" width="55" >
+                <p:column headerText="#{mgs.konto}" width="55" >
                     <h:outputText value="#{loop.konto.pelnynumer}" />
                 </p:column>
             </p:dataTable>
