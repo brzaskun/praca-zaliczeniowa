@@ -23,7 +23,6 @@ var zachowajwierszVATRK = function (source) {
     try {
         var lp = parseInt(source)-1;
         MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
-        $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }

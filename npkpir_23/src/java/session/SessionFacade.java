@@ -553,6 +553,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Konto> findKontaRozrachunkowe(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByRozrachunkowePodatnik").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findKontaRozrachunkoweZpotomkami(WpisView wpisView) {
+        return em.createNamedQuery("Konto.findByRozrachunkowePodatnikZpotomkami").setParameter("zwyklerozrachszczegolne", "rozrachunkowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
 
     public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView) {
         return em.createNamedQuery("Konto.findByRozrachunkiPodatnikWszystkie").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();

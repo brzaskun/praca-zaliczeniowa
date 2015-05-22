@@ -55,6 +55,14 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
     
+    public List<Konto> findKontaRozrachunkoweZpotomkami(WpisView wpisView){
+       try {
+            return kontoFacade.findKontaRozrachunkoweZpotomkami(wpisView);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+    
      public List<Konto> findKontaRozrachunkoweWszystkie(WpisView wpisView){
        try {
             return kontoFacade.findKontaRozrachunkoweWszystkie(wpisView);
