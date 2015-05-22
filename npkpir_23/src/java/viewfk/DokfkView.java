@@ -2519,16 +2519,16 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
 
-    public void pobranieStronaWiersza(StronaWiersza strW) {
+    public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
         rodzaj = -1;
-        if (strW.getKonto() != null && strW.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-            lpWierszaWpisywanie = strW.getWiersz().getIdporzadkowy();
-            stronawiersza = strW.getWnma();
-            wnmadoprzeniesienia = strW.getWnma();
+        if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
+            stronawiersza = wybranastronawiersza.getWnma();
+            wnmadoprzeniesienia = wybranastronawiersza.getWnma();
             biezacetransakcje = new ArrayList<>();
-            aktualnyWierszDlaRozrachunkow = strW;
+            aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
             potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
-            rodzaj = strW.getTypStronaWiersza();
+            rodzaj = wybranastronawiersza.getTypStronaWiersza();
             if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
                 rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
             }
@@ -2540,35 +2540,35 @@ public void updatenetto(EVatwpisFK e, String form) {
             } else {
                 System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
             }
-            System.out.println(strW.toString());
+            System.out.println(wybranastronawiersza.toString());
         }
     }
 
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
-    public void wybranoRachunekPlatnosc() {
-        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
-        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
-        if (wiersz != null ) {
-            System.out.println("Wiersz rozny od null");
-            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
-            System.out.println("stronawiersza "+stronawiersza);
-            System.out.println("wybranoRachunekPlatnosc() wiersz dla rozrachunku "+wiersz.tostring2());
-        } else {
-            System.out.println("Wiersz rowny null");
-            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
-            System.out.println("stronawiersza "+stronawiersza);
-            System.out.println("wiersz dla rozrachunku NULL");
-        }
-        biezacetransakcje = new ArrayList<>();
-        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
-        potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
-        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
-            rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
-        } else {
-            wybranoRachunekPlatnoscCD(stronawiersza);
-        }
-    }
+//    public void wybranoRachunekPlatnosc() {
+//        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"))-1;
+//        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
+//        Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
+//        if (wiersz != null ) {
+//            System.out.println("Wiersz rozny od null");
+//            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
+//            System.out.println("stronawiersza "+stronawiersza);
+//            System.out.println("wybranoRachunekPlatnosc() wiersz dla rozrachunku "+wiersz.tostring2());
+//        } else {
+//            System.out.println("Wiersz rowny null");
+//            System.out.println("lpWierszaWpisywanie "+lpWierszaWpisywanie);
+//            System.out.println("stronawiersza "+stronawiersza);
+//            System.out.println("wiersz dla rozrachunku NULL");
+//        }
+//        biezacetransakcje = new ArrayList<>();
+//        aktualnyWierszDlaRozrachunkow = pobierzStronaWierszaDlaRozrachunkow(wiersz, stronawiersza);
+//        potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
+//        if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 0) {
+//            rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+//        } else {
+//            wybranoRachunekPlatnoscCD(stronawiersza);
+//        }
+//    }
     
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
