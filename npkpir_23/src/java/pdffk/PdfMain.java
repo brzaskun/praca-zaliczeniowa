@@ -621,7 +621,7 @@ public class PdfMain {
 
     private static void ustawnaglowki(PdfPTable table, List naglowki) {
         for (int i = 0; i < naglowki.size(); i++) {
-            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "center", 10));
+            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "center", 9));
         }
         table.setHeaderRows(1);
     }
@@ -634,12 +634,12 @@ public class PdfMain {
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                 if (p.getWartosc() != 0.0) {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 9));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign("", "right", 9));
+                    table.addCell(ustawfrazeAlign("", "right", 8));
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaRZiS")) {
@@ -654,30 +654,30 @@ public class PdfMain {
                 int levelPlus = p.getLevel()+1;
                 if (p.getLevel() != 0) {
                     for (int j = 0; j < p.getLevel(); j++) {
-                        table.addCell(ustawfrazeAlign("", "l", 9));
+                        table.addCell(ustawfrazeAlign("", "l", 7));
                     }
                 }
-                table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 9));
+                table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
                 if (p.getLevel() < maxlevel) {
                     for (int k = levelPlus; k <= maxlevel; k++) {
-                        table.addCell(ustawfrazeAlign("", "l", 9));
+                        table.addCell(ustawfrazeAlign("", "l", 7));
                     }
                 }
                 if (p.getLevel() == 0) {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 10));
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
                 }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "right", 9));
+                        table.addCell(ustawfrazeAlign("", "right", 7));
                     }
                 }
                 if (modyfikator != 0) {
                     String konta = p.getPrzyporzadkowanekonta() != null ? p.getPrzyporzadkowanekonta().toString() : "";
-                    table.addCell(ustawfrazeAlign(konta, "left", 9));
+                    table.addCell(ustawfrazeAlign(konta, "left", 7));
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaBilans")) {
@@ -692,25 +692,25 @@ public class PdfMain {
                     int levelPlus = p.getLevel()+1;
                     if (p.getLevel() != 0) {
                         for (int j = 0; j < p.getLevel(); j++) {
-                            table.addCell(ustawfrazeAlign("", "l", 9));
+                            table.addCell(ustawfrazeAlign("", "l", 7));
                         }
                     }
-                    table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 9));
+                    table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
                     if (p.getLevel() < maxlevel) {
                         for (int k = levelPlus; k <= maxlevel; k++) {
-                            table.addCell(ustawfrazeAlign("", "l", 9));
+                            table.addCell(ustawfrazeAlign("", "l", 7));
                         }   
                     }
                     if (p.getLevel() == 0) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 10));
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
                     }
                     if (modyfikator != 2) {
                         if (p.getKwota() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
                         } else {
-                            table.addCell(ustawfrazeAlign("", "right", 9));
+                            table.addCell(ustawfrazeAlign("", "right", 7));
                         }
                     }
                     if (modyfikator != 0) {
@@ -720,64 +720,64 @@ public class PdfMain {
                                 konta = konta+u.getKonto().getPelnynumer()+": "+Z.z(u.getKwota())+"; ";
                             }
                         }
-                        table.addCell(ustawfrazeAlign(konta, "right", 9));
+                        table.addCell(ustawfrazeAlign(konta, "right", 7));
                     }
             }
             if (nazwaklasy.equals("testobjects.WierszCecha")) {
                 WierszCecha p = (WierszCecha) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getNazwacechy(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getRodzajcechy(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDokfks(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNazwacechy(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getRodzajcechy(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDokfks(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
                 WierszDokfk p = (WierszDokfk) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 9));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getIddok(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getNrwlasny(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 7));
+                table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
             }
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {
                     Konto p = (Konto) it.next();
-                    table.addCell(ustawfrazeAlign(i++, "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaWn(), "center", 9));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaMa(), "center", 9));
+                    table.addCell(ustawfrazeAlign(i++, "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaWn(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaMa(), "center", 8));
                     double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
                     if (kwota > 0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 9));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 9));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getBoMa() > 0 ? p.getBoMa() : 0;
                     if (kwota > 0) {
-                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 9));
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "center", 9));
+                        table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                 } else {
                     Konto p = (Konto) it.next();
-                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 9));
-                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 9));
-                    table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 9));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 9));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.isMapotomkow() == true ? "T": "N", "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "", "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "", "left", 8));
                 }
             }
             if (nazwaklasy.equals("entityfk.WierszBO")) {
@@ -820,35 +820,35 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {
                 Transakcja p = (Transakcja) it.next();
-                table.addCell(ustawfrazeAlign(i++, "center", 9));
+                table.addCell(ustawfrazeAlign(i++, "center", 8));
                 String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
-                table.addCell(ustawfrazeAlign(rachunek, "left", 9));
+                table.addCell(ustawfrazeAlign(rachunek, "left", 8));
                 double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 9));
+                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
                 String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
-                table.addCell(ustawfrazeAlign(platnosc, "left", 9));
+                table.addCell(ustawfrazeAlign(platnosc, "left", 8));
                 kurs = p.getRozliczajacy().getKursBO() != 0.0 ? p.getRozliczajacy().getKursBO() : p.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 9));
-                table.addCell(ustawfrazeAlign(number.format(p.getRoznicekursowe()), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 9));
+                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 8));
+                table.addCell(ustawfrazeAlign(number.format(p.getRoznicekursowe()), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
                 WierszKonta p = (WierszKonta) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                     if (p.getKwotaWn() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "right", 9));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
                     }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
                     if (p.getKwotaMa() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 9));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign("", "right", 9));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
                     }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 9));
+                    table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszWNTWDT")) {
                 WierszWNTWDT p = (WierszWNTWDT) it.next();
@@ -876,13 +876,13 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("entity.Faktura")) {
                 Faktura p = (Faktura) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getFakturaPK().getNumerkolejny(), "center", 9));
-                table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna()+" "+p.getKontrahent().getNip(), "left", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "center", 9));
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 9));
-                table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 9));
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getFakturaPK().getNumerkolejny(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna()+" "+p.getKontrahent().getNip(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 8));
+                table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 8));
             }
         }
     }
