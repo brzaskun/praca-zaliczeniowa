@@ -71,7 +71,28 @@ var wpisywanieOnHide = function () {
     $(document.getElementById('wpisywaniefooter:przywrocwpisbutton')).click();
 };
 
+var focusNowyVAT = function (wiersz) {
+    setTimeout(aktywujPierwszePoleNowegoWierszaVAT(wiersz), 500);
+};
 
+//aktywuje nowy wiersz
+var aktywujPierwszePoleNowegoWierszaVAT = function(wiersz){
+    var lp = wiersz.name.split(":")[2];
+    var nextlp = parseInt(lp)+1;
+    var nextwiersz = "formwpisdokument:tablicavat:"+nextlp+":netto_input";
+    try {
+        var tresc = document.getElementById(nextwiersz).value;
+        if (tresc === "0.00 zł") {
+            $(document.getElementById(nextwiersz)).focus();
+            $(document.getElementById(nextwiersz)).select();
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+        }
+    } catch (e) {
+        console.log("nie ma pola");
+    }
+};
 
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWiersza = function(){
@@ -263,7 +284,6 @@ var robfocus = function() {
     var dlugoscwierszy = wiersze.length;
     var poprzedniid = dlugoscwierszy - 2;
     var obecnywierszid = dlugoscwierszy - 1;
-
     var wiersz = "formwpisdokument:dataList:" + obecnywierszid + ":opis";
     try {
         var tresc = document.getElementById(wiersz).value;
