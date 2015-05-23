@@ -5,7 +5,10 @@
  */
 package beansFK;
 
+import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
+import entityfk.Waluty;
+import error.E;
 import java.util.List;
 import javax.ejb.Stateless;
 import waluty.Z;
@@ -17,16 +20,41 @@ import waluty.Z;
 @Stateless
 public class DokFKVATBean {
     
-    public static Double pobierzstawke(EVatwpisFK e, String form) {
+    public static Double pobierzstawke(EVatwpisFK evatwpis) {
         String stawkavat = null;
         try {
-            stawkavat = e.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
+            stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
             return Double.parseDouble(stawkavat) / 100;
-        } catch (Exception e1) {
-
+        } catch (Exception e) {
+            E.e(e);
+            stawkavat = "23";
+            return Double.parseDouble(stawkavat) / 100;
         }
-        stawkavat = "23";
-        return Double.parseDouble(stawkavat) / 100;
+        
+    }
+    
+    public static void ustawvat(EVatwpisFK evatwpis,  Dokfk selected) {
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String rodzajdok = selected.getRodzajedok().getSkrot();
+        double stawkavat = DokFKVATBean.pobierzstawke(evatwpis);
+         if (!w.getSymbolwaluty().equals("PLN")) {
+            double obliczonenettowpln = Z.z(evatwpis.getNetto()/kurs);
+            if (evatwpis.getNettowwalucie()!= obliczonenettowpln || evatwpis.getNettowwalucie() == 0) {
+                evatwpis.setNettowwalucie(evatwpis.getNetto());
+                evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs));
+            }
+        }
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
+            evatwpis.setVat(0.0);
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto()* stawkavat));
+        }
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs));
+        }
     }
             
     public static double[] podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {

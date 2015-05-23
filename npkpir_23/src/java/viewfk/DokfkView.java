@@ -316,7 +316,23 @@ private static final long serialVersionUID = 1L;
 //        }
 //    }
 
-    
+   
+//    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
+//        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
+//        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
+//            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+//            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//            return;
+//        }
+//        if (wiersz.getTypWiersza() != 0) {
+//            int licznbawierszy = selected.getListawierszy().size();
+//            if (licznbawierszy > 1) {
+//                if (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7) {
+//                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
+//                }
+//            }
+//        }
+//    } 
 
 
     
@@ -382,89 +398,43 @@ private static final long serialVersionUID = 1L;
             dolaczNowyWierszPusty(indexwTabeli, false);
     }
 
-    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
-        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
-        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
-            ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
-            //RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-            return;
-        }
-        if (wiersz.getTypWiersza() != 0) {
-            int licznbawierszy = selected.getListawierszy().size();
-            if (licznbawierszy > 1) {
-                if (wiersz.getTypWiersza() == 5 || wiersz.getTypWiersza() == 6 || wiersz.getTypWiersza() == 7) {
-                    ObslugaWiersza.dolaczNowyWierszPiatka(indexwTabeli, true, selected, kontoDAOfk, wpisView);
-                }
-            }
-        }
-    }
 
-  
+//////////////////////EWIDENCJE VAT  
     
-    public void podepnijEwidencjeVat() {
-        if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5) {
+    public void podepnijEwidencjeVat(int rodzaj) {
+        boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
+        if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5 && !nievatowiec) {
             if (selected.iswTrakcieEdycji() == false) {
-                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
-                symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                    boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-                    if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
-                        /*wyswietlamy ewidencje VAT*/
-                        List<String> opisewidencji = new ArrayList<>();
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
-                        int k = 0;
-                        for (String p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
-                            eVatwpisFK.setLp(k++);
-                            eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
-                            eVatwpisFK.setNetto(0.0);
-                            eVatwpisFK.setVat(0.0);
-                            eVatwpisFK.setDokfk(selected);
-                            eVatwpisFK.setEstawka("op");
-                            eVatwpisFK.setMcEw(selected.getVatM());
-                            eVatwpisFK.setRokEw(selected.getVatR());
-                            eVatwpisFK.setInnyokres(0);
-                            this.selected.getEwidencjaVAT().add(eVatwpisFK);
-                        }
-                        RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
-                } else {
-                    wlaczZapiszButon = false;
-                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
+                if (rodzaj == 0) {
+                    this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                 }
+                symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                /*wyswietlamy ewidencje VAT*/
+                List<String> opisewidencji = new ArrayList<>();
+                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
+                int k = 0;
+                if (rodzaj == 1) {
+                    k = this.selected.getEwidencjaVAT().size();
+                } 
+                for (String p : opisewidencji) {
+                    EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                    eVatwpisFK.setLp(k++);
+                    eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                    eVatwpisFK.setNetto(0.0);
+                    eVatwpisFK.setVat(0.0);
+                    eVatwpisFK.setDokfk(selected);
+                    eVatwpisFK.setEstawka("op");
+                    eVatwpisFK.setMcEw(selected.getVatM());
+                    eVatwpisFK.setRokEw(selected.getVatR());
+                    eVatwpisFK.setInnyokres(0);
+                    this.selected.getEwidencjaVAT().add(eVatwpisFK);
+                }
+                RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
             }
         }
     }
     
-    public void podepnijEwidencjeVatDodatkowa() {
-        if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5) {
-            if (selected.iswTrakcieEdycji() == false) {
-                symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                    boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-                    if (!nievatowiec && rodzajBiezacegoDokumentu != 0) {
-                        /*wyswietlamy ewidencje VAT*/
-                        List<String> opisewidencji = new ArrayList<>();
-                        opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
-                        int k = selected.getEwidencjaVAT().size();
-                        for (String p : opisewidencji) {
-                            EVatwpisFK eVatwpisFK = new EVatwpisFK();
-                            eVatwpisFK.setLp(k++);
-                            eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
-                            eVatwpisFK.setNetto(0.0);
-                            eVatwpisFK.setVat(0.0);
-                            eVatwpisFK.setDokfk(selected);
-                            eVatwpisFK.setEstawka("op");
-                            eVatwpisFK.setInnyokres(1);
-                            eVatwpisFK.setMcEw(selected.getVatM());
-                            eVatwpisFK.setRokEw(selected.getVatR());
-                            this.selected.getEwidencjaVAT().add(eVatwpisFK);
-                        }
-                        RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
-                } else {
-                    wlaczZapiszButon = false;
-                    Msg.msg("e", "Brak podstawowych ustawień dla podatnika dotyczących opodatkowania. Nie można wpisywać dokumentów! podepnijEwidencjeVat()");
-                }
-            }
-        }
-    }
+    
     
     public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {
         if (eVatwpisFK.getLp()!=0) {
@@ -1293,31 +1263,10 @@ private static final long serialVersionUID = 1L;
         }
     }
     
-public void updatenetto(EVatwpisFK e, String form) {
-        String skrotRT = selected.getDokfkPK().getSeriadokfk();
-        int lp = e.getLp();
-        double stawkavat = DokFKVATBean.pobierzstawke(e, form);
-        Waluty w = selected.getWalutadokumentu();
-        double kurs = selected.getTabelanbp().getKurssredni();
-        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
-        String rodzajdok = selected.getRodzajedok().getSkrot();
-        if (!w.getSymbolwaluty().equals("PLN")) {
-            double obliczonenettowpln = Z.z(e.getNetto()/kurs);
-            if (e.getNettowwalucie()!= obliczonenettowpln || e.getNettowwalucie() == 0) {
-                e.setNettowwalucie(e.getNetto());
-                e.setNetto(Z.z(e.getNetto()*kurs));
-            }
-        }
-        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
-            e.setVat(0.0);
-        } else {
-            e.setVat(Z.z(e.getNetto()* stawkavat));
-        }
-        if (!w.getSymbolwaluty().equals("PLN")) {
-            //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
-            e.setVatwwalucie(Z.z(e.getVat()/kurs));
-        }
-        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+public void updatenetto(EVatwpisFK evatwpis, String form) {
+        DokFKVATBean.ustawvat(evatwpis, selected);
+        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+        int lp = evatwpis.getLp();
         symbolWalutyNettoVat = " zł";
         String update = form+":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
@@ -1329,14 +1278,14 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().execute(activate);
     }
 
-    public void updatevat(EVatwpisFK e, String form) {
-        int lp = e.getLp();
+    public void updatevat(EVatwpisFK evatwpis, String form) {
+        int lp = evatwpis.getLp();
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
         if (!w.getSymbolwaluty().equals("PLN")) {
-            e.setVatwwalucie(Z.z(e.getVat()/kurs));
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs));
         }
-        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         String update = form+":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
@@ -1392,6 +1341,9 @@ public void updatenetto(EVatwpisFK e, String form) {
         RequestContext.getCurrentInstance().execute(activate);
     }
     
+    
+//////////////////////////////EWIDENCJE VAT    
+
     public void dodaj() {
         if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
             return;

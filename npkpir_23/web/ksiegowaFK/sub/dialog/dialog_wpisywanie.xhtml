@@ -147,13 +147,13 @@
                        
                         <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
                             <p:ajax global="false" event="focus" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
-                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax global="false" event="focus" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
                                     :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
                             <p:ajax global="false" event="change" partialSubmit="true" />
                         </p:inputText>
 <!--                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
-                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat}" update=":formwpisdokument:panelzewidencjavat"/>
+                            <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
                         <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="width: 40px;">
@@ -288,7 +288,7 @@
                             </p:inputText>
                         </p:column>
                         <p:column style="width: 20px; text-align: center;">
-                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVatDodatkowa()}" global="false"/>
+                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(this);"/>
                         </p:column>
                          <p:column style="width: 20px; text-align: center;">
                              <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"/>
