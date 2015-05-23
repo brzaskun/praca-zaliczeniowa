@@ -460,30 +460,27 @@ private static final long serialVersionUID = 1L;
     }
   
     
-    public void dolaczWierszZKwotami(EVatwpisFK e) {
-        //Msg.msg("dolaczWierszZKwotami");
+    public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
+        //Msg.msg("dolaczWierszeZKwotami");
         Rodzajedok rodzajdok = selected.getRodzajedok();
+        double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
         if (selected.getListawierszy().size() == 1 && selected.isImportowany()==false) {
-            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
             if (rodzajdok.getKategoriadokumentu()==1) {
                 if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
-                    e.setVat(wartosciVAT[4]);
-                    e.setBrutto(Z.z(e.getNetto()+e.getVat()));
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+e.getLp()+":vat");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+e.getLp()+":brutto");
+                    //oblicza polowe vat dla faktur samochody osobowe
+                    evatwpis.setVat(wartosciVAT[4]);
+                    evatwpis.setBrutto(Z.z(evatwpis.getNetto()+evatwpis.getVat()));
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+evatwpis.getLp()+":vat");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+evatwpis.getLp()+":brutto");
                 }
-                rozliczVatKoszt(e, wartosciVAT);
+                rozliczVatKoszt(evatwpis, wartosciVAT);
             } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
-                rozliczVatPrzychod(e, wartosciVAT);
-            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()!=null && rodzajdok.getKategoriadokumentu()==2) {
-                rozliczVatPrzychod(e, wartosciVAT);
+                rozliczVatPrzychod(evatwpis, wartosciVAT);
             } 
         } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==1) {
-            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
-            rozliczVatKosztEdycja(e, wartosciVAT);
+            rozliczVatKosztEdycja(evatwpis, wartosciVAT);
         } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==2) {
-            double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
-            rozliczVatPrzychodEdycja(e, wartosciVAT);
+            rozliczVatPrzychodEdycja(evatwpis, wartosciVAT);
         }
     }
     
@@ -1258,8 +1255,8 @@ private static final long serialVersionUID = 1L;
                     }
                 }
             }
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) { 
+            E.e(e);
         }
     }
     
@@ -1294,29 +1291,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
    
     public void updatenettoRK() {
-        EVatwpisFK e = ewidencjaVatRK;
-        String skrotRT = selected.getDokfkPK().getSeriadokfk();
-        int lp = e.getLp();
+        EVatwpisFK evatwpis = ewidencjaVatRK;
         double stawkavat = 0.23;
-        Waluty w = selected.getWalutadokumentu();
-        double kurs = selected.getTabelanbp().getKurssredni();
-        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
-        String opis = e.getEwidencja().getNazwa();
-        if (!w.getSymbolwaluty().equals("PLN")) {
-            double obliczonenettowpln = Z.z(e.getNetto()/kurs);
-            if (e.getNettowwalucie()!= obliczonenettowpln || e.getNettowwalucie() == 0) {
-                e.setNettowwalucie(e.getNetto());
-                e.setNetto(Z.z(e.getNetto()*kurs));
-            }
-        }
-        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
-            e.setVat(0.0);
-        } else if (skrotRT.contains("ZZP")) {
-            e.setVat(Z.z((e.getNetto()* 0.23)/2));
-        } else {
-            e.setVat(Z.z(e.getNetto()* stawkavat));
-        }
-        e.setBrutto(Z.z(e.getNetto() + e.getVat()));
+        DokFKVATBean.ustawvat(evatwpis, selected, stawkavat);
+        evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         String update = "ewidencjavatRK:netto";
         RequestContext.getCurrentInstance().update(update);
         update = "ewidencjavatRK:vat";

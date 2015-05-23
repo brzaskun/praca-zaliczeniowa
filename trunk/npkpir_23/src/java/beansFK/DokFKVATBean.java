@@ -56,6 +56,28 @@ public class DokFKVATBean {
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs));
         }
     }
+    public static void ustawvat(EVatwpisFK evatwpis, Dokfk selected, double stawkavat) {
+        String skrotRT = selected.getDokfkPK().getSeriadokfk();
+        int lp = evatwpis.getLp();
+        Waluty w = selected.getWalutadokumentu();
+        double kurs = selected.getTabelanbp().getKurssredni();
+        //obliczamy VAT/NETTO w PLN i zachowujemy NETTO w walucie
+        String opis = evatwpis.getEwidencja().getNazwa();
+        if (!w.getSymbolwaluty().equals("PLN")) {
+            double obliczonenettowpln = Z.z(evatwpis.getNetto() / kurs);
+            if (evatwpis.getNettowwalucie() != obliczonenettowpln || evatwpis.getNettowwalucie() == 0) {
+                evatwpis.setNettowwalucie(evatwpis.getNetto());
+                evatwpis.setNetto(Z.z(evatwpis.getNetto() * kurs));
+            }
+        }
+        if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+            evatwpis.setVat(0.0);
+        } else if (skrotRT.contains("ZZP")) {
+            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
+        } else {
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
+        }
+    }
             
     public static double[] podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
         double[] wartosciVAT = new double[8];

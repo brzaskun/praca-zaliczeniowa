@@ -271,7 +271,7 @@
                         <p:column headerText="brutto" width="80">
                             <pe:inputNumber id="brutto" value="#{item.brutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                              symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto" > 
-                                <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszZKwotami(item)}" partialSubmit="true"/>
+                                <p:ajax global="false" event="blur" listener="#{dokfkView.dolaczWierszeZKwotami(item)}" partialSubmit="true"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column headerText="op/zw" style="width: 45px; text-align: center;">
@@ -288,10 +288,11 @@
                             </p:inputText>
                         </p:column>
                         <p:column style="width: 20px; text-align: center;">
-                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(this);"/>
+                            <p:commandButton value="+" actionListener="#{dokfkView.podepnijEwidencjeVat(1)}" global="false" onfocus="focusNowyVAT(this);" rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
                         </p:column>
                          <p:column style="width: 20px; text-align: center;">
-                             <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"/>
+                             <p:commandButton value="-" actionListener="#{dokfkView.usunEwidencjeDodatkowa(item)}" update=":formwpisdokument:tablicavat" global="false" oncomplete="r('formwpisdokument:tablicavat:0:netto_input').select();"
+                                              rendered="#{item.ewidencja.nazwa.contains('sprzedaż') ne true}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panelGrid>
