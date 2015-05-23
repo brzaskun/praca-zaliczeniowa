@@ -32,7 +32,6 @@ import javax.persistence.Table;
  *
  * @author Osito
  */
-@Cacheable(false)
 @Entity
 @Table(name = "stronawiersza")
 @NamedQueries({
