@@ -21,19 +21,19 @@
                 </p:column>
                 <p:commandButton value="#{mgs.pobierz}" actionListener="#{pojazdyView.sumymiesiecy}" update="@form" style="width: 120px;"/>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton value="#{mgs.drukujtab}" actionListener="#{pojazdyView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}',1)"/>
+                <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{pojazdyView .drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydrukpojazdy('#{WpisView.podatnikWpisu}',2)"/>
             </p:panelGrid>
             <p:panel >
                 <p:dataTable value="#{pojazdyView.listasumpojazdy}" var="item" rowIndexVar="numer" id="tabelazbiorczasamochody" 
                              widgetVar="tabelazbiorczasamochody" rowKey="#{item.id}"
-                            emptyMessage="#{mgs.niemasamochodow}"
+                            emptyMessage="#{mgs.niemasamochodow}"  style="width: 900px;"
                             selection="#{pojazdyView.listawybranychpojazdow}">
                      <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                     <p:column>
                         <p:dataTable id="tabelapojazdywmcu#{numer}" value="#{item.pojazdyZest}" var="loop"  
                                  emptyMessage="Nie ma zapisów na koncie" lazy="true"
-                                 rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="width: 1000px;  margin-top: 10px; margin-bottom: 10px;" 
+                                 rowIndexVar="rowindex" styleClass="tabelapojazdywmcu"  style="width: 800px;  margin-top: 10px; margin-bottom: 10px;" 
                                  skipChildren="true"
                                  >
                         <f:facet name="header">
@@ -46,16 +46,16 @@
                         <p:column headerText="nazwa konta" width="250">
                             <h:outputText value="#{loop.kontonazwa}"/>
                         </p:column>
-                        <p:column headerText="numer konta">
+                        <p:column headerText="numer konta" width="90">
                             <h:outputText value="#{loop.kontonumer}"/>
                         </p:column>
                         <p:column headerText="ilość rach" width="30" style="text-align: center;">
                             <h:outputText value="#{loop.stronywiersza.size()}"/>
                         </p:column>
-                        <p:column headerText="suma">
+                        <p:column headerText="suma" width="70">
                             <bcf:outputpl value="#{loop.sumaokres}"/>
                         </p:column>
-                        <p:column headerText="suma narast.">
+                        <p:column headerText="suma narast." width="70">
                             <bcf:outputpl value="#{loop.sumanarastajaco}"/>
                         </p:column>
                         <p:rowExpansion>

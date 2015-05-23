@@ -18,13 +18,16 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import pdf.PdfMiejsceKosztow;
 import pdf.PdfPojazdy;
 import view.WpisView;
 
@@ -132,8 +135,15 @@ public class PojazdyView  implements Serializable{
          sumymiesiecy();
     }
     
+
+    
     public void drukuj(int i) {
-        PdfPojazdy.drukuj(listawybranychpojazdow, wpisView, i);
+        if (listawybranychpojazdow != null && listawybranychpojazdow.size() > 0) {
+            PdfPojazdy.drukuj(listawybranychpojazdow, wpisView, i);
+        } else {
+            List tabela = new LinkedList(listasumpojazdy);
+            PdfPojazdy.drukuj(tabela, wpisView, i);
+        }
     }
      
     public Pojazdy getSelected() {

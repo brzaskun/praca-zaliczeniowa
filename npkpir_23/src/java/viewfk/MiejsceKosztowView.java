@@ -18,7 +18,9 @@ import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -136,7 +138,12 @@ public class MiejsceKosztowView  implements Serializable{
     }
     
     public void drukuj(int i) {
-        PdfMiejsceKosztow.drukuj(listawybranychmiejsckosztow, wpisView, i);
+        if (listawybranychmiejsckosztow != null && listawybranychmiejsckosztow.size() > 0) {
+            PdfMiejsceKosztow.drukuj(listawybranychmiejsckosztow, wpisView, i);
+        } else {
+            List tabela = new LinkedList(listasummiejsckosztow);
+            PdfMiejsceKosztow.drukuj(tabela, wpisView, i);
+        }
     }
     
     public void message() {
