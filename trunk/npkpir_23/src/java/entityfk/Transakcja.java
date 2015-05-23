@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-@Cacheable(false)
 @Entity
 @Table(name = "transakcja", catalog = "pkpir", schema = "")
 @XmlRootElement

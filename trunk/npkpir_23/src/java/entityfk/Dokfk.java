@@ -43,7 +43,6 @@ import viewfk.subroutines.ObslugaWiersza;
  *
  * @author Osito
  */
-@Cacheable(false)
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"numerwlasnydokfk", "podatnikObj", "rok", "seriadokfk", "kontr"})

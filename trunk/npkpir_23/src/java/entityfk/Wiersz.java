@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Osito
  */
-@Cacheable(false)
 @Entity
 @Table(name = "wiersz")
 //@Table(name = "wiersz", uniqueConstraints = {
