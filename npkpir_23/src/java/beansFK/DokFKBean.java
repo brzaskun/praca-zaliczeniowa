@@ -32,7 +32,7 @@ public class DokFKBean {
 
     
    
-    public static void dodajWalutyDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dokfk selected) {
+    public static void dodajWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dokfk selected) {
         selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
         Tabelanbp tabelanbpPLN = null;
         try {
@@ -103,6 +103,35 @@ public class DokFKBean {
         } else {
             return 1;
         }
+    }
+    
+    public static boolean sprawdzczyWnRownasieMa(Wiersz wierszbiezacy) {
+        Konto kontoWn;
+        Konto kontoMa;
+        boolean czyWszystkoWprowadzono = false;
+        int typ = wierszbiezacy.getTypWiersza();
+         if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
+                if ((typ == 0 || typ == 5)) {
+                    kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                    kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                    if (kontoWn instanceof Konto && kontoMa instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
+                } else if (typ == 7 || typ == 2) {
+                    kontoMa = wierszbiezacy.getStronaMa().getKonto();
+                    if (kontoMa instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
+                } else if (typ == 6 || typ == 1) {
+                    kontoWn = wierszbiezacy.getStronaWn().getKonto();
+                    if (kontoWn instanceof Konto) {
+                        czyWszystkoWprowadzono = true;
+                    }
+                }
+            } else {
+                czyWszystkoWprowadzono = true;
+            }
+         return czyWszystkoWprowadzono;
     }
     
     
