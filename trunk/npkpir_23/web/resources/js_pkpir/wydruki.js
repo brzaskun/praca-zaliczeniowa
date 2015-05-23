@@ -96,12 +96,12 @@ var wydrukfakturysporzadzone = function(kto){
     window.open('../wydruki/fakturysporzadzone-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydrukmiejscakosztow = function(kto){
-    window.open('../wydruki/miejscakosztow-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+var wydrukmiejscakosztow = function(kto, nr){
+    window.open('../wydruki/miejscakosztow-'+nr+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydrukpojazdy = function(kto){
-    window.open('../wydruki/pojazdy-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+var wydrukpojazdy = function(kto, nr){
+    window.open('../wydruki/pojazdy-'+nr+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
 var wydruksymulacjawyniku = function(kto){

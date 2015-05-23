@@ -39,7 +39,7 @@ public class PdfMiejsceKosztow {
 
     public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-" + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
@@ -54,7 +54,7 @@ public class PdfMiejsceKosztow {
 
     private static void drukujcd(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie miejsce kosztów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");
