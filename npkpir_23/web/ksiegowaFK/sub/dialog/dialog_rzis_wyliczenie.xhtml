@@ -32,7 +32,7 @@
             </script>
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
@@ -50,16 +50,16 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":formprzeglad:dataList" style="float: left;" />
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiS()}"/>
-                    <p:commandButton value="drukuj nr kont" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
+                    <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Nie wybrano RZiS lub brak pozycji w wybranym RZiS"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
                         <f:facet  name="header">
-                                <h:outputText value="rachunek zysków i strat"/>
+                                <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje, :formprzeglad:podpietekonta"/>
                         <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update=":formprzeglad:podpietepozycje, :formprzeglad:podpietekonta"/>
@@ -77,10 +77,10 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="Nie ma podpiętych kont" var="loop"
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte salda kont"/>
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>
                             <p:column width="60">
                                 <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -92,10 +92,10 @@
                                 <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych zapisów" var="loop"
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.stronaWiersza.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte zapisy"/>
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
                             </f:facet>
                             <p:column width="30">
                                 <h:outputText value="#{loop.stronaWiersza.konto.pelnynumer}"/>

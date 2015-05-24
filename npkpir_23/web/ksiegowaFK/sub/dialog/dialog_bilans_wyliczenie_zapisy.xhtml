@@ -31,7 +31,7 @@
             </script>
             <p:panelGrid columns="6">
                 <p:panelGrid columns="5">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
@@ -53,12 +53,12 @@
             <p:panelGrid columns="2" >
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;" rendered="#{pozycjaBRView.pokazaktywa}">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="aktywa #{pozycjaBRView.sumabilansowaaktywa}"/>
+                            <h:outputText value="#{mgs.aktywa} #{pozycjaBRView.sumabilansowaaktywa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -72,12 +72,12 @@
                         </p:column>
                     </p:treeTable>
                     <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                                  scrollable="true"  style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;"  rendered="#{pozycjaBRView.pokazaktywa == false}">
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="pasywa #{pozycjaBRView.sumabilansowapasywa}"/>
+                            <h:outputText value="#{mgs.pasywa} #{pozycjaBRView.sumabilansowapasywa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -93,10 +93,10 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="Nie ma podpiętych kont" var="loop"
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte salda kont"/>
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>
                             <p:column width="60">
                                 <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -108,10 +108,10 @@
                                 <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych zapisów" var="loop"
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.stronaWiersza.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte zapisy"/>
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
                             </f:facet>
                             <p:column width="30">
                                 <h:outputText value="#{loop.stronaWiersza.konto.pelnynumer}"/>

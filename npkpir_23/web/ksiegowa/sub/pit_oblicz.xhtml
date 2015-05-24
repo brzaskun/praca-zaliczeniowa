@@ -154,7 +154,7 @@
                                 <p:column headerText="stawka">
                                     <h:outputText value="#{wpis.stawka *100}%" style="float: right; font-weight: 700;"/>
                                 </p:column>
-                                <p:column headerText="przychód">
+                                <p:column headerText="#{mgs.przychód}">
                                     <h:outputText value="#{wpis.przychod}" style="float: right; font-weight: 700;"><f:convertNumber locale="PL"/></h:outputText>
                                 </p:column>
                             </p:dataTable>

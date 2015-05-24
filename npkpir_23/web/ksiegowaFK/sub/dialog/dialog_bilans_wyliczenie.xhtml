@@ -31,7 +31,7 @@
             </script>
              <p:panelGrid columns="6">
                 <p:panelGrid columns="3">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
@@ -42,20 +42,20 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:column>
-                      <p:splitButton value="drukuj aktywa" style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}">
-                          <p:menuitem global="false" value="aktywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansKonta('a')}" icon="fa fa-print"/>  
+                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}">
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a')}" icon="fa fa-print"/>  
                       </p:splitButton>
-                      <p:splitButton value="drukuj pasywa" style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}">
-                          <p:menuitem global="false" value="pasywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansKonta('b')}" icon="fa fa-print"/>  
+                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}">
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b')}" icon="fa fa-print"/>  
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="aktywa "/>
+                        <h:outputText value="#{mgs.aktywa} "/>
                         <h:outputText value="#{pozycjaBRView.sumabilansowaaktywa}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -72,10 +72,10 @@
                     </p:column>
                 </p:treeTable>
                 <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="pasywa "/>
+                        <h:outputText value="#{mgs.pasywa} "/>
                         <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>

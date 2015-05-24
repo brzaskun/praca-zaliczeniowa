@@ -9,11 +9,11 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     
     <p:tabView id="akordeonBilans" style="max-width: 1300px; min-width: 1000px;" activeIndex="#{fakturaView.aktywnytab}" >
-        <p:tab title="RZiS">
+        <p:tab title="#{mgs.RZiS}" >
            <h:form id="formprzegladRZiS">
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
@@ -25,22 +25,18 @@
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update="akordeonBilans:formprzegladRZiS:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update="akordeonBilans:formprzegladRZiS:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update="akordeonBilans:formprzegladRZiS:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update="akordeonBilans:formprzegladRZiS:dataList" style="float: left;" />
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiS()}"/>
-                    <p:commandButton value="drukuj nr kont" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
+                    <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Nie wybrano RZiS lub brak pozycji w wybranym RZiS"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
                         <f:facet  name="header">
-                                <h:outputText value="rachunek zysków i strat"/>
+                                <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update="akordeonBilans:formprzegladRZiS:podpietepozycje, akordeonBilans:formprzegladRZiS:podpietekonta"/>
                         <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycji()}" update="akordeonBilans:formprzegladRZiS:podpietepozycje, akordeonBilans:formprzegladRZiS:podpietekonta"/>
@@ -58,10 +54,10 @@
                 </p:column>
                 <p:column>
                     <p:panelGrid columns="1" >
-                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="Nie ma podpiętych kont" var="loop"
+                        <p:dataTable id="podpietekonta" value="#{pozycjaBRView.sumaPodpietychKont}" emptyMessage="#{mgs.niemapodpiętychkont}" var="loop"
                                      style="height: 200px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte salda kont"/>
+                                <h:outputText value="#{mgs.podpiętesaldakont}"/>
                             </f:facet>
                             <p:column width="60">
                                 <h:outputText value="#{loop.konto.pelnynumer}"/>
@@ -73,10 +69,10 @@
                                 <bcf:outputpl value="#{loop.kwota}" />
                             </p:column>
                         </p:dataTable>
-                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="Nie ma podpiętych zapisów" var="loop"
+                        <p:dataTable id="podpietepozycje" value="#{pozycjaBRView.podpieteStronyWiersza}" emptyMessage="#{mgs.niemapodpiętychzapisów}" var="loop"
                                      style="height: 400px; margin-top: 0%; width: 550px; margin-bottom: 50px; overflow-y: scroll;" sortBy="#{loop.stronaWiersza.konto.pelnynumer}">
                             <f:facet  name="header">
-                                <h:outputText value="podpięte zapisy"/>
+                                <h:outputText value="#{mgs.podpiętezapisy}"/>
                             </f:facet>
                             <p:column width="30">
                                 <h:outputText value="#{loop.stronaWiersza.konto.pelnynumer}"/>
@@ -99,7 +95,7 @@
             </p:panelGrid>
         </h:form>
         </p:tab>
-        <p:tab title="Bilans">
+        <p:tab title="#{mgs.Bilans}">
              <h:form id="formprzegladbilans">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -121,31 +117,27 @@
             </script>
              <p:panelGrid columns="6">
                 <p:panelGrid columns="3">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans()}" update="akordeonBilans:formprzegladbilans"/>
                 </p:panelGrid>
-                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update="akordeonBilans:formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin()}" update="akordeonBilans:formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update="akordeonBilans:formprzegladbilans:dataList" style="float: left;" />
-                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update="akordeonBilans:formprzegladbilans:dataList" style="float: left;" />
                  <p:column>
-                      <p:splitButton value="drukuj aktywa" style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}">
-                          <p:menuitem global="false" value="aktywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansKonta('a')}" icon="fa fa-print"/>  
+                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a')}">
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a')}" icon="fa fa-print"/>  
                       </p:splitButton>
-                      <p:splitButton value="drukuj pasywa" style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}">
-                          <p:menuitem global="false" value="pasywa z nr kont" actionListener="#{pozycjaBRView.drukujBilansKonta('b')}" icon="fa fa-print"/>  
+                      <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p')}">
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b')}" icon="fa fa-print"/>  
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:treeTable id="dataList" value="#{pozycjaBRView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Aktywa"
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="aktywa #{pozycjaBRView.sumabilansowaaktywa}"/>
+                        <h:outputText value="#{mgs.aktywa} #{pozycjaBRView.sumabilansowaaktywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -159,10 +151,10 @@
                     </p:column>
                 </p:treeTable>
                 <p:treeTable id="dataList2" value="#{pozycjaBRView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRView.selectedNodes}" 
-                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Brak pozycji Pasywa"
+                             styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="pasywa #{pozycjaBRView.sumabilansowapasywa}"/>
+                        <h:outputText value="#{mgs.pasywa} #{pozycjaBRView.sumabilansowapasywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
