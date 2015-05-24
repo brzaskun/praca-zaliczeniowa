@@ -15,7 +15,7 @@
                     <p:column headerText="nr konta" width="50">
                         <h:outputText value="#{item.konto.pelnynumer}"/>
                     </p:column>
-                    <p:column headerText="nazwa konta">
+                    <p:column headerText="#{mgs.nazwakonta}">
                         <h:outputText value="#{item.konto.nazwapelna}"/>
                     </p:column>
                     <p:column headerText="obroty Bo Wn">
@@ -50,7 +50,7 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="dokument"/>
+                            <h:outputText value="#{mgs.dokument}"/>
                         </f:facet>
                         <h:outputText value="#{item.dokfk.dokfkPK.seriadokfk}/#{item.dokfk.dokfkPK.nrkolejnywserii}/#{item.dokfk.dokfkPK.rok}"/>
                     </p:column>

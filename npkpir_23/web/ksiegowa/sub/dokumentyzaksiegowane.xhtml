@@ -331,7 +331,7 @@
                         <p:column id="dowColumn" headerText="nr.fakt" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" sortBy="#{wpis.nrwldokzak}" width="50">  
                             <h:outputText value="#{wpis.nrwldokzak}" style="#{wpis.styl}"  />
                         </p:column>
-                        <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
+                        <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}">  
                             <h:outputText value="#{wpis.netto}" style="float: right; #{wpis.styl}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>

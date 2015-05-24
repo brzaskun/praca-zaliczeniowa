@@ -104,7 +104,7 @@
                 </p:column>
                 <p:column width="60">
                     <f:facet name="header">
-                        <h:outputText value="Data"/>
+                        <h:outputText value="#{mgs.data}"/>
                     </f:facet>
                     <h:outputText value="#{item.datawysylki}">
                         <f:convertDateTime pattern="dd/MM/yy" />
@@ -112,7 +112,7 @@
                 </p:column>
                 <p:column style="text-align: center;"  width="30">
                     <f:facet name="header">
-                        <h:outputText value="Nr"/>
+                        <h:outputText value="#{mgs.nr}"/>
                     </f:facet>
                     <h:outputText value="#{item.nrwysylki}"/>
                 </p:column>

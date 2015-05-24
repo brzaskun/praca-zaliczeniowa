@@ -24,7 +24,7 @@
                     <p:column headerText="#{mgs.opis}" width="380">
                         <h:outputText value="#{item.opis}"/>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="100">
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
                         <bcf:outputpl value="#{item.kwota}"/>
                     </p:column>
                     <p:summaryRow>
@@ -47,7 +47,7 @@
                     <p:column headerText="#{mgs.opis}" width="380">
                         <h:outputText value="#{item.opis}"/>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="100">
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
                         <bcf:outputpl value="#{item.kwota}"/>
                     </p:column>
                     <p:summaryRow>
@@ -74,7 +74,7 @@
                     <p:column headerText="#{mgs.opis}" width="330">
                         <h:outputText value="#{item.wiersz.opisWiersza}"/>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="100">
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
                         <bcf:outputpl value="#{item.wnma eq 'Ma' ? -item.kwotaPLN : item.kwotaPLN}"/>
                     </p:column>
                     <f:facet name="footer">
@@ -97,7 +97,7 @@
                     <p:column headerText="#{mgs.opis}" width="330">
                         <h:outputText value="#{item.wiersz.opisWiersza}"/>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="100">
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="100">
                         <bcf:outputpl value="#{item.wnma eq 'Wn' ? -item.kwotaPLN : item.kwotaPLN}"/>
                     </p:column>
                     <f:facet name="footer">

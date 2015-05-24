@@ -29,7 +29,7 @@
             <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="500" 
                          emptyMessage="brak zdefiniowanych delegacji zagranicznych"
                          sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
-                <p:column headerText="nr" width="30">
+                <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="nr delegacji" >

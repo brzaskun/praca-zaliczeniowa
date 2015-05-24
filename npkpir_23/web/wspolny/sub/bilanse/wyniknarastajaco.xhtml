@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tab  title="Wynik finansowy narastająco" >
+    <p:tab  title="#{mgs.symulacjawynikurok}" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
                 height : 25px !important;
@@ -39,7 +39,7 @@
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
-                         emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
+                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 780px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
@@ -69,7 +69,7 @@
                 <p:column headerText="zapisał" width="60" >
                     <h:outputText value="#{loop.wprowadzil}"/>
                 </p:column>
-                <p:column headerText="data" width="60" style="text-align: center;">
+                <p:column headerText="#{mgs.data}" width="60" style="text-align: center;">
                     <h:outputText value="#{loop.data}">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
                     </h:outputText>
@@ -79,21 +79,21 @@
                 </p:column>
             </p:dataTable>
               <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuNarastajacoView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
-                         emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
+                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjasuma"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie wyniku"/>
+                    <h:outputText value="#{mgs.obliczeniewyniku}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
              <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiace}" var="loop1" rowKey="#{loop1.nazwa}"
-                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
                          >
                 <f:facet name="header">
@@ -102,12 +102,12 @@
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatku}" var="loop1" rowKey="#{loop1.nazwa}"
-                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
@@ -116,12 +116,12 @@
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplaty}" var="loop1" rowKey="#{loop1.nazwa}"
-                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
@@ -130,7 +130,7 @@
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>

@@ -57,7 +57,7 @@
                         <f:facet name="header">
                             <h:outputText value="konta nieprzypisane"/>
                         </f:facet>
-                            <p:column  style="height: 30px; width: 80%" headerText="nazwa konta">
+                            <p:column  style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                                 <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" 
                                                actionListener="#{pozycjaBRKontaView.onKontoDropR(konto,'r')}" update=":form"
                                                style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
@@ -85,7 +85,7 @@
                         <f:facet name="header">
                             <h:outputText value="konta przypisane do #{pozycjaBRKontaView.wybranapozycja}"/>
                         </f:facet>
-                            <p:column style="height: 30px; width: 80%" headerText="nazwa konta">
+                            <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                                 <p:commandButton value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                                  actionListener="#{pozycjaBRKontaView.onKontoRemoveR(konto,'r')}" update=":form"/>
                             </p:column>

@@ -101,10 +101,10 @@
                 <p:column headerText="ilość zapisów" width="30"   style="text-align: center;">
                     <h:outputText value="#{loop.stronywiersza.size() gt 0 ? loop.stronywiersza.size() : null}"/>
                 </p:column>
-                <p:column headerText="numer konta" width="80"  >
+                <p:column headerText="#{mgs.numerkonta}" width="80"  >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="nazwa konta" width="200" >
+                <p:column headerText="#{mgs.nazwakonta}" width="200" >
                     <h:outputText value="#{loop.konto.nazwapelna}"/>
                 </p:column>
                 <p:column headerText="pozycja Wn" width="100" >
@@ -120,7 +120,7 @@
                             <p:column headerText="#{mgs.numerkolejny}" width="15" style="text-align: center;">
                                 <h:outputText styleClass="lpwiersza"  value="#{rowindex+1}"/>
                             </p:column>
-                            <p:column headerText="data" width="40" style="text-align: center;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}">
+                            <p:column headerText="#{mgs.data}" width="40" style="text-align: center;" sortBy="#{loopik.wiersz.dokfk.datadokumentu}">
                                 <h:outputText value="#{loopik.wiersz.dokfk.datadokumentu.substring(5,10)}"/>
                             </p:column>
                             <p:column headerText="#{mgs.konto}" width="50" sortBy="#{loopik.konto.pelnynumer}">

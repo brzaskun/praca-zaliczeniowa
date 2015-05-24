@@ -109,7 +109,7 @@
                         <p:column headerText="kurs" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
                             <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.kursBO : loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                         </p:column>
-                        <p:column headerText="data" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
+                        <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
                         </p:column>
                         <p:column headerText="dok." width="40" >

@@ -228,7 +228,7 @@
                     <p:column headerText="rok" width="70">
                         <h:outputText value="#{loop.rok}" />
                     </p:column>
-                    <p:column headerText="kwota" width="100">
+                    <p:column headerText="#{mgs.kwota}" width="100">
                         <h:outputText value="#{loop.kwota}"  style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -267,7 +267,7 @@
                                <p:column id="SubColumn1" headerText="rok">  
                                    <h:outputText value="#{subwpis.rokwykorzystania}" />
                                </p:column>
-                               <p:column id="SubColumn2" headerText="kwota">  
+                               <p:column id="SubColumn2" headerText="#{mgs.kwota}">  
                                    <h:outputText value="#{subwpis.kwotawykorzystania}"  style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -282,7 +282,7 @@
                     <p:panelGrid columns="6" id="panelstraty" style="margin-top: 10px;margin-bottom: 10px;">
                         <h:outputText value="rok"/>
                         <h:inputText value="#{podatnikView.stratarok}" accesskey="s"/>
-                        <h:outputText value="kwota"/>
+                        <h:outputText value="#{mgs.kwota}"/>
                         <pe:inputNumber value="#{podatnikView.stratakwota}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" />  
                         <h:outputText value="wykorzystano"/>
                         <pe:inputNumber value="#{podatnikView.stratawykorzystano}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="width: 120px" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="0" /> 

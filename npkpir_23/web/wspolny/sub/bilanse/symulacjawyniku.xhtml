@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tab  title="Symulacja wyniku finansowego" >
+    <p:tab  title="#{mgs.symulacjawyniku}" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
                 height : 25px !important;
@@ -101,13 +101,13 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="dokument" width="60">
+                        <p:column headerText="#{mgs.dokument}" width="60">
                             <h:outputText value="#{loopik.dokfkS}"/>
                         </p:column>
-                        <p:column headerText="data" width="50">
+                        <p:column headerText="#{mgs.data}" width="50">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
-                        <p:column headerText="nr" width="100">
+                        <p:column headerText="#{mgs.nr}" width="100">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}">
@@ -116,7 +116,7 @@
                         <p:column headerText="wiersz">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="kwota" width="60">
+                        <p:column headerText="#{mgs.kwota}" width="60">
                             <bcf:outputpl value="#{loopik.kwota}"/>
                         </p:column>
                     </p:dataTable>
@@ -171,13 +171,13 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="dokument" width="60">
+                        <p:column headerText="#{mgs.dokument}" width="60">
                             <h:outputText value="#{loopik.dokfkS}"/>
                         </p:column>
-                        <p:column headerText="data" width="50">
+                        <p:column headerText="#{mgs.data}" width="50">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
-                        <p:column headerText="nr" width="100">
+                        <p:column headerText="#{mgs.nr}" width="100">
                             <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kontrahent}">
@@ -186,7 +186,7 @@
                         <p:column headerText="wiersz">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="kwota" width="60">
+                        <p:column headerText="#{mgs.kwota}" width="60">
                             <bcf:outputpl value="#{loopik.kwota}"/>
                         </p:column>
                     </p:dataTable>
@@ -194,48 +194,48 @@
             </p:dataTable>
             
             <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
-                         emptyMessage="Nie pobrano zapisów do sumowania" selectionMode="single" 
+                         emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjasuma"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie wyniku"/>
+                    <h:outputText value="#{mgs.obliczeniewyniku}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
-                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie podatku"/>
+                    <h:outputText value="#{mgs.obliczeniepodatku}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuView.pozycjeDoWyplaty}" var="loop1" rowKey="#{loop1.nazwa}"
-                         emptyMessage="Nie obliczono podatku" selectionMode="single" 
+                         emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie kwot do wypłaty dla udziałowców"/>
+                    <h:outputText value="#{mgs.obliczkwotadowypl}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
                 </p:column>
-                <p:column headerText="kwota" width="60" >
+                <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="zaksięguj rozliczenie" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" style="margin-top: 10px; width: 150px; margin-bottom: 400px;" />
+            <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" style="margin-top: 10px; width: 150px; margin-bottom: 400px;" />
         </h:form>
     </p:tab>  
 </ui:composition>   

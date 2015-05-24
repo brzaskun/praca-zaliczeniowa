@@ -74,7 +74,7 @@
                 <p:column headerText="rodzaj cechy" width="40">
                     <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.rodzajcechy}"/>
                 </p:column>
-                <p:column headerText="dokument" width="80">
+                <p:column headerText="#{mgs.dokument}" width="80">
                     <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
                 </p:column>
                 <p:column headerText="#{mgs.datadok}" width="80">
@@ -89,7 +89,7 @@
                 <p:column headerText="#{mgs.konto}" width="70">
                     <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
                 </p:column>
-                <p:column headerText="kwota" width="90">
+                <p:column headerText="#{mgs.kwota}" width="90">
                     <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
                 </p:column>
             </p:dataTable>
