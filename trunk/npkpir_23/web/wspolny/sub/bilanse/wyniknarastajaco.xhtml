@@ -43,30 +43,30 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 780px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
-                    <h:outputText value="pobranie wyników miesięcznych"/>
+                    <h:outputText value="#{mgs.pobraniewynikow}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.miesiąc}" width="40" style="text-align: center;">
                     <h:outputText value="#{loop.mc}"/>
                 </p:column>
-                <p:column headerText="przychód" width="60" >
+                <p:column headerText="#{mgs.przychód}" width="60" >
                     <bcf:outputpl value="#{loop.przychody}"/>
                 </p:column>
-                <p:column headerText="koszt" width="60" >
+                <p:column headerText="#{mgs.koszt}" width="60" >
                     <bcf:outputpl value="#{loop.koszty}"/>
                 </p:column>
-                <p:column headerText="wynik finansowy" width="60" >
+                <p:column headerText="#{mgs.wynikfinansowy}" width="60" >
                     <bcf:outputpl value="#{loop.wynikfinansowy}"/>
                 </p:column>
-                <p:column headerText="npup" width="60" >
+                <p:column headerText="#{mgs.npup}" width="60" >
                     <bcf:outputpl value="#{loop.npup}"/>
                 </p:column>
-                <p:column headerText="nkup" width="60" >
+                <p:column headerText="#{mgs.nkup}" width="60" >
                     <bcf:outputpl value="#{loop.nkup}"/>
                 </p:column>
-                <p:column headerText="wynik podatkowy" width="60" >
+                <p:column headerText="#{mgs.wynikpodatkowy}" width="60" >
                     <bcf:outputpl value="#{loop.wynikpodatkowy}"/>
                 </p:column>
-                <p:column headerText="zapisał" width="60" >
+                <p:column headerText="#{mgs.zapisał}" width="60" >
                     <h:outputText value="#{loop.wprowadzil}"/>
                 </p:column>
                 <p:column headerText="#{mgs.data}" width="60" style="text-align: center;">
@@ -97,7 +97,7 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie podatku za pop. m-c"/>
+                    <h:outputText value="#{mgs.obliczeniepodatkupopmc}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
@@ -111,7 +111,7 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie podatku za m-c"/>
+                    <h:outputText value="#{mgs.obliczeniepodatkumc}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>
@@ -125,7 +125,7 @@
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
-                    <h:outputText value="obliczenie kwot do wypłaty narastająco"/>
+                    <h:outputText value="#{mgs.kwotadowyplatynar}"/>
                 </f:facet>
                 <p:column headerText="#{mgs.opis}" width="140" >
                     <h:outputText value="#{loop1.nazwa}"/>

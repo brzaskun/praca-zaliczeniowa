@@ -22,7 +22,7 @@
         </style>
         <h:form id="formzestkontarokprocent">
             <p:dataTable id="tablicazestrokPprocent" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach przychodowych w roku podatkowym" 
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokPprocent" style="width: 1300px" 
                          >
                 <f:facet name="header">
@@ -75,7 +75,7 @@
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicazestrokKprocent" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach kosztowych w roku podatkowym" 
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokKprocent"
                          >
                 <f:facet name="header">

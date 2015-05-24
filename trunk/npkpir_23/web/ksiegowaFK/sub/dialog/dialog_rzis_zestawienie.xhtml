@@ -32,7 +32,7 @@
             </script>
             <p:panelGrid columns="7">
                 <p:panelGrid columns="3">
-                    <h:outputText value="nazwa układu"/>
+                    <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRZestawienieView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
                     </p:selectOneMenu>
@@ -50,16 +50,16 @@
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRZestawienieView.zwin(pozycjaBRZestawienieView.rootProjektRZiS)}" update=":formdialogrziszestawienie:dataList" style="float: left;" />
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 50px;" type="submit" actionListener="#{pozycjaBRZestawienieView.drukujRZiS()}"/>
-                    <p:commandButton value="drukuj nr kont" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRZestawienieView.drukujRZiSPozycje()}"/>
+                    <p:commandButton value="#{mgs.drukujnrkont}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRZestawienieView.drukujRZiSPozycje()}"/>
                 </p:column>
             </p:panelGrid>
             <p:panelGrid columns="2" style="height: 600px;">
                 <p:column>
                     <p:treeTable id="dataList" value="#{pozycjaBRZestawienieView.rootProjektRZiS}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRZestawienieView.selectedNodes}" 
-                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="Nie wybrano RZiS lub brak pozycji w wybranym RZiS"
+                                 styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.niewybranorzis}"
                                  scrollable="true" style="height: 700px; margin-top: 0px; width: 650px; overflow-y: scroll;">
                         <f:facet  name="header">
-                                <h:outputText value="rachunek zysków i strat"/>
+                                <h:outputText value="#{mgs.rachunekzyskówistrat}"/>
                             </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

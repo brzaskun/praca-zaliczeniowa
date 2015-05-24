@@ -66,7 +66,7 @@
                 <p:dataTable value="#{citView.zapisycechaprzychod}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.dokfk.datadokumentu}" rendered="#{citView.zapisycechaprzychod.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
-                        <h:outputText value="NPUP"/>
+                        <h:outputText value="#{mgs.npup}"/>
                     </f:facet>
                     <p:column headerText="dokum." style="text-align: center;" width="80">
                         <h:outputText value="#{item.dokfkS}"/>
@@ -89,7 +89,7 @@
                 <p:dataTable value="#{citView.zapisycechakoszt}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.dokfk.datadokumentu}"  rendered="#{citView.zapisycechakoszt.size() gt 0}" paginator="true" rows="7" paginatorPosition="top" >
                     <f:facet name="header">
-                        <h:outputText value="NKUP"/>
+                        <h:outputText value="#{mgs.nkup}"/>
                     </f:facet>
                     <p:column headerText="dokum." style="text-align: center;" width="80">
                         <h:outputText value="#{item.dokfkS}"/>

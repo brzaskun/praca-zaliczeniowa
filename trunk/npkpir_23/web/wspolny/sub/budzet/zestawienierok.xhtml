@@ -37,7 +37,7 @@
             </p:panelGrid>
 
             <p:dataTable id="tablicazestrokP" value="#{zestawienieWynikoweRokView.kontosumyrokPrzychody}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach przychodowych w roku podatkowym" 
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne" widgetVar="tablicazestrokP" style="width: 1300px" 
                          >
                 <f:facet name="header">
@@ -90,7 +90,7 @@
                 </p:column>
             </p:dataTable>
             <p:dataTable id="tablicazestrokK" value="#{zestawienieWynikoweRokView.kontosumyrokKoszty}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach kosztowych w roku podatkowym" 
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 1300px" widgetVar="tablicazestrokK"
                          >
                 <f:facet name="header">
