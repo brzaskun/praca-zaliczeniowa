@@ -30,7 +30,7 @@
             <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
                          emptyMessage="brak zdefiniowanych pojazdów"
                          sortBy="#{item}"  sortFunction="#{pojazdyView.sortPojazdy}">
-                <p:column headerText="nr" width="30">
+                <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="nr rejestracyjny">

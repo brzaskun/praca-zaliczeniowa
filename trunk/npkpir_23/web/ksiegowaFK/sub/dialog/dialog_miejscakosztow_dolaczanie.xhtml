@@ -31,7 +31,7 @@
             <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item" style="width: 850px;" 
                          scrollable="true" scrollHeight="400" emptyMessage="brak zdefiniowanych miejsc kosztów"
                          sortBy="#{item}"  sortFunction="#{miejsceKosztowView.sortMiejsceKosztow}">
-                <p:column headerText="nr" width="30">
+                <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="pełny opis miejsca">

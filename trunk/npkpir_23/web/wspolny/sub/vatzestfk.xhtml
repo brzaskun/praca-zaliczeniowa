@@ -125,7 +125,7 @@
                                 <p:column headerText="nr konta" width="50">
                                     <h:outputText value="#{item.konto.pelnynumer}"/>
                                 </p:column>
-                                <p:column headerText="nazwa konta">
+                                <p:column headerText="#{mgs.nazwakonta}">
                                     <h:outputText value="#{item.konto.nazwapelna}"/>
                                 </p:column>
                                 <p:column headerText="saldo Wn">
@@ -141,13 +141,13 @@
                                 <p:rowExpansion>
                                     <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
                                         <p:ajax event="page" global="false"/>
-                                    <p:column headerText="dokument" width="70">
+                                    <p:column headerText="#{mgs.dokument}" width="70">
                                         <h:outputText value="#{loopik.dokfkS}"/>
                                     </p:column>
-                                    <p:column headerText="data" width="80">
+                                    <p:column headerText="#{mgs.data}" width="80">
                                         <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                                     </p:column>
-                                    <p:column headerText="nr" width="100">
+                                    <p:column headerText="#{mgs.nr}" width="100">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
                                     <p:column headerText="#{mgs.kontrahent}">
@@ -156,7 +156,7 @@
                                     <p:column headerText="wiersz">
                                         <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                                     </p:column>
-                                    <p:column headerText="kwota" width="60">
+                                    <p:column headerText="#{mgs.kwota}" width="60">
                                         <bcf:outputpl value="#{loopik.kwota}"/>
                                     </p:column>
                                 </p:dataTable>

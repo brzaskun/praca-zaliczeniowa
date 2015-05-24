@@ -16,7 +16,7 @@
                     <p:column headerText="nr konta" width="50">
                         <h:outputText value="#{item.konto.pelnynumer}"/>
                     </p:column>
-                    <p:column headerText="nazwa konta">
+                    <p:column headerText="#{mgs.nazwakonta}">
                         <h:outputText value="#{item.konto.nazwapelna}"/>
                     </p:column>
                     <p:column headerText="saldo Wn">
@@ -69,7 +69,7 @@
 
                         <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="rodzTrColumn" headerText="kwota" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="60">  
+                    <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="60">  
                         <h:outputText value="#{wpis.netto}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>

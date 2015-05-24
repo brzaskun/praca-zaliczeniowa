@@ -72,7 +72,7 @@
             </p:panelGrid>
 
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="Nie ma zapisów na kontach w roku podatkowym" selectionMode="single"
+                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single"
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          rowIndexVar="row"
                          >
@@ -138,7 +138,7 @@
         </h:form>
         <h:form id="tabelazsumamisyntetyka">
             <p:dataTable id="sumy" value="#{saldoSyntetykaView.sumaSaldoKonto}" var="loop"
-                         style="float: right; margin-right: 90px; width: 772px; height: 60px;" emptyMessage="Nie wybrano konta">
+                         style="float: right; margin-right: 90px; width: 772px; height: 60px;" emptyMessage="#{mgs.niewybranokonta}">
                 <p:column headerText="#{mgs.boWn}" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>

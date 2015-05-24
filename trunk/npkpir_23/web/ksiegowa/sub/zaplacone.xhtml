@@ -34,7 +34,7 @@
             <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" width="100" >  
                         <h:outputText value="#{wpis.opis}"/>
             </p:column>
-            <p:column id="kwotaColumn" headerText="kwota" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}" width="100">  
+            <p:column id="kwotaColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.kwota}" filterMatchMode="contains" sortBy="#{wpis.kwota}" width="100">  
                         <h:outputText value="#{wpis.brutto}" style="padding-left: 20%; font-weight: 700; float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>

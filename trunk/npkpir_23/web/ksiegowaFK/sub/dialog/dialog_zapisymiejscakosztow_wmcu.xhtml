@@ -82,30 +82,30 @@
                             <p:column width="20">
                                 <p:rowToggler/>
                             </p:column>
-                            <p:column headerText="nazwa konta" width="250">
+                            <p:column headerText="#{mgs.nazwakonta}" width="250">
                                 <h:outputText value="#{loop.kontonazwa}"/>
                             </p:column>
-                            <p:column headerText="numer konta">
+                            <p:column headerText="#{mgs.numerkonta}">
                                 <h:outputText value="#{loop.kontonumer}"/>
                             </p:column>
-                            <p:column headerText="ilość rach" width="30" style="text-align: center;">
+                            <p:column headerText="#{mgs.ilośćrach}" width="30" style="text-align: center;">
                                 <h:outputText value="#{loop.stronywiersza.size()}"/>
                             </p:column>
-                            <p:column headerText="suma">
+                            <p:column headerText="#{mgs.suma}">
                                 <bcf:outputpl value="#{loop.sumaokres}"/>
                             </p:column>
-                            <p:column headerText="suma narast.">
+                            <p:column headerText="#{mgs.sumanarast}">
                                 <bcf:outputpl value="#{loop.sumanarastajaco}"/>
                             </p:column>
                             <p:rowExpansion>
                                 <p:dataTable value="#{loop.stronywiersza}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                                    <p:column headerText="dokument" width="60">
+                                    <p:column headerText="#{mgs.dokument}" width="60">
                                         <h:outputText value="#{loopik.dokfkS}"/>
                                     </p:column>
-                                    <p:column headerText="data" width="80">
+                                    <p:column headerText="#{mgs.data}" width="80">
                                         <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                                     </p:column>
-                                    <p:column headerText="nr" width="100">
+                                    <p:column headerText="#{mgs.nr}" width="100">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
                                     <p:column headerText="#{mgs.kontrahent}">
@@ -114,7 +114,7 @@
                                     <p:column headerText="wiersz">
                                         <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                                     </p:column>
-                                    <p:column headerText="kwota" width="60">
+                                    <p:column headerText="#{mgs.kwota}" width="60">
                                         <bcf:outputpl value="#{loopik.kwota}"/>
                                     </p:column>
                                 </p:dataTable>

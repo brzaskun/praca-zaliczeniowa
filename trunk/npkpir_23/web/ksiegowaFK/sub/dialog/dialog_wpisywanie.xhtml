@@ -335,7 +335,7 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </pe:inputNumber>
                     </p:column>
-                    <p:column headerText="data" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
+                    <p:column headerText="#{mgs.data}" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
                         <p:inputText id="dataWiersza" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                      style="width: 20px;" maxlength="2" >
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
@@ -349,7 +349,7 @@
                             <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele}" partialSubmit="true" global="false" update=":formwpisdokument:dataList"/>
                         </h:selectOneMenu>
                     </p:column>-->
-                    <p:column headerText="kwota"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                    <p:column headerText="#{mgs.kwota}"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" rendered="#{loop.stronaWn != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                         readonly="#{loop.stronaWn.typStronaWiersza != 0}"
@@ -384,7 +384,7 @@
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry"/>
                         </p:autoComplete>
                     </p:column>
-                    <p:column headerText="kwota" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
+                    <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                         <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaMa != null}"
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
