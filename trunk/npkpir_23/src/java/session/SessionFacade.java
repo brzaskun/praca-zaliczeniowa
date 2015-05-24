@@ -198,8 +198,8 @@ public class SessionFacade<T> implements Serializable {
         return tmp;
     }
 
-    public Uz findUzNP(String np) {
-        Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", np).getSingleResult();
+    public Uz findUzNP(String login) {
+        Uz tmp = (Uz) em.createNamedQuery("Uz.findByLogin").setParameter("login", login).getSingleResult();
         return tmp;
     }
 

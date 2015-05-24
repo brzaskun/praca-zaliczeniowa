@@ -14,7 +14,7 @@
                       rowsPerPageTemplate="12,16,20,50" 
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.edit}" />
-            <p:ajax event="rowSelect" update=":form:messages" listener="#{UzView.wybranoUzytkownika}" />
+            <p:ajax event="rowSelect" update=":form:messages, :editUzyt" listener="#{UzView.wybranoUzytkownika}" />
             <f:facet name="header">  
                 <h:outputText value="Wykaz użytkowników" />  
             </f:facet>
@@ -57,6 +57,12 @@
                         </h:selectOneMenu>
                     </f:facet>
                 </p:cellEditor>
+            </p:column>
+            <p:column id="locale" headerText="locale" filterBy="#{wpis.locale}" filterMatchMode="contains" sortBy="#{wpis.locale}">  
+                <f:facet name="header">  
+                    <h:outputText value="locale" />  
+                </f:facet> 
+                    <h:outputText value="#{wpis.locale}" />
             </p:column>
               <p:column id="emailColumn" headerText="email">  
                 <f:facet name="header">  

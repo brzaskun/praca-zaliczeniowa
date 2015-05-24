@@ -49,7 +49,7 @@ public class GuestPreferences implements Serializable {
                 try {
                 Principal principal = request.getUserPrincipal();
                 String kto  = principal.getName();
-                Uz ktoUz = uzDAO.find(kto);
+                Uz ktoUz = uzDAO.findUzByLogin(kto);
                 theme = ktoUz.getTheme();
                 } catch (Exception e){}
                 return theme;

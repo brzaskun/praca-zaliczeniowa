@@ -22,12 +22,14 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import language.LocaleChanger;
 import msg.Msg;
 import view.SesjaView;
 import view.WpisView;
@@ -63,6 +65,8 @@ public class Logowanie implements Serializable {
     OstatnidokumentDAO ostatnidokumentDAO;
     @Inject
     private RejestrlogowanDAO rejestrlogowanDAO;
+    @ManagedProperty(value ="#{localeChanger}")
+    private LocaleChanger localeChanger;
     
     public Logowanie() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
@@ -108,7 +112,7 @@ public class Logowanie implements Serializable {
                 message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
                 navto = "Multiuser";
             } else if (request.isUserInRole("Guest")) {
-                String nip = uzDAO.find(uzytk).getFirma();
+                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
                 Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                 if (p == null) {
                     Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
@@ -119,7 +123,7 @@ public class Logowanie implements Serializable {
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "Guest";
             } else if (request.isUserInRole("GuestFK")) {
-                String nip = uzDAO.find(uzytk).getFirma();
+                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
                 Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                 if (p == null) {
                     Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
@@ -130,7 +134,7 @@ public class Logowanie implements Serializable {
                 message = "Username : " + principal.getName() + " You're wasting my resources...";
                 navto = "GuestFK";
             } else if (request.isUserInRole("GuestFaktura")) {
-                String nip = uzDAO.find(uzytk).getFirma();
+                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
                 Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
                 if (p == null) {
                     Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
@@ -163,6 +167,23 @@ public class Logowanie implements Serializable {
         }
     }
     
+    public void ustawLocale(String uzytk) {
+        Uz uz = uzDAO.findUzByLogin(uzytk);
+        if (uz != null) {
+            switch (uz.getLocale()) {
+                case "pl":
+                    break;
+                case "de":
+                    localeChanger.deutschAction();
+                    break;
+                case "en":
+                    localeChanger.englishAction();
+                    break;
+            }
+        }
+    }
+    
+    
     private String dodajInfoDoSesji() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -187,7 +208,7 @@ public class Logowanie implements Serializable {
             }
         }
         try {
-            Uz wpr = uzDAO.find(uzytk);
+            Uz wpr = uzDAO.findUzByLogin(uzytk);
             wpr.setBiezacasesja(nrsesji);
             uzDAO.edit(wpr);
         } catch (Exception e) {
@@ -235,6 +256,15 @@ public class Logowanie implements Serializable {
 
     public void setLiczniklogowan(int liczniklogowan) {
         this.liczniklogowan = liczniklogowan;
+    }
+
+    
+    public LocaleChanger getLocaleChanger() {
+        return localeChanger;
+    }
+
+    public void setLocaleChanger(LocaleChanger localeChanger) {
+        this.localeChanger = localeChanger;
     }
 
      

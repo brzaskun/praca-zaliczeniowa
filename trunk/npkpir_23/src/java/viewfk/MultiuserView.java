@@ -52,7 +52,7 @@ public class MultiuserView   implements Serializable{
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String name = principal.getName();
-        Uz uz = uzDAO.find(name);
+        Uz uz = uzDAO.findUzByLogin(name);
         List<MultiuserSettings> lista = multiuserSettingsDAO.findByUser(uz);
         listawyboru = new ArrayList<>();
         for (MultiuserSettings p : lista) {
