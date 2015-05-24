@@ -8,6 +8,7 @@ import entity.Uz;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
@@ -17,7 +18,7 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-@Named
+@Stateless
 public class UzDAO extends DAO implements Serializable{
     @Inject
     private SessionFacade uzFacade;
@@ -26,8 +27,8 @@ public class UzDAO extends DAO implements Serializable{
         super(Uz.class);
     }
    
-    public Uz find(String np){
-         return uzFacade.findUzNP(np);
+    public Uz findUzByLogin(String login){
+         return uzFacade.findUzNP(login);
      }
     
     public List<Uz> findMultiuser() {

@@ -72,7 +72,7 @@ public class PlatnosciTablicaView implements Serializable {
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String nazwausera = principal.getName();
-        Uz user = uzDAO.find(nazwausera);
+        Uz user = uzDAO.findUzByLogin(nazwausera);
         Podatnik biezacyPodatnik = null;
         try {
             biezacyPodatnik = podatnikDAO.findPodatnikByNIP(user.getFirma());

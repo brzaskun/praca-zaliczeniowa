@@ -148,7 +148,7 @@ public class PdfPK {
             dodajamo(document, amoDokDAO, wpisView);
             document.add(Chunk.NEWLINE);
         }
-        Uz uz = uzDAO.find(selected.getWprowadzil());
+        Uz uz = uzDAO.findUzByLogin(selected.getWprowadzil());
         document.add(new Paragraph(String.valueOf(uz.getImie() + " " + uz.getNazw()), fontM));
         document.add(new Paragraph("___________________________", fontM));
         document.add(new Paragraph("sporządził", fontM));

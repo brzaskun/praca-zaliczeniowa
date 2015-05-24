@@ -111,12 +111,22 @@ public class UzView implements Serializable {
                     Mail.udanazmianaHasla(selUzytkownik.getEmail(), selUzytkownik.getLogin());
                     nowehaslo = null;
                     nowedrugiehaslo = null;
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) { 
+                    E.e(e); 
                     Msg.msg("e", "Wystąpił błąd. Nastąpiła nieudana zmiana hasła/adresu email.");
                 }
             }
         } else {
             Msg.msg("Dane nie zostały zmienione.");
+        }
+    }
+    
+    public void edit() {
+        try {
+            uzDAO.edit(selUzytkownik);
+            Msg.msg("Udana edycja danych użytkownika "+selUzytkownik.getLogin());
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 
@@ -134,7 +144,7 @@ public class UzView implements Serializable {
 
     public String dodajnowe() {
         try {
-            selUzytkownik = uzDAO.find(login);
+            selUzytkownik = uzDAO.findUzByLogin(login);
             selUzytkownik.setHaslo(firstPassword);
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");
@@ -182,7 +192,8 @@ public class UzView implements Serializable {
             obiektUZjsf.remove(uzytkownik);
             obiektUZjsfselected.remove(uzytkownik);
             Msg.msg("i", "Usunąłem użytkownika " + uzytkownik.getLogin());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie usunąłem użytkownika " + uzytkownik.getLogin());
         }
     }
@@ -244,7 +255,7 @@ public class UzView implements Serializable {
     public void sprawdzloginduplikat(AjaxBehaviorEvent e) {
         String login = (String) Params.params("pole:login");
         try {
-            Uz user = uzDAO.find(login);
+            Uz user = uzDAO.findUzByLogin(login);
             if (user == null) {
             } else {
                 Msg.msg("w", "Użytkownik o takim loginie już istnienie. Wpisz inny.");

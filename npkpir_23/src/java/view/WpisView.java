@@ -84,7 +84,7 @@ public class WpisView implements Serializable {
         } catch (Exception e) { E.e(e); 
         }
         if (wprowadzilX != null) {
-            wprowadzil = uzDAO.find(wprowadzilX);
+            wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
             wpis = wpisDAO.find(wprowadzilX);
             this.podatnikWpisu = wpis.getPodatnikWpisu();
             if (wpis.getPodatnikWpisu() == null) {
@@ -93,7 +93,7 @@ public class WpisView implements Serializable {
                 wpis.setMiesiacOd("01");
                 wpis.setMiesiacDo("01");
                 wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size()-1));
-                Uz podatnikwpisu = uzDAO.find(wpis.getWprowadzil());
+                Uz podatnikwpisu = uzDAO.findUzByLogin(wpis.getWprowadzil());
                 String nipfirmy;
                 String nazwapodatnika;
                 try {
@@ -147,7 +147,7 @@ public class WpisView implements Serializable {
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String wprowadzilX = principal.getName();
-        wprowadzil = uzDAO.find(wprowadzilX);
+        wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
         wpis = wpisDAO.find(wprowadzilX);
         wpis.setPodatnikWpisu(podatnikWpisu);
         wpis.setMiesiacWpisu(miesiacWpisu);
@@ -169,7 +169,7 @@ public class WpisView implements Serializable {
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String wprowadzilX = principal.getName();
-        wprowadzil = uzDAO.find(wprowadzilX);
+        wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
         wpis = wpisDAO.find(wprowadzilX);
         if (wpis.getPodatnikWpisu() != null) {
             return wpis.getPodatnikWpisu();
@@ -187,7 +187,7 @@ public class WpisView implements Serializable {
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String wprowadzilX = principal.getName();
-        wprowadzil = uzDAO.find(wprowadzilX);
+        wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
         return wpisDAO.find(wprowadzilX);
 
     }

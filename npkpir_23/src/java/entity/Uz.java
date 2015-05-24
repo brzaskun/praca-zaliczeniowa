@@ -69,6 +69,9 @@ public class Uz implements Serializable {
     @Size(max = 100)
     @Column(name = "theme")
     private String theme;
+    @Size(max = 4)
+    @Column(name = "locale")
+    private String locale;
 
     public Uz() {
     }
@@ -156,6 +159,14 @@ public class Uz implements Serializable {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
     }
 
     
