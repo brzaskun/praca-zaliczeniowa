@@ -1442,16 +1442,16 @@ public class SessionFacade<T> implements Serializable {
         em.createNamedQuery("PozycjaBilans.Delete").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
     }
 
-    public int findMaxLevelRzisuklad(String uklad, String podatnik, String rok) {
-        return (int) em.createNamedQuery("PozycjaRZiS.findByMaxLevelPodatnik").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    public Integer findMaxLevelRzisuklad(String uklad, String podatnik, String rok) {
+        return (Integer) em.createNamedQuery("PozycjaRZiS.findByMaxLevelPodatnik").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
-    public int findMaxLevelBilansukladAktywa(String uklad, String podatnik, String rok) {
-        return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    public Integer findMaxLevelBilansukladAktywa(String uklad, String podatnik, String rok) {
+        return (Integer) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikAktywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
-    public int findMaxLevelBilansukladPasywa(String uklad, String podatnik, String rok) {
-        return (int) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
+    public Integer findMaxLevelBilansukladPasywa(String uklad, String podatnik, String rok) {
+        return (Integer) em.createNamedQuery("PozycjaBilans.findByMaxLevelPodatnikPasywa").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
     public PozycjaRZiS findPozycjaRZiSLP(int lp) {
@@ -1512,6 +1512,10 @@ public class SessionFacade<T> implements Serializable {
 
     public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
         em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
+    }
+    
+    public void wyzerujPozycjeWKontachWzorcowy(WpisView wpisView, String bilansowewynikowe) {
+        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
     }
 
     public void zerujkontazLevelu(WpisView wpisView, int i) {

@@ -65,20 +65,20 @@ public class PozycjaBilansDAO extends DAO implements Serializable{
         } catch (Exception e) { E.e(e); 
         }
     }
-    public int findMaxLevelPodatnikAktywa(UkladBR ukladBR) {
+    public Integer findMaxLevelPodatnikAktywa(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelBilansukladAktywa(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
-        return 0;
+        return null;
     }
     
-    public int findMaxLevelPodatnikPasywa(UkladBR ukladBR) {
+    public Integer findMaxLevelPodatnikPasywa(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelBilansukladPasywa(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 
         }
-        return 0;
+        return null;
     }
 
     public PozycjaBilans findBilansLP(int lp) {

@@ -32,6 +32,7 @@
         <p:tab title="Bilans wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
             <h:form id="dialog1menu3">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Kopiowanie przyporządkowania kont Bilans wzorcowy" onclick="PF('dialog_bilans_przypisywanie_wzorcowy_kopiuj').show();"></p:menuitem>
                     <p:menuitem value="Przyporządkowanie kont Bilans wzorcowy" onclick="PF('dialogbilansukladwzorcowy').show();"></p:menuitem>
                     <p:menuitem value="Projekt układu Bilans wzorcowy" onclick="PF('dialogbilansprojektwzorcowy').show();"></p:menuitem>
                 </p:menu>  
@@ -40,6 +41,7 @@
         <p:tab title="RZiS wzorcowy" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
             <h:form id="dialog1menu4">
                 <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Kopiowanie przyporządkowania kont RZiS wzorcowy" onclick="PF('dialog_rzis_przypisywanie_wzorcowy_kopiuj').show();"></p:menuitem>
                     <p:menuitem value="Przyporządkowanie kont RZiS wzorcowy" onclick="PF('rzisukladwzorcowy').show();"></p:menuitem>
                     <p:menuitem value="Projekt układu RZiS wzorcowy" onclick="PF('dialogrzisprojektwzorcowy').show();"></p:menuitem>
                 </p:menu>  

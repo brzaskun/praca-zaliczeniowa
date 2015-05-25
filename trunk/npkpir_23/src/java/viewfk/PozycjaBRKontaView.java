@@ -74,6 +74,8 @@ public class PozycjaBRKontaView implements Serializable {
     private int level = 0;
     private String wybranapozycja;
     private TreeNode wybranynodekonta;
+    private UkladBR ukladzrodlowykonta;
+    private UkladBR ukladdocelowykonta;
 
     public PozycjaBRKontaView() {
         this.kontabezprzydzialu = new ArrayList<>();
@@ -164,6 +166,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void onKontoDropR(Konto konto, String br) {
+        boolean wzorcowy = false;
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -176,10 +179,10 @@ public class PozycjaBRKontaView implements Serializable {
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKPRZiS(wzorcowy, uklad);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKPRZiS(wzorcowy, uklad);
                     }
                 }
                 //to duperele porzadkujace sytuacje w okienkach
@@ -200,11 +203,11 @@ public class PozycjaBRKontaView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, false, "wynik");
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "wynik");
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
                 }
             }
             uzupelnijpozycjeOKontaR(pozycje);
@@ -212,6 +215,7 @@ public class PozycjaBRKontaView implements Serializable {
     }
 
     public void onKontoDropB(Konto konto, String br) {
+        boolean wzorcowy = false;
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -224,10 +228,10 @@ public class PozycjaBRKontaView implements Serializable {
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneIstniejeKP();
+                        onKontoDropKontaSpecjalneIstniejeKP(wzorcowy, uklad);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneIstniejeKP();
+                        onKontoDropKontaSpecjalneIstniejeKP(wzorcowy, uklad);
                     }
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("zwykłe")) {
@@ -254,11 +258,11 @@ public class PozycjaBRKontaView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, false, "bilans");
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "bilans");
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
                 }
             }
             uzupelnijpozycjeOKonta(pozycje);
@@ -266,7 +270,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     }
 
-    public void onKontoDropKontaSpecjalneRZiS() {
+    public void onKontoDropKontaSpecjalneRZiS(boolean wzorcowy, UkladBR ukladpodatnika) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -283,14 +287,14 @@ public class PozycjaBRKontaView implements Serializable {
                     kp.setStronaWn("88");
                     kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 } else {
                     kp.setPozycjaMa(wybranapozycja);
                     kp.setStronaMa("88");
                     kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 }
                 kontoDAO.edit(konto);
@@ -298,18 +302,18 @@ public class PozycjaBRKontaView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             }
         }
         uzupelnijpozycjeOKontaR(pozycje);
     }
 
-    public void onKontoDropKontaSpecjalneIstniejeKPRZiS() {
+    public void onKontoDropKontaSpecjalneIstniejeKPRZiS(boolean wzorcowy, UkladBR ukladpodatnika) {
         if (wybranapozycja == null) {
             System.out.println("Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta onKontoDropKontaSpecjalneIstniejeKPRZiS");
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
@@ -336,18 +340,18 @@ public class PozycjaBRKontaView implements Serializable {
                 kontabezprzydzialu.remove(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             }
         }
         uzupelnijpozycjeOKontaR(pozycje);
     }
 
-    public void onKontoDropKontaSpecjalne() {
+    public void onKontoDropKontaSpecjalne(boolean wzorcowy, UkladBR ukladpodatnika) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -369,7 +373,7 @@ public class PozycjaBRKontaView implements Serializable {
                     }
                     kp.setSyntetykaanalityka("rozrachunkowe/vat");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 } else {
                     kp.setPozycjaMa(wybranapozycja);
@@ -380,17 +384,17 @@ public class PozycjaBRKontaView implements Serializable {
                     }
                     kp.setSyntetykaanalityka("rozrachunkowe/vat");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 }
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 if (przyporzadkowanekonta.contains(konto)) {
@@ -408,7 +412,7 @@ public class PozycjaBRKontaView implements Serializable {
                     }
                     kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 } else {
                     kp.setPozycjaMa(wybranapozycja);
@@ -419,7 +423,7 @@ public class PozycjaBRKontaView implements Serializable {
                     }
                     kp.setSyntetykaanalityka("szczególne");
                     kp.setKontoID(konto);
-                    kp.setUkladBR(uklad);
+                    kp.setUkladBR(ukladpodatnika);
                     konto.setKontopozycjaID(kp);
                 }
                 kontoDAO.edit(konto);
@@ -427,18 +431,18 @@ public class PozycjaBRKontaView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             }
         }
         uzupelnijpozycjeOKonta(pozycje);
     }
 
-    public void onKontoDropKontaSpecjalneIstniejeKP() {
+    public void onKontoDropKontaSpecjalneIstniejeKP(boolean wzorcowy, UkladBR ukladpodatnika) {
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
@@ -470,11 +474,11 @@ public class PozycjaBRKontaView implements Serializable {
                 kontoDAO.edit(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             } else if (konto.getZwyklerozrachszczegolne().equals("szczególne")) {
                 if (przyporzadkowanekonta.contains(konto)) {
@@ -504,11 +508,11 @@ public class PozycjaBRKontaView implements Serializable {
                 kontabezprzydzialu.remove(konto);
                 //czesc nanoszaca informacje na potomku
                 if (konto.isMapotomkow() == true) {
-                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, false);
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkoweIstniejeKP(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, aktywa0pasywa1, wzorcowy);
                 }
                 //czesc nanoszaca informacje na macierzyste
                 if (konto.getMacierzysty() > 0) {
-                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+                    PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
                 }
             }
         }
@@ -780,6 +784,24 @@ public class PozycjaBRKontaView implements Serializable {
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
+    
+    public void zaksiegujzmianypozycjiWzorcowy(String rb, UkladBR uklad) {
+        if (rb.equals("r")) {
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            }
+        }
+        if (rb.equals("b")) {
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            }
+        }
+        Msg.msg("Zapamiętano przyporządkowane pozycje");
+    }
 
     public void importujwzorcoweprzyporzadkowanie(String rb) {
         if (uklad == null) {
@@ -819,6 +841,33 @@ public class PozycjaBRKontaView implements Serializable {
         }
     }
 
+    public void kopiujwzorcoweprzyporzadkowanie(String rb) {
+        if (ukladdocelowykonta.equals(ukladzrodlowykonta)) {
+            Msg.msg("e", "Nie można kopiować układu w ten sam układ");
+            return;
+        }
+        if (rb.equals("r")) {
+            Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-wynikowych");
+            skopiujPozycjeWzorcowe(rb, ukladdocelowykonta, ukladzrodlowykonta);
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            }
+            pobierzukladkontoR();
+        } else {
+            Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
+            skopiujPozycjeWzorcowe(rb, ukladdocelowykonta, ukladzrodlowykonta);
+            List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
+            for (KontopozycjaBiezaca p : pozycjebiezace) {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+            }
+            pobierzukladkontoB("aktywa");
+        }
+    }
+    
+    
     
     private UkladBR znajdzUkladWzorcowy(UkladBR ukladpodatnika) {
         List<UkladBR> lista = ukladBRDAO.findPodatnik("Wzorcowy");
@@ -849,11 +898,11 @@ public class PozycjaBRKontaView implements Serializable {
                                 if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
                                     wybranapozycja = p.getPozycjaWn();
                                     wnmaPrzypisywanieKont = "wn";
-                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika);
+                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false);
                                     wybranapozycja = p.getPozycjaMa();
-                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika);
+                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika, false);
                                 } else {
-                                    onKontoDropRAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika);
+                                    onKontoDropRAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false);
                                 }
                             }
                         } catch (Exception e) {
@@ -884,13 +933,13 @@ public class PozycjaBRKontaView implements Serializable {
                                      wybranapozycja = p.getPozycjaWn();
                                      wnmaPrzypisywanieKont = "wn";
                                      aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
-                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika);
+                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, false);
                                      wybranapozycja = p.getPozycjaMa();
                                      aktywa0pasywa1 = p.getStronaMa().equals("0") ? false : true;
-                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika);
+                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika, false);
                                   } else {
                                       aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
-                                      onKontoDropBAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, aktywa0pasywa1);
+                                      onKontoDropBAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, aktywa0pasywa1, false);
                                   }
                              }
                          } catch (Exception e) {
@@ -905,21 +954,98 @@ public class PozycjaBRKontaView implements Serializable {
         Msg.msg("Zapamiętano przyporządkowane pozycje");
     }
     
-    public void onKontoDropRAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika) {
+    private void skopiujPozycjeWzorcowe(String rb, UkladBR ukladpodatnika, UkladBR ukladwzorcowy) {
+        if (rb.equals("r")) {
+            wyczyscKontaWzorcowy("wynikowe");
+            kontabezprzydzialu = new ArrayList<>();
+            przyporzadkowanekonta = new ArrayList<>();
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, "wynikowe");
+            for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
+                if (!p.getSyntetykaanalityka().equals("analityka")) {
+                    if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
+                        System.out.println("Szukam konta " + p.getKontoID().toString());
+                        try {
+                            Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladpodatnika);
+                            boxNaKonto = kontouzytkownika;
+                            if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
+                                if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
+                                    wybranapozycja = p.getPozycjaWn();
+                                    wnmaPrzypisywanieKont = "wn";
+                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, true);
+                                    wybranapozycja = p.getPozycjaMa();
+                                    onKontoDropRAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika, true);
+                                } else {
+                                    onKontoDropRAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, true);
+                                }
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
+                        }
+                    }
+                } else {
+                    System.out.println("konto przyporzadkowane analityka");
+                }
+            }
+            zaksiegujzmianypozycjiWzorcowy("r", ukladpodatnika);
+        }
+        if (rb.equals("b")) {
+            wyczyscKontaWzorcowy("bilansowe");
+            kontabezprzydzialu = new ArrayList<>();
+            przyporzadkowanekonta = new ArrayList<>();
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+            List<KontopozycjaZapis> zapisanePOzycjezUkladuWzorcowego = kontopozycjaZapisDAO.findKontaPozycjaBiezacaPodatnikUklad(ukladwzorcowy, "bilansowe");
+            for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
+               if (!p.getSyntetykaanalityka().equals("analityka")) {
+                    if (!p.getSyntetykaanalityka().equals("syntetyka")) {//wykluczam potomkow podlaczanych automatycznie
+                         System.out.println("Szukam konta "+p.getKontoID().toString());
+                         try {
+                             Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladpodatnika);
+                             boxNaKonto = kontouzytkownika;
+                             if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
+                                  if (!kontouzytkownika.getZwyklerozrachszczegolne().equals("zwykłe")) {
+                                     wybranapozycja = p.getPozycjaWn();
+                                     wnmaPrzypisywanieKont = "wn";
+                                     aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
+                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, true);
+                                     wybranapozycja = p.getPozycjaMa();
+                                     aktywa0pasywa1 = p.getStronaMa().equals("0") ? false : true;
+                                     onKontoDropBAutoSzczegolne(kontouzytkownika, p.getPozycjaMa(), ukladpodatnika, true);
+                                  } else {
+                                      aktywa0pasywa1 = p.getStronaWn().equals("0") ? false : true;
+                                      onKontoDropBAutoZwykle(kontouzytkownika, p.getPozycjaWn(), ukladpodatnika, aktywa0pasywa1, true);
+                                  }
+                             }
+                         } catch (Exception e) {
+                             E.e(e);
+                         }
+                     }
+               } else {
+                    System.out.println("konto przyporzadkowane analityka");
+               }
+            }
+            zaksiegujzmianypozycjiWzorcowy("b", ukladpodatnika);
+        }
+        Msg.msg("Zapamiętano przyporządkowane pozycje");
+    }
+    
+    public void onKontoDropRAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
                 if (konto.getKontopozycjaID() == null) {
-                        onKontoDropKontaSpecjalneRZiS();
+                        onKontoDropKontaSpecjalneRZiS(wzorcowy, ukladpodatnika);
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKPRZiS(wzorcowy, ukladpodatnika);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneIstniejeKPRZiS();
+                        onKontoDropKontaSpecjalneIstniejeKPRZiS(wzorcowy, ukladpodatnika);
                     }
                 }
     }
     
-    public void onKontoDropRAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika) {
+    public void onKontoDropRAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
         przyporzadkowanekonta.add(konto);
         Collections.sort(przyporzadkowanekonta, new Kontocomparator());
         kontabezprzydzialu.remove(konto);
@@ -937,29 +1063,29 @@ public class PozycjaBRKontaView implements Serializable {
         kontoDAO.edit(konto);
         //czesc nanoszaca informacje na potomku
         if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, false, "wynik");
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "wynik");
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, false);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
         }
     }
     
-    public void onKontoDropBAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika) {
+    public void onKontoDropBAutoSzczegolne(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean wzorcowy) {
                 if (konto.getKontopozycjaID() == null) {
-                        onKontoDropKontaSpecjalne();
+                        onKontoDropKontaSpecjalne(wzorcowy, ukladpodatnika);
                 } else {
                     if (konto.getKontopozycjaID().getPozycjaWn() != null) {
                         wnmaPrzypisywanieKont = "ma";
-                        onKontoDropKontaSpecjalneIstniejeKP();
+                        onKontoDropKontaSpecjalneIstniejeKP(wzorcowy, ukladpodatnika);
                     } else {
                         wnmaPrzypisywanieKont = "wn";
-                        onKontoDropKontaSpecjalneIstniejeKP();
+                        onKontoDropKontaSpecjalneIstniejeKP(wzorcowy, ukladpodatnika);
                     }
                 }
     }
     
-    public void onKontoDropBAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean ap) {
+    public void onKontoDropBAutoZwykle(Konto konto, String pozycja, UkladBR ukladpodatnika, boolean ap, boolean wzorcowy) {
         przyporzadkowanekonta.add(konto);
         Collections.sort(przyporzadkowanekonta, new Kontocomparator());
         kontabezprzydzialu.remove(konto);
@@ -982,17 +1108,25 @@ public class PozycjaBRKontaView implements Serializable {
         kontoDAO.edit(konto);
         //czesc nanoszaca informacje na potomku
         if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, false, "bilans");
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "bilans");
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, false);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, ukladpodatnika, kontoDAO, wpisView, wzorcowy);
         }
     }
     
    
 
     private void wyczyscKonta(String rb) {
+        if (rb.equals("wynikowe")) {
+            kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
+        } else {
+            kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
+        }
+    }
+    
+    private void wyczyscKontaWzorcowy(String rb) {
         if (rb.equals("wynikowe")) {
             kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
         } else {
@@ -1049,6 +1183,22 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void setPozycje(ArrayList<PozycjaRZiSBilans> pozycje) {
         this.pozycje = pozycje;
+    }
+
+    public UkladBR getUkladzrodlowykonta() {
+        return ukladzrodlowykonta;
+    }
+
+    public void setUkladzrodlowykonta(UkladBR ukladzrodlowykonta) {
+        this.ukladzrodlowykonta = ukladzrodlowykonta;
+    }
+
+    public UkladBR getUkladdocelowykonta() {
+        return ukladdocelowykonta;
+    }
+
+    public void setUkladdocelowykonta(UkladBR ukladdocelowykonta) {
+        this.ukladdocelowykonta = ukladdocelowykonta;
     }
 
     public UkladBR getUklad() {
