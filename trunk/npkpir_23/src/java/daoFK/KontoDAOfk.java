@@ -301,7 +301,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
    }
     
-    public List<Konto> findKontaPrzyporzadkowaneWzorcowy (String pozycja, String bilansowewynikowe, WpisView wpisView, boolean aktywa0pasywa1) {
+    public List<Konto> findKontaPrzyporzadkowaneWzorcowy (String pozycja, String bilansowewynikowe, int rok, boolean aktywa0pasywa1) {
       try {
           String aktywapasywa = "";
           if (aktywa0pasywa1) {
@@ -309,7 +309,7 @@ public class KontoDAOfk extends DAO implements Serializable{
           } else {
               aktywapasywa = "0";
           }
-            return kontoFacade.findKontaPrzyporzadkowaneWzorcowy(pozycja, bilansowewynikowe, wpisView, aktywapasywa);
+            return kontoFacade.findKontaPrzyporzadkowaneWzorcowy(pozycja, bilansowewynikowe, rok, aktywapasywa);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
@@ -373,9 +373,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
     }
     
-    public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView,String macierzyste, String bilansowewynikowe) {
+    public List<Konto> findKontaPotomneWzorcowy(Integer rok,String macierzyste, String bilansowewynikowe) {
         try {
-            return kontoFacade.findKontaPotomneWzorcowy(wpisView, macierzyste, bilansowewynikowe);
+            return kontoFacade.findKontaPotomneWzorcowy(rok, macierzyste, bilansowewynikowe);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
