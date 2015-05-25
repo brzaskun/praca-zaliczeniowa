@@ -44,7 +44,7 @@
                 <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{String.valueOf(loop.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":formbilansprojekt"/>

@@ -11,7 +11,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import viewfk.UkladBRView;
-import viewfk.WalutyViewFK;
 
 /**
  *
@@ -31,7 +30,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
             try {  
                 String skrot = submittedValue;  
                 for (UkladBR p : kl) {  
-                    if (p.getUklad().equals(skrot)) {  
+                     if (String.valueOf(p.getLp()).equals(skrot)) {  
                         return p;  
                     }  
                 }  
@@ -49,7 +48,7 @@ public class UkladBRConv  implements javax.faces.convert.Converter{
             if (value == null || value.equals("")) {  
                 return "";  
             } else {  
-                return String.valueOf(((UkladBR) value).getUklad());  
+                return String.valueOf(((UkladBR) value).getLp());   
             }  
         } catch (Exception e) {
             return "";

@@ -8,17 +8,11 @@
         <p:dialog id="dialogrzisuklad" header="Układ Rachunku Zysków i Strat - przypisywanie kont" widgetVar="rzisuklad" dynamic="true"
               resizable="false" onShow="ustawdialog('dialogrzisuklad','menubilanse', 1350, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisuklad');"  >
         <h:form id="form">
-            <!--            <p:contextMenu for="dataList">
-                            <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
-                            <p:menuitem value="Nowe analityczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontoanalityczne').show();"/>
-                            <p:menuitem value="Usuń" actionListener="{planKontView.usun()}" icon="ui-icon-trash" update=":form"/>
-                        </p:contextMenu>
-            -->           
             <p:panelGrid columns="10">
                 <p:panelGrid columns="3">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRKontaView.uklad}" converter="UkladBRConv">
-                        <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{loop}"/>
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop"  itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRKontaView.pobierzukladkontoR()}" update=":form"/>
                 </p:panelGrid>
