@@ -74,6 +74,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     private int level = 0;
     private String wybranapozycja;
     private TreeNode wybranynodekonta;
+    
 
     public PozycjaBRKontaWzorcowyView() {
         this.kontabezprzydzialu = new ArrayList<>();
@@ -807,6 +808,14 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
         } else {
             kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
+        }
+    }
+   
+   private void wyczyscKontaWzorcowy(String rb) {
+        if (rb.equals("wynikowe")) {
+            kontoDAO.wyzerujPozycjeWKontachWzorcowy(wpisView,"wynikowe");
+        } else {
+            kontoDAO.wyzerujPozycjeWKontachWzorcowy(wpisView,"bilansowe");
         }
     }
     

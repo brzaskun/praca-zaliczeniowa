@@ -74,7 +74,7 @@ public class PozycjaRZiSDAO extends DAO implements Serializable{
         }
     }
 
-    public int findMaxLevelPodatnik(UkladBR ukladBR) {
+    public Integer findMaxLevelPodatnik(UkladBR ukladBR) {
         try {
             return sessionFacade.findMaxLevelRzisuklad(ukladBR.getUklad(), ukladBR.getPodatnik(), ukladBR.getRok());
         } catch (Exception e) { E.e(e); 

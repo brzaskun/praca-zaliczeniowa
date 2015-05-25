@@ -553,7 +553,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     @Override
     public String toString() {
-        return "Konto{" + "id=" + id + ", podatnik=" + podatnik + ", nrkonta=" + pelnynumer + ", syntetyczne=" + syntetyczne + ", nazwaskrocona=" + nazwaskrocona + ", bilansowewynikowe=" + bilansowewynikowe + ", zwyklerozrachszczegolne=" + zwyklerozrachszczegolne + '}';
+        return "Konto{" + "id=" + id + ", rok=" + rok +", podatnik=" + podatnik + ", nrkonta=" + pelnynumer + ", syntetyczne=" + syntetyczne + ", nazwaskrocona=" + nazwaskrocona + ", bilansowewynikowe=" + bilansowewynikowe + ", zwyklerozrachszczegolne=" + zwyklerozrachszczegolne + '}';
     }
 
     @Override

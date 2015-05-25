@@ -7,6 +7,7 @@ package daoFK;
 import dao.DAO;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -191,6 +192,15 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
    
+   public Konto findKontoWzorcowy(String numer, UkladBR ukladBR){
+       try {
+            return kontoFacade.findKontoWzorcowy(numer, Integer.parseInt(ukladBR.getRok()));
+        } catch (Exception e) { 
+            E.e(e); 
+            return null;
+        }
+   }
+   
    public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView){
        try {
             return kontoFacade.findKontoNazwaPodatnik(nazwaskrocona, wpisView);
@@ -242,6 +252,10 @@ public class KontoDAOfk extends DAO implements Serializable{
     
     public void wyzerujPozycjeWKontach(WpisView wpisView, String bilansowewynikowe) {
         kontoFacade.wyzerujPozycjeWKontach(wpisView, bilansowewynikowe);
+    }
+    
+    public void wyzerujPozycjeWKontachWzorcowy(WpisView wpisView, String bilansowewynikowe) {
+        kontoFacade.wyzerujPozycjeWKontachWzorcowy(wpisView, bilansowewynikowe);
     }
     
     public List<Konto> findKontaBilansowePodatnikaBezPotomkow(WpisView wpisView){

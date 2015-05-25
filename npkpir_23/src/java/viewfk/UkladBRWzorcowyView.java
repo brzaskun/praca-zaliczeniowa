@@ -5,6 +5,8 @@
 package viewfk;
 
 import comparator.UkladBRcomparator;
+import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
 import daoFK.UkladBRDAO;
@@ -45,10 +47,15 @@ public class UkladBRWzorcowyView implements Serializable{
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+     @Inject
+    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     @Inject
     private UkladBR ukladzrodlowy;
     private String ukladdocelowynazwa;
     private String ukladdocelowyrok;
+    
     
 
     public UkladBRWzorcowyView() {
@@ -96,6 +103,10 @@ public class UkladBRWzorcowyView implements Serializable{
 
     public void usun(UkladBR ukladBR) {
         try {
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "bilansowe");
+            kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
+            kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladBR, "wynikowe");
             ukladBRDAO.destroy(ukladBR);
             lista.remove(ukladBR);
             pozycjaRZiSDAO.findRemoveRzisuklad(ukladBR);
@@ -124,11 +135,13 @@ public class UkladBRWzorcowyView implements Serializable{
         }
     }
     
+    
+    
         
      private void implementujRZiS(UkladBR ukladzrodlowy, String rok) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladzrodlowy);
         List<PozycjaRZiS> macierzyste = skopiujlevel0RZiS(pozycje, rok);
-        int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladzrodlowy);
+        Integer maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, rok);
         }
@@ -138,7 +151,7 @@ public class UkladBRWzorcowyView implements Serializable{
       private void implementujBilans(UkladBR ukladzrodlowy, String rok) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladzrodlowy);
         List<PozycjaBilans> macierzyste = skopiujlevel0Bilans(pozycje, rok);
-        int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladzrodlowy);
+        Integer maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladzrodlowy);
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
         }
@@ -272,6 +285,8 @@ public class UkladBRWzorcowyView implements Serializable{
     public void setSelected(UkladBR selected) {
         this.selected = selected;
     }
+
+       
      public UkladBR getUkladzrodlowy() {
         return ukladzrodlowy;
     }
