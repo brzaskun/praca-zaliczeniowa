@@ -45,7 +45,7 @@
                 <p:panel id="wyborrziswzorcowy" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox id="selboxwzorzec" value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
-                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{loopik}"/>
+                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('r', pozycjaBRWzorcowyView.rootProjektRZiS, '')}" update=":formprojektwzorcowy"/>
                 </p:panel>

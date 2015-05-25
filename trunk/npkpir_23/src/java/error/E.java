@@ -19,9 +19,19 @@ public class E {
             StringBuilder p = new StringBuilder();
             p.append("Blad ");
             p.append(e.getStackTrace()[0].toString());
-            p.append(" ");
-            p.append(e.toString());
             System.out.println(p.toString());
+            if (e.getStackTrace()[1] != null) {
+                p = new StringBuilder();
+                p.append("cd. ");
+                p.append(e.getStackTrace()[1].toString());
+                System.out.println(p.toString());
+            }
+            if (e.getStackTrace()[2] != null) {
+                p = new StringBuilder();
+                p.append("cd. ");
+                p.append(e.getStackTrace()[2].toString());
+                System.out.println(p.toString());
+            }
         } else {
             StringBuilder p = new StringBuilder();
             p.append("Blad ");
