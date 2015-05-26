@@ -534,11 +534,11 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
-    public Konto findKonto(String numer, String podatnik, int rok) {
+    public Konto findKonto(String numer, String podatnik, Integer rok) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
-    public Konto findKontoWzorcowy(String numer, int rok) {
+    public Konto findKontoWzorcowy(String numer, Integer rok) {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerWzorcowy").setParameter("pelnynumer", numer).setParameter("podatnik", "Wzorcowy").setParameter("rok", rok).getSingleResult();
     }
 
@@ -778,8 +778,8 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", 2015).getResultList();
     }
 
-    public List<Konto> findKontaPotomneWzorcowy(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", rok).getResultList();
     }
 
     public List<Konto> findKontaSiostrzanePodatnik(WpisView wpisView, String macierzyste) {
@@ -1514,8 +1514,8 @@ public class SessionFacade<T> implements Serializable {
         em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
     }
     
-    public void wyzerujPozycjeWKontachWzorcowy(WpisView wpisView, String bilansowewynikowe) {
-        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
+    public void wyzerujPozycjeWKontachWzorcowy(UkladBR uklad, String bilansowewynikowe) {
+        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", "Wzorcowy").setParameter("rok", Integer.parseInt(uklad.getRok())).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
     }
 
     public void zerujkontazLevelu(WpisView wpisView, int i) {

@@ -423,7 +423,7 @@ public class PlanKontView implements Serializable {
             for (Podatnik p : listapodatnikowfk) {
                 Konto konto = selectednodekonto;
                 dodajpojedynczekoto(konto, wpisView.getPodatnikWpisu());
-                List<Konto> potomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView, konto.getPelnynumer());
+                List<Konto> potomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), konto.getPelnynumer());
                 for (Konto r : potomne) {
                     dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
                 }
