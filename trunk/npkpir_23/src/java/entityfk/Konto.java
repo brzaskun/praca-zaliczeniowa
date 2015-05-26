@@ -274,7 +274,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     }
    
     public void getAllChildrenWzorcowy(List<Konto> listakontwszystkie, WpisView wpisView, SessionFacade kontoFacade) {
-        List<Konto> children = kontoFacade.findKontaPotomneWzorcowy(wpisView, this.pelnynumer);
+        List<Konto> children = kontoFacade.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), this.pelnynumer);
         if (!children.isEmpty()) {
             for (Konto o : children) {
                 listakontwszystkie.add(o);

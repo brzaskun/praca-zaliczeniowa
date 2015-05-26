@@ -163,9 +163,13 @@ public class PozycjaBRWzorcowyView implements Serializable {
             System.out.println("Blad przy pobieraniu ukladu "+e.toString());
         }   
         root.getChildren().clear();
-        PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
-        level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
-        Msg.msg("i", "Pobrano układ ");
+        if (pozycje != null) {
+            PozycjaRZiSFKBean.ustawRootaprojekt(root, pozycje);
+            level = PozycjaRZiSFKBean.ustawLevel(root, pozycje);
+            Msg.msg("i", "Pobrano układ ");
+        } else {
+            Msg.msg("e", "Pozycje sa puste");
+        }
     }
 
     public void pobierzukladprzegladRZiS() {
