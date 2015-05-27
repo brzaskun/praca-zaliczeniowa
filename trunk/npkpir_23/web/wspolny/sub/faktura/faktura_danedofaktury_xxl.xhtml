@@ -13,7 +13,7 @@
                     <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
                     <h:outputText value="Tu należy wpisać dodatkowe dane do wystawianej faktury:"/>
                     <p:panelGrid id="wprowadzaniefakturaxxl" columns="2">
-                        <h:outputLabel value="opis kolumna netto"/>
+                        <h:outputLabel value="opis kolumna netto 0"/>
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis0}" style="width: 400px;"/>
                         <h:outputLabel value="opis kolumna netto 1"/>
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis1}" style="width: 400px;"/>
@@ -25,7 +25,17 @@
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis4}" style="width: 400px;"/>
                         <h:outputLabel value="opis kolumna netto 5"/>
                         <p:inputText value="#{fakturaXXLKolumnaView.selected.nettoopis5}" style="width: 400px;"/>
-                    </p:panelGrid>   
+                    </p:panelGrid>
+                    <p:panelGrid id="wprowadzaniefakturaxxl2" columns="2">
+                        <h:outputLabel value="pokaż pkwiu"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.pkwiu}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż ilość"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.ilosc}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż jednostka"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.jednostka}" style="width: 400px;"/>
+                        <h:outputLabel value="pokaż cena"/>
+                        <p:selectBooleanCheckbox value="#{fakturaXXLKolumnaView.selected.cena}" style="width: 400px;"/>
+                    </p:panelGrid>
                     <p:panelGrid columns="1">
                         <p:commandButton actionListener="#{fakturaXXLKolumnaView.edytujdanefaktxxl()}" value="edytuj dane" update=":akordeon:form9" type="submit"/>
                     </p:panelGrid>

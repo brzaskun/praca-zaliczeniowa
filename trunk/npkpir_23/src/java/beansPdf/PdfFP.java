@@ -24,14 +24,17 @@ import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
 import entity.Pozycjenafakturze;
+import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import org.apache.commons.lang3.ArrayUtils;
 import slownie.Slownie;
 import view.WpisView;
 import waluty.Z;
@@ -616,9 +619,7 @@ public class PdfFP {
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        PdfPTable table = new PdfPTable(15);
-        table.setTotalWidth(new float[]{30, 150, 50, 30, 30, 70, 70, 70, 70, 70, 70, 90, 40, 90, 90});
-        table.setWidthPercentage(95);
+        PdfPTable table = ustawTable(fakturaXXLKolumna);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
@@ -657,15 +658,36 @@ public class PdfFP {
         table.addCell(ustawfrazeAlign("lp", "center", 7));
         String opis = selected.getNazwa() != null ? selected.getNazwa() : "opis";
         table.addCell(ustawfrazeAlign(opis, "center", 7));
-        table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
-        table.addCell(ustawfrazeAlign("ilość", "center", 7));
-        table.addCell(ustawfrazeAlign("jedn.m.", "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis0(), "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis1(), "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis2(), "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis3(), "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis4(), "center", 7));
-        table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis5(), "center", 7));
+        if (fakturaXXLKolumna.isPkwiu()) {
+            table.addCell(ustawfrazeAlign("PKWiU", "center", 7));
+        }
+        if (fakturaXXLKolumna.isIlosc()) {
+            table.addCell(ustawfrazeAlign("ilość", "center", 7));
+        }
+        if (fakturaXXLKolumna.isJednostka()) {
+            table.addCell(ustawfrazeAlign("jedn.m.", "center", 7));
+        }
+        if (fakturaXXLKolumna.isCena()) {
+            table.addCell(ustawfrazeAlign("cena jedn.", "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis0(), "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis1(), "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis2(), "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis3(), "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis4(), "center", 7));
+        }
+        if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
+            table.addCell(ustawfrazeAlign(fakturaXXLKolumna.getNettoopis5(), "center", 7));
+        }
         table.addCell(ustawfrazeAlign("wartość netto", "center", 7));
         table.addCell(ustawfrazeAlign("stawka vat", "center", 7));
         table.addCell(ustawfrazeAlign("kwota vat", "center", 7));
@@ -679,34 +701,56 @@ public class PdfFP {
         for (Pozycjenafakturzebazadanych pozycje : poz) {
             table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 7));
             table.addCell(ustawfrazeAlign(pozycje.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 7));
-            table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCena() == 0.0 ? "" : formatter.format(pozycje.getCena())), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn1()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn2()== 0.0 ? "" : formatter.format(pozycje.getCenajedn2())), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn3()== 0.0 ? "" : formatter.format(pozycje.getCenajedn3())), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn4()== 0.0 ? "" : formatter.format(pozycje.getCenajedn4())), "right", 7));
-            table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn5()== 0.0 ? "" : formatter.format(pozycje.getCenajedn5())), "right", 7));
+            if (fakturaXXLKolumna.isPkwiu()) {
+                table.addCell(ustawfrazeAlign(pozycje.getPKWiU(), "center", 7));
+            }
+            if (fakturaXXLKolumna.isIlosc()) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getIlosc()), "center", 7));
+            }
+            if (fakturaXXLKolumna.isJednostka()) {
+                table.addCell(ustawfrazeAlign(pozycje.getJednostka(), "center", 7));
+            }
+            if (fakturaXXLKolumna.isCena()) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCena() == 0.0 ? "" : formatter.format(pozycje.getCena())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn0()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn1()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn2()== 0.0 ? "" : formatter.format(pozycje.getCenajedn2())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn3()== 0.0 ? "" : formatter.format(pozycje.getCenajedn3())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn4()== 0.0 ? "" : formatter.format(pozycje.getCenajedn4())), "right", 7));
+            }
+            if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn5()== 0.0 ? "" : formatter.format(pozycje.getCenajedn5())), "right", 7));
+            }
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getNetto())), "right", 7));
             table.addCell(ustawfrazeAlign(String.valueOf((int) pozycje.getPodatek()) + "%", "center", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getPodatekkwota())), "right", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(pozycje.getBrutto())), "right", 7));
         }
+        int l = 2 + oblicziloscXXLkolumn(fakturaXXLKolumna);
         if (korekta) {
-            table.addCell(ustawfraze("Razem", 11, 0));
+            table.addCell(ustawfraze("Razem", l, 0));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk())), "right", 7));
             table.addCell(ustawfrazeAlign("*", "center", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk())), "right", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()+selected.getVatpk())), "right", 7));
         } else {
-            table.addCell(ustawfraze("Razem", 11, 0));
+            table.addCell(ustawfraze("Razem", l, 0));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto())), "right", 7));
             table.addCell(ustawfrazeAlign("*", "center", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVat())), "right", 7));
             table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNetto()+selected.getVat())), "right", 7));
         }
-        table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
+        table.addCell(ustawfraze("w tym wg stawek vat", l, 0));
         List<EVatwpis> ewidencja = null;
         if (korekta) {
             ewidencja = selected.getEwidencjavatpk();
@@ -717,7 +761,7 @@ public class PdfFP {
         if (ewidencja != null) {
             for (EVatwpis p : ewidencja) {
                 if (ilerow > 0) {
-                    table.addCell(ustawfraze(" ", 11, 0));
+                    table.addCell(ustawfraze(" ", l, 0));
                 }
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(p.getEstawka())) + "%", "center", 7));
@@ -733,7 +777,97 @@ public class PdfFP {
         table.completeRow();
         return table;
     }
+    
+    private static  PdfPTable ustawTable(FakturaXXLKolumna fakturaXXLKolumna) {
+        try {
+            int wielkoscXXL = oblicziloscXXLkolumn(fakturaXXLKolumna);
+            PdfPTable table = new PdfPTable(6+wielkoscXXL);
+            List<Float> szerokosci = new ArrayList<>();
+            szerokosci.add(30f);
+            szerokosci.add(150f);
+            dodajSzerokosci(fakturaXXLKolumna, szerokosci);
+            szerokosci.add(90f);
+            szerokosci.add(40f);
+            szerokosci.add(90f);
+            szerokosci.add(90f);
+            float[] floatArray = ArrayUtils.toPrimitive(szerokosci.toArray(new Float[0]), 0.0F);
+            table.setTotalWidth(floatArray);
+            table.setWidthPercentage(95);
+            return table;
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
+    private static int oblicziloscXXLkolumn(FakturaXXLKolumna fakturaXXLKolumna) {
+        int liczba = 0;
+        if (fakturaXXLKolumna.isCena()==true) {
+            liczba++;
+        }
+        if (fakturaXXLKolumna.isIlosc()==true) {
+            liczba++;
+        }
+        if (fakturaXXLKolumna.isJednostka()==true) {
+            liczba++;
+        }
+        if (fakturaXXLKolumna.isPkwiu()==true) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
+            liczba++;
+        }
+        if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
+            liczba++;
+        }
+        return liczba;
+    }
+    
+    private static void dodajSzerokosci(FakturaXXLKolumna fakturaXXLKolumna, List<Float> szerokosci) {
+        if (fakturaXXLKolumna.isPkwiu()==true) {
+            szerokosci.add(50f);
+        }
+        if (fakturaXXLKolumna.isIlosc()==true) {
+            szerokosci.add(30f);
+        }
+        if (fakturaXXLKolumna.isJednostka()==true) {
+            szerokosci.add(30f);
+        }
+        if (fakturaXXLKolumna.isCena()==true) {
+            szerokosci.add(50f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
+            szerokosci.add(70f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
+            szerokosci.add(70f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
+            szerokosci.add(70f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
+            szerokosci.add(70f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
+            szerokosci.add(70f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
+            szerokosci.add(70f);
+        }
+    }
+    
     private static void wierszroznicy(Faktura selected, PdfPTable table) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
