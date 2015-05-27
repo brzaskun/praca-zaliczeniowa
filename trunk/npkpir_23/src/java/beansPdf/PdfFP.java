@@ -126,6 +126,7 @@ public class PdfFP {
     }
 
     public static void dolaczpozycjedofaktury(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiaryGora, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         String adres = "";
         float dzielnik = 2;
@@ -180,10 +181,20 @@ public class PdfFP {
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaxxl()==false) {
                         table = wygenerujtablice(false, selected.getPozycjenafakturze(), selected);
                     } else if (selected.getPozycjepokorekcie() != null && selected.isFakturaxxl()==true) {
-                        table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
-                        tablekorekta = wygenerujtablicexxl(true, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
+                        if (wierszewtabelach > 12) {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, true);
+                            tablekorekta = wygenerujtablicexxl(true, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, true);
+                        } else {
+                            //false to znaczy ze odleglosci maja byc inne
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, false);
+                            tablekorekta = wygenerujtablicexxl(true, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, false);
+                        }
                     } else if (selected.getPozycjepokorekcie() == null && selected.isFakturaxxl()==true) {
-                        table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
+                        if (wierszewtabelach > 12) {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, true);
+                        } else {
+                            table = wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, false);
+                        }
                     } 
                     // write the table to an absolute position
                     table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:towary"), writer.getDirectContent());
@@ -385,7 +396,7 @@ public class PdfFP {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocpozycje(skladnikifaktury, "towary");
-                    return wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView);
+                    return wygenerujtablicexxl(false, selected.getPozycjenafakturze(), selected, fakturaXXLKolumnaDAO, wpisView, true);
                 default:
                     break;
                
@@ -416,7 +427,7 @@ public class PdfFP {
                 case "akordeon:formwzor:towary":
                     //Dane do tablicy z wierszami
                     pobrane = zwrocpozycje(skladnikifaktury, "towary");
-                    return wygenerujtablicexxl(true, selected.getPozycjepokorekcie(), selected, fakturaXXLKolumnaDAO, wpisView);
+                    return wygenerujtablicexxl(true, selected.getPozycjepokorekcie(), selected, fakturaXXLKolumnaDAO, wpisView, true);
                 default:
                     break;
             }
@@ -613,13 +624,13 @@ public class PdfFP {
         return table;
     }
 
-    private static PdfPTable wygenerujtablicexxl(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO, WpisView wpisView) throws DocumentException, IOException {
+    private static PdfPTable wygenerujtablicexxl(boolean korekta, List<Pozycjenafakturzebazadanych> poz, Faktura selected, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO, WpisView wpisView, boolean maladuza) throws DocumentException, IOException {
         FakturaXXLKolumna fakturaXXLKolumna = pobierzfakturaxxlkolumna(fakturaXXLKolumnaDAO, wpisView);
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        PdfPTable table = ustawTable(fakturaXXLKolumna);
+        PdfPTable table = ustawTable(fakturaXXLKolumna, maladuza);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
@@ -778,25 +789,42 @@ public class PdfFP {
         return table;
     }
     
-    private static  PdfPTable ustawTable(FakturaXXLKolumna fakturaXXLKolumna) {
+    private static  PdfPTable ustawTable(FakturaXXLKolumna fakturaXXLKolumna, boolean maladuza) {
         try {
             int wielkoscXXL = oblicziloscXXLkolumn(fakturaXXLKolumna);
             PdfPTable table = new PdfPTable(6+wielkoscXXL);
             List<Float> szerokosci = new ArrayList<>();
-            szerokosci.add(30f);
-            szerokosci.add(150f);
-            dodajSzerokosci(fakturaXXLKolumna, szerokosci);
-            szerokosci.add(90f);
-            szerokosci.add(40f);
-            szerokosci.add(90f);
-            szerokosci.add(90f);
+            setszerokosci(fakturaXXLKolumna,szerokosci, maladuza);
             float[] floatArray = ArrayUtils.toPrimitive(szerokosci.toArray(new Float[0]), 0.0F);
             table.setTotalWidth(floatArray);
+            if (maladuza==false) {
+                table.setTotalWidth(550);
+            }
             table.setWidthPercentage(95);
             return table;
         } catch (Exception e) {
             E.e(e);
             return null;
+        }
+    }
+    
+    private static void setszerokosci (FakturaXXLKolumna fakturaXXLKolumna, List<Float> szerokosci, boolean maladuza) {
+        if (maladuza == false) {
+            szerokosci.add(15f);
+            szerokosci.add(75f);
+            dodajSzerokosciMala(fakturaXXLKolumna, szerokosci);
+            szerokosci.add(45f);
+            szerokosci.add(20f);
+            szerokosci.add(45f);
+            szerokosci.add(45f);
+        } else {
+            szerokosci.add(30f);
+            szerokosci.add(150f);
+            dodajSzerokosciDuza(fakturaXXLKolumna, szerokosci);
+            szerokosci.add(90f);
+            szerokosci.add(40f);
+            szerokosci.add(90f);
+            szerokosci.add(90f);
         }
     }
 
@@ -834,8 +862,40 @@ public class PdfFP {
         }
         return liczba;
     }
+    private static void dodajSzerokosciMala(FakturaXXLKolumna fakturaXXLKolumna, List<Float> szerokosci) {
+        if (fakturaXXLKolumna.isPkwiu()==true) {
+            szerokosci.add(25f);
+        }
+        if (fakturaXXLKolumna.isIlosc()==true) {
+            szerokosci.add(15f);
+        }
+        if (fakturaXXLKolumna.isJednostka()==true) {
+            szerokosci.add(15f);
+        }
+        if (fakturaXXLKolumna.isCena()==true) {
+            szerokosci.add(25f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
+            szerokosci.add(35f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
+            szerokosci.add(35f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
+            szerokosci.add(35f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
+            szerokosci.add(35f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
+            szerokosci.add(35f);
+        }
+        if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
+            szerokosci.add(35f);
+        }
+    }
     
-    private static void dodajSzerokosci(FakturaXXLKolumna fakturaXXLKolumna, List<Float> szerokosci) {
+    private static void dodajSzerokosciDuza(FakturaXXLKolumna fakturaXXLKolumna, List<Float> szerokosci) {
         if (fakturaXXLKolumna.isPkwiu()==true) {
             szerokosci.add(50f);
         }
