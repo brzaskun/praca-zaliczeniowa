@@ -170,7 +170,7 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     private void drukujcd(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
+            List<Pozycjenafakturze> skladnikifaktury = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
         if (skladnikifaktury.isEmpty()) {
             Msg.msg("e", "Nie zdefiniowano pozycji faktury. Nie można jej wydrukować. Przejdź do zakładki: 'Wzór faktury'.", "akordeon:formstworz:messagesinline");
         } else {
@@ -249,7 +249,9 @@ public class PdfFaktura extends Pdf implements Serializable {
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 PdfFP.dodajopisdok(document);
+                document.setMargins(0, 0, 400, 20);
                 document.open();
+                document.setMargins(0, 0, 20, 20);
                 PdfFP.dodajnaglowekstopka(writer, elementydod);
                 PdfFP.dolaczpozycjedofaktury(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO);
                 document.close();

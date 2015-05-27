@@ -19,6 +19,7 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         private int lp;
         private String nazwa = "";
         private String nowakolumna = "";
+        private double cenajedn0 = 0;
         private double cenajedn1 = 0;
         private double cenajedn2 = 0;
         private double cenajedn3 = 0;
@@ -65,6 +66,15 @@ public class Pozycjenafakturzebazadanych implements Serializable{
         this.nazwa = nazwa;
     }
 
+    public double getCenajedn0() {
+        return cenajedn0;
+    }
+
+    public void setCenajedn0(double cenajedn0) {
+        this.cenajedn0 = cenajedn0;
+    }
+
+    
     public double getCenajedn1() {
         return cenajedn1;
     }

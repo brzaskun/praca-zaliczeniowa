@@ -277,19 +277,23 @@ public class FakturaBean {
         double netto = 0.0;
         double vat = 0.0;
         double brutto = 0.0;
+        //tu oblicza sie wierszw tj. wartosc netto podatek i vat
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double ilosc = p.getIlosc();
-            double cena = p.getCena();
+            double cena = 0.0;
             if (selected.isFakturaxxl()) {
+                cena += p.getCenajedn0();
                 cena += p.getCenajedn1();
                 cena += p.getCenajedn2();
                 cena += p.getCenajedn3();
                 cena += p.getCenajedn4();
                 cena += p.getCenajedn5();
+            } else {
+                cena += p.getCena();
             }
-            double wartosc = ilosc * cena;
-            netto += Z.z(wartosc);
-            p.setNetto(Z.z(wartosc));
+            double wartosc = Z.z(ilosc * cena);
+            netto += wartosc;
+            p.setNetto(wartosc);
             double podatekstawka = p.getPodatek();
             double podatek = (wartosc * podatekstawka) / 100;
             vat += Z.z(podatek);

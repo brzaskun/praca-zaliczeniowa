@@ -39,6 +39,14 @@ public class FakturaXXLKolumna implements Serializable {
     private static final long serialVersionUID = 1L;
     @JoinColumn(name = "podatnik", referencedColumnName = "nip")
     private Podatnik podatnik;
+    @Column(name = "pkwiu")
+    private boolean pkwiu;
+    @Column(name = "ilosc")
+    private boolean ilosc;
+    @Column(name = "jednostka")
+    private boolean jednostka;
+    @Column(name = "cena")
+    private boolean cena;
     @Column(name = "nettoopis0")
     private String nettoopis0;
     @Column(name = "nettoopis1")
@@ -51,6 +59,38 @@ public class FakturaXXLKolumna implements Serializable {
     private String nettoopis4;
     @Column(name = "nettoopis5")
     private String nettoopis5;
+
+    public boolean isPkwiu() {
+        return pkwiu;
+    }
+
+    public void setPkwiu(boolean pkwiu) {
+        this.pkwiu = pkwiu;
+    }
+
+    public boolean isIlosc() {
+        return ilosc;
+    }
+
+    public void setIlosc(boolean ilosc) {
+        this.ilosc = ilosc;
+    }
+
+    public boolean isJednostka() {
+        return jednostka;
+    }
+
+    public void setJednostka(boolean jednostka) {
+        this.jednostka = jednostka;
+    }
+
+    public boolean isCena() {
+        return cena;
+    }
+
+    public void setCena(boolean cena) {
+        this.cena = cena;
+    }
  
     
 

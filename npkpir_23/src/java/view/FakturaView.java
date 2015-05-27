@@ -197,7 +197,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = false;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 1280px;");
+        dataTablepozycjenafakturze.setStyle("max-width: 1470px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura xxl");
@@ -225,8 +225,8 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 1280px;");
-        dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
+        dataTablepozycjenafakturze.setStyle("width: 1470px;");
+        dataTablepozycjenafakturzekorekta.setStyle("width: 1470px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
