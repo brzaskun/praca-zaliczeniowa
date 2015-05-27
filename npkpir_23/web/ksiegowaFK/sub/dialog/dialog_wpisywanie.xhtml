@@ -140,7 +140,7 @@
                                                      $(this).addClass('ui-state-default');" 
                                                      style="width: 200px; height: 19px;" converter="RodzajedokConv">
                             <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny" partialSubmit="true"/>
+                            <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny, :formwpisdokument" partialSubmit="true"/>
                         </h:selectOneMenu>
                         <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 30px; font-weight: 900; margin-left: 15%;" readonly="true"  
                         />
@@ -163,16 +163,16 @@
                         <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidok" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2) and planKontView.infozebrakslownikowych eq ''}"
-                                 columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
-                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}"/>
+                    <p:panelGrid id="panelzkwotamidok" rendered="#{planKontView.infozebrakslownikowych eq ''}"
+                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dok"/>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                 forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
-                                rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? true : false}" style="width: 250px;">
+                                rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}" style="width: 250px;">
                         <p:ajax event="query" global="false"/>
                         <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:wybranawaluta"/>
                         <p:ajax event="focus" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" update=":formwpisdokument:opisdokumentu" global="false"/>
@@ -197,13 +197,13 @@
                                      >
                             <p:ajax event="blur" partialSubmit="true" global="false"/>
                         </p:inputText>
-<!--                        <h:outputText value='' rendered="#{dokfkView.rodzajBiezacegoDokumentu != 1 and dokfkView.rodzajBiezacegoDokumentu != 2}"/>-->
+<!--                        <h:outputText value='' rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 1 and dokfkView.selected.rodzajedok.kategoriadokumentu != 2}"/>-->
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
-                    <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2) and planKontView.infozebrakslownikowych ne ''}"
-                                 columns="#{dokfkView.rodzajBiezacegoDokumentu == 1 or dokfkView.rodzajBiezacegoDokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                    <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2) and planKontView.infozebrakslownikowych ne ''}"
+                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                         <h:outputText value="Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów." style="color: red; font-weight: 900;"/>
                     </p:panelGrid>
                     <p:panelGrid columns="2" id="panelwalutowy" style="min-width: 100%;"  styleClass="uipanelGrid0" >
@@ -225,29 +225,29 @@
                         </p:panelGrid>
                         <p:panelGrid id="panelTabelaNBP"  columns="3" style="min-width: 80%;"   styleClass="uipanelGrid0">
                             <h:outputText id="w02" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" 
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
                             <h:outputText id="w01" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
                             <h:outputText id="w03" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" 
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
                             <h:outputText id="w11" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.datatabeli}"
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
                             <h:outputText id="w12" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.nrtabeli}"
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
 <!--                            <h:selectOneMenu id="w12" value="#{dokfkView.wybranaTabelanbp}" converter="TabelaNBPConv"
-                                             rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}">
+                                             rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}">
                                 <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
                                 <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele()}" partialSubmit="true" global="false" update=":formwpisdokument:w11, :formwpisdokument:w13, :formwpisdokument:dataList, :formwpisdokument:panelzewidencjavat"/>
                             </h:selectOneMenu>-->
                             <h:outputText id="w13" value="#{dokfkView.selected.walutadokumentu eq 'PLN' ? ''  : dokfkView.selected.tabelanbp.kurssredni}" 
-                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu != 0)}"/>
+                                          rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu != 0)}"/>
                         </p:panelGrid>
                     </p:panelGrid>
                 </p:panelGrid>
              
                 <p:panelGrid id="panelzewidencjavat" columns="1"  styleClass="uipanelGrid0" >
                     <p:dataTable id="tablicavat" value="#{dokfkView.selected.ewidencjaVAT}" var="item" emptyMessage="nie ma zapisów w ewidencji vat"
-                                 style="margin-top: 0px;" rendered="#{dokfkView.rodzajBiezacegoDokumentu == 1 || dokfkView.rodzajBiezacegoDokumentu == 2}"
+                                 style="margin-top: 0px;" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 || dokfkView.selected.rodzajedok.kategoriadokumentu == 2}"
                                  sortBy="#{item.lp}" styleClass="gridvat">
                         <p:column headerText="" width="5">
                             <h:outputText value="#{item.lp+1}" styleClass="lpwierszavat"/>
@@ -335,16 +335,16 @@
                             <p:ajax event="change" partialSubmit="true" global="false"/>
                         </pe:inputNumber>
                     </p:column>
-                    <p:column headerText="#{mgs.data}" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0}" >
+                    <p:column headerText="#{mgs.data}" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
                         <p:inputText id="dataWiersza" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                      style="width: 20px;" maxlength="2" >
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             <p:ajax global="false" event="blur" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
                         </p:inputText>
                     </p:column>
-<!--                    <p:column headerText="tabela" width="70" style="text-align: center;"  rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu == 0)}" >
+<!--                    <p:column headerText="tabela" width="70" style="text-align: center;"  rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu == 0)}" >
                         <h:selectOneMenu value="#{loop.tabelanbp}" converter="TabelaNBPConv"
-                                         rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.rodzajBiezacegoDokumentu == 0)}">
+                                         rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu == 0)}">
                             <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
                             <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele}" partialSubmit="true" global="false" update=":formwpisdokument:dataList"/>
                         </h:selectOneMenu>
@@ -420,7 +420,7 @@
                             <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry" />
                         </p:autoComplete>
                     </p:column>
-                <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.rodzajBiezacegoDokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
+                <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
                     <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.tabelanbp.recznie eq true ? 'color: red;' : null}"/>
                     </p:column>
 <!--                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
