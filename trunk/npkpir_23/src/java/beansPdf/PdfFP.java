@@ -725,7 +725,7 @@ public class PdfFP {
                 table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCena() == 0.0 ? "" : formatter.format(pozycje.getCena())), "right", 7));
             }
             if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
-                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn0()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn0()== 0.0 ? "" : formatter.format(pozycje.getCenajedn0())), "right", 7));
             }
             if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
                 table.addCell(ustawfrazeAlign(String.valueOf(pozycje.getCenajedn1()== 0.0 ? "" : formatter.format(pozycje.getCenajedn1())), "right", 7));
