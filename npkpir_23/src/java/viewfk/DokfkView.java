@@ -175,6 +175,8 @@ private static final long serialVersionUID = 1L;
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
+    private double saldoinnedok;
+    private double saldoBO;
     
     
 
@@ -396,6 +398,14 @@ private static final long serialVersionUID = 1L;
     public void dodajPustyWierszNaKoncu() {
             int indexwTabeli = selected.getListawierszy().size()-1;
             dolaczNowyWierszPusty(indexwTabeli, false);
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            double sumapoprzednich = 0;
+            for (Wiersz p : selected.getListawierszy())    {
+                  double kwota = obliczsaldo(p);
+                  sumapoprzednich += kwota;
+                  p.setSaldoWBRK(saldoBO + saldoinnedok + sumapoprzednich);
+              }
+            }
     }
 
 
@@ -1945,6 +1955,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                saldoinnedok = obliczsaldopoczatkowe();
+                saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+            }
         }
 
     }
@@ -2058,15 +2072,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     
     public double obliczsaldo(Wiersz w) {
-        double saldoinnedok = obliczsaldopoczatkowe(w);
-        double saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
-        int lpwiersza = w.getIdporzadkowy();
-        List<Wiersz> listawierszy = selected.getListawierszy();
         double kwota = 0;
-        List<StronaWiersza> strony = new ArrayList<>();
-        for (int i = 0; i < lpwiersza; i++) {
-            strony.addAll(listawierszy.get(i).getStronyWierszaKonto());
-        }
+        List<StronaWiersza> strony = w.getStronyWierszaKonto();
         for (StronaWiersza r : strony) {
             if (r.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
                 if (r.getWnma().equals("Wn")) {
@@ -2076,14 +2083,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
             }
         }
-        return saldoBO + saldoinnedok + kwota;
+        return kwota;
     }
     
     private double pobierzwartosczBO(Konto kontorozrachunkowe) {
         List<WierszBO> wierszBOlista = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontorozrachunkowe);
         double kwota = 0.0;
         if (wierszBOlista != null && !wierszBOlista.isEmpty()) {
-
             for (WierszBO p : wierszBOlista) {
                 if (p.getKwotaWn() != 0) {
                     kwota += p.getKwotaWn();
@@ -2096,35 +2102,33 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         return kwota;
     }
     
-    private double obliczsaldopoczatkowe(Wiersz wiersz) {
-        List<StronaWiersza> kontozapisy  = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
-        if  (kontozapisy != null && !kontozapisy.isEmpty()) {
-                for (Iterator<StronaWiersza> p = kontozapisy.iterator(); p.hasNext();) {
-                    if (p.next().getWiersz().getDokfk().getDokfkPK().equals(wiersz.getDokfk().getDokfkPK())) {
-                        p.remove();
+    private double obliczsaldopoczatkowe() {
+        List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
+        if (kontozapisy != null && !kontozapisy.isEmpty()) {
+            double sumaWn = 0.0;
+            double sumaMa = 0.0;
+            for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (p.getWiersz().getDokfk().getDokfkPK().equals(selected.getDokfkPK())) {
+                    it.remove();
+                } else {
+                    switch (p.getWnma()) {
+                        case "Wn":
+                            sumaWn += p.getKwota();
+                            break;
+                        case "Ma":
+                            sumaMa += p.getKwota();
+                            break;
                     }
                 }
-            return saldo(kontozapisy);
+            }
+            return sumaWn-sumaMa;
         } else {
             return 0.0;
         }
     }
    
-    private double saldo(List<StronaWiersza> kontozapisy) {
-        double sumaWn = 0.0;
-        double sumaMa = 0.0;
-        for(StronaWiersza p : kontozapisy){
-            switch (p.getWnma()) {
-                case "Wn":
-                    sumaWn += p.getKwota();
-                    break;
-                case "Ma":
-                    sumaMa += p.getKwota();
-                    break;
-            }
-        }
-        return sumaWn-sumaMa;
-    }
+    
     
     public void uzupelnijdokumentyodkontrahenta() {
         try {
@@ -2255,11 +2259,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void zamienkursnareczny() {
         try {
-            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
+            int wierszid = lpWierszaWpisywanie-1;
+            Wiersz wiersz = selected.getListawierszy().get(wierszid);
             wiersz.setTabelanbp(tabelanbprecznie);
             przepiszWaluty(wiersz);
-            int lpwtabeli = wiersz.getIdporzadkowy()-1;
-            String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
+            String update="formwpisdokument:dataList:"+wierszid+":kurswiersza";
             RequestContext.getCurrentInstance().update(update);
         } catch (Exception e) {  E.e(e);
             
@@ -2287,6 +2291,22 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     public void setWybranakategoriadok(String wybranakategoriadok) {    
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public double getSaldoinnedok() {
+        return saldoinnedok;
+    }
+
+    public void setSaldoinnedok(double saldoinnedok) {
+        this.saldoinnedok = saldoinnedok;
+    }
+
+    public double getSaldoBO() {
+        return saldoBO;
+    }
+
+    public void setSaldoBO(double saldoBO) {
+        this.saldoBO = saldoBO;
     }
 
     public List<Tabelanbp> getTabelenbp() {

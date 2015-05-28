@@ -164,10 +164,11 @@
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" rendered="#{planKontView.infozebrakslownikowych eq ''}"
-                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 3}"   styleClass="uipanelGrid0">
                         <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dok"/>
+                        <h:outputText value="saldo" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" style="font-style: italic; margin-left: 10px;"/>
                         <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
@@ -199,6 +200,9 @@
                         </p:inputText>
 <!--                        <h:outputText value='' rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 1 and dokfkView.selected.rodzajedok.kategoriadokumentu != 2}"/>-->
                         <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                        <h:outputText id="saldobopop"  value="#{dokfkView.saldoBO + dokfkView.saldoinnedok}" style="float: right; font-style: italic; margin-left: 10px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:panelGrid>
@@ -423,18 +427,18 @@
                 <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
                     <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.tabelanbp.recznie eq true ? 'color: red;' : null}"/>
                     </p:column>
-<!--                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
-                    <h:outputText value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.obliczsaldo(loop) : null) : null }"
+                <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
+                    <h:outputText value="#{loop.saldoWBRK}"
                                   style="margin-left: 5px; float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
-                </p:column>-->
-                    <p:column width="1" >
+                </p:column>
+<!--                    <p:column width="1" >
                         <h:outputText id="idwiersza" value="#{loop.lpmacierzystego}" />
-                    </p:column><!--
--->                    <p:column  width="3">
-                        <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" />
                     </p:column>
+                    <p:column  width="3">
+                        <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" />
+                    </p:column>-->
                 </p:dataTable>
                 <p:panel id="panelwpisbutton" style="text-align: right;">
                     <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
