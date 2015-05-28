@@ -92,6 +92,8 @@ public class Wiersz implements Serializable {
     private Set<Wiersz> piatki;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     private EVatwpisFK eVatwpisFK;
+    @Column(name = "saldoWBRK")
+    private double saldoWBRK;
 
   
     
@@ -117,6 +119,14 @@ public class Wiersz implements Serializable {
 
     public void seteVatwpisFK(EVatwpisFK eVatwpisFK) {
         this.eVatwpisFK = eVatwpisFK;
+    }
+
+    public double getSaldoWBRK() {
+        return saldoWBRK;
+    }
+
+    public void setSaldoWBRK(double saldoWBRK) {
+        this.saldoWBRK = saldoWBRK;
     }
 
     public double getIlosc_kg() {
