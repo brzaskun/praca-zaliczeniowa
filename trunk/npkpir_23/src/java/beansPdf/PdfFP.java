@@ -631,39 +631,20 @@ public class PdfFP {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         PdfPTable table = ustawTable(fakturaXXLKolumna, maladuza);
+        int wielkoscXXL = oblicziloscXXLkolumn(fakturaXXLKolumna)+4;
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
                 table.addCell(ustawfrazeAlign("po korekcie", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
+                for (int i = 0 ; i < wielkoscXXL; i++) {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
             } else {
                 table.addCell(ustawfrazeAlign("", "center", 8));
                 table.addCell(ustawfrazeAlign("przed korektą", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
-                table.addCell(ustawfrazeAlign("", "center", 8));
+                for (int i = 0 ; i < wielkoscXXL; i++) {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
             }
         }
         table.addCell(ustawfrazeAlign("lp", "center", 7));
@@ -782,7 +763,7 @@ public class PdfFP {
             }
         }
         if (korekta) {
-            wierszroznicyxxl(selected, table);
+            wierszroznicyxxl(selected, table, wielkoscXXL-4);
         }
         // complete the table
         table.completeRow();
@@ -958,17 +939,17 @@ public class PdfFP {
         }
     }
     
-    private static void wierszroznicyxxl(Faktura selected, PdfPTable table) throws DocumentException, IOException {
+    private static void wierszroznicyxxl(Faktura selected, PdfPTable table, int wielkoscXXL) throws DocumentException, IOException {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
-        table.addCell(ustawfraze("Różnica", 11, 0));
+        table.addCell(ustawfraze("Różnica", 2+wielkoscXXL, 0));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getNettopk()-selected.getNetto())), "right", 7));
         table.addCell(ustawfrazeAlign("*", "center", 7  ));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getVatpk()-selected.getVat())), "right", 7));
         table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(selected.getBruttopk()-selected.getBrutto())), "right", 7));
-        table.addCell(ustawfraze("w tym wg stawek vat", 11, 0));
+        table.addCell(ustawfraze("w tym wg stawek vat", 2+wielkoscXXL, 0));
         List<EVatwpis> ewidencja = selected.getEwidencjavat();
         List<EVatwpis> ewidencjapk = selected.getEwidencjavatpk();
         int ilerow = 0;

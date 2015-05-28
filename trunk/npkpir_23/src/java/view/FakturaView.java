@@ -344,8 +344,10 @@ public class FakturaView implements Serializable {
         fakturaxxl = faktura.isFakturaxxl();
         if (fakturaxxl) {
             dataTablepozycjenafakturze.setStyle("width: 1280px;");
+            dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
         } else {
             dataTablepozycjenafakturze.setStyle("width: 740px;");
+            dataTablepozycjenafakturzekorekta.setStyle("width: 740px;");
         }
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
