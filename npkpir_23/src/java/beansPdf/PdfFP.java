@@ -867,7 +867,7 @@ public class PdfFP {
             szerokosci.add(25f);
         }
         if (fakturaXXLKolumna.isIlosc()==true) {
-            szerokosci.add(15f);
+            szerokosci.add(30f);
         }
         if (fakturaXXLKolumna.isJednostka()==true) {
             szerokosci.add(15f);
@@ -876,22 +876,22 @@ public class PdfFP {
             szerokosci.add(25f);
         }
         if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
         if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
         if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
         if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
         if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
         if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
-            szerokosci.add(35f);
+            szerokosci.add(32f);
         }
     }
     
@@ -900,31 +900,31 @@ public class PdfFP {
             szerokosci.add(50f);
         }
         if (fakturaXXLKolumna.isIlosc()==true) {
-            szerokosci.add(30f);
+            szerokosci.add(40f);
         }
         if (fakturaXXLKolumna.isJednostka()==true) {
-            szerokosci.add(30f);
+            szerokosci.add(35f);
         }
         if (fakturaXXLKolumna.isCena()==true) {
             szerokosci.add(50f);
         }
         if (!fakturaXXLKolumna.getNettoopis0().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
         if (!fakturaXXLKolumna.getNettoopis1().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
         if (!fakturaXXLKolumna.getNettoopis2().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
         if (!fakturaXXLKolumna.getNettoopis3().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
         if (!fakturaXXLKolumna.getNettoopis4().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
         if (!fakturaXXLKolumna.getNettoopis5().equals("")) {
-            szerokosci.add(70f);
+            szerokosci.add(65f);
         }
     }
     

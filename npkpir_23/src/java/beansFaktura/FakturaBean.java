@@ -281,6 +281,7 @@ public class FakturaBean {
         for (Pozycjenafakturzebazadanych p : pozycje) {
             double ilosc = p.getIlosc();
             double cena = 0.0;
+            double wartosc = 0.0;
             if (selected.isFakturaxxl()) {
                 cena += p.getCenajedn0();
                 cena += p.getCenajedn1();
@@ -288,10 +289,11 @@ public class FakturaBean {
                 cena += p.getCenajedn3();
                 cena += p.getCenajedn4();
                 cena += p.getCenajedn5();
+                wartosc = Z.z(cena);
             } else {
                 cena += p.getCena();
+                wartosc = Z.z(ilosc * cena);
             }
-            double wartosc = Z.z(ilosc * cena);
             netto += wartosc;
             p.setNetto(wartosc);
             double podatekstawka = p.getPodatek();
