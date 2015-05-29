@@ -1346,7 +1346,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
-        int lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
+        lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
         String wnma = wybranastronawiersza.getWnma();
         wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
         if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
@@ -2028,8 +2028,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     ewidencjaVATRKzapis0edycja1 = false;
                 }
                 RequestContext.getCurrentInstance().update("ewidencjavatRK");
-            } catch (Exception e) {  E.e(e);
-                System.out.println("Blad DokfkView dataTableTest "+e.getLocalizedMessage());
+                System.out.println("Generowanie ewidencji vat rk");
+            } catch (Exception e) {  
+                E.e(e);
             }
         }
     }
