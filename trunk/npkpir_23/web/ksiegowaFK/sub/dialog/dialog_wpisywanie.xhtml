@@ -308,6 +308,7 @@
                     <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" 
                                 actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                 </p:contextMenu>
+                
 <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                 <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px;"  
                              rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.idporzadkowy}" 
@@ -320,7 +321,7 @@
                         <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
                                         onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
-                    <p:ajax global="false" event="focus" listener="#{dokfkView.pobranieWiersza(loop)}" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});"/>
+<p:ajax global="false" event="focus" listener="#{dokfkView.pobranieWiersza(loop)}" partialSubmit="" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});" update=":wpisywaniefooter"/>
                     <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
@@ -484,9 +485,8 @@
                                  style="margin-left: 10px;"  update=":formwpisdokument:dataList"/>
                 <p:commandButton id="dodajwalute" value="dodajwalute" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
                                  global="false" style="margin-left: 10px; display: none;" />
-<!--                <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
--->             <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/><!--
-                <h:inputText id="wnlubma" value="#{dokfkView.stronawiersza}" style="display: none;"/>-->
+                <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
+                <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
                 <h:inputText id="lpwiersza" value="#{dokfkView.lpwiersza}" style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
