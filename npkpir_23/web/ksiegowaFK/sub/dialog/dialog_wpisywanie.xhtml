@@ -433,12 +433,12 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-<!--                    <p:column width="1" >
-                        <h:outputText id="idwiersza" value="#{loop.lpmacierzystego}" />
+                    <p:column width="1">
+                        <h:outputText id="idwiersza" value="#{loop.lpmacierzystego}" style="font-size: 0.5; color: white;" />
                     </p:column>
                     <p:column  width="3">
-                        <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" />
-                    </p:column>-->
+                        <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" style="font-size: 0.5; color: white;" />
+                    </p:column>
                 </p:dataTable>
                 <p:panel id="panelwpisbutton" style="text-align: right;">
                     <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
