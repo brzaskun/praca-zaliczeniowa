@@ -398,7 +398,11 @@ private static final long serialVersionUID = 1L;
     public void dodajPustyWierszNaKoncu() {
             int indexwTabeli = selected.getListawierszy().size()-1;
             dolaczNowyWierszPusty(indexwTabeli, false);
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            rozliczsalda();
+    }
+    
+    private void rozliczsalda() {
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
             double sumapoprzednich = 0;
             for (Wiersz p : selected.getListawierszy())    {
                   double kwota = obliczsaldo(p);
@@ -407,7 +411,6 @@ private static final long serialVersionUID = 1L;
               }
             }
     }
-
 
 //////////////////////EWIDENCJE VAT  
     
@@ -1143,6 +1146,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     pokazPanelWalutowy = false;
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                    saldoinnedok = obliczsaldopoczatkowe();
+                    saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+                    rozliczsalda();
+                    System.out.println("Udane obliczenie salda");
+                }
             }
         } catch (Exception e) { 
             E.e(e);
@@ -1958,6 +1967,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 saldoinnedok = obliczsaldopoczatkowe();
                 saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+                System.out.println("Udane obliczenie salda BO");
             }
         }
 
@@ -2111,6 +2121,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext();) {
                 StronaWiersza p = it.next();
                 if (p.getWiersz().getDokfk().getDokfkPK().equals(selected.getDokfkPK())) {
+                    it.remove();
+                } else if  (p.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii() > selected.getDokfkPK().getNrkolejnywserii()) {
                     it.remove();
                 } else {
                     switch (p.getWnma()) {
