@@ -80,7 +80,6 @@ import waluty.Z;
 public class DokfkView implements Serializable {
 private static final long serialVersionUID = 1L;
     private Integer lpWierszaWpisywanie;
-    private String stronawiersza;
     private String wnmadoprzeniesienia;
     protected Dokfk selected;
     protected Dokfk selectedimport;
@@ -1352,6 +1351,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void pobranieWiersza(Wiersz wybranywiersz) {
         lpWierszaWpisywanie = wybranywiersz.getIdporzadkowy();
+        Msg.msg("Wiersz "+lpWierszaWpisywanie);
+        System.out.println("pobrano wiersz "+lpWierszaWpisywanie);
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
@@ -1408,9 +1409,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void wybranoStronaWierszaCecha() {
 //        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid")) - 1;
 //        stronawiersza = (String) Params.params("wpisywaniefooter:wnlubma");
-        if (lpWierszaWpisywanie > -1) {
-            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie);
-            if (stronawiersza.equals("Wn")) {
+        if (lpWierszaWpisywanie > 0) {
+            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie-1);
+            if (wnmadoprzeniesienia.equals("Wn")) {
                 stronaWierszaCechy = wiersz.getStronaWn();
             } else {
                 stronaWierszaCechy = wiersz.getStronaMa();
@@ -2012,6 +2013,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
+        FacesContext c = FacesContext.getCurrentInstance();
         if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
             try {
 //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
@@ -2491,13 +2493,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
    
 
-    public String getStronawiersza() {
-        return stronawiersza;
-    }
-
-    public void setStronawiersza(String stronawiersza) {
-        this.stronawiersza = stronawiersza;
-    }
 
     public WpisView getWpisView() {
         return wpisView;
