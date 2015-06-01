@@ -70,6 +70,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import view.WpisView;
+import viewfk.UkladBRView;
 
 /**
  *
@@ -1521,6 +1522,14 @@ public class SessionFacade<T> implements Serializable {
     public void zerujkontazLevelu(WpisView wpisView, int i) {
         em.createNamedQuery("Konto.NullObrotyWnLevel").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
         em.createNamedQuery("Konto.NullObrotyMaLevel").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
+    }
+
+    public List<UkladBR> findUkladBRWzorcowyRok(String rokWpisu) {
+        return em.createNamedQuery("UkladBR.findByWzorcowyRok").setParameter("rok", rokWpisu).getResultList();
+    }
+
+    public List<UkladBR> findukladBRPodatnikRok(String podatnikWpisu, String rokWpisuSt) {
+        return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList();
     }
 
 }

@@ -43,7 +43,6 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.rootwzorcowy)}" update=":formwzorcowy:dataListwzorcowy" style="float: left; width: 130px;" />
                 <p:spacer width="50"/>
-                <p:commandButton id="implementuj" value="implem.wszystkie" onclick="PF('confirm1').show();" update=":form_dialog_plankont:dataList" style="float: left; width: 130px;" rendered="#{facesContext.externalContext.remoteUser eq '4'}" global="false"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataListwzorcowy" value="#{planKontView.wykazkontwzor}" var="loop"  selectionMode="single"
