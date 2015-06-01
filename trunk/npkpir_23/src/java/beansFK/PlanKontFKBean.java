@@ -540,6 +540,18 @@ public class PlanKontFKBean {
         return !kontapotomne.isEmpty();
     }
 
+    public static void usunelementslownika(Delegacja delegacja, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAOfk.findKontaMaSlownik(wpisView,6);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomne(wpisView, p.getPelnynumer(), p.getBilansowewynikowe());
+            for (Konto r : kontapotomne) {
+                if (r.getNrkonta().equals(delegacja.getNrkonta())) {
+                    kontoDAOfk.destroy(r);
+                }
+            }
+        }
+    }
+
     
 
     
