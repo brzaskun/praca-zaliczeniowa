@@ -12,6 +12,7 @@ import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import entity.Klienci;
 import entityfk.Kliencifk;
+import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -124,8 +125,9 @@ public class KliencifkView implements Serializable {
 
     public void przyporzadkujdokonta() {
         try {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             kliencifkDAO.dodaj(klientBezKonta);
-            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(klientBezKonta, kontoDAOfk, wpisView);
+            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, klientBezKonta, kontoDAOfk, wpisView);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
             E.e(e);

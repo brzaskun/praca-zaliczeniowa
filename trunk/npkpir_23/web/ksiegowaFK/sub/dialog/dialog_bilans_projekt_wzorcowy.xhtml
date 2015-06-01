@@ -45,7 +45,7 @@
                 <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
                     <h:outputText value="wybierz nazwę kreowanego układu"/>
                     <p:selectOneListbox value="#{pozycjaBRWzorcowyView.uklad}" style="height: 200px;" converter="UkladBRWzorcowyConv">
-                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
+                        <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="loopik" itemLabel="#{loopik.lp} #{loopik.uklad} - #{loopik.rok}"  itemValue="#{String.valueOf(loopik.lp)}"/>
                     </p:selectOneListbox>
                     <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('b', pozycjaBRWzorcowyView.rootProjektRZiS, 'aktywa')}" update=":formbilansprojekt:dataList"/>
                     <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRWzorcowyView.pobierzuklad('b', pozycjaBRWzorcowyView.rootProjektRZiS, 'pasywa')}" update=":formbilansprojekt:dataList"/>
