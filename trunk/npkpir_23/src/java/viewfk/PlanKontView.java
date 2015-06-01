@@ -14,6 +14,7 @@ import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
+import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
@@ -151,6 +152,7 @@ public class PlanKontView implements Serializable {
     }
 
     public void dodajsyntetyczne() {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         String podatnik;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
@@ -161,9 +163,9 @@ public class PlanKontView implements Serializable {
         if (noweKonto.getBilansowewynikowe() != null) {
             int wynikdodaniakonta = 1;
             if (podatnik.equals("Wzorcowy")) {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczneWzorzec(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
-                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajsyntetyczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (czyoddacdowzorca == true) {
                 wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
@@ -181,6 +183,7 @@ public class PlanKontView implements Serializable {
     }
     
     public void dodajanalityczne() {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         String podatnik;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
@@ -193,7 +196,7 @@ public class PlanKontView implements Serializable {
             if (podatnik.equals("Wzorcowy")) {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
-                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (wynikdodaniakonta == 0) {
                 PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
@@ -217,6 +220,7 @@ public class PlanKontView implements Serializable {
     public void dodajslownik() {
         Konto kontomacierzyste = selectednodekonto;
         List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView, kontomacierzyste.getPelnynumer());
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (kontapodpiete.size() > 0) {
             Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
@@ -225,7 +229,7 @@ public class PlanKontView implements Serializable {
                 //oznaczenie okntr - znacdzy ze dodajemy slownik z kontrahentami
                 if (noweKonto.getNrkonta().equals("kontr")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikKontrahenci(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 1);
                         Msg.msg("i", "Dodaje słownik kontrahentów", "formX:messages");
@@ -234,7 +238,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika kontrahentów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(wykazkont, kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -244,7 +248,7 @@ public class PlanKontView implements Serializable {
                     }
                 } else if (noweKonto.getNrkonta().equals("miejs")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiejscaKosztow(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 2);
                         Msg.msg("i", "Dodaje słownik miejsc powstawania kosztów", "formX:messages");
@@ -253,7 +257,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika miejsc powstawania kosztów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(wykazkont, kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -263,7 +267,7 @@ public class PlanKontView implements Serializable {
                     }
                 } else if (noweKonto.getNrkonta().equals("samoc")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikPojazdyiMaszyny(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikPojazdyiMaszyny(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 3);
                         Msg.msg("i", "Dodaje słownik pojazdy i maszyny", "formX:messages");
@@ -272,7 +276,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika pojazdy i maszyny!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -282,7 +286,7 @@ public class PlanKontView implements Serializable {
                     }
                 } else if (noweKonto.getNrkonta().equals("miesi")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiesiace(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikMiesiace(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 4);
                         Msg.msg("i", "Dodaje słownik miesięcy", "formX:messages");
@@ -291,7 +295,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika miesięcy!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -301,7 +305,7 @@ public class PlanKontView implements Serializable {
                     }
                 } else if (noweKonto.getNrkonta().equals("deleK")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeKrajowe(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeKrajowe(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 5);
                         Msg.msg("i", "Dodaje słownik delegacji krajowych", "formX:messages");
@@ -310,7 +314,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownik delegacji krajowych!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -320,7 +324,7 @@ public class PlanKontView implements Serializable {
                     }
                 } else if (noweKonto.getNrkonta().equals("deleZ")) {
                     //to mozna podpiac slownik bo nie ma innych kont tylko slownikowe.
-                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeZagraniczne(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                    int wynikdodaniakonta = PlanKontFKBean.dodajslownikDelegacjeZagraniczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                     if (wynikdodaniakonta == 0) {
                         PlanKontFKBean.zablokujKontoMacierzysteSlownik(kontomacierzyste, kontoDAOfk, 6);
                         Msg.msg("i", "Dodaje słownik delegacji zagranicznych", "formX:messages");
@@ -329,7 +333,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownik delegacji zagranicznych!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -704,7 +708,7 @@ public class PlanKontView implements Serializable {
         if (sakliencifk) {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
-                    PlanKontFKBean.porzadkujslownikKontrahenci(p, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownikKontrahenci(wykazkont, p, kontoDAOfk, wpisView);
                 } catch (Exception e) {  E.e(e);
                     
                 }
@@ -715,7 +719,32 @@ public class PlanKontView implements Serializable {
         if (samiejscakosztow) {
             for (MiejsceKosztow r : miejscakosztow) {
                 try {
-                    PlanKontFKBean.porzadkujslownikMiejscaKosztow(r, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownikMiejscaKosztow(wykazkont, r, kontoDAOfk, wpisView);
+                } catch (Exception e1) {
+                    
+                }
+            }
+        }
+        List<Delegacja> delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, false);
+        boolean sadelegacje = delegacjekrajowe != null && !delegacjekrajowe.isEmpty();
+        if (sadelegacje) {
+            for (Delegacja r : delegacjekrajowe) {
+                try {
+                    if (r.getOpisdlugi().equals("113/05/2015/k")) {
+                        System.out.println("k");
+                    }
+                    PlanKontFKBean.porzadkujslownikDelegacjeKrajowe(wykazkont, r, kontoDAOfk, wpisView);
+                } catch (Exception e1) {
+                    
+                }
+            }
+        }
+        List<Delegacja> delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, true);
+        sadelegacje = delegacjezagraniczne != null && !delegacjezagraniczne.isEmpty();
+        if (sadelegacje) {
+            for (Delegacja r : delegacjezagraniczne) {
+                try {
+                    PlanKontFKBean.porzadkujslownikDelegacjeZagraniczne(wykazkont, r, kontoDAOfk, wpisView);
                 } catch (Exception e1) {
                     
                 }

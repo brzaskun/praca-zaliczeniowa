@@ -27,16 +27,19 @@
         </h:form>
         <h:form id="delegacjezagranicalista">
             <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="500" 
-                         emptyMessage="brak zdefiniowanych delegacji zagranicznych"
+                         emptyMessage="brak zdefiniowanych delegacji zagranicznych" rowIndexVar="index"
                          sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
-                <p:column headerText="#{mgs.nr}" width="30">
-                    <h:outputText value="#{item.nrkonta}"/>
+                 <p:column headerText="#{mgs.nr}" width="30">
+                    <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="nr delegacji" >
                     <h:outputText value="#{item.opisdlugi}"/>
                 </p:column>
                 <p:column headerText="opis delegacji">
                     <h:outputText value="#{item.opiskrotki}"/>
+                </p:column>
+                <p:column headerText="nr konta">
+                    <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{delegacjeView.edytuj(item)}" update=":delegacjezagranica, @form"/>
