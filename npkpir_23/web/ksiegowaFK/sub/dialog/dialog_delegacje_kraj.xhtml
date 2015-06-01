@@ -15,9 +15,9 @@
        
         <h:form id="delegacje">
             <p:panelGrid columns="2" >
-                <h:outputText value="nr delegacji "/>
+                <h:outputText value="nr kolejny delegacji "/>
                 <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px;"/>
-                <h:outputText value="opis delegacji"/>
+                <h:outputText value="opis delegacji (kto, gdzie, kiedy)"/>
                 <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 180px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{delegacjeView.dodaj(false)}" style="margin: 2%; width: 120px;" 
@@ -27,16 +27,19 @@
         </h:form>
         <h:form id="delegacjelista">
             <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;"  scrollable="true"
-                         scrollHeight="500" emptyMessage="brak zdefiniowanych delegacji krajowych"
+                         scrollHeight="500" emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
                          sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
                 <p:column headerText="#{mgs.nr}" width="30">
-                    <h:outputText value="#{item.nrkonta}"/>
+                    <h:outputText value="#{index+1}"/>
                 </p:column>
                 <p:column headerText="nr delegacji">
                     <h:outputText value="#{item.opisdlugi}"/>
                 </p:column>
                 <p:column headerText="opis delegacji">
                     <h:outputText value="#{item.opiskrotki}"/>
+                </p:column>
+                <p:column headerText="nr konta">
+                    <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
                     <p:commandButton icon="ui-icon-comment" actionListener="#{delegacjeView.edytuj(item)}" update=":delegacje, @form"/>

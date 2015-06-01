@@ -34,7 +34,7 @@ import view.WpisView;
 @Stateless
 public class PlanKontFKBean {
    
-     public static int dodajsyntetyczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+     public static int dodajsyntetyczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setSyntetyczne("syntetyczne");
          nowekonto.setPodatnik(wpisView.getPodatnikWpisu());
          nowekonto.setRok(wpisView.getRokWpisu());
@@ -43,10 +43,10 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(0);
          nowekonto.setMapotomkow(false);
          nowekonto.setPelnynumer(nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
      }
      
-     public static int dodajsyntetyczneWzorzec(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+     public static int dodajsyntetyczneWzorzec(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          nowekonto.setSyntetyczne("syntetyczne");
          nowekonto.setPodatnik("Wzorcowy");
          nowekonto.setRok(wpisView.getRokWpisu());
@@ -58,7 +58,7 @@ public class PlanKontFKBean {
          return zachowajkontowzorzec(nowekonto, kontoDAOfk, wpisView);
      }
      
-     public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+     public static int dodajanalityczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          if (macierzyste.getLevel()==0) {
              nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
          } else {
@@ -75,7 +75,7 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
     }
      
      public static int dodajanalityczneWzorzec(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
@@ -98,7 +98,7 @@ public class PlanKontFKBean {
          return zachowajkontowzorzec(nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajanalityczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta,WpisView wpisView) {
+    public static int dodajanalityczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, String numerkonta,WpisView wpisView) {
         if (macierzyste.getLevel()==0) {
              nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
          } else {
@@ -115,45 +115,45 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont, nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikKontrahenci(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikKontrahenci(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik kontrahenci");
         nowekonto.setNazwaskrocona("Kontrahenci");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikMiejscaKosztow(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikMiejscaKosztow(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik miejsca kosztów");
         nowekonto.setNazwaskrocona("Miejsca kosztów");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikPojazdyiMaszyny(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikPojazdyiMaszyny(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik pojazdy i maszyny");
         nowekonto.setNazwaskrocona("Pojazd");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikMiesiace(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikMiesiace(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik miesiące");
         nowekonto.setNazwaskrocona("Miesiąc");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikDelegacjeKrajowe(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikDelegacjeKrajowe(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik delegacji krajowych");
         nowekonto.setNazwaskrocona("Delegacje krajowe");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
     
-    public static int dodajslownikDelegacjeZagraniczne(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    public static int dodajslownikDelegacjeZagraniczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         nowekonto.setNazwapelna("Słownik delegacji zagranicznych");
         nowekonto.setNazwaskrocona("Delegacje zagraniczne");
-        return uzupelnijdaneslownika(nowekonto, macierzyste, kontoDAOfk, wpisView);
+        return uzupelnijdaneslownika(wykazkont, nowekonto, macierzyste, kontoDAOfk, wpisView);
     }
-    private static int uzupelnijdaneslownika(Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+    private static int uzupelnijdaneslownika(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         if (macierzyste.getLevel()==0) {
              nowekonto.setSyntetycznenumer(macierzyste.getPelnynumer());
          } else {
@@ -172,10 +172,10 @@ public class PlanKontFKBean {
          nowekonto.setMacierzysty(macierzyste.getLp());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
-         return zachowajkonto(nowekonto, kontoDAOfk, wpisView);
+         return zachowajkonto(wykazkont,nowekonto, kontoDAOfk, wpisView);
     }
     
-    public static int dodajelementyslownikaKontrahenci(Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, WpisView wpisView) {
+    public static int dodajelementyslownikaKontrahenci(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, KliencifkDAO kliencifkDAO, WpisView wpisView) {
         List<Kliencifk> listaprzyporzadkowanychklientow = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         if (listaprzyporzadkowanychklientow != null) {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
@@ -184,7 +184,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -195,7 +195,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiejscaKosztow(Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejsceKosztowDAO miejsceKosztowDAO, WpisView wpisView) {
+    public static int dodajelementyslownikaMiejscaKosztow(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, MiejsceKosztowDAO miejsceKosztowDAO, WpisView wpisView) {
         List<MiejsceKosztow> listamiejsckosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         if (listamiejsckosztow != null) {
             for (MiejsceKosztow p : listamiejsckosztow) {
@@ -204,7 +204,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p.getOpisskrocony());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -217,7 +217,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaPojazdy(Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
+    public static int dodajelementyslownikaPojazdy(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
         List<Pojazdy> listapojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         if (listapojazdy != null) {
             for (Pojazdy p : listapojazdy) {
@@ -226,7 +226,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p.getNazwapojazdu());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -239,7 +239,7 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiesiace(Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
+    public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView) {
         List<String> listamiesiace = Mce.getMcenazwaList();
         if (listamiesiace != null) {
             int i = 1;
@@ -249,7 +249,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p);
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -259,7 +259,7 @@ public class PlanKontFKBean {
             return 0;
         }
     }
-     public static int dodajelementyslownikaDelegacje(Konto kontomacierzyste, KontoDAOfk kontoDAO, DelegacjaDAO delegacjaDAO, WpisView wpisView, boolean krajowa0zagraniczna1) {
+     public static int dodajelementyslownikaDelegacje(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, DelegacjaDAO delegacjaDAO, WpisView wpisView, boolean krajowa0zagraniczna1) {
         List<Delegacja> listadelegacje = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
         if (listadelegacje != null) {
             for (Delegacja p : listadelegacje) {
@@ -268,7 +268,7 @@ public class PlanKontFKBean {
                 nowekonto.setNazwaskrocona(p.getOpiskrotki());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
-                int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
                 }
@@ -281,7 +281,7 @@ public class PlanKontFKBean {
         }
     }
      
-    public static int aktualizujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static int aktualizujslownikKontrahenci(List<Konto> wykazkont, Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 1);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -289,7 +289,7 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(kliencifk.getNip());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -310,7 +310,7 @@ public class PlanKontFKBean {
         return 0;
     }
     
-    public static int aktualizujslownikMiejscaKosztow(MiejsceKosztow miejscekosztow, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static int aktualizujslownikMiejscaKosztow(List<Konto> wykazkont, MiejsceKosztow miejscekosztow, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 2);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -318,7 +318,7 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(miejscekosztow.getOpisskrocony());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, miejscekosztow.getNrkonta(), wpisView);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, miejscekosztow.getNrkonta(), wpisView);
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -326,7 +326,7 @@ public class PlanKontFKBean {
         return 0;
     }
     
-    public static int aktualizujslownikPojazdy(Pojazdy pojazd, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static int aktualizujslownikPojazdy(List<Konto> wykazkont, Pojazdy pojazd, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 3);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -334,7 +334,7 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(pojazd.getNazwapojazdu());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, pojazd.getNrkonta(), wpisView);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, pojazd.getNrkonta(), wpisView);
             if (wynikdodania == 1) {
                 return 1;
             }
@@ -342,7 +342,7 @@ public class PlanKontFKBean {
         return 0;
     }
     
-     public static int aktualizujslownikDelegacjeKrajowe(Delegacja delegacja, KontoDAOfk kontoDAO, WpisView wpisView) {
+     public static int aktualizujslownikDelegacjeKrajowe(List<Konto> wykazkont, DelegacjaDAO delegacjaDAO, Delegacja delegacja, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 5);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -350,15 +350,17 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(delegacja.getOpiskrotki());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
             if (wynikdodania == 1) {
                 return 1;
             }
+            delegacja.setAktywny(true);
+            delegacjaDAO.edit(delegacja);
         }
         return 0;
     }
      
-      public static int aktualizujslownikDelegacjeZagraniczne(Delegacja delegacja, KontoDAOfk kontoDAO, WpisView wpisView) {
+      public static int aktualizujslownikDelegacjeZagraniczne(List<Konto> wykazkont, DelegacjaDAO delegacjaDAO, Delegacja delegacja, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 6);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -366,15 +368,17 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(delegacja.getOpiskrotki());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
+            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, delegacja.getNrkonta(), wpisView);
             if (wynikdodania == 1) {
                 return 1;
             }
+            delegacja.setAktywny(true);
+            delegacjaDAO.edit(delegacja);
         }
         return 0;
     }
     
-    public static void porzadkujslownikKontrahenci(Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static void porzadkujslownikKontrahenci(List<Konto> wykazkont, Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 1);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -382,11 +386,11 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(kliencifk.getNip());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
         }
     }
     
-    public static void porzadkujslownikMiejscaKosztow(MiejsceKosztow r, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static void porzadkujslownikMiejscaKosztow(List<Konto> wykazkont, MiejsceKosztow r, KontoDAOfk kontoDAO, WpisView wpisView) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,2);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
@@ -394,7 +398,31 @@ public class PlanKontFKBean {
             nowekonto.setNazwaskrocona(r.getOpisskrocony());
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(nowekonto, p, kontoDAO, p.getNrkonta(), wpisView);
+            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+        }
+    }
+    
+    public static void porzadkujslownikDelegacjeKrajowe(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,5);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(r.getOpisdlugi());
+            nowekonto.setNazwaskrocona(r.getOpiskrotki());
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+        }
+    }
+    
+    public static void porzadkujslownikDelegacjeZagraniczne(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,6);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(r.getOpisdlugi());
+            nowekonto.setNazwaskrocona(r.getOpiskrotki());
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
         }
     }
             
@@ -448,12 +476,11 @@ public class PlanKontFKBean {
          return i;
     }
      
-    private static int znajdzduplikat(Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+    private static Konto znajdzduplikat(List<Konto> wykazkont, Konto nowe, KontoDAOfk kontoDAOfk, WpisView wpisView) {
         if (wykazkont.contains(nowe)) {
-            return 1;
+            return wykazkont.get(wykazkont.indexOf(nowe));
         } else {
-            return 0;
+            return null;
         }
     }
     
@@ -466,11 +493,15 @@ public class PlanKontFKBean {
         }
     }
 
-    private static int zachowajkonto(Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
-        if (0 == znajdzduplikat(nowekonto, kontoDAOfk, wpisView)) {
-            kontoDAOfk.dodaj(nowekonto);
+    private static int zachowajkonto(List<Konto> wykazkont, Konto nowekonto, KontoDAOfk kontoDAOfk, WpisView wpisView) {
+        Konto konto = znajdzduplikat(wykazkont, nowekonto, kontoDAOfk, wpisView);
+        if (konto == null) {
+                kontoDAOfk.dodaj(nowekonto);
             return 0;
         } else {
+                konto.setNazwapelna(nowekonto.getNazwapelna());
+                konto.setNazwaskrocona(nowekonto.getNazwaskrocona());
+                kontoDAOfk.edit(konto);
             return 1;
         }
     }

@@ -76,16 +76,17 @@ public class DelegacjeView  implements Serializable{
     }
 
     public void dodaj(boolean krajowa0zagraniczna1) {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
         selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
         selected.setRok(wpisView.getRokWpisu());
         delegacjaDAO.dodaj(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(selected, kontoDAOfk, wpisView);
+            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(selected, kontoDAOfk, wpisView);
+            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView);
         }
         selected.setOpisdlugi(null);
         selected.setOpiskrotki(null);
