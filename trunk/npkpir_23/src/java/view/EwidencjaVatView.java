@@ -389,51 +389,55 @@ public class EwidencjaVatView implements Serializable {
         int k = 1;
         for (EVatwpisFK ewidwiersz : listaprzetworzona) {
             if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
-                EVatViewPola wiersz = new EVatViewPola();
+                EVatViewPola eVatViewPole = new EVatViewPola();
                 if (ewidwiersz.getWiersz() != null) {
-                    wiersz.setDataSprz(ewidwiersz.getDataoperacji());
-                    wiersz.setDataWyst(ewidwiersz.getDatadokumentu());
-                    wiersz.setKontr(ewidwiersz.getKlient());
+                    eVatViewPole.setDataSprz(ewidwiersz.getDataoperacji());
+                    eVatViewPole.setDataWyst(ewidwiersz.getDatadokumentu());
+                    eVatViewPole.setKontr(ewidwiersz.getKlient());
                     String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2() + ", poz: " + ewidwiersz.getWiersz().getIdporzadkowy();
-                    wiersz.setNrKolejny(nrdok);
-                    wiersz.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
-                    wiersz.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
+                    eVatViewPole.setNrKolejny(nrdok);
+                    eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
+                    eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
                 } else {
-                    wiersz.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
-                    wiersz.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
-                    wiersz.setKontr(ewidwiersz.getDokfk().getKontr());
+                    eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
+                    eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
+                    eVatViewPole.setKontr(ewidwiersz.getDokfk().getKontr());
                     String nrdok = ewidwiersz.getDokfk().getDokfkPK().toString2();
-                    wiersz.setNrKolejny(nrdok);
-                    wiersz.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
-                    wiersz.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
+                    eVatViewPole.setNrKolejny(nrdok);
+                    eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
+                    eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
                 }
-                wiersz.setId(k++);
-                wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
-                wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
-                wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
-                wiersz.setNetto(ewidwiersz.getNetto());
-                wiersz.setVat(ewidwiersz.getVat());
-                wiersz.setOpizw(ewidwiersz.getEstawka());
-                wiersz.setInnymc(ewidwiersz.getDokfk().getMiesiac());
-                listadokvatprzetworzona.add(wiersz);
+                eVatViewPole.setId(k++);
+                eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
+                eVatViewPole.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
+                eVatViewPole.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
+                eVatViewPole.setNetto(ewidwiersz.getNetto());
+                eVatViewPole.setVat(ewidwiersz.getVat());
+                eVatViewPole.setOpizw(ewidwiersz.getEstawka());
+                eVatViewPole.setInnymc(ewidwiersz.getDokfk().getMiesiac());
+                listadokvatprzetworzona.add(eVatViewPole);
             }
             //kosztyprzesuniete
-            switch (vatokres) {
-                case "blad":
-                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                case "miesięczne": 
-                    if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
-                       listaprzesunietychKoszty.add(ewidwiersz);
-                    }
-                    break;
-                default:
-                    if (!miesiacewkwartale.contains(ewidwiersz.getMcEw())) {
-                        if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
-                            listaprzesunietychKoszty.add(ewidwiersz);
+            if (!ewidwiersz.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
+                switch (vatokres) {
+                    case "blad":
+                        Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                        throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                    case "miesięczne":
+                        if (wpisView.getMiesiacWpisu().equals(ewidwiersz.getMcEw())) {
+                            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
+                               listaprzesunietychKoszty.add(ewidwiersz);
+                            }
                         }
-                    }
-                    break;
+                        break;
+                    default:
+                        if (!miesiacewkwartale.contains(ewidwiersz.getMcEw())) {
+                            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
+                                listaprzesunietychKoszty.add(ewidwiersz);
+                            }
+                        }
+                        break;
+                }
             }
         }
     }
