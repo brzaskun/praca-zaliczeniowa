@@ -635,7 +635,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
     }
 
     private void uporzadkujbiezaca(ArrayList<T> biezaca) {
-        if (biezaca.size() > 0) {
+        if (biezaca != null && biezaca.size() > 0) {
             Object pobrany = biezaca.get(0);
             if (pobrany.getClass().getSimpleName().equals("Konto")) {
                 Collections.sort((List<Konto>) biezaca, new Kontocomparator());

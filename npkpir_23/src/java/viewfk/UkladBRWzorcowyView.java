@@ -145,7 +145,7 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelRZiS(pozycje, macierzyste,i, rok);
         }
-        System.out.println("Kopiuje");
+        System.out.println("Kopiuje RZiS");
     }
      
       private void implementujBilans(UkladBR ukladzrodlowy, String rok) {
@@ -161,7 +161,7 @@ public class UkladBRWzorcowyView implements Serializable{
         for(int i = 1; i <= maxlevel;i++) {
                 macierzyste = skopiujlevelBilans(pozycje, macierzyste,i, rok);
         }
-        System.out.println("Kopiuje");
+        System.out.println("Kopiuje Bilans");
     }
      
       private List<PozycjaRZiS> skopiujlevel0RZiS(List<PozycjaRZiS> pozycje, String rok) {
@@ -169,6 +169,8 @@ public class UkladBRWzorcowyView implements Serializable{
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                r.setPrzyporzadkowanekonta(null);
+                r.setPrzyporzadkowanestronywiersza(null);
                 r.setPodatnik("Wzorcowy");
                 r.setRok(rok);
                 try {
@@ -187,6 +189,8 @@ public class UkladBRWzorcowyView implements Serializable{
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel()==0) {
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
+                r.setPrzyporzadkowanekonta(null);
+                r.setPrzyporzadkowanestronywiersza(null);
                 r.setPodatnik("Wzorcowy");
                 r.setRok(rok);
                 try {
@@ -206,6 +210,8 @@ public class UkladBRWzorcowyView implements Serializable{
             if (p.getLevel()==i) {
                 try {
                     PozycjaRZiS r = serialclone.SerialClone.clone(p);
+                    r.setPrzyporzadkowanekonta(null);
+                    r.setPrzyporzadkowanestronywiersza(null);
                     r.setPodatnik("Wzorcowy");
                     r.setRok(rok);
                     r.setLp(null);
@@ -227,6 +233,8 @@ public class UkladBRWzorcowyView implements Serializable{
             if (p.getLevel()==i) {
                 try {
                     PozycjaBilans r = serialclone.SerialClone.clone(p);
+                    r.setPrzyporzadkowanekonta(null);
+                    r.setPrzyporzadkowanestronywiersza(null);
                     r.setPodatnik("Wzorcowy");
                     r.setRok(rok);
                     r.setLp(null);

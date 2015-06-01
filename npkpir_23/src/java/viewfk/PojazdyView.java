@@ -83,9 +83,10 @@ public class PojazdyView  implements Serializable{
     }
 
     public void dodaj() {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         pojazdyDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikPojazdy(selected, kontoDAOfk, wpisView);
+        PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, selected, kontoDAOfk, wpisView);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);

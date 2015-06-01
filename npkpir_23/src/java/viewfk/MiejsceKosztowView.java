@@ -85,9 +85,10 @@ public class MiejsceKosztowView  implements Serializable{
     
 
     public void dodaj() {
+        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         miejsceKosztowDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikMiejscaKosztow(selected, kontoDAOfk, wpisView);
+        PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, selected, kontoDAOfk, wpisView);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
