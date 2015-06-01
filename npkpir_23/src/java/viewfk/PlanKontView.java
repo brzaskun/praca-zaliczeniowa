@@ -10,14 +10,18 @@ import dao.PodatnikDAO;
 import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaBiezacaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
+import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -70,6 +74,12 @@ public class PlanKontView implements Serializable {
     private MiejsceKosztowDAO miejsceKosztowDAO;
     @Inject
     private DelegacjaDAO delegacjaDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    @Inject
+    private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private String infozebrakslownikowych;
     public PlanKontView() {
     }
@@ -509,6 +519,13 @@ public class PlanKontView implements Serializable {
 
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
+            List<UkladBR> uklady = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            for (UkladBR ukladpodatnika : uklady) {
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+            }
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = (Konto) it.next();
                 if (!p.getPodatnik().equals("Wzorcowy")) {
@@ -533,6 +550,15 @@ public class PlanKontView implements Serializable {
     
      public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
+            List<UkladBR> uklady = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
+            for (UkladBR u : uklady) {
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
+                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
+                kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
+                kontoDAOfk.wyzerujPozycjeWKontachWzorcowy(u,"wynikowe");
+                kontoDAOfk.wyzerujPozycjeWKontachWzorcowy(u,"bilansowe");
+            }
             for (Konto p : wykazkontwzor) {
                 try {
                     kontoDAOfk.destroy(p);
