@@ -203,15 +203,7 @@ public class KontaVatFKView implements Serializable {
     private void naniesZapisyNaKonto2214(SaldoKonto saldoKonto, Konto p) {
         int granicaDolna = Mce.getMiesiacToNumber().get("01");
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-        List<StronaWiersza> zapisyRok  = null;
-//        if (kontonastepnymc(p)) {
-//            String[] nowyrokmc = Mce.zmniejszmiesiac(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-//            if (nowyrokmc[0].equals(wpisView.getRokWpisuSt())) {
-//                zapisyRok = KontaFKBean.pobierzZapisyVATRokMc(p, wpisView.getPodatnikObiekt(), nowyrokmc[0], nowyrokmc[1], stronaWierszaDAO);
-//            }
-//        } else  {
-            zapisyRok = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
-//        }
+        List<StronaWiersza> zapisyRok  = KontaFKBean.pobierzZapisyVATRok(p, wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), stronaWierszaDAO);
         double sumawn = 0.0;
         double sumama = 0.0;
         if (zapisyRok != null) {
@@ -270,11 +262,11 @@ public class KontaVatFKView implements Serializable {
     }
 
     private void dodajdolisty(SaldoKonto saldoKonto, List<SaldoKonto> przygotowanalista) {
-        if (saldoKonto.getObrotyBoWn() > 0.0) {
+        if (saldoKonto.getObrotyBoWn() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }
-        if (saldoKonto.getObrotyBoMa() > 0.0) {
+        if (saldoKonto.getObrotyBoMa() != 0.0) {
             przygotowanalista.add(saldoKonto);
             return;
         }
