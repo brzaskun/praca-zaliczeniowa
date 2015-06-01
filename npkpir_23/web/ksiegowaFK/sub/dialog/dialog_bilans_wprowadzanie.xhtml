@@ -155,9 +155,9 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
-                            <h:outputText value="#{item.kwotaWnPLN}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
@@ -172,9 +172,9 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
-                            <h:outputText value="#{item.kwotaMaPLN}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <pe:inputNumber  value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                            </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
