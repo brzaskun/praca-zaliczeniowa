@@ -306,7 +306,7 @@ public class PozycjaRZiSFKBean {
     public static void oznaczmacierzyste(Konto dziecko, KontopozycjaBiezaca kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy) {
         Konto kontomacierzyste = null;
         if (wzorcowy) {
-            kontomacierzyste = kontoDAO.findKontoWzorcowy(dziecko.getMacierzyste(), wpisView);
+            kontomacierzyste = kontoDAO.findKontoWzorcowy(dziecko.getMacierzyste(), uklad);
         } else {
             kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), wpisView);
         }
