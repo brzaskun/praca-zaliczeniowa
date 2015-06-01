@@ -80,6 +80,7 @@ public class DelegacjeView  implements Serializable{
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
         selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
         selected.setRok(wpisView.getRokWpisu());
+        selected.setAktywny(true);
         delegacjaDAO.dodaj(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
@@ -108,6 +109,7 @@ public class DelegacjeView  implements Serializable{
             } else {
                 this.delegacjekrajowe.remove(delegacja);
             }
+            PlanKontFKBean.usunelementslownika(delegacja, kontoDAOfk, wpisView);
         }
     }
     

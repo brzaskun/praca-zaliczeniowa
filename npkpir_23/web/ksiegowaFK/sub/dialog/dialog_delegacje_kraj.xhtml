@@ -28,7 +28,10 @@
         <h:form id="delegacjelista">
             <p:dataTable value="#{delegacjeView.delegacjekrajowe}" var="item" style="width: 850px;"  scrollable="true"
                          scrollHeight="500" emptyMessage="brak zdefiniowanych delegacji krajowych" rowIndexVar="index"
+                         selection="#{delegacjeView.selected}" rowKey="#{item.id}"
                          sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
+                <p:ajax event="rowSelectRadio" update=":delegacje" global="false"/>
+                <p:column selectionMode="single" width="30"/>
                 <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
