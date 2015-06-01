@@ -17,11 +17,11 @@
             <p:panelGrid  columns="2">
                 <h:outputText value="Wybrany układ wzorcowy " style="width: 250px;"/>
                 <p:selectOneMenu  value="#{pozycjaBRKontaView.ukladzrodlowykonta}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
-                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
+                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
                 </p:selectOneMenu>
                 <h:outputText value="Skopiuj przyporządkowanie do " style="width: 250px; margin-top: 10px;"/>
                 <p:selectOneMenu  value="#{pozycjaBRKontaView.ukladdocelowykonta}" style="width: 280px;"  converter="UkladBRWzorcowyConv">
-                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
+                    <f:selectItems value="#{ukladBRWzorcowyView.lista}" var="p" itemLabel="#{p.lp} #{p.uklad} - #{p.rok}" itemValue="#{String.valueOf(p.lp)}"/>
                 </p:selectOneMenu>
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{pozycjaBRKontaView.kopiujwzorcoweprzyporzadkowanie('b')}" type="submit" 

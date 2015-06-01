@@ -915,6 +915,7 @@ public class PozycjaBRKontaView implements Serializable {
                         }
                     }
                 } else {
+                    //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
                     System.out.println("konto przyporzadkowane analityka");
                 }
             }
@@ -953,6 +954,7 @@ public class PozycjaBRKontaView implements Serializable {
                          }
                      }
                } else {
+                   //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
                     System.out.println("konto przyporzadkowane analityka");
                }
             }
@@ -962,7 +964,7 @@ public class PozycjaBRKontaView implements Serializable {
     
     private void skopiujPozycjeWzorcowe(String rb, UkladBR ukladdocelowy    , UkladBR ukladzrodlowy) {
         if (rb.equals("r")) {
-            wyczyscKontaWzorcowy("wynikowe");
+            wyczyscKontaWzorcowy(ukladdocelowy, "wynikowe");
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
             kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "wynikowe");
@@ -998,7 +1000,7 @@ public class PozycjaBRKontaView implements Serializable {
             zaksiegujzmianypozycjiWzorcowy("r", ukladdocelowy);
         }
         if (rb.equals("b")) {
-            wyczyscKontaWzorcowy("bilansowe");
+            wyczyscKontaWzorcowy(ukladdocelowy, "bilansowe");
             kontabezprzydzialu = new ArrayList<>();
             przyporzadkowanekonta = new ArrayList<>();
             kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladdocelowy, "bilansowe");
@@ -1134,11 +1136,11 @@ public class PozycjaBRKontaView implements Serializable {
         }
     }
     
-    private void wyczyscKontaWzorcowy(String rb) {
+    private void wyczyscKontaWzorcowy(UkladBR uklad, String rb) {
         if (rb.equals("wynikowe")) {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
+            kontoDAO.wyzerujPozycjeWKontachWzorcowy(uklad,"wynikowe");
         } else {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
+            kontoDAO.wyzerujPozycjeWKontachWzorcowy(uklad,"bilansowe");
         }
     }
 
