@@ -629,11 +629,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 selected.oznaczewidencjeVAT();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 dokDAOfk.edit(selected);
+                biezacetransakcje = null;
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
                 resetujDokument();
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
+                RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
             } catch (Exception e) {  E.e(e);
                 System.out.println("Nie udało się dodac dokumentu " + e.getMessage());
@@ -1356,26 +1358,31 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
-        lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
-        String wnma = wybranastronawiersza.getWnma();
-        wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
-        if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-            biezacetransakcje = new ArrayList<>();
-            aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
-            potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
-            rodzaj = wybranastronawiersza.getTypStronaWiersza();
-            if (wybranastronawiersza.getTypStronaWiersza() == 0) {
-                rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+        try {
+            lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
+            String wnma = wybranastronawiersza.getWnma();
+            wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
+            if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                biezacetransakcje = new ArrayList<>();
+                aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
+                potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
+                rodzaj = wybranastronawiersza.getTypStronaWiersza();
+                if (wybranastronawiersza.getTypStronaWiersza() == 0) {
+                    rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+                }
+                if (wybranastronawiersza.getTypStronaWiersza() == 1) {
+                    biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
+                    //platnosc
+                } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
+                    biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
+                } else {
+                    System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
+                }
+                System.out.println(wybranastronawiersza.toString());
             }
-            if (wybranastronawiersza.getTypStronaWiersza() == 1) {
-                biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
-                //platnosc
-            } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
-                biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
-            } else {
-                System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
-            }
-            System.out.println(wybranastronawiersza.toString());
+        } catch (Exception e) {
+            System.out.println("Blad DokfkView pobranieStronaWiersza");
+            E.e(e);
         }
     }
 
