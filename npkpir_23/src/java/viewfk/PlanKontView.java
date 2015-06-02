@@ -20,6 +20,8 @@ import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import entityfk.KontopozycjaBiezaca;
+import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.UkladBR;
 import error.E;
@@ -162,7 +164,6 @@ public class PlanKontView implements Serializable {
     }
 
     public void dodajsyntetyczne() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         String podatnik;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
@@ -193,7 +194,6 @@ public class PlanKontView implements Serializable {
     }
     
     public void dodajanalityczne() {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         String podatnik;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
@@ -207,6 +207,22 @@ public class PlanKontView implements Serializable {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczneWzorzec(noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             } else {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+            }
+            if (wynikdodaniakonta == 0) {
+                KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
+                if (!kpo.getSyntetykaanalityka().equals("analityka")) {
+                    KontopozycjaZapis kp = new KontopozycjaZapis();
+                    kp.setPozycjaWn(kpo.getPozycjaWn());
+                    kp.setPozycjaMa(kpo.getPozycjaMa());
+                    kp.setStronaWn(kpo.getStronaWn());
+                    kp.setStronaMa(kpo.getStronaMa());
+                    kp.setSyntetykaanalityka("syntetyka");
+                    kp.setKontoID(noweKonto);
+                    kp.setUkladBR(kpo.getUkladBR());
+                    kontopozycjaZapisDAO.edit(kp);
+                    noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+                    kontoDAOfk.edit(noweKonto);
+                }
             }
             if (wynikdodaniakonta == 0) {
                 PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
@@ -230,7 +246,6 @@ public class PlanKontView implements Serializable {
     public void dodajslownik() {
         Konto kontomacierzyste = selectednodekonto;
         List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView, kontomacierzyste.getPelnynumer());
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (kontapodpiete.size() > 0) {
             Msg.msg("e", "Konto już ma podpiętą zwyczajną analitykę, nie można dodać słownika");
         } else {
