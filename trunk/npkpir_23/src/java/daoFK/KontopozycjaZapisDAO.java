@@ -5,6 +5,7 @@
 package daoFK;
 
 import dao.DAO;
+import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.UkladBR;
 import error.E;
@@ -52,5 +53,14 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         }
     }
     
+    public KontopozycjaZapis findByKonto(Konto konto) {
+        try {
+            return sessionFacade.fintKontoPozycjaZapisByKonto(konto);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+            
+        }
+    }
     
 }
