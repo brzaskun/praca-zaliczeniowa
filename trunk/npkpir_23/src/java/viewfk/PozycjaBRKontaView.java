@@ -976,6 +976,9 @@ public class PozycjaBRKontaView implements Serializable {
                         System.out.println("Szukam konta " + p.getKontoID().toString());
                         try {
                             Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladdocelowy);
+                            if (kontouzytkownika.getPelnynumer().equals("407")) {
+                               System.out.println("dd");
+                            }
                             boxNaKonto = kontouzytkownika;
                             if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
                                 if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
@@ -994,6 +997,7 @@ public class PozycjaBRKontaView implements Serializable {
                         }
                     }
                 } else {
+                    //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
                     System.out.println("konto przyporzadkowane analityka");
                 }
             }
@@ -1033,6 +1037,7 @@ public class PozycjaBRKontaView implements Serializable {
                          }
                      }
                } else {
+                   //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
                     System.out.println("konto przyporzadkowane analityka");
                }
             }
@@ -1073,7 +1078,7 @@ public class PozycjaBRKontaView implements Serializable {
         kontoDAO.edit(konto);
         //czesc nanoszaca informacje na potomku
         if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "wynik", Integer.parseInt(uklad.getRok()));
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "wynik", Integer.parseInt(ukladpodatnika.getRok()));
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
@@ -1117,8 +1122,11 @@ public class PozycjaBRKontaView implements Serializable {
         konto.setKontopozycjaID(kp);
         kontoDAO.edit(konto);
         //czesc nanoszaca informacje na potomku
+        if (konto.getPelnynumer().equals("407")) {
+            System.out.println("dd");
+        }
         if (konto.isMapotomkow() == true) {
-            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "bilans", Integer.parseInt(uklad.getRok()));
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "bilans", Integer.parseInt(ukladpodatnika.getRok()));
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
