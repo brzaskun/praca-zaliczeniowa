@@ -94,8 +94,8 @@
                 <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" filterBy="#{item.dokfkSN}">
                     <h:outputText value="#{item.dokfkSN}"/>
                 </p:column>
-                 <p:column headerText="symbolN" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
-                     <h:outputText value="#{item.dokfkLP}"/>
+                <p:column headerText="nip" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
+                    <h:outputText value="#{item.kontr.nip}"/>
                 </p:column>
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
