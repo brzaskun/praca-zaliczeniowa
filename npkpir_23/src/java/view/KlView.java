@@ -128,16 +128,22 @@ public class KlView implements Serializable{
         String kraj = selected.getKrajnazwa();
         String symbol = ps1.getWykazPanstwSX().get(kraj);
         selected.setKrajkod(symbol);
+        if (selected.getLokal() == null || selected.getLokal().equals("") ){
+            selected.setLokal("-");
+        }
         poszukajDuplikatNip();
         poszukajDuplikatNazwa();
         klDAO.dodaj(selected);
+        
         kl1 = new ArrayList<>();
         kl1.addAll(klDAO.findAll());
-        RequestContext.getCurrentInstance().update("formX:");
+        RequestContext.getCurrentInstance().update("formX");
         RequestContext.getCurrentInstance().update("formY:tabelaKontr");
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna(),"formX:mess_add");
-        } catch (Exception e) { E.e(e); 
-        Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje","formX:mess_add");
+        selected = new Klienci();
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje","formX:mess_add");
         }
          
          
