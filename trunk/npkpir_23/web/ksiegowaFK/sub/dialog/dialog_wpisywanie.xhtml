@@ -164,7 +164,7 @@
                                       style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                         </p:panelGrid>
                     <p:panelGrid id="panelzkwotamidok" rendered="#{planKontView.infozebrakslownikowych eq ''}"
-                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
+                                 columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 3}"   styleClass="uipanelGrid0">
                         <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}"/>
                         <h:outputText value="treść dokumentu"/>
                         <h:outputText value="wartość dok"/>
