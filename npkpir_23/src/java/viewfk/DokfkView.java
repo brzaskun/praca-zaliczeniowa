@@ -143,7 +143,7 @@ private static final long serialVersionUID = 1L;
     private Wiersz wybranyWiersz;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    private int lpwiersza;
+    private Integer lpwiersza;
     
     private int rodzajBiezacegoDokumentu;
     private String symbolWalutyNettoVat;
@@ -2026,7 +2026,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //                Object o = d.getLocalSelection();
 //                wierszRKindex = d.getRowIndex();
 //                wierszRK = (Wiersz) d.getRowData();
-                wierszRKindex = lpWierszaWpisywanie -1;
+                System.out.println("lpwiersza "+lpwiersza);
+                wierszRKindex = lpwiersza -1;
                 wierszRK = selected.getListawierszy().get(wierszRKindex);
                 ewidencjaVatRK = null;
                 for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2448,11 +2449,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.rodzajBiezacegoDokumentu = rodzajBiezacegoDokumentu;
     }
 
-    public int getLpwiersza() {
+    public Integer getLpwiersza() {
         return lpwiersza;
     }
 
-    public void setLpwiersza(int lpwiersza) {
+    public void setLpwiersza(Integer lpwiersza) {
         this.lpwiersza = lpwiersza;
     }
 
