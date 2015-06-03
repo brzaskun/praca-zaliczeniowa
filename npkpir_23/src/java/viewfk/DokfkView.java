@@ -143,7 +143,7 @@ private static final long serialVersionUID = 1L;
     private Wiersz wybranyWiersz;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    private Integer lpwiersza;
+    private Integer lpwierszaRK;
     
     private int rodzajBiezacegoDokumentu;
     private String symbolWalutyNettoVat;
@@ -1971,13 +1971,17 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
-            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+           
+        }
+
+    }
+    
+    public void obliczsaldorkwb() {
+         if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 saldoinnedok = obliczsaldopoczatkowe();
                 saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
                 System.out.println("Udane obliczenie salda BO");
             }
-        }
-
     }
 
     public void dodajPozycjeRKDoEwidencji () {
@@ -2026,8 +2030,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //                Object o = d.getLocalSelection();
 //                wierszRKindex = d.getRowIndex();
 //                wierszRK = (Wiersz) d.getRowData();
-                System.out.println("lpwiersza "+lpwiersza);
-                wierszRKindex = lpwiersza -1;
+                System.out.println("lpwiersza "+lpwierszaRK);
+                wierszRKindex = lpwierszaRK -1;
                 wierszRK = selected.getListawierszy().get(wierszRKindex);
                 ewidencjaVatRK = null;
                 for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2449,12 +2453,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.rodzajBiezacegoDokumentu = rodzajBiezacegoDokumentu;
     }
 
-    public Integer getLpwiersza() {
-        return lpwiersza;
+    public Integer getLpwierszaRK() {
+        return lpwierszaRK;
     }
 
-    public void setLpwiersza(Integer lpwiersza) {
-        this.lpwiersza = lpwiersza;
+    public void setLpwierszaRK(Integer lpwierszaRK) {
+        this.lpwierszaRK = lpwierszaRK;
     }
 
     public Wiersz getWybranyWiersz() {
