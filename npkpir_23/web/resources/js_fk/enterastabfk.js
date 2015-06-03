@@ -19,7 +19,7 @@ var TabKeyDown;
             var czyZawieraMa = taregetId.indexOf("kontoma");
             var enterdefault = taregetId.indexOf("enterdefault");
             var rozrachunki = taregetId.indexOf("rozrachunki");
-            var typwiersza = $(document.getElementById("wpisywaniefooter:typwiersza")).val();
+            var typwiersza = MYAPP.typwiersza;
             var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
         } catch (e1) {
             
@@ -39,7 +39,7 @@ var TabKeyDown;
                 var war1 = isTabKey(event);
                 if (war1===true) {
                     var war2 = dlugoscwierszy === wierszlp;
-                    var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === "1";
+                    var war3 = czyZawieraWn > 0 && zawartoscpola !== "" && typwiersza === 1;
                     var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
                     if ($(event.target).is("button") === false) {
                         if (war1 && war2 && war3 || war1 && war2 && war4) {
