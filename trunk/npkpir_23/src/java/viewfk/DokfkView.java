@@ -6,6 +6,7 @@ package viewfk;
 
 import beansDok.ListaEwidencjiVat;
 import beansFK.DFKWiersze;
+import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
 import beansFK.DokFKVATBean;
@@ -258,30 +259,7 @@ private static final long serialVersionUID = 1L;
 //    //dodaje wiersze do dokumentu
     
 
-    public void dolaczNowyWierszPusty(int wierszbiezacyIndex, boolean przenumeruj) {
-        Wiersz wierszbiezacy = selected.getListawierszy().get(wierszbiezacyIndex);
-        try {
-            boolean czyWszystkoWprowadzono = DokFKBean.sprawdzczyWnRownasieMa(wierszbiezacy);
-            int nrgrupy = wierszbiezacy.getLpmacierzystego() == 0 ? wierszbiezacy.getIdporzadkowy() : wierszbiezacy.getLpmacierzystego();
-            double roznica = 0.0;
-            if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
-                    roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
-            }
-            try {
-                Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-            } catch (Exception e1) {
-                //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
-                if (roznica == 0 && czyWszystkoWprowadzono == true) {
-                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
-                    //selected.przeliczKwotyWierszaDoSumyDokumentu();
-                } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
-                }
-            }
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
-        }
-    }
+    
     
 //<editor-fold defaultstate="collapsed" desc="nie uzywane funkcje">
     
@@ -395,21 +373,16 @@ private static final long serialVersionUID = 1L;
 
 
     public void dodajPustyWierszNaKoncu() {
-            int indexwTabeli = selected.getListawierszy().size()-1;
-            dolaczNowyWierszPusty(indexwTabeli, false);
-            rozliczsalda();
+           int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
+           if (wynik == 1) {
+               Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+           }
     }
     
-    private void rozliczsalda() {
-        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-            double sumapoprzednich = 0;
-            for (Wiersz p : selected.getListawierszy())    {
-                  double kwota = obliczsaldo(p);
-                  sumapoprzednich += kwota;
-                  p.setSaldoWBRK(saldoBO + saldoinnedok + sumapoprzednich);
-              }
-            }
+    public void rozliczsaldo(int indexwTabeli) {
+        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli);
     }
+   
 
 //////////////////////EWIDENCJE VAT  
     
@@ -948,16 +921,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void przygotujDokumentWpisywanie() {
         String skrotnazwydokumentu = selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok();
         selected.getDokfkPK().setSeriadokfk(skrotnazwydokumentu);
-        //zeby nadawal nowy numer tylko przy edycji
-        if (zapisz0edytuj1 == false) {
-            try {
-                Dokfk ostatnidokumentdanegorodzaju = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), skrotnazwydokumentu, wpisView.getRokWpisuSt());
-                selected.getDokfkPK().setNrkolejnywserii(ostatnidokumentdanegorodzaju.getDokfkPK().getNrkolejnywserii() + 1);
-            } catch (Exception e) { 
-                System.out.println("Nie znaleziono poprzednich dokumentow "+e.getStackTrace()[0].toString()+" "+e.toString());
-                selected.getDokfkPK().setNrkolejnywserii(1);
-            }
-        }
         //pokazuje daty w wierszach
         if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
             pokazPanelWalutowy = true;
@@ -1150,7 +1113,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     saldoinnedok = obliczsaldopoczatkowe();
                     saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
-                    rozliczsalda();
+                    Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
                     System.out.println("Udane obliczenie salda");
                 }
             }
@@ -1379,6 +1343,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
                 }
                 System.out.println(wybranastronawiersza.toString());
+                
+            }
+            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                int index = lpWierszaWpisywanie -1;
+                rozliczsaldo(index);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+                
             }
         } catch (Exception e) {
             System.out.println("Blad DokfkView pobranieStronaWiersza");
@@ -1905,14 +1876,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     
     public void wygenerujnumerkolejny() {
-        String zawartosc = "";
+        String zawartosc;
         try {
             zawartosc = selected.getNumerwlasnydokfk();
         } catch (Exception ex) {
+            E.e(ex);
             selected.setNumerwlasnydokfk("");
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("formwpisdokument:symbol");
         String wprowadzonynumer = "";
         if (params.get("formwpisdokument:numer") != null) {
             wprowadzonynumer = params.get("formwpisdokument:numer");
@@ -1923,7 +1894,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             Podatnik podX = wpisView.getPodatnikObiekt();
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
-            List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(podX);
             Rodzajedok rodzajdok = selected.getRodzajedok();
             String wzorzec = rodzajdok.getWzorzec();
             //odnajdywanie podzielnika;
@@ -1932,9 +1902,24 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 separator = "/";
             }
             String[] elementy;
+            Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+            if (zapisz0edytuj1 == false) {
+                if (ostatnidokument != null) {
+                    selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
+                } else {
+                    selected.getDokfkPK().setNrkolejnywserii(1);
+                }
+            }
+            if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                   
+                   Wiersz ostatniwiersz = ostatnidokument.getListawierszy().get(ostatnidokument.getListawierszy().size()-1);
+                   saldoinnedok = ostatniwiersz.getSaldoWBRK();
+                   selected.getListawierszy().get(0).setSaldoWBRK(ostatniwiersz.getSaldoWBRK());
+            } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                obliczsaldorkwb();
+            }
             try {
                 elementy = wzorzec.split(separator);
-                Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
                 String[] elementyold;
                 elementyold = ostatnidokument.getNumerwlasnydokfk().split(separator);
                 for (int i = 0; i < elementy.length; i++) {
@@ -1971,15 +1956,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
-           
         }
-
     }
     
     public void obliczsaldorkwb() {
          if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                saldoinnedok = obliczsaldopoczatkowe();
                 saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+                selected.getListawierszy().get(0).setSaldoWBRK(saldoBO);
+                saldoinnedok = saldoBO;
                 System.out.println("Udane obliczenie salda BO");
             }
     }
@@ -2095,20 +2079,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     
     
-    public double obliczsaldo(Wiersz w) {
-        double kwota = 0;
-        List<StronaWiersza> strony = w.getStronyWierszaKonto();
-        for (StronaWiersza r : strony) {
-            if (r.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
-                if (r.getWnma().equals("Wn")) {
-                    kwota += r.getKwota();
-                } else {
-                    kwota -= r.getKwota();
-                }
-            }
-        }
-        return kwota;
-    }
+  
     
     private double pobierzwartosczBO(Konto kontorozrachunkowe) {
         List<WierszBO> wierszBOlista = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontorozrachunkowe);
