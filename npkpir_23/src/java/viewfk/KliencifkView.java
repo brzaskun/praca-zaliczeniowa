@@ -10,6 +10,7 @@ import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import entity.Klienci;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -57,6 +58,8 @@ public class KliencifkView implements Serializable {
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
     private boolean makonto0niemakonta1;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public KliencifkView() {
         listawszystkichklientow = new ArrayList<>();
@@ -127,7 +130,7 @@ public class KliencifkView implements Serializable {
         try {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             kliencifkDAO.dodaj(klientBezKonta);
-            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, klientBezKonta, kontoDAOfk, wpisView);
+            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
             E.e(e);

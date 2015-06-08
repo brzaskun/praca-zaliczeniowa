@@ -263,7 +263,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika kontrahentów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(wykazkont, kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaKontrahenci(wykazkont, kontomacierzyste, kontoDAOfk, kliencifkDAO, wpisView, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -282,7 +282,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika miejsc powstawania kosztów!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(wykazkont, kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiejscaKosztow(wykazkont, kontomacierzyste, kontoDAOfk, miejsceKosztowDAO, wpisView, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -301,7 +301,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika pojazdy i maszyny!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaPojazdy(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -320,7 +320,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika miesięcy!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -339,7 +339,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownik delegacji krajowych!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, false, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -358,7 +358,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownik delegacji zagranicznych!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaDelegacje(wykazkont, kontomacierzyste, kontoDAOfk, delegacjaDAO, wpisView, true, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -372,6 +372,7 @@ public class PlanKontView implements Serializable {
         }
     }
 
+    
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
@@ -619,12 +620,16 @@ public class PlanKontView implements Serializable {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.");
             } else {
                 try {
+                    KontopozycjaZapis p = kontopozycjaZapisDAO.findByKonto(kontoDoUsuniecia);
+                    if (p != null) {
+                        kontopozycjaZapisDAO.destroy(p);
+                    }
+                    kontoDAOfk.destroy(kontoDoUsuniecia);
                     if (czyoddacdowzorca == true) {
                         wykazkontwzor.remove(kontoDoUsuniecia);
                     } else {
                         wykazkont.remove(kontoDoUsuniecia);
                     }
-                    kontoDAOfk.destroy(kontoDoUsuniecia);
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
                         int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView, wykazkont);
                         if (wynik == 0) {
@@ -649,7 +654,8 @@ public class PlanKontView implements Serializable {
                     }
                     RequestContext.getCurrentInstance().update("form_dialog_plankont");
                     Msg.msg("i", "Usuwam konto");
-                } catch (Exception e) {  E.e(e);
+                } catch (Exception e) { 
+                    E.e(e);
                     Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");
                 }
             }

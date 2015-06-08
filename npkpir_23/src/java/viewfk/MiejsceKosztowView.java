@@ -10,6 +10,7 @@ import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import embeddablefk.MiejsceKosztowZest;
 import entityfk.Konto;
@@ -53,6 +54,8 @@ public class MiejsceKosztowView  implements Serializable{
     private StronaWierszaDAO stronaWierszaDAO;
     private LinkedHashSet<TabelaMiejsceKosztow> listasummiejsckosztow;
     private List<TabelaMiejsceKosztow> listawybranychmiejsckosztow;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public MiejsceKosztowView() {
         
@@ -88,7 +91,7 @@ public class MiejsceKosztowView  implements Serializable{
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         miejsceKosztowDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, selected, kontoDAOfk, wpisView);
+        PlanKontFKBean.aktualizujslownikMiejscaKosztow(wykazkont, miejsceKosztowDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);

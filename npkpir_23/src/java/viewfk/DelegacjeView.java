@@ -11,6 +11,7 @@ import beansFK.PlanKontFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.DelegacjaDAO;
+import daoFK.KontopozycjaZapisDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
@@ -49,6 +50,8 @@ public class DelegacjeView  implements Serializable{
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private Map<Delegacja, List<DelegacjaZest>> listadelegacja;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public DelegacjeView() {
     }
@@ -84,10 +87,10 @@ public class DelegacjeView  implements Serializable{
         delegacjaDAO.dodaj(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView);
+            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView);
+            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         }
         selected.setOpisdlugi(null);
         selected.setOpiskrotki(null);
