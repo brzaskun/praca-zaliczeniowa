@@ -58,6 +58,13 @@
                                 <f:validateLength minimum="10"/>
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputText>
+                            <h:outputText value="wersja językowa"/>
+                            <p:selectOneMenu value="#{UzView.selUzytkownik.locale}">
+                                <f:selectItem itemValue="pl" itemLabel="pl"/>
+                                <f:selectItem itemValue="de" itemLabel="de"/>
+                                <f:selectItem itemValue="en" itemLabel="en"/>
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            </p:selectOneMenu>
                             <h:outputText value="hasło"/>
                             <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
                                         promptLabel="wprowadź hasło o min 6 znakach" weakLabel="słabe"  validatorMessage="Hasło składa się z minimum 6 znaków"
