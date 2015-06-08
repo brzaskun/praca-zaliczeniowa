@@ -10,6 +10,7 @@ import beansFK.PlanKontFKBean;
 import beansFK.PojazdyBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import daoFK.PojazdyDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
@@ -53,6 +54,8 @@ public class PojazdyView  implements Serializable{
     private StronaWierszaDAO stronaWierszaDAO;
     private LinkedHashSet<TabelaPojazdy> listasumpojazdy;
     private List<TabelaPojazdy> listawybranychpojazdow;
+    @Inject
+    private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public PojazdyView() {
     }
@@ -86,7 +89,7 @@ public class PojazdyView  implements Serializable{
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         pojazdyDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, selected, kontoDAOfk, wpisView);
+        PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, pojazdyDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);
