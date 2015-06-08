@@ -322,9 +322,10 @@
                     </p:column>
                     <p:column headerText="opis transakcji" width="130" style="text-align: center;">
                         <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
-                                        onblur="skopiujopis(#{loop.idporzadkowy});" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
+                                     onblur="skopiujopis(#{loop.idporzadkowy});" 
+                                        styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
-                    <p:ajax global="false" event="focus" listener="#{dokfkView.pobranieWiersza(loop)}" oncomplete="zachowajwierszVATRK(#{loop.idporzadkowy});" update=":wpisywaniefooter"/>
+                    <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{loop.idporzadkowy})"  />
                     <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                     <p:ajax global="false" event="blur" partialSubmit="true" />
                         </p:inputText>
@@ -490,8 +491,8 @@
                                  global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
-                <h:inputText id="lpwiersza" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
-                <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}" style="display: none;"/>
+                <h:inputText id="lpwierszaRK" style="display: none;"/>
+                <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
             </h:form>

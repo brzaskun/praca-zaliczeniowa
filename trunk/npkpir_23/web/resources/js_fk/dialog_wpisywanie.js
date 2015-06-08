@@ -19,18 +19,19 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     }
 };
 
-var zachowajwierszVATRK = function (source) {
+var zachowajwierszVATRK = function (lp) {
     try {
-        var lp = parseInt(source)-1;
+        console.log("zachowajwierszVATRK "+lp);
         MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
         $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
-        $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(parseInt(source));
+        $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
 };
 
-var odtworzwierszVATRK = function(data) {
+var odtworzwierszVATRK = function(lp) {
+    MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
     if (MYAPP.lpwiersza) {
 //        $(data).removeClass('ui-state-focus');
 //        $(data).addClass('ui-state-default');
