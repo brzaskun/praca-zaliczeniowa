@@ -102,11 +102,11 @@
                 </h:selectOneMenu>
             </p:panelGrid>
             <p:commandButton value="Zapisz" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.dolaczWierszZKwotamiRK}" 
-                             oncomplete="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>
+                             oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{!dokfkView.ewidencjaVATRKzapis0edycja1}"/>
             <p:commandButton value="Edytuj" style="margin-left: 25%; margin-top: 15px; width: 120px;" actionListener="#{dokfkView.edytujWierszZKwotamiRK}" 
-                             oncomplete="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();" global="false" rendered="#{dokfkView.ewidencjaVATRKzapis0edycja1}"/>
+                             oncomplete="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();" global="false" rendered="#{dokfkView.ewidencjaVATRKzapis0edycja1}"/>
             <p:commandButton value="Anuluj" style="margin-left: 5%; margin-top: 15px; width: 120px;" type="button" global="false"
-                             onclick="odtworzwierszVATRK();PF('dialogewidencjavatRK').hide();"/>
+                             onclick="odtworzwierszVATRK(#{dokfkView.lpWierszaWpisywanie});PF('dialogewidencjavatRK').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>

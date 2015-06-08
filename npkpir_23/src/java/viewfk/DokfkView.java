@@ -144,7 +144,6 @@ private static final long serialVersionUID = 1L;
     private Wiersz wybranyWiersz;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    private Integer lpwierszaRK;
     
     private int rodzajBiezacegoDokumentu;
     private String symbolWalutyNettoVat;
@@ -1317,7 +1316,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void pobranieWiersza(Wiersz wybranywiersz) {
         lpWierszaWpisywanie = wybranywiersz.getIdporzadkowy();
-        Msg.msg("Wiersz "+lpWierszaWpisywanie);
+        //Msg.msg("Wiersz "+lpWierszaWpisywanie);
         System.out.println("pobrano wiersz "+lpWierszaWpisywanie);
     }
 
@@ -2007,15 +2006,15 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
-        FacesContext c = FacesContext.getCurrentInstance();
+        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaRK"));
         if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
             try {
 //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
 //                Object o = d.getLocalSelection();
 //                wierszRKindex = d.getRowIndex();
 //                wierszRK = (Wiersz) d.getRowData();
-                System.out.println("lpwiersza "+lpwierszaRK);
-                wierszRKindex = lpwierszaRK -1;
+                System.out.println("lpwiersza "+lpWierszaWpisywanie);
+                wierszRKindex = lpWierszaWpisywanie -1;
                 wierszRK = selected.getListawierszy().get(wierszRKindex);
                 ewidencjaVatRK = null;
                 for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2424,14 +2423,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.rodzajBiezacegoDokumentu = rodzajBiezacegoDokumentu;
     }
 
-    public Integer getLpwierszaRK() {
-        return lpwierszaRK;
-    }
-
-    public void setLpwierszaRK(Integer lpwierszaRK) {
-        this.lpwierszaRK = lpwierszaRK;
-    }
-
+    
     public Wiersz getWybranyWiersz() {
         return wybranyWiersz;
     }
