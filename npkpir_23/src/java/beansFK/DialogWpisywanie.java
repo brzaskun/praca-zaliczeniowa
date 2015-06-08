@@ -65,17 +65,11 @@ public class DialogWpisywanie {
             if (!wierszbiezacy.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
                     roznica = ObslugaWiersza.obliczkwotepozostala(selected, wierszbiezacy, nrgrupy);
             }
-            try {
-                Wiersz wiersznastepny = selected.getListawierszy().get(wierszbiezacyIndex + 1);
-            } catch (Exception e1) {
-                //jezeli nie ma nastepnych to tak robimy, a jak jest inaczej to to co na gorze
-                if (roznica == 0 && czyWszystkoWprowadzono == true) {
-                    ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
-                    //selected.przeliczKwotyWierszaDoSumyDokumentu();
-                } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
-                    ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
-                }
-            }
+            if (roznica == 0 && czyWszystkoWprowadzono == true) {
+                 ObslugaWiersza.generujNowyWiersz0NaKoncu(selected, wierszbiezacy, przenumeruj, roznica, 0);
+             } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
+                 ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
+             }
             return 0;
         } catch (Exception e) {  
             E.e(e);
