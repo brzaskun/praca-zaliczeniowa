@@ -1322,33 +1322,46 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
         try {
-            lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
-            String wnma = wybranastronawiersza.getWnma();
-            wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
-            if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                biezacetransakcje = new ArrayList<>();
-                aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
-                potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
-                rodzaj = wybranastronawiersza.getTypStronaWiersza();
-                if (wybranastronawiersza.getTypStronaWiersza() == 0) {
-                    rachunekCzyPlatnosc = selected.getRodzajedok().getKategoriadokumentu() == 0 ? "płatność" : "rachunek";
+            if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza) {
+                lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
+                String wnma = wybranastronawiersza.getWnma();
+                wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
+                if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+                    biezacetransakcje = new ArrayList<>();
+                    aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
+                    potraktujjakoNowaTransakcje = selected.getRodzajedok().getKategoriadokumentu() == 0 ? false : true;
+                    rodzaj = wybranastronawiersza.getTypStronaWiersza();
+                    if (wybranastronawiersza.getTypStronaWiersza() == 0) {
+                        boolean rachunek = false;
+                        if (aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer().startsWith("201") && wnmadoprzeniesienia.equals("Wn")) {
+                            rachunek = true;
+                        } else if (aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer().startsWith("202") && wnmadoprzeniesienia.equals("Ma")) {
+                            rachunek = true;
+                        } else if (aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer().startsWith("203") && wnmadoprzeniesienia.equals("Wn")) {
+                            rachunek = true;
+                        } else if (aktualnyWierszDlaRozrachunkow.getKonto().getPelnynumer().startsWith("204") && wnmadoprzeniesienia.equals("Ma")) {
+                            rachunek = true;
+                        }
+                        rachunekCzyPlatnosc = rachunek == true ? "rachunek" : "płatność";
+                        RequestContext.getCurrentInstance().update("formtransakcjawybor");
+                    }
+                    if (wybranastronawiersza.getTypStronaWiersza() == 1) {
+                        biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
+                        //platnosc
+                    } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
+                        biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
+                    } else {
+                        System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
+                    }
+                    System.out.println(wybranastronawiersza.toString());
+
                 }
-                if (wybranastronawiersza.getTypStronaWiersza() == 1) {
-                    biezacetransakcje = tworzenieTransakcjiRachunek(wnma, wybranastronawiersza);
-                    //platnosc
-                } else if (wybranastronawiersza.getTypStronaWiersza() == 2) {
-                    biezacetransakcje = tworzenieTransakcjiPlatnosc(wnma, wybranastronawiersza);
-                } else {
-                    System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
+                if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                    int index = lpWierszaWpisywanie -1;
+                    rozliczsaldo(index);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+
                 }
-                System.out.println(wybranastronawiersza.toString());
-                
-            }
-            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                int index = lpWierszaWpisywanie -1;
-                rozliczsaldo(index);
-                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
-                
             }
         } catch (Exception e) {
             System.out.println("Blad DokfkView pobranieStronaWiersza");
