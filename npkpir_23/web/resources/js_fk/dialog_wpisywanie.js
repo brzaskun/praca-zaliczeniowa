@@ -31,7 +31,8 @@ var zachowajwierszVATRK = function (lp) {
 };
 
 var odtworzwierszVATRK = function(lp) {
-    MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
+    var id = parseInt(lp)-1;
+    MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
     if (MYAPP.lpwiersza) {
 //        $(data).removeClass('ui-state-focus');
 //        $(data).addClass('ui-state-default');
