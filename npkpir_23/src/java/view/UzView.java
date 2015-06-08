@@ -81,18 +81,17 @@ public class UzView implements Serializable {
             try {
                 haszuj(selUzytkownik.getHaslo());
                 uzDAO.dodaj(selUzytkownik);
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejestracja udana. Administrator musi teraz nadac Ci uprawnienia. Nastąpi to w ciągu najbliższej godziny. Dopiero wtedy będzie możliwe zalogowanie się.", selUzytkownik.getLogin());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                String wiadomosc = "Rejestracja udana. Administrator musi teraz nadac Ci uprawnienia. Nastąpi to w ciągu najbliższej godziny. Dopiero wtedy będzie możliwe zalogowanie się.";
+                Msg.msg(wiadomosc);
                 Mail.nadajMailRejestracjaNowegoUzera(selUzytkownik.getEmail(), selUzytkownik.getLogin());
-
-            } catch (Exception e) { E.e(e); 
-                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Uzytkownik o takim loginie już istnieje. Wprowadź inny login.", e.getStackTrace().toString());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                panelrejestracji.setRendered(false);
+                RequestContext.getCurrentInstance().reset("pole");
+                RequestContext.getCurrentInstance().update("pole");
+            } catch (Exception e) {
+                E.e(e); 
+                Msg.msg("e","Uzytkownik o takim loginie już istnieje. Wprowadź inny login.");
             }
         }
-        panelrejestracji.setRendered(false);
-        RequestContext.getCurrentInstance().reset("pole");
-        RequestContext.getCurrentInstance().update("pole");
     }
 
     public void edytuj() {
@@ -146,7 +145,8 @@ public class UzView implements Serializable {
         try {
             selUzytkownik = uzDAO.findUzByLogin(login);
             selUzytkownik.setHaslo(firstPassword);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             Msg.msg("e", "Podany login: '" + login + "' nie istnieje", "formlog1:logowanie");
             login = null;
             return "failure";
@@ -168,8 +168,6 @@ public class UzView implements Serializable {
     }
 
     public void sformatuj() {
-        String formatka = null;
-        //selUzytkownik.setLogin(selUzytkownik.getLogin().toLowerCase());
         selUzytkownik.setImie(selUzytkownik.getImie().substring(0, 1).toUpperCase() + selUzytkownik.getImie().substring(1).toLowerCase());
         selUzytkownik.setNazw(selUzytkownik.getNazw().substring(0, 1).toUpperCase() + selUzytkownik.getNazw().substring(1).toLowerCase());
     }
@@ -219,19 +217,9 @@ public class UzView implements Serializable {
 
     private boolean validateData() {
         boolean toReturn = true;
-        FacesContext ctx = FacesContext.getCurrentInstance();
-
-//        // check emailConfirm is same as email
-//        if (!emailConfirm.equals(person.getEmail())) {
-//            ctx.addMessage("registerForm:emailConfirm",
-//                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-//                    msg.getMessage("errorEmailConfirm"), null));
-//            toReturn = false;
-//        }
         // check passwordConfirm is same as password
         if (!confPassword.equals(selUzytkownik.getHaslo())) {
-            ctx.addMessage("registerForm:passwordConfirm",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Hasła nie pasuja. Sprawdź.", null));
+            Msg.msg("e","Podane hasła nie pasują. Sprawdź to.","registerForm:passwordConfirm");
             toReturn = false;
         }
         return toReturn;
