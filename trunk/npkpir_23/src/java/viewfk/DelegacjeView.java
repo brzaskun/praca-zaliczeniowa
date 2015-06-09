@@ -54,7 +54,7 @@ public class DelegacjeView  implements Serializable{
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public DelegacjeView() {
-    }
+   }
     
     @PostConstruct
     private void init() {
@@ -79,22 +79,27 @@ public class DelegacjeView  implements Serializable{
     }
 
     public void dodaj(boolean krajowa0zagraniczna1) {
-        List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
-        selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
-        selected.setRok(wpisView.getRokWpisu());
-        selected.setAktywny(true);
-        delegacjaDAO.dodaj(selected);
-        if (krajowa0zagraniczna1) {
-            delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+        Delegacja duplikat = delegacjaDAO.findDelegacja(selected);
+        if (duplikat != null) {
+            List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
+            selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);
+            selected.setRok(wpisView.getRokWpisu());
+            selected.setAktywny(true);
+            delegacjaDAO.dodaj(selected);
+            if (krajowa0zagraniczna1) {
+                delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
+                PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+            } else {
+                delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
+                PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+            }
+            selected.setOpisdlugi(null);
+            selected.setOpiskrotki(null);
+            Msg.msg("Dodaje delegację");
         } else {
-            delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-            PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+            Msg.msg("e", "Delegacja o takich parametrach już istnieje. Nie mogę dodać");
         }
-        selected.setOpisdlugi(null);
-        selected.setOpiskrotki(null);
-        Msg.msg("Dodaje delegację");
     }
     
      private String pobierzkolejnynumer(boolean krajowa0zagraniczna1) {
