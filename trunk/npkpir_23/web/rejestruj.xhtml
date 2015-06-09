@@ -49,12 +49,12 @@
                                 <p:ajax event="blur" partialSubmit="true" listener="#{UzView.sprawdzloginduplikat}" global="false"/>
                             </p:inputText>
                             <h:outputText value="#{mgs.email}"/>
-                            <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="#{mgs.wpiszemail}!" autocomplete="true"  >
+                            <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="#{mgs.wpiszemail}!" autocomplete="true"  validatorMessage="#{mgs.nieprawidlowymail}">
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                                 <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                             </p:inputText>
                             <h:outputText value="#{mgs.nipfirmy}"/>
-                            <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" >
+                            <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" validatorMessage="#{mgs.zakrotkinip}">
                                 <f:validateLength minimum="10"/>
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:inputText>
@@ -73,7 +73,7 @@
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:password>
                             <h:outputText value="#{mgs.potwierdzhaslo}"/>
-                            <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
+                            <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" validatorMessage="#{mgs.hasloskladasie}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
                                 <f:validateLength minimum="6"/>
                                 <p:ajax event="blur" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}"/>
                             </p:password>
