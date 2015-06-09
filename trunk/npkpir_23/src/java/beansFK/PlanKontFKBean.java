@@ -21,6 +21,7 @@ import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
+import error.E;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -290,20 +291,24 @@ public class PlanKontFKBean {
     }
      
      private static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
-        Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
-        KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
-        if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-            KontopozycjaZapis kp = new KontopozycjaZapis();
-            kp.setPozycjaWn(kpo.getPozycjaWn());
-            kp.setPozycjaMa(kpo.getPozycjaMa());
-            kp.setStronaWn(kpo.getStronaWn());
-            kp.setStronaMa(kpo.getStronaMa());
-            kp.setSyntetykaanalityka("syntetyka");
-            kp.setKontoID(noweKonto);
-            kp.setUkladBR(kpo.getUkladBR());
-            kontopozycjaZapisDAO.edit(kp);
-            noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
-            kontoDAOfk.edit(noweKonto);
+        try {
+            Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
+            KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
+            if (!kpo.getSyntetykaanalityka().equals("analityka")) {
+                KontopozycjaZapis kp = new KontopozycjaZapis();
+                kp.setPozycjaWn(kpo.getPozycjaWn());
+                kp.setPozycjaMa(kpo.getPozycjaMa());
+                kp.setStronaWn(kpo.getStronaWn());
+                kp.setStronaMa(kpo.getStronaMa());
+                kp.setSyntetykaanalityka("syntetyka");
+                kp.setKontoID(noweKonto);
+                kp.setUkladBR(kpo.getUkladBR());
+                kontopozycjaZapisDAO.edit(kp);
+                noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+                kontoDAOfk.edit(noweKonto);
+            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
      
