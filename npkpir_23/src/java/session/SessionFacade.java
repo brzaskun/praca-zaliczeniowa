@@ -1532,4 +1532,8 @@ public class SessionFacade<T> implements Serializable {
         return (KontopozycjaZapis) em.createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).getSingleResult();
     }
 
+    public Delegacja findDelegacja(Delegacja delegacja) {
+        return (Delegacja) em.createNamedQuery("Delegacja.findById").setParameter("id", delegacja.getId()).getSingleResult();
+    }
+
 }

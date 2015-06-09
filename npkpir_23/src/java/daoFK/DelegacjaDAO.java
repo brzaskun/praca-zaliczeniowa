@@ -8,6 +8,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Delegacja;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -47,5 +48,14 @@ public class DelegacjaDAO extends DAO implements Serializable{
 
     public int countDelegacja(WpisView wpisView, boolean krajowa0zagraniczna1) {
         return (int) sessionFacade.countDelegacja(wpisView, krajowa0zagraniczna1);
+    }
+    
+    public Delegacja findDelegacja(Delegacja delegacja) {
+        try {
+            return sessionFacade.findDelegacja(delegacja);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
     }
 }
