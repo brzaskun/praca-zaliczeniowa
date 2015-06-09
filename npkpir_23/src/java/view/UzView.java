@@ -12,6 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -227,7 +228,14 @@ public class UzView implements Serializable {
 
     public void sprawdzidentycznoschasel() {
         if (!confPassword.equals(selUzytkownik.getHaslo())) {
-            Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+            String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
+            if (locale.equals(new Locale("pl").getLanguage())) {
+                Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+            } else if (locale.equals(new Locale("de").getLanguage())) {
+                Msg.msg("e","Passwörter stimmen nicht überein. Prüfen Sie das.", "registerForm:passwordConfirm");
+            } else if (locale.equals(new Locale("en").getLanguage())) {
+                Msg.msg("e","Hasła nie pasuja. Sprawdź to.", "registerForm:passwordConfirm");
+            }
         } 
     }
     
@@ -244,9 +252,16 @@ public class UzView implements Serializable {
         String login = (String) Params.params("pole:login");
         try {
             Uz user = uzDAO.findUzByLogin(login);
+            String locale = FacesContext.getCurrentInstance().getELContext().getLocale().getLanguage();
             if (user == null) {
             } else {
-                Msg.msg("w", "Użytkownik o takim loginie już istnienie. Wpisz inny.");
+                if (locale.equals(new Locale("pl").getLanguage())) {
+                    Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
+                } else if (locale.equals(new Locale("de").getLanguage())) {
+                    Msg.msg("e", "Eingegebener Benutzername existiert schon", "registerForm:passwordConfirm");
+                } else if (locale.equals(new Locale("en").getLanguage())) {
+                    Msg.msg("e", "Użytkownik o takim loginie już istnienie. Wpisz inny.", "registerForm:passwordConfirm");
+                }
             }
         } catch (Exception ef) {
             //Msg.msg("e", "Nie można sprawdzić loginu. Wsytąpił błąd!");
@@ -254,7 +269,6 @@ public class UzView implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
-    
     public Panel getPanelrejestracji() {
         return panelrejestracji;
     }
