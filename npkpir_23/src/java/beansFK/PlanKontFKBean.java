@@ -189,10 +189,10 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
-                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
             }
             return 0;
         } else {
@@ -210,12 +210,12 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
-                p.setAktywny(true);
-                miejsceKosztowDAO.edit(p);
-                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                p.setAktywny(true);
+                miejsceKosztowDAO.edit(p);
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
             }
             return 0;
         } else {
@@ -233,12 +233,13 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
-                p.setAktywny(true);
-                pojazdyDAO.edit(p);
-                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                p.setAktywny(true);
+                pojazdyDAO.edit(p);
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
+               
             }
             return 0;
         } else {
@@ -257,10 +258,10 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
-                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
             }
             return 0;
         } else {
@@ -277,12 +278,12 @@ public class PlanKontFKBean {
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
-                p.setAktywny(true);
-                delegacjaDAO.edit(p);
-                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 if (wynikdodania == 1) {
                     return 1;
                 }
+                p.setAktywny(true);
+                delegacjaDAO.edit(p);
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
             }
             return 0;
         } else {
@@ -314,19 +315,23 @@ public class PlanKontFKBean {
      
     public static int aktualizujslownikKontrahenci(List<Konto> wykazkont, KliencifkDAO kliencifkDAO, Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 1);
-        for (Konto p : kontamacierzysteZeSlownikiem) {
-            Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(kliencifk.getNazwa());
-            nowekonto.setNazwaskrocona(kliencifk.getNip());
-            nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
-            naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
-            if (wynikdodania == 1) {
-                return 1;
+        try {
+            for (Konto p : kontamacierzysteZeSlownikiem) {
+                Konto nowekonto = new Konto();
+                nowekonto.setNazwapelna(kliencifk.getNazwa());
+                nowekonto.setNazwaskrocona(kliencifk.getNip());
+                nowekonto.setSlownikowe(true);
+                nowekonto.setBlokada(true);
+                int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+                if (wynikdodania == 1) {
+                    return 1;
+                }
+                naniesprzyporzadkowanieSlownikowe(nowekonto, wpisView, kontoDAO, kontopozycjaZapisDAO);
+                kliencifk.setAktywny(true);
+                kliencifkDAO.edit(kliencifk);
             }
-            kliencifk.setAktywny(true);
-            kliencifkDAO.edit(kliencifk);
+        } catch (Exception e) {
+            E.e(e);
         }
         return 0;
     }

@@ -40,8 +40,9 @@
                 <p:ajax event="rowSelectCheckbox" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:ajax event="rowUnselectCheckbox" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
                 <p:ajax event="toggleSelect" update="@form" listener="#{wierszeView.sumazapisowtotalWDT}" global="false"/>
-                <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
-                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center;">
+                <p:column selectionMode="multiple" width="20" style="text-align: center;" rendered="#{loop.opisWiersza ne 'podsumowanie'}"></p:column>
+                <p:column width="20" style="text-align: center;" rendered="#{loop.opisWiersza eq 'podsumowanie'}"></p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20"  style="text-align: center; height: 20px;">
                     <h:outputText value="#{row+1}"/>
                 </p:column>
                 <p:column headerText="data dokum" width="50">
