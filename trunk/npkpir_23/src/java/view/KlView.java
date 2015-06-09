@@ -172,7 +172,8 @@ public class KlView implements Serializable{
         planKontCompleteView.init();
         Msg.msg("i","Dodano nowego klienta"+selected.getNpelna());
        
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e); 
             Msg.msg("e","Nie dodano nowego klienta. Klient o takim Nip/Nazwie pełnej juz istnieje");
         }
       //jeżeli funkcja jest wywolana z wpisywania dokumnetu to zerujemy pola
