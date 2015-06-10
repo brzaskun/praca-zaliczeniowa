@@ -1569,9 +1569,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 RequestContext.getCurrentInstance().execute(funkcja);
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formcheckbox:znaczniktransakcji");
-                //zerujemy rzeczy w dialogu
-                String znajdz = "znadzpasujacepolerozrachunku(" + wybranastronawiersza.getPozostalo() + ")";
-                RequestContext.getCurrentInstance().execute(znajdz);
+                //chyba nadmiarowe, jest juz w javascript onShow
+//                String znajdz = "znadzpasujacepolerozrachunku(" + wybranastronawiersza.getPozostalo() + ")";
+//                RequestContext.getCurrentInstance().execute(znajdz);
                 
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
@@ -1758,7 +1758,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) { 
+            E.e(e);
             Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
     }

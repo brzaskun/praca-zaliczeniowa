@@ -47,11 +47,10 @@ var odtworzwierszVATRK = function(lp) {
 var wpisywanieOnShow = function (szer, wys) {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
-        pozazieleniajNoweTransakcje();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
     } catch (Exception) {
-        alert ("blad w fukncji pierwszyonShow jsfk wiersz 73 "+Exception);
+        alert ("blad w fukncji wpisywanieOnShow jsfk wiersz 73 "+Exception);
     }
 };
 
@@ -370,15 +369,15 @@ var pokazwybortransakcji = function() {
     if (typkonta === "0") {
         var czywidzialne = rj("dialogdrugi").getAttribute("aria-hidden");
         if (czywidzialne === "true"){
-            setTimeout(PF('transakcjawybor').show(), 1000);
+            setTimeout(PF('transakcjawybor').show(), 500);
         }
     } else if (typkonta !== "-1") {
         var czywidzialne = rj("niemarachunkow").getAttribute("aria-hidden");
         if (czywidzialne === "true"){
-            setTimeout(PF('rozrachunki').show(), 1000);
+            setTimeout(PF('rozrachunki').show(), 500);
         }
     } else if (typkonta === "-2") {
-        setTimeout(PF('niemarachunkow').show(), 1000);
+        setTimeout(PF('niemarachunkow').show(), 500);
     }
 };
 
