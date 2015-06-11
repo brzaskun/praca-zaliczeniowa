@@ -10,6 +10,7 @@
             <h:form id="dialog1menu1">
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                     <p:menuitem value="Plan kont bieżącej firmy " onclick="PF('dialogplankont').show();" global="false"></p:menuitem>
+                    <p:menuitem value="Nazwy kont - internacjonalizacja " onclick="PF('dialog_plankont_nazwy').show();" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont" onclick="PF('dialog_plankont_kopiuj').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                     <p:menuitem value="Implementuj wzorcowy plan kont" onclick="PF('dialog_plankont_implementuj_wzorcowy').show();" global="false"
@@ -23,6 +24,7 @@
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                     <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" 
                                 global="false"></p:menuitem>
+                    <p:menuitem value="Nazwy kont - internacjonalizacja " onclick="PF('dialog_plankont_wzorcowy_nazwy').show();" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                 </p:menu>

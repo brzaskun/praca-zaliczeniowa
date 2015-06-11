@@ -44,6 +44,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findWzorcoweWynikowe", query = "SELECT k FROM Konto k WHERE k.podatnik = 'Wzorcowy' AND k.rok = :rok AND k.bilansowewynikowe = 'wynikowe'"),
     @NamedQuery(name = "Konto.findWzorcoweBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = 'Wzorcowy' AND k.rok = :rok AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
     @NamedQuery(name = "Konto.findByPodatnikKliencifk", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.nazwapelna = :nazwa AND k.nazwaskrocona = :nip"),
     @NamedQuery(name = "Konto.findByMaxLevelPodatnik", query = "SELECT MAX(k.level) FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBez0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta != '0' AND k.rok = :rok"),
@@ -212,6 +213,8 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "syntetycznenumer")
     private String syntetycznenumer;
+    @Column(name = "de")
+    private String de;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -525,6 +528,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setPrzychod0koszt1(boolean przychod0koszt1) {
         this.przychod0koszt1 = przychod0koszt1;
+    }
+
+    public String getDe() {
+        return de;
+    }
+
+    public void setDe(String de) {
+        this.de = de;
     }
     
     
