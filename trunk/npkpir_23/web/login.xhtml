@@ -57,9 +57,9 @@
             </h:form>
             <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >
                 <h:form>
-                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" ajax="false"/>
-                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" ajax="false"/>
-                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" type="submit" ajax="false"/>
+                    <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" update="@all"/>
+                    <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" update="@all"/>
+                    <p:commandButton styleClass="languagebutton" value="de" actionListener="#{localeChanger.deutschAction}" type="submit" update="@all"/>
                 </h:form>
             </p:panel>
             <h:form id="infologowanie" >
