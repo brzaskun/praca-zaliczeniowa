@@ -24,10 +24,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.B;
 import msg.Msg;
 import pdf.PdfSymulacjaWyniku;
 import view.WpisView;
@@ -192,18 +195,18 @@ public class SymulacjaWynikuView implements Serializable {
     private void obliczsymulacje() {
         podatnikkwotarazem = new HashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
-        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("przychody razem", przychody));
-        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("koszty razem", koszty));
+        double przychody = Z.z(sumuj(listakontaprzychody, B.b("przychody")));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
+        double koszty = Z.z(sumuj(listakontakoszty, B.b("koszty")));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("kosztyrazem"), koszty));
         wynikfinansowy = Z.z(przychody - koszty);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik finansowy", wynikfinansowy));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));
         double npup = Z.z(razemzapisycechaprzychod);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("npup", npup));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"), npup));
         double nkup = Z.z(razemzapisycechakoszt);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("nkup", nkup));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), nkup));
         double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("wynik podatkowy", wynikpodatkowy));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
             int i = 1;
@@ -211,9 +214,9 @@ public class SymulacjaWynikuView implements Serializable {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podstawa opodatkowania #"+String.valueOf(i), podstawaopodatkowania));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji("podatek dochodowy #"+String.valueOf(i++), podatek));
+                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
         } catch (Exception e) {  E.e(e);
@@ -297,24 +300,24 @@ public class SymulacjaWynikuView implements Serializable {
             int i = 1;
             for (Udzialy p : pobierzudzialy()) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" udział", udział));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
                 double zamc = Z.z(dowyplaty-zaplacono);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("należna za mc #"+String.valueOf(i), zamc));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("należnazamc")+" #"+String.valueOf(i), zamc));
                 double wyplaconopopmce = 0.0;
                 if (pozycjeDoWyplatyNarastajaco != null && pozycjeDoWyplatyNarastajaco.size() > 0) {
                 wyplaconopopmce = pozycjeDoWyplatyNarastajaco.get(p.getNazwiskoimie());
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("wypłacono pop mce #"+String.valueOf(i), Z.z(wyplaconopopmce)));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wypłaconopopmce")+" #"+String.valueOf(i), Z.z(wyplaconopopmce)));
                 double roznica = Z.z(wyplaconopopmce+zamc);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("do wypłaty od pocz. rok #"+String.valueOf(i), roznica));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok")+" #"+String.valueOf(i), roznica));
                 } else {
                     if (wpisView.getMiesiacWpisu().equals("01")) {
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("pierwszy mc #"+String.valueOf(i), 0.0));
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("w roku #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pierwszymc")+" #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wroku")+" #"+String.valueOf(i), 0.0));
                     } else {
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("nie zachowano pop.mcy #"+String.valueOf(i), 0.0));
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji("nie można obliczyć #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niezachowanopop.mcy")+" #"+String.valueOf(i), 0.0));
+                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niemożnaobliczyć")+" #"+String.valueOf(i), 0.0));
                     }
                 }
                 i++;

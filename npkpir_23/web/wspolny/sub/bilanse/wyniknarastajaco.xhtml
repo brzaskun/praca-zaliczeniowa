@@ -35,7 +35,7 @@
                                      update="@form"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton id="drukujsymulacjanar" value="drukuj " actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
+                <p:commandButton id="drukujsymulacjanar" value="#{mgs.drukuj}" actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>-->
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
