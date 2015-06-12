@@ -477,12 +477,13 @@ private static final long serialVersionUID = 1L;
         EVatwpisFK evatwpis = ewidencjaVatRK;
         Wiersz w = evatwpis.getWiersz();
         double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
+        List<Wiersz> dodanewiersze = null;
         if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+            dodanewiersze = DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-            DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+            dodanewiersze = DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
         } 
-        for (Wiersz p : selected.getListawierszy()) {
+        for (Wiersz p : dodanewiersze) {
             przepiszWaluty(p);
         }
         String update = "formwpisdokument:dataList";
@@ -501,12 +502,13 @@ private static final long serialVersionUID = 1L;
             EVatwpisFK e = ewidencjaVatRK;
             Wiersz w = e.getWiersz();
             double[] wartosciVAT = DokFKVATBean.podsumujwartosciVATRK(ewidencjaVatRK);
+            List<Wiersz> dodanewiersze = null;
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+                dodanewiersze = DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT,selected, wpisView, wierszRKindex, kontoDAOfk);
+                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT,selected, wpisView, wierszRKindex, kontoDAOfk);
             } 
-            for (Wiersz p : selected.getListawierszy()) {
+            for (Wiersz p : dodanewiersze) {
                 przepiszWaluty(p);
             }
             ObslugaWiersza.przenumerujSelected(selected);
@@ -1780,11 +1782,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     
     public void obsluzDataWiersza(Wiersz wierszbiezacy) {
-//        if (wierszbiezacy.getDataWalutyWiersza().isEmpty()) {
-//            skopiujDateZWierszaWyzej(wierszbiezacy);
-//        } else if (wierszbiezacy.getDataWalutyWiersza().length()== 1) {
-//            wierszbiezacy.setDataWalutyWiersza("0"+wierszbiezacy.getDataWalutyWiersza());
-//        }
         if (wierszbiezacy.getTabelanbp().isRecznie()==false) {
             pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
             przepiszWaluty(wierszbiezacy);
@@ -2020,38 +2017,44 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
-        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:lpwierszaRK"));
-        if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
-            try {
-//                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
-//                Object o = d.getLocalSelection();
-//                wierszRKindex = d.getRowIndex();
-//                wierszRK = (Wiersz) d.getRowData();
-                System.out.println("lpwiersza "+lpWierszaWpisywanie);
-                wierszRKindex = lpWierszaWpisywanie -1;
-                wierszRK = selected.getListawierszy().get(wierszRKindex);
-                ewidencjaVatRK = null;
-                for (EVatwpisFK p : selected.getEwidencjaVAT()) {
-                    if (p.getWiersz() == wierszRK) {
-                        ewidencjaVatRK = p;
-                        ewidencjaVATRKzapis0edycja1 = true;
-                        break;
+        String wiersz = (String) Params.params("wpisywaniefooter:lpwierszaRK");
+        if (!wiersz.equals("")) {
+            lpWierszaWpisywanie = Integer.parseInt(wiersz);
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
+                try {
+    //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
+    //                Object o = d.getLocalSelection();
+    //                wierszRKindex = d.getRowIndex();
+    //                wierszRK = (Wiersz) d.getRowData();
+                    System.out.println("lpwiersza "+lpWierszaWpisywanie);
+                    wierszRKindex = lpWierszaWpisywanie -1;
+                    wierszRK = selected.getListawierszy().get(wierszRKindex);
+                    ewidencjaVatRK = null;
+                    for (EVatwpisFK p : selected.getEwidencjaVAT()) {
+                        if (p.getWiersz() == wierszRK) {
+                            ewidencjaVatRK = p;
+                            ewidencjaVATRKzapis0edycja1 = true;
+                            break;
+                        }
                     }
+                    if (ewidencjaVatRK == null) {
+                        ewidencjaVatRK = new EVatwpisFK();
+                        ewidencjaVatRK.setLp(0);
+                        ewidencjaVatRK.setWiersz(wierszRK);
+                        ewidencjaVatRK.setDokfk(selected);
+                        ewidencjaVatRK.setNetto(0.0);
+                        ewidencjaVatRK.setVat(0.0);
+                        ewidencjaVATRKzapis0edycja1 = false;
+                    }
+                    RequestContext.getCurrentInstance().update("ewidencjavatRK");
+                    System.out.println("Generowanie ewidencji vat rk");
+                } catch (Exception e) {  
+                    E.e(e);
                 }
-                if (ewidencjaVatRK == null) {
-                    ewidencjaVatRK = new EVatwpisFK();
-                    ewidencjaVatRK.setLp(0);
-                    ewidencjaVatRK.setWiersz(wierszRK);
-                    ewidencjaVatRK.setDokfk(selected);
-                    ewidencjaVatRK.setNetto(0.0);
-                    ewidencjaVatRK.setVat(0.0);
-                    ewidencjaVATRKzapis0edycja1 = false;
-                }
-                RequestContext.getCurrentInstance().update("ewidencjavatRK");
-                System.out.println("Generowanie ewidencji vat rk");
-            } catch (Exception e) {  
-                E.e(e);
             }
+        } else {
+            ewidencjaVatRK = null;
+            System.out.println("Blad ewidencjaVatRKInit() lpwiersza == \"\"");
         }
     }
 
