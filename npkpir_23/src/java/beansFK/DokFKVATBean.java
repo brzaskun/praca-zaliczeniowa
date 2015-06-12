@@ -17,6 +17,7 @@ import entityfk.StronaWiersza;
 import entityfk.Waluty;
 import entityfk.Wiersz;
 import error.E;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import msg.Msg;
@@ -571,7 +572,8 @@ public class DokFKVATBean {
                 }
     }
     
-    public static void rozliczVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk) {
+    public static List<Wiersz> rozliczVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk) {
+        List<Wiersz> nowewiersze = new ArrayList<>();
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -584,6 +586,12 @@ public class DokFKVATBean {
                 if (wierszpierwszy.getOpisWiersza().equals("")) {
                     wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
                 }
+                String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
+                if (kontrnazwa == null) {
+                    kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+                }
+                kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
+                wierszpierwszy.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" "+kontrnazwa);
                 wierszpierwszy.setTabelanbp(selected.getTabelanbp());
                 wn.setKwota(nettoEwidVat);
                 ma.setKwota(nettoEwidVat + vatEwidVat);
@@ -594,6 +602,7 @@ public class DokFKVATBean {
                 if (kontonetto != null) {
                     wierszpierwszy.getStronaWn().setKonto(kontonetto);
                 }
+                nowewiersze.add(wierszpierwszy);
             }
             if (vatEwidVat != 0.0) {
                 Wiersz wierszdrugi = selected.nastepnyWiersz(wierszpierwszy);
@@ -634,6 +643,7 @@ public class DokFKVATBean {
                     Konto k = kontoDAOfk.findKonto("221", wpisView);
                     wierszdrugi.getStronaWn().setKonto(k);
                 }
+                nowewiersze.add(wierszdrugi);
                 if (ewidencjaVatRK.isPaliwo()) {
                     Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                     jestjuzwierszvat = false;
@@ -654,14 +664,17 @@ public class DokFKVATBean {
                     wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
                     Konto k = kontoDAOfk.findKonto("404-2", wpisView);
                     wiersztrzeci.getStronaWn().setKonto(k);
+                    nowewiersze.add(wiersztrzeci);
                 }
             }
         } else {
             Msg.msg("w", "Brak Zdefiniowanego konta rozrachunkowego. Nie można generować zapisów VAT.");
         }
+        return nowewiersze;
     }
     
-     public static void rozliczEdytujVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk) {
+     public static List<Wiersz> rozliczEdytujVatKosztRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk) {
+        List<Wiersz> nowewiersze = new ArrayList<>();
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -674,6 +687,7 @@ public class DokFKVATBean {
                 wierszpierwszy.setTabelanbp(selected.getTabelanbp());
                 wn.setKwota(nettoEwidVat);
                 ma.setKwota(nettoEwidVat + vatEwidVat);
+                nowewiersze.add(wierszpierwszy);
             }
              if (vatEwidVat != 0.0) {
                 double vatodliczenie = Z.z(vatEwidVat / 2.0);
@@ -692,6 +706,7 @@ public class DokFKVATBean {
                  }
                  wierszdrugi.setTabelanbp(selected.getTabelanbp());
                  wierszdrugi.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
+                 nowewiersze.add(wierszdrugi);
                  if (ewidencjaVatRK.isPaliwo()) {
                      Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                      if (wiersztrzeci != null && wiersztrzeci.getLpmacierzystego() == wierszpierwszy.getIdporzadkowy()) {
@@ -704,6 +719,7 @@ public class DokFKVATBean {
                      wiersztrzeci.setTabelanbp(selected.getTabelanbp());
                      wiersztrzeci.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                      wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
+                     nowewiersze.add(wiersztrzeci);
                  } else if (!ewidencjaVatRK.isPaliwo()) {
                      Wiersz wiersztrzeci = selected.nastepnyWiersz(wierszdrugi);
                      if (wiersztrzeci != null && wiersztrzeci.getLpmacierzystego() == wierszpierwszy.getIdporzadkowy()) {
@@ -714,15 +730,18 @@ public class DokFKVATBean {
          } else {
              Msg.msg("w", "Brak Zdefiniowanego konta rozrachunkowego. Nie można generować zapisów VAT.");
          }
+        return nowewiersze;
     }
     
     
     
-    public static void rozliczVatPrzychodEdycja(EVatwpisFK wierszvatdoc, double[] wartosciVAT, Dokfk selected, WpisView wpisView) {
+    public static List<Wiersz> rozliczVatPrzychodEdycja(EVatwpisFK wierszvatdoc, double[] wartosciVAT, Dokfk selected, WpisView wpisView) {
+        List<Wiersz> nowewiersze = new ArrayList<>();
         if (wartosciVAT[0] != 0 || wartosciVAT[2] != 0) {
             Wiersz wierszpierwszy = selected.getListawierszy().get(0);
             Waluty w = selected.getWalutadokumentu();
             try {
+                nowewiersze.add(wierszpierwszy);
                 if (wierszpierwszy != null && wartosciVAT[0]!=0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -738,6 +757,7 @@ public class DokFKVATBean {
                         wn.setKwota(wartosciVAT[2]+wartosciVAT[3]);
                         wn.setKwotaPLN(wartosciVAT[0]+wartosciVAT[1]);
                     }
+                    
                 } else if (wierszpierwszy != null && wartosciVAT[0]==0) {
                     StronaWiersza wn = wierszpierwszy.getStronaWn();
                     StronaWiersza ma = wierszpierwszy.getStronaMa();
@@ -756,6 +776,7 @@ public class DokFKVATBean {
                   }
                if (selected.getListawierszy().size()==2 && wartosciVAT[1] != 0 && wartosciVAT[0] != 0) {
                     Wiersz wierszdrugi = selected.getListawierszy().get(1);
+                    nowewiersze.add(wierszdrugi);
                     if (w.getSymbolwaluty().equals("PLN")) {
                         wierszdrugi.getStronaMa().setKwota(wartosciVAT[1]);
                         wierszdrugi.getStronaMa().setKwotaWaluta(wartosciVAT[1]);
@@ -774,9 +795,11 @@ public class DokFKVATBean {
                 Msg.msg("w", "Brak zdefiniowanych kont przyporządkowanych do dokumentu. Nie można wygenerować wierszy.");
             }
         }
+        return nowewiersze;
     }
     
-    public static void rozliczVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk){
+    public static List<Wiersz> rozliczVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk){
+        List<Wiersz> nowewiersze = new ArrayList<>();
         double nettovat = ewidencjaVatRK.getNetto();
         double kwotavat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -788,6 +811,12 @@ public class DokFKVATBean {
                 if (wierszpierwszy.getOpisWiersza().equals("")) {
                     wierszpierwszy.setOpisWiersza(selected.getOpisdokfk());
                 }
+                String kontrnazwa = ewidencjaVatRK.getKlient().getNskrocona();
+                if (kontrnazwa == null) {
+                    kontrnazwa = ewidencjaVatRK.getKlient().getNpelna();
+                }
+                kontrnazwa = kontrnazwa.length() < 18 ? kontrnazwa : kontrnazwa.substring(0, 17);
+                wierszpierwszy.setOpisWiersza(wierszpierwszy.getOpisWiersza()+" "+kontrnazwa);
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+kwotavat);
                 if (kontoRozrachunkowe != null) {
@@ -797,6 +826,7 @@ public class DokFKVATBean {
                 if (kontonetto != null) {
                     wierszpierwszy.getStronaMa().setKonto(kontonetto);
                 }
+                nowewiersze.add(wierszpierwszy);
             }
             if (kwotavat != 0.0) {
                 Wiersz wierszdrugi;
@@ -821,13 +851,16 @@ public class DokFKVATBean {
                     Konto k = kontoDAOfk.findKonto("221", wpisView);
                     wierszdrugi.getStronaMa().setKonto(k);
                 }
+                nowewiersze.add(wierszdrugi);
             }
         } else {
             Msg.msg("w", "Brak Zdefiniowanego konta kasy. Nie można generować zapisów VAT.");
         }
+        return nowewiersze;
     }
     
-    public static void rozliczEdytujVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk){
+    public static List<Wiersz> rozliczEdytujVatPrzychodRK(EVatwpisFK ewidencjaVatRK, double[] wartosciVAT, Dokfk selected, WpisView wpisView, int wierszRKindex, KontoDAOfk kontoDAOfk){
+        List<Wiersz> nowewiersze = new ArrayList<>();
         double nettovat = ewidencjaVatRK.getNetto();
         double kwotavat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
@@ -838,6 +871,7 @@ public class DokFKVATBean {
                 StronaWiersza ma = wierszpierwszy.getStronaMa();
                 ma.setKwota(nettovat);
                 wn.setKwota(nettovat+kwotavat);
+                nowewiersze.add(wierszpierwszy);
             }
             if (kwotavat != 0.0) {
                 Wiersz wierszdrugi = selected.nastepnyWiersz(wierszpierwszy);
@@ -845,11 +879,13 @@ public class DokFKVATBean {
                 wierszdrugi.setTabelanbp(selected.getTabelanbp());
                 wierszdrugi.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                 wierszdrugi.getStronaMa().setKwota(kwotavat);
+                nowewiersze.add(wierszdrugi);
             }
         } else {
             Msg.msg("w", "Brak Zdefiniowanego konta kasy. Nie można generować zapisów VAT.");
         }
     }
+        return nowewiersze;
     }
     
 }

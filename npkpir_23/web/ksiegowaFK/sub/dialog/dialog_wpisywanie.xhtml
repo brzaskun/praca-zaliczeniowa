@@ -225,8 +225,8 @@
                                                           style="height: 19px;"
                                              >
                                 <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
-                                <p:ajax global="false" event="blur" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
-                            <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
+                                <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
+                                <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:panelGrid>
@@ -348,7 +348,7 @@
                         <p:inputText id="dataWiersza" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                      style="width: 20px;" maxlength="2" >
                             <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
-                            <p:ajax global="false" event="blur" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
+                            <p:ajax global="false" event="change" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
                         </p:inputText>
                     </p:column>
 <!--                    <p:column headerText="tabela" width="70" style="text-align: center;"  rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu == 0)}" >
@@ -371,7 +371,7 @@
                         <pe:inputNumber id="wnpln" value="#{loop.stronaWn.kwotaPLN}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
                                         rendered="#{loop.stronaWn != null}" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
-                                        readonly="true"
+                                        readOnly="true"
                                         >
                          <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                           </pe:inputNumber>
