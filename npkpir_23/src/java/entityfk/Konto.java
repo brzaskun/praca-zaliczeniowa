@@ -98,6 +98,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.NullObrotyMaLevel", query = "UPDATE Konto k SET k.obrotyMa = 0 WHERE k.podatnik = :podatnik AND k.rok = :rok AND k.level = :level"),
     @NamedQuery(name = "Konto.findlistaKontKasaBank", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '0%' AND k.rok = :rok"),
+    @NamedQuery(name = "Konto.findlistaKontGrupa0Analityka", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '0%' AND k.rok = :rok AND k.mapotomkow = '0'"),
     @NamedQuery(name = "Konto.findlistaKontGrupa1", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '1%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa2", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '2%' AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findlistaKontGrupa3", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.pelnynumer LIKE '3%' AND k.rok = :rok"),

@@ -18,9 +18,9 @@
                              header="dodawanie środka trwałego z dokumentu" severity="alert" widgetVar="confirm1" width="500" appendTo="@(body)"
                              >
                 <h:form>
-                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm1').hide();" global="false"
+                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm1').hide();r('srodkiwpis:acForce1_input').select();" global="false"
                                              actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyFK()}"
-                                             style="float: left; width: 120px; margin-left: 2%;" update=":zestawieniedokumentow:dataList">
+                                             style="float: left; width: 120px; margin-left: 2%;" update=":srodkiwpis">
                             </p:commandButton>
                     <p:commandButton id="decline" global="false" value="Odwołaj" onclick="PF('confirm1').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                 </h:form>

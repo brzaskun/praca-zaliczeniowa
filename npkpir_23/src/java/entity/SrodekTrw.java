@@ -143,6 +143,8 @@ public class SrodekTrw implements Serializable {
             
     public SrodekTrw() {
         this.niepodlegaamortyzacji = 0.0;
+        this.netto = 0.0;
+        this.vat = 0.0;
     }
 
     public SrodekTrw(Integer id) {

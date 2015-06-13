@@ -112,6 +112,14 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
     
+    public List<Konto> findKontaGrupa0Analityka(WpisView wpisView) {
+        try {
+            return kontoFacade.findlistaKontGrupa0Analityka(wpisView);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
     public List<Konto> findKontaGrupa1(WpisView wpisView) {
         try {
             return kontoFacade.findlistaKontGrupa1(wpisView);

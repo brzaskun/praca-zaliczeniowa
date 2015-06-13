@@ -41,7 +41,8 @@
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="20" itemtipMyPosition="rightbottom"
                                 queryDelay="100" size="70" style="margin-left: 2%;" placeholder="wpisz nazwę środka">
-                    <p:ajax event="blur" async="true" listener="#{STRTableView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
+                    <p:ajax event="blur" async="true" global="false" listener="#{STRTableView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
+                    <p:ajax event="query" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400" >  
                             <f:facet name="header">  
