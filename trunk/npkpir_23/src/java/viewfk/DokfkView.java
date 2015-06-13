@@ -1295,6 +1295,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(0);
                 aktualnyWierszDlaRozrachunkow.setNowatransakcja(false);
                 zablokujprzyciskrezygnuj = false;
+                aktualnyWierszDlaRozrachunkow = null;
                 Msg.msg("i", "Usunięto zapis z listy nowych transakcji");
             }
         }
@@ -1304,12 +1305,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         } else {
             selected.setZablokujzmianewaluty(false);
         }
-        //transakcje po zapisaniu dokumentu sa oznaczone jako zaksiegowane, wiec w przypadku edycji, np odhaczeniu ze to nowa transakcja
-        //trzeba to odpowienio zaznaczycw rozrachunkach, umowliwa to zmiane rozrachunku w wierszach po kolei bez konieczosci 
-        //otwierania dokuemntu co chwile po zmianie jednego wiersza
-//        if (zapisz0edytuj1 == true) {
-//            edycjaDlaRozrachunkow();
-//        }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
@@ -1324,7 +1319,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
         try {
-            if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza) {
+            if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
                 lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
