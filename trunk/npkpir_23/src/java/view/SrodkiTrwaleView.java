@@ -80,6 +80,8 @@ public class SrodkiTrwaleView implements Serializable {
             selectedSTR.setDokfk(dokfk);
             selectedSTR.setNrwldokumentu(dokfk.getNumerwlasnydokfk());
             dodajSrodekTrwaly(selectedSTR);
+            selectedSTR = new SrodekTrw();
+            srodekkategoria = null;
         } catch (Exception e) { E.e(e); 
             System.out.println("StrodkiTrwaleView - dodajSrodekTrwalyFK() blad");
             Msg.msg("e", "Blad podczas dodawanie srodkow trwalych");

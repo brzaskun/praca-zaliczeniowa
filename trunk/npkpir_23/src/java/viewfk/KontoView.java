@@ -11,6 +11,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -37,16 +38,25 @@ public class KontoView  implements Serializable {
     @Inject private KontoDAOfk kontoDAO;
     private List<Konto> listakont;
     private List<Konto> listakontSrodkiTrwale;
+    private List<Konto> listakontSrodkiTrwaleUmorzenia;
     
     public KontoView() {
         this.listakont = new ArrayList<>();
         this.listakontSrodkiTrwale = new ArrayList<>();
+        this.listakontSrodkiTrwaleUmorzenia = new ArrayList<>();
     }
     
     @PostConstruct
     public void init() {
         listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         listakontSrodkiTrwale = kontoDAO.findKontaGrupa0(wpisView);
+        for (Iterator<Konto> it = listakontSrodkiTrwale.iterator(); it.hasNext();) {
+            Konto p = it.next();
+            if (p.getPelnynumer().startsWith("07")) {
+                listakontSrodkiTrwaleUmorzenia.add(p);
+                it.remove();
+            }
+        }
     }
     
      public List<Konto> complete(String query) {  
@@ -136,5 +146,15 @@ public class KontoView  implements Serializable {
     public void setWybranekonto(Konto wybranekonto) {
         this.wybranekonto = wybranekonto;
     }
+    
+    public List<Konto> getListakontSrodkiTrwaleUmorzenia() {
+        return listakontSrodkiTrwaleUmorzenia;
+    }
+
+    public void setListakontSrodkiTrwaleUmorzenia(List<Konto> listakontSrodkiTrwaleUmorzenia) {
+        this.listakontSrodkiTrwaleUmorzenia = listakontSrodkiTrwaleUmorzenia;
+    }
+    
     //</editor-fold>
+
 }
