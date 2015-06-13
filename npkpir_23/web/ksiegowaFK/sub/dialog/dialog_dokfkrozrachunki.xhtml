@@ -197,7 +197,7 @@
                                              accesskey="t" valueChangeListener="#{dokfkView.zaznaczOdznaczJakoNowaTransakcja}"
                                              value="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" 
                                              style="outline: 5px solid gray;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
-                        <p:ajax event="change" partialSubmit="true"/>
+                        <p:ajax event="change" partialSubmit="true" global="false"/>
                     </h:selectBooleanCheckbox>
                     <h:outputLabel id="labelcheckboxrozrachunki" for=":formcheckbox:znaczniktransakcji" value=" oznacz jako nową transakcję" style="font-weight: bolder;"  rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                                    <!--                        <p:commandButton value="pOwrót" styleClass="fkbutton" accesskey="o" onclick="PF('wpisywanie').show();
