@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -39,7 +40,7 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean(name = "Logowanie")
-@SessionScoped
+@ViewScoped
 public class Logowanie implements Serializable {
     
     private String uzytk;

@@ -205,6 +205,7 @@ private static final long serialVersionUID = 1L;
             E.e(e);
         }
     }
+    
 //    //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
 //
 //    //********************************************funkcje dla ksiegowania dokumentow
@@ -1242,7 +1243,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                }
            }
         }
-        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+        //Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
     }
