@@ -995,16 +995,18 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             flag = 1;
         }
         try {
-            Wiersz wierszNastepny = selected.nastepnyWiersz(wybranyWiersz);
-            if (wybranyWiersz.getTypWiersza() == 0 && wierszNastepny != null) {
-                Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
-                flag = 1;
+            if (flag != 1) {
+                Wiersz wierszNastepny = selected.nastepnyWiersz(wybranyWiersz);
+                if (wybranyWiersz.getLpmacierzystego() == 0 && wierszNastepny.getLpmacierzystego() != 0) {
+                    System.out.println("Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
+                    Msg.msg("e", "Jest to wiersz zawierający kwotę rozliczona w dalszych wierszach. Nie można go usunąć");
+                    flag = 1;
+                }
             }
         } catch (Exception e) {  E.e(e);
         }
         try {
-            int liczbawierszyWDokumencie = selected.getListawierszy().size();
-            if (liczbawierszyWDokumencie > 1) {
+            if (flag != 1) {
                 if (wybranyWiersz.getTypWiersza() == 5) {
                     Msg.msg("e", "Usuń najpierw wiersz z 4.");
                     flag = 1;

@@ -491,3 +491,17 @@ var powrotpozmianietabeli = function() {
     r(MYAPP.lpwiersza).focus();
     r(MYAPP.lpwiersza).select();
 };
+
+var kopiujdatedialogwpis = function() {
+    var wierszbiezacy = event.target.id;
+    if (document.getElementById(wierszbiezacy).value === ""){
+        var skladnia = wierszbiezacy.split(":");
+        var lpwiersza = skladnia[2];
+        if (lpwiersza !== "0") {
+            var polepoprzednie = parseInt(lpwiersza)-1;
+            var wierszpoprzedni = skladnia[0]+":"+skladnia[1]+":"+polepoprzednie+":"+skladnia[3];
+            document.getElementById(wierszbiezacy).value = document.getElementById(wierszpoprzedni).value;
+            r(wierszbiezacy).trigger("change");
+        }
+    }
+};
