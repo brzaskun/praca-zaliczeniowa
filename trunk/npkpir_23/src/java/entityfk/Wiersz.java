@@ -1,6 +1,7 @@
 
 package entityfk;
 
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -34,10 +36,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "wiersz")
-//@Table(name = "wiersz", uniqueConstraints = {
-//    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnik, seriadokfk")
-//})
+//@Table(name = "wiersz")
+@Table(name = "wiersz", uniqueConstraints = {
+    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk")
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -329,6 +331,24 @@ public class Wiersz implements Serializable {
         return hash;
     }
 
+//    @Override
+//    public boolean equals(Object obj) {
+//        if (obj == null) {
+//            return false;
+//        }
+//        if (getClass() != obj.getClass()) {
+//            return false;
+//        }
+//        final Wiersz other = (Wiersz) obj;
+//        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
+//            return false;
+//        }
+//        if (!Objects.equals(this.dokfk, other.dokfk)) {
+//            return false;
+//        }
+//        return true;
+//    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -338,25 +358,36 @@ public class Wiersz implements Serializable {
             return false;
         }
         final Wiersz other = (Wiersz) obj;
-        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
+        if (!Objects.equals(this.idwiersza, other.idwiersza)) {
             return false;
         }
-        if (!Objects.equals(this.dokfk, other.dokfk)) {
+        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
             return false;
         }
         return true;
     }
+   
+
 
     @Override
     public String toString() {
-        if (getStronaWn() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + '}';
-        } else if (getStronaMa() == null) {
-            return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer();
-        } else if (idwiersza != null) {
-            return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
-        } else {
-            return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+        try {
+            if (getStronaWn() == null && getStronaMa().getKonto() != null) {
+                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + '}';
+            } else if (getStronaMa() == null && getStronaWn().getKonto() != null) {
+                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer();
+            } else if (idwiersza != null && getStronaWn().getKonto() != null && getStronaMa().getKonto() != null) {
+                return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+            } else if (getStronaWn().getKonto() != null && getStronaMa().getKonto() != null){
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+            } else if (getStronaWn() != null && getStronaMa() != null){
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + '}';
+            } else {
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza;
+            }
+        } catch (Exception e) {
+            E.e(e);
+            return "Wiersz toString() NullPointerException";
         }
     }
     
