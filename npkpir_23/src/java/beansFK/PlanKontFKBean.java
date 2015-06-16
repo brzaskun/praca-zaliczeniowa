@@ -291,22 +291,24 @@ public class PlanKontFKBean {
         }
     }
      
-     private static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
+     public static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
             if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                KontopozycjaZapis kp = new KontopozycjaZapis();
-                kp.setPozycjaWn(kpo.getPozycjaWn());
-                kp.setPozycjaMa(kpo.getPozycjaMa());
-                kp.setStronaWn(kpo.getStronaWn());
-                kp.setStronaMa(kpo.getStronaMa());
-                kp.setSyntetykaanalityka("syntetyka");
-                kp.setKontoID(noweKonto);
-                kp.setUkladBR(kpo.getUkladBR());
-                kontopozycjaZapisDAO.edit(kp);
-                noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
-                kontoDAOfk.edit(noweKonto);
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+     
+     public static void naniesprzyporzadkowanieSlownikoweWzorcowy(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
+        try {
+            Konto macierzyste = kontoDAOfk.findKontoWzorcowy(noweKonto.getMacierzyste(), wpisView);
+            KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
+            if (!kpo.getSyntetykaanalityka().equals("analityka")) {
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
             }
         } catch (Exception e) {
             E.e(e);
@@ -600,6 +602,18 @@ public class PlanKontFKBean {
     }
 
     
-
+    public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk) {
+        KontopozycjaZapis kp = new KontopozycjaZapis();
+        kp.setPozycjaWn(kpo.getPozycjaWn());
+        kp.setPozycjaMa(kpo.getPozycjaMa());
+        kp.setStronaWn(kpo.getStronaWn());
+        kp.setStronaMa(kpo.getStronaMa());
+        kp.setSyntetykaanalityka("syntetyka");
+        kp.setKontoID(noweKonto);
+        kp.setUkladBR(kpo.getUkladBR());
+        kontopozycjaZapisDAO.edit(kp);
+        noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+        kontoDAOfk.edit(noweKonto);
+    }
     
 }

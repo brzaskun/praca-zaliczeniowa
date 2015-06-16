@@ -8,6 +8,7 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.KontopozycjaZapisDAO;
 import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
@@ -33,7 +34,7 @@ public class KontaFKBean implements Serializable{
      * @param kontoDAO KontoDAOfk
      * @param podatnikWpisu String
      */
-    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView) {
+    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -48,6 +49,7 @@ public class KontaFKBean implements Serializable{
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
+                    PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
@@ -58,7 +60,7 @@ public class KontaFKBean implements Serializable{
         }
     }
     
-    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView) {
+    public static void czyszczenieKont(List<Konto> wykazkont, KontoDAOfk kontoDAO, String wzorcowy, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
@@ -73,6 +75,7 @@ public class KontaFKBean implements Serializable{
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
+                    PlanKontFKBean.naniesprzyporzadkowanieSlownikoweWzorcowy(p, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
