@@ -348,18 +348,10 @@
                         <p:column headerText="#{mgs.data}" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" >
                             <p:inputText id="dataWiersza" value="#{loop.dataWalutyWiersza}" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" onblur="kopiujdatedialogwpis();"
                                          style="width: 20px;" maxlength="2" >
-                                <p:ajax global="false" event="blur"/>
                                 <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                                 <p:ajax global="false" event="change" partialSubmit="true" onstart="obsluzDateWiersza(#{loop.idporzadkowy-1});" listener="#{dokfkView.obsluzDataWiersza(loop)}"/>
                             </p:inputText>
                         </p:column>
-    <!--                    <p:column headerText="tabela" width="70" style="text-align: center;"  rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu == 0)}" >
-                            <h:selectOneMenu value="#{loop.tabelanbp}" converter="TabelaNBPConv"
-                                             rendered="#{dokfkView.pokazRzadWalutowy || (dokfkView.selected.tabelanbp.waluta.symbolwaluty ne 'PLN' and dokfkView.selected.rodzajedok.kategoriadokumentu == 0)}">
-                                <f:selectItems value="#{dokfkView.tabelenbp}" var="tabela" itemLabel="#{tabela.nrtabeli}" itemValue="#{tabela}"/>
-                                <p:ajax event="change" listener="#{dokfkView.zmienbiezacatabele}" partialSubmit="true" global="false" update=":formwpisdokument:dataList"/>
-                            </h:selectOneMenu>
-                        </p:column>-->
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                             <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" rendered="#{loop.stronaWn != null}"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
@@ -418,9 +410,6 @@
                                 <p:ajax global="false" event="focus" onstart="pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy})"/>
                             </pe:inputNumber> 
                         </p:column>
-                        <!--                    <p:column width="12" style="text-align: center"  rendered="{dokfkView.selected.walutadokumentu.symbolwaluty != 'PLN'}">
-                                                <h:outputText id="symbolMa" value="{loop.tabelanbp.waluta.skrotsymbolu}" rendered="{loop.stronaMa != null}"/>
-                                            </p:column>-->
                         <p:column headerText="konto Ma" width="100" style="text-align: center;">
                             <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
