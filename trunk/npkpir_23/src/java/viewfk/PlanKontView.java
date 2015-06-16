@@ -211,17 +211,7 @@ public class PlanKontView implements Serializable {
             if (wynikdodaniakonta == 0) {
                 KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
                 if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                    KontopozycjaZapis kp = new KontopozycjaZapis();
-                    kp.setPozycjaWn(kpo.getPozycjaWn());
-                    kp.setPozycjaMa(kpo.getPozycjaMa());
-                    kp.setStronaWn(kpo.getStronaWn());
-                    kp.setStronaMa(kpo.getStronaMa());
-                    kp.setSyntetykaanalityka("syntetyka");
-                    kp.setKontoID(noweKonto);
-                    kp.setUkladBR(kpo.getUkladBR());
-                    kontopozycjaZapisDAO.edit(kp);
-                    noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
-                    kontoDAOfk.edit(noweKonto);
+                   PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
                 }
             }
             if (wynikdodaniakonta == 0) {
@@ -594,14 +584,14 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView);
+        KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
 
     public void porzadkowanieKontWzorcowych() {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
         //resetuj kolumne macierzyste
-        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy", wpisView);
+        KontaFKBean.czyszczenieKont(wykazkontwzor, kontoDAOfk, "Wzorcowy", wpisView, kontopozycjaZapisDAO);
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
 
