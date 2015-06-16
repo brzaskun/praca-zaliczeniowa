@@ -63,21 +63,7 @@ var aktywujwiersz = function(nrWiersza){
         };
 
 
-//kopiuje opis jak nic nie ma
-var skopiujopis = function(wiersz){
-    if(wiersz===1){
-        return;
-    } else {
-        var starywiersz = wiersz-2;
-        wiersz -= 1;
-        var biezacyopis = "#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis";
-        var poprzedniopisval = $("#formwpisdokument\\:dataList\\:"+starywiersz+"\\:opis").val();
-        if ($(biezacyopis).val() === "+") {
-            $(biezacyopis).val(poprzedniopisval);
-            $("#formwpisdokument\\:dataList\\:"+wiersz+"\\:opis").next().focus();
-        }
-    }
-};
+
 
 
 //to makro sprawdza i blokuje puste czesci wiersza

@@ -279,7 +279,7 @@ var usunpodswietlenie = function(source) {
 };
 
 var focusNowyWiersz = function () {
-    setTimeout(robfocus(), 500);
+    setTimeout(robfocus(), 1000);
 };
 
 var robfocus = function() {
@@ -502,6 +502,22 @@ var kopiujdatedialogwpis = function() {
             var wierszpoprzedni = skladnia[0]+":"+skladnia[1]+":"+polepoprzednie+":"+skladnia[3];
             document.getElementById(wierszbiezacy).value = document.getElementById(wierszpoprzedni).value;
             r(wierszbiezacy).trigger("change");
+        }
+    }
+};
+
+//kopiuje opis jak nic nie ma
+var skopiujopis = function(nrbiezacegowiersza){
+    if(nrbiezacegowiersza===1){
+        return;
+    } else {
+        var nrstaregowiersza = nrbiezacegowiersza-2;
+        nrbiezacegowiersza = nrbiezacegowiersza-1;
+        var biezacywiersz = "#formwpisdokument\\:dataList\\:"+nrbiezacegowiersza+"\\:opis";
+        var poprzedniopisval = $("#formwpisdokument\\:dataList\\:"+nrstaregowiersza+"\\:opis").val();
+        if ($(biezacywiersz).val() === "+") {
+            $(biezacywiersz).val(poprzedniopisval);
+            $("#formwpisdokument\\:dataList\\:"+nrbiezacegowiersza+"\\:opis").next().focus();
         }
     }
 };
