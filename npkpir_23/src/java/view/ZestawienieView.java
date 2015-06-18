@@ -10,6 +10,7 @@ import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikUdzialyDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
@@ -20,6 +21,7 @@ import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Wpis;
 import entity.Zobowiazanie;
@@ -113,6 +115,8 @@ public class ZestawienieView implements Serializable {
     @Inject private WpisDAO wpisDAO;
     private boolean pierwszypitwroku;
     private boolean pierwszypitwrokuzaznacz;
+     @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
     
     private int flaga = 0;
 
@@ -146,7 +150,8 @@ public class ZestawienieView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
             try {
-                for (Udzialy p : pod.getUdzialy()) {
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
 
                 }
@@ -854,8 +859,8 @@ public class ZestawienieView implements Serializable {
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
-                List<Udzialy> lista = tmpP.getUdzialy();
-                for (Udzialy p : lista) {
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();
                         break;

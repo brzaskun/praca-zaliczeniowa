@@ -7,15 +7,18 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
 
-    <p:tab title="Udziały w firmie">  
+    <p:tab title="Udziały w firmie">
         <h:form id="form9" >
             <h:outputText value="Udziały w firmie" style="font-size: 15px"/>
             <p:growl id="messages"/>
             <p:focus for="parametryp9"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 800px">
-                <p:dataTable value="#{podatnikView.selected.udzialy}"  var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" editable="true">
+                <p:dataTable value="#{podatnikView.podatnikUdzialy}"  var="loop" rowKey="#{loop.id}" selection="#{podatnikView.wybranyPodatnikUdzialy}"
+                             paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" editable="true">
                     <p:ajax event="rowEdit" update=":akordeon:form9:messages" listener="#{podatnikView.editUdzialy}" />
+                    <p:ajax event="rowSelectRadio" global="false" listener="#{podatnikView.skopiujudzialy()}" update="akordeon:form9:parametryp9"/>
+                    <p:column selectionMode="single" style="text-align: center;"/>
                     <p:column headerText="rok od">
                         <h:outputText value="#{loop.rokOd}-" />
                     </p:column>
@@ -23,25 +26,10 @@
                         <h:outputText value="#{loop.mcOd}" />
                     </p:column>
                     <p:column headerText="rok do">
-                        <p:cellEditor>  
-                            <f:facet name="output">  
-                                <h:outputText value="#{loop.rokDo}"/>
-                            </f:facet>  
-                            <f:facet name="input">  
-                                <p:inputText value="#{loop.rokDo}"/>
-                            </f:facet>  
-                        </p:cellEditor>
+                        <h:outputText value="#{loop.rokDo}"/>
                     </p:column>
                     <p:column headerText="mc do">
-                        <p:cellEditor>  
-                            <f:facet name="output">  
-                                <h:outputText value="#{loop.mcDo}"/>
-                            </f:facet>  
-                            <f:facet name="input">  
-                                <p:inputText value="#{loop.mcDo}"/>
-                            </f:facet>  
-                        </p:cellEditor>
-
+                        <h:outputText value="#{loop.mcDo}"/>
                     </p:column>
                     <p:column headerText="nazwisko i imie" width="200">
                         <h:outputText value="#{loop.nazwiskoimie}" />
@@ -53,7 +41,7 @@
                         <h:outputText value="#{loop.udzial}" />
                     </p:column>
                     <p:column id="editColumn" headerText="edytuj" width="50" style="text-align: center;">
-                        <p:rowEditor/>  
+                        
                     </p:column>
                     <p:column style="text-align: center;" headerText="usuń">
                         <p:commandButton action="#{podatnikView.usunUdzialy(loop)}"  icon="ui-icon-trash" update="@form" type="submit"/>
@@ -70,7 +58,8 @@
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">
-                <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="@form" type="submit"/>
+                <p:commandButton action="#{podatnikView.dodajUdzialy()}" value="dodaj udział" update="akordeon:form9" type="submit" style="width: 120px;"/>
+                <p:commandButton action="#{podatnikView.editUdzialy()}" value="edytuj udział" update="akordeon:form9" type="submit" style="margin-left: 10px; width: 120px;"/>
             </p:panelGrid>
         </h:form>
         <br/><br/>

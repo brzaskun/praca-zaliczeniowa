@@ -26,6 +26,7 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Pozycjenafakturze;
 import entity.Rejestrlogowan;
@@ -1542,6 +1543,10 @@ public class SessionFacade<T> implements Serializable {
 
     public Delegacja findDelegacja(Delegacja delegacja) {
         return (Delegacja) em.createNamedQuery("Delegacja.findById").setParameter("id", delegacja.getId()).getSingleResult();
+    }
+
+    public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
+        return em.createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 
 }

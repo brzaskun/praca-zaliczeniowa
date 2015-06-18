@@ -7,12 +7,13 @@ package view;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PitDAO;
+import dao.PodatnikUdzialyDAO;
 import embeddable.Parametr;
-import embeddable.Udzialy;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Zusstawki;
 import error.E;
 import java.io.Serializable;
@@ -44,6 +45,8 @@ public class InfoView implements Serializable{
     private String rok;
     @Inject private PitDAO pitDAO;
     @Inject private DeklaracjevatDAO deklaracjevatDAO;
+     @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
     
     /**
      * Zmienne do wyswietlenia
@@ -55,7 +58,7 @@ public class InfoView implements Serializable{
     private String vatnievat;
     private String zusniezus;
     private String pole47niepole47;
-    private List<Udzialy> udzialy;
+    private List<PodatnikUdzialy> udzialy;
     private String remnierem;
     private String kwotaautor;
     private String vatokres;
@@ -198,9 +201,9 @@ public class InfoView implements Serializable{
     
     private void sprawdzudzialy() {
         try {
-            List<Udzialy> udz = pod.getUdzialy();
-            if (!udz.isEmpty()) {
-                for (Udzialy p : udz) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            if (!udzialy.isEmpty()) {
+                for (PodatnikUdzialy p : udzialy) {
                     try {
                         p.getRokDo().isEmpty();
                     } catch (Exception e) { E.e(e); 
@@ -365,14 +368,15 @@ public class InfoView implements Serializable{
         this.pole47niepole47 = pole47niepole47;
     }
 
-    public List<Udzialy> getUdzialy() {
+    public List<PodatnikUdzialy> getUdzialy() {
         return udzialy;
     }
 
-    public void setUdzialy(List<Udzialy> udzialy) {
+    public void setUdzialy(List<PodatnikUdzialy> udzialy) {
         this.udzialy = udzialy;
     }
 
+   
     public String getRemnierem() {
         return remnierem;
     }

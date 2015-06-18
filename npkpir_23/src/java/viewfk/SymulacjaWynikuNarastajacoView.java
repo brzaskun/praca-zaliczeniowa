@@ -5,9 +5,10 @@
  */
 package viewfk;
 
+import dao.PodatnikUdzialyDAO;
 import daoFK.WynikFKRokMcDAO;
 import embeddable.Mce;
-import embeddable.Udzialy;
+import entity.PodatnikUdzialy;
 import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
@@ -51,6 +52,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private double wynikfinansowy;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public SymulacjaWynikuNarastajacoView() {
         this.listamiesiecy = new ArrayList<>();
@@ -167,7 +170,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
@@ -194,7 +198,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjeObliczeniaPodatkuPoprzedniemiesiace = new ArrayList<>();
         podatnikkwota = new HashMap<>();
         try {
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" - udział:", udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
@@ -210,7 +215,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private void obliczkwotydowyplaty() {
         pozycjeDoWyplaty = new ArrayList<>();
         try {
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" - "+B.b("udział"), udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);
@@ -225,7 +231,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private void obliczkwotydowyplaty(Map<String, Double> pozycjeDoWyplatyExport) {
         pozycjeDoWyplaty = new ArrayList<>();
         try {
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" - "+B.b("udział"), udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);
@@ -254,10 +261,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         }
     }
     
-    private List<Udzialy> pobierzudzialy() {
-        return wpisView.getPodatnikObiekt().getUdzialy();
-    }
-    
+        
 
     public void odswiezsymulacjewynikunar() {
         wpisView.wpisAktualizuj();
