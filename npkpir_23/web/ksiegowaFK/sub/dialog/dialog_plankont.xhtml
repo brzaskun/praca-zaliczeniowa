@@ -49,10 +49,10 @@
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{planKontView.zwin(planKontView.root)}" update=":form:dataList" style="float: left;" />-->
-                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form:dataList_data')" global="false" style="float: left;" />
-                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form:dataList_data')"  global="false" style="float: left;" />
-                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form:dataList_data')"  global="false" style="float: left;" />
+                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont:dataList_data')" global="false" style="float: left;" />
+                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
+                  <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont:dataList_data')"  global="false" style="float: left;" />
                   <p:splitButton value="#{mgs.drukuj}" actionListener="#{planKontView.drukujPlanKont('all')}" global="false" style="margin-left: 20px;">
                       <p:menuitem global="false" value="wynikowe" actionListener="#{planKontView.drukujPlanKont('wynikowe')}" icon="fa fa-print"/>  
                       <p:menuitem global="false" value="bilansowe" actionListener="#{planKontView.drukujPlanKont('bilansowe')}" icon="fa fa-print"/>  

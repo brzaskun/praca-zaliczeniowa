@@ -108,3 +108,8 @@ var rozwinjeden = function (lista) {
         currentlevel--;
     }
 };
+
+var kopiujnazwepelnakonta = function(zrodlo,cel) {
+    var nazwapelna = r(zrodlo).val();
+    r(cel).val(nazwapelna);
+};

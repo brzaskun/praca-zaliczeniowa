@@ -15,7 +15,8 @@
                         <f:validateRegex pattern="\d+"/>
                     </p:inputText>
                     <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                    <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."
+                                     onblur="kopiujnazwepelnakonta('formX:nazwapelna','formX:nazwaskrocona')"/>
                     <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                     <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                     <h:outputLabel value="Bilansowewynikowe:" for="bilansowewynikowe" />

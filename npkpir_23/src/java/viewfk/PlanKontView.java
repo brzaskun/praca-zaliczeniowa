@@ -209,9 +209,13 @@ public class PlanKontView implements Serializable {
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
             }
             if (wynikdodaniakonta == 0) {
-                KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
-                if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                   PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+                try {
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
+                    if (!kpo.getSyntetykaanalityka().equals("analityka")) {
+                       PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
                 }
             }
             if (wynikdodaniakonta == 0) {

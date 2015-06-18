@@ -2268,14 +2268,35 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
     
+    private String poledlawaluty;
+
+    public String getPoledlawaluty() {
+        return poledlawaluty;
+    }
+
+    public void setPoledlawaluty(String poledlawaluty) {
+        this.poledlawaluty = poledlawaluty;
+    }
+    
+    public void pobierzpoledlawaluty() {
+        String wierszlp = (String) Params.params("wpisywaniefooter:lpwierszaRK");
+        if (!wiersz.equals("")) {
+            poledlawaluty = wierszlp;
+        }
+    }
+    
     public void zamienkursnareczny() {
         try {
-            int wierszid = lpWierszaWpisywanie-1;
-            Wiersz wiersz = selected.getListawierszy().get(wierszid);
-            wiersz.setTabelanbp(tabelanbprecznie);
-            przepiszWaluty(wiersz);
-            String update="formwpisdokument:dataList:"+wierszid+":kurswiersza";
-            RequestContext.getCurrentInstance().update(update);
+            String wierszlp = poledlawaluty;
+            if (!wiersz.equals("")) {
+                int wierszid = Integer.parseInt(wierszlp)-1;
+                Wiersz wiersz = selected.getListawierszy().get(wierszid);
+                wiersz.setTabelanbp(tabelanbprecznie);
+                przepiszWaluty(wiersz);
+                String update="formwpisdokument:dataList:"+wierszid+":kurswiersza";
+                RequestContext.getCurrentInstance().update(update);
+                poledlawaluty = "";
+            }
         } catch (Exception e) {  E.e(e);
             
         }

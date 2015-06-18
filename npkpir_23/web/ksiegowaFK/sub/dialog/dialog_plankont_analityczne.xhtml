@@ -10,7 +10,8 @@
         <p:focus for="dkp">
             <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                        <h:outputLabel value="Nazwapelna:" for="nazwapelna" />
-                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required."/>
+                        <p:inputTextarea id="nazwapelna" rows="4" cols="30" value="#{planKontView.noweKonto.nazwapelna}" 
+                                         title="Nazwapelna" required="true" requiredMessage="The Nazwapelna field is required." onblur="kopiujnazwepelnakonta('formY:nazwapelna','formY:nazwaskrocona')"/>
                         <h:outputLabel value="Nazwaskrocona:" for="nazwaskrocona" />
                         <p:inputText id="nazwaskrocona" value="#{planKontView.noweKonto.nazwaskrocona}" title="Nazwaskrocona" required="true" requiredMessage="The Nazwaskrocona field is required."/>
                         

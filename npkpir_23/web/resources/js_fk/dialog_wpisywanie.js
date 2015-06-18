@@ -22,7 +22,8 @@ var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
 var zachowajwierszVATRK = function (lp) {
     try {
         console.log("zachowajwierszVATRK "+lp);
-        MYAPP.lpwiersza = "formwpisdokument:dataList:"+lp+":opis";
+        var id = parseInt(lp)-1
+        MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
         $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
     } catch (blad) {
