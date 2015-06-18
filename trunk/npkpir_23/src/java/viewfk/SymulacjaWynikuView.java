@@ -8,12 +8,13 @@ package viewfk;
 import beansFK.CechazapisuBean;
 import beansFK.KontaFKBean;
 import beansFK.StronaWierszaBean;
+import dao.PodatnikUdzialyDAO;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
-import embeddable.Udzialy;
 import embeddablefk.SaldoKonto;
+import entity.PodatnikUdzialy;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
@@ -75,6 +76,8 @@ public class SymulacjaWynikuView implements Serializable {
     private Map<String, Double> podatnikkwotarazem;
     private double wynikfinansowy;
     private Map<String, Double> pozycjeDoWyplatyNarastajaco;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public SymulacjaWynikuView() {
         sumaSaldoKontoPrzychody = new ArrayList<>();
@@ -210,7 +213,8 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
             int i = 1;
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
@@ -224,9 +228,7 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
     
-    private List<Udzialy> pobierzudzialy() {
-     return wpisView.getPodatnikObiekt().getUdzialy();
-    }
+    
     
     public void sumazapisowPrzychody() {
         sumaprzychody = 0.0;
@@ -298,7 +300,8 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjeDoWyplaty = new ArrayList<>();
         try {
             int i = 1;
-            for (Udzialy p : pobierzudzialy()) {
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+            for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
                 double dowyplaty = Z.z(udział*wynikfinansowy);

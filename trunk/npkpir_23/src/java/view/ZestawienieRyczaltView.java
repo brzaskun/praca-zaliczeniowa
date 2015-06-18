@@ -7,17 +7,18 @@ package view;
 import dao.DokDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikUdzialyDAO;
 import dao.RyczDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
 import embeddable.Straty1;
-import embeddable.Udzialy;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Ryczpoz;
 import entity.Wpis;
 import entity.Zobowiazanie;
@@ -97,6 +98,8 @@ public class ZestawienieRyczaltView implements Serializable {
     private boolean zus51zreki;
     private boolean zus52zreki;
     @Inject private WpisDAO wpisDAO;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public ZestawienieRyczaltView() {
         styczen = Arrays.asList(new Double[4]);
@@ -122,8 +125,9 @@ public class ZestawienieRyczaltView implements Serializable {
     public void init() {
         if (wpisView.getPodatnikWpisu() != null) {
             Podatnik pod = podatnikDAO.find(wpisView.getPodatnikWpisu());
+            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             try {
-                for (Udzialy p : pod.getUdzialy()) {
+                for (PodatnikUdzialy p : udzialy) {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
 
                 }
@@ -433,10 +437,9 @@ public class ZestawienieRyczaltView implements Serializable {
     //oblicze pit ryczałtowca  i wkleja go do biezacego Pitu w celu wyswietlenia, nie zapisuje
     public void obliczPit() {
         if (!wybranyudzialowiec.equals("wybierz osobe")) {
-           
                 Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
-                List<Udzialy> lista = tmpP.getUdzialy();
-                for (Udzialy p : lista) {
+                List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+                for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
                         wybranyprocent = p.getUdzial();
                         break;

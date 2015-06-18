@@ -7,6 +7,7 @@ package view;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.WpisDAO;
 import dao.ZUSDAO;
@@ -17,6 +18,7 @@ import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikUdzialy;
 import entity.Rodzajedok;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
@@ -95,7 +97,7 @@ public class PodatnikView implements Serializable {
     @Inject
     private RodzajedokDAO rodzajedokDAO;
     @Inject
-    private Udzialy udzialy;
+    private PodatnikUdzialy udzialy;
     //straty z lat ubieglych
     private List<Straty1> stratyzlatub;
     private String stratarok;
@@ -105,11 +107,16 @@ public class PodatnikView implements Serializable {
     private String stratazostalo;
     @Inject
     private PitDAO pitDAO;
+    @Inject
+    private PodatnikUdzialyDAO podatnikUdzialyDAO;
+
     private String biezacadata;
     private List<Konto> listaKontKasaBank;
     private List<Konto> listaKontRozrachunkowych;
     private List<Konto> listaKontVAT;
     private List<Konto> listakontoRZiS;
+    private List<PodatnikUdzialy> podatnikUdzialy;
+    private PodatnikUdzialy wybranyPodatnikUdzialy;
     
 
     public PodatnikView() {
@@ -123,6 +130,7 @@ public class PodatnikView implements Serializable {
         listaKontVAT = new ArrayList<>();
         listakontoRZiS  = new ArrayList<>();
         listaKontKasaBank  = new ArrayList<>();
+        podatnikUdzialy = new ArrayList<>();
         
     }
 
@@ -139,6 +147,7 @@ public class PodatnikView implements Serializable {
         } catch (Exception e) { E.e(e); 
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
     }
 
@@ -183,7 +192,9 @@ public class PodatnikView implements Serializable {
         }
     }
     
-    
+    public void skopiujudzialy() {
+        udzialy = wybranyPodatnikUdzialy;
+    }
     public void edytujfk() {
         try {
             sformatuj(selected);
@@ -699,14 +710,9 @@ public class PodatnikView implements Serializable {
 
     public void dodajUdzialy() {
         selected = wpisView.getPodatnikObiekt();
-        List<Udzialy> lista = new ArrayList<>();
-        try {
-            lista.addAll(selected.getUdzialy());
-        } catch (Exception e) { E.e(e); 
-        }
         try {
             Integer sumaudzialow = 0;
-            for (Udzialy p : lista) {
+            for (PodatnikUdzialy p : podatnikUdzialy) {
                 try {
                     if (!p.getRokDo().isEmpty()) {
                     }
@@ -724,9 +730,10 @@ public class PodatnikView implements Serializable {
             if (sumaudzialow > 100) {
                 throw new Exception();
             }
-            lista.add(udzialy);
-            selected.setUdzialy(lista);
-            podatnikDAO.edit(selected);
+            udzialy.setPodatnikObj(selected);
+            podatnikUdzialy.add(udzialy);
+            podatnikUdzialyDAO.dodaj(udzialy);
+            udzialy = new PodatnikUdzialy();
             Msg.msg("i", "Dodano udziały", "akordeon:form6:messages");
         } catch (Exception ex) {
             Msg.msg("e", "Niedodano udziału, wystąpił błąd. Sprawdz dane:nazwisko, procenty", "akordeon:form6:messages");
@@ -734,24 +741,32 @@ public class PodatnikView implements Serializable {
 
     }
 
-    public void editUdzialy(RowEditEvent ex) {
+    public void editUdzialy() {
         try {
-            Podatnik selected2 = podatnikDAO.find(nazwaWybranegoPodatnika);
-            podatnikDAO.destroy(selected2);
-            podatnikDAO.dodaj(selected);
+            Integer sumaudzialow = 0;
+            for (PodatnikUdzialy p : podatnikUdzialy) {
+                try {
+                    if (!p.getRokDo().isEmpty()) {
+                    }
+                } catch (Exception ef) {
+                    sumaudzialow += Integer.parseInt(p.getUdzial());
+                }
+            }
+            if (sumaudzialow > 100) {
+                throw new Exception();
+            }
+            podatnikUdzialyDAO.edit(udzialy);
+            udzialy = new PodatnikUdzialy();
             Msg.msg("i", "Wyedytowano udziały", "akordeon:form6:messages");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Nie zmieniono udziałów", "akordeon:form6:messages");
         }
     }
 
-    public void usunUdzialy(Udzialy udzialy) {
+    public void usunUdzialy(PodatnikUdzialy udzialy) {
         selected = wpisView.getPodatnikObiekt();
-        List<Udzialy> tmp = new ArrayList<>();
-        tmp.addAll(selected.getUdzialy());
-        tmp.remove(udzialy);
-        selected.setUdzialy(tmp);
-        podatnikDAO.edit(selected);
+        podatnikUdzialyDAO.destroy(udzialy);
+        podatnikUdzialy.remove(udzialy);
         Msg.msg("i", "Usunięto wskazany udział: " + udzialy.getNazwiskoimie(), "akordeon:form6:messages");
     }
 
@@ -1281,14 +1296,15 @@ public class PodatnikView implements Serializable {
     public void setSelectedDod(Podatnik selectedDod) {
         this.selectedDod = selectedDod;
     }
-    
-    public Udzialy getUdzialy() {
+
+    public PodatnikUdzialy getUdzialy() {
         return udzialy;
     }
-    
-    public void setUdzialy(Udzialy udzialy) {
+
+    public void setUdzialy(PodatnikUdzialy udzialy) {
         this.udzialy = udzialy;
     }
+   
     
     public List<Straty1> getStratyzlatub() {
         return stratyzlatub;
@@ -1373,14 +1389,47 @@ public class PodatnikView implements Serializable {
     public List<Rodzajedok> getRodzajeDokumentowLista() {
         return rodzajeDokumentowLista;
     }
+
+    public List<PodatnikUdzialy> getPodatnikUdzialy() {
+        return podatnikUdzialy;
+    }
+
+    public PodatnikUdzialy getWybranyPodatnikUdzialy() {
+        return wybranyPodatnikUdzialy;
+    }
+
+    public void setWybranyPodatnikUdzialy(PodatnikUdzialy wybranyPodatnikUdzialy) {
+        this.wybranyPodatnikUdzialy = wybranyPodatnikUdzialy;
+    }
+
+    public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {
+        this.podatnikUdzialy = podatnikUdzialy;
+    }
     
     public void setRodzajeDokumentowLista(List<Rodzajedok> rodzajeDokumentowLista) {
         this.rodzajeDokumentowLista = rodzajeDokumentowLista;
     }
 //</editor-fold>
 
-
    
+    public void zamienudzialy() {
+        List<Podatnik> podatnicy = podatnikDAO.findAll();
+        for (Podatnik p : podatnicy) {
+            List<Udzialy> udzialy = p.getUdzialy();
+            if (udzialy != null) {
+                for (Udzialy r : udzialy) {
+                    PodatnikUdzialy s = new PodatnikUdzialy(r,p);
+                    try {
+                        podatnikUdzialyDAO.dodaj(s);
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                }
+            p.setUdzialy(null);
+            podatnikDAO.edit(p);
+            }
+        }
+    }
 
     
  
