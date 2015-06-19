@@ -80,7 +80,7 @@ public class DelegacjeView  implements Serializable{
 
     public void dodaj(boolean krajowa0zagraniczna1) {
         Delegacja duplikat = delegacjaDAO.findDelegacja(selected);
-        if (duplikat != null) {
+        if (duplikat == null) {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer(krajowa0zagraniczna1));
             selected.setKrajowa0zagraniczna1(krajowa0zagraniczna1);

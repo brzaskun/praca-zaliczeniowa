@@ -89,7 +89,8 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL" />
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
+                        <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" 
+                                  sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
                             <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                             <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                         </p:column>

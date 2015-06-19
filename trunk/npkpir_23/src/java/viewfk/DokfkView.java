@@ -601,6 +601,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             Msg.msg("e", "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                    int index = selected.getListawierszy().size() -1;
+                    rozliczsaldo(index);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+
+            }
             try {
                 selected.setLp(selected.getDokfkPK().getNrkolejnywserii());
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
@@ -739,6 +745,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             return;
         }
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
+            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                    int index = selected.getListawierszy().size() -1;
+                    rozliczsaldo(index);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+
+            }
             try {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 if (selected.getDokfkPK().getSeriadokfk().equals("BO")) {
