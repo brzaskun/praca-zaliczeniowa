@@ -177,7 +177,6 @@ private static final long serialVersionUID = 1L;
     private double saldoinnedok;
     private double saldoBO;
     
-    
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -339,7 +338,7 @@ private static final long serialVersionUID = 1L;
     
 //</editor-fold>
     
-         public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
+     public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
         if (Z.z(kwotastara) != Z.z(kwotanowa)) {
@@ -351,6 +350,12 @@ private static final long serialVersionUID = 1L;
                 przepiszWaluty(wiersz);
             } catch (Exception e1) {
                 System.out.println(e1.getLocalizedMessage());
+            }
+            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                    int index = lpWierszaWpisywanie -1;
+                    rozliczsaldo(index);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+
             }
         }
     }
@@ -368,6 +373,12 @@ private static final long serialVersionUID = 1L;
             } catch (Exception e) {
                 E.e(e);
             }
+            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
+                    int index = lpWierszaWpisywanie -1;
+                    rozliczsaldo(index);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+
+            }
         }
     }
 
@@ -380,7 +391,7 @@ private static final long serialVersionUID = 1L;
     }
     
     public void rozliczsaldo(int indexwTabeli) {
-        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli);
+        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli, saldoinnedok);
     }
    
 
@@ -1354,12 +1365,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                         System.out.println("Aktualny wiersz nie ma numer 1 lub 2 DokfkView wybranoRachunekPlatnoscCD");
                     }
                     System.out.println(wybranastronawiersza.toString());
-
-                }
-                if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    int index = lpWierszaWpisywanie -1;
-                    rozliczsaldo(index);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
 
                 }
             }

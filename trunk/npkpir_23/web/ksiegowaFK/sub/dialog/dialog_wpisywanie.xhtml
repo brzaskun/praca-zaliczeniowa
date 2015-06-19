@@ -353,7 +353,8 @@
                             </p:inputText>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
-                            <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" rendered="#{loop.stronaWn != null}"
+                            <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
+                                            rendered="#{loop.stronaWn != null}"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
