@@ -1736,19 +1736,18 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             String wiersz = "rozrachunki:dataList:" + row + ":kwotarozliczenia_input";
             String kwotazwiersza = (String) Params.params(wiersz);
             kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
-            Transakcja analizowanatransakcja = biezacetransakcje.get(row);
             if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
                 if (kwotazwiersza.length() > 0) {
                     double placonakwota = Double.parseDouble(kwotazwiersza);
                     double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
-                    analizowanatransakcja.setKwotawwalucierachunku(kwotaPlatnosciwWalucie);
+                    loop.setKwotawwalucierachunku(kwotaPlatnosciwWalucie);
                     wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
             } else if (kursPlatnosci == 0.0 && kursRachunku == 0.0) {
                 if (kwotazwiersza.length() > 0) {
                     double placonakwota = Double.parseDouble(kwotazwiersza);
-                    analizowanatransakcja.setKwotawwalucierachunku(placonakwota);
+                    loop.setKwotawwalucierachunku(placonakwota);
                     wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
@@ -1756,7 +1755,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 if (kwotazwiersza.length() > 0) {
                     double placonakwota = Double.parseDouble(kwotazwiersza);
                     double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
-                    analizowanatransakcja.setKwotawwalucierachunku(kwotaPlatnosciwPLN);
+                    loop.setKwotawwalucierachunku(kwotaPlatnosciwPLN);
                     wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
@@ -1767,10 +1766,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
                     double kwotaRachunkuwPLN = Z.z(placonakwota * kursRachunku);
                     double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
-                    analizowanatransakcja.setRoznicekursowe(roznicakursowa);
+                    loop.setRoznicekursowe(roznicakursowa);
                     wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
                     RequestContext.getCurrentInstance().update(wiersz);
-                    analizowanatransakcja.setKwotawwalucierachunku(placonakwota);
+                    loop.setKwotawwalucierachunku(placonakwota);
                     wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
