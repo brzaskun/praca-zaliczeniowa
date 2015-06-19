@@ -30,13 +30,13 @@ public class DialogWpisywanie {
         return wynik;
     }
     
-    public static void rozliczkolejnesaldo(Dokfk selected, int indexwTabeli) {
+    public static void rozliczkolejnesaldo(Dokfk selected, int indexwTabeli,double saldoinnedok) {
     if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
         Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         Wiersz wierszbiezacy = selected.getListawierszy().get(indexwTabeli);
         double sumapoprzednich = 0.0;
         if (indexwTabeli==0) {
-            sumapoprzednich = wierszbiezacy.getSaldoWBRK();
+            sumapoprzednich = saldoinnedok;
         } else {
             sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
         }
