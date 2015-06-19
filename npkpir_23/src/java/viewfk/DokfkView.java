@@ -1780,10 +1780,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     
     public void obsluzDataWiersza(Wiersz wierszbiezacy) {
-        if (wierszbiezacy.getTabelanbp().isRecznie()==false) {
-            pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
-            przepiszWaluty(wierszbiezacy);
-        }
+        pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
+        przepiszWaluty(wierszbiezacy);
         int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
         String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
         RequestContext.getCurrentInstance().update(update);
