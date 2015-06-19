@@ -1917,12 +1917,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
             }
             if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                   
                    Wiersz ostatniwiersz = ostatnidokument.getListawierszy().get(ostatnidokument.getListawierszy().size()-1);
                    saldoinnedok = ostatniwiersz.getSaldoWBRK();
                    selected.getListawierszy().get(0).setSaldoWBRK(ostatniwiersz.getSaldoWBRK());
             } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 obliczsaldorkwb();
+                Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                selected.setKontr(klient);
             }
             try {
                 elementy = wzorzec.split(separator);
