@@ -178,7 +178,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania"), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowy"), podatek));
-                double zaplacono = Z.z0(podatnikkwota.get(p.getNazwiskoimie()));
+                double zaplacono = Z.z0(podatnikkwota.get(p.getNazwiskoimie())) >= 0 ? Z.z0(podatnikkwota.get(p.getNazwiskoimie())) : 0.0;
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono"), -zaplacono));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty"), Z.z0(podatek-zaplacono)));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
