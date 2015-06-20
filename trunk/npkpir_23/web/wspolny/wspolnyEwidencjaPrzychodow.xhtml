@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="Ewidencja przychodów"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form>
+                <p:confirmDialog id="confirmDialog" message="Wysłać pkpir do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
+                                 header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
+                    <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
+                                     actionListener="#{ksiegaView.mailpkpir()}"  />  
+                    <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right;" />   
+
+                </p:confirmDialog>  
+            </h:form>
+            <f:view contentType="text/html">
+                <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
+                    <ui:include src="sub/layoutKsiega/north.xhtml"/>  
+                    <ui:include src="sub/layoutKsiega/south.xhtml"/>  
+                    <ui:include src="sub/layoutKsiega/west.xhtml"/>   
+                    <ui:include src="sub/layoutKsiega/east.xhtml"/>   
+                    <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
+                        <ui:include src="../wspolny/sub/ewidencjaprzychodow.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
+                    </p:layoutUnit>
+                </p:layout>
+            </f:view>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+
