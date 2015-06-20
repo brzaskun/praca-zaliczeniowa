@@ -246,6 +246,10 @@
             <to-view-id>/wspolny/wspolnySrodkiEwidencja.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>ewidencjaprzychodow</from-outcome>
+            <to-view-id>/wspolny/wspolnyEwidencjaPrzychodow.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>parampodatnika</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaPodUstaw.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
