@@ -22,7 +22,7 @@
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}"  style="width: 100px;">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </p:selectOneMenu>
-                <p:commandButton action="/guest/guestTablica.xhtml?faces-redirect=true" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px"/>
+                <p:commandButton action="/guest/guestPodatki.xhtml?faces-redirect=true" value="#{mgs.wybierzmcrok}" actionListener="#{WpisView.wpisAktualizuj()}" accesskey="s" style="height: 40px"/>
             </p:panelGrid>
             <f:facet name="footer" >
                 <h:outputText style="display: block; text-align: center" value="Po wybraniu roku i miesiąca zostaniesz przekierowany do zapisów księgowych z tego okresu."/>

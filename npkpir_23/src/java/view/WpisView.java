@@ -276,7 +276,7 @@ public class WpisView implements Serializable {
                     if (p.getParametr().contains("księgi rachunkowe")) {
                         return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
                     } else {
-                        return "/guest/guestTablica.xhtml?faces-redirect=true";
+                        return "/guest/guestPodatki.xhtml?faces-redirect=true";
                     }
                 }
             }

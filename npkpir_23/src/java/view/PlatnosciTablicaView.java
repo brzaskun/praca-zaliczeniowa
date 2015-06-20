@@ -66,21 +66,9 @@ public class PlatnosciTablicaView implements Serializable {
 
     @PostConstruct
     private void init() {
-        lista = new ArrayList<>();
-        String rok = wpisView.getRokWpisu().toString();
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal = request.getUserPrincipal();
-        String nazwausera = principal.getName();
-        Uz user = uzDAO.findUzByLogin(nazwausera);
-        Podatnik biezacyPodatnik = null;
         try {
-            biezacyPodatnik = podatnikDAO.findPodatnikByNIP(user.getFirma());
-        } catch (Exception e) { E.e(e); 
-        }
-        try {
-            for (String p : Mce.getNumberToMiesiac().values()) {
-                lista.add(nowezobowiazanie(rok, p, biezacyPodatnik));
+            for (String mc : Mce.getNumberToMiesiac().values()) {
+                lista.add(nowezobowiazanie(wpisView.getRokWpisuSt(), mc, wpisView.getPodatnikObiekt()));
             }
         } catch (Exception e) { E.e(e); 
         }
@@ -90,19 +78,17 @@ public class PlatnosciTablicaView implements Serializable {
         Platnosci platnosci = new Platnosci();
         List<Zusstawki> listapobrana = biezacyPodatnik.getZusparametr();
         if (listapobrana != null) {
-            Zusstawki zusstawki = new Zusstawki();
-            Iterator it;
-            it = listapobrana.iterator();
+            Iterator it = listapobrana.iterator();
             while (it.hasNext()) {
-                Zusstawki tmp = (Zusstawki) it.next();
-                if (tmp.getZusstawkiPK().getRok().equals(rok) && tmp.getZusstawkiPK().getMiesiac().equals(mc)) {
-                    zusstawki = tmp;
+                Zusstawki zusstawki = (Zusstawki) it.next();
+                if (zusstawki.getZusstawkiPK().getRok().equals(rok) && zusstawki.getZusstawkiPK().getMiesiac().equals(mc)) {
+                    platnosci.setZus51(zusstawki.getZus51ch());
+                    platnosci.setZus52(zusstawki.getZus52());
+                    platnosci.setZus53(zusstawki.getZus53());
+                    platnosci.setPit4(zusstawki.getPit4());
+                    break;
                 }
             }
-            platnosci.setZus51(zusstawki.getZus51ch());
-            platnosci.setZus52(zusstawki.getZus52());
-            platnosci.setZus53(zusstawki.getZus53());
-            platnosci.setPit4(zusstawki.getPit4());
         }
         Pitpoz pitpoz = new Pitpoz();
         //pobierz PIT-5
