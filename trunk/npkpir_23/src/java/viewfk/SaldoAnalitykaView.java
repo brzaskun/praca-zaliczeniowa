@@ -38,6 +38,7 @@ import waluty.Z;
 public class SaldoAnalitykaView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
+    private List<SaldoKonto> listaSaldoKontoSelected;
     private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -102,6 +103,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public List<SaldoKonto> getListaSaldoKonto() {
         return listaSaldoKonto;
+    }
+
+    public List<SaldoKonto> getListaSaldoKontoSelected() {
+        return listaSaldoKontoSelected;
+    }
+
+    public void setListaSaldoKontoSelected(List<SaldoKonto> listaSaldoKontoSelected) {
+        this.listaSaldoKontoSelected = listaSaldoKontoSelected;
     }
      
      public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
@@ -188,7 +197,11 @@ public class SaldoAnalitykaView implements Serializable {
     }
    
     public void drukuj(int i) {
-        PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+        if (listaSaldoKontoSelected == null) {
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+        } else {
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+        }
     }
     
     

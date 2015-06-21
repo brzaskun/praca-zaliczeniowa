@@ -36,6 +36,7 @@ import waluty.Z;
 public class SaldoSyntetykaView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
+    private List<SaldoKonto> listaSaldoKontoSelected;
     private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -98,6 +99,14 @@ public class SaldoSyntetykaView implements Serializable {
      public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
          this.listaSaldoKonto = listaSaldoKonto;
      }
+
+    public List<SaldoKonto> getListaSaldoKontoSelected() {
+        return listaSaldoKontoSelected;
+    }
+
+    public void setListaSaldoKontoSelected(List<SaldoKonto> listaSaldoKontoSelected) {
+        this.listaSaldoKontoSelected = listaSaldoKontoSelected;
+    }
      
      public WpisView getWpisView() {
          return wpisView;
@@ -159,12 +168,21 @@ public class SaldoSyntetykaView implements Serializable {
         return zapisy;
     }
     
+    
     public void drukuj(int i) {
-        PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+        if (listaSaldoKontoSelected == null) {
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+        } else {
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+        }
     }
     
     public void drukujS(int i) {
-        PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1);
+        if (listaSaldoKontoSelected == null) {
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1);
+        } else {
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 1);
+        }
     }
     
     
