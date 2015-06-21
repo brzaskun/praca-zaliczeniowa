@@ -8,6 +8,7 @@ import dao.DeklaracjevatDAO;
 import dao.PitDAO;
 import dao.PlatnosciDAO;
 import dao.PodatnikDAO;
+import dao.RyczDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
@@ -16,6 +17,7 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
+import entity.Ryczpoz;
 import entity.Uz;
 import entity.Wpis;
 import entity.Zusstawki;
@@ -50,6 +52,8 @@ public class PlatnosciTablicaView implements Serializable {
     private WpisView wpisView;
     @Inject
     private PitDAO pitDAO;
+    @Inject
+    private RyczDAO ryczDAO;
     @Inject
     PodatnikDAO podatnikDAO;
     @Inject
@@ -90,11 +94,15 @@ public class PlatnosciTablicaView implements Serializable {
                 }
             }
         }
-        Pitpoz pitpoz = new Pitpoz();
         //pobierz PIT-5
         try {
-            pitpoz = pitDAO.find(rok, mc, biezacyPodatnik.getNazwapelna());
-            platnosci.setPit5(pitpoz.getNaleznazal().doubleValue());
+            if (wpisView.isKsiegaryczalt() == true) {
+                Pitpoz pitpoz = pitDAO.find(rok, mc, biezacyPodatnik.getNazwapelna());
+                platnosci.setPit5(pitpoz.getNaleznazal().doubleValue());
+            } else {
+                Ryczpoz ryczpoz = ryczDAO.find(rok, mc, biezacyPodatnik.getNazwapelna());
+                platnosci.setPit5(ryczpoz.getNaleznazal().doubleValue());
+            }
         } catch (Exception e) { E.e(e); 
             platnosci.setPit5(0.0);
         }
