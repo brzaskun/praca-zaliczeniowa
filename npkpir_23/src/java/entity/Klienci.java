@@ -126,6 +126,10 @@ public class Klienci implements Serializable {
     public Klienci(Integer id) {
         this.id = id;
     }
+    
+    public Klienci(String opis) {
+        this.miejscowosc = opis;
+    }
 
     public Klienci(String nip, String npelna) {
         this.nip = nip;

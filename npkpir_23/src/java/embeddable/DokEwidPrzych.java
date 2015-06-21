@@ -28,16 +28,14 @@ public class DokEwidPrzych implements Serializable {
     private String podatnik;
     private String dataWyst;
     private String opis;
-    private Double kwota;
-    private Double kolumna7;
-    private Double kolumna8;
-    private Double kolumna9;
-    private Double kolumna10;
-    private Double kolumna11;
-    private Double kolumna12;
-    private Double kolumna13;
-    private Double kolumna14;
-    private Double kolumna15;
+    private double kwota;
+    private double kolumna5;
+    private double kolumna6;
+    private double kolumna7;
+    private double kolumna8;
+    private double kolumna9;
+    private double kolumna10;
+    private double kolumna11;
     private String uwagi;
     private String pkpirM;
     private String pkpirR;
@@ -111,85 +109,70 @@ public class DokEwidPrzych implements Serializable {
         this.opis = opis;
     }
 
-    public Double getKwota() {
+    public double getKwota() {
         return kwota;
     }
 
-    public void setKwota(Double kwota) {
+    public void setKwota(double kwota) {
         this.kwota = kwota;
     }
 
-    public Double getKolumna7() {
+    public double getKolumna5() {
+        return kolumna5;
+    }
+
+    public void setKolumna5(double kolumna5) {
+        this.kolumna5 = kolumna5;
+    }
+
+    public double getKolumna6() {
+        return kolumna6;
+    }
+
+    public void setKolumna6(double kolumna6) {
+        this.kolumna6 = kolumna6;
+    }
+
+    public double getKolumna7() {
         return kolumna7;
     }
 
-    public void setKolumna7(Double kolumna7) {
+    public void setKolumna7(double kolumna7) {
         this.kolumna7 = kolumna7;
     }
 
-    public Double getKolumna8() {
+    public double getKolumna8() {
         return kolumna8;
     }
 
-    public void setKolumna8(Double kolumna8) {
+    public void setKolumna8(double kolumna8) {
         this.kolumna8 = kolumna8;
     }
 
-    public Double getKolumna9() {
+    public double getKolumna9() {
         return kolumna9;
     }
 
-    public void setKolumna9(Double kolumna9) {
+    public void setKolumna9(double kolumna9) {
         this.kolumna9 = kolumna9;
     }
 
-    public Double getKolumna10() {
+    public double getKolumna10() {
         return kolumna10;
     }
 
-    public void setKolumna10(Double kolumna10) {
+    public void setKolumna10(double kolumna10) {
         this.kolumna10 = kolumna10;
     }
 
-    public Double getKolumna11() {
+    public double getKolumna11() {
         return kolumna11;
     }
 
-    public void setKolumna11(Double kolumna11) {
+    public void setKolumna11(double kolumna11) {
         this.kolumna11 = kolumna11;
     }
 
-    public Double getKolumna12() {
-        return kolumna12;
-    }
-
-    public void setKolumna12(Double kolumna12) {
-        this.kolumna12 = kolumna12;
-    }
-
-    public Double getKolumna13() {
-        return kolumna13;
-    }
-
-    public void setKolumna13(Double kolumna13) {
-        this.kolumna13 = kolumna13;
-    }
-
-    public Double getKolumna14() {
-        return kolumna14;
-    }
-
-    public void setKolumna14(Double kolumna14) {
-        this.kolumna14 = kolumna14;
-    }
-
-    public Double getKolumna15() {
-        return kolumna15;
-    }
-
-    public void setKolumna15(Double kolumna15) {
-        this.kolumna15 = kolumna15;
-    }
 
     public String getUwagi() {
         return uwagi;
