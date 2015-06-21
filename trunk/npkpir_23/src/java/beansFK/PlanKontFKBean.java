@@ -74,6 +74,7 @@ public class PlanKontFKBean {
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
          nowekonto.setNrkonta(oblicznumerkonta(macierzyste, kontoDAOfk, wpisView));
+         nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
@@ -94,6 +95,7 @@ public class PlanKontFKBean {
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
          nowekonto.setNrkonta(oblicznumerkontaWzorcowy(macierzyste, kontoDAOfk, wpisView));
+         nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());

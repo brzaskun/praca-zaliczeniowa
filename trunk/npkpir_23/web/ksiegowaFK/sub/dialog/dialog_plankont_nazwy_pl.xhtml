@@ -1,0 +1,55 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+        
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+       
+    </style>
+    
+    <p:dialog id="dialog_plankont_nazwy_pl" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialog_plankont_nazwy_pl" fitViewport="true"
+              resizable="false" onShow="ustawdialog('dialog_plankont_nazwy_pl','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_nazwy_pl');"  >
+        <h:form id="form_dialog_plankont_nazwy_pl">
+              <p:panelGrid columns="5">
+                  <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{planKontInterView.zachowajzmiany()}"  global="false" style="float: left; margin-left: 20px;" />
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataList" value="#{planKontInterView.wykazkont}" var="loop"  selectionMode="single" 
+                             rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
+                             styleClass="tablicaplankont"
+                             style="max-width: 950px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
+                             >
+                    <p:ajax event="rowSelect" update=":dodawaniekontaanalitycznego, :dialogedycjanazwkonta" listener="#{planKontView.selrow}" global="false"/>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="#{mgs.numerkonta}" width="80" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="400"/>
+                            <p:column colspan="1" headerText="nazwa skrócona" width="300"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column>
+                        <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                    <p:column  style="text-align: center;">
+                        <p:inputText value="#{loop.nazwapelna}" style="width: 400px;"/> 
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <p:inputText value="#{loop.nazwaskrocona}" style="width: 300px;"/> 
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+           
+        </h:form>
+    </p:dialog>
+</ui:composition>
