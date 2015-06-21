@@ -49,26 +49,23 @@
                     <p:row> 
                         <p:column rowspan="2" headerText="" width="20"/>  
                         <p:column rowspan="2" headerText="#{mgs.numerkolejny}" width="30"/>  
-                        <p:column rowspan="2" headerText="Data zdarzenia gosp." width="60"/>  
-                        <p:column rowspan="2" headerText="Nr dowodu księgowego" width="120"/>  
+                        <p:column rowspan="2" headerText="Data zdarzenia gosp." width="50"/>  
+                        <p:column rowspan="2" headerText="Nr dowodu księgowego" width="90"/>  
                         <p:column colspan="2" headerText="#{mgs.kontrahent}" width="250"/>  
-                        <p:column rowspan="2" headerText="Opis zdarzenia gospodarcz" width="120"/>  
-                        <p:column colspan="3" headerText="Przychody" width="265"/>
-                        <p:column rowspan="2" headerText="Zakup towarów handlowych i materiałów wg cen zakupu" width="90"/>  
-                        <p:column rowspan="2" headerText="Koszty uboczne zakupu" width="90"/>
-                        <p:column colspan="4" headerText="Wydatki(koszty)" width="350"/>
+                        <p:column colspan="5" headerText="Przychody wg stawki" width="500"/>
+                        <p:column rowspan="2" headerText="Razem przychód (5+6+7+8+9)"  width="90"/>  
                         <p:column rowspan="2" headerText="Uwagi" width="60"/>  
+                        <p:column colspan="1" headerText="Kwota przychodu wg stawki" width="60"/>
                     </p:row>  
                     <p:row>  
                         <p:column headerText="imię i nazwisko (firma)"  />  
                         <p:column headerText="adres"   />  
-                        <p:column headerText="wartość sprzedanych towarów i usług"   />  
-                        <p:column headerText="pozostałe przychody"/>  
-                        <p:column headerText="razem przychód (7+8)"   />  
-                        <p:column headerText="wynagrodz. w gotówce i w naturze"  />  
-                        <p:column headerText="pozostałe wydatki"  />  
-                        <p:column headerText="razem wydatki (13+14)"  />  
-                        <p:column headerText="inwestycje"  />  
+                        <p:column headerText="20%"   />  
+                        <p:column headerText="17%"/>  
+                        <p:column headerText="8.5%"   />  
+                        <p:column headerText="5.5%"  />  
+                        <p:column headerText="3%"  />  
+                        <p:column headerText="10%"  />  
                     </p:row>
                     <p:row>  
                         <p:column headerText="" />  
@@ -77,17 +74,14 @@
                         <p:column headerText="3" filterBy="#{wpis.nrWlDk}" filterMatchMode="contains"  sortBy="#{wpis.nrWlDk}" filterStyle="display: none;"/>  
                         <p:column headerText="4" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontr.npelna}" filterStyle="display: none;"/>  
                         <p:column headerText="5" filterBy="#{wpis.kontr.miejscowosc}" filterMatchMode="contains" sortBy="#{wpis.kontr.miejscowosc}" filterStyle="display: none;"/>  
-                        <p:column headerText="6" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.nrWlDk}" filterStyle="display: none;"/>  
-                        <p:column headerText="7" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
-                        <p:column headerText="8" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
-                        <p:column headerText="9" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}"  filterStyle="display: none;"/>  
-                        <p:column headerText="10" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>  
-                        <p:column headerText="11" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
-                        <p:column headerText="12" filterBy="#{wpis.kolumna12}" filterMatchMode="contains" sortBy="#{wpis.kolumna12}" filterStyle="display: none;"/>  
-                        <p:column headerText="13" filterBy="#{wpis.kolumna13}" filterMatchMode="contains" sortBy="#{wpis.kolumna13}" filterStyle="display: none;"/>  
-                        <p:column headerText="14" filterBy="#{wpis.kolumna14}" filterMatchMode="contains" sortBy="#{wpis.kolumna14}" filterStyle="display: none;"/>  
-                        <p:column headerText="15" filterBy="#{wpis.kolumna15}" filterMatchMode="contains" sortBy="#{wpis.kolumna15}" filterStyle="display: none;"/>  
-                        <p:column headerText="16"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
+                        <p:column headerText="6" filterBy="#{wpis.kolumna5}" filterMatchMode="contains" sortBy="#{wpis.kolumna5}"  filterStyle="display: none;"/>  
+                        <p:column headerText="7" filterBy="#{wpis.kolumna6}" filterMatchMode="contains" sortBy="#{wpis.kolumna6}" filterStyle="display: none;"/>  
+                        <p:column headerText="8" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
+                        <p:column headerText="9" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
+                        <p:column headerText="10" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}" filterStyle="display: none;"/>  
+                        <p:column headerText="11" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>  
+                        <p:column headerText="12" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
+                        <p:column headerText="13"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
                     </p:row>
                 </p:columnGroup>  
                 <p:column style="height: 40px;" width="40"> 
@@ -107,36 +101,28 @@
                 </p:column>
                 <p:column id="kontrColumna" headerText="#{mgs.kontrahent}">  
                     <h:outputText value="#{wpis.kontr.kodpocztowy} #{wpis.kontr.miejscowosc} #{wpis.kontr.ulica} #{wpis.kontr.dom} #{wpis.kontr.lokal}"   rendered="#{wpis.kontr.ulica ne 'dowód wewnętrzny'}"/>
-                </p:column>
-                <p:column id="opisColumn" headerText="#{mgs.opis}" >  
-                    <h:outputText value="#{wpis.opis}" />
+                    <h:outputText value="podsumowanie"   rendered="#{wpis.kontr eq null ? false : true}"/>
                 </p:column>
                 <p:column id="pkpirKolColumn" headerText="kolumna" >  
-                    <h:outputText value="#{wpis.kolumna7}"  style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{wpis.kolumna5 ne 0.0 ? wpis.kolumna5 : null}"  style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn8" headerText="kolumna">  
-                    <h:outputText value="#{wpis.kolumna8}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{wpis.kolumna6 ne 0.0 ? wpis.kolumna6 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn9" headerText="kolumna">  
-                    <h:outputText value="#{wpis.kolumna9}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{wpis.kolumna7 ne 0.0 ? wpis.kolumna7 : null}"   style="float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn10" headerText="kolumna" >  
-                    <h:outputText value="#{wpis.kolumna10}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{wpis.kolumna8 ne 0.0 ? wpis.kolumna8 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn11" headerText="kolumna">  
+                    <h:outputText value="#{wpis.kolumna9 ne 0.0 ? wpis.kolumna9 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                <p:column id="pkpirKolColumn13" headerText="kolumna">  
                     <h:outputText value="#{wpis.kolumna11}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="pkpirKolColumn12" headerText="kolumna" >  
-                    <h:outputText value="#{wpis.kolumna12}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
-                <p:column id="pkpirKolColumn13" headerText="kolumna">  
-                    <h:outputText value="#{wpis.kolumna13}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
-                <p:column id="pkpirKolColumn14" headerText="kolumna">  
-                    <h:outputText value="#{wpis.kolumna14}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
-                <p:column id="pkpirKolColumn15" headerText="kolumna" >  
-                    <h:outputText value="#{wpis.kolumna15}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                    <h:outputText value="#{wpis.kolumna10 ne 0.0 ? wpis.kolumna10 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
                 <p:column id="uwagaColumn" headerText="uwagi">  
                     <h:outputText value="#{wpis.uwagi}" />

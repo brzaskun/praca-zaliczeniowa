@@ -33,6 +33,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
+import pdf.PdfEwidencjaPrzychodow;
 import pdf.PdfPkpir;
 
 /**
@@ -91,16 +92,14 @@ public class EwidencjaPrzychodowView implements Serializable {
                 obiektDOKmrjsfSel.add(tmpx);
             }
         }
-        podsumowanie.setOpis("Podsumowanie");
+        podsumowanie.setKontr(null);
+        podsumowanie.setKolumna5(0.0);
+        podsumowanie.setKolumna6(0.0);
         podsumowanie.setKolumna7(0.0);
         podsumowanie.setKolumna8(0.0);
         podsumowanie.setKolumna9(0.0);
         podsumowanie.setKolumna10(0.0);
         podsumowanie.setKolumna11(0.0);
-        podsumowanie.setKolumna12(0.0);
-        podsumowanie.setKolumna13(0.0);
-        podsumowanie.setKolumna14(0.0);
-        podsumowanie.setKolumna15(0.0);
         for (Dok tmp : obiektDOKmrjsfSel) {
             DokEwidPrzych dk = new DokEwidPrzych();
             dk.setIdDok(tmp.getIdDok());
@@ -114,7 +113,23 @@ public class EwidencjaPrzychodowView implements Serializable {
             List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
             for (KwotaKolumna1 tmpX : listawierszy) {
                 switch (tmpX.getNazwakolumny()) {
-                    case "przych. sprz":
+                    case "20%":
+                        try {
+                            dk.setKolumna5(dk.getKolumna5()+tmpX.getNetto());
+                        } catch (Exception e) { E.e(e); 
+                            dk.setKolumna5(tmpX.getNetto());
+                        }
+                        podsumowanie.setKolumna5(podsumowanie.getKolumna5() + tmpX.getNetto());
+                        break;
+                    case "17%":
+                        try {
+                            dk.setKolumna6(dk.getKolumna6()+tmpX.getNetto());
+                        } catch (Exception e) { E.e(e); 
+                            dk.setKolumna6(tmpX.getNetto());
+                        }
+                        podsumowanie.setKolumna6(podsumowanie.getKolumna6() + tmpX.getNetto());
+                        break;
+                    case "8.5%":
                         try {
                             dk.setKolumna7(dk.getKolumna7()+tmpX.getNetto());
                         } catch (Exception e) { E.e(e); 
@@ -122,7 +137,7 @@ public class EwidencjaPrzychodowView implements Serializable {
                         }
                         podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
                         break;
-                    case "pozost. przych.":
+                    case "5.5%":
                         try {
                             dk.setKolumna8(dk.getKolumna8()+tmpX.getNetto());
                         } catch (Exception e) { E.e(e); 
@@ -130,7 +145,15 @@ public class EwidencjaPrzychodowView implements Serializable {
                         }
                         podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
                         break;
-                    case "zakup tow. i mat.":
+                    case "3%":
+                        try {
+                            dk.setKolumna9(dk.getKolumna9()+tmpX.getNetto());
+                        } catch (Exception e) { E.e(e); 
+                            dk.setKolumna9(tmpX.getNetto());
+                        }
+                        podsumowanie.setKolumna9(podsumowanie.getKolumna9() + tmpX.getNetto());
+                        break;
+                    case "10%":
                         try {
                             dk.setKolumna10(dk.getKolumna10()+tmpX.getNetto());
                         } catch (Exception e) { E.e(e); 
@@ -138,68 +161,11 @@ public class EwidencjaPrzychodowView implements Serializable {
                         }
                         podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
                         break;
-                    case "koszty ub.zak.":
-                        try {
-                            dk.setKolumna11(dk.getKolumna11()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna11(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna11(podsumowanie.getKolumna11() + tmpX.getNetto());
-                        break;
-                    case "wynagrodzenia":
-                        try {
-                            dk.setKolumna12(dk.getKolumna12()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna12(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna12(podsumowanie.getKolumna12() + tmpX.getNetto());
-                        break;
-                    case "poz. koszty":
-                        try {
-                            dk.setKolumna13(dk.getKolumna13()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna13(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna13(podsumowanie.getKolumna13() + tmpX.getNetto());
-                        break;
-                    case "inwestycje":
-                        try {
-                            dk.setKolumna15(dk.getKolumna15()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna15(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna15(podsumowanie.getKolumna15() + tmpX.getNetto());
-                        break;
                 }
             }
-            if (dk.getKolumna7() != null && dk.getKolumna8() != null) {
-                dk.setKolumna9(dk.getKolumna7() + dk.getKolumna8());
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-            } else if (dk.getKolumna7() != null) {
-                dk.setKolumna9(dk.getKolumna7());
-                podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-            } else {
-                dk.setKolumna9(dk.getKolumna8());
-                try {
-                    podsumowanie.setKolumna9(podsumowanie.getKolumna9() + dk.getKolumna9());
-                } catch (Exception e) { 
-                    E.e(e); 
-                }
-            }
-            if (dk.getKolumna12() != null && dk.getKolumna13() != null) {
-                dk.setKolumna14(dk.getKolumna12() + dk.getKolumna13());
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-            } else if (dk.getKolumna12() != null) {
-                dk.setKolumna14(dk.getKolumna12());
-                podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-            } else {
-                dk.setKolumna14(dk.getKolumna13());
-                try {
-                    podsumowanie.setKolumna14(podsumowanie.getKolumna14() + dk.getKolumna14());
-                } catch (Exception e) { 
-                    E.e(e); 
-                }
-            }
+                double suma = dk.getKolumna5()+dk.getKolumna6()+dk.getKolumna7()+dk.getKolumna8()+dk.getKolumna9();
+                dk.setKolumna11(suma);
+                podsumowanie.setKolumna11(podsumowanie.getKolumna11() + suma);
             dk.setUwagi(tmp.getUwagi());
             dk.setPkpirM(tmp.getPkpirM());
             dk.setPkpirR(tmp.getPkpirR());
@@ -213,86 +179,10 @@ public class EwidencjaPrzychodowView implements Serializable {
         podsumowanie.setIdDok(new Long(1222));
         podsumowanie.setKontr(new Klienci());
         lista.add(podsumowanie);
-        Sumypkpir sumyzachowac = new Sumypkpir();
-        SumypkpirPK sumyklucz = new SumypkpirPK();
-        sumyklucz.setRok(wpisView.getRokWpisu().toString());
-        sumyklucz.setMc(wpisView.getMiesiacWpisu());
-        sumyklucz.setPodatnik(wpisView.getPodatnikWpisu());
-        sumyzachowac.setSumypkpirPK(sumyklucz);
-        //sumyzachowac.setSumy(podsumowanie);
-        sumypkpirDAO.edit(sumyzachowac);
-        podsumowaniepopmc();
         System.out.println("d");
     }
 
-    private void podsumowaniepopmc() {
-        try {
-        if (lista.get(0).getNrWpkpir() != 1) {
-            System.out.println("podsumowanie");
-            DokEwidPrzych ostatni = lista.get(lista.size() - 1);
-            List<Sumypkpir> listasum = sumypkpirDAO.findS(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
-            String biezacymiesiac = wpisView.getMiesiacWpisu();
-            DokEwidPrzych sumaposrednia = new DokEwidPrzych();
-            sumaposrednia.setOpis("z przeniesienia");
-            sumaposrednia.setKolumna7(0.0);
-            sumaposrednia.setKolumna8(0.0);
-            sumaposrednia.setKolumna9(0.0);
-            sumaposrednia.setKolumna10(0.0);
-            sumaposrednia.setKolumna11(0.0);
-            sumaposrednia.setKolumna12(0.0);
-            sumaposrednia.setKolumna13(0.0);
-            sumaposrednia.setKolumna14(0.0);
-            sumaposrednia.setKolumna15(0.0);
-            sumaposrednia.setIdDok(new Long(1223));
-            sumaposrednia.setKontr(new Klienci());
-            DokEwidPrzych sumakoncowa = new DokEwidPrzych();
-            sumakoncowa.setOpis("Razem");
-            sumakoncowa.setKolumna7(0.0);
-            sumakoncowa.setKolumna8(0.0);
-            sumakoncowa.setKolumna9(0.0);
-            sumakoncowa.setKolumna10(0.0);
-            sumakoncowa.setKolumna11(0.0);
-            sumakoncowa.setKolumna12(0.0);
-            sumakoncowa.setKolumna13(0.0);
-            sumakoncowa.setKolumna14(0.0);
-            sumakoncowa.setKolumna15(0.0);
-            sumakoncowa.setIdDok(new Long(1224));
-            sumakoncowa.setKontr(new Klienci());
-            for (Sumypkpir p : listasum) {
-                if (!p.getSumypkpirPK().getMc().equals(biezacymiesiac)) {
-                    sumaposrednia.setKolumna7(sumaposrednia.getKolumna7() + p.getSumy().getKolumna7());
-                    sumaposrednia.setKolumna8(sumaposrednia.getKolumna8() + p.getSumy().getKolumna8());
-                    sumaposrednia.setKolumna9(sumaposrednia.getKolumna9() + p.getSumy().getKolumna9());
-                    sumaposrednia.setKolumna10(sumaposrednia.getKolumna10() + p.getSumy().getKolumna10());
-                    sumaposrednia.setKolumna11(sumaposrednia.getKolumna11() + p.getSumy().getKolumna11());
-                    sumaposrednia.setKolumna12(sumaposrednia.getKolumna12() + p.getSumy().getKolumna12());
-                    sumaposrednia.setKolumna13(sumaposrednia.getKolumna13() + p.getSumy().getKolumna13());
-                    sumaposrednia.setKolumna14(sumaposrednia.getKolumna14() + p.getSumy().getKolumna14());
-                    sumaposrednia.setKolumna15(sumaposrednia.getKolumna15() + p.getSumy().getKolumna15());
-                } else {
-                    sumakoncowa.setKolumna7(sumaposrednia.getKolumna7() + p.getSumy().getKolumna7());
-                    sumakoncowa.setKolumna8(sumaposrednia.getKolumna8() + p.getSumy().getKolumna8());
-                    sumakoncowa.setKolumna9(sumaposrednia.getKolumna9() + p.getSumy().getKolumna9());
-                    sumakoncowa.setKolumna10(sumaposrednia.getKolumna10() + p.getSumy().getKolumna10());
-                    sumakoncowa.setKolumna11(sumaposrednia.getKolumna11() + p.getSumy().getKolumna11());
-                    sumakoncowa.setKolumna12(sumaposrednia.getKolumna12() + p.getSumy().getKolumna12());
-                    sumakoncowa.setKolumna13(sumaposrednia.getKolumna13() + p.getSumy().getKolumna13());
-                    sumakoncowa.setKolumna14(sumaposrednia.getKolumna14() + p.getSumy().getKolumna14());
-                    sumakoncowa.setKolumna15(sumaposrednia.getKolumna15() + p.getSumy().getKolumna15());
-                    break;
-                }
-            }
-            lista.add(sumaposrednia);
-            System.out.println("dodanie sumy posredniej");
-            lista.add(sumakoncowa);
-
-        } else {
-        }
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
-    
+       
      public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         lista.clear();
         aktualizuj();
@@ -338,11 +228,11 @@ public class EwidencjaPrzychodowView implements Serializable {
     }
     
     public void drukujPKPIR() {
-//        try {
-//            PdfPkpir.drukujksiege(lista, wpisView);
-//        } catch (Exception e) { E.e(e); 
-//            
-//        }
+        try {
+            PdfEwidencjaPrzychodow.drukujksiege(lista, wpisView);
+        } catch (Exception e) { E.e(e); 
+            
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

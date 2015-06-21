@@ -21,10 +21,8 @@
             </h:form>
             <f:view contentType="text/html">
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
-                    <ui:include src="sub/layoutEwidencjaPrzychodow/north.xhtml"/>  
-                    <ui:include src="sub/layoutEwidencjaPrzychodow/south.xhtml"/>  
-                    <ui:include src="sub/layoutEwidencjaPrzychodow/west.xhtml"/>   
-                    <ui:include src="sub/layoutEwidencjaPrzychodow/east.xhtml"/>   
+                    <ui:include src="sub/layoutEwidencjaPrzychodowGuest/north.xhtml"/>  
+                    <ui:include src="sub/layoutEwidencjaPrzychodowGuest/west.xhtml"/>   
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
                         <ui:include src="../wspolny/sub/ewidencjaprzychodow.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </p:layoutUnit>

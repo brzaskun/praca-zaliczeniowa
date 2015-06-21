@@ -66,6 +66,10 @@
             <to-view-id>/guest/guestKsiega.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gewidencjaprzychodow</from-outcome>
+            <to-view-id>/wspolny/wspolnyEwidencjaPrzychodowGuest.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gewidencja</from-outcome>
             <to-view-id>/guest/ksiegowaVATzest.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
