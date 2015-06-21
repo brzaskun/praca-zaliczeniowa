@@ -38,6 +38,7 @@ import waluty.Z;
 public class SaldoAnalitykaNarastajacoView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKontoNarastajaco> listaSaldoKonto;
+    private List<SaldoKontoNarastajaco> listaSaldoKontoSelected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
@@ -76,11 +77,20 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         }
         return przygotowanalista;
     }
+     
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
+    public List<SaldoKontoNarastajaco> getListaSaldoKontoSelected() {
+        return listaSaldoKontoSelected;
+    }
 
-     //<editor-fold defaultstate="collapsed" desc="comment">
-     public List<SaldoKontoNarastajaco> getListaSaldoKonto() {
-         return listaSaldoKonto;
-     }
+    public void setListaSaldoKontoSelected(List<SaldoKontoNarastajaco> listaSaldoKontoSelected) {
+        this.listaSaldoKontoSelected = listaSaldoKontoSelected;
+    }
+
+    public List<SaldoKontoNarastajaco> getListaSaldoKonto() {
+        return listaSaldoKonto;
+    }
      
      public void setListaSaldoKonto(List<SaldoKontoNarastajaco> listaSaldoKonto) {
          this.listaSaldoKonto = listaSaldoKonto;
@@ -171,6 +181,10 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
     public void drukuj(int i) {
-        PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0);
+        if (listaSaldoKontoSelected==null) {
+            PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0);
+        } else {
+            PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+        }
     }
 }
