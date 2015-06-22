@@ -28,7 +28,7 @@
         <h:form id="delegacjezagranicalista">
             <p:dataTable value="#{delegacjeView.delegacjezagraniczne}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="500" 
                          emptyMessage="brak zdefiniowanych delegacji zagranicznych" rowIndexVar="index"
-                         sortBy="#{item}"  sortFunction="#{delegacjeView.sortDelegacje}">
+                         sortBy="#{item}" sortOrder="descending"  sortFunction="#{delegacjeView.sortDelegacje}">
                  <p:column headerText="#{mgs.nr}" width="30">
                     <h:outputText value="#{index+1}"/>
                 </p:column>
