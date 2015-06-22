@@ -36,7 +36,7 @@ public class KwotaKolumna1 implements Serializable{
     private Double brutto;
     private String nazwakolumny;
     private String dowykorzystania;
-    @JoinColumn(name = "dok")
+    @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
 

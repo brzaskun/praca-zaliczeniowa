@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -35,8 +36,10 @@ public class VATDeklaracjaKorektaDok  implements Serializable {
     @Column(name = "id")
     private int id;
     @OneToOne
+    @PrimaryKeyJoinColumn
     private Deklaracjevat deklaracjaPierwotna;
     @OneToOne
+    @PrimaryKeyJoinColumn
     private Deklaracjevat deklaracjaKorekta;
     private List<VatKorektaDok> listadokumentowDoKorekty;
     @Column(name = "nowaWartoscVatZPrzeniesienia")

@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
@@ -43,7 +44,7 @@ public class KontopozycjaSuper implements Serializable {
     @JoinColumn(name = "ukladBR", referencedColumnName = "lp")
     protected UkladBR ukladBR;
     @OneToOne
-    @JoinColumn(name = "kontoID", referencedColumnName = "id")
+    @PrimaryKeyJoinColumn
     protected Konto kontoID;
     @Column(name = "wynik0bilans1")
     protected boolean wynik0bilans1;

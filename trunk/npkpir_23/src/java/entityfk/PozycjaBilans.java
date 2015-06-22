@@ -24,7 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", name = "Pozycjabilans",  uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad", "przychod0koszt1"})})
+    @UniqueConstraint(columnNames = {"pozycjaString", "podatnik", "rok", "uklad", "przychod0koszt1"})
+})
 @XmlRootElement
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue(value = "PozycjaBilans")

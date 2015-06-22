@@ -46,14 +46,14 @@
     <principal-name>Multiuser</principal-name>
     <group-name>Multiuser</group-name>
   </security-role-mapping>
-  <resource-ref>
+<!--  <resource-ref>
     <res-ref-name>jms/pkpirQueueFactory</res-ref-name>
     <jndi-name>jms/pkpirQueueFactory</jndi-name>
   </resource-ref>
   <message-destination-ref>
     <message-destination-ref-name>jms/pkpirQueue</message-destination-ref-name>
     <jndi-name>jms/pkpirQueue</jndi-name>
-  </message-destination-ref>
+  </message-destination-ref>-->
   <class-loader delegate="true"/>
   <jsp-config>
     <property name="keepgenerated" value="true">

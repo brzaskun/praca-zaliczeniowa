@@ -48,7 +48,7 @@ public class Rozrachunek1 implements Serializable {
     @Column(name = "datawprowadzenia")
     @Temporal(TemporalType.TIMESTAMP)
     private Date datawprowadzenia;
-    @JoinColumn(name = "dok")
+    @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
 

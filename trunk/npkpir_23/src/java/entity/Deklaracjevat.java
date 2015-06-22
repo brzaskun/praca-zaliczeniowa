@@ -21,6 +21,7 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -125,6 +126,7 @@ public class Deklaracjevat implements Serializable {
     @Column(name = "wzorschemy")
     private String wzorschemy;
     @OneToOne(cascade = {CascadeType.ALL})
+    @PrimaryKeyJoinColumn
     private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
     
    public Deklaracjevat() {
