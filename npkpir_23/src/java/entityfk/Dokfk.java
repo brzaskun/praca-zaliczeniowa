@@ -117,13 +117,14 @@ public class Dokfk implements Serializable {
     private boolean zablokujzmianewaluty;
     @Column(name = "liczbarozliczonych")
     private int liczbarozliczonych;
+    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
     @Column (name = "wartoscdokumentu")
     private double wartoscdokumentu;
     @Column (name="wtrakcieedycji")
     private boolean wTrakcieEdycji;
-    @JoinColumn(name = "kontr")
+    @JoinColumn(name = "kontr", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontr;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)

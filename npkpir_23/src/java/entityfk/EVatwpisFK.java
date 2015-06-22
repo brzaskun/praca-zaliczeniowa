@@ -16,10 +16,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
@@ -45,7 +47,7 @@ public class EVatwpisFK implements Serializable {
     @Column(name = "id")
     private long id;
     private int lp;
-    @JoinColumn(name = "ewidencja")
+    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
     @ManyToOne
     private Evewidencja ewidencja;
     @Column(name = "netto")
@@ -60,9 +62,16 @@ public class EVatwpisFK implements Serializable {
     private double brutto;
     @Column(name = "estawka")
     private String estawka;
+    @JoinColumns({
+          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+          @JoinColumn(name = "rok", referencedColumnName = "rok")
+     })
     @ManyToOne(cascade = CascadeType.ALL)
     private Dokfk dokfk;
     @OneToOne
+    @PrimaryKeyJoinColumn
     private Wiersz wiersz;
     private Klienci klient;
     @Column(name = "datadokumentu")

@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -41,8 +42,10 @@ public class MultiuserSettings  implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, name = "id")
     private Integer id;
+    @JoinColumn(name = "USER_login", referencedColumnName = "login")
     @ManyToOne
     private Uz user;
+    @JoinColumn(name = "PODATNIK_nip", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnik;
     private int level;

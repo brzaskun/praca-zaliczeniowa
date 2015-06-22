@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -137,6 +139,12 @@ public class SrodekTrw implements Serializable {
     @ManyToOne
     @JoinColumn(name = "kontoumorzenie", referencedColumnName = "id")
     private Konto kontoumorzenie;
+    @JoinColumns({
+          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+          @JoinColumn(name = "rok", referencedColumnName = "rok")
+     })
     @ManyToOne
     private Dokfk dokfk;
             

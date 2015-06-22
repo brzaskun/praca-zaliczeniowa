@@ -29,7 +29,7 @@ public class EVatwpis1 implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private long id;
-    @JoinColumn(name = "ewidencja")
+    @JoinColumn(name = "ewidencja", referencedColumnName = "nazwa")
     @ManyToOne
     private Evewidencja ewidencja;
     @Column(name = "netto")
@@ -38,7 +38,7 @@ public class EVatwpis1 implements Serializable {
     private double vat;
     @Column(name = "estawka")
     private String estawka;
-    @JoinColumn(name = "dok")
+    @JoinColumn(name = "dok", referencedColumnName = "id_dok")
     @ManyToOne(cascade = CascadeType.ALL)
     private Dok dok;
     

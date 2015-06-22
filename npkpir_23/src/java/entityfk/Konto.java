@@ -21,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -155,7 +156,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
+    @PrimaryKeyJoinColumn
     private KontopozycjaBiezaca kontopozycjaID;
     @Basic(optional = false)
     @NotNull

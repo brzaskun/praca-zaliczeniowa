@@ -19,6 +19,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
@@ -38,7 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 //@Table(name = "wiersz")
 @Table(name = "wiersz", uniqueConstraints = {
-    @UniqueConstraint(columnNames = "idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk")
+    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
 })
 @XmlRootElement
 @NamedQueries({
@@ -76,11 +78,18 @@ public class Wiersz implements Serializable {
     private double ilosc_szt;
     @Column(name = "typWiersza")
     private Integer typWiersza;
+    @JoinColumns({
+          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+          @JoinColumn(name = "rok", referencedColumnName = "rok")
+     })
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
+    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
@@ -88,6 +97,7 @@ public class Wiersz implements Serializable {
     private Map<String, StronaWiersza> strona;
     @Column(name="lpmacierzystego")
     private Integer lpmacierzystego;
+    @JoinColumn(name = "CZWORKA_idwiersza", referencedColumnName = "idwiersza")
     @ManyToOne
     private Wiersz czworka;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)

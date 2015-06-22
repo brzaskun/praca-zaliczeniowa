@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -47,6 +48,12 @@ public class RMK  implements Serializable{
     private Integer id;
     @Column(name = "opiskosztu")
     private String opiskosztu;
+    @JoinColumns({
+          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+          @JoinColumn(name = "rok", referencedColumnName = "rok")
+     })
     @ManyToOne
     private Dokfk dokfk;
     @Column(name = "kwotacalkowita")
