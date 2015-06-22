@@ -94,30 +94,34 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode() {
-        wybranekontadosumowania = new ArrayList<>();
-        Konto wybraneKontoNode = wybranekonto;
-        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
-        kontozapisy = new ArrayList<>();
-        List<Konto> kontapotomnetmp = new ArrayList<>();
-        List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
-        kontapotomnetmp.add(wybranekonto);
-        pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
-        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
-        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-        for (Konto p : kontapotomneListaOstateczna) {
-            for (StronaWiersza r : zapisyRok) {
-                if (r.getKonto().equals(p)) {
-                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                    if (mc >= granicaDolna && mc <=granicaGorna) {
-                        kontozapisy.add(r);
+        try {
+            wybranekontadosumowania = new ArrayList<>();
+            Konto wybraneKontoNode = wybranekonto;
+            wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
+            kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomnetmp = new ArrayList<>();
+            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            kontapotomnetmp.add(wybranekonto);
+            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+            for (Konto p : kontapotomneListaOstateczna) {
+                for (StronaWiersza r : zapisyRok) {
+                    if (r.getKonto().equals(p)) {
+                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                        if (mc >= granicaDolna && mc <=granicaGorna) {
+                            kontozapisy.add(r);
+                        }
                     }
                 }
             }
+            sumazapisow();
+            sumazapisowpln();
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
+        } catch (Exception e) {
+            E.e(e);
         }
-        sumazapisow();
-        sumazapisowpln();
-        //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
-        System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
     }
     
 
