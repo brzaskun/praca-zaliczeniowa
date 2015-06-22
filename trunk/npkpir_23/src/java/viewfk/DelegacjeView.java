@@ -94,8 +94,7 @@ public class DelegacjeView  implements Serializable{
                 delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
                 PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
             }
-            selected.setOpisdlugi(null);
-            selected.setOpiskrotki(null);
+            selected = new Delegacja();
             Msg.msg("Dodaje delegację");
         } else {
             Msg.msg("e", "Delegacja o takich parametrach już istnieje. Nie mogę dodać");
