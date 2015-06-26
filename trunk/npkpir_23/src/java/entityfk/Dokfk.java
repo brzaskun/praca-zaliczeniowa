@@ -36,6 +36,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
  
@@ -537,6 +538,7 @@ public class Dokfk implements Serializable {
         for (Wiersz p : this.listawierszy) {
             dodajKwotyWierszaDoSumyDokumentu(p);
         }
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelzkwotamidok");
     }
     
 //    public void uzupelnijwierszeodane() {

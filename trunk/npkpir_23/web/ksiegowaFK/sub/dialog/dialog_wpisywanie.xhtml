@@ -171,7 +171,7 @@
                                      columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 5 ? 2 : 3}"   styleClass="uipanelGrid0">
                             <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}"/>
                             <h:outputText value="treść dokumentu"/>
-                            <h:outputText value="wartość dok"/>
+                            <h:outputText value="WD"/>
                             <h:outputText value="saldo" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" style="font-style: italic; margin-left: 10px;"/>
                             <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
@@ -478,6 +478,8 @@
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
                                  global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>
+                <p:commandButton id="przeliczbutton" value="przeliczbutton" actionListener="#{dokfkView.przelicznaklawiszu()}" 
+                                 global="false" style="display: none;"/>
                 <p:commandButton id="przywrocwpisbutton" value="przywrocwpisbutton" actionListener="#{dokfkView.przywrocwpisbutton}" 
                                  global="false" update=":formwpisdokument" style="display: none;"/>
                 <p:commandButton id="sprawdzwartoscigrupy" value="sprawdzwartoscigrupy" actionListener="#{dokfkView.sprawdzwartoscigrupy}" 
