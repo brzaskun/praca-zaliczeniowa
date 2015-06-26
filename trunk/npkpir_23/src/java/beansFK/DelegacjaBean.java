@@ -7,10 +7,12 @@
 package beansFK;
 
 import dao.StronaWierszaDAO;
+import daoFK.DelegacjaDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
 import entityfk.StronaWiersza;
+import error.E;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,5 +68,14 @@ public class DelegacjaBean {
         return t;
     }
 
+    public static int sprawdzczyjestdelegacja(DelegacjaDAO delegacjaDAO, String nrdelegacji) {
+        int jest1niema0 = 0;
+        try {
+            jest1niema0 = delegacjaDAO.findDelegacjaByNr(nrdelegacji);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return jest1niema0;
+    }
     
 }

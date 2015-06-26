@@ -58,4 +58,17 @@ public class DelegacjaDAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    public int findDelegacjaByNr(String nrdelegacji) {
+        int jest1niema0 = 0;
+        try {
+            Delegacja p = sessionFacade.findDelegacjaByNr(nrdelegacji);
+            if (p != null) {
+                jest1niema0 = 1;
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return jest1niema0;
+    }
 }

@@ -14,7 +14,7 @@
             <p:panelGrid id="wyborgridczydodackonto" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus >
                     <p:commandButton id="czydodackontookbutton" value="tak" type="submit" style="width: 100px;" actionListener="#{kliencifkView.pobieraniekontaFKWpisCD}" 
-                                     oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:opisdokumentu')).focus();" global="false"
+                                     oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();" global="false"
                                      update=":formwpisdokument:dataList"/>
                     <p:commandButton value="nie" type="submit" oncomplete="PF('czydodackonto').hide();$(document.getElementById('formwpisdokument:wybranawaluta')).focus();"
                                      actionListener="#{dokfkView.niedodawajkonta}" global="false"
