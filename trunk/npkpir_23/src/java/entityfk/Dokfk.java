@@ -117,7 +117,7 @@ public class Dokfk implements Serializable {
     private boolean zablokujzmianewaluty;
     @Column(name = "liczbarozliczonych")
     private int liczbarozliczonych;
-    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
+    @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
     @Column (name = "wartoscdokumentu")
