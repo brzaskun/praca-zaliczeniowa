@@ -140,11 +140,11 @@
                                                  $(this).addClass('ui-state-default');" 
                                              style="width: 200px; height: 19px;" converter="RodzajedokConv">
                                 <f:selectItems value="#{rodzajeDokKlientaView.rodzajedokKlienta}"  var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}"/>
-                                <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujnumerkolejny()}" update=":formwpisdokument:numerwlasny, :formwpisdokument:paneldaneogolnefaktury, :formwpisdokument:panelzkwotamidok, :formwpisdokument:dataList" partialSubmit="true"/>
+                                <p:ajax global="false" event="change" listener="#{dokfkView.wygenerujnumerkolejny(1)}" update=":formwpisdokument:paneldaneogolnefaktury, :formwpisdokument:panelzkwotamidok, :formwpisdokument:dataList" partialSubmit="true"/>
                             </h:selectOneMenu>
                             <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 40px; font-weight: 900; margin-left: 15%;"  
                                          >
-    <!--                            <p:ajax global="false" event="focus" listener="#{dokfkView.obliczsaldorkwb}" update=":formwpisdokument:paneldaneogolnefaktury, :formwpisdokument:panelzkwotamidok" partialSubmit="true"/>-->
+                                <p:ajax event="change" global="false" partialSubmit="true"/>
                             </p:inputText>
 
                             <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
