@@ -89,7 +89,7 @@ public class Wiersz implements Serializable {
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
-    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
+    @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)

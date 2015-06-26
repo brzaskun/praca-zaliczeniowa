@@ -99,6 +99,8 @@ public class EwidencjaVatView implements Serializable {
     @Inject
     DokDAOfk dokDAOfk;
     private String nazwaewidencjiMail;
+    private List<EVatViewPola> wybranewierszeewidencji;
+    private List<EVatViewPola> zachowanewybranewierszeewidencji;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -704,14 +706,22 @@ public class EwidencjaVatView implements Serializable {
 
     public void drukujPdfEwidencje(String nazwaewidencji) {
         try {
-            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, false);
+            if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
+                PdfVAT.drukujewidencjeWybrane(wpisView, ewidencjeVatDAO, nazwaewidencji, false, zachowanewybranewierszeewidencji);
+            } else {
+                PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, false);
+            }
         } catch (Exception e) { E.e(e); 
 
         }
     }
     public void drukujPdfEwidencjeWartosc(String nazwaewidencji) {
         try {
-            PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, true);
+            if (zachowanewybranewierszeewidencji != null && zachowanewybranewierszeewidencji.size() > 0) {
+                PdfVAT.drukujewidencjeWybrane(wpisView, ewidencjeVatDAO, nazwaewidencji, true, zachowanewybranewierszeewidencji);
+            } else {
+                PdfVAT.drukujewidencje(wpisView, ewidencjeVatDAO, nazwaewidencji, true);
+            }
         } catch (Exception e) { E.e(e); 
 
         }
@@ -1066,6 +1076,17 @@ public class EwidencjaVatView implements Serializable {
 
     public void setEwidencje(List<List<EVatViewPola>> ewidencje) {
         this.ewidencje = ewidencje;
+    }
+
+    public List<EVatViewPola> getWybranewierszeewidencji() {
+        return wybranewierszeewidencji;
+    }
+
+    public void setWybranewierszeewidencji(List<EVatViewPola> wybranewierszeewidencji) {
+        this.wybranewierszeewidencji = wybranewierszeewidencji;
+        if (wybranewierszeewidencji != null) {
+            this.zachowanewybranewierszeewidencji = serialclone.SerialClone.clone(wybranewierszeewidencji);
+        }
     }
     
     

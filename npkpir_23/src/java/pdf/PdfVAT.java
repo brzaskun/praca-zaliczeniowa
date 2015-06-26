@@ -190,6 +190,144 @@ public class PdfVAT {
         }
     }
     
+    public static void drukujewidencjeWybrane(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, String nazwaewidencji, boolean wartosc,List<EVatViewPola> wybranewierszeewidencji) throws DocumentException, FileNotFoundException, IOException {
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        try {
+            List<Parametr> param = pod.getVatokres();
+            //problem kwartalu
+            Ewidencjevat lista;
+            try {
+                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
+            } catch (Exception e) {
+                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                lista = ewidencjeVatDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
+            }
+            HashMap<String, List<EVatViewPola>> mapa = lista.getEwidencje();
+            Set<String> nazwy = mapa.keySet();
+            for (String p : nazwy) {
+                if (p.equals(nazwaewidencji)) {
+                    Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 25);
+                    String nowanazwa;
+                    if (p.contains("sprzedaż")) {
+                        nowanazwa = p.substring(0, p.length() - 1);
+                    } else {
+                        nowanazwa = p;
+                    }
+                    String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    try {
+                        File file = new File(nazwapliku);
+                        if (file.isFile()) {
+                            file.delete();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+                    int liczydlo = 1;
+                    PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
+                    writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
+                    writer.setPageEvent(headerfoter);
+                    pdf.addTitle("Ewidencja VAT");
+                    pdf.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
+                    pdf.addSubject("Wydruk danych z ewidencji VAT");
+                    pdf.addKeywords("VAT, PDF");
+                    pdf.addCreator("Grzegorz Grzelczyk");
+                    pdf.open();
+                    BaseFont helvetica = null;
+                    try {
+                        helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    Font font = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.WHITE);
+                    font = new Font(helvetica, 8);
+                    pdf.setPageSize(PageSize.A4);
+                    PdfPTable table = new PdfPTable(12);
+                    table.setWidthPercentage(95);
+                    table.setWidths(new int[]{1, 2, 2, 2, 3, 3, 3, 3, 4, 2, 2, 2});
+                    PdfPCell cell = new PdfPCell();
+                    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
+                    table.addCell(ustawfraze("wydruk ewidencji vat " + p, 3, 0));
+                    table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
+                    table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
+                    
+                    table.addCell(ustawfraze("lp", 0, 2));
+                    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+                    table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
+                    table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
+                    table.addCell(ustawfraze("Nr własny dok.", 0, 2));
+                    table.addCell(ustawfraze("Kontrahent", 3, 0));
+                    table.addCell(ustawfraze("Opis zdarzenia gospodarcz", 0, 2));
+                    table.addCell(ustawfraze("Netto", 0, 2));
+                    table.addCell(ustawfraze("Vat", 0, 2));
+                    table.addCell(ustawfraze("Brutto", 0, 2));
+                    
+                    table.addCell(ustawfrazeAlign("imię i nazwisko (firma)", "center", 6));
+                    table.addCell(ustawfrazeAlign("NIP", "center", 6));
+                    table.addCell(ustawfrazeAlign("adres", "center", 6));
+                    
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("11", "center", 6));
+                    table.addCell(ustawfrazeAlign("12", "center", 6));
+                    
+                    table.addCell(ustawfrazeAlign("1", "center", 6));
+                    table.addCell(ustawfrazeAlign("2", "center", 6));
+                    table.addCell(ustawfrazeAlign("3", "center", 6));
+                    table.addCell(ustawfrazeAlign("4", "center", 6));
+                    table.addCell(ustawfrazeAlign("5", "center", 6));
+                    table.addCell(ustawfrazeAlign("6", "center", 6));
+                    table.addCell(ustawfrazeAlign("7", "center", 6));
+                    table.addCell(ustawfrazeAlign("8", "center", 6));
+                    table.addCell(ustawfrazeAlign("9", "center", 6));
+                    table.addCell(ustawfrazeAlign("10", "center", 6));
+                    table.addCell(ustawfrazeAlign("11", "center", 6));
+                    table.addCell(ustawfrazeAlign("12", "center", 6));
+                    
+                    table.setHeaderRows(5);
+                    table.setFooterRows(1);
+
+                    int size = wybranewierszeewidencji.size();
+                    EVatViewPola polesuma = wybranewierszeewidencji.get(size - 1);
+                    wybranewierszeewidencji.remove(polesuma);
+                    if (wartosc==true) {
+                        Collections.sort(wybranewierszeewidencji, new EVatViewPolaWartosccomparator());
+                    } else {
+                        Collections.sort(wybranewierszeewidencji, new EVatViewPolacomparator());
+                    }
+                    wybranewierszeewidencji.add(polesuma);
+                    Integer i = 1;
+                    for (EVatViewPola rs : wybranewierszeewidencji) {
+                        if (p.equals("zakup")) {
+                            if (rs.getVat() != 0) {
+                                dodajwiersztabeli(table, rs, i);
+                            }
+                        } else {
+                            dodajwiersztabeli(table, rs, i);
+                        }
+                        i++;
+                    }
+                    pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
+                    pdf.add(table);
+                    pdf.addAuthor("Biuro Rachunkowe Taxman");
+                    pdf.close();
+
+                }
+            }
+            //Msg.msg("i","Wydrukowano ewidencje","form:messages");
+        } catch (Exception e) {
+        }
+    }
+    
     private static void dodajwiersztabeli(PdfPTable table, EVatViewPola rs, Integer i) throws DocumentException, IOException {
         table.addCell(ustawfrazeAlign(i.toString(), "center", 6));
         table.addCell(ustawfrazeAlign(rs.getDataSprz(), "left", 7));

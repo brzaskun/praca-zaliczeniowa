@@ -71,7 +71,6 @@ public class EVatwpisFK implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private Dokfk dokfk;
     @OneToOne
-    @PrimaryKeyJoinColumn
     private Wiersz wiersz;
     private Klienci klient;
     @Column(name = "datadokumentu")
