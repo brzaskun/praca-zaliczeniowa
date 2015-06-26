@@ -458,7 +458,7 @@
                         <p:column headerText="konto Wn" width="100" style="text-align: center;"> 
                             <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
-                                            minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
+                                            minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" 
                                             styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
@@ -495,7 +495,7 @@
                             <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
                                             minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
-                                            converterMessage="Nieudana konwersja Klient"   scrollHeight="180"
+                                            converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                     usunspacje(this);

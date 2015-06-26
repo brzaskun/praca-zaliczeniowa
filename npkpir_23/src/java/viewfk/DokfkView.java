@@ -1345,9 +1345,23 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
+        lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy()-1;
+        String pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontown_input");
+        if (pole.contains("dodaj konto")) {
+            String nrkonta = pole.split(" ")[0];
+            if (nrkonta.contains("-")) {
+                String nazwa = "PF('nowekontoanalityczne').show()";
+                RequestContext.getCurrentInstance().execute(nazwa);
+                return;
+            } else {
+                String nazwa = "PF('nowekontosyntetyczne').show()";
+                RequestContext.getCurrentInstance().execute(nazwa);
+                return;
+            }
+        }
         try {
             if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
-                lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy();
+                
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
