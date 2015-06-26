@@ -15,6 +15,7 @@ import daoFK.KontopozycjaZapisDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
+import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
@@ -52,6 +54,9 @@ public class DelegacjeView  implements Serializable{
     private Map<Delegacja, List<DelegacjaZest>> listadelegacja;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    @ManagedProperty(value = "#{planKontCompleteView}")
+    private PlanKontCompleteView planKontCompleteView;
+    private int jest1niema0;
 
     public DelegacjeView() {
    }
@@ -76,6 +81,16 @@ public class DelegacjeView  implements Serializable{
         for (Delegacja p : delegacjezagraniczne) {
             DelegacjaBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listadelegacja);
         }
+    }
+    
+    public void stworz(boolean krajowa0zagraniczna1) {
+        dodaj(krajowa0zagraniczna1);
+        planKontCompleteView.init();
+        jest1niema0 = 1;
+    }
+    
+    public void zerujjest1niema0() {
+        jest1niema0 = 1;
     }
 
     public void dodaj(boolean krajowa0zagraniczna1) {
@@ -148,6 +163,17 @@ public class DelegacjeView  implements Serializable{
         return 0;
     }
     
+    public void sprawdzIstnienieDelegacji(Dokfk dokfk) {
+        if (dokfk.getRodzajedok().getSkrot().equals("DEL")) {
+            jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
+            System.out.println("delegacja: "+jest1niema0);
+        }
+    }
+    
+    public void dodajNowaDelegacje() {
+        planKontCompleteView.init();
+    }
+    
     public Delegacja getSelected() {
         return selected;
     }
@@ -194,6 +220,22 @@ public class DelegacjeView  implements Serializable{
 
     public void setListadelegacja(Map<Delegacja, List<DelegacjaZest>> listadelegacja) {
         this.listadelegacja = listadelegacja;
+    }
+
+    public PlanKontCompleteView getPlanKontCompleteView() {
+        return planKontCompleteView;
+    }
+
+    public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
+        this.planKontCompleteView = planKontCompleteView;
+    }
+
+    public int getJest1niema0() {
+        return jest1niema0;
+    }
+
+    public void setJest1niema0(int jest1niema0) {
+        this.jest1niema0 = jest1niema0;
     }
 
     

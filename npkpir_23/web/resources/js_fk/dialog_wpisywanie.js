@@ -211,6 +211,23 @@ var czydodackontoShow = function (){
     
 };
 
+var czydodacdelegacjeShow = function (){
+    $(document.getElementById('dialog_delegacje_stworz')).width(400).height(150);
+    try {
+        $(document.getElementById('dialog_delegacje_stworz')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+        
+    });
+    r("form_dialog_delegacje_stworz:nazwamiejsca").focus();
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 214 "+Exception);
+    }
+    
+};
+
 var dodajnowegoklienta = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
     if (zawartosc === "nowy klient") {
@@ -521,4 +538,19 @@ var skopiujopis = function(nrbiezacegowiersza){
             $("#formwpisdokument\\:dataList\\:"+nrbiezacegowiersza+"\\:opis").next().focus();
         }
     }
+};
+
+var stworzdelegacje = function() {
+    var jest1niema0 = document.getElementById("parametrydel:jest1niema0").value;
+    if (jest1niema0 === "0") {
+        var numerwprowadzony = document.getElementById("formwpisdokument:numerwlasny").value;
+        document.getElementById("form_dialog_delegacje_stworz:nazwamiejsca").value = numerwprowadzony;
+        PF('dialog_delegacje_stworz').show();
+    }
+};
+
+var blokujdelegacje = function() {
+    document.getElementById("parametrydel:jest1niema0").value = 1;
+    $('#formwpisdokument\\:opisdokumentu').select();
+    PF('dialog_delegacje_stworz').hide();
 };

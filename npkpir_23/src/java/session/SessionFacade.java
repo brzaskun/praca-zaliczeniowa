@@ -1548,6 +1548,9 @@ public class SessionFacade<T> implements Serializable {
     public Delegacja findDelegacja(Delegacja delegacja) {
         return (Delegacja) em.createNamedQuery("Delegacja.findById").setParameter("id", delegacja.getId()).getSingleResult();
     }
+    public Delegacja findDelegacjaByNr(String nrdelegacji) {
+        return (Delegacja) em.createNamedQuery("Delegacja.findByOpisdlugiOnly").setParameter("opisdlugi", nrdelegacji).getSingleResult();
+    }
 
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
         return em.createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();

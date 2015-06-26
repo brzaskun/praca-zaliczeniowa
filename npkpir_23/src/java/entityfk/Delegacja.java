@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Delegacja.findById", query = "SELECT m FROM Delegacja m WHERE m.id = :id"),
     @NamedQuery(name = "Delegacja.findByAktywny", query = "SELECT m FROM Delegacja m WHERE m.aktywny = :aktywny AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
     @NamedQuery(name = "Delegacja.findByOpisdlugi", query = "SELECT m FROM Delegacja m WHERE m.opisdlugi = :opisdlugi AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
+    @NamedQuery(name = "Delegacja.findByOpisdlugiOnly", query = "SELECT m FROM Delegacja m WHERE m.opisdlugi = :opisdlugi"),
     @NamedQuery(name = "Delegacja.findByPodatnik", query = "SELECT m FROM Delegacja m WHERE m.podatnikObj = :podatnik AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1"),
     @NamedQuery(name = "Delegacja.countByPodatnik", query = "SELECT COUNT(m) FROM Delegacja m WHERE m.podatnikObj = :podatnik AND m.rok = :rok AND m.krajowa0zagraniczna1 = :krajowa0zagraniczna1")
 })

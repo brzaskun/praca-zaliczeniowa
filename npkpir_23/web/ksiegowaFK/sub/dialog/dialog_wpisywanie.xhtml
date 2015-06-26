@@ -154,6 +154,7 @@
                                         update=":formwpisdokument:numer, :formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok, 
                                         :formwpisdokument:przypkonto,  :formwpisdokument:przypkontotxt"/>
                                 <p:ajax global="false" event="change" partialSubmit="true" />
+                                <p:ajax event="change" global="false" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" update=":parametrydel"/>
                             </p:inputText>
     <!--                         <p:inputText id="rokVAT" value="#{dokfkView.selected.vatR}" style="width: 50px;">
                                 <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
@@ -196,10 +197,8 @@
                                     </h:panelGrid>
                                 </f:facet>
                             </p:autoComplete>
-                            <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30"
-                                         style="height: 19px;"
-                                         >
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30" style="height: 19px;">
+                                <p:ajax event="blur" partialSubmit="true" global="false" oncomplete="stworzdelegacje();"/>
                             </p:inputText>
     <!--                        <h:outputText value='' rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 1 and dokfkView.selected.rodzajedok.kategoriadokumentu != 2}"/>-->
                             <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
@@ -379,7 +378,7 @@
                             <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                             minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true" 
-                                            converterMessage="Nieudana konwersja Klient" 
+                                            converterMessage="Nieudana konwersja Klient" scrollHeight="180" 
                                             styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
                                                 usunspacje(this);
@@ -415,7 +414,7 @@
                             <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
                                             minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
-                                            converterMessage="Nieudana konwersja Klient"  
+                                            converterMessage="Nieudana konwersja Klient"   scrollHeight="180"
                                             styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                 usunspacje(this);
@@ -497,6 +496,9 @@
             </h:form>
             <h:form id="parametry">
                 <h:inputHidden id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
+            </h:form>
+             <h:form id="parametrydel">
+                 <h:inputHidden id="jest1niema0" value="#{delegacjeView.jest1niema0}"/>
             </h:form>
         </f:facet>
 
