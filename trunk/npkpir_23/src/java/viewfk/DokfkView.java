@@ -232,6 +232,7 @@ private static final long serialVersionUID = 1L;
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
+        wygenerujnumerkolejny(0);
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             resetprzyciskow();
@@ -1897,49 +1898,40 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
     }
     
-    public void wygenerujnumerkolejny() {
-        String zawartosc;
-        try {
-            zawartosc = selected.getNumerwlasnydokfk();
-        } catch (Exception ex) {
-            E.e(ex);
-            selected.setNumerwlasnydokfk("");
-        }
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String wprowadzonynumer = "";
-        if (params.get("formwpisdokument:numer") != null) {
-            wprowadzonynumer = params.get("formwpisdokument:numer");
-        }
-        if (!wprowadzonynumer.isEmpty()) {
-        } else {
+    public void wygenerujnumerkolejny(int tak1nie0) {
+        if (selected.getNumerwlasnydokfk() == null || tak1nie0 == 1) {
             String nowynumer = "";
             Podatnik podX = wpisView.getPodatnikObiekt();
             Integer rok = wpisView.getRokWpisu();
             String mc = wpisView.getMiesiacWpisu();
-            Rodzajedok rodzajdok = selected.getRodzajedok();
-            String wzorzec = rodzajdok.getWzorzec();
-            //odnajdywanie podzielnika;
-            String separator = null;
-            if (wzorzec.contains("/")) {
-                separator = "/";
-            }
+            String wzorzec = "";
             String[] elementy;
-            Dokfk ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
-            if (zapisz0edytuj1 == false) {
-                if (ostatnidokument != null) {
-                    selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
-                } else {
-                    selected.getDokfkPK().setNrkolejnywserii(1);
+            String separator = null;
+            Dokfk ostatnidokument = null;
+            Rodzajedok rodzajdok = selected.getRodzajedok();
+            if (rodzajdok != null) {
+                wzorzec = rodzajdok.getWzorzec();
+                //odnajdywanie podzielnika;
+                if (wzorzec.contains("/")) {
+                    separator = "/";
                 }
-            }
-            if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                   Wiersz ostatniwiersz = ostatnidokument.getListawierszy().get(ostatnidokument.getListawierszy().size()-1);
-                   saldoinnedok = ostatniwiersz.getSaldoWBRK();
-                   selected.getListawierszy().get(0).setSaldoWBRK(ostatniwiersz.getSaldoWBRK());
-            } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                obliczsaldorkwb();
-                Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                selected.setKontr(klient);
+                ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+                if (zapisz0edytuj1 == false) {
+                    if (ostatnidokument != null) {
+                        selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
+                    } else {
+                        selected.getDokfkPK().setNrkolejnywserii(1);
+                    }
+                }
+                if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                       Wiersz ostatniwiersz = ostatnidokument.getListawierszy().get(ostatnidokument.getListawierszy().size()-1);
+                       saldoinnedok = ostatniwiersz.getSaldoWBRK();
+                       selected.getListawierszy().get(0).setSaldoWBRK(ostatniwiersz.getSaldoWBRK());
+                } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                    obliczsaldorkwb();
+                    Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                    selected.setKontr(klient);
+                }
             }
             try {
                 elementy = wzorzec.split(separator);
@@ -1978,6 +1970,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
+            }
+            if (!nowynumer.isEmpty() && tak1nie0 == 1) {
+                selected.setNumerwlasnydokfk(nowynumer);
+            }
+            if (nowynumer.equals("")) {
+                selected.setNumerwlasnydokfk("");
             }
         }
     }

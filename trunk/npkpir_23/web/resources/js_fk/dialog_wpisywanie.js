@@ -542,7 +542,8 @@ var skopiujopis = function(nrbiezacegowiersza){
 
 var stworzdelegacje = function() {
     var jest1niema0 = document.getElementById("parametrydel:jest1niema0").value;
-    if (jest1niema0 === "0") {
+    var del = document.getElementById("formwpisdokument:symbol").value;
+    if (jest1niema0 === "0" && del === "DEL") {
         var numerwprowadzony = document.getElementById("formwpisdokument:numerwlasny").value;
         document.getElementById("form_dialog_delegacje_stworz:nazwamiejsca").value = numerwprowadzony;
         PF('dialog_delegacje_stworz').show();
