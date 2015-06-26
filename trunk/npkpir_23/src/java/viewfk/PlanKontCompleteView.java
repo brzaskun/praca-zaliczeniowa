@@ -5,10 +5,13 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -84,6 +87,13 @@ public class PlanKontCompleteView implements Serializable {
                         }
                     }
                 }
+            }
+            Collections.sort(results, new Kontocomparator());
+            if (results.isEmpty()) {
+                Konto p = new Konto();
+                p.setNazwapelna("dodaj konto");
+                p.setPelnynumer(query);
+                results.add(p);
             }
             return results;
         }
