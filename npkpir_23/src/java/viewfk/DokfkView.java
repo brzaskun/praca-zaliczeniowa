@@ -2226,13 +2226,16 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     ObslugaWiersza.wygenerujWierszRoznicowy(wierszpoprzedni, false, nrgrupywierszy, selected);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
                 }
+                selected.przeliczKwotyWierszaDoSumyDokumentu();
             }
         } catch (Exception e) {  E.e(e);
             System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
     }
     
-    
+    public void przelicznaklawiszu() {
+        selected.przeliczKwotyWierszaDoSumyDokumentu();
+    }
     
 //    public void resetujzaksiegowane() {
 //        wykazZaksiegowanychDokumentow = new ArrayList<>();

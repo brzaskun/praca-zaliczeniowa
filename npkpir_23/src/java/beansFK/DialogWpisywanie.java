@@ -70,6 +70,7 @@ public class DialogWpisywanie {
              } else if (roznica != 0.0 && czyWszystkoWprowadzono == true) {
                  ObslugaWiersza.wygenerujWierszRoznicowy(wierszbiezacy, false, nrgrupy, selected);
              }
+            selected.przeliczKwotyWierszaDoSumyDokumentu();
             return 0;
         } catch (Exception e) {  
             E.e(e);

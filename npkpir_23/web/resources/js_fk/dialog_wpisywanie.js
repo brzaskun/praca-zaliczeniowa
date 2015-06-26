@@ -325,7 +325,12 @@ var robfocus = function() {
     } 
 };
 
+var przelicznaklawiszu = function() {
+    $(document.getElementById("wpisywaniefooter:przeliczbutton")).click();
+};
+
 var focusNaNowoDodanymEnter = function() {
+    przelicznaklawiszu();
     try {
         var rzedy = r("formwpisdokument:dataList_data").children();
         for (var rzad in rzedy) {
