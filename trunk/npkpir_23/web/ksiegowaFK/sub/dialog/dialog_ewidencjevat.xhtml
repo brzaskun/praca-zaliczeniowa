@@ -21,8 +21,24 @@
         .ui-datatable .datawystawienia .ui-column-filter {
             width: 75px !important;
         }
+        
+        .ui-datatable .nrwlasny .ui-column-filter {
+            width: 85px !important;
+        }
+        
+        .ui-datatable .nrkolejny .ui-column-filter {
+            width: 95px !important;
+        }
+        
+         .ui-datatable .ewnetto .ui-column-filter {
+            width: 85px !important;
+        }
+        
+         .ui-datatable .ewvat .ui-column-filter {
+            width: 85px !important;
+        }
     </style>
-            <p:tabView style="height: 700px; overflow-y: scroll;" dynamic="true" >
+            <p:tabView style="height: 700px;" dynamic="true" >
                 <p:tab title="ewidencje">
                     <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item" >
                         <p:tab title="#{item[0].nazwaewidencji}">
@@ -32,8 +48,9 @@
                                 <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                             </p:commandButton>
                             <p:separator/>
-                            <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px; overflow-y: scroll;"
-                                         rowKey="#{itemik.id}" selection="#{ewidencjaVatView.wybranewierszeewidencji}">
+                            <p:dataTable id="tabela" value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px; height: 500px;"
+                                         rowKey="#{itemik.id}" selection="#{ewidencjaVatView.wybranewierszeewidencji}" 
+                                         scrollable="true" scrollRows="20" scrollHeight="450">
                                 <f:facet name="header">  
                                     <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji}" />  
                                 </f:facet>
@@ -50,10 +67,10 @@
                                 <p:column styleClass="mc" headerText="mc" style="width: 30px; text-align: center;" sortBy="#{itemik.innymc}" filterMatchMode="contains" filterBy="#{itemik.innymc}">
                                           <h:outputText value="#{itemik.innymc}"/>
                                 </p:column>
-                                <p:column headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" filterMatchMode="contains">
+                                <p:column styleClass="nrkolejny" headerText="nr kolejny" style="width: 100px; font-size: 93%" sortBy="#{itemik.nrKolejny}" filterBy="#{itemik.nrKolejny}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.nrKolejny}"/>
                                 </p:column>
-                                <p:column styleClass="nr wlasny" headerText="nr własny" style="width: 120px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                                <p:column styleClass="nrwlasny" headerText="nr własny" style="width: 120px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.nrWlDk}"/>
                                 </p:column>
                                 <p:column headerText="nazwa kontrhenta" style="width: 180px; font-size: 93%" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
@@ -62,12 +79,12 @@
                                 <p:column headerText="opis trans." style="width: 170px; font-size: 93%;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.opis.length() > 30 ? itemik.opis.substring(0,29) : itemik.opis}"/>
                                 </p:column>
-                                <p:column headerText="netto" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                                <p:column styleClass="ewnetto" headerText="netto" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
+                                <p:column styleClass="ewvat" headerText="#{mgs.VAT}" style="width: 100px;" sortBy="#{itemik.vat}" filterBy="#{itemik.vat}" filterMatchMode="contains">
                                     <h:outputText value="#{itemik.vat}" style="float: right; padding-right: 3%">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
