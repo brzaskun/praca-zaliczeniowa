@@ -251,7 +251,8 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30" style="height: 19px;">
-                                        <p:ajax event="blur" partialSubmit="true" global="false" oncomplete="stworzdelegacje();"/>
+                                        <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" 
+                                                global="false" oncomplete="stworzdelegacje();" update=":formwpisdokument:dataList"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
@@ -292,7 +293,6 @@
                                                          >
                                             <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
                                             <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
-                                            <p:ajax global="false" event="blur" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                                         </h:selectOneMenu>
                                     </p:column>
@@ -459,7 +459,7 @@
                             <p:autoComplete id="kontown" value="#{loop.stronaWn.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaWn != null}"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                             minQueryLength="1" converter="KontoConv" queryDelay="1"  cache="true"
-                                            converterMessage="Nieudana konwersja Klient" scrollHeight="180" 
+                                            converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{loop.idporzadkowy}"
                                             styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
                                                     usunspacje(this);
@@ -468,7 +468,9 @@
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry, :wpisywaniefooter"/>
                                 <p:ajax event="query" global="false"/>
-                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry, :wpisywaniefooter"/>
+                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" 
+                                        oncomplete="dodajnowekontoWpis(#{loop.idporzadkowy}, 'Wn');"
+                                        update=":parametry, :wpisywaniefooter, :parametrynowekonto"/>
                             </p:autoComplete>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
@@ -493,7 +495,7 @@
                         </p:column>
                         <p:column headerText="konto Ma" width="100" style="text-align: center;">
                             <p:autoComplete id="kontoma" value="#{loop.stronaMa.konto}" completeMethod="#{planKontCompleteView.complete}" rendered="#{loop.stronaMa != null}"
-                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" 
+                                            var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{loop.idporzadkowy}"
                                             minQueryLength="1" converter="KontoConv"  queryDelay="1" cache="true" 
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
                                             styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
@@ -504,7 +506,9 @@
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry, :wpisywaniefooter"/>
                                 <p:ajax event="query" global="false"/>
-                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry, :wpisywaniefooter" />
+                                <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" 
+                                        oncomplete="dodajnowekontoWpis(#{loop.idporzadkowy}, 'Ma');"
+                                        update=":parametry, :wpisywaniefooter, :parametrynowekonto" />
                             </p:autoComplete>
                         </p:column>
                         <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
@@ -582,6 +586,9 @@
             </h:form>
             <h:form id="parametrydel">
                 <h:inputHidden id="jest1niema0" value="#{delegacjeView.jest1niema0}"/>
+            </h:form>
+            <h:form id="parametrynowekonto">
+                <h:inputHidden id="jest1niema0" value="#{dokfkView.jest1niema0_konto}"/>
             </h:form>
         </f:facet>
 

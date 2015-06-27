@@ -83,6 +83,10 @@ public class PlanKontView implements Serializable {
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
     private String infozebrakslownikowych;
+    @ManagedProperty(value = "#{planKontCompleteView}")
+    private PlanKontCompleteView planKontCompleteView;
+    
+    
     public PlanKontView() {
     }
 
@@ -234,6 +238,46 @@ public class PlanKontView implements Serializable {
             }
         } else {
             Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
+        }
+    }
+    
+    public void dodajanalityczneWpis() {
+        String nrmacierzystego = PlanKontFKBean.modyfikujnr(noweKonto.getPelnynumer());
+        Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
+        if (kontomacierzyste != null && kontomacierzyste.isSlownikowe() == false) {
+            if (kontomacierzyste.isBlokada() == false) {
+                int wynikdodaniakonta = 1;
+                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+                if (wynikdodaniakonta == 0) {
+                    try {
+                        KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
+                        if (!kpo.getSyntetykaanalityka().equals("analityka")) {
+                           PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                    }
+                }
+                if (wynikdodaniakonta == 0) {
+                    PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
+                    if (czyoddacdowzorca == true) {
+                        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+                    } else {
+                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                    }
+                    noweKonto = new Konto();
+                    //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                    Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
+                } else {
+                    noweKonto = new Konto();
+                    Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+                }
+                planKontCompleteView.init();
+            } else {
+                Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
+            }
+        } else {
+            Msg.msg("e", "Niewłaściwy numer konta. Nie dodano nowej analityki");
         }
     }
     
@@ -964,6 +1008,14 @@ public class PlanKontView implements Serializable {
 
     public void setSelectednodekontowzorcowy(Konto selectednodekontowzorcowy) {
         this.selectednodekontowzorcowy = selectednodekontowzorcowy;
+    }
+
+    public PlanKontCompleteView getPlanKontCompleteView() {
+        return planKontCompleteView;
+    }
+
+    public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
+        this.planKontCompleteView = planKontCompleteView;
     }
 
     public String getInfozebrakslownikowych() {
