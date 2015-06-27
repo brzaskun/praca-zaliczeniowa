@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false">  
+    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false" appendTo="@(body)" modal="true">  
         <h:form id="formX">
             <p:growl id="messages"/>
             <p:focus for="dkp">
@@ -32,7 +32,7 @@
                         <f:selectItem itemLabel="#{mgs.VAT}" itemValue="#{mgs.VAT}"/>
                     </p:selectOneMenu>
                     <p:commandButton value="dodaj" actionListener="#{planKontView.dodajsyntetyczne()}" accesskey="d" type="submit" 
-                                     style="float: right;" onclick="PF('nowekontosyntetyczne').hide()" update=":formY, :form_dialog_plankont, :formwzorcowy">
+                                     style="float: right; width: 120px;" onclick="PF('nowekontosyntetyczne').hide()" update=":formY, :form_dialog_plankont, :formwzorcowy">
                     </p:commandButton>
                 </p:panelGrid>
             </p:focus>

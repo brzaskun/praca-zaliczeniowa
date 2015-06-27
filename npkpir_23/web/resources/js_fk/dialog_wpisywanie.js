@@ -45,6 +45,31 @@ var odtworzwierszVATRK = function(lp) {
     }
 };
 
+var odtworzwierszKontoWpis = function() {
+    document.getElementById("parametrynowekonto:jest1niema0").value = "1";
+    var id = parseInt(MYAPP.dodajnowekontoLP)-1;
+    var strona  = MYAPP.dodajnowekontoStrona;
+    var stronawiersza;
+    var widget;
+    if (strona === "Wn") {
+        stronawiersza = "formwpisdokument:dataList:"+id+":kontown_input";
+        widget = "complWn"+MYAPP.dodajnowekontoLP;
+    } else {
+        stronawiersza = "formwpisdokument:dataList:"+id+":kontoma_input";
+        widget = "complMa"+MYAPP.dodajnowekontoLP;
+    }
+    if (stronawiersza) {
+        rj(stronawiersza).value = MYAPP.nrnowegokonta;
+        PF(widget).search(MYAPP.nrnowegokonta);
+        r(stronawiersza).focus();
+        r(stronawiersza).select();
+        delete MYAPP.dodajnowekontoStrona;
+        delete MYAPP.dodajnowekontoLP;
+        delete MYAPP.nrnowegokonta;
+    }
+};
+
+
 var wpisywanieOnShow = function (szer, wys) {
     try {
         ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
@@ -211,22 +236,25 @@ var czydodackontoShow = function (){
     
 };
 
-var czydodacdelegacjeShow = function (){
-    $(document.getElementById('dialog_delegacje_stworz')).width(400).height(150);
+
+var dialog_wpisywanie_dodajkontoShow = function (){
+    $(document.getElementById('dialog_wpisywanie_dodajkonto')).width(420).height(200);
     try {
-        $(document.getElementById('dialog_delegacje_stworz')).position({
+        $(document.getElementById('dialog_wpisywanie_dodajkonto')).position({
         my: "center center",
         at: "center center",
         of: $(document.getElementById('dialogpierwszy')),
         collision: "none none"
         
     });
-    r("form_dialog_delegacje_stworz:nazwamiejsca").focus();
+    r("form_dialog_wpisywanie_dodajkonto:numerkonta").focus();
     } catch (Exception) {
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 214 "+Exception);
     }
     
 };
+
+
 
 var dodajnowegoklienta = function () {
     var zawartosc = $('#formwpisdokument\\:acForce_input').val();
@@ -552,6 +580,39 @@ var stworzdelegacje = function() {
         var numerwprowadzony = document.getElementById("formwpisdokument:numerwlasny").value;
         document.getElementById("form_dialog_delegacje_stworz:nazwamiejsca").value = numerwprowadzony;
         PF('dialog_delegacje_stworz').show();
+    }
+};
+
+var dodajnowekontoWpis = function(lp,wnma) {
+    MYAPP.dodajnowekontoStrona = wnma;
+    MYAPP.dodajnowekontoLP = lp;
+    var jest1niema0 = document.getElementById("parametrynowekonto:jest1niema0").value;
+    if (jest1niema0 === "0") {
+        var id = parseInt(lp)-1;
+        var nrkonta;
+        if (wnma === "Wn") {
+            var pole = "formwpisdokument:dataList:"+id+":kontown_input";
+            nrkonta = document.getElementById(pole).value;
+        } else {
+            var pole = "formwpisdokument:dataList:"+id+":kontoma_input";
+            nrkonta = document.getElementById(pole).value;
+        }
+        nrkonta = nrkonta.split(" ")[0];
+        document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value = nrkonta;
+        PF('dialog_wpisywanie_dodajkonto').show();
+    }
+};
+
+var sprawdzczydodajeanalityczne = function() {
+    var wprowadzonynumer = document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value;
+    MYAPP.nrnowegokonta = wprowadzonynumer;
+    var zawieraminus = wprowadzonynumer.indexOf("-");
+    if (zawieraminus > -1) {
+        r("form_dialog_wpisywanie_dodajkonto:dodajbutton").show();
+        rj("form_dialog_wpisywanie_dodajkonto:nazwapelna").value = "";
+    } else {
+        rj("form_dialog_wpisywanie_dodajkonto:nazwapelna").value = "nie można dodawać kont syntetycznych";
+        r("form_dialog_wpisywanie_dodajkonto:dodajbutton").hide();
     }
 };
 

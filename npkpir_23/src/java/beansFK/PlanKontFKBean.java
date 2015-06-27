@@ -617,5 +617,20 @@ public class PlanKontFKBean {
         noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
         kontoDAOfk.edit(noweKonto);
     }
+
+    public static Konto wyszukajmacierzyste(WpisView wpisView, KontoDAOfk kontoDAOfk, String pelnynumer) {
+        Konto konto = kontoDAOfk.findKonto(pelnynumer, wpisView);
+        return konto;
+    }
+
+    public static String modyfikujnr(String pelnynumer) {
+        String[] pola = pelnynumer.split("-");
+        String koncowka = pola[pola.length-1];
+        int indexkoncowy = pelnynumer.length()-koncowka.length()-1;
+        String nowynumer = pelnynumer.substring(0, indexkoncowy);
+        return nowynumer;
+    }
+
+   
     
 }

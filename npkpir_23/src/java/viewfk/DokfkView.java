@@ -176,6 +176,7 @@ private static final long serialVersionUID = 1L;
     private List dokumentypodatnika;
     private double saldoinnedok;
     private double saldoBO;
+    private int jest1niema0_konto;
     
 
     public DokfkView() {
@@ -1346,18 +1347,17 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
         lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy()-1;
-        String pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontown_input");
+        String pole = null;
+        if (wybranastronawiersza.getWnma().equals("Wn")) {
+            pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontown_input");
+        } else {
+            pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontoma_input");
+        }
         if (pole.contains("dodaj konto")) {
-            String nrkonta = pole.split(" ")[0];
-            if (nrkonta.contains("-")) {
-                String nazwa = "PF('nowekontoanalityczne').show()";
-                RequestContext.getCurrentInstance().execute(nazwa);
-                return;
-            } else {
-                String nazwa = "PF('nowekontosyntetyczne').show()";
-                RequestContext.getCurrentInstance().execute(nazwa);
-                return;
-            }
+            jest1niema0_konto = 0;
+            return;
+        } else {
+            jest1niema0_konto = 1;
         }
         try {
             if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
@@ -2353,6 +2353,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     public void setWybranakategoriadok(String wybranakategoriadok) {    
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public int getJest1niema0_konto() {
+        return jest1niema0_konto;
+    }
+
+    public void setJest1niema0_konto(int jest1niema0_konto) {
+        this.jest1niema0_konto = jest1niema0_konto;
     }
 
     public double getSaldoinnedok() {
