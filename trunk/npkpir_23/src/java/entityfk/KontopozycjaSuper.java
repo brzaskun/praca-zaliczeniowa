@@ -44,7 +44,7 @@ public class KontopozycjaSuper implements Serializable {
     @JoinColumn(name = "ukladBR", referencedColumnName = "lp")
     protected UkladBR ukladBR;
     @OneToOne
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name = "kontoID", referencedColumnName = "id")
     protected Konto kontoID;
     @Column(name = "wynik0bilans1")
     protected boolean wynik0bilans1;

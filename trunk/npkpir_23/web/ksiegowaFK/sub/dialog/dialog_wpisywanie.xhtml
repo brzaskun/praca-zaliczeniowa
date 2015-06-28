@@ -283,7 +283,7 @@
                                 <p:row>
                                     <p:column>
                                         <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                                         readonly="#{dokfkView.selected.zablokujzmianewaluty}"
+                                                         readonly="#{dokfkView.selected.zablokujzmianewaluty}" immediate="true"
                                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                                          onfocus="$(this).removeClass('ui-state-default');
                                                                  $(this).addClass('ui-state-focus');"
@@ -291,8 +291,9 @@
                                                                  $(this).addClass('ui-state-default');"
                                                          style="height: 19px;"
                                                          >
+                                            <p:ajax global="false" event="blur"/>
                                             <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
-                                            <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" partialSubmit="true"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
+                                            <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
                                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                                         </h:selectOneMenu>
                                     </p:column>

@@ -853,7 +853,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 Dokfk dokument = null;
                 try {
                     dokument = dokDAOfk.findDokfkObj(selected);
-                } catch (Exception e) {  E.e(e);
+                } catch (Exception e) { 
+                    E.e(e);
                 }
                 if (dokument != null) {
                     wlaczZapiszButon = false;
