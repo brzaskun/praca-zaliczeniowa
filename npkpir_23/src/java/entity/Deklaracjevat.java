@@ -126,7 +126,7 @@ public class Deklaracjevat implements Serializable {
     @Column(name = "wzorschemy")
     private String wzorschemy;
     @OneToOne(cascade = {CascadeType.ALL})
-    @PrimaryKeyJoinColumn
+    
     private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
     
    public Deklaracjevat() {
