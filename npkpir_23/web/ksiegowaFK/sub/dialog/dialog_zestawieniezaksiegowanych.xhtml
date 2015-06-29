@@ -16,6 +16,7 @@
     </style>
 
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
+              dynamic="true"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
@@ -24,6 +25,7 @@
         <h:form id="zestawieniedokumentow">
             <p:growl id="wiadomoscsprawdzenie" life="6000"/>
             <p:panelGrid columns="6" style="margin-left: 2%;" >
+                <p:row>
                 <p:column>
                     <h:outputText value="miesiąc: "/>
                 </p:column>
@@ -39,20 +41,26 @@
                                      update=":zestawieniedokumentow:dataList"
                                     />
                 </p:column>
-                <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
+                <p:column>
+                <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
+                        style="width: 200px; height: 19px; margin-left: 100px;">
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
-                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
-                </p:selectOneMenu>
-                 <p:column>
-                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 10px;" 
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                </h:selectOneMenu>
+                    </p:column>
+                <p:column>
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow)}" styleClass="fkbutton"
+                                      style="margin-left: 20px; width: 120px;" />
+                </p:column>
+                <p:column>
+                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 400px;" 
                                      update=":zestawieniedokumentow:dataList"
                                     />
                 </p:column>
-                <p:column>
-                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow)}" styleClass="fkbutton"
-                                      style="margin-left: 100px; width: 120px;" />
-                </p:column>
+                    </p:row>
             </p:panelGrid>
             
             <script>
@@ -104,7 +112,7 @@
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.opisdokfk}"/>
+                    <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
@@ -121,7 +129,7 @@
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;" >
-                    <p:commandButton id="rukujbutton" value="d" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" value="d" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;" >
