@@ -207,7 +207,7 @@
                             <p:inputText id="pkwiu" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
                         </p:column>
                         <p:column headerText="pkwiu" width="80" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.pkwiu eq true ? true : false) : false}">
-                            <p:inputText id="pkwiuxxl" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
+                            <p:inputText id="pkwiuxxl" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuxxl" value="sym.PKWiU" /></p:inputText>    
                         </p:column>
                         <p:column headerText="jedn. miary" width="65" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
                             <h:selectOneMenu id="jednmiary" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"
@@ -315,10 +315,10 @@
                             </p:inputText>   
                         </p:column>
                         <p:column headerText="pkwiu" width="80" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
-                            <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
+                            <p:inputText id="pkwiuk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuk" value="sym.PKWiU" /></p:inputText>    
                         </p:column>
                         <p:column headerText="pkwiu" width="80" style="text-align: center;" rendered="#{fakturaView.fakturaxxl eq true ? (fakturaXXLKolumnaView.selected.pkwiu eq true ? true : false) : false}">
-                            <p:inputText id="pkwiuxxlk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiu" value="sym.PKWiU" /></p:inputText>    
+                            <p:inputText id="pkwiuxxlk" value="#{row.PKWiU}" label="text" style="width: 70px;" title="jednostka miary"><p:watermark for="pkwiuxxlk" value="sym.PKWiU" /></p:inputText>    
                         </p:column>
                         <p:column headerText="jedn. miary" width="65" style="text-align: center;" rendered="#{!fakturaView.fakturaxxl}">
                             <h:selectOneMenu id="jednmiaryk" value="#{row.jednostka}" title="stawka podatku VAT" style="width: 60px;"

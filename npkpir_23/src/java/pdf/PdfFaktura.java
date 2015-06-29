@@ -179,7 +179,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
             boolean dlugiwiersz = selected.getPozycjenafakturze().get(0).getNazwa().length() > 100;
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
-            if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 2 && jestkorekta)) {
+            if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta)) {
                 Document document = new Document();
                 String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
@@ -196,7 +196,6 @@ public class PdfFaktura extends Pdf implements Serializable {
                 }
                 if (selected.getPozycjepokorekcie() != null) {
                     document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
-                    
                     document.add(Chunk.NEWLINE );
                     document.add(Chunk.NEWLINE );
                     document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
