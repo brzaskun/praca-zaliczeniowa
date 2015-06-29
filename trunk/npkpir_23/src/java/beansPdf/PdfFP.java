@@ -199,9 +199,9 @@ public class PdfFP {
                     // write the table to an absolute position
                     table.writeSelectedRows(0, table.getRows().size(), (pobrane.getLewy() / dzielnik), wymiaryGora.get("akordeon:formwzor:towary"), writer.getDirectContent());
                     if (selected.getPozycjepokorekcie() != null) {
-                        int odstep = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size()*15);
+                        int odstep = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size()*17);
                         tablekorekta.writeSelectedRows(0, tablekorekta.getRows().size(), (pobrane.getLewy() / dzielnik), odstep, writer.getDirectContent());
-                        int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size()*15) - (tablekorekta.getRows().size()*15);
+                        int odstep1 = wymiaryGora.get("akordeon:formwzor:towary") - (table.getRows().size()*17) - (tablekorekta.getRows().size()*17);
                         absText(writer, "Przyczyna korekty: " + selected.getPrzyczynakorekty(), (int) (pobrane.getLewy() / dzielnik), odstep1, 8);
                     }
                     break;
@@ -519,9 +519,9 @@ public class PdfFP {
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
         PdfPTable table = new PdfPTable(11);
-        table.setTotalWidth(new float[]{20, 100, 40, 40, 40, 50, 60, 50, 60, 60, 30});
+        table.setTotalWidth(new float[]{20, 180, 40, 40, 40, 50, 60, 50, 60, 60, 30});
         // set the total width of the table
-        table.setTotalWidth(500);
+        table.setTotalWidth(540);
         if (selected.getPozycjepokorekcie() != null) {
             if (korekta) {
                 table.addCell(ustawfrazeAlign("", "center", 8));
