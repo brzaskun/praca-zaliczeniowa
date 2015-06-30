@@ -43,12 +43,13 @@ public class SesjaDAO extends DAO implements Serializable {
         }
    }
     
-   public Sesja find(String nrsesji){
-       try{
-       return sesjaFacade.findSesja(nrsesji);
-       } catch (Exception e) { E.e(e); 
-           return null;
-       }
-       
-   }
+    public Sesja find(String nrsesji) {
+        try {
+            return sesjaFacade.findSesja(nrsesji);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+
+    }
 }

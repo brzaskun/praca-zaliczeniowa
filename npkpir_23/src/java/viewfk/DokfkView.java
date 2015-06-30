@@ -1430,9 +1430,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
-        lpWierszaWpisywanie = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
-        if (lpWierszaWpisywanie > 0) {
-            Wiersz wiersz = selected.getListawierszy().get(lpWierszaWpisywanie-1);
+        int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
+        if (idwiersza > -1) {
+            Wiersz wiersz = selected.getListawierszy().get(idwiersza);
             if (wnmadoprzeniesienia.equals("Wn")) {
                 stronaWierszaCechy = wiersz.getStronaWn();
             } else {

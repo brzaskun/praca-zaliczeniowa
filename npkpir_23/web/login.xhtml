@@ -39,9 +39,9 @@
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{Logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
-                        <h:inputText value="#{Logowanie.uzytk}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
+                        <h:inputText value="#{Logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                      autocomplete="true" onkeydown="bar.show()">
-                            <p:ajax event="blur" listener="#{Logowanie.ustawLocale(Logowanie.uzytk)}" partialSubmit="true" global="false" />
+                            <p:ajax event="blur" listener="#{Logowanie.ustawLocale(Logowuzytkownikuzytk)}" partialSubmit="true" global="false" />
                         </h:inputText>
                         <h:outputText value="#{mgs.haslo}"/>
                         <h:inputSecret value="#{Logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" />

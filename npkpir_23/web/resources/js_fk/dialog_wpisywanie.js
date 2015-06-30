@@ -621,3 +621,21 @@ var blokujdelegacje = function() {
     $('#formwpisdokument\\:opisdokumentu').select();
     PF('dialog_delegacje_stworz').hide();
 };
+
+
+var czydodacdelegacjeShow = function (){
+    $(document.getElementById('dialog_delegacje_stworz')).width(400).height(150);
+    try {
+        $(document.getElementById('dialog_delegacje_stworz')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+        
+    });
+    r("form_dialog_delegacje_stworz:nazwamiejsca").focus();
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 214 "+Exception);
+    }
+    
+};

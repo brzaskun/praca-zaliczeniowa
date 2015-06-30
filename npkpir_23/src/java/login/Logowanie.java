@@ -6,7 +6,6 @@ package login;
 
 import beansLogowanie.IPaddress;
 import beansLogowanie.Liczniklogowan;
-import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
 import dao.RejestrlogowanDAO;
 import dao.SesjaDAO;
@@ -16,6 +15,7 @@ import entity.Podatnik;
 import entity.Sesja;
 import entity.Uz;
 import entity.Wpis;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.sql.Timestamp;
@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import language.LocaleChanger;
 import msg.Msg;
-import view.SesjaView;
 import view.WpisView;
 
 /**
@@ -40,17 +39,17 @@ import view.WpisView;
  * @author Osito
  */
 @ManagedBean(name = "Logowanie")
-@ViewScoped
+@SessionScoped
 public class Logowanie implements Serializable {
-    
-    private String uzytk;
+
+    private String uzytkownik;
     private String haslo;
     private String ipusera;
     private int liczniklogowan;
     @Inject
-    UzDAO uzDAO;
+    private UzDAO uzDAO;
     @Inject
-    PodatnikDAO podatnikDAO;
+    private PodatnikDAO podatnikDAO;
     @Inject
     private Sesja sesja;
     @Inject
@@ -58,108 +57,78 @@ public class Logowanie implements Serializable {
     @Inject
     private WpisDAO wpisDAO;
     @Inject
-    private Wpis wpis;
-    @Inject
-    private SesjaView sesjaView;
-    private WpisView wpisView;
-    @Inject
-    OstatnidokumentDAO ostatnidokumentDAO;
-    @Inject
     private RejestrlogowanDAO rejestrlogowanDAO;
-    @ManagedProperty(value ="#{localeChanger}")
+    @ManagedProperty(value = "#{localeChanger}")
     private LocaleChanger localeChanger;
-    
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+
     public Logowanie() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
+        invalidatesession();
     }
-    
+
     @PostConstruct
     private void init() {
         ipusera = IPaddress.getIpAddr((HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest());
         liczniklogowan = Liczniklogowan.pobierzIloscLogowan(ipusera, rejestrlogowanDAO);
     }
-    
+
     public String login() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        String message = "";
+        invalidatesession();
         String navto = "";
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Principal principal;
         try {
-            //Login via the Servlet Context
-            request.login(uzytk, haslo);
-            //Retrieve the Principal
-            principal = request.getUserPrincipal();
-            //Display a message based on the User role
-            if (request.isUserInRole("Administrator")) {
-                message = "Username : " + principal.getName() + " You are an Administrator, you can really f**k things up now";
-                navto = "Administrator";
-            } else if (request.isUserInRole("Manager")) {
-                message = "Username : " + principal.getName() + " You are only a Manager, Don't you have a Spreadsheet to be working on??";
-                navto = "Manager";
-            } else if (request.isUserInRole("Bookkeeper")) {
-                message = "Username : " + principal.getName() + " You are only a Bookkeeper, Don't you have a Spreadsheet to be working on??";
-                navto = "Bookkeeper";
-            } else if (request.isUserInRole("BookkeeperFK")) {
-                message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
-                navto = "BookkeeperFK";
-            } else if (request.isUserInRole("Multiuser")) {
-                message = "Username : " + principal.getName() + " You are only a BookkeeperFK, Don't you have a Spreadsheet to be working on??";
-                navto = "Multiuser";
-            } else if (request.isUserInRole("Guest")) {
-                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
-                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
-                if (p == null) {
-                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
-                    return "failure";
-                }
-                String firma = p.getNazwapelna();
-                wpis.setPodatnikWpisu(firma);
-                message = "Username : " + principal.getName() + " You're wasting my resources...";
-                navto = "Guest";
-            } else if (request.isUserInRole("GuestFK")) {
-                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
-                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
-                if (p == null) {
-                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
-                    return "failure";
-                }
-                String firma = p.getNazwapelna();
-                wpis.setPodatnikWpisu(firma);
-                message = "Username : " + principal.getName() + " You're wasting my resources...";
-                navto = "GuestFK";
-            } else if (request.isUserInRole("GuestFaktura")) {
-                String nip = uzDAO.findUzByLogin(uzytk).getFirma();
-                Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
-                if (p == null) {
-                    Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: "+nip+", nie istnieje w systemie. Nastąpi wylogowanie");
-                    return "failure";
-                }
-                String firma = p.getNazwapelna();
-                wpis.setPodatnikWpisu(firma);
-                message = "Username : " + principal.getName() + " You're wasting my resources...";
-                navto = "GuestFaktura";
-            } else if (request.isUserInRole("Noobie")) {
-                message = "Username : " + principal.getName() + " You're wasting my resources...";
-                navto = "Noobie";
-            }
             if (haslo.equals("haslo")) {
                 navto = "nowehaslo";
+            } else {
+                request.login(uzytkownik, haslo);
+                if (request.isUserInRole("Administrator")) {
+                    navto = "Administrator";
+                } else if (request.isUserInRole("Manager")) {
+                    navto = "Manager";
+                } else if (request.isUserInRole("Bookkeeper")) {
+                    navto = "Bookkeeper";
+                } else if (request.isUserInRole("BookkeeperFK")) {
+                    navto = "BookkeeperFK";
+                } else if (request.isUserInRole("Multiuser")) {
+                    navto = "Multiuser";
+                } else if (request.isUserInRole("Guest")) {
+                    String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
+                    Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                    if (p == null) {
+                        Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
+                        return "failure";
+                    }
+                    navto = "Guest";
+                } else if (request.isUserInRole("GuestFK")) {
+                    String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
+                    Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                    if (p == null) {
+                        Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
+                        return "failure";
+                    }
+                    navto = "GuestFK";
+                } else if (request.isUserInRole("GuestFaktura")) {
+                    String nip = uzDAO.findUzByLogin(uzytkownik).getFirma();
+                    Podatnik p = podatnikDAO.findPodatnikByNIP(nip);
+                    if (p == null) {
+                        Msg.msg("e", "Firma, której nip został podany przy rejestracji, tj.: " + nip + ", nie istnieje w systemie. Nastąpi wylogowanie");
+                        return "failure";
+                    }
+                    navto = "GuestFaktura";
+                } else if (request.isUserInRole("Noobie")) {
+                    navto = "Noobie";
+                }
+
+                Wpis wpisX = wpisDAO.find(uzytkownik);
+                try {
+                    wpisX.setBiezacasesja(dodajInfoDoSesji());
+                    wpisDAO.edit(wpisX);
+                } catch (Exception e) {
+                    //to kiedys trzeba usunac :)
+                }
+                Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             }
-            Wpis wpisX = wpisDAO.find(uzytk);
-            try {
-                wpisX.setBiezacasesja(dodajInfoDoSesji());
-                wpisDAO.edit(wpisX);
-            } catch (Exception e) {
-                //to kiedys trzeba usunac :)
-            }
-            Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             return navto;
         } catch (ServletException e) {
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");
@@ -167,7 +136,7 @@ public class Logowanie implements Serializable {
             return "failure";
         }
     }
-    
+
     public void ustawLocale(String uzytk) {
         Uz uz = uzDAO.findUzByLogin(uzytk);
         if (uz != null) {
@@ -183,13 +152,13 @@ public class Logowanie implements Serializable {
             }
         }
     }
-    
-    
+
     private String dodajInfoDoSesji() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         session.setAttribute("user", principal.getName());
+        session.setAttribute("id", session.getId());
         String nrsesji = session.getId();
         sesja.setNrsesji(nrsesji);
         sesja.setUzytkownik(principal.getName());
@@ -200,54 +169,43 @@ public class Logowanie implements Serializable {
         Calendar calendar = Calendar.getInstance();
         sesja.setZalogowanie(new Timestamp(calendar.getTime().getTime()));
         try {
-            sesjaDAO.dodaj(sesja);
+            sesjaDAO.edit(sesja);
         } catch (Exception e) {
-            try {
-                sesjaDAO.edit(sesja);
-            } catch (Exception e1) {
-                
-            }
+            E.e(e);
         }
         try {
-            Uz wpr = uzDAO.findUzByLogin(uzytk);
-            wpr.setBiezacasesja(nrsesji);
-            uzDAO.edit(wpr);
+            Uz wprowadzil = uzDAO.findUzByLogin(uzytkownik);
+            wprowadzil.setBiezacasesja(nrsesji);
+            uzDAO.edit(wprowadzil);
         } catch (Exception e) {
-            
+            E.e(e);
         }
         return nrsesji;
     }
 
-    
     public void logout() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         try {
-            String nrsesji = session.getId();
-            sesja = sesjaDAO.find(nrsesji);
+            Uz wprowadzil = uzDAO.findUzByLogin(wpisView.getWprowadzil().getLogin());
+            sesja = sesjaDAO.find(wprowadzil.getBiezacasesja());
             Calendar calendar = Calendar.getInstance();
             sesja.setWylogowanie(new Timestamp(calendar.getTime().getTime()));
             sesjaDAO.edit(sesja);
         } catch (Exception e) {
-        }
-        if (session != null) {
-            session.invalidate();
+            E.e(e);
         }
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/SessionExpired.xhtml?faces-redirect=true");
-        System.gc();
     }
-    
-    public void invalidatesession() {
+
+    public final void invalidatesession() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        System.gc();
     }
-    
+
     //po okreslonym czasie bezczynnosci na stronie Access denied przerzuci do strony logowania
-    public void autologin() {
+    public final void autologin() {
         FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null, "/login.xhtml?faces-redirect=true");
-        System.gc();
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -259,7 +217,14 @@ public class Logowanie implements Serializable {
         this.liczniklogowan = liczniklogowan;
     }
 
-    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
     public LocaleChanger getLocaleChanger() {
         return localeChanger;
     }
@@ -268,8 +233,6 @@ public class Logowanie implements Serializable {
         this.localeChanger = localeChanger;
     }
 
-     
-    
     public String getIpusera() {
         return ipusera;
     }
@@ -278,50 +241,50 @@ public class Logowanie implements Serializable {
         this.ipusera = ipusera;
     }
 
-    public String getUzytk() {
-        return uzytk;
+    public String getUzytkownik() {
+        return uzytkownik;
     }
-    
-    public void setUzytk(String uzytk) {
-        this.uzytk = uzytk;
+
+    public void setUzytkownik(String uzytkownik) {
+        this.uzytkownik = uzytkownik;
     }
-    
+
     public String getHaslo() {
         return haslo;
     }
-    
+
     public void setHaslo(String haslo) {
         this.haslo = haslo;
     }
-    
+
     public UzDAO getUzDAO() {
         return uzDAO;
     }
-    
+
     public void setUzDAO(UzDAO uzDAO) {
         this.uzDAO = uzDAO;
     }
-    
+
     public PodatnikDAO getPodatnikDAO() {
         return podatnikDAO;
     }
-    
+
     public void setPodatnikDAO(PodatnikDAO podatnikDAO) {
         this.podatnikDAO = podatnikDAO;
     }
-    
+
     public Sesja getSesja() {
         return sesja;
     }
-    
+
     public void setSesja(Sesja sesja) {
         this.sesja = sesja;
     }
-    
+
     public SesjaDAO getSesjaDAO() {
         return sesjaDAO;
     }
-    
+
     public void setSesjaDAO(SesjaDAO sesjaDAO) {
         this.sesjaDAO = sesjaDAO;
     }
