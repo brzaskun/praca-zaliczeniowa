@@ -196,10 +196,8 @@ public final class DokView implements Serializable {
     @PostConstruct
     private void init() {
         rodzajedokKlienta = new ArrayList<>();
-        Wpis wpistmp = wpisView.findWpisX();
         Podatnik podX = wpisView.getPodatnikObiekt();
         try {
-            String pod = wpistmp.getPodatnikWpisu();
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(podX);
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -218,7 +216,7 @@ public final class DokView implements Serializable {
         //pobranie ostatniego dokumentu
         try {
             //czasami dokument ostatni jest zle zapisany, w przypadku bleduy nalezy go usunac
-            wysDokument = ostatnidokumentDAO.pobierz(wpistmp.getWprowadzil());
+            wysDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
             if (!wysDokument.getEwidencjaVAT1().isEmpty()) {
                 Iterator it = wysDokument.getEwidencjaVAT1().iterator();
                 while (it.hasNext()) {
@@ -1217,9 +1215,6 @@ public final class DokView implements Serializable {
             selDokument = ostatnidokumentDAO.pobierz(wpisView.getWprowadzil().getLogin());
             liczbawierszy = selDokument.getListakwot1().size();
             String skrot = selDokument.getTypdokumentu();
-            String nowynumer = "";
-            String pod = wpisView.findWpisX().getPodatnikWpisu();
-            Podatnik podX = podatnikDAO.find(pod);
             List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
@@ -1247,9 +1242,6 @@ public final class DokView implements Serializable {
         selDokument = dokTabView.getGosciuwybral().get(0);
         liczbawierszy = selDokument.getListakwot1().size();
         String skrot = selDokument.getTypdokumentu();
-        String nowynumer = "";
-        String pod = wpisView.findWpisX().getPodatnikWpisu();
-        Podatnik podX = podatnikDAO.find(pod);
         List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         Rodzajedok rodzajdok = new Rodzajedok();
         for (Rodzajedok p : listaD) {

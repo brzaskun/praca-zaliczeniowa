@@ -60,7 +60,7 @@ public class FakturyPlatnosciView  implements Serializable {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
-        wpisView.findWpis();
+        wpisView.naniesDaneDoWpis();
         wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
         wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpisView.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
