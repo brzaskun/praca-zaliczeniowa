@@ -13,13 +13,13 @@
     </h:head>
     <h:body styleClass="body">
          <p:idleMonitor timeout="7000">  
-            <p:ajax event="idle" listener="#{Logowanie.autologin()}"  />  
+            <p:ajax event="idle" listener="#{logowanie.autologin()}"  />  
         </p:idleMonitor>  
             <p:panel style="text-align: center; margin: 10% auto;  width: 600px; border-style: none;">
                 <h:outputText value="Twoja sesja niestety wygasła  z powodu bezczynności - zaloguj się ponownie." style="font-weight: bold;"></h:outputText>
                 <p></p>
                 <h:form>
-                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{Logowanie.invalidatesession}" action="login.xhtml?faces-redirect=true" />
+                    <p:commandButton value="Zaloguj się ponownie" actionListener="#{logowanie.invalidatesession}" action="login.xhtml?faces-redirect=true" />
                 </h:form>
             </p:panel>
       

@@ -59,7 +59,7 @@
         <h:body>
             <p:growl id="messageslogout" showDetail="true" sticky="true" />  
             <p:idleMonitor timeout="600000">  
-                <p:ajax event="idle" listener="#{Logowanie.logout()}" update="messageslogout" />  
+                <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
                 <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
             </p:idleMonitor>  
             <!--        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  

@@ -41,7 +41,7 @@
                     <p:menu style="width: 180px;" rendered="#{facesContext.externalContext.isUserInRole('Multiuser')}">
                         <p:menuitem value="#{mgs.zmianafirmy}"  outcome="Multiuser" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>  
-                    <p:commandButton id="wyloguj" value="Wyloguj" action="#{Logowanie.logout()}" style="margin-left: 25%"/>
+                    <p:commandButton id="wyloguj" value="Wyloguj" action="#{logowanie.logout()}" style="margin-left: 25%"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>
