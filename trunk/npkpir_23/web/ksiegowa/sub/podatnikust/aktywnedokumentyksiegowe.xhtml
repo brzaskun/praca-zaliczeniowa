@@ -10,8 +10,6 @@
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl id="messages" />
-
-            <h:outputText value="stworzone dokumenty"/><br/>
             <p:panelGrid columns="1" style="max-width: 1200px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
                              paginator="true" paginatorPosition="top" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
@@ -73,13 +71,19 @@
                     <h:outputText value=" wzorzec: " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
                     <h:outputText value=" kategoria dokumentu: " />
-                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}">
+                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
+                        <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
+                        <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                        <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
+                        <f:selectItem itemLabel="#{mgs.płatności}" itemValue="0"/>
+                        <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
+                    </p:selectOneMenu>
+                    <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{!WpisView.ksiegirachunkowe}">
                         <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
                         <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
                         <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
                         <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                         <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
-                        <f:selectItem itemLabel="#{mgs.płatności}" itemValue="0"/>
                         <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
                     </p:selectOneMenu>
                     <h:outputText value=" pokaż kg: " />
