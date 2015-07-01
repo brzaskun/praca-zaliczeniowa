@@ -107,7 +107,7 @@ public class PitView implements Serializable {
         wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
-        wpisView.findWpis();
+        wpisView.naniesDaneDoWpis();
     }
     
      public void aktualizujGuest(String strona) throws IOException {

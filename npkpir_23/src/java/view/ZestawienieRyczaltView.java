@@ -616,7 +616,7 @@ public class ZestawienieRyczaltView implements Serializable {
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
         wpisDAO.edit(wpistmp);
-        wpisView.findWpis();
+        wpisView.naniesDaneDoWpis();
     }
 
     

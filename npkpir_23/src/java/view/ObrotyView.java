@@ -170,7 +170,7 @@ public class ObrotyView implements Serializable{
         wpistmp.setMiesiacOd(wpisView.getMiesiacOd());
         wpistmp.setMiesiacDo(wpisView.getMiesiacDo());
         wpisDAO.edit(wpistmp);
-        wpisView.findWpis();
+        wpisView.naniesDaneDoWpis();
     }
        private void aktualizujGuest(){
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
