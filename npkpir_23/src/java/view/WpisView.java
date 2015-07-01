@@ -206,6 +206,7 @@ public class WpisView implements Serializable {
   
     private void uzupelnijdanepodatnika() {
         obsluzPodatnikObiekt();
+        pobierzOpodatkowanie();
         obsluzMcPrzedPo();
         if (miesiacOd == null) {
             miesiacOd = "01";
@@ -232,7 +233,6 @@ public class WpisView implements Serializable {
                 podatnikWpisu = "GRZELCZYK";
                 podatnikObiekt = podatnikDAO.find(podatnikWpisu);
             }
-            pobierzOpodatkowanie();
         }
     }
     
