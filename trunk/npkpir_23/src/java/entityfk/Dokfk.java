@@ -81,7 +81,7 @@ public class Dokfk implements Serializable {
     })
     private Rodzajedok rodzajedok;
     @MapsId("podatnik")
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     private Podatnik podatnikObj;
     @Basic(optional = false)
@@ -104,7 +104,7 @@ public class Dokfk implements Serializable {
     @NotNull
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     @OrderBy("idporzadkowy")
     private List<Wiersz> listawierszy;
     @Column(name = "miesiac")
@@ -128,7 +128,7 @@ public class Dokfk implements Serializable {
     @JoinColumn(name = "kontr", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontr;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
     private List<EVatwpisFK> ewidencjaVAT;
     @Size(max = 2)
     @Column(name = "vat_m")
@@ -136,7 +136,7 @@ public class Dokfk implements Serializable {
     @Size(max = 4)
     @Column(name = "vat_r")
     private String vatR;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
       name="Dokfk_Cechazapisu",
       joinColumns={

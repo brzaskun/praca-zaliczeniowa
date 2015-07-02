@@ -272,7 +272,7 @@ public class WpisView implements Serializable {
                 }
                 i++;
             }
-            Msg.msg("e", "Parametr opodatkowania nie wprowadzony za dany rok");
+            System.out.println("Parametr opodatkowania nie wprowadzony za dany rok "+rokWpisuSt);
             return -1;
         }
         return -1;
