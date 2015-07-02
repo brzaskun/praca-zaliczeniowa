@@ -63,7 +63,7 @@ public class Pojazdy implements Serializable {
     @Column(name = "nazwapojazdu", nullable = false, length = 255)
     private String nazwapojazdu;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull

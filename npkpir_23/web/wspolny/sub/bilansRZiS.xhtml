@@ -137,7 +137,8 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
-                        <h:outputText value="#{mgs.aktywa} #{pozycjaBRView.sumabilansowaaktywa}"/>
+                        <h:outputText value="#{mgs.aktywa} "/>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -154,7 +155,8 @@
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
-                        <h:outputText value="#{mgs.pasywa} #{pozycjaBRView.sumabilansowapasywa}"/>
+                        <h:outputText value="#{mgs.pasywa} "/>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

@@ -5,7 +5,7 @@
  */
 
 var focusNaStronieCechaWiersza = function() {
-    var wnlubma = $(document.getElementById("wpisywaniefooter:wnlubma")).val();
+    var wnlubma = MYAPP.wnlubma;
     var wierszid = MYAPP.lpwiersza-1;
     if (wnlubma === "Wn") {
         r("formwpisdokument:dataList:"+wierszid+":kontown_input").select();

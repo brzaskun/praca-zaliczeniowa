@@ -63,7 +63,7 @@ public class MiejsceKosztow implements Serializable {
     @Column(name = "opisskrocony", nullable = false, length = 255)
     private String opisskrocony;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Podatnik podatnikObj;
     @Basic(optional = false)
     @NotNull

@@ -58,7 +58,7 @@
                                 <p:ajax event="rowUnselectCheckbox" global="false"/>
                                 <p:ajax event="toggleSelect" global="false"/>
                                 <p:column selectionMode="multiple" width="30" style="text-align: center;" rendered="#{itemik.id eq '9999' ? false : true}"></p:column>
-                                <p:column headerText="id" style="width: 20px;" sortBy="#{itemik.id}">
+                                <p:column headerText="id" style="width: 25px;" sortBy="#{itemik.id}">
                                     <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                                 </p:column>
                                 <p:column styleClass="datawystawienia" headerText="data wyst." style="width: 80px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">

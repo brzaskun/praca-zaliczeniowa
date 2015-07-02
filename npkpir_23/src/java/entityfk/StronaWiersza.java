@@ -98,11 +98,11 @@ public class StronaWiersza implements Serializable{
     private Konto konto;
     @Column(name = "wnma")
     private String wnma;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy")
     private List<Transakcja> nowetransakcje;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja")
     private List<Transakcja> platnosci;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
       name="StronaWiersza_Cechazapisu",
       joinColumns={

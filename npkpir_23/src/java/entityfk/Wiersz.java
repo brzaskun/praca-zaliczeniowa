@@ -84,15 +84,16 @@ public class Wiersz implements Serializable {
           @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
           @JoinColumn(name = "rok", referencedColumnName = "rok")
      })
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.EAGER)
+//    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToOne
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
     @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
     @Column(name="lpmacierzystego")
@@ -100,9 +101,9 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "CZWORKA_idwiersza", referencedColumnName = "idwiersza")
     @ManyToOne
     private Wiersz czworka;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true)
     private Set<Wiersz> piatki;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
     private EVatwpisFK eVatwpisFK;
     @Column(name = "saldoWBRK")
     private double saldoWBRK;

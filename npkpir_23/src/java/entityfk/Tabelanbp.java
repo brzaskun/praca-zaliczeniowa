@@ -59,7 +59,7 @@ public class Tabelanbp implements Serializable {
     @Column(name = "nrtabeli", nullable = false, length = 25)
     private String nrtabeli;
     @JoinColumn(name = "waluta", referencedColumnName = "idwaluty")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Waluty waluta;
     @Basic(optional = false)
     @NotNull
