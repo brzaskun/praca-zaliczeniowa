@@ -170,7 +170,7 @@ public class Dok implements Serializable {
     @Column(name = "termin_platnosci")
 //    @Temporal(TemporalType.DATE)
     private String terminPlatnosci;
-    @OneToMany(mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dok", cascade = CascadeType.ALL,  orphanRemoval=true)
     private ArrayList<Rozrachunek1> rozrachunki1;
     @Size(max = 10)
     @Column(name = "termin_30")
