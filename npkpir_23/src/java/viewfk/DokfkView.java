@@ -345,42 +345,36 @@ private static final long serialVersionUID = 1L;
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
         if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+            String clientID = ((InputNumber) e.getSource()).getClientId();
+            String indexwiersza = clientID.split(":")[2];
             try {
-                String clientID = ((InputNumber) e.getSource()).getClientId();
-                String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaWn().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
             } catch (Exception e1) {
-                System.out.println(e1.getLocalizedMessage());
+                E.e(e1);
             }
             if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    int index = lpWierszaWpisywanie -1;
-                    rozliczsaldo(index);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
-
+                    rozliczsaldo(Integer.parseInt(indexwiersza));
             }
         }
     }
     
-    public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent event) {
-        double kwotastara = (double) event.getOldValue();
-        double kwotanowa = (double) event.getNewValue();
+    public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
+        double kwotastara = (double) e.getOldValue();
+        double kwotanowa = (double) e.getNewValue();
         if (Z.z(kwotastara) != Z.z(kwotanowa)) {
+            String clientID = ((InputNumber) e.getSource()).getClientId();
+            String indexwiersza = clientID.split(":")[2];
             try {
-                String clientID = ((InputNumber) event.getSource()).getClientId();
-                String indexwiersza = clientID.split(":")[2];
                 Wiersz wiersz = selected.getListawierszy().get(Integer.parseInt(indexwiersza));
                 wiersz.getStronaMa().setKwota(kwotanowa);
                 przepiszWaluty(wiersz);
-            } catch (Exception e) {
-                E.e(e);
+            } catch (Exception e1) {
+                E.e(e1);
             }
             if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    int index = lpWierszaWpisywanie -1;
-                    rozliczsaldo(index);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
-
+                    rozliczsaldo(Integer.parseInt(indexwiersza));
             }
         }
     }
@@ -395,6 +389,7 @@ private static final long serialVersionUID = 1L;
     
     public void rozliczsaldo(int indexwTabeli) {
         DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli, saldoinnedok);
+        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+indexwTabeli+":saldo");
     }
    
 
@@ -1396,6 +1391,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     System.out.println(wybranastronawiersza.toString());
 
                 }
+                rozliczsaldo(lpWierszaWpisywanie);
             }
         } catch (Exception e) {
             System.out.println("Blad DokfkView pobranieStronaWiersza");
@@ -2244,6 +2240,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
             }
+            rozliczsaldo(wierszpodstawowy.getIdporzadkowy()-1);
         } catch (Exception e) {  E.e(e);
             System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
