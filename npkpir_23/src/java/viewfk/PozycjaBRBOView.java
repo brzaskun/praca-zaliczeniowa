@@ -653,19 +653,19 @@ public class PozycjaBRBOView implements Serializable {
         pobierzukladprzegladBilans("aktywa");
     }
     
-    public void drukujBilans(String ap) {
+    public void drukujBilans(String ap, double sumabilansowa) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansBO(rootBilansAktywa, wpisView, ap);
+            PdfBilans.drukujBilansBO(rootBilansAktywa, wpisView, ap, sumabilansowa);
         } else {
-            PdfBilans.drukujBilansBO(rootBilansPasywa, wpisView, ap);
+            PdfBilans.drukujBilansBO(rootBilansPasywa, wpisView, ap, sumabilansowa);
         }
     }
     
-    public void drukujBilansPozycje(String ap) {
+    public void drukujBilansPozycje(String ap, double sumabilansowa) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap);
+            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap, sumabilansowa);
         } else {
-            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap);
+            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap, sumabilansowa);
         }
     }
        
