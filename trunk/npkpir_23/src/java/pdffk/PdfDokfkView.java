@@ -5,6 +5,7 @@
  */
 package pdffk;
 
+import beansPdf.PdfDokfk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.UzDAO;
@@ -33,17 +34,7 @@ public class PdfDokfkView implements Serializable {
     public void drukujzaksiegowanydokument(Dokfk selected) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokument";
         Uz uz = wpisView.getWprowadzil();
-        Document document = inicjacjaA4Portrait();
-        PdfWriter writer = inicjacjaWritera(document, nazwa);
-        naglowekStopkaP(writer);
-        otwarcieDokumentu(document, nazwa);
-        informacjaoZaksiegowaniu(document, String.valueOf(selected.getNrdziennika()));
-        dodajDate(document, selected.getDatawplywu());
-        dodajOpisWstepny(document, selected);
-        infooFirmie(document, selected);
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()),100,0);
-        dodajpodpis(document, uz.getImie(), uz.getNazw());
-        finalizacjaDokumentu(document);
+        PdfDokfk.drukujtrescpojedynczegodok(nazwa, selected, uz);
     }
 
     public WpisView getWpisView() {

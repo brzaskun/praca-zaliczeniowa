@@ -87,12 +87,16 @@
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{dokfkView.selected}" rowKey="#{item}" selectionMode="single" 
+                         selection="#{pdfZaksiegowaneView.selecteddokfk}" rowKey="#{item.dokfkSN}"
                          style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
+                <p:ajax event="rowSelectCheckbox"  global="false"/>
+                <p:ajax event="rowUnselectCheckbox" global="false"/>
+                <p:ajax event="toggleSelect" global="false"/>
+                <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
@@ -108,7 +112,7 @@
                 <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
                     <h:outputText value="#{item.kontr.npelna}"/>
                 </p:column>
-                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="110" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                <p:column headerText="#{mgs.numer}" styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
                     <h:outputText value="#{item.numerwlasnydokfk}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
@@ -128,16 +132,16 @@
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;" >
+                <p:column width="30" style="text-align: center;" >
                     <p:commandButton id="drukujbutton" value="d" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;" >
+                <p:column width="30" style="text-align: center;" >
                     <p:commandButton id="edytujbutton" value="e" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" 
                                      update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
                                      rendered="#{!item.wTrakcieEdycji}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
+                <p:column width="30" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" 
                                      oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;" update=":potwierdzeniazestawieniedok"/>
                 </p:column>

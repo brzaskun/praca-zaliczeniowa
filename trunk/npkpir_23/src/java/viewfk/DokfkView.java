@@ -83,6 +83,7 @@ private static final long serialVersionUID = 1L;
     private Integer lpWierszaWpisywanie;
     private String wnmadoprzeniesienia;
     protected Dokfk selected;
+    private List<Dokfk> selectedlist;
     protected Dokfk selectedimport;
     @Inject
     private DokDAOfk dokDAOfk;
@@ -2754,6 +2755,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void setTabelanbprecznie(Tabelanbp tabelanbprecznie) {
         this.tabelanbprecznie = tabelanbprecznie;
+    }
+
+    public List<Dokfk> getSelectedlist() {
+        return selectedlist;
+    }
+
+    public void setSelectedlist(List<Dokfk> selectedlist) {
+        this.selectedlist = selectedlist;
     }
 
     public int getRodzaj() {
