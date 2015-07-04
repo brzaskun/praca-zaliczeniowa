@@ -261,7 +261,7 @@
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
-                        <p:panelGrid id="panelzkwotamidoka" rendered="#{(dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2) and planKontView.infozebrakslownikowych ne ''}"
+                        <p:panelGrid id="panelzkwotamidoka" rendered="#{planKontView.infozebrakslownikowych ne ''}"
                                      columns="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? 3 : 2}"   styleClass="uipanelGrid0">
                             <h:outputText value="Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów." style="color: red; font-weight: 900;"/>
                         </p:panelGrid>
