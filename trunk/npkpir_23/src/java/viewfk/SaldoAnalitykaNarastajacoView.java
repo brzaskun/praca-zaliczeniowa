@@ -124,7 +124,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             }
         }
         for (String m : Mce.getMceListS()) {
-            if (m.equals(wpisView.getMiesiacNastepny())) {
+            if (m.equals(wpisView.getMiesiacNastepny()) && !wpisView.getMiesiacWpisu().equals("12")) {
                 break;
             } else {
                 if (zapisyRok != null && zapisyRok.size() > 0) {
