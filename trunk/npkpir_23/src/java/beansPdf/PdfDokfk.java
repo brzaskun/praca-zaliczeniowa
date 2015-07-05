@@ -11,17 +11,8 @@ import entity.Uz;
 import entityfk.Dokfk;
 import javax.ejb.Stateless;
 import javax.inject.Named;
-import static pdffk.PdfMain.dodajDate;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.dodajpodpis;
-import static pdffk.PdfMain.finalizacjaDokumentu;
-import static pdffk.PdfMain.infooFirmie;
-import static pdffk.PdfMain.informacjaoZaksiegowaniu;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
-import static pdffk.PdfMain.inicjacjaWritera;
-import static pdffk.PdfMain.naglowekStopkaP;
-import static pdffk.PdfMain.otwarcieDokumentu;
+import static pdffk.PdfMain.*;
+
 
 /**
  *
@@ -40,7 +31,13 @@ public class PdfDokfk {
         dodajDate(document, selected.getDatawplywu());
         dodajOpisWstepny(document, selected);
         infooFirmie(document, selected);
-        dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()),100,0);
+        saldopoczatkowe(document, selected);
+        if (selected.getRodzajedok().getKategoriadokumentu() != 0) {
+            dodajTabele(document, testobjects.testobjects.getTabelaKonta(selected.getListawierszy()),100,0);
+        } else {
+            dodajTabele(document, testobjects.testobjects.getTabelaKonta1(selected.getListawierszy()),100,1);
+        }
+        saldokoncowe(document, selected);
         dodajpodpis(document, uz.getImie(), uz.getNazw());
         finalizacjaDokumentu(document);
     }

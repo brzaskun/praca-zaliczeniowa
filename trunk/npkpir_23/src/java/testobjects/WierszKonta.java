@@ -19,6 +19,7 @@ public class WierszKonta implements Serializable {
     private String opiskontaWn;
     private double kwotaMa;
     private String opiskontaMa;
+    private double saldo;
 
     public WierszKonta() {
     }
@@ -30,6 +31,16 @@ public class WierszKonta implements Serializable {
         this.opiskontaWn = opiskontawn;
         this.kwotaMa = kwotama;
         this.opiskontaMa = opiskontama;
+    }
+    
+    public WierszKonta(int lp, String opis, double kwotawn, String opiskontawn, double kwotama, String opiskontama, double saldo) {
+        this.lp = lp;
+        this.opis = opis;
+        this.kwotaWn = kwotawn;
+        this.opiskontaWn = opiskontawn;
+        this.kwotaMa = kwotama;
+        this.opiskontaMa = opiskontama;
+        this.saldo = saldo;
     }
 
     public WierszKonta(int lp, String opis) {
@@ -90,6 +101,14 @@ public class WierszKonta implements Serializable {
 
     public void setOpiskontaMa(String opiskontaMa) {
         this.opiskontaMa = opiskontaMa;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
     
     
