@@ -1124,7 +1124,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
             } else {
                 selected = wybranyDokfk;
-                selected.setwTrakcieEdycji(true);
+                //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
                 tabelenbp = new ArrayList<>();
@@ -1153,9 +1153,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
     }
     public void rezygnujzedycji() {
-        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(selected);
-        odnalezionywbazie.setwTrakcieEdycji(false);
-        dokDAOfk.edit(selected);
+//        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(selected);
+//        odnalezionywbazie.setwTrakcieEdycji(false);
+//        dokDAOfk.edit(selected);
         
     }
     
