@@ -53,6 +53,7 @@ public class DialogWpisywanie {
                 sumapoprzednich += kwota;
                 p.setSaldoWBRK(saldoBO + saldoinnedok + sumapoprzednich);
             }
+            selected.setSaldokoncowe(saldoBO + saldoinnedok + sumapoprzednich);
         }
     }
     

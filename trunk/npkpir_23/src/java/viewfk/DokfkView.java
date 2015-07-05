@@ -603,6 +603,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     int index = selected.getListawierszy().size() -1;
                     rozliczsaldo(index);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+                    selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size()-1).getSaldoWBRK());
 
             }
             try {
@@ -747,6 +748,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     int index = selected.getListawierszy().size() -1;
                     rozliczsaldo(index);
                     RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
+                    selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size()-1).getSaldoWBRK());
 
             }
             try {
@@ -1138,6 +1140,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     saldoinnedok = obliczsaldopoczatkowe();
+                    selected.setSaldopoczatkowe(Z.z(saldoinnedok));
                     saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
                     Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
                     DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
@@ -1936,9 +1939,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                 }
                 if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                       Wiersz ostatniwiersz = ostatnidokument.getListawierszy().get(ostatnidokument.getListawierszy().size()-1);
-                       saldoinnedok = ostatniwiersz.getSaldoWBRK();
-                       selected.getListawierszy().get(0).setSaldoWBRK(ostatniwiersz.getSaldoWBRK());
+                       saldoinnedok = ostatnidokument.getSaldokoncowe();
+                       selected.getListawierszy().get(0).setSaldoWBRK(saldoinnedok);
                 } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     obliczsaldorkwb();
                     Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -1996,6 +1998,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
          if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
                 selected.getListawierszy().get(0).setSaldoWBRK(saldoBO);
+                selected.setSaldopoczatkowe(Z.z(saldoBO));
                 saldoinnedok = saldoBO;
                 System.out.println("Udane obliczenie salda BO");
             }
