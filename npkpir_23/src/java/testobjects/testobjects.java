@@ -110,6 +110,22 @@ public class testobjects {
        return tabela;
    }
    
+   public static List[] getTabelaKonta1(List<Wiersz> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("opis");
+       n.add("kwota Wn");
+       n.add("konto Wn");
+       n.add("kwota Ma");
+       n.add("konto Ma");
+       n.add("saldo");
+       List t = getWierszeKonta(wiersze);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
    public static List[] getTabelaBOKonta(List<Konto> wiersze) {
        List n = new ArrayList();
        n.add("lp");
@@ -369,6 +385,7 @@ public class testobjects {
                r.setKwotaMa(p.getStronaMa().getKwota());
                r.setOpiskontaMa(p.getStronaMa().getKonto().getPelnynumer()+ " " + p.getStronaMa().getKonto().getNazwapelna());
            }
+           r.setSaldo(p.getSaldoWBRK());
            w.add(r);
        }
        return w;

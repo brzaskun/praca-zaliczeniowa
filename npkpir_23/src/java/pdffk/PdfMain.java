@@ -32,6 +32,7 @@ import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.Transakcja;
 import entityfk.WierszBO;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -114,11 +115,11 @@ public class PdfMain {
             return czcionki;
         } catch (DocumentException ex) {
             System.out.println("Problem z generowaniem czcionek");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
             return null;
         } catch (IOException ex) {
             System.out.println("Problem z generowaniem czcionek");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
             return null;
         }
     }
@@ -136,11 +137,11 @@ public class PdfMain {
             return writer;
         } catch (FileNotFoundException ex) {
             System.out.println("Problem z zachowaniem pliku PDFMain inicjacjaWritera");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
             return null;
         } catch (DocumentException ex) {
             System.out.println("Problem z otwarciem dokumentu PDFMain inicjacjaWritera");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
             return null;
         }
     }
@@ -184,7 +185,7 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem daty PDFMain dodajDate");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -243,7 +244,7 @@ public class PdfMain {
             document.add(opiswstepny);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -258,7 +259,7 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, Strin, String, String)");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -273,7 +274,7 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, String)");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -287,7 +288,7 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem informacj z lp PDFMain informacjaoZaksiegowaniu");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -314,7 +315,41 @@ public class PdfMain {
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem informacji o firmie PDFMain infooFirmie");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
+        }
+    }
+    
+    public static void saldopoczatkowe(Document document, Dokfk selected) {
+        try {
+            int rodzajdok = selected.getRodzajedok().getKategoriadokumentu();
+            if (rodzajdok == 0) {
+                document.add(Chunk.NEWLINE);
+                NumberFormat currency = getCurrencyFormater();
+                String saldo = String.valueOf(currency.format(selected.getSaldopoczatkowe()));
+                Paragraph saldopoczatkowe = new Paragraph(new Phrase("saldo początkowe: " + saldo, ft[1]));
+                document.add(saldopoczatkowe);
+                document.add(Chunk.NEWLINE);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem saldapoczatkowego PDFMain infooFirmie");
+            E.e(ex);
+        }
+    }
+    
+    public static void saldokoncowe(Document document, Dokfk selected) {
+        try {
+            int rodzajdok = selected.getRodzajedok().getKategoriadokumentu();
+            if (rodzajdok == 0) {
+                document.add(Chunk.NEWLINE);
+                NumberFormat currency = getCurrencyFormater();
+                String saldo = String.valueOf(currency.format(selected.getSaldokoncowe()));
+                Paragraph saldopoczatkowe = new Paragraph(new Phrase("saldo końcowe: " + saldo, ft[1]));
+                document.add(saldopoczatkowe);
+                document.add(Chunk.NEWLINE);
+            }
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem saldapoczatkowego PDFMain infooFirmie");
+            E.e(ex);
         }
     }
     
@@ -330,7 +365,7 @@ public class PdfMain {
             document.add(table);
         } catch (DocumentException ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     
@@ -523,7 +558,7 @@ public class PdfMain {
             return p;
         } catch (DocumentException ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain przygotujtabele");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
             return null;
         }
     }
@@ -552,7 +587,7 @@ public class PdfMain {
             document.add(new Paragraph("sporządził", ft[1]));
         } catch (DocumentException ex) {
             System.out.println("Problem z podpisem PDFMain dodajpodpis");
-            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
     }
     public static void dodajStopke(PdfWriter writer) {
@@ -834,21 +869,40 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
-                WierszKonta p = (WierszKonta) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
-                    if (p.getKwotaWn() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                    }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
-                    if (p.getKwotaMa() != 0.0) {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 8));
-                    }
-                    table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
+                if (modyfikator == 0) {
+                    WierszKonta p = (WierszKonta) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                        if (p.getKwotaWn() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
+                        if (p.getKwotaMa() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
+                } else {
+                    WierszKonta p = (WierszKonta) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                        if (p.getKwotaWn() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaWn(), "left", 8));
+                        if (p.getKwotaMa() != 0.0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaMa())), "right", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign("", "right", 8));
+                        }
+                        table.addCell(ustawfrazeAlign(p.getOpiskontaMa(), "left", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+                }
             }
             if (nazwaklasy.equals("testobjects.WierszWNTWDT")) {
                 WierszWNTWDT p = (WierszWNTWDT) it.next();

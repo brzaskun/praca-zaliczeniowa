@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
@@ -158,11 +156,17 @@ public class Dokfk implements Serializable {
     private int lp;
     @Column(name = "wzorzec")
     private boolean wzorzec;
+    @Column(name = "saldopoczatkowe")
+    private double saldopoczatkowe;
+    @Column(name = "saldokoncowe")
+    private double saldokoncowe;
  
 
     
     
     public Dokfk() {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
@@ -172,6 +176,8 @@ public class Dokfk implements Serializable {
     }
     
     public Dokfk(String opis) {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.dokfkPK.setSeriadokfk("BO");
         this.opisdokfk = opis;
         this.liczbarozliczonych = 0;
@@ -183,6 +189,8 @@ public class Dokfk implements Serializable {
     }
 
     public Dokfk(DokfkPK dokfkPK) {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.dokfkPK = dokfkPK;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
@@ -193,6 +201,8 @@ public class Dokfk implements Serializable {
     }
 
     public Dokfk(DokfkPK dokfkPK, String datawystawienia, String numer) {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.dokfkPK = dokfkPK;
         this.datawystawienia = datawystawienia;
         this.numerwlasnydokfk = numer;
@@ -205,6 +215,8 @@ public class Dokfk implements Serializable {
     }
 
     public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.wTrakcieEdycji = false;
@@ -215,6 +227,8 @@ public class Dokfk implements Serializable {
     }
     
     public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView, Klienci klienci) {
+        this.saldopoczatkowe = 0.0;
+        this.saldokoncowe = 0.0;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
         this.kontr = klienci;
@@ -235,6 +249,22 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public double getSaldopoczatkowe() {
+        return saldopoczatkowe;
+    }
+
+    public void setSaldopoczatkowe(double saldopoczatkowe) {
+        this.saldopoczatkowe = saldopoczatkowe;
+    }
+
+    public double getSaldokoncowe() {
+        return saldokoncowe;
+    }
+
+    public void setSaldokoncowe(double saldokoncowe) {
+        this.saldokoncowe = saldokoncowe;
     }
 
     public boolean isWzorzec() {
