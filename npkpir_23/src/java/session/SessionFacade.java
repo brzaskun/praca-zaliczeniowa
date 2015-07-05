@@ -595,6 +595,7 @@ public class SessionFacade<T> implements Serializable {
     public Dokfk findDokfk(String data, String numer) {
         return (Dokfk) em.createNamedQuery("Dokfk.findByDatawystawieniaNumer").setParameter("datawystawienia", data).setParameter("numer", numer).getSingleResult();
     }
+    
 
     public List<Fakturyokresowe> findPodatnik(String podatnik) {
         return em.createNamedQuery("Fakturyokresowe.findByPodatnik").setParameter("podatnik", podatnik).getResultList();
@@ -1040,6 +1041,11 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Dokfk.findByPodatnikRokKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
     }
 
+    public List<Dokfk> findDokfkPodatnikRokKategoriaOrderByNo(WpisView w, String kategoria) {
+        return em.createNamedQuery("Dokfk.findByPodatnikRokKategoriaOrderByNo").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("kategoria", kategoria).getResultList();
+    }
+    
+    
     public Rejestrlogowan findRejestrlogowanByIP(String ipusera) {
         return (Rejestrlogowan) em.createNamedQuery("Rejestrlogowan.findByIpusera").setParameter("ipusera", ipusera).getSingleResult();
     }
