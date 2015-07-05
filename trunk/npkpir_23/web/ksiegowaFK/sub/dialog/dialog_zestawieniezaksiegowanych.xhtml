@@ -24,7 +24,7 @@
 
         <h:form id="zestawieniedokumentow">
             <p:growl id="wiadomoscsprawdzenie" life="6000"/>
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid style="margin-left: 2%;" >
                 <p:row>
                 <p:column>
                     <h:outputText value="miesiąc: "/>
@@ -46,7 +46,7 @@
                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                         style="width: 200px; height: 19px; margin-left: 100px;">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
                 </h:selectOneMenu>
@@ -56,7 +56,12 @@
                                       style="margin-left: 20px; width: 120px;" />
                 </p:column>
                 <p:column>
-                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 400px;" 
+                    <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 250px;" 
+                                     update=":zestawieniedokumentow:dataList"
+                                    />
+                </p:column>
+                     <p:column>
+                         <p:commandButton id="salda" value="salda" actionListener="#{dokfkView.sprawdzsalda(dokfkView.wybranakategoriadok)}" style="width: 120px; margin-left: 10px;" rendered="#{dokfkView.wybranakategoriadok eq 'RK'}"
                                      update=":zestawieniedokumentow:dataList"
                                     />
                 </p:column>

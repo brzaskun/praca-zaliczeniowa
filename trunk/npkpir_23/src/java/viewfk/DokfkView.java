@@ -1138,14 +1138,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     pokazPanelWalutowy = false;
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
-                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                    saldoinnedok = obliczsaldopoczatkowe();
-                    selected.setSaldopoczatkowe(Z.z(saldoinnedok));
-                    saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
-                    Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
-                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
-                    System.out.println("Udane obliczenie salda");
-                }
+//                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+//                    saldoinnedok = obliczsaldopoczatkowe();
+//                    selected.setSaldopoczatkowe(Z.z(saldoinnedok));
+//                    saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
+//                    Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+//                    DialogWpisywanie.rozliczsalda(selected, saldoBO, saldoinnedok, kontorozrachunkowe);
+//                    System.out.println("Udane obliczenie salda");
+//                }
             }
         } catch (Exception e) { 
             E.e(e);
@@ -1241,6 +1241,26 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         System.out.println("Ilosc roznych dokummentow "+listaroznice.size());
+    }
+    
+    public void sprawdzsalda(String wybranakategoriadok) {
+        List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
+        for (Dokfk p : wykaz) {
+            int nrserii = p.getDokfkPK().getNrkolejnywserii();
+            if (nrserii == 1) {
+                double saldobo = pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe());
+                p.setSaldopoczatkowe(saldobo);
+            } else {
+                Dokfk poprzedni = wykaz.get(wykaz.indexOf(p)-1);
+                double saldopoprzednie = poprzedni.getSaldokoncowe();
+                p.setSaldopoczatkowe(saldopoprzednie);
+            }
+            for (Wiersz w : p.getListawierszy()) {
+                DialogWpisywanie.naprawsaldo(p, w);
+            }
+        }
+        dokDAOfk.editList(wykaz);
+        wykazZaksiegowanychDokumentow = wykaz;
     }
     
     public void odswiezzaksiegowane() {

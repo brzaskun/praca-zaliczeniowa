@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import viewfk.subroutines.ObslugaWiersza;
+import waluty.Z;
 
 /**
  *
@@ -31,17 +32,33 @@ public class DialogWpisywanie {
     }
     
     public static void rozliczkolejnesaldo(Dokfk selected, int indexwTabeli,double saldoinnedok) {
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+            Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+            Wiersz wierszbiezacy = selected.getListawierszy().get(indexwTabeli);
+            double sumapoprzednich = 0.0;
+            if (indexwTabeli==0) {
+                sumapoprzednich = saldoinnedok;
+            } else {
+                sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
+            }
+            double kwotawiersza = obliczsaldo(wierszbiezacy, kontorozrachunkowe);
+            wierszbiezacy.setSaldoWBRK(sumapoprzednich + kwotawiersza);
+        }
+    }
+    
+    public static void naprawsaldo(Dokfk selected,Wiersz wiersz) {
     if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
         Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
-        Wiersz wierszbiezacy = selected.getListawierszy().get(indexwTabeli);
         double sumapoprzednich = 0.0;
-        if (indexwTabeli==0) {
-            sumapoprzednich = saldoinnedok;
+        if (wiersz.getIdporzadkowy()==1) {
+            sumapoprzednich = selected.getSaldopoczatkowe();
         } else {
-            sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
+            sumapoprzednich = selected.getListawierszy().get(wiersz.getIdporzadkowy()-2).getSaldoWBRK();
         }
-        double kwotawiersza = obliczsaldo(wierszbiezacy, kontorozrachunkowe);
-        wierszbiezacy.setSaldoWBRK(sumapoprzednich + kwotawiersza);
+        double kwotawiersza = obliczsaldo(wiersz, kontorozrachunkowe);
+        double suma = Z.z(sumapoprzednich + kwotawiersza);
+        wiersz.setSaldoWBRK(suma);
+        selected.setSaldokoncowe(suma);
     }
 }
 
