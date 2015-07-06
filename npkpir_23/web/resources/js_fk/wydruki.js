@@ -2,7 +2,7 @@
 
 var wydrukpkpir = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("form:pkpirwysylka").style.display='inline';
+    r("form:pkpirwysylka").show();
 };
 
 var wydrukinwestycja = function(kto){

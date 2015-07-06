@@ -30,7 +30,7 @@
                 <br/>
                 <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ksiegaView.drukujPKPIR()}" >
                 </p:commandButton>
-                <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
+                <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none; margin-left: 20px;">
                 </p:commandButton>
             </p:panel>
              <p:hotkey bind="down"  onstart="przejdzwierszK();"/>

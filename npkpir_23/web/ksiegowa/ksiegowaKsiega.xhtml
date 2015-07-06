@@ -13,9 +13,9 @@
             <h:form>
                 <p:confirmDialog id="confirmDialog" message="Wysłać pkpir do wybranego podatnika? (po wciśnięciu 'Tak' cierpliwie czekaj!)"  
                                  header="Mailowanie pkpir" severity="alert" widgetVar="confirmation">
-                    <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide()"  
+                    <p:commandButton id="confirm" value="Tak, wysłać"  oncomplete="PF('confirmation').hide();r('form:pkpirwysylka').hide();"  
                                      actionListener="#{ksiegaView.mailpkpir()}"  />  
-                    <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide()" type="button" style="float: right;" />   
+                    <p:commandButton id="decline" value="Nie wysyłać" onclick="PF('confirmation').hide();r('form:pkpirwysylka').hide();" type="button" style="float: right;" />   
 
                 </p:confirmDialog>  
             </h:form>
