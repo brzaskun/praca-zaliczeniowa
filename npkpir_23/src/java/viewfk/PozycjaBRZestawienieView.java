@@ -689,24 +689,24 @@ public class PozycjaBRZestawienieView implements Serializable {
     
     public void drukujBilans(String ap) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilans(rootBilansAktywa, wpisView, ap);
+            PdfBilans.drukujBilans(rootBilansAktywa, wpisView, ap, 0);
         } else {
-            PdfBilans.drukujBilans(rootBilansPasywa, wpisView, ap);
+            PdfBilans.drukujBilans(rootBilansPasywa, wpisView, ap, 0);
         }
     }
     public void drukujBilansPozycje(String ap) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap);
+            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap, 0);
         } else {
-            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap);
+            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap, 0);
         }
     }
     
     public void drukujBilansKonta(String ap) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap);
+            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap, 0);
         } else {
-            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap);
+            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap, 0);
         }
     }
    

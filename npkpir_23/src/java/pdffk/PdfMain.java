@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import entity.Faktura;
 import entity.Podatnik;
@@ -269,7 +270,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("na początek roku " + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase("roku rozliczeniowy" + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -415,6 +416,15 @@ public class PdfMain {
                 col4[7] = 4;
                 col4[8] = 2;
                 return col4;
+            case "embeddable.ZestawienieRyczalt":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 3;
+                col[2] = 3;
+                col[3] = 3;
+                col[4] = 3;
+                col[5] = 3;
+                return col;
             case "testobjects.WierszDokfk":
                 int[] col5 = new int[size];
                 col5[0] = 1;
@@ -937,6 +947,31 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getPozycjenafakturze().get(0).getNazwa()), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getBrutto())), "right", 8));
                 table.addCell(ustawfrazeAlign(p.getTerminzaplaty(), "center", 8));
+            }
+            if (nazwaklasy.equals("embeddable.ZestawienieRyczalt")) {
+                ZestawienieRyczalt p = (ZestawienieRyczalt) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOkres(), "left", 8));
+                if (p.getS170() > 0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS170())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS85() > 0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS85())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS55() > 0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS55())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+                if (p.getS30() > 0) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS30())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                }
             }
         }
     }

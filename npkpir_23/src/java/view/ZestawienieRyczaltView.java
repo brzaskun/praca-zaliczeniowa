@@ -14,6 +14,7 @@ import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.RyczaltPodatek;
 import embeddable.Straty1;
+import embeddable.ZestawienieRyczalt;
 import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
@@ -46,6 +47,7 @@ import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfPIT28;
+import pdf.PdfZestRok;
 
 /**
  *
@@ -746,7 +748,34 @@ public class ZestawienieRyczaltView implements Serializable {
         }
     }
    
+    public void drukujPodsumowanieRoczne() {
+        try {
+            List<ZestawienieRyczalt> lista = stworzliste();
+            PdfZestRok.drukujRyczalt(wpisView, lista);
+        } catch (Exception e) { E.e(e); 
+            
+        }
+    }
     
+    private List<ZestawienieRyczalt> stworzliste() {
+        List<ZestawienieRyczalt> lista = new ArrayList<>();
+        lista.add(new ZestawienieRyczalt(1, "styczeń", styczen.get(0), styczen.get(1), styczen.get(2), styczen.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "luty", luty.get(0), luty.get(1), luty.get(2), luty.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "marzec", marzec.get(0), marzec.get(1), marzec.get(2), marzec.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "kwiecień", kwiecien.get(0), kwiecien.get(1), kwiecien.get(2), kwiecien.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "maj", maj.get(0), maj.get(1), maj.get(2), maj.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "czerwiec", czerwiec.get(0), czerwiec.get(1), czerwiec.get(2), czerwiec.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "I półrocze", Ipolrocze.get(0), Ipolrocze.get(1), Ipolrocze.get(2), Ipolrocze.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "lipiec", lipiec.get(0), lipiec.get(1), lipiec.get(2), lipiec.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "sierpień", sierpien.get(0), sierpien.get(1), sierpien.get(2), sierpien.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "wrzesień", wrzesien.get(0), wrzesien.get(1), wrzesien.get(2), wrzesien.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "październik", pazdziernik.get(0), pazdziernik.get(1), pazdziernik.get(2), pazdziernik.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "listopad", listopad.get(0), listopad.get(1), listopad.get(2), listopad.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "grudzień", grudzien.get(0), grudzien.get(1), grudzien.get(2), grudzien.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "II półrocze", IIpolrocze.get(0), IIpolrocze.get(1), IIpolrocze.get(2), IIpolrocze.get(3)));
+        lista.add(new ZestawienieRyczalt(1, "rok", rok.get(0), rok.get(1), rok.get(2), rok.get(3)));
+        return lista;
+    }
     
 
     public DokDAO getDokDAO() {

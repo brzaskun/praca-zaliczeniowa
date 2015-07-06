@@ -5,6 +5,7 @@
  */
 package testobjects;
 
+import embeddable.ZestawienieRyczalt;
 import embeddablefk.TreeNodeExtended;
 import entity.Faktura;
 import entity.Klienci;
@@ -204,6 +205,20 @@ public class testobjects {
        n.add("data zapłaty");
        n.add("różnica kursowa");  
        n.add("konto rozrachunkowe");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getZestawienieRyczalt(List<ZestawienieRyczalt> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("okres");
+       n.add("przych. wg 17%");
+       n.add("przych. wg 8,5%");
+       n.add("przych. wg 5,5%");
+       n.add("przych. wg 3%");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
