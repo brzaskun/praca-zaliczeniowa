@@ -18,6 +18,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.Mce;
+import embeddable.ZestawienieRyczalt;
+import entity.Uz;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +32,15 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.inicjacjaA4Portrait;
+import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.naglowekStopkaP;
+import static pdffk.PdfMain.otwarcieDokumentu;
 import view.WpisView;
+import view.ZestawienieRyczaltView;
 import view.ZestawienieView;
 
 /**
@@ -175,6 +186,28 @@ public class PdfZestRok{
         pdf.close();
         RequestContext.getCurrentInstance().execute("wydrukzbiorcze('"+wpisView.getPodatnikWpisu()+"');");
         Msg.msg("i", "Wydrukowano zestawienie obrotów", "form:messages");
+    }
+    
+    public static void drukujRyczalt(WpisView wpisView, List<ZestawienieRyczalt> pobranetransakcje) throws DocumentException, FileNotFoundException, IOException {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"ryczalt";
+        File file = new File(nazwa);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (pobranetransakcje != null && pobranetransakcje.size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, "Zestawienie przychodów ewidencjonowanych firmy: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getZestawienieRyczalt(pobranetransakcje),97,0);
+            finalizacjaDokumentu(document);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano Zestawienia Ryczałtu do wydruku");
+        }
     }
 
        
