@@ -50,29 +50,30 @@ public class MailOther implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
-             mbp2.setDataHandler(new DataHandler(fds));
-             mbp2.setFileName(fds.getName());
-             
-             // create the Multipart and add its parts to it
-             Multipart mp = new MimeMultipart();
-             mp.addBodyPart(mbp1);
-             mp.addBodyPart(mbp2);
-             
-             // add the Multipart to the message
-             message.setContent(mp);
-             Transport.send(message);
-             Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
-              try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
-                    file.delete();
-                 } catch (Exception ef) {
-                     Msg.msg("e", "Nieudane usunięcie pliku");
-                 }
+             File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
+             if (file.isFile()) {
+                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
+                mbp2.setDataHandler(new DataHandler(fds));
+                mbp2.setFileName(fds.getName());
+
+                // create the Multipart and add its parts to it
+                Multipart mp = new MimeMultipart();
+                mp.addBodyPart(mbp1);
+                mp.addBodyPart(mbp2);
+
+                // add the Multipart to the message
+                message.setContent(mp);
+                Transport.send(message);
+                Msg.msg("i","Wyslano maila z pkpir na wskazany adres: "+wpisView.getPodatnikObiekt().getEmail());
+                file.delete();
+             } else {
+                Msg.msg("e", "Wystąpił błąd - brak wydrukowanej pkpir do załączenia");
+             }
          } catch (MessagingException e) {
              Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
          }
      }
+    
      public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
          int i = 0;
