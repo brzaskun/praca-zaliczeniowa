@@ -1458,7 +1458,7 @@ public class PodatnikView implements Serializable {
     }
     
     public void zamienOpodatkowanieDochodowym() {
-        List<Podatnik> podatnicy = podatnikDAO.findAll();
+        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
         for (Podatnik p : podatnicy) {
             List<Parametr> parametr = p.getPodatekdochodowy();
             if (parametr != null) {
