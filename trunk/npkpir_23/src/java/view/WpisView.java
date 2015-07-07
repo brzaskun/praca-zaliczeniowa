@@ -12,7 +12,6 @@ import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.Podatnik;
-import entity.PodatnikOpodatkowanieD;
 import entity.Uz;
 import entity.Wpis;
 import error.E;
@@ -22,7 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -262,20 +260,12 @@ public class WpisView implements Serializable {
     }
     
     public String skierujmultisuera() {
-        Podatnik podatnik = podatnikDAO.find(podatnikWpisu);
-        List<Parametr> pod = podatnik.getPodatekdochodowy();
-        if ( pod != null && (!pod.isEmpty())) {
-            for (Parametr p : pod) {
-                if (p.getRokOd().equals(rokWpisuSt)) {
-                    if (p.getParametr().contains("księgi rachunkowe")) {
-                        return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
-                    } else {
-                        return "/guest/guestPodatki.xhtml?faces-redirect=true";
-                    }
-                }
-            }
+        rodzajopodatkowania = zwrocindexparametrzarok();
+        if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+            return "/guestFK/guestFKTablica.xhtml?faces-redirect=true";
+        } else {
+            return "/guest/guestPodatki.xhtml?faces-redirect=true";
         }
-        return "";
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">

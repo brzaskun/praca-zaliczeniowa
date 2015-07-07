@@ -7,6 +7,7 @@ package view;
 import dao.DeklaracjevatDAO;
 import dao.DokDAO;
 import dao.PitDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import embeddable.Parametr;
 import entity.Deklaracjevat;
@@ -67,6 +68,8 @@ public class InfoView implements Serializable{
     private String liczbavatdowyslania;
     private String liczbavatdopotw;
     private String ryczaltnieryczalt;
+    @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
 
     
     
@@ -125,12 +128,11 @@ public class InfoView implements Serializable{
 
     private void sprawdzopodatkowanie(){
         try{
-        List<Parametr> opodatkowanie = pod.getPodatekdochodowy();
-        if(opodatkowanie.isEmpty()){
+        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+        if(opodatkowanie == null){
             rodzajopodatkowania = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {
-            Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
-            rodzajopodatkowania = "Rodzaj opod. pod.doch.: "+tmp.getParametr();
+            rodzajopodatkowania = "Rodzaj opod. pod.doch.: "+opodatkowanie;
         }
         } catch (Exception e) { E.e(e); 
             rodzajopodatkowania = "Wystąpił nieokreślony błąd. Program nie będzie funkcjonował poprawnie";
@@ -139,12 +141,11 @@ public class InfoView implements Serializable{
     
     private void sprawdzvat(){
         try{
-        List<Parametr> opodatkowanie = pod.getPodatekdochodowy();
-        if(opodatkowanie.isEmpty()){
+        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+        if(opodatkowanie == null){
             vatnievat = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {
-            Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
-            if(tmp.getParametr().contains("vat")){
+            if(opodatkowanie.contains("vat")){
                 vatnievat = "Firma aktuanie nie jest płatnikiem VAT";
             } else {
                 vatnievat = "Firma aktuanie jest płatnikiem VAT";
@@ -157,12 +158,11 @@ public class InfoView implements Serializable{
     
      private void sprawdzryczalt(){
         try{
-        List<Parametr> opodatkowanie = pod.getPodatekdochodowy();
-        if(opodatkowanie.isEmpty()){
+        String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+        if(opodatkowanie == null){
             ryczaltnieryczalt = "Nie wprowadzono rodzaju opodatkowania! Program nie będzie funkcjonował poprawnie";
         } else {
-            Parametr tmp = opodatkowanie.get(opodatkowanie.size()-1);
-            if(tmp.getParametr().contains("ryczałt")){
+            if(opodatkowanie.contains("ryczałt")){
                 ryczaltnieryczalt = "Firma aktuanie jest na ryczałcie";
             } else {
                 ryczaltnieryczalt = "Firma aktuanie nie jest na ryczałcie";
