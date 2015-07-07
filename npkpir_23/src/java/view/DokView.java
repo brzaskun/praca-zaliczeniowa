@@ -17,6 +17,7 @@ import dao.InwestycjeDAO;
 import dao.KlienciDAO;
 import dao.OstatnidokumentDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.RodzajedokDAO;
 import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
@@ -163,6 +164,8 @@ public final class DokView implements Serializable {
     private boolean ukryjEwiencjeVAT;//ukrywa ewidencje VAT
     @Inject
     private Evewidencja nazwaEwidencjiwPoprzednimDok;
+    @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
 
     public DokView() {
         setWysDokument(null);
@@ -201,17 +204,21 @@ public final class DokView implements Serializable {
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(podX);
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
-            nieVatowiec = ParametrView.zwrocParametr(podX.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
-            if (podX.getPodatekdochodowy().get(podX.getPodatekdochodowy().size() - 1).getParametr().contains("VAT")) {
+            String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+            nieVatowiec = opodatkowanie.contains("bez VAT");
+            if (nieVatowiec) {
                 selDokument.setDokumentProsty(true);
+                ukryjEwiencjeVAT = true;
             }
             RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
+            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2");
         } catch (Exception e) {
             E.e(e);
             String pod = "GRZELCZYK";
             podX = podatnikDAO.find(pod);
             rodzajedokKlienta.addAll(rodzajedokDAO.findListaPodatnik(podX));
-            nieVatowiec = ParametrView.zwrocParametr(podX.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu()).contains("bez VAT");
+            String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
+            nieVatowiec = opodatkowanie.contains("bez VAT");
         }
         //pobranie ostatniego dokumentu
         try {
@@ -649,7 +656,7 @@ public final class DokView implements Serializable {
         VAT.zweryfikujokresvat(selDokument);
         Double kwotavat = 0.0;
         try {
-            String rodzajOpodatkowania = ParametrView.zwrocParametr(podatnikWDokumencie.getPodatekdochodowy(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
+            String rodzajOpodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
             if ((!rodzajOpodatkowania.contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
                 Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
                 List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
@@ -774,6 +781,9 @@ public final class DokView implements Serializable {
             Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             selDokument.setKontr1(klient);
             selectedSTR = new SrodekTrw();
+            if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
+                selDokument.setDokumentProsty(true);
+            }
             RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
             setRenderujwysz(false);

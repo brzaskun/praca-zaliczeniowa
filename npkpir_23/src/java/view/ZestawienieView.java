@@ -10,12 +10,12 @@ import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodStawkiDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
 import embeddable.Mce;
 import embeddable.Straty1;
-import embeddable.Udzialy;
 import entity.Amodok;
 import entity.Dok;
 import entity.KwotaKolumna1;
@@ -117,6 +117,8 @@ public class ZestawienieView implements Serializable {
     private boolean pierwszypitwrokuzaznacz;
      @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
+     @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
     
     private int flaga = 0;
 
@@ -949,7 +951,7 @@ public class ZestawienieView implements Serializable {
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
-                String opodatkowanie = ParametrView.zwrocParametr(selected.getPodatekdochodowy(), wpisView.getRokWpisu(), Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu()));
+                String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
                 String rodzajop = opodatkowanie;
                 Double stawka = 0.0;
                 BigDecimal podatek = BigDecimal.ZERO;

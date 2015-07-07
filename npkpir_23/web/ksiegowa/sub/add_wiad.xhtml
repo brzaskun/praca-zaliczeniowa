@@ -83,12 +83,12 @@
                                  onblur="$(this).removeClass('ui-state-focus');">
                     <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop.rodzajedokPK.skrotNazwyDok}"/>
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
-                    <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" partialSubmit="true"/>
-                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();"/>
+                    <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" partialSubmit="true" global="false"/>
+                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();" global="false"/>
                 </h:selectOneMenu>
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
                     <f:validateLength minimum="1" maximum="50"/>
-                    <f:ajax event="blur" execute="@this" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
+                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                 </p:inputText>
 
                 <p:autoComplete id="opis" value="#{DokumentView.selDokument.opis}" completeMethod="#{Opis.complete}"
@@ -121,11 +121,12 @@
                 <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
                     <p:column headerText="dok. prosty" style="text-align: center;" width="60">
                         <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" >
-                            <p:ajax event="click" listener="#{DokumentView.dokumentProstySchowajEwidencje()}" global="false"/>
+                            <p:ajax event="click" partialSubmit="true" listener="#{DokumentView.dokumentProstySchowajEwidencje()}" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="rozliczony" style="text-align: center;" width="60">
                         <h:selectBooleanCheckbox id="rozliczony" value="#{item.rozliczony}" onchange="przekazdate()"  >
+                            <p:ajax event="click" partialSubmit="true" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="termin płatności">

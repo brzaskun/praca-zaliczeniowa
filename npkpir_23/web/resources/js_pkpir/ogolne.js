@@ -102,6 +102,7 @@ var aktywujopis = function() {
             break;
         default:
             r('dodWiad:tabelapkpir2:0:dokumentprosty').attr('checked', false);
+            r('dodWiad:panelewidencjivat').show();
     }
 
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu

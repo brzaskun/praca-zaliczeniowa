@@ -1457,20 +1457,20 @@ public class PodatnikView implements Serializable {
         }
     }
     
-    public void zamienOpodatkowanieDochodowym() {
-        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
-        for (Podatnik p : podatnicy) {
-            List<Parametr> parametr = p.getPodatekdochodowy();
-            if (parametr != null) {
-                for (Parametr r : parametr) {
-                    PodatnikOpodatkowanieD s = new PodatnikOpodatkowanieD(r,p);
-                    podatnikOpodatkowanieDDAO.dodaj(s);
-                }
-            p.setPodatekdochodowy(null);
-            podatnikDAO.edit(p);
-            }
-        }
-    }
+//    public void zamienOpodatkowanieDochodowym() {
+//        List<Podatnik> podatnicy = podatnikDAO.findAllManager();
+//        for (Podatnik p : podatnicy) {
+//            List<Parametr> parametr = p.getPodatekdochodowy();
+//            if (parametr != null) {
+//                for (Parametr r : parametr) {
+//                    PodatnikOpodatkowanieD s = new PodatnikOpodatkowanieD(r,p);
+//                    podatnikOpodatkowanieDDAO.dodaj(s);
+//                }
+//            p.setPodatekdochodowy(null);
+//            podatnikDAO.edit(p);
+//            }
+//        }
+//    }
 
     
  

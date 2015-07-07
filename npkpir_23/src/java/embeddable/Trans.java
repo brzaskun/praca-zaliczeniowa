@@ -81,12 +81,6 @@ public class Trans implements Serializable{
     }
 
     public List<String> getTransListView() {
-        try {
-            Podatnik tmp = podatnikDAO.find(wpisView.getPodatnikWpisu());
-            int index = tmp.getPodatekdochodowy().size()-1;
-        } catch (Exception e) {
-            System.out.println("Blad w Trans.java");
-        }
         return transList;
     }
 
