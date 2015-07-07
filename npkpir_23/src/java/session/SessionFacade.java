@@ -26,6 +26,7 @@ import entity.Pitpoz;
 import entity.Platnosci;
 import entity.PlatnosciPK;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Pozycjenafakturze;
@@ -1555,5 +1556,12 @@ public class SessionFacade<T> implements Serializable {
     public List<PodatnikUdzialy> findUdzialyPodatnik(WpisView wpisView) {
         return em.createNamedQuery("PodatnikUdzialy.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
+    
+    public List<PodatnikOpodatkowanieD> findOpodatkowaniePodatnik(WpisView wpisView) {
+        return em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+    }
 
+    public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(WpisView wpisView) {
+        return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getSingleResult();
+    }
 }

@@ -7,6 +7,7 @@ package view;
 import dao.DokDAO;
 import dao.PitDAO;
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.RodzajedokDAO;
 import dao.WpisDAO;
@@ -18,6 +19,7 @@ import embeddable.Straty1;
 import embeddable.Udzialy;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Rodzajedok;
 import entity.Zusstawki;
@@ -109,7 +111,8 @@ public class PodatnikView implements Serializable {
     private PitDAO pitDAO;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
-
+    @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
     private String biezacadata;
     private List<Konto> listaKontKasaBank;
     private List<Konto> listaKontRozrachunkowych;
@@ -117,6 +120,9 @@ public class PodatnikView implements Serializable {
     private List<Konto> listakontoRZiS;
     private List<PodatnikUdzialy> podatnikUdzialy;
     private PodatnikUdzialy wybranyPodatnikUdzialy;
+    private List<PodatnikOpodatkowanieD> podatnikOpodatkowanie;
+    @Inject
+    private PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie;
     
 
     public PodatnikView() {
@@ -131,6 +137,7 @@ public class PodatnikView implements Serializable {
         listakontoRZiS  = new ArrayList<>();
         listaKontKasaBank  = new ArrayList<>();
         podatnikUdzialy = new ArrayList<>();
+        podatnikOpodatkowanie = new ArrayList<>();
         
     }
 
@@ -148,6 +155,7 @@ public class PodatnikView implements Serializable {
         }
         rodzajeDokumentowLista = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
         podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        podatnikOpodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
     }
 
@@ -339,22 +347,17 @@ public class PodatnikView implements Serializable {
 //    }
 //
     public void dodajdoch() {
-        selected = wpisView.getPodatnikObiekt();
-        List<Parametr> lista = new ArrayList<>();
-        try {
-            lista.addAll(selected.getPodatekdochodowy());
-        } catch (Exception e) { E.e(e); 
-        }
-        if (sprawdzrok(parametr, lista) == 0) {
-            lista.add(parametr);
-            selected.setPodatekdochodowy(lista);
-            podatnikDAO.edit(selected);
-            parametr = new Parametr();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr pod.dochodowy do podatnika.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        if (sprawdzrok(wybranyPodatnikOpodatkowanie, podatnikOpodatkowanie) == 0) {
+            wybranyPodatnikOpodatkowanie.setMcOd("01");
+            wybranyPodatnikOpodatkowanie.setMcDo("12");
+            wybranyPodatnikOpodatkowanie.setPodatnikObj(wpisView.getPodatnikObiekt());
+            wybranyPodatnikOpodatkowanie.setRokDo(wybranyPodatnikOpodatkowanie.getRokOd());
+            podatnikOpodatkowanie.add(wybranyPodatnikOpodatkowanie);
+            podatnikOpodatkowanieDDAO.dodaj(wybranyPodatnikOpodatkowanie);
+            wybranyPodatnikOpodatkowanie = new PodatnikOpodatkowanieD();
+            Msg.msg("Dodatno parametr pod.dochodowy do podatnika "+selected.getNazwapelna());
         } else {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niedodatno parametru pod.doch. Niedopasowane okresy.", selected.getNazwapelna());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e", "Niedodatno parametru pod.doch. Niedopasowane okresy. Podatnik "+selected.getNazwapelna());
         }
     }
     
@@ -403,13 +406,27 @@ public class PodatnikView implements Serializable {
             }
         }
     }
+    
+    private int sprawdzrok(PodatnikOpodatkowanieD nowe, List<PodatnikOpodatkowanieD> stare) {
+        if (stare.isEmpty()) {
+            return 0;
+        } else {
+            PodatnikOpodatkowanieD ostatniparametr = stare.get(stare.size() - 1);
+            Integer old_rokDo = Integer.parseInt(ostatniparametr.getRokDo());
+            Integer new_rokOd = Integer.parseInt(nowe.getRokOd());
+            if (old_rokDo == new_rokOd - 1) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+    }
+    
 
     public void usundoch() {
-        List<Parametr> tmp = new ArrayList<>();
-        tmp.addAll(selected.getPodatekdochodowy());
-        tmp.remove(tmp.size() - 1);
-        selected.setPodatekdochodowy(tmp);
-        podatnikDAO.edit(selected);
+        PodatnikOpodatkowanieD p = podatnikOpodatkowanie.get(podatnikOpodatkowanie.size()-1);
+        podatnikOpodatkowanie.remove(p);
+        podatnikOpodatkowanieDDAO.destroy(p);
     }
 
     public void dodajvat() {
@@ -1395,6 +1412,22 @@ public class PodatnikView implements Serializable {
         this.wybranyPodatnikUdzialy = wybranyPodatnikUdzialy;
     }
 
+    public List<PodatnikOpodatkowanieD> getPodatnikOpodatkowanie() {
+        return podatnikOpodatkowanie;
+    }
+
+    public void setPodatnikOpodatkowanie(List<PodatnikOpodatkowanieD> podatnikOpodatkowanie) {
+        this.podatnikOpodatkowanie = podatnikOpodatkowanie;
+    }
+
+    public PodatnikOpodatkowanieD getWybranyPodatnikOpodatkowanie() {
+        return wybranyPodatnikOpodatkowanie;
+    }
+
+    public void setWybranyPodatnikOpodatkowanie(PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie) {
+        this.wybranyPodatnikOpodatkowanie = wybranyPodatnikOpodatkowanie;
+    }
+
     public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {
         this.podatnikUdzialy = podatnikUdzialy;
     }
@@ -1419,6 +1452,21 @@ public class PodatnikView implements Serializable {
                     }
                 }
             p.setUdzialy(null);
+            podatnikDAO.edit(p);
+            }
+        }
+    }
+    
+    public void zamienOpodatkowanieDochodowym() {
+        List<Podatnik> podatnicy = podatnikDAO.findAll();
+        for (Podatnik p : podatnicy) {
+            List<Parametr> parametr = p.getPodatekdochodowy();
+            if (parametr != null) {
+                for (Parametr r : parametr) {
+                    PodatnikOpodatkowanieD s = new PodatnikOpodatkowanieD(r,p);
+                    podatnikOpodatkowanieDDAO.dodaj(s);
+                }
+            p.setPodatekdochodowy(null);
             podatnikDAO.edit(p);
             }
         }

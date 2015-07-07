@@ -5,12 +5,14 @@
 package view;
 
 import dao.PodatnikDAO;
+import dao.PodatnikOpodatkowanieDDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.Uz;
 import entity.Wpis;
 import error.E;
@@ -24,7 +26,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import msg.Msg;
 
 /**
  *
@@ -62,6 +63,8 @@ public class WpisView implements Serializable {
     private UzDAO uzDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
 
 
     @PostConstruct
@@ -238,7 +241,7 @@ public class WpisView implements Serializable {
     
     private void pobierzOpodatkowanie() {
         try {
-                rodzajopodatkowania = podatnikObiekt.getPodatekdochodowy().get(zwrocindexparametrzarok(podatnikObiekt.getPodatekdochodowy())).getParametr();
+                rodzajopodatkowania = zwrocindexparametrzarok();
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
                 } else {
@@ -254,28 +257,8 @@ public class WpisView implements Serializable {
             }
     }
     
-    private int zwrocindexparametrzarok(List<Parametr> podatekdochodowy) {
-        ExternalContext f = FacesContext.getCurrentInstance().getExternalContext();
-        boolean manager = f.isUserInRole("Manager");
-        boolean admin = f.isUserInRole("Administrator");
-        boolean guestfk = f.isUserInRole("GuestFK");
-        if ((manager == false) && (admin == false) && (guestfk == false)) {
-            int i = 0;
-            for (Parametr p : podatekdochodowy) {
-                String rokod = p.getRokOd();
-                String rokdo = p.getRokDo();
-                String rokwpisuS = String.valueOf(this.rokWpisu);
-                boolean rokzamkniety = rokod.equals(rokwpisuS) && rokdo.equals(rokwpisuS);
-                boolean rokotwarty = rokod.equals(rokwpisuS) && rokdo == (null);
-                if (rokzamkniety || rokotwarty) {
-                    return i;
-                }
-                i++;
-            }
-            System.out.println("Parametr opodatkowania nie wprowadzony za dany rok "+rokWpisuSt);
-            return -1;
-        }
-        return -1;
+    private String zwrocindexparametrzarok() {
+         return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getFormaopodatkowania();
     }
     
     public String skierujmultisuera() {
