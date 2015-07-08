@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import msg.Msg;
 import org.apache.commons.lang3.StringUtils;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
@@ -297,8 +298,11 @@ public class PlanKontFKBean {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
-            if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+            if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+            }
+            if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
             E.e(e);
@@ -309,8 +313,11 @@ public class PlanKontFKBean {
         try {
             Konto macierzyste = kontoDAOfk.findKontoWzorcowy(noweKonto.getMacierzyste(), wpisView);
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
-            if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+            if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+            }
+            if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
             E.e(e);
@@ -604,13 +611,13 @@ public class PlanKontFKBean {
     }
 
     
-    public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk) {
+    public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja) {
         KontopozycjaZapis kp = new KontopozycjaZapis();
         kp.setPozycjaWn(kpo.getPozycjaWn());
         kp.setPozycjaMa(kpo.getPozycjaMa());
         kp.setStronaWn(kpo.getStronaWn());
         kp.setStronaMa(kpo.getStronaMa());
-        kp.setSyntetykaanalityka("syntetyka");
+        kp.setSyntetykaanalityka(wersja);
         kp.setKontoID(noweKonto);
         kp.setUkladBR(kpo.getUkladBR());
         kontopozycjaZapisDAO.edit(kp);
