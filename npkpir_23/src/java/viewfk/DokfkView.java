@@ -868,9 +868,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void skopiujopisdopierwszegowiersza() {
             try {
                 Wiersz w = selected.getListawierszy().get(0);
-                w.setOpisWiersza(selected.getOpisdokfk());
-            } catch (Exception e) {  E.e(e);
-                
+                if (w.getOpisWiersza() != null && !w.getOpisWiersza().equals("")) {
+                    w.setOpisWiersza(selected.getOpisdokfk());
+                }
+            } catch (Exception e) {
+                E.e(e);
             }
     }
     

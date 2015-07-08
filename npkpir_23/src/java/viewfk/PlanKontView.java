@@ -215,9 +215,12 @@ public class PlanKontView implements Serializable {
             if (wynikdodaniakonta == 0) {
                 try {
                     KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
-                    if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                       PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
-                    }
+                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                           Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+                        }
+                        if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
+                        }
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -245,14 +248,16 @@ public class PlanKontView implements Serializable {
         String nrmacierzystego = PlanKontFKBean.modyfikujnr(noweKonto.getPelnynumer());
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
         if (kontomacierzyste != null && kontomacierzyste.isSlownikowe() == false) {
-            if (kontomacierzyste.isBlokada() == false) {
                 int wynikdodaniakonta = 1;
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                 if (wynikdodaniakonta == 0) {
                     try {
                         KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
-                        if (!kpo.getSyntetykaanalityka().equals("analityka")) {
-                           PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk);
+                        if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                           Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+                        }
+                        if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
                         }
                     } catch (Exception e) {
                         E.e(e);
@@ -273,9 +278,6 @@ public class PlanKontView implements Serializable {
                     Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
                 }
                 planKontCompleteView.init();
-            } else {
-                Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
-            }
         } else {
             Msg.msg("e", "Niewłaściwy numer konta. Nie dodano nowej analityki");
         }
