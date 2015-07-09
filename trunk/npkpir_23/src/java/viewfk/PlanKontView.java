@@ -247,7 +247,7 @@ public class PlanKontView implements Serializable {
     public void dodajanalityczneWpis() {
         String nrmacierzystego = PlanKontFKBean.modyfikujnr(noweKonto.getPelnynumer());
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
-        if (kontomacierzyste != null && kontomacierzyste.isSlownikowe() == false) {
+        if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
                 int wynikdodaniakonta = 1;
                 wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
                 if (wynikdodaniakonta == 0) {
@@ -279,7 +279,7 @@ public class PlanKontView implements Serializable {
                 }
                 planKontCompleteView.init();
         } else {
-            Msg.msg("e", "Niewłaściwy numer konta. Nie dodano nowej analityki");
+            Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
         }
     }
     
