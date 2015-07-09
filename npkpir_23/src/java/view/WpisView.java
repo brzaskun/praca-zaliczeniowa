@@ -51,6 +51,7 @@ public class WpisView implements Serializable {
     private boolean srodkTrw;
     private String rodzajopodatkowania;
     private boolean ksiegaryczalt;
+    private boolean mc0kw1;
     private boolean ksiegirachunkowe;
     private boolean FKpiatki;
     @Inject
@@ -239,6 +240,7 @@ public class WpisView implements Serializable {
     
     private void pobierzOpodatkowanie() {
         try {
+                mc0kw1 = zwrocmc0kw1();
                 rodzajopodatkowania = zwrocindexparametrzarok();
                 if (rodzajopodatkowania.contains("ryczałt")) {
                     ksiegaryczalt = false;
@@ -259,6 +261,9 @@ public class WpisView implements Serializable {
          return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).getFormaopodatkowania();
     }
     
+    private boolean zwrocmc0kw1() {
+        return podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(this).isMc0kw1();
+    }
     public String skierujmultisuera() {
         rodzajopodatkowania = zwrocindexparametrzarok();
         if (rodzajopodatkowania.contains("księgi rachunkowe")) {
@@ -421,6 +426,14 @@ public class WpisView implements Serializable {
     
     public void setRokUprzedni(Integer rokUprzedni) {
         this.rokUprzedni = rokUprzedni;
+    }
+
+    public boolean isMc0kw1() {
+        return mc0kw1;
+    }
+
+    public void setMc0kw1(boolean mc0kw1) {
+        this.mc0kw1 = mc0kw1;
     }
     
     public String getRokUprzedniSt() {

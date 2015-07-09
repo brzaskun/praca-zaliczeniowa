@@ -82,20 +82,12 @@
                 <h:outputText value=""/>
                 <h:outputText value=""/>
                 <p:panelGrid columns="1">
-                    <h:outputLabel value="dochodowy okres?"/>
                     <h:outputLabel value="vat metoda kasowa"/>
                     <h:outputLabel value="urząd skarbowy VAT"/>
                     <h:outputLabel value="odliczać ZUS51 w PIT"/>
 <!--                    <h:outputLabel value="firma prowadząca księgi handlowe"/>-->
                 </p:panelGrid>
                 <p:panelGrid columns="1">
-                    <h:selectOneMenu value="#{podatnikView.selectedDod.dochokres}" 
-                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                     onfocus="$(this).addClass('ui-state-focus');" 
-                                     onblur="$(this).removeClass('ui-state-focus');" >
-                        <f:selectItem itemValue="miesiąc"/>
-                        <f:selectItem itemValue="kwartał"/>
-                    </h:selectOneMenu>
                       <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');" 
@@ -105,7 +97,7 @@
                     </h:selectOneMenu>
                     <p:autoComplete completeMethod="#{tKodUS.complete}" value="#{podatnikView.selectedDod.urzadskarbowy}"
                                     forceSelection="true" maxResults="15" size="50" minQueryLength="3" effect="clip" var="p"
-                                    queryDelay="10" queryDeletionDelay="10"
+                                    queryDelay="10" 
                                     itemLabel="#{p}" itemValue="#{p}">
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  

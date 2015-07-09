@@ -62,11 +62,6 @@
             <h:inputText id="nrdomu" value="#{podatnikView.selectedDod.nrdomu}" required="true" requiredMessage="Nr domu - jest wymagany, uzupełnij!"/>
             <h:outputLabel value="nr lokalu"/>
             <h:inputText id="nrlokalu" value="#{podatnikView.selectedDod.nrlokalu}"/>
-            <h:outputLabel value="dochodowy okres?"/>
-            <h:selectOneMenu value="#{podatnikView.selectedDod.dochokres}" >
-                <f:selectItem itemValue="miesiąc"/>
-                <f:selectItem itemValue="kwartał"/>
-            </h:selectOneMenu>
             <h:outputLabel value="vat metoda kasowa"/>
             <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}">
                 <f:selectItem itemValue="tak"/>
