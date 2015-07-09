@@ -67,6 +67,11 @@ public class Kwartaly implements Serializable{
         mapakwnr.put(4, Szeregmcy.kwmce4);
     }
     
+    public static List<String> mctoMcwKw(String mc) {
+        int nrmca = Mce.getMiesiacToNumber().get(mc);
+        String kwartal = mapanrkw.get(nrmca);
+        return mapakwnr.get(Integer.parseInt(kwartal));
+    }
     
     public static List<String> getKwList() {
         return kwList;

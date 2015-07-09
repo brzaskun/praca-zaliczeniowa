@@ -65,13 +65,6 @@
                     <p:inputText id="nrdomu" value="#{podatnikView.selectedDod.nrdomu}" required="true" requiredMessage="Nr domu - jest wymagany, uzupełnij!"/>
                     <h:outputLabel value="nr lokalu"/>
                     <p:inputText id="nrlokalu" value="#{podatnikView.selectedDod.nrlokalu}"/>
-                    <h:outputLabel value="dochodowy okres?"/>
-                    <h:selectOneMenu value="#{podatnikView.selectedDod.dochokres}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                     onfocus="$(this).addClass('ui-state-focus');" 
-                                     onblur="$(this).removeClass('ui-state-focus');">
-                        <f:selectItem itemValue="miesiąc"/>
-                        <f:selectItem itemValue="kwartał"/>
-                    </h:selectOneMenu>
                     <h:outputLabel value="VAT metoda kasowa"/>
                     <h:selectOneMenu value="#{podatnikView.selectedDod.metodakasowa}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');" 

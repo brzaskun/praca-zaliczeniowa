@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Podatnik.findByPesel", query = "SELECT p FROM Podatnik p WHERE p.pesel = :pesel"),
     @NamedQuery(name = "Podatnik.findByRegon", query = "SELECT p FROM Podatnik p WHERE p.regon = :regon"),
     @NamedQuery(name = "Podatnik.findByDataurodzenia", query = "SELECT p FROM Podatnik p WHERE p.dataurodzenia = :dataurodzenia"),
-    @NamedQuery(name = "Podatnik.findByDochokres", query = "SELECT p FROM Podatnik p WHERE p.dochokres = :dochokres"),
     @NamedQuery(name = "Podatnik.findByEmail", query = "SELECT p FROM Podatnik p WHERE p.email = :email"),
     @NamedQuery(name = "Podatnik.findByFax", query = "SELECT p FROM Podatnik p WHERE p.fax = :fax"),
     @NamedQuery(name = "Podatnik.findByGmina", query = "SELECT p FROM Podatnik p WHERE p.gmina = :gmina"),
@@ -83,9 +82,6 @@ public class Podatnik implements Serializable {
     @Size(max = 255)
     @Column(name = "DATAURODZENIA")
     private String dataurodzenia;
-    @Size(max = 255)
-    @Column(name = "DOCHOKRES")
-    private String dochokres;
     @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Nieprawidłowy adres email")
     @Size(max = 255)
     @Column(name = "EMAIL")
@@ -302,13 +298,6 @@ public class Podatnik implements Serializable {
         this.dataurodzenia = dataurodzenia;
     }
     
-    public String getDochokres() {
-        return dochokres;
-    }
-    
-    public void setDochokres(String dochokres) {
-        this.dochokres = dochokres;
-    }
     
     public String getEmail() {
         return email;

@@ -14,6 +14,7 @@ import dao.PodatnikOpodatkowanieDDAO;
 import dao.PodatnikUdzialyDAO;
 import dao.WpisDAO;
 import dao.ZobowiazanieDAO;
+import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Straty1;
 import entity.Amodok;
@@ -21,6 +22,7 @@ import entity.Dok;
 import entity.KwotaKolumna1;
 import entity.Pitpoz;
 import entity.Podatnik;
+import entity.PodatnikOpodatkowanieD;
 import entity.PodatnikUdzialy;
 import entity.Podstawki;
 import entity.Wpis;
@@ -860,7 +862,6 @@ public class ZestawienieView implements Serializable {
             }
             sprawdzczyzaksiegowanoamortyzacje();
             if (flaga == 0) {
-                Podatnik tmpP = podatnikDAO.find(wpisView.getPodatnikWpisu());
                 List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
                 for (PodatnikUdzialy p : udzialy) {
                     if (p.getNazwiskoimie().equals(wybranyudzialowiec)) {
@@ -886,39 +887,22 @@ public class ZestawienieView implements Serializable {
                 biezacyPit.setWynik(biezacyPit.getPrzychodyudzial().subtract(biezacyPit.getKosztyudzial()));
                 biezacyPit.setUdzialowiec(wybranyudzialowiec);
                 biezacyPit.setUdzial(wybranyprocent);
-                String poszukiwany = wpisView.getPodatnikWpisu();
-                Podatnik selected = podatnikDAO.find(poszukiwany);
+                Podatnik selected = wpisView.getPodatnikObiekt();
                 Pitpoz sumapoprzednichmcy;
                 try {
                     Iterator it;
                     it = selected.getZusparametr().iterator();
                     if (zus51zreki == false) {
-                        while (it.hasNext()) {
-                            Zusstawki tmpX = (Zusstawki) it.next();
-                            if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
-                                    && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                                if (selected.getOdliczaczus51() == true) {
-                                    if (tmpX.getZus51ch() != null) {
-                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
-                                    } else {
-                                        biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51bch()));
-                                    }
-                                } else {
-                                    biezacyPit.setZus51(new BigDecimal(0));
-                                }
-                                if (zus52zreki == false) {
-                                    biezacyPit.setZus52(BigDecimal.valueOf(tmpX.getZus52odl()));
-                                }
-                                break;
-                            }
-                        }
+                        biezacyPit.setZus51(pobierzZUS51());
                     }
-
+                    if (zus52zreki == false) {
+                        biezacyPit.setZus52(pobierzZUS52());
+                    }
                     sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
                     if (selected.getOdliczaczus51() == true && pierwszypitwroku == false) {
                         biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                     }
-                    rozliczstrate(tmpP);
+                    rozliczstrate(wpisView.getPodatnikObiekt());
                     BigDecimal tmp = biezacyPit.getWynik().subtract(biezacyPit.getStrata());
                     if (biezacyPit.getZus51() != null) {
                         tmp = tmp.subtract(biezacyPit.getZus51());
@@ -1000,9 +984,9 @@ public class ZestawienieView implements Serializable {
                 } else {
                     biezacyPit.setPodatek(BigDecimal.ZERO);
                 }
-                if (zus52zreki == false && biezacyPit.getZus52() != null) {
+                if (biezacyPit.getZus52() != null) {
                     biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-                } else {
+                } else if (biezacyPit.getZus52() == null) {
                     biezacyPit.setZus52(sumapoprzednichmcy.getZus52());
                 }
                 BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
@@ -1042,6 +1026,64 @@ public class ZestawienieView implements Serializable {
 
             }
         }
+    }
+    
+    private BigDecimal pobierzZUS51() {
+        Podatnik p = wpisView.getPodatnikObiekt();
+        Iterator it;
+        it = p.getZusparametr().iterator();
+        double suma51 = 0;
+            while (it.hasNext()) {
+                Zusstawki tmpX = (Zusstawki) it.next();
+                if (wpisView.isMc0kw1()) {
+                    List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
+                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                        if (p.getOdliczaczus51() == true) {
+                            if (tmpX.getZus51ch() != null) {
+                                suma51 += tmpX.getZus51ch();
+                            } else {
+                                suma51 += tmpX.getZus51bch();
+                            }
+                        }
+                    }
+                } else {
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
+                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                        if (p.getOdliczaczus51() == true) {
+                            if (tmpX.getZus51ch() != null) {
+                                suma51 += tmpX.getZus51ch();
+                            } else {
+                                suma51 += tmpX.getZus51bch();
+                            }
+                        }
+                    }
+                }
+            }
+            return BigDecimal.valueOf(suma51);
+    }
+    
+    private BigDecimal pobierzZUS52() {
+        Podatnik p = wpisView.getPodatnikObiekt();
+        Iterator it;
+        it = p.getZusparametr().iterator();
+        double suma52 = 0;
+            while (it.hasNext()) {
+                Zusstawki tmpX = (Zusstawki) it.next();
+                if (wpisView.isMc0kw1()) {
+                    List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
+                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                                suma52 += tmpX.getZus52odl();
+                        }
+                } else {
+                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
+                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                        suma52 += tmpX.getZus52odl();
+                    }
+                }
+            }
+            return BigDecimal.valueOf(suma52);
     }
     
     private void sprawdzczyzaksiegowanoamortyzacje() {
@@ -1737,7 +1779,7 @@ private void aktualizujGuest(){
         if (pierwszypitwroku == true) {
             return 0;
         }
-        if (wpisView.getPodatnikObiekt().getDochokres().equals("kwartał")) {
+        if (wpisView.isMc0kw1()) {
             if (!wpisView.getMiesiacWpisu().equals("03") || wybranyudzialowiec.equals("wybierz osobe")) {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                 String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca-3);
