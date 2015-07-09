@@ -5,7 +5,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
 
     xmlns:f="http://java.sun.com/jsf/core">
-    <p:dialog header="Wpisz dane nowego konta: #{planKontView.selectednodekonto.pelnynumer}" widgetVar="dialog_wpisywanie_dodajkonto" 
+    <p:dialog header="Wpisz dane nowego konta. Nie można dodać kont słownikowych " widgetVar="dialog_wpisywanie_dodajkonto" 
               resizable="false" id="dialog_wpisywanie_dodajkonto" modal="true" appendTo="@(body)"
               onShow="dialog_wpisywanie_dodajkontoShow();" closeOnEscape="true" onHide="resetujdialog('dialog_wpisywanie_dodajkonto');"
               focus="form_dialog_wpisywanie_dodajkonto:numerkonta">  

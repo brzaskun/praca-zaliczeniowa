@@ -245,8 +245,8 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30" style="height: 19px;">
-                                        <p:ajax event="blur" partialSubmit="true" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" 
-                                                global="false" oncomplete="stworzdelegacje();" update=":formwpisdokument:dataList"/>
+                                        <p:ajax event="blur" partialSubmit="true" global="false" oncomplete="stworzdelegacje();" update=":formwpisdokument:dataList"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
