@@ -23,9 +23,9 @@
                 <p:inputText id="nazwamiejscas" value="#{miejsceKosztowView.selected.opisskrocony}" style="width: 180px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{miejsceKosztowView.dodaj()}" style="margin: 2%; width: 120px;" 
-                             update="@form, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
+                             update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{miejsceKosztowView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update="@form, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
+                             update=":miejscakosztow, :miejscakosztowlista" rendered="#{miejsceKosztowView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="miejscakosztowlista">
             <p:dataTable value="#{miejsceKosztowView.miejscakosztow}" var="item" style="width: 850px;" 
@@ -40,11 +40,14 @@
                 <p:column headerText="opis skrócony">
                     <h:outputText value="#{item.opisskrocony}"/>
                 </p:column>
+                <p:column headerText="nr konta">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, @form" rendered="#{item.aktywny eq false}"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{miejsceKosztowView.edytuj(item)}" update=":miejscakosztow, :miejscakosztowlista"/>
                 </p:column>
                 <p:column headerText="usuń" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, @form" rendered="#{item.aktywny eq false}"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{miejsceKosztowView.usun(item)}" update=":miejscakosztow, :miejscakosztowlista" rendered="#{item.aktywny eq false}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

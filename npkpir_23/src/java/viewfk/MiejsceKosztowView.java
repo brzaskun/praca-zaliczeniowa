@@ -8,6 +8,7 @@ package viewfk;
 
 import beansFK.MiejsceKosztowBean;
 import beansFK.PlanKontFKBean;
+import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
@@ -119,6 +120,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapiszedycje() {
         miejsceKosztowDAO.edit(selected);
+        SlownikiBean.aktualizujkontapoedycji(selected, 2, wpisView, kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
