@@ -326,7 +326,9 @@
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
                 <p:inputText value="#{DokumentView.selDokument.uwagi}" />
-                <p:commandButton id="wprowadzenieNowego" accesskey="w" action="#{sesjaView.dodajdokument()}" actionListener="#{DokumentView.dodaj(1)}" value="Dodaj" update="@form, :zobWiad:ostatniUzytkownik" style="width: 150px;"> 
+                <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(1)}" value="Dodaj" 
+                                 update=":dodWiad, :zobWiad:ostatniUzytkownik" style="width: 150px;">
+                    <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
                 </p:commandButton>
             </p:panelGrid>
         </p:panel>
