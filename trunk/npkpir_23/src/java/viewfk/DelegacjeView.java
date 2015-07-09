@@ -142,14 +142,33 @@ public class DelegacjeView  implements Serializable{
     
     public void zapiszedycje(boolean krajowa0zagraniczna1) {
         delegacjaDAO.edit(selected);
-        selected.setOpisdlugi(null);
-        selected.setOpiskrotki(null);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
         }
+        aktualizujkonta(selected,krajowa0zagraniczna1);
         zapisz0edytuj1 = false;
+        selected = new Delegacja();
+    }
+    
+    private void aktualizujkonta(Delegacja delegacja, boolean krajowa0zagraniczna1) {
+        List<Konto> kontadelegacji = null;
+        if (krajowa0zagraniczna1 == false) {
+            kontadelegacji = kontoDAOfk.findKontaMaSlownik(wpisView, 5);
+        } else {
+            kontadelegacji = kontoDAOfk.findKontaMaSlownik(wpisView, 6);
+        }
+        for (Konto p : kontadelegacji) {
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+            for (Konto r : kontapotomne) {
+                if (r.getNrkonta().equals(delegacja.getNrkonta())) {
+                    r.setNazwapelna(delegacja.getOpisdlugi());
+                    r.setNazwaskrocona(delegacja.getOpiskrotki());
+                    kontoDAOfk.edit(r);
+                }
+            } 
+        }
     }
     
     public int sortDelegacje(Object o1, Object o2) {
