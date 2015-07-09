@@ -417,20 +417,14 @@ public final class DokView implements Serializable {
     }
 
     private double sumujnetto() {
-        int iloscwierszypkpir = selDokument.getListakwot1().size();
-        double sumanetto = 0.0;
-        for (int j = 0; j < iloscwierszypkpir; j++) {
-            String wiersz = "dodWiad:tabelapkpir:" + j + ":kwotaPkpir_input";
-            String trescwiersza = ((String) Params.params(wiersz)).replaceAll(" ", "");
-            double kwota = Double.parseDouble(trescwiersza.substring(0, trescwiersza.length() - 2));
-            sumanetto += kwota;
+        sumbrutto = 0.0;
+        for (KwotaKolumna1 p : selDokument.getListakwot1()) {
+                sumbrutto += p.getNetto();
         }
-        return sumanetto;
+        return sumbrutto;
     }
 
-    public void sumujbruttoPK() {
-        sumbrutto = sumujnetto();
-    }
+  
 
     public void updatenetto(EwidencjaAddwiad e) {
         String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
@@ -619,14 +613,10 @@ public final class DokView implements Serializable {
         String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
         if (toJestdokumentProsty.equals("on")) {
             sumbrutto = 0.0;
-            for (KwotaKolumna1 p : selDokument.getListakwot1()) {
-                sumbrutto += p.getNetto();
-            }
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
+            sumujnetto();
             selDokument.setEwidencjaVAT1(null);
             ewidencjaAddwiad.clear();
             ukryjEwiencjeVAT = true;
-            sumujbruttoPK();
             RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
             RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
         } else {
