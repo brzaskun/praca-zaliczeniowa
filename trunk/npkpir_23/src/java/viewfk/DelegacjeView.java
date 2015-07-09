@@ -8,6 +8,7 @@ package viewfk;
 
 import beansFK.DelegacjaBean;
 import beansFK.PlanKontFKBean;
+import beansFK.SlownikiBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.DelegacjaDAO;
@@ -144,32 +145,16 @@ public class DelegacjeView  implements Serializable{
         delegacjaDAO.edit(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
+            SlownikiBean.aktualizujkontapoedycji(selected, 6, wpisView, kontoDAOfk);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
+            SlownikiBean.aktualizujkontapoedycji(selected, 5, wpisView, kontoDAOfk);
         }
-        aktualizujkonta(selected,krajowa0zagraniczna1);
         zapisz0edytuj1 = false;
         selected = new Delegacja();
     }
     
-    private void aktualizujkonta(Delegacja delegacja, boolean krajowa0zagraniczna1) {
-        List<Konto> kontadelegacji = null;
-        if (krajowa0zagraniczna1 == false) {
-            kontadelegacji = kontoDAOfk.findKontaMaSlownik(wpisView, 5);
-        } else {
-            kontadelegacji = kontoDAOfk.findKontaMaSlownik(wpisView, 6);
-        }
-        for (Konto p : kontadelegacji) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
-            for (Konto r : kontapotomne) {
-                if (r.getNrkonta().equals(delegacja.getNrkonta())) {
-                    r.setNazwapelna(delegacja.getOpisdlugi());
-                    r.setNazwaskrocona(delegacja.getOpiskrotki());
-                    kontoDAOfk.edit(r);
-                }
-            } 
-        }
-    }
+   
     
     public int sortDelegacje(Object o1, Object o2) {
         int nr1 = Integer.parseInt(((Delegacja) o1).getNrkonta());

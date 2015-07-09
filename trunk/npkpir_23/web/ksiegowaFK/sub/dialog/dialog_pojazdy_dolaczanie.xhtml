@@ -22,9 +22,9 @@
                 <p:inputText id="nazwamiejscas" value="#{pojazdyView.selected.nazwapojazdu}" style="width: 180px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{pojazdyView.dodaj()}" style="margin: 2%; width: 120px;" 
-                             update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == false}"/>
+                             update=":pojazdy, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="edytuj" actionListener="#{pojazdyView.zapiszedycje()}" style="margin: 2%; width: 120px;" 
-                             update="@form, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
+                             update=":pojazdy, :pojazdylista" rendered="#{pojazdyView.zapisz0edytuj1 == true}"/>
         </h:form>
         <h:form id="pojazdylista">
             <p:dataTable value="#{pojazdyView.pojazdy}" var="item" style="width: 850px;"  scrollable="true" scrollHeight="400"
@@ -39,11 +39,14 @@
                 <p:column headerText="nazwa pojazdu">
                     <h:outputText value="#{item.nazwapojazdu}"/>
                 </p:column>
+                <p:column headerText="nr konta">
+                    <h:outputText value="#{item.nrkonta}"/>
+                </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, @form" rendered="#{item.aktywny eq false}"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{pojazdyView.edytuj(item)}" update=":pojazdy, :pojazdylista"/>
                 </p:column>
                 <p:column headerText="usuń" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, @form" rendered="#{item.aktywny eq false}"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{pojazdyView.usun(item)}" update=":pojazdy, :pojazdylista" rendered="#{item.aktywny eq false}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
