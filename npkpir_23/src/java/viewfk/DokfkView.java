@@ -387,8 +387,11 @@ private static final long serialVersionUID = 1L;
     }
     
     public void rozliczsaldo(int indexwTabeli) {
-        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli);
-        RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+indexwTabeli+":saldo");
+        int koncowyindex = selected.getListawierszy().size();
+        for (int i = indexwTabeli; i < koncowyindex; i++) {
+            DialogWpisywanie.rozliczkolejnesaldo(selected, i);
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+i+":saldo");
+        }
     }
    
 
