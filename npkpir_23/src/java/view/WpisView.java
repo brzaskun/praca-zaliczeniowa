@@ -24,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import msg.Msg;
 
 /**
  *
@@ -103,6 +104,11 @@ public class WpisView implements Serializable {
            obsluzRok();
            obsluzMce(wpis);
            uzupelnijdanepodatnika();
+           try {
+            pobierzOpodatkowanie();
+           } catch (Exception e1) {
+               E.e(e1);
+           }
         }
      
     }
@@ -183,10 +189,14 @@ public class WpisView implements Serializable {
         wpis.setRokWpisu(rokWpisu);
         wpis.setMiesiacOd(miesiacOd);
         wpis.setMiesiacDo(miesiacDo);
-        uzupelnijdanepodatnika();
         wpisDAO.edit(wpis);
         obsluzRok();
         obsluzMcPrzedPo();
+        try {
+            pobierzOpodatkowanie();
+        } catch (Exception e1) {
+           E.e(e1);
+        }
     }
 
     public String findNazwaPodatnika() {
@@ -208,7 +218,6 @@ public class WpisView implements Serializable {
   
     private void uzupelnijdanepodatnika() {
         obsluzPodatnikObiekt();
-        pobierzOpodatkowanie();
         obsluzMcPrzedPo();
         if (miesiacOd == null) {
             miesiacOd = "01";
@@ -242,17 +251,24 @@ public class WpisView implements Serializable {
         try {
                 mc0kw1 = zwrocmc0kw1();
                 rodzajopodatkowania = zwrocindexparametrzarok();
-                if (rodzajopodatkowania.contains("ryczałt")) {
+                if (rodzajopodatkowania != null) {
+                    if (rodzajopodatkowania.contains("ryczałt")) {
+                        ksiegaryczalt = false;
+                    } else {
+                        ksiegaryczalt = true;
+                    }
+                    if (rodzajopodatkowania.contains("księgi rachunkowe")) {
+                        ksiegirachunkowe = true;
+                    } else {
+                        ksiegirachunkowe = false;
+                    }
+                } else {
                     ksiegaryczalt = false;
-                } else {
-                    ksiegaryczalt = true;
-                }
-                if (rodzajopodatkowania.contains("księgi rachunkowe")) {
-                    ksiegirachunkowe = true;
-                } else {
                     ksiegirachunkowe = false;
+                    Msg.msg("e", "Brak wyboru opodatkowania w danym roku");
                 }
-            } catch (Exception e) { 
+            } catch (Exception e) {
+                
                 E.e(e);
             }
     }
