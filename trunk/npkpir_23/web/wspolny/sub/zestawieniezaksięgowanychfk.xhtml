@@ -33,12 +33,14 @@
                                      update=":zestawieniedokumentow:dataList"
                                     />
                 </p:column>
-                <p:selectOneMenu value="#{dokfkView.wybranakategoriadok}" style="margin-left: 120px;" >
+                 <h:selectOneMenu value="#{dokfkView.wybranakategoriadok}" styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
+                        onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                        onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
+                        style="width: 200px; height: 25px; margin-left: 100px;">
                     <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
-                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot}" itemValue="#{item.skrot}"/>
-                </p:selectOneMenu>
-                
+                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.nazwa}" itemValue="#{item.skrot}"/>
+                </h:selectOneMenu>
                 <p:column>
                     <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow)}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
