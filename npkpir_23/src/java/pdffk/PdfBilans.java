@@ -34,9 +34,9 @@ public class PdfBilans {
     public static void drukujBilans(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansObliczenieAktywa-"+wpisView.getRokWpisuSt();
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -72,9 +72,9 @@ public class PdfBilans {
     public static void drukujBilansBO(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczenieAktywa-"+wpisView.getRokWpisuSt();
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -110,9 +110,9 @@ public class PdfBilans {
     public static void drukujBilansBOPozycje(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieAktywa-"+wpisView.getRokWpisuSt();
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
         File file = new File(nazwa);
         if (file.isFile()) {
@@ -148,9 +148,9 @@ public class PdfBilans {
     public static void drukujBilansKonta(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
         String nazwa = null;
         if (ap.equals("a")) {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieA";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieAktywa-"+wpisView.getRokWpisuSt();
         } else {
-            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieP";
+            nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
         File file = new File(nazwa);
         if (file.isFile()) {

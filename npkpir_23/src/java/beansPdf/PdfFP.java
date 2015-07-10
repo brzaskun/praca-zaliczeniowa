@@ -208,17 +208,21 @@ public class PdfFP {
                 case "akordeon:formwzor:logo":
                     //Dane do modulu przewłaszczenie
                     if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
-                        pobrane = zwrocpozycje(skladnikifaktury, "logo");
-                        Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
-                        String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
-                        File f = new File(nazwaplikuzbazy);
-                        if(f.exists()) {
-                            Image logo = Image.getInstance(nazwaplikuzbazy);
-                            // Set the position of image
-                            logo.scaleToFit(90f, 90f);
-                            logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - 50); //e
-                            // Add paragraph to PDF document.
-                            document.add(logo);
+                        try {
+                            pobrane = zwrocpozycje(skladnikifaktury, "logo");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if(f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                logo.scaleToFit(90f, 90f);
+                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiaryGora.get("akordeon:formwzor:logo") - 50); //e
+                                // Add paragraph to PDF document.
+                                document.add(logo);
+                            }
+                        } catch (Exception e) {
+                            E.e(e);
                         }
                     }
                     break;
@@ -299,16 +303,23 @@ public class PdfFP {
             switch (p.getPozycjenafakturzePK().getNazwa()) {
                 case "akordeon:formwzor:logo":
                     //Dane do modulu przewłaszczenie
-                    if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
-                        pobrane = zwrocpozycje(skladnikifaktury, "logo");
-                        Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
-                        String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
-                        Image logo = Image.getInstance(nazwaplikuzbazy);
-                        // Set the position of image
-                        logo.scaleToFit(90f, 90f);
-                        logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:logo") - 50); //e
-                        // Add paragraph to PDF document.
-                        return logo;
+                    try {
+                        if (PdfFP.czydodatkowyelementjestAktywny("logo", elementydod)) {
+                            pobrane = zwrocpozycje(skladnikifaktury, "logo");
+                            Fakturaelementygraficzne element = fakturaelementygraficzneDAO.findFaktElementyGraficznePodatnik(wpisView.getPodatnikWpisu());
+                            String nazwaplikuzbazy = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/images/logo/" + element.getFakturaelementygraficznePK().getNazwaelementu();
+                            File f = new File(nazwaplikuzbazy);
+                            if (f.exists()) {
+                                Image logo = Image.getInstance(nazwaplikuzbazy);
+                                // Set the position of image
+                                logo.scaleToFit(90f, 90f);
+                                logo.setAbsolutePosition((pobrane.getLewy() / dzielnik) - 5, wymiary.get("akordeon:formwzor:logo") - 50); //e
+                                // Add paragraph to PDF document.
+                                return logo;
+                            }
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
                     }
                     break;
                 default:

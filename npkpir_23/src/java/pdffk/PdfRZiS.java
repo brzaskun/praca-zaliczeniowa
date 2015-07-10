@@ -30,7 +30,7 @@ import view.WpisView;
 public class PdfRZiS {
 
     public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie";
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();
@@ -52,7 +52,7 @@ public class PdfRZiS {
     }
     
     public static void drukujRZiSPozycje(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie";
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();
@@ -74,7 +74,7 @@ public class PdfRZiS {
     }
     
     public static void drukujRZiSKonta(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie";
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();

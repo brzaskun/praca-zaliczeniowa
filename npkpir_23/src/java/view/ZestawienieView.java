@@ -1068,10 +1068,10 @@ public class ZestawienieView implements Serializable {
         Iterator it;
         it = p.getZusparametr().iterator();
         double suma52 = 0;
+        List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
             while (it.hasNext()) {
                 Zusstawki tmpX = (Zusstawki) it.next();
                 if (wpisView.isMc0kw1()) {
-                    List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
                     if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
                             && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
                                 suma52 += tmpX.getZus52odl();
@@ -1228,11 +1228,15 @@ private void aktualizujGuest(){
 
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
-                int tmpxmc = Integer.parseInt(tmpX.getPkpirM());
-                int starymc = Mce.getMiesiacToNumber().get(mcDo);
-                starymc--;
-                String starymcS = Mce.getNumberToMiesiac().get(starymc);
-                if(tmpxmc <= starymc && tmpX.getUdzialowiec().equals(udzialowiec)){
+                int miesiacPituPobranego = Integer.parseInt(tmpX.getPkpirM());
+                int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
+                if (wpisView.isMc0kw1()) {
+                    poprzednimc = poprzednimc -3;
+                } else {
+                    poprzednimc = poprzednimc -1;
+                }
+                String starymcS = Mce.getNumberToMiesiac().get(poprzednimc);
+                if(miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec)){
                     if(tmpX.getNaleznazal().signum()==1){
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
                     }

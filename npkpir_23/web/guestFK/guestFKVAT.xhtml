@@ -14,7 +14,7 @@
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                     <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
-                    <p:layoutUnit position="center">
+                    <p:layoutUnit position="center" id="positioncenter">
                         <p:panel toggleable="true" closable="true" style="width: 90%;">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania zapisów w bieżącej ewidencji VAT. Firmy rozliczjące się miesięcznie wybierają dowolny miesiąc."/><br/>
