@@ -78,7 +78,7 @@
                     <f:selectItems value="#{dokfkView.listaewidencjivatRK}" var="item" itemLabel="#{item.nazwa}"/>
                     <p:ajax event="blur" global="false" partialSubmit="true"/>
                 </h:selectOneMenu>
-                <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="zł" 
+                <pe:inputNumber id="netto" value="#{dokfkView.ewidencjaVatRK.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" 
                                 required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                 style="text-align: right; height: 19px;" symbolPosition="s" 
                                 decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 

@@ -172,7 +172,8 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
    
      public boolean czywyswietlic(String kolumna) {
-        int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        String mcWP = wpisView.getMiesiacWpisu().equals("CR") ? "06" : wpisView.getMiesiacWpisu();
+        int granica = Mce.getMiesiacToNumber().get(mcWP);
         int mc = Mce.getMiesiacToNumber().get(kolumna);
         if (mc <= granica) {
             return true;
