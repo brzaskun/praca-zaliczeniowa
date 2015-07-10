@@ -237,7 +237,8 @@ public class Dokfk implements Serializable {
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        String mc = wpisView.getMiesiacWpisu().equals("CR") ? "01" : wpisView.getMiesiacWpisu();
+        String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), mc);
         this.setDatawystawienia(data);
         this.setDatawplywu(data);
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);

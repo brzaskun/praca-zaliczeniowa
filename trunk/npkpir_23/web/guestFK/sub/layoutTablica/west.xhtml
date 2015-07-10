@@ -4,22 +4,22 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <p:layoutUnit position="west" size="260" header="#{mgs['guest.west.zmianaokresu']}" collapsible="true" resizable="true">
+    <p:layoutUnit position="west" size="260"    collapsible="true" resizable="true">
         <h:form id="west">
-            <p:panelGrid  columns="2" >
+<!--            <p:panelGrid  columns="2" >
                 <p:column>
                     <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="margin-left: 5%">
                         <f:selectItems value="#{Roki.rokiList}"/>
-                        <p:ajax event="change" listener="#{guestFKView.aktualizujGuest()}" />
+                        <p:ajax event="change" listener="#{guestFKView.aktualizujGuest}" />
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="margin-left: 5%">
                         <f:selectItems value="#{Mce.mceList}"/>
-                        <p:ajax event="change" listener="#{guestFKView.aktualizujGuest()}" />
+                        <p:ajax event="change" listener="#{guestFKView.aktualizujGuestFK()}" />
                     </p:selectOneMenu>
                 </p:column>
-            </p:panelGrid>
+            </p:panelGrid>-->
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                     <p:menu style="width: 180px;">

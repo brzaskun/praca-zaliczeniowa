@@ -241,7 +241,8 @@ public class FakturaView implements Serializable {
         if (fakturaxxl) {
             selected.setFakturaxxl(true);
         }
-        selected.setDnizaplaty(Integer.parseInt(wpisView.getPodatnikObiekt().getPlatnoscwdni()));
+        String platnoscwdniach = wpisView.getPodatnikObiekt().getPlatnoscwdni() == null ? "0" : wpisView.getPodatnikObiekt().getPlatnoscwdni();
+        selected.setDnizaplaty(Integer.parseInt(platnoscwdniach));
         String pelnadata = FakturaBean.obliczdatawystawienia(wpisView);
         selected.setDatawystawienia(pelnadata);
         selected.setDatasprzedazy(pelnadata);

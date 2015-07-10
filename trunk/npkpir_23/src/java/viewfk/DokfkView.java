@@ -175,7 +175,6 @@ private static final long serialVersionUID = 1L;
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
-    private double saldoinnedok;
     private double saldoBO;
     private int jest1niema0_konto;
     
@@ -234,7 +233,7 @@ private static final long serialVersionUID = 1L;
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
-        wygenerujnumerkolejny(0);
+        wygenerujnumerkolejny(1);
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             resetprzyciskow();
@@ -388,7 +387,7 @@ private static final long serialVersionUID = 1L;
     }
     
     public void rozliczsaldo(int indexwTabeli) {
-        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli, saldoinnedok);
+        DialogWpisywanie.rozliczkolejnesaldo(selected, indexwTabeli);
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+indexwTabeli+":saldo");
     }
    
@@ -1961,8 +1960,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                 }
                 if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                       saldoinnedok = ostatnidokument.getSaldokoncowe();
-                       selected.getListawierszy().get(0).setSaldoWBRK(saldoinnedok);
+                       selected.setSaldopoczatkowe(ostatnidokument.getSaldokoncowe());
+                       selected.getListawierszy().get(0).setSaldoWBRK(ostatnidokument.getSaldokoncowe());
                 } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     obliczsaldorkwb();
                     Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
@@ -2021,7 +2020,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
                 selected.getListawierszy().get(0).setSaldoWBRK(saldoBO);
                 selected.setSaldopoczatkowe(Z.z(saldoBO));
-                saldoinnedok = saldoBO;
                 System.out.println("Udane obliczenie salda BO");
             }
     }
@@ -2385,14 +2383,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void setJest1niema0_konto(int jest1niema0_konto) {
         this.jest1niema0_konto = jest1niema0_konto;
-    }
-
-    public double getSaldoinnedok() {
-        return saldoinnedok;
-    }
-
-    public void setSaldoinnedok(double saldoinnedok) {
-        this.saldoinnedok = saldoinnedok;
     }
 
     public double getSaldoBO() {
