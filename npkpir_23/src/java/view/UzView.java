@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import mail.Mail;
 import msg.Msg;
@@ -121,14 +122,7 @@ public class UzView implements Serializable {
         }
     }
     
-    public void edit() {
-        try {
-            uzDAO.edit(selUzytkownik);
-            Msg.msg("Udana edycja danych użytkownika "+selUzytkownik.getLogin());
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
+    
 
     public void porownajHaslaWTrakcie() {
         if (nowedrugiehaslo.length() >= 6) {
@@ -197,15 +191,25 @@ public class UzView implements Serializable {
         }
     }
 
-    public void edit(RowEditEvent ex) {
+    public void zachowajzmiany() {
+        try {
+            uzDAO.edit(selUzytkownik);
+            Msg.msg("Udana edycja danych użytkownika "+selUzytkownik.getLogin());
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void edit(ValueChangeEvent event) {
+        String nowy = (String) event.getNewValue();
         try {
             sformatuj();
-            uzDAO.edit(selUzytkownik);
-            Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), selUzytkownik.getUprawnienia());
+            Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy);
             System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
             FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
             FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
             FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
             FacesContext.getCurrentInstance().addMessage(null, msg);
