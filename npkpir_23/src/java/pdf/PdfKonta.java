@@ -73,10 +73,13 @@ public class PdfKonta {
                 document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+"zestawienie obrotów kont analitycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
-        int i = 1;
-        for (SaldoKonto rs : listaSaldoKonto) {
-            document.add(tablica(rs, i++));
-            if (rodzajdruku==2) {
+        if (rodzajdruku==1) {
+            document.add(tablicabezdok(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
+        }
+        if (rodzajdruku==2) {
+            int i = 1;
+            for (SaldoKonto rs : listaSaldoKonto) {
+                document.add(tablica(rs, i++));
                 document.add(subtable(rs.getZapisy()));
             }
         }
@@ -174,6 +177,56 @@ public class PdfKonta {
                }   
             }
         }
+        return table;
+    }
+    
+    private static PdfPTable tablicabezdok(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(11);
+        table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidthPercentage(95);
+        try {
+            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
+            if (analit0synt1==1) {
+                table.addCell(ustawfraze("zestawienie obrotów kont syntetycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+            } else {
+                table.addCell(ustawfraze("zestawienie obrotów kont analitycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+            }
+            table.addCell(ustawfraze("lp", 0, 1));
+            table.addCell(ustawfraze("nr konta", 0, 1));
+            table.addCell(ustawfraze("nazwa konta", 0, 1));
+            table.addCell(ustawfraze("saldo BO Wn", 0, 1));
+            table.addCell(ustawfraze("saldo BO Ma", 0, 1));
+            table.addCell(ustawfraze("obroty Wn", 0, 1));
+            table.addCell(ustawfraze("obroty Ma", 0, 1));
+            table.addCell(ustawfraze("suma BO Wn", 0, 1));
+            table.addCell(ustawfraze("suma BO Ma", 0, 1));
+            table.addCell(ustawfraze("saldo Wn", 0, 1));
+            table.addCell(ustawfraze("saldo Ma", 0, 1));
+            if (analit0synt1==1) {
+                table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald syntetycznych", 12, 0, 5));
+            } else {
+                table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald analitycznych", 12, 0, 5));
+            }
+
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        int i = 1;
+        for (SaldoKonto rs : listaSaldoKonto) {
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+            }
         return table;
     }
     
