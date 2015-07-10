@@ -96,7 +96,7 @@ public class UzView implements Serializable {
         }
     }
 
-    public void edytuj() {
+    public void zmianaHaslaUz() {
         if (!nowymail.equals(selUzytkownik.getEmail()) || !"".equals(nowehaslo)) {
             if (!"".equals(nowehaslo) && nowehaslo.length()<6) {
                 Msg.msg("e", "Minimalna długość hasła to 6 znaków. Krótkie hasło nie może zostać zaakceptowane. Dane nie zostały zmienione");
@@ -202,17 +202,19 @@ public class UzView implements Serializable {
     
     public void edit(ValueChangeEvent event) {
         String nowy = (String) event.getNewValue();
-        try {
-            sformatuj();
-            Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy);
-            System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
-            FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        } catch (Exception e) { 
-            E.e(e); 
-            System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
-            FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        if (!nowy.equals("Noobie")) {
+            try {
+                sformatuj();
+                Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy);
+                System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
+                FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            } catch (Exception e) { 
+                E.e(e); 
+                System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
+                FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
         }
     }
 
