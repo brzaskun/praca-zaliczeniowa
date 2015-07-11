@@ -11,6 +11,7 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -75,6 +76,14 @@ public class PlanKontKopiujView implements Serializable{
     
     public void implementujplankontWzorcowy() {
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", rokzrodlowy);
+        if (wpisView.isFKpiatki() == false) {
+            for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                Konto p = it.next();
+                if (p.getNrkonta().startsWith("5")) {
+                    it.remove();
+                }
+            }
+        }
         List<Konto> macierzyste = skopiujlevel0(wpisView.getPodatnikWpisu(), wykazkont, rokdocelowy);
         int maxlevel = kontoDAOfk.findMaxLevelPodatnik("Wzorcowy", Integer.parseInt(rokzrodlowy));
         for(int i = 1; i <= maxlevel;i++) {

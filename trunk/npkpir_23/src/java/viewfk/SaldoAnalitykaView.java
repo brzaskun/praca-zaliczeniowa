@@ -198,9 +198,9 @@ public class SaldoAnalitykaView implements Serializable {
    
     public void drukuj(int i) {
         if (listaSaldoKontoSelected == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu());
         } else {
-            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0, wpisView.getMiesiacWpisu());
         }
     }
     
