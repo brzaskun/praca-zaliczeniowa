@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,14 +45,14 @@ import view.WpisView;
 @Stateless
 public class PdfKonta {
     
-    public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1) {
+    public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc) {
         try {
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1);
+            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc);
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia obrotów sald");
@@ -58,7 +60,7 @@ public class PdfKonta {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A4, 20,20,20,20);
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
@@ -79,8 +81,32 @@ public class PdfKonta {
         if (rodzajdruku==2) {
             int i = 1;
             for (SaldoKonto rs : listaSaldoKonto) {
-                document.add(tablica(rs, i++));
-                document.add(subtable(rs.getZapisy()));
+                PdfPTable tDuza = tablica(rs, i++);
+                if (rs.getZapisy() != null && rs.getZapisy().size() > 0) {
+                    PdfPTable tMala = subtable(rs.getZapisy());
+                    tMala.setSpacingAfter(15);
+                    document.add(tDuza);
+                    document.add(tMala);
+                } else {
+                    tDuza.setSpacingAfter(15);
+                    document.add(tDuza);
+                }
+            }
+        }
+        if (rodzajdruku==3) {
+            int i = 1;
+            for (SaldoKonto rs : listaSaldoKonto) {
+                PdfPTable tDuza = tablica(rs, i++);
+                List<StronaWiersza> zapisymc = wyluskajzapisymc(rs.getZapisy(),mc);
+                if (zapisymc.size() > 0) {
+                    PdfPTable tMala = subtable(zapisymc);
+                    tMala.setSpacingAfter(15);
+                    document.add(tDuza);
+                    document.add(tMala);
+                } else {
+                    tDuza.setSpacingAfter(15);
+                    document.add(tDuza);
+                }
             }
         }
         document.close();
@@ -91,6 +117,7 @@ public class PdfKonta {
         PdfPTable table = new PdfPTable(11);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
         table.setWidthPercentage(95);
+        table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze("lp", 0, 1));
             table.addCell(ustawfraze("nr konta", 0, 1));
@@ -342,5 +369,15 @@ public class PdfKonta {
             
         }
         return table;
+    }
+
+    private static List<StronaWiersza> wyluskajzapisymc(List<StronaWiersza> zapisy, String mc) {
+       List<StronaWiersza> zmodyfikowana = new ArrayList<>();
+       for (StronaWiersza p : zapisy) {
+           if (p.getDokfk().getMiesiac().equals(mc)) {
+               zmodyfikowana.add(p);
+           }
+       }
+       return zmodyfikowana;
     }
   }

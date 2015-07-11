@@ -33,7 +33,9 @@
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
                     <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-                    <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:splitButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}"  style="margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')">
+                        <p:menuitem value="drukuj zap.bież.mc" actionListener="#{saldoAnalitykaView.drukuj(3)}" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    </p:splitButton>
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"

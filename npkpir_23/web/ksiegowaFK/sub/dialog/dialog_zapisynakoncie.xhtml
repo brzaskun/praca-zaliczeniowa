@@ -117,7 +117,7 @@
                             <p:ajax event="rowUnselect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column headerText="nr konta" styleClass="#{loop1.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
-                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" /> 
+                                <h:outputText value="#{loop1.nrkonta}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                                 <h:outputText value="#{loop1.pelnynumer}" rendered="#{loop1.nrkonta eq '0' ? false : (loop1.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
