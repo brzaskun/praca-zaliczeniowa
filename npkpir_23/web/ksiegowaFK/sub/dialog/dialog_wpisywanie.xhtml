@@ -211,9 +211,6 @@
                                         <h:outputText value="treść dokumentu"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="WD"/>
-                                    </p:column>
-                                    <p:column>
                                         <h:outputText value="saldo" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}" style="font-style: italic; margin-left: 10px;"/>
                                     </p:column>
                                 </p:row>
@@ -251,11 +248,7 @@
                                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                     </p:inputText>
                                 </p:column>
-                                <p:column>
-                                    <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="float: right;">
-                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                    </h:outputText>
-                                </p:column>
+                               
                                 <p:column>
                                     <h:outputText id="saldobopop"  value="#{dokfkView.selected.saldopoczatkowe}" style="float: right; font-style: italic; margin-left: 10px;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -523,20 +516,34 @@
                             <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" style="font-size: 0.5; color: white;" />
                         </p:column>
                     </p:dataTable>
-                    <p:panel id="panelwpisbutton" style="text-align: right;">
-                        <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
+                    <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
+                        <p:row>
+                        <p:column style="text-align: right;" width="100">
+                            <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;">
+                                <f:convertNumber minFractionDigits="2" locale="PL"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>
+                        </p:column>
+                        <p:column>
                         <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                          accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                          onfocus="focusNaNowoDodanymEnter();
                                                  sprawdzgrupeprzykliknieciuwzapisz();" global="false" 
                                          />
+                        </p:column>
+                        <p:column>
                         <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
                                          accesskey="y" update=":zestawieniedokumentow:dataList, :zestawieniezapisownakontach:dataList"
                                          onfocus="focusNaNowoDodanymEnter();"
                                          rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" global="false"/>
-                        <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
-
-                    </p:panel>
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
+                        </p:column>
+                        </p:row>
+                    </p:panelGrid>
                     <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
                                      global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
                 </div>

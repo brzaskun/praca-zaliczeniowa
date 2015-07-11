@@ -68,7 +68,7 @@ public class EVatwpisFK implements Serializable {
           @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
           @JoinColumn(name = "rok", referencedColumnName = "rok")
      })
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Dokfk dokfk;
     @OneToOne
     private Wiersz wiersz;

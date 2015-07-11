@@ -192,6 +192,7 @@ public class WpisView implements Serializable {
         wpisDAO.edit(wpis);
         obsluzRok();
         obsluzMcPrzedPo();
+        uzupelnijdanepodatnika();
         try {
             pobierzOpodatkowanie();
         } catch (Exception e1) {

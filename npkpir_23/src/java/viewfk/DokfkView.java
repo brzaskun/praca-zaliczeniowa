@@ -381,6 +381,8 @@ private static final long serialVersionUID = 1L;
 
     public void dodajPustyWierszNaKoncu() {
            int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
+           selected.przeliczKwotyWierszaDoSumyDokumentu();
+           RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
            if (wynik == 1) {
                Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
            }
@@ -478,6 +480,8 @@ private static final long serialVersionUID = 1L;
         } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==2) {
             DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
         }
+        selected.przeliczKwotyWierszaDoSumyDokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
     }
     
     public void dolaczWierszZKwotamiRK() {
@@ -501,6 +505,8 @@ private static final long serialVersionUID = 1L;
         String update = "formwpisdokument:dataList";
         RequestContext.getCurrentInstance().update(update);
         ewidencjaVatRK = new EVatwpisFK();
+        selected.przeliczKwotyWierszaDoSumyDokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
     
@@ -2274,6 +2280,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void przelicznaklawiszu() {
         selected.przeliczKwotyWierszaDoSumyDokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
     }
     
 //    public void resetujzaksiegowane() {
