@@ -171,17 +171,17 @@ public class SaldoSyntetykaView implements Serializable {
     
     public void drukuj(int i) {
         if (listaSaldoKontoSelected == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0);
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu());
         } else {
-            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0, wpisView.getMiesiacWpisu());
         }
     }
     
     public void drukujS(int i) {
         if (listaSaldoKontoSelected == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1);
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1, wpisView.getMiesiacWpisu());
         } else {
-            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 1);
+            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 1, wpisView.getMiesiacWpisu());
         }
     }
     
