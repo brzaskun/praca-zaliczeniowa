@@ -6,6 +6,8 @@ package view;
 
 import dao.DokDAO;
 import dao.SesjaDAO;
+import dao.UzDAO;
+import daoFK.DokDAOfk;
 import entity.Dok;
 import entity.Sesja;
 import java.io.Serializable;
@@ -39,6 +41,8 @@ public class StatisticAdminView implements Serializable {
     @Inject
     private SesjaDAO sesjaDAO;
     @Inject private DokDAO dokDAO;
+    @Inject private DokDAOfk dokDAOfk;
+    @Inject private UzDAO uzDAO;
 
     public StatisticAdminView() {
         this.sesje = new ArrayList<>();
@@ -48,15 +52,14 @@ public class StatisticAdminView implements Serializable {
 
     @PostConstruct
     private void init() {
-       obliczstatystyki();
-       obliczkontrahentow();
+       List<String> pracownicy = uzDAO.findUzByUprawnienia("Bookkeeper");
+       pracownicy.addAll(uzDAO.findUzByUprawnienia("BookkeeperFK"));
+       obliczstatystyki(pracownicy);
+       obliczkontrahentow(pracownicy);
     }
     
     
-    private void obliczstatystyki() {
-        List<String> pracownicy = new ArrayList<>();
-        pracownicy.add("gosiak");
-        pracownicy.add("renata");
+    private void obliczstatystyki(List<String> pracownicy) {
         for (String r : pracownicy){
             Statystyka stat = new Statystyka();
             sesje = sesjaDAO.findUser(r);
@@ -79,29 +82,16 @@ public class StatisticAdminView implements Serializable {
         }
     }
     
-    private void obliczkontrahentow() {
+    private void obliczkontrahentow(List<String> pracownicy) {
         Map<String, String> klienci = new HashMap<>();
-        List<Dok> dok = dokDAO.findAll();
-        Set<String> wprowadzil = new LinkedHashSet<>();
-        for (Dok p : dok) {
-            klienci.put(p.getPodatnik(), p.getWprowadzil());
-            wprowadzil.add(p.getWprowadzil());
-        }
-        for (String s :wprowadzil) {
+        for (String s :pracownicy) {
             Obrabiani obrab = new Obrabiani();
             if (s!=null) {
                 obrab.wprowadzajacy = s;
-                obrab.liczbaklientow = 0;
+                int liczba = dokDAO.znajdzDokumentPodatnikWpr(s).size();
+                liczba += dokDAOfk.znajdzDokumentPodatnikWprFK(s).size();
+                obrab.liczbaklientow = liczba;
                 obrabiani.add(obrab);
-            }
-        }
-        for (String r : klienci.values()) {
-            if (r!=null) {
-                for (Obrabiani t : obrabiani) {
-                    if (r.equals(t.wprowadzajacy)) {
-                        t.liczbaklientow += 1;
-                    }
-                }
             }
         }
     }

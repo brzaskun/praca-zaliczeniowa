@@ -233,6 +233,7 @@ private static final long serialVersionUID = 1L;
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
+        selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
         wygenerujnumerkolejny(1);
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);

@@ -68,7 +68,9 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findByDatawystawieniaNumer", query = "SELECT d FROM Dokfk d WHERE d.datawystawienia = :datawystawienia AND d.numerwlasnydokfk = :numer"),
     @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
     @NamedQuery(name = "Dokfk.findByLastofaTypeKontrahent", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.kontr = :kontr AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
-    @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numerwlasnydokfk = :numer")})
+    @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numerwlasnydokfk = :numer"),
+    @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil")
+})
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -161,6 +163,10 @@ public class Dokfk implements Serializable {
     private double saldopoczatkowe;
     @Column(name = "saldokoncowe")
     private double saldokoncowe;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "wprowadzil")
+    private String wprowadzil;
  
 
     
@@ -251,6 +257,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public String getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(String wprowadzil) {
+        this.wprowadzil = wprowadzil;
     }
 
     public double getSaldopoczatkowe() {

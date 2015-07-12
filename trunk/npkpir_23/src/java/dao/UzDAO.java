@@ -41,6 +41,11 @@ public class UzDAO extends DAO implements Serializable{
         } catch (Exception e) { E.e(e); 
             return null;
         }
-   } 
+   }
+    
+    public List<String> findUzByUprawnienia(String uprawnienia){
+         return uzFacade.findUzByUprawnienia(uprawnienia);
+     }
+    
 }
 

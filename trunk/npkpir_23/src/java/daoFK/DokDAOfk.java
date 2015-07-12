@@ -160,6 +160,8 @@ public class DokDAOfk extends DAO implements Serializable {
        }
     }
 
-   
+    public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
+        return dokFacade.znajdzDokumentPodatnikWprFK(wpr);
+    }
     
 }
