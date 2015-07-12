@@ -1564,4 +1564,20 @@ public class SessionFacade<T> implements Serializable {
     public PodatnikOpodatkowanieD findOpodatkowaniePodatnikRok(WpisView wpisView) {
         return (PodatnikOpodatkowanieD) em.createNamedQuery("PodatnikOpodatkowanieD.findBypodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getSingleResult();
     }
+
+    public List<String> znajdzDokumentPodatnikWpr(String wpr) {
+        return em.createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
+    }
+
+    public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
+        return em.createNamedQuery("Dok.znajdzDokumentPodatnikWpr").setParameter("wprowadzil", wpr).getResultList();
+    }
+
+    public List<String> findUzByUprawnienia(String uprawnienia) {
+        return em.createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+    }
+
+   
+
+   
 }

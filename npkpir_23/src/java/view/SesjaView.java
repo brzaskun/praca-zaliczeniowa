@@ -8,6 +8,7 @@ import dao.SesjaDAO;
 import entity.Sesja;
 import error.E;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -42,6 +43,13 @@ public class SesjaView implements Serializable {
     public void pobierzsesje() {
         try {
             wykazsesji = sesjaDAO.findAll();
+            for (Iterator<Sesja> it = wykazsesji.iterator(); it.hasNext(); ) {
+                Sesja s = it.next();
+                if (s.getWylogowanie() == null) {
+                    sesjaDAO.destroy(s);
+                    it.remove();
+                }
+            }
         } catch (Exception e) { E.e(e); 
         }
     }

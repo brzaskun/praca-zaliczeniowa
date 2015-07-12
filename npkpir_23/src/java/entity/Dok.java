@@ -75,6 +75,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Dok.findByBKM", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByDuplikat", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.podatnik = :podatnik"),
     @NamedQuery(name = "Dok.findByRMPT", query = "SELECT d FROM Dok d WHERE d.pkpirR = :pkpirR AND d.pkpirM = :pkpirM AND d.podatnik = :podatnik AND d.typdokumentu = :typdokumentu"),
+    @NamedQuery(name = "Dok.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.podatnik FROM Dok d WHERE d.wprowadzil = :wprowadzil")
 })
     
 public class Dok implements Serializable {

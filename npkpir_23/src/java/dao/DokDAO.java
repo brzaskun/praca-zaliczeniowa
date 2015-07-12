@@ -133,5 +133,9 @@ public class DokDAO extends DAO implements Serializable {
     public Dok znajdzDokumentInwestycja(WpisView wpisView, Dok r) {
         return dokFacade.znajdzDokumentInwestycja(wpisView, r);
     }
+    
+    public List<String> znajdzDokumentPodatnikWpr(String wpr) {
+        return dokFacade.znajdzDokumentPodatnikWpr(wpr);
+    }
   
 }

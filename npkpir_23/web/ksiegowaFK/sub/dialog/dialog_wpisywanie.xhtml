@@ -531,7 +531,9 @@
                                          accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
                                          onfocus="focusNaNowoDodanymEnter();
                                                  sprawdzgrupeprzykliknieciuwzapisz();" global="false" 
-                                         />
+                        >
+                            <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
+                        </p:commandButton>
                         </p:column>
                         <p:column>
                         <p:commandButton id="edytujdokbutton" value="#{mgs.edytuj} (y)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.edycja}" 
