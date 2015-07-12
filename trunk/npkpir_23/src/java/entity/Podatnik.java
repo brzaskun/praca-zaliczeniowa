@@ -16,6 +16,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
@@ -205,6 +207,7 @@ public class Podatnik implements Serializable {
     @OneToMany(mappedBy = "podatnikObj")
     private List<MiejsceKosztow> miejsceKosztowList;
     @Column(name = "formaprawna")
+    @Enumerated(EnumType.STRING)
     private FormaPrawna formaPrawna;
     
     public Podatnik() {
