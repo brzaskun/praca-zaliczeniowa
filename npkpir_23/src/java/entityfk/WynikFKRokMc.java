@@ -77,6 +77,10 @@ public class WynikFKRokMc implements Serializable {
     private Double wynikfinansowy;
     @Column(precision = 22)
     private Double wynikpodatkowy;
+    @Column(precision = 22)
+    private Double podatek;
+     @Column(precision = 22)
+    private Double wynikfinansowynetto;
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
@@ -195,6 +199,7 @@ public class WynikFKRokMc implements Serializable {
     public void setData(Date data) {
         this.data = data;
     }
+    
 
 //    public List<SaldoKonto> getListaprzychody() {
 //        return listaprzychody;
@@ -212,6 +217,22 @@ public class WynikFKRokMc implements Serializable {
 //        this.listakoszty = listakoszty;
 //    }
 //    
+
+    public Double getPodatek() {
+        return podatek;
+    }
+
+    public void setPodatek(Double podatek) {
+        this.podatek = podatek;
+    }
+
+    public Double getWynikfinansowynetto() {
+        return wynikfinansowynetto;
+    }
+
+    public void setWynikfinansowynetto(Double wynikfinansowynetto) {
+        this.wynikfinansowynetto = wynikfinansowynetto;
+    }
     
 
 

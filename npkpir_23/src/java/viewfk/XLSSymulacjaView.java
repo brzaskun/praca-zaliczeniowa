@@ -7,6 +7,7 @@ package viewfk;
 
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
+import enumy.FormaPrawna;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -131,6 +132,10 @@ public class XLSSymulacjaView implements Serializable{
         l.add(new PozycjaObliczenia(4,"npup", lista.get(3).getWartosc()));
         l.add(new PozycjaObliczenia(5,"nkup", lista.get(4).getWartosc()));
         l.add(new PozycjaObliczenia(6,"wynik podatkowy", "wynikfinansowy-npup-nkup"));
+        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+            l.add(new PozycjaObliczenia(4,"pdop", "round(wynikpodatkowy*0.19,0)"));
+            l.add(new PozycjaObliczenia(4,"wynik finansowy netto", "wynikfinansowy-pdop"));
+        }
         return l;
     }
     
@@ -142,7 +147,11 @@ public class XLSSymulacjaView implements Serializable{
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++,p.getNazwa(),p.getWartosc()));
-            l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikpodatkowy*"+nazwaudzialowca+",0)"));
+            if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikfinansowynetto*"+nazwaudzialowca+",0)"));
+            } else {
+                l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikpodatkowy*"+nazwaudzialowca+",0)"));
+            }
             l.add(new PozycjaObliczenia(j++,"podatek udziałowiec "+k, "round(podstawaopodatkowania"+k+"*0.19,0)"));
             k++;
         }
@@ -157,7 +166,12 @@ public class XLSSymulacjaView implements Serializable{
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++, nazwaudzialowca,p.getWartosc()));
-            String nazleznazamc = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
+            String nazleznazamc;
+            if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                nazleznazamc = "round(wynikfinansowynetto*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
+            } else {
+                nazleznazamc = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
+            }
             l.add(new PozycjaObliczenia(j++,"należna za mc "+k, nazleznazamc));
             SymulacjaWynikuView.PozycjeSymulacji p1 = lista.get(i+2);
             double wyplaconopopmce = p1.getWartosc();

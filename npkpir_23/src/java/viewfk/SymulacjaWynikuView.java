@@ -18,6 +18,7 @@ import entity.PodatnikUdzialy;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
+import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class SymulacjaWynikuView implements Serializable {
     private double korektazapisycechaprzychod;
     private Map<String, Double> podatnikkwotarazem;
     private double wynikfinansowy;
+    private double wynikfinansowynetto;
     private Map<String, Double> pozycjeDoWyplatyNarastajaco;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
@@ -210,6 +212,14 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), nkup));
         double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
+        wynikfinansowynetto = wynikpodatkowy;
+        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
+            double podatek = Z.z0(podstawaopodatkowania*0.19);
+            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
+            wynikfinansowynetto = wynikpodatkowy - podatek; 
+            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
+        }
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
             int i = 1;
@@ -217,7 +227,7 @@ public class SymulacjaWynikuView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
+                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
@@ -278,6 +288,10 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
         wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
+        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
+            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
+        }
         wynikFKRokMc.setWprowadzil(wpisView.getWprowadzil().getLogin());
         wynikFKRokMc.setData(new Date());
         //wywalilem bo ozajmuje za duzo miejsca
@@ -304,7 +318,7 @@ public class SymulacjaWynikuView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
-                double dowyplaty = Z.z(udział*wynikfinansowy);
+                double dowyplaty = Z.z(udział*wynikfinansowynetto);
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
                 double zamc = Z.z(dowyplaty-zaplacono);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("należnazamc")+" #"+String.valueOf(i), zamc));
