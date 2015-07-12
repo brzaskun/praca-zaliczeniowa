@@ -9,6 +9,7 @@ import embeddable.Pozycjenafakturzebazadanych;
 import embeddable.Straty1;
 import embeddable.Udzialy;
 import entityfk.MiejsceKosztow;
+import enumy.FormaPrawna;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,6 +204,8 @@ public class Podatnik implements Serializable {
     private List<Parametr> FKpiatki;
     @OneToMany(mappedBy = "podatnikObj")
     private List<MiejsceKosztow> miejsceKosztowList;
+    @Column(name = "formaprawna")
+    private FormaPrawna formaPrawna;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -224,6 +227,14 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public FormaPrawna getFormaPrawna() {
+        return formaPrawna;
+    }
+
+    public void setFormaPrawna(FormaPrawna formaPrawna) {
+        this.formaPrawna = formaPrawna;
     }
 
     public String getWystawcafaktury() {

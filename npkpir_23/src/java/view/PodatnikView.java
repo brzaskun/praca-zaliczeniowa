@@ -25,6 +25,7 @@ import entity.Rodzajedok;
 import entity.Zusstawki;
 import entity.ZusstawkiPK;
 import entityfk.Konto;
+import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -123,6 +124,7 @@ public class PodatnikView implements Serializable {
     private List<PodatnikOpodatkowanieD> podatnikOpodatkowanie;
     @Inject
     private PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie;
+    private List<FormaPrawna> formyprawne;
     
 
     public PodatnikView() {
@@ -138,6 +140,7 @@ public class PodatnikView implements Serializable {
         listaKontKasaBank  = new ArrayList<>();
         podatnikUdzialy = new ArrayList<>();
         podatnikOpodatkowanie = new ArrayList<>();
+        formyprawne = new ArrayList<>();
         
     }
 
@@ -157,6 +160,8 @@ public class PodatnikView implements Serializable {
         podatnikUdzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
         podatnikOpodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnik(wpisView);
         biezacadata = String.valueOf(new DateTime().getYear());
+        formyprawne.add(FormaPrawna.SPOLKA_Z_O_O);
+        formyprawne.add(FormaPrawna.SPOLKA_KOMANDYTOWA);
     }
 
     public void dodaj() {
@@ -1131,12 +1136,13 @@ public class PodatnikView implements Serializable {
         }
 
     }
+    
+    
+    public List<FormaPrawna> getFormyprawne() {
+        return formyprawne;
+    }
 
-    
-    
     //<editor-fold defaultstate="collapsed" desc="comment">
-    
-    
     //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
 //         for (Podatnik p : podatnicy) {
@@ -1157,8 +1163,10 @@ public class PodatnikView implements Serializable {
 //             }
 //         }
 //     }
-    
-    
+    public void setFormyprawne(List<FormaPrawna> formyprawne) {
+        this.formyprawne = formyprawne;
+    }
+
     public List<Konto> getListaKontKasaBank() {
         return listaKontKasaBank;
     }
