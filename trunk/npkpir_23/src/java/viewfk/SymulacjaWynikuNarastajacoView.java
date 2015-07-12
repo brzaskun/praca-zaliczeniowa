@@ -10,6 +10,7 @@ import daoFK.WynikFKRokMcDAO;
 import embeddable.Mce;
 import entity.PodatnikUdzialy;
 import entityfk.WynikFKRokMc;
+import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private double wynikfinansowy;
+    private double wynikfinansowynetto;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
@@ -168,13 +170,21 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
         double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
+        wynikfinansowynetto = wynikpodatkowy;
+        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
+            double podatek = Z.z0(podstawaopodatkowania*0.19);
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), podatek));
+            wynikfinansowynetto = wynikpodatkowy - podatek; 
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
+        }
         pozycjeObliczeniaPodatku = new ArrayList<>();
         try {
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
+                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania"), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowy"), podatek));
