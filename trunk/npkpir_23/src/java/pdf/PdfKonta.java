@@ -22,6 +22,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPRow;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.KontoKwotacomparator;
+import comparator.SaldoKontocomparator;
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
 import java.io.File;
@@ -29,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -47,6 +50,7 @@ public class PdfKonta {
     
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc) {
         try {
+            Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
             String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = new File(nazwapliku);
             if (file.isFile()) {

@@ -117,8 +117,8 @@ var wydrukkonta = function (kto) {
     window.open('../wydruki/konta-' + kto + '.pdf', '', 'status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydrukRZiS = function(kto){
-    window.open('../wydruki/'+kto+'RZiSobliczenie.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+var wydrukRZiS = function(ktoco){
+    window.open('../wydruki/'+ktoco+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
 var wydrukBilansuA = function(kto){

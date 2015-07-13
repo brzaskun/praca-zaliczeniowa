@@ -26,6 +26,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import pdf.PdfKonta;
+import sortfunction.KontoSortBean;
 import view.WpisView;
 import waluty.Z;
 
@@ -204,5 +205,12 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
     
+     public int compare(Object o1, Object o2) {
+         try {
+            return KontoSortBean.sortZaksiegowaneDok((Konto) o1, (Konto) o2);
+         } catch (Exception e) {  E.e(e);
+             return 0;
+         }
+     }
     
 }

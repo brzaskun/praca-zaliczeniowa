@@ -44,7 +44,7 @@ public class PdfRZiS {
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiS(rootProjektRZiS),75,0);
             finalizacjaDokumentu(document);
-            String f = "wydrukRZiS('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
@@ -66,7 +66,7 @@ public class PdfRZiS {
             dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKonta(rootProjektRZiS),95,1);
             finalizacjaDokumentu(document);
-            String f = "wydrukRZiS('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
@@ -88,7 +88,7 @@ public class PdfRZiS {
             dodajOpisWstepny(document, "Rachunek Zysków i Strat z nr kont", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKontaPrzyporządkowane(rootProjektRZiS),75,2);
             finalizacjaDokumentu(document);
-            String f = "wydrukRZiS('"+wpisView.getPodatnikObiekt().getNip()+"');";
+            String f = "wydrukRZiS('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano RZiS do wydruku");
