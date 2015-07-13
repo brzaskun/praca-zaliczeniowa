@@ -40,7 +40,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 780px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjasumanar"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.pobraniewynikow}"/>
@@ -72,7 +72,7 @@
                 <p:column headerText="#{mgs.wynikfinansowynetto}" width="60">
                     <bcf:outputpl value="#{loop.wynikfinansowynetto}"/>
                 </p:column>
-                <p:column headerText="#{mgs.zapisał}" width="60" >
+                <p:column headerText="#{mgs.zapisał}" width="60" style="text-align: center;" >
                     <h:outputText value="#{loop.wprowadzil}"/>
                 </p:column>
                 <p:column headerText="#{mgs.data}" width="60" style="text-align: center;">

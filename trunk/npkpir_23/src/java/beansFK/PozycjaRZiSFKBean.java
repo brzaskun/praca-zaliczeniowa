@@ -421,6 +421,9 @@ public class PozycjaRZiSFKBean {
             double kwotaMa = p.getWnma().equals("Ma") ? p.getKwotaPLN(): 0.0;
             try {
                 System.out.println(p.getKonto().getPelnynumer());
+                if (p.getKonto().getPelnynumer().equals("262-1")) {
+                    System.out.println("d");
+                }
                 Konto k = plankont.get(plankont.indexOf(p.getKonto()));
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
@@ -431,6 +434,9 @@ public class PozycjaRZiSFKBean {
         }
         //a teraz trzeba podsumowac konta bez obrotow ale z bo no i z obrotami (wyjalem to z gory)
         for (Konto r : plankont) {
+            if (r.getPelnynumer().equals("262-1")) {
+                System.out.println("d");
+            }
             if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
                 r.setSaldoWn(r.getBoWn());
                 r.setSaldoMa(r.getBoMa());
