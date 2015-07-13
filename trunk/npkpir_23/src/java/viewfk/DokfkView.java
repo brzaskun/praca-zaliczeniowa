@@ -13,6 +13,9 @@ import beansFK.DokFKVATBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.StronaWierszaBean;
 import beansFK.TabelaNBPBean;
+import beansPdf.PdfDokfk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import comparator.Dokfkcomparator;
 import comparator.Transakcjacomparator;
 import comparator.Wierszcomparator;
@@ -34,6 +37,7 @@ import entity.Evewidencja;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
@@ -46,6 +50,7 @@ import entityfk.Waluty;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import error.E;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,6 +72,13 @@ import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.inicjacjaA4Portrait;
+import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.naglowekStopkaP;
+import static pdffk.PdfMain.otwarcieDokumentu;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
@@ -804,9 +816,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dokumentdousuniecia));
             wykazZaksiegowanychDokumentow.remove(dokumentdousuniecia);
-            wykazZaksiegowanychDokumentowimport.remove(dokumentdousuniecia);
             if (filteredValue != null) {
                 filteredValue.remove(dokumentdousuniecia);
+            }
+            try {
+                wykazZaksiegowanychDokumentowimport.remove(dokumentdousuniecia);
+            } catch (Exception e1) {  
+                E.e(e1);
             }
             dokumentdousuniecia = null;
             Msg.msg("i", "Dokument usunięty");
@@ -1225,21 +1241,22 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             double sumawn = 0.0;
             double sumama = 0.0;
-            boolean jestkontonieostatnie = false;
+            boolean jestkontonieostatnieWn = false;
+            boolean jestkontonieostatnieMa = false;
             boolean brakwpln = false;
             if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
                 for (Wiersz r : p.getListawierszy()) {
                     StronaWiersza wn = r.getStronaWn();
                     StronaWiersza ma = r.getStronaMa();
                     if (wn != null) {
-                        jestkontonieostatnie = wn.getKonto().isMapotomkow();
+                        jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
                         if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
                             brakwpln = true;
                         }
                         sumawn += wn.getKwotaPLN();
                     }
                     if (ma != null) {
-                        jestkontonieostatnie = ma.getKonto().isMapotomkow();
+                        jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
                         if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
                             brakwpln = true;
                         }
@@ -1247,7 +1264,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                 }
             }
-            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnie == true) {
+            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnieWn == true || jestkontonieostatnieMa ==  true) {
                 listaroznice.add(p);
             }
             if (brakwpln == true) {
@@ -2398,6 +2415,56 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
     }
     
+    public void drukujzaksiegowanydokument() {
+        if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0 && filteredValue.size() == 0) {
+            String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
+            File file = new File(nazwa);
+            if (file.isFile()) {
+                file.delete();
+            }
+            wydrukujzestawieniedok(nazwa, wykazZaksiegowanychDokumentow);
+        } else {
+            Msg.msg("w", "Nie wybrano wierszy do wydruku");
+        }
+        if (filteredValue != null && filteredValue.size() > 0) {
+            for (Dokfk p : filteredValue) {
+                String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getDokfkPK().getNrkolejnywserii();
+                File file = new File(nazwa);
+                if (file.isFile()) {
+                    file.delete();
+                }
+                Uz uz = wpisView.getWprowadzil();
+                PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
+                String f = "pokazwydruk('"+nazwa+"');";
+                RequestContext.getCurrentInstance().execute(f);
+            }
+        } else {
+            Msg.msg("w", "Nie wybrano wierszy do wydruku");
+        }
+    }
+    
+    private void wydrukujzestawieniedok(String nazwa, List<Dokfk> wiersze) {
+        Uz uz = wpisView.getWprowadzil();
+        Document document = inicjacjaA4Portrait();
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
+        finalizacjaDokumentu(document);
+        String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
+        RequestContext.getCurrentInstance().execute(f);
+    }
+    
+    public void usunzaznaczone() {
+        if (selectedlist != null && selectedlist.size() > 0) {
+            for (Dokfk p : selectedlist) {
+                wykazZaksiegowanychDokumentow.remove(p);
+                dokDAOfk.destroy(p);
+            }
+            selectedlist = null;
+        }
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
      public String getWybranakategoriadok() {
