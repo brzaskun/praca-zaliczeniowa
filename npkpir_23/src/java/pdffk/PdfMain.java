@@ -21,6 +21,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.KontoKwotacomparator;
+import comparator.Kontocomparator;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import entity.Faktura;
@@ -39,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -478,34 +481,19 @@ public class PdfMain {
                     return col7;
                 }
             case "entityfk.PozycjaBilans":
-                if (modyfikator==1) {
-                    int[] col9 = new int[size];
-                    int leveleB = size-3;
-                    for (int i = 0; i < leveleB ; i++) {
-                        col9[i] = 1;
-                    }
-                    col9[leveleB++] = 10;
-                    col9[leveleB++] = 3;
-                    col9[leveleB] = 7;
-                    return col9;
-                } else if (modyfikator==2) {
-                    int[] col10 = new int[size];
-                    int leveleB = size-2;
-                    for (int i = 0; i < leveleB ; i++) {
-                        col10[i] = 1;
-                    }
-                    col10[leveleB++] = 10;
-                    col10[leveleB] = 8;
-                    return col10;
+                if (modyfikator==0) {
+                    int[] col101 = new int[size];
+                    col101[0] = 3;
+                    col101[1] = 12;
+                    col101[2] = 3;
+                    return col101;
                 } else {
-                    int[] col8 = new int[size];
-                    int leveleB = size-2;
-                    for (int i = 0; i < leveleB ; i++) {
-                        col8[i] = 1;
-                    }
-                    col8[leveleB++] = 10;
-                    col8[leveleB] = 3;
-                    return col8;
+                    int[] col101 = new int[size];
+                    col101[0] = 3;
+                    col101[1] = 10;
+                    col101[2] = 4;
+                    col101[3] = 12;
+                    return col101;
                 }
             case "entityfk.Konto":
                 if (modyfikator==1) {
@@ -676,6 +664,7 @@ public class PdfMain {
         NumberFormat currency = getCurrencyFormater();
         NumberFormat number = getNumberFormater();
         int i = 1;
+        int maxlevel = 0;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();
@@ -688,11 +677,12 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaRZiS")) {
-                int maxlevel = 0;
-                for (Iterator<PozycjaRZiS> itX = wiersze.iterator(); itX.hasNext();) {
-                    PozycjaRZiS s = (PozycjaRZiS) itX.next();
-                    if (s.getLevel() > maxlevel) {
-                        maxlevel = s.getLevel();
+                if (maxlevel == 0) {
+                    for (Iterator<PozycjaRZiS> itX = wiersze.iterator(); itX.hasNext();) {
+                        PozycjaRZiS s = (PozycjaRZiS) itX.next();
+                        if (s.getLevel() > maxlevel) {
+                            maxlevel = s.getLevel();
+                        }
                     }
                 }
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
@@ -726,46 +716,50 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaBilans")) {
-                    int maxlevel = 0;
-                    for (Iterator<PozycjaBilans> itX = wiersze.iterator(); itX.hasNext();) {
-                        PozycjaBilans s = (PozycjaBilans) itX.next();
-                        if (s.getLevel() > maxlevel) {
-                            maxlevel = s.getLevel();
+                    if (maxlevel == 0) {
+                        for (Iterator<PozycjaBilans> itX = wiersze.iterator(); itX.hasNext();) {
+                            PozycjaBilans s = (PozycjaBilans) itX.next();
+                            if (s.getLevel() > maxlevel) {
+                                maxlevel = s.getLevel();
+                            }
                         }
                     }
                     PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
-                    int levelPlus = p.getLevel()+1;
+                    StringBuilder pozycja = new StringBuilder("   ");
                     if (p.getLevel() != 0) {
                         for (int j = 0; j < p.getLevel(); j++) {
-                            table.addCell(ustawfrazeAlign("", "l", 7));
+                            pozycja.append("  ");
                         }
                     }
-                    table.addCell(ustawfrazeAlign(p.getPozycjaSymbol(), "center", 7));
-                    if (p.getLevel() < maxlevel) {
-                        for (int k = levelPlus; k <= maxlevel; k++) {
-                            table.addCell(ustawfrazeAlign("", "l", 7));
-                        }   
-                    }
+                    pozycja.append(p.getPozycjaSymbol());
+                    table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 7));
                     if (p.getLevel() == 0) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                    } else if (p.getLevel() == 1) {
                         table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
                     } else {
                         table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
                     }
-                    if (modyfikator != 2) {
-                        if (p.getKwota() != 0.0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                    if (p.getKwota() != 0.0) {
+                        if (p.getLevel() == 0) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
+                        } else if (p.getLevel() == 1) {
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                         } else {
-                            table.addCell(ustawfrazeAlign("", "right", 7));
+                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
                         }
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "right", 7));
                     }
                     if (modyfikator != 0) {
                         String konta = "";
                         if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
+                            Collections.sort(p.getPrzyporzadkowanekonta(), new KontoKwotacomparator());
                             for (KontoKwota u : p.getPrzyporzadkowanekonta()) {
                                 konta = konta+u.getKonto().getPelnynumer()+": "+Z.z(u.getKwota())+"; ";
                             }
                         }
-                        table.addCell(ustawfrazeAlign(konta, "right", 7));
+                        table.addCell(ustawfrazeAlign(konta, "just", 7));
                     }
             }
             if (nazwaklasy.equals("testobjects.WierszCecha")) {

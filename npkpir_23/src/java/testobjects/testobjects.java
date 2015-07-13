@@ -291,9 +291,7 @@ public class testobjects {
    public static List[] getTabelaBilans(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();
-       for (int i = 0; i < level; i++) {
-        n.add("");
-       }
+       n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
        n.add("kwota");
        List t = getWierszeRZiS(rootProjekt, level);
@@ -306,9 +304,7 @@ public class testobjects {
     public static List[] getTabelaBilansKonta(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();
-       for (int i = 0; i < level; i++) {
-        n.add("");
-       }
+       n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
        n.add("kwota");
        n.add("konta");
@@ -321,10 +317,9 @@ public class testobjects {
     public static List[] getTabelaBilansKontaPrzyporzadkowane(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();
-       for (int i = 0; i < level; i++) {
-        n.add("");
-       }
+       n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
+       n.add("kwota");
        n.add("konta");
        List t = getWierszeRZiS(rootProjekt, level);
        List[] tabela = new List[2];

@@ -41,7 +41,7 @@
             
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          filteredValue="#{saldoSyntetykaView.listaSaldoKontoSelected}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
+                         sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >
                 <p:ajax event="filter" global="false"/>

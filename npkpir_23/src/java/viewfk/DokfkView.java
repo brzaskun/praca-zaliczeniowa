@@ -1221,26 +1221,37 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void sprawdzWnMawDokfk() {
         List<Dokfk> listaroznice = new ArrayList<>();
+        List<Dokfk> listabraki = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             double sumawn = 0.0;
             double sumama = 0.0;
             boolean jestkontonieostatnie = false;
+            boolean brakwpln = false;
             if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
                 for (Wiersz r : p.getListawierszy()) {
                     StronaWiersza wn = r.getStronaWn();
                     StronaWiersza ma = r.getStronaMa();
                     if (wn != null) {
                         jestkontonieostatnie = wn.getKonto().isMapotomkow();
-                        sumawn += wn.getKwota();
+                        if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
+                            brakwpln = true;
+                        }
+                        sumawn += wn.getKwotaPLN();
                     }
                     if (ma != null) {
                         jestkontonieostatnie = ma.getKonto().isMapotomkow();
-                        sumama += ma.getKwota();
+                        if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
+                            brakwpln = true;
+                        }
+                        sumama += ma.getKwotaPLN();
                     }
                 }
             }
-            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnie) {
+            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnie == true) {
                 listaroznice.add(p);
+            }
+            if (brakwpln == true) {
+                listabraki.add(p);
             }
         }
         String main = "Występują różnice w "+listaroznice.size()+" dokumentach: ";
@@ -1251,7 +1262,15 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             b.append(", ");
         }
         Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        System.out.println("Ilosc roznych dokummentow "+listaroznice.size());
+        main = "Występują braki w pln w "+listabraki.size()+" dokumentach: ";
+        b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : listabraki) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        System.out.println("Ilosc roznych dokummentow "+listabraki.size());
     }
     
     public void sprawdzsalda(String wybranakategoriadok) {

@@ -15,6 +15,7 @@ import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +25,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import pdf.PdfKonta;
+import sortfunction.KontoSortBean;
 import view.WpisView;
 import waluty.Z;
 
@@ -185,5 +187,14 @@ public class SaldoSyntetykaView implements Serializable {
         }
     }
     
-    
+    public int compare(Object o1, Object o2) {
+         try {
+            return KontoSortBean.sortZaksiegowaneDok((Konto) o1, (Konto) o2);
+         } catch (Exception e) {  E.e(e);
+             return 0;
+         }
+     }
+
+  
+   
 }

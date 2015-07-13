@@ -40,7 +40,7 @@
             
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          filteredValue="#{saldoAnalitykaView.listaSaldoKontoSelected}"
-                         sortBy="#{loop.konto.pelnynumer}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
+                         sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false"/>
