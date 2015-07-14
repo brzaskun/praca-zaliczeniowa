@@ -2333,7 +2333,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     
     public void przelicznaklawiszu() {
         selected.przeliczKwotyWierszaDoSumyDokumentu();
-        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
     }
     
 //    public void resetujzaksiegowane() {
