@@ -342,6 +342,7 @@ var robfocus = function() {
             var wierszpoprzedniWn = "formwpisdokument:dataList:"+poprzedniid+":kontown_input";
             r(wierszpoprzedniWn).removeClass("ui-state-focus");
             r(wierszpoprzedniMa).removeClass("ui-state-focus");
+            document.getElementById(wiersz).placeholder = "brak opisu";
             r(wiersz).focus();
             r(wiersz).select();
             event.preventDefault();
@@ -638,4 +639,8 @@ var czydodacdelegacjeShow = function (){
         alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 214 "+Exception);
     }
     
+};
+
+var zerujwiadomosc = function() {
+     rj("formwpisdokument:komunikatywpisdok").innerText = "";
 };

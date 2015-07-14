@@ -189,6 +189,7 @@ private static final long serialVersionUID = 1L;
     private List dokumentypodatnika;
     private double saldoBO;
     private int jest1niema0_konto;
+    private String komunikatywpisdok;
     
 
     public DokfkView() {
@@ -228,6 +229,7 @@ private static final long serialVersionUID = 1L;
         String symbolPoprzedniegoDokumentu = null;
         Rodzajedok rodzajDokPoprzedni = null;
         Klienci ostatniklient = null;
+        komunikatywpisdok = null;
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
@@ -615,10 +617,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void dodaj() {
         if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
+            komunikatywpisdok = "Probujesz zapisać pusty dokument";
+            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
             return;
         }
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
-            Msg.msg("e", "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.");
+            komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
+            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu()==0) {
                     int index = selected.getListawierszy().size() -1;
@@ -633,7 +638,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
                 if (selected.sprawdzczynaniesionorozrachunki()==1) {
-                    Msg.msg("w", "Nie naniesiono rozrachunków");
+                    komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
+                    RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
                 }
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
@@ -649,12 +655,16 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-            } catch (Exception e) {  E.e(e);
-                System.out.println("Nie udało się dodac dokumentu " + e.getMessage());
+            } catch (Exception e) {  
+                E.e(e);
+                komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
+                RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
                 Msg.msg("e", "Nie udało się dodac dokumentu " + e.getMessage());
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
         } else {
+            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";
+            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
             Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
         }
     
@@ -789,11 +799,15 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
-            } catch (Exception e) {  E.e(e);
+            } catch (Exception e) {  
+                E.e(e);
+                komunikatywpisdok = "Nie udało się zmienic dokumentu ";
+                RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
                 Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
             }
         } else {
-            Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
+            komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";
+            RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
         }
     }
 
@@ -932,6 +946,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
+        komunikatywpisdok = "";
+        RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
         //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
         if (zapisz0edytuj1 == false) {
             String data = selected.getDataoperacji();
@@ -954,7 +970,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
     }
     
-    public void skorygujokreswpisudokumentu(AjaxBehaviorEvent event) {
+    public void skorygujokreswpisudokumentu(ValueChangeEvent event) {
         if (selected.getRodzajedok().getKategoriadokumentu()==1) {
             //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
             if (zapisz0edytuj1 == false) {
@@ -2472,6 +2488,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     public void setWybranakategoriadok(String wybranakategoriadok) {    
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public String getKomunikatywpisdok() {
+        return komunikatywpisdok;
+    }
+
+    public void setKomunikatywpisdok(String komunikatywpisdok) {
+        this.komunikatywpisdok = komunikatywpisdok;
     }
 
     public int getJest1niema0_konto() {
