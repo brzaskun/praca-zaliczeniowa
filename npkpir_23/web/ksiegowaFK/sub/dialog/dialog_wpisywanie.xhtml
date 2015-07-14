@@ -190,9 +190,10 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;">
-                                        <p:ajax global="false" event="focus" listener="#{dokfkView.skorygujokreswpisudokumentu}" />
-                                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" update=":parametrydel"/>
+                                    <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
+                                        <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
+                                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
+                                                update=":parametrydel"/>
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
@@ -516,6 +517,9 @@
                             <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" style="font-size: 0.5; color: white;" />
                         </p:column>
                     </p:dataTable>
+                    <p:panelGrid style="text-align: left; margin-left: 10px;">
+                        <h:outputText id="komunikatywpisdok" value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
+                    </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100">
@@ -546,13 +550,14 @@
                         </p:column>
                         </p:row>
                     </p:panelGrid>
-                    <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
-                                     global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
+                    
                 </div>
             </h:form>
         </p:focus>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
+                <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
+                                     global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 

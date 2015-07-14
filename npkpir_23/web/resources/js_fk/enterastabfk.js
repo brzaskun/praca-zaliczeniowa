@@ -43,7 +43,7 @@ var TabKeyDown;
                     var war4 = czyZawieraMa > 0 && zawartoscpola !== "";
                     if ($(event.target).is("button") === false) {
                         if (war1 && war2 && war3 || war1 && war2 && war4) {
-                            $(document.getElementById("formwpisdokument:dodajPustyWierszNaKoncu")).click();
+                            $(document.getElementById("wpisywaniefooter:dodajPustyWierszNaKoncu")).click();
                                 event.preventDefault();
                                 event.stopPropagation();
                                 event.stopImmediatePropagation();
