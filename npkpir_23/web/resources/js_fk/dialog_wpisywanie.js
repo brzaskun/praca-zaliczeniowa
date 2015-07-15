@@ -26,6 +26,7 @@ var zachowajwierszVATRK = function (lp) {
         MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
         $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
+        podswietlznalezionywierszz(id);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -493,6 +494,35 @@ var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
     r(nr3).css( "color", "red" );
     r(nr4).css( "color", "red" );
     r(nr5).css( "color", "red" );
+};
+
+var podswietlznalezionywierszz = function(nrwiersza) {
+    var liczbawierszy = r("formwpisdokument:dataList_data").children("tr").length;
+    for (var i = 0; i < liczbawierszy; i++) {
+        if (i === nrwiersza) {
+            var nr1 = "formwpisdokument:dataList:"+i+":opis";
+            var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
+            var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
+            var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
+            var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
+            r(nr1).css( "color", "green" );
+            r(nr2).css( "color", "green" );
+            r(nr3).css( "color", "green" );
+            r(nr4).css( "color", "green" );
+            r(nr5).css( "color", "green" );
+        } else {
+            var nr1 = "formwpisdokument:dataList:"+i+":opis";
+            var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
+            var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
+            var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
+            var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
+            r(nr1).css( "color", "black" );
+            r(nr2).css( "color", "black" );
+            r(nr3).css( "color", "black" );
+            r(nr4).css( "color", "black" );
+            r(nr5).css( "color", "black" );
+        }
+    }
 };
 
 var obsluzDateWiersza = function(idwiersza) {

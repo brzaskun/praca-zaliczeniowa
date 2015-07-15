@@ -66,9 +66,12 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.ArrayDataModel;
+import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -190,6 +193,7 @@ private static final long serialVersionUID = 1L;
     private double saldoBO;
     private int jest1niema0_konto;
     private String komunikatywpisdok;
+    private String lpwierszaRK;
     
 
     public DokfkView() {
@@ -1100,12 +1104,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     if (wybranyWiersz.getTypWiersza() == 0) {
                         selected.getListawierszy().remove(wybranyWiersz);
                         ObslugaWiersza.przenumerujSelected(selected);
-                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
                         break;
                     } else {
                         selected.getListawierszy().remove(wybranyWiersz);
                         ObslugaWiersza.przenumerujSelected(selected);
-                        Collections.sort(selected.getListawierszy(), new Wierszcomparator());
 //                        ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                         break;
                     }
@@ -1128,14 +1130,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
-                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
                 default:
                     selected.getListawierszy().remove(wybranyWiersz);
                     ObslugaWiersza.przenumerujSelected(selected);
-                    Collections.sort(selected.getListawierszy(), new Wierszcomparator());
-//                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
             }
             for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
@@ -2166,7 +2164,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                         ewidencjaVatRK.setVat(0.0);
                         ewidencjaVATRKzapis0edycja1 = false;
                     }
-                    RequestContext.getCurrentInstance().update("ewidencjavatRK");
+                    RequestContext.getCurrentInstance().update("dialogewidencjavatRK");
                     System.out.println("Generowanie ewidencji vat rk");
                 } catch (Exception e) {  
                     E.e(e);
@@ -2910,6 +2908,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.selectedlist = selectedlist;
     }
 
+    public String getLpwierszaRK() {
+        return lpwierszaRK;
+    }
+
+    public void setLpwierszaRK(String lpwierszaRK) {
+        this.lpwierszaRK = lpwierszaRK;
+    }
+
     public int getRodzaj() {
         return rodzaj;
     }
@@ -2920,7 +2926,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
 //</editor-fold>  
     
-    
+   public DataModel getDatamodel() {
+       DataModel dataModel = new ArrayDataModel<Wiersz>();
+       dataModel.setWrappedData(selected.getListawierszy().toArray());
+       return dataModel;
+   }
 
 }
 
