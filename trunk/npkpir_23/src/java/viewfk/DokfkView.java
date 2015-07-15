@@ -1132,6 +1132,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //                    ObslugaWiersza.sprawdzKwotePozostala(selected, wybranyWiersz, wierszeSasiednie);
                     break;
             }
+            for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
+                EVatwpisFK p = it.next();
+                if (p.getWiersz() == wybranyWiersz) {
+                    it.remove();
+                    break;
+                }
+            }
         int liczbawierszyWDokumencie = selected.getListawierszy().size();
         if (liczbawierszyWDokumencie == 0) {
             selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
