@@ -858,6 +858,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     selected.getListawierszy().remove(liczbawierszyWDokumencie);
                     Msg.msg("Wiersz usunięty.");
                 }
+                for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
+                    EVatwpisFK p = it.next();
+                    if (p.getWiersz() == wierszDoUsuniecia) {
+                        it.remove();
+                    }
+                }
             } else if (liczbawierszyWDokumencie == 1) {
                 Wiersz wiersz = selected.getListawierszy().get(0);
                 try {
@@ -1136,7 +1142,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 EVatwpisFK p = it.next();
                 if (p.getWiersz() == wybranyWiersz) {
                     it.remove();
-                    break;
                 }
             }
         int liczbawierszyWDokumencie = selected.getListawierszy().size();
@@ -1173,14 +1178,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
             } else {
-                selected = wybranyDokfk;
+                selected = odnalezionywbazie;
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
+                Msg.msg("i", "Wybrano dokument do edycji " + odnalezionywbazie.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     pokazPanelWalutowy = true;
