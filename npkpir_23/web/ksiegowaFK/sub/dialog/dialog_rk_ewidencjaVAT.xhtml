@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <p:dialog id="dialogewidencjavatRK" header="Ewidencja VAT RK wiersz #{dokfkView.lpwierszaRK}" widgetVar="dialogewidencjavatRK"  appendTo="@(body)"
-              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',650,200);" 
+              resizable="false"  onShow="ustawdialogrk('dialogewidencjavatRK','dialogpierwszy',650,200);" modal="true"
               closeOnEscape="true" onHide="ukryjdialogvatrk();" >
         <h:form id="ewidencjavatRK"> 
             <p:panelGrid id="paneldatydokumentu" columns="4" style="width: 400px;"  styleClass="uipanelGrid0">
