@@ -94,6 +94,7 @@ public class KontoZapisFKView implements Serializable{
     }
     
     public void pobierzZapisyNaKoncieNode() {
+        Konto konto = null;
         try {
             wybranekontadosumowania = new ArrayList<>();
             Konto wybraneKontoNode = wybranekonto;
@@ -107,6 +108,9 @@ public class KontoZapisFKView implements Serializable{
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
             for (Konto p : kontapotomneListaOstateczna) {
                 for (StronaWiersza r : zapisyRok) {
+                    if (r.getKonto()==null) {
+                        System.out.println("");
+                    }
                     if (r.getKonto().equals(p)) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <=granicaGorna) {
