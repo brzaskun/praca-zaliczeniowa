@@ -485,6 +485,8 @@ public class Dokfk implements Serializable {
     public void setListawierszy(List<Wiersz> listawierszy) {
         this.listawierszy = listawierszy;
     }
+    
+    
 
     public Tabelanbp getTabelanbp() {
         return tabelanbp;

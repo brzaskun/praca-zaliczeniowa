@@ -384,7 +384,7 @@
                     </p:contextMenu>
 
                     <!--                POSZCZEGÓLNE WIERSZE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                    <p:dataTable id="dataList" value="#{dokfkView.selected.listawierszy}" var="loop" style="max-width: 1050px;"  initMode="immediate"
+                    <p:dataTable id="dataList" value="#{dokfkView.datamodel}" var="loop" style="max-width: 1050px;"  initMode="immediate" 
                                  rowIndexVar="rowindex" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
                         <!--                             paginator="true" rows="10" paginatorPosition="top">-->
@@ -510,7 +510,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column width="1">
+                        <p:column width="30">
                             <h:outputText id="idwiersza" value="#{loop.lpmacierzystego}" style="font-size: 0.5; color: white;" />
                         </p:column>
                         <p:column  width="3">
@@ -549,6 +549,8 @@
                             <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
                         </p:column>
                         </p:row>
+                         <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
+                                 style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                     </p:panelGrid>
                     
                 </div>
@@ -556,6 +558,8 @@
         </p:focus>
         <f:facet name="footer">
             <h:form id="wpisywaniefooter">
+                <p:commandButton id="vatRK" value="+" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
+                                 style="width: 30px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                 <p:commandButton id="dodajPustyWierszNaKoncu" value="dodajPustyWierszNaKoncu" actionListener="#{dokfkView.dodajPustyWierszNaKoncu()}"
                                      global="false" update=":formwpisdokument:dataList" oncomplete="focusNowyWiersz();" style="display: none;" />
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
@@ -566,8 +570,7 @@
                                  onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
                                  actionListener="#{dokfkView.wybranoStronaWierszaCecha()}" accesskey="c" oncomplete="PF('dialogCechyStronaWiersza').show();"/>
-                <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
-                                 style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
+               
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
@@ -586,7 +589,7 @@
                                  global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <h:inputText id="typwiersza" value="#{dokfkView.typwiersza}" style="display: none;"/>
-                <h:inputText id="lpwierszaRK" style="display: none;"/>
+                <h:inputText id="lpwierszaRK" value="#{dokfkView.lpwierszaRK}" style="display: none;"/>
                 <h:inputText id="lpwierszaWpisywanie" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>
                 <h:inputText id="nrgrupywierszy" value="#{dokfkView.nrgrupywierszy}" style="display: none;"/>
                 <h:inputText id="nrgrupyaktualny" value="#{dokfkView.nrgrupyaktualny}"  style="display: none;"/>
