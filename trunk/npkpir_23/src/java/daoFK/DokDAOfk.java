@@ -11,6 +11,7 @@ import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -162,6 +163,10 @@ public class DokDAOfk extends DAO implements Serializable {
 
     public List<String> znajdzDokumentPodatnikWprFK(String wpr) {
         return dokFacade.znajdzDokumentPodatnikWprFK(wpr);
+    }
+
+    public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
+        return dokFacade.findZnajdzSeriePodatnik(wpisView);
     }
     
 }

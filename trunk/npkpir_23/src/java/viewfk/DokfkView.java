@@ -16,6 +16,7 @@ import beansFK.TabelaNBPBean;
 import beansPdf.PdfDokfk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
 import comparator.Transakcjacomparator;
 import comparator.Wierszcomparator;
@@ -1365,7 +1366,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                }
            }
         }
-        //Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
     }
@@ -2029,8 +2030,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 if (zapisz0edytuj1 == false) {
                     if (ostatnidokument != null) {
                         selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
+                        selected.setLp(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
                     } else {
                         selected.getDokfkPK().setNrkolejnywserii(1);
+                        selected.setLp(1);
                     }
                 }
                 if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
@@ -2361,28 +2364,38 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
    
     
     public void przenumerujDokumentyFK() {
-        List<Dokfk> dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
-        Set<String> serie = new HashSet<>();
-        for (Dokfk p : dokumenty) {
-            if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
-                serie.add(p.getDokfkPK().getSeriadokfk());
-            }
+        List<Dokfk> dokumenty = null;
+        List<String> serie = null;
+        if (wybranakategoriadok.equals("wszystkie")) {
+            serie = dokDAOfk.findZnajdzSeriePodatnik(wpisView);
+            dokumenty = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        } else {
+            serie = new ArrayList<>();
+            serie.add(wybranakategoriadok);
+            dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView,wybranakategoriadok);
         }
-        System.out.println("d");
+        nadajnowenumery(serie, dokumenty);
+        System.out.println("df");
+    }
+    
+    private void nadajnowenumery(List<String> serie, List<Dokfk> dokumenty) {
+        List<Dokfk> nowadosortowania = null;
         for (String r : serie) {
-            List<Dokfk> nowadosortowania = new ArrayList<>();
-            int kolejny = 1;
-            int pobrany = 0;
+            nowadosortowania = new ArrayList<>();
             for (Dokfk t : dokumenty) {
                 if (t.getDokfkPK().getSeriadokfk().equals(r)) {
                     nowadosortowania.add(t);
                 }
             }
-            Collections.sort(nowadosortowania, new Dokfkcomparator());
+            Collections.sort(nowadosortowania, new DokfkLPcomparator());
+            int kolejny = 1;
             for (Dokfk f : nowadosortowania) {
                 f.setLp(kolejny++);
-                dokDAOfk.edit(f);
+                
             }
+        }
+        if (nowadosortowania != null) {
+            dokDAOfk.editList(nowadosortowania);
         }
     }
     

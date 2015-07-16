@@ -43,7 +43,9 @@
         </p:tab>  
         <p:tab title="numeracja">
             <h:form>
-                 <p:commandButton value="reset bieżącej numeracji" actionListener="#{dokfkView.przenumerujDokumentyFK()}"/>
+                <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
+                    <p:menuitem value="Reset bieżącej numeracji" oncomplete="PF('dialog_przenumerujDokumentyFK').show();" ></p:menuitem>
+                </p:menu>
             </h:form>      
         </p:tab>
         <p:tab title="import faktur">

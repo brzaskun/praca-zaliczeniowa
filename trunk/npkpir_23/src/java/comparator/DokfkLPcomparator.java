@@ -16,7 +16,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class Dokfkcomparator implements Comparator<Dokfk> {
+public class DokfkLPcomparator implements Comparator<Dokfk> {
 
     @Override
     public int compare(Dokfk o1, Dokfk o2) {
@@ -34,33 +34,12 @@ public class Dokfkcomparator implements Comparator<Dokfk> {
             } else if (datao1date.after(datao2date)) {
                 return 1;
             } else {
-                return porownajseriedok(((Dokfk) o1),((Dokfk) o2));
+                return 0;
             }
         } catch (Exception e) {
             return 0;
         }
     }
     
-    private static int porownajseriedok(Dokfk o1, Dokfk o2) {
-        String seriao1 = o1.getDokfkPK().getSeriadokfk();
-        String seriao2 = o2.getDokfkPK().getSeriadokfk();
-        if (seriao1.equals(seriao2)) {
-            return porownajnrserii(o1,o2);
-        } else {
-            return seriao1.compareTo(seriao2);
-        }
-    }
-    
-    private static int porownajnrserii(Dokfk o1, Dokfk o2) {
-        int seriao1 = o1.getLp();
-        int seriao2 = o2.getLp();
-        if (seriao1 == seriao2) {
-            return 0;
-        } else if (seriao1 < seriao2){
-            return -1;
-        } else {
-            return 1;
-        }
-    }
-    
+       
 }

@@ -549,8 +549,6 @@
                             <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
                         </p:column>
                         </p:row>
-                         <p:commandButton id="vatRK" value="#{mgs.vatrk}" actionListener="#{dokfkView.ewidencjaVatRKInit}" styleClass="fkbutton" 
-                                 style="width: 130px; margin-left: 10px; display: none;" oncomplete="pokazewidencjevatRK();" global="false" accesskey="x" />
                     </p:panelGrid>
                     
                 </div>
@@ -584,7 +582,7 @@
                                  global="false" style="display: none;" />
                 <p:commandButton id="przenumeruj" value="przenumeruj" actionListener="#{dokfkView.przenumeruj()}" global="false"
                                  rendered="#{facesContext.externalContext.remoteUser eq '4'}"
-                                 style="margin-left: 10px; width: 130px;"  update=":formwpisdokument:dataList"/>
+                                 style="margin-left: 10px; width: 130px; display: none;"  update=":formwpisdokument:dataList"/>
                 <p:commandButton id="dodajwalute" value="dodajwalute" actionListener="#{dokfkView.pobierzpoledlawaluty}" accesskey="l" onclick="PF('dialogkursrecznie').show();" 
                                  global="false" style="margin-left: 10px; display: none;" />
                 <h:inputText id="wierszid" value="#{dokfkView.lpWierszaWpisywanie}"  style="display: none;"/>

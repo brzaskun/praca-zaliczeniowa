@@ -68,6 +68,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -1575,6 +1576,10 @@ public class SessionFacade<T> implements Serializable {
 
     public List<String> findUzByUprawnienia(String uprawnienia) {
         return em.createNamedQuery("Uz.findByUzUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
+    }
+
+    public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
+        return (List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 
    
