@@ -193,7 +193,7 @@ private static final long serialVersionUID = 1L;
     private double saldoBO;
     private int jest1niema0_konto;
     private String komunikatywpisdok;
-    private String lpwierszaRK;
+    private Integer lpwierszaRK;
     
 
     public DokfkView() {
@@ -399,6 +399,8 @@ private static final long serialVersionUID = 1L;
 
 
     public void dodajPustyWierszNaKoncu() {
+           int dlugosc = selected.getListawierszy().size();
+           
            int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
            selected.przeliczKwotyWierszaDoSumyDokumentu();
            RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
@@ -2135,9 +2137,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
     public void ewidencjaVatRKInit() {
-        String wiersz = (String) Params.params("wpisywaniefooter:lpwierszaRK");
-        if (!wiersz.equals("")) {
-            lpWierszaWpisywanie = Integer.parseInt(wiersz);
+        if (lpwierszaRK != null) {
+            lpWierszaWpisywanie = lpwierszaRK;
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 try {
     //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
@@ -2908,13 +2909,15 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.selectedlist = selectedlist;
     }
 
-    public String getLpwierszaRK() {
+    public Integer getLpwierszaRK() {
         return lpwierszaRK;
     }
 
-    public void setLpwierszaRK(String lpwierszaRK) {
+    public void setLpwierszaRK(Integer lpwierszaRK) {
         this.lpwierszaRK = lpwierszaRK;
     }
+
+   
 
     public int getRodzaj() {
         return rodzaj;
