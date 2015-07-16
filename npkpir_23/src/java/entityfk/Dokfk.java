@@ -69,7 +69,8 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findByLastofaType", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
     @NamedQuery(name = "Dokfk.findByLastofaTypeKontrahent", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik AND d.dokfkPK.seriadokfk = :seriadokfk AND d.kontr = :kontr AND d.dokfkPK.rok = :rok ORDER BY d.dokfkPK.nrkolejnywserii DESC"),
     @NamedQuery(name = "Dokfk.findByNumer", query = "SELECT d FROM Dokfk d WHERE d.numerwlasnydokfk = :numer"),
-    @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil")
+    @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
+    @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.dokfkPK.seriadokfk FROM Dokfk d WHERE d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik")
 })
 public class Dokfk implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -533,7 +534,7 @@ public class Dokfk implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " ]";
+        return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " mc "+this.miesiac+" ]";
     }
     
     public String getDokfkLP() {
