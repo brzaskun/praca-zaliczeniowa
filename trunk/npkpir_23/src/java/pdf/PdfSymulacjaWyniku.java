@@ -5,8 +5,10 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujProcent;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Document;
@@ -203,7 +205,11 @@ public class PdfSymulacjaWyniku {
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeObliczeniaPodatku) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            if (rs.getNazwa().contains("#")) {
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            } else {
+                table.addCell(ustawfrazeAlign(formatujProcent(rs.getWartosc()), "right", 7));
+            }
         }
         return table;
     }
@@ -228,7 +234,11 @@ public class PdfSymulacjaWyniku {
         }
         for (SymulacjaWynikuView.PozycjeSymulacji rs : pozycjeDoWyplaty) {
             table.addCell(ustawfrazeAlign(rs.getNazwa(), "left", 7));
-            table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            if (rs.getNazwa().contains("#")) {
+                table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWartosc()), "right", 7));
+            } else {
+                table.addCell(ustawfrazeAlign(formatujProcent(rs.getWartosc()), "right", 7));
+            }
         }
         return table;
     }
