@@ -136,13 +136,25 @@ public class PdfFont {
         }
     }
     
+    public static String formatujProcent(Double wsad) {
+        NumberFormat formatter = NumberFormat.getPercentInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        try {
+            String percentString = formatter.format(wsad);
+            return percentString;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
     public static String formatujLiczba(Double wsad) {
         NumberFormat formatter = NumberFormat.getNumberInstance(new Locale("PL"));
         formatter.setMinimumFractionDigits(2);
         formatter.setMaximumFractionDigits(2);
         try {
-            String moneyString = formatter.format(wsad);
-            return moneyString;
+            String numberString = formatter.format(wsad);
+            return numberString;
         } catch (Exception e) {
             return "";
         }
