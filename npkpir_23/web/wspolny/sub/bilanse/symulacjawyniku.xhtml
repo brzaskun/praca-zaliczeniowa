@@ -74,7 +74,9 @@
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+<!--                    <h:outputText value="#{loop.konto.nazwapelna}"/>-->
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWn}" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">
@@ -145,7 +147,8 @@
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
                 <p:column headerText="#{mgs.obrotyWn}" width="60" >
                     <h:outputText value="#{loop.obrotyWn != 0.0 ? loop.obrotyWn : null}" style="float: right;">

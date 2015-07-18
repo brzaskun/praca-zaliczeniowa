@@ -58,6 +58,22 @@ public class PlanKontInterView implements Serializable {
             Msg.msg("e", "Wystąpił błąd podczas zachowywania nazw kont");
         }
     }
+     
+     public void implementuj() {
+         for (Konto r : wykazkont) {
+                 r.setDe(null);
+                 kontoDAOfk.edit(r);
+         }
+         for (Konto p : wykazkontwzor) {
+             for (Konto r : wykazkont) {
+                 if (r.getPelnynumer().equals(p.getPelnynumer())) {
+                     r.setDe(p.getDe());
+                     kontoDAOfk.edit(r);
+                 } 
+             }
+         }
+         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+     }
 
     public List<Konto> getWykazkont() {
         return wykazkont;
