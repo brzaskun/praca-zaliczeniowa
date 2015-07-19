@@ -62,8 +62,8 @@ public class DelegacjeView  implements Serializable{
     public DelegacjeView() {
    }
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
         try {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, false);
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,true);

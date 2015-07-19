@@ -49,8 +49,8 @@
           <p:tab title="delegacje">
             <h:form id="dialog1menu6">
                 <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="delegacje krajowe" onclick="PF('dialog_delegacje_kraj').show();"></p:menuitem>
-                    <p:menuitem value="delegacje zagraniczne" onclick="PF('dialog_delegacje_zagranica').show();"></p:menuitem>
+                    <p:menuitem value="delegacje krajowe"  onclick="PF('dialog_delegacje_kraj').show();" actionListener="#{delegacjeView.init()}" update=":delegacje,:delegacjelista"></p:menuitem>
+                    <p:menuitem value="delegacje zagraniczne" onclick="PF('dialog_delegacje_zagranica').show();" actionListener="#{delegacjeView.init()}" update=":delegacjezagranica,:delegacjezagranicalista"></p:menuitem>
                 </p:menu>  
             </h:form>
         </p:tab>  
