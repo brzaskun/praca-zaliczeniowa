@@ -28,7 +28,7 @@
         <p:tab title="cechy dok">
             <h:form id="dialog1menu3">
                 <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="wykaz i edycja cech" onclick="PF('dialogCechyZapisu').show();"></p:menuitem>
+                    <p:menuitem value="wykaz i edycja cech" actionListener="#{cechazapisuView.init()}" onsuccess="PF('dialogCechyZapisu').show();" update=":formCH"></p:menuitem>
                 </p:menu>  
             </h:form>
         </p:tab>
