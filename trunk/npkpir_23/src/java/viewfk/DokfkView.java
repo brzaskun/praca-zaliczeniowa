@@ -195,6 +195,7 @@ private static final long serialVersionUID = 1L;
     private int jest1niema0_konto;
     private String komunikatywpisdok;
     private Integer lpwierszaRK;
+    private Klienci klientdlaPK;
     
 
     public DokfkView() {
@@ -219,6 +220,7 @@ private static final long serialVersionUID = 1L;
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
+            klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {  
             E.e(e);
         }
@@ -653,6 +655,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 selected.oznaczewidencjeVAT();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
+                if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)  && klientdlaPK != null) {
+                    selected.setKontr(klientdlaPK);
+                }
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
@@ -1268,6 +1273,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         List<Dokfk> listaroznice = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
+            if ((p.getRodzajedok().getKategoriadokumentu() == 0 || p.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
+                if (!p.getKontr().equals(klientdlaPK)) {
+                    p.setKontr(klientdlaPK);
+                    dokDAOfk.edit(p);
+                }
+            }
             double sumawn = 0.0;
             double sumama = 0.0;
             boolean jestkontonieostatnieWn = false;

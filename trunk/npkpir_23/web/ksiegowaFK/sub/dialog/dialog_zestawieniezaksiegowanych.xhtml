@@ -52,7 +52,7 @@
                 </h:selectOneMenu>
                     </p:column>
                 <p:column>
-                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
                                       style="margin-left: 20px; width: 120px;" />
                 </p:column>
                 <p:column>
