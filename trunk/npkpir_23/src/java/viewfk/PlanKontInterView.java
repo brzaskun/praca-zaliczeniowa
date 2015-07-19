@@ -17,6 +17,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
+import xls.ReadXLSFile;
 
 /**
  *
@@ -74,6 +75,15 @@ public class PlanKontInterView implements Serializable {
          }
          wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
      }
+     
+    public void pobierzdanezpliku() {
+        ReadXLSFile.updateKonta(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+    }
+    public void pobierzdanezplikuwzorcowy() {
+        ReadXLSFile.updateKontaWzorcowy(kontoDAOfk, wpisView, "c://temp//plankont.xlsx");
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBezSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+    }
 
     public List<Konto> getWykazkont() {
         return wykazkont;

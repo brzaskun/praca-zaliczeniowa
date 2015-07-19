@@ -26,6 +26,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;
 import xls.PozycjaObliczenia;
 import xls.PozycjaPrzychodKoszt;
+import xls.ReadXLSFile;
 import xls.WriteXLSFile;
 
 /**
@@ -59,8 +60,8 @@ public class XLSPlanKontView implements Serializable{
             
         }
     }
-
-   
+    
+      
     public WpisView getWpisView() {
         return wpisView;
     }

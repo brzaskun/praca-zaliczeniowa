@@ -5,7 +5,11 @@
  */
 package xls;
 
+import daoFK.KontoDAOfk;
 import embeddablefk.InterpaperXLS;
+import entity.Wpis;
+import entityfk.Konto;
+import error.E;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ import javax.ejb.Stateless;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import view.WpisView;
 
 /**
  *
@@ -66,9 +71,73 @@ public class ReadXLSFile {
             file.close();
         }
         catch (Exception e) {
-            e.printStackTrace();
+            E.e(e);
         }
         return listafaktur;
+    }
+    
+    public static void updateKonta(KontoDAOfk kontoDAOfk, WpisView wpisView, String filename) {
+         try {
+            FileInputStream file = new FileInputStream(new File(filename));
+             //Create Workbook instance holding reference to .xlsx file
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+             //Get first/desired sheet from the workbook
+            XSSFSheet sheet = workbook.getSheetAt(0);
+             //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                try {
+                    String pelnynumer = row.getCell(1).getStringCellValue();
+                    String nazwapelna = row.getCell(2).getStringCellValue();
+                    String tlumaczenie = row.getCell(3).getStringCellValue();
+                    if (!tlumaczenie.equals("")) {
+                        Konto k = kontoDAOfk.findKonto(pelnynumer, wpisView);
+                        if (k != null && k.getNazwapelna().equals(nazwapelna)) {
+                            k.setDe(tlumaczenie);
+                            kontoDAOfk.edit(k);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            file.close();
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public static void updateKontaWzorcowy(KontoDAOfk kontoDAOfk, WpisView wpisView, String filename) {
+         try {
+            FileInputStream file = new FileInputStream(new File(filename));
+             //Create Workbook instance holding reference to .xlsx file
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+             //Get first/desired sheet from the workbook
+            XSSFSheet sheet = workbook.getSheetAt(0);
+             //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                try {
+                    String pelnynumer = row.getCell(1).getStringCellValue();
+                    String nazwapelna = row.getCell(2).getStringCellValue();
+                    String tlumaczenie = row.getCell(3).getStringCellValue();
+                    if (!tlumaczenie.equals("")) {
+                        Konto k = kontoDAOfk.findKontoWzorcowy(pelnynumer, wpisView);
+                        if (k != null && k.getNazwapelna().equals(nazwapelna)) {
+                            k.setDe(tlumaczenie);
+                            kontoDAOfk.edit(k);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            file.close();
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
     
     
@@ -108,10 +177,8 @@ public class ReadXLSFile {
                 System.out.println(interpaperXLS.toString2());
             }
             file.close();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     

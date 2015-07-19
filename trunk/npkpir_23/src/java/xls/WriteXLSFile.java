@@ -196,7 +196,7 @@ public class WriteXLSFile {
         headers.add("lp");
         headers.add("nr konta");
         headers.add("nazwa konta");
-        headers.add("tłumazenie");
+        headers.add("tłumaczenie");
         return headers;
     }
     
