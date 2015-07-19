@@ -52,12 +52,6 @@ public class BilansPodgladView  implements Serializable{
         rozwinwszystkie();
     }
     
-//    public void generujBO() {
-//        BOFKBean.resetujBO(kontoDAO, wpisView.getPodatnikWpisu());
-//        BOFKBean.generujBO(kontoDAO, stronaWierszaDAO, wpisView);
-//        this.rozwinwszystkie();
-//        Msg.msg("Wygenerowano BO");
-//    }
     
     //tworzy nody z bazy danych dla tablicy nodow plan kont
     private void getNodes(){

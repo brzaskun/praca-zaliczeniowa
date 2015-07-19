@@ -34,8 +34,8 @@ public class CechazapisuView implements Serializable {
         this.pobranecechy = new ArrayList<>();
     }
     
-    @PostConstruct
-    private void init() {
+    
+    public void init() {
         pobranecechy = cechazapisuDAOfk.findAll();
     }
     
