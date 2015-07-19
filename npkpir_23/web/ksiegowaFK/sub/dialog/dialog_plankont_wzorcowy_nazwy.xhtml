@@ -13,13 +13,14 @@
     <p:dialog id="dialog_plankont_wzorcowy_nazwy" header="Plan kont WZORCOWY - struktura" widgetVar="dialog_plankont_wzorcowy_nazwy" fitViewport="true"
               resizable="false" onShow="ustawdialog('dialog_plankont_wzorcowy_nazwy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_plankont_wzorcowy_nazwy');"  >
         <h:form id="form_dialog_plankont_wzorcowy_nazwy">
-              <p:panelGrid columns="6">
+              <p:panelGrid columns="7">
                   <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" onclick="rozwinwszystkie('form_dialog_plankont_wzorcowy_nazwy:dataList_data')" global="false" style="float: left;" />
                   <p:commandButton id="rozwin" value="rozwiń poziom" onclick="rozwinjeden('form_dialog_plankont_wzorcowy_nazwy:dataList_data')" global="false" style="float: left;" />
                   <p:commandButton id="zwinwsz" value="zwiń wszystkie" onclick="zwinwszystkie('form_dialog_plankont_wzorcowy_nazwy:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zwinw" value="zwiń poziom" onclick="zwinjeden('form_dialog_plankont_wzorcowy_nazwy:dataList_data')"  global="false" style="float: left;" />
                   <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{planKontInterView.zachowajzmiany_wzor()}"  global="false" style="float: left; margin-left: 20px;" />
                   <p:commandButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSPlanKontView.zachowajPlanKontwXLS(planKontInterView.wykazkontwzor)}" style=" margin-left: 15px;" global="false" ajax="false"/>
+                  <p:commandButton id="xlsbutton2" value="pobierz dane z pliku" actionListener="#{planKontInterView.pobierzdanezplikuwzorcowy()}" style=" margin-left: 5px;" global="false" update=":form_dialog_plankont_wzorcowy_nazwy"/>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontInterView.wykazkontwzor}" var="loop"  selectionMode="single" 
