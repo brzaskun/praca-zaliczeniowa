@@ -11,7 +11,7 @@
     </style>
     
     <p:dialog id="dialogpierwszy" header="Plan kont firmy #{WpisView.podatnikWpisu}" widgetVar="dialogplankont" fitViewport="true"
-              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
+              resizable="false" onShow="ustawdialog('dialogpierwszy','menuustawienia', 1250, 750);ustalmaxlevel('form_dialog_plankont:dataList_data');zwinwszystkie('form_dialog_plankont:dataList_data')" closeOnEscape="true" onHide="resetujdialog('dialogpierwszy');"  >
         <h:form id="form_dialog_plankont">
            
             <p:contextMenu id="contextforplankont" for="dataList"  style="width: 200px;">
@@ -78,12 +78,12 @@
                     <p:columnGroup type="header">
                         <p:row>
                             <p:column colspan="1" headerText="" width="1" />
+                            <p:column colspan="1" headerText="" width="10"/>
                             <p:column colspan="1" headerText="#{mgs.numerkonta}" width="80" />
                             <p:column colspan="1" headerText="nazwa pełna" width="300"/>
                             <p:column colspan="1" headerText="nazwa skrócona" width="200"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
                             <p:column colspan="1" headerText="rozrach." width="50"/>
-                            <p:column colspan="1" headerText="potom." width="40"/>
                             <p:column colspan="1" headerText="pozycja Wn" width="60"/>
                             <p:column colspan="1" headerText="pozycja Ma" width="60"/>
                             <p:column colspan="1" headerText="blok" width="40"/>
@@ -93,6 +93,9 @@
                     </p:columnGroup>
                     <p:column>
                         <h:outputText value="#{loop.level}" style="font-size: 0.5pt;"/>
+                    </p:column>
+                     <p:column  style="width: 50px; text-align: center;">
+                        <h:outputText value="#{loop.mapotomkow == true ? '+' : null}" /> 
                     </p:column>
                     <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
@@ -118,9 +121,7 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                    <p:column  style="width: 50px; text-align: center;">
-                        <h:outputText value="#{loop.mapotomkow}" /> 
-                    </p:column>
+                   
                      <p:column  style="width: 100px;">
                          <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : 'nieprzyp.'}" /> 
                     </p:column>
