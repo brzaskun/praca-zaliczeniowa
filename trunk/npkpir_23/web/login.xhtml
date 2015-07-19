@@ -14,6 +14,36 @@
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body>
+            <script>
+                navigator.sayswho= (function(){
+                var ua= navigator.userAgent, tem,
+                M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                if(/trident/i.test(M[1])){
+                    tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+                    return 'IE '+(tem[1] || '');
+                }
+                if(M[1]=== 'Chrome'){
+                    tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+                    if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+                }
+                M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+                return info =  M.join(' ');
+                
+            })();
+             $(document).ready(function() {
+                if (navigator.sayswho.indexOf('Chrome')===-1) {
+                    if (navigator.language === 'pl') {
+                        alert("Program działa poprawnie jedynie w przeglądarce Chrome!");
+                    } else if (navigator.language === 'de') {
+                        alert("Die Software funktioniert nur unter Chrome Browser");
+                    } else if (navigator.language === 'en') {
+                        alert("Software works only with Chrome Browser");
+                    }
+                }
+            })
+                
+            </script>
                 <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top" style="border: none;">  
                     <p style="text-align: center;"><h:outputText value="Witamy w programie księgowym Biura Rachunkowego Taxman" style="color: activecaption; font-size:24px; " /></p>  
                 </p:notificationBar> 
@@ -40,7 +70,7 @@
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
-                                     autocomplete="true" onkeydown="bar.show()">
+                                     autocomplete="true" onkeydown="PF('bar').show()">
                             <p:ajax event="blur" listener="#{logowanie.ustawLocale(Logowuzytkownikuzytk)}" partialSubmit="true" global="false" />
                         </h:inputText>
                         <h:outputText value="#{mgs.haslo}"/>
