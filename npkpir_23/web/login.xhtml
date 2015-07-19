@@ -34,11 +34,11 @@
              $(document).ready(function() {
                 if (navigator.sayswho.indexOf('Chrome')===-1) {
                     if (navigator.language === 'pl') {
-                        alert("Program działa poprawnie jedynie w przeglądarce Chrome!");
+                        alert("Ten program działa poprawnie jedynie w przeglądarce Chrome!");
                     } else if (navigator.language === 'de') {
-                        alert("Die Software funktioniert nur unter Chrome Browser");
-                    } else if (navigator.language === 'en') {
-                        alert("Software works only with Chrome Browser");
+                        alert("Die Software funktioniert nur unter Chrome Browser!");
+                    } else if (navigator.language.indexOf('en-') > -1) {
+                        alert("This Software works only with Chrome Browser!");
                     }
                 }
             })
