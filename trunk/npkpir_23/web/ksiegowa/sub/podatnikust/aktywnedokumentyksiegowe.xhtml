@@ -68,7 +68,7 @@
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.rodzajtransakcji}" >
                         <f:selectItems value="#{Trans.transListView}"/>
                     </p:selectOneMenu>
-                    <h:outputText value=" wzorzec: " />
+                    <h:outputText value=" wzorzec:* " />
                     <p:inputText value="#{podatnikView.selectedDokKsi.wzorzec}" />
                     <h:outputText value=" kategoria dokumentu: " />
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
@@ -121,6 +121,10 @@
                 <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6, :akordeon:form7" />
                 <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6, :akordeon:form7" />
             </p:panelGrid>
+            <p:panelGrid columns="1" style="margin-top: 15px;">
+                <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+            </p:panelGrid>
+                
                 </f:ajax>
         </h:form>
     </p:tab>
