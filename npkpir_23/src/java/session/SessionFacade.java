@@ -833,6 +833,15 @@ public class SessionFacade<T> implements Serializable {
         }
     }
 
+    public Dokfk findDokfkLastofaTypeMc(Podatnik podatnik, String seriadokfk, String rok, String mc) {
+        try {
+            return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaTypeMc").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("rok", rok).setParameter("mc", mc).setMaxResults(1).getSingleResult();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
     public Dokfk findDokfkLastofaType(Podatnik podatnik, String seriadokfk, String rok) {
         try {
             return (Dokfk) em.createNamedQuery("Dokfk.findByLastofaType").setParameter("podatnik", podatnik).setParameter("seriadokfk", seriadokfk).setParameter("rok", rok).setMaxResults(1).getSingleResult();

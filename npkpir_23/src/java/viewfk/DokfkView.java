@@ -1097,7 +1097,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     flag = 1;
                 }
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
         }
         if (flag == 0) {
             //9 nie ma wiersza
@@ -2037,7 +2038,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 if (wzorzec.contains("/")) {
                     separator = "/";
                 }
-                ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+                if (wzorzec.contains("N")) {
+                    ostatnidokument = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                } else {
+                    ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
+                }
                 if (zapisz0edytuj1 == false) {
                     if (ostatnidokument != null) {
                         selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
