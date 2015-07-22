@@ -5,7 +5,6 @@
 package viewfk;
 
 import beansDok.ListaEwidencjiVat;
-import beansFK.DFKWiersze;
 import beansFK.DialogWpisywanie;
 import beansFK.DokFKBean;
 import beansFK.DokFKTransakcjeBean;
@@ -19,7 +18,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
 import comparator.Transakcjacomparator;
-import comparator.Wierszcomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
@@ -36,13 +34,11 @@ import daoFK.WierszBODAO;
 import data.Data;
 import entity.Evewidencja;
 import entity.Klienci;
-import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
-import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
@@ -55,16 +51,13 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
@@ -72,7 +65,6 @@ import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -95,7 +87,8 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class DokfkView implements Serializable {
-private static final long serialVersionUID = 1L;
+
+    private static final long serialVersionUID = 1L;
     private Integer lpWierszaWpisywanie;
     private String wnmadoprzeniesienia;
     protected Dokfk selected;
@@ -115,7 +108,7 @@ private static final long serialVersionUID = 1L;
     private EvewidencjaDAO evewidencjaDAO;
     @Inject
     private EVatwpisFKDAO eVatwpisFKDAO;
-    @Inject 
+    @Inject
     private KliencifkDAO kliencifkDAO;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
@@ -155,13 +148,13 @@ private static final long serialVersionUID = 1L;
     private List<Waluty> wprowadzonesymbolewalut;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    
+
     private String rachunekCzyPlatnosc;
     private int typwiersza;
     private Wiersz wybranyWiersz;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    
+
     private int rodzajBiezacegoDokumentu;
     private String symbolWalutyNettoVat;
     //ewidencja vat raport kasowy
@@ -172,7 +165,8 @@ private static final long serialVersionUID = 1L;
     //powiazalem tabele z dialog_wpisu ze zmienna
     private boolean wlaczZapiszButon;
     private boolean pokazzapisywzlotowkach;
-    @Inject private CechazapisuDAOfk cechazapisuDAOfk;
+    @Inject
+    private CechazapisuDAOfk cechazapisuDAOfk;
     private List<Cechazapisu> pobranecechy;
     private StronaWiersza stronaWierszaCechy;
     private List<Dokfk> filteredValue;
@@ -196,7 +190,6 @@ private static final long serialVersionUID = 1L;
     private String komunikatywpisdok;
     private Integer lpwierszaRK;
     private Klienci klientdlaPK;
-    
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -214,23 +207,22 @@ private static final long serialVersionUID = 1L;
     @PostConstruct
     private void init() {
         try {
-            resetujDokument();
+            resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
             obsluzcechydokumentu();
             stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-        } catch (Exception e) {  
+        } catch (Exception e) {
             E.e(e);
         }
     }
-    
+
 //    //<editor-fold defaultstate="collapsed" desc="schowane podstawowe funkcje jak dodaj usun itp">
 //
 //    //********************************************funkcje dla ksiegowania dokumentow
 //    //RESETUJ DOKUMNETFK
-
     public void resetujDokument() {
         //pobieram dane ze starego dokumentu, jeżeli jest
         String symbolPoprzedniegoDokumentu = null;
@@ -249,17 +241,17 @@ private static final long serialVersionUID = 1L;
             if (ostatniklient == null) {
                 ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             E.e(e);
         }
         //tworze nowy dokument
         selected = new Dokfk(symbolPoprzedniegoDokumentu, rodzajDokPoprzedni, wpisView, ostatniklient);
         selected.setWprowadzil(wpisView.getWprowadzil().getLogin());
-        wygenerujnumerkolejny(1);
+        wygenerujnumerkolejny();
         try {
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selected);
             resetprzyciskow();
-        } catch (Exception e) {  
+        } catch (Exception e) {
             E.e(e);
         }
         rodzajBiezacegoDokumentu = 1;
@@ -267,7 +259,7 @@ private static final long serialVersionUID = 1L;
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
         RequestContext.getCurrentInstance().execute("$(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();");
     }
-    
+
     private void resetprzyciskow() {
         pokazPanelWalutowy = false;
         pokazRzadWalutowy = false;
@@ -278,14 +270,8 @@ private static final long serialVersionUID = 1L;
         niedodawajkontapole = false;
     }
 
-
 //    //dodaje wiersze do dokumentu
-    
-
-    
-    
 //<editor-fold defaultstate="collapsed" desc="nie uzywane funkcje">
-    
     //nie sa uzywane
 //    public void niewybranokontaStronaWn(Wiersz wiersz, int indexwiersza) {
 //        if (!(wiersz.getStronaWn().getKonto() instanceof Konto)) {
@@ -317,8 +303,6 @@ private static final long serialVersionUID = 1L;
 //            }
 //        }
 //    }
-
-   
 //    public void dodajNowyWierszStronaWnPiatka(Wiersz wiersz) {
 //        int indexwTabeli = wiersz.getIdporzadkowy() - 1;
 //        if (wiersz.getStronaWn().getKonto().getPelnynumer().startsWith("4") && wiersz.getPiatki().size() == 0) {
@@ -335,9 +319,6 @@ private static final long serialVersionUID = 1L;
 //            }
 //        }
 //    } 
-
-
-    
 //    //sprawdza czy wiersz po stronie wn z kwotami takimi samymi po stronie wn i ma
 //    private boolean rowneStronyWnMa (Wiersz wiersz) {
 //        StronaWiersza wn = wiersz.getStronaWn();
@@ -347,8 +328,6 @@ private static final long serialVersionUID = 1L;
 //        }
 //        return false;
 //    }
-
-
 //    public void lisnerCzyNastapilaZmianaKontaMa(ValueChangeEvent e) {
 //        Konto stare = (Konto) e.getOldValue();
 //        Konto nowe = (Konto) e.getNewValue();
@@ -359,10 +338,8 @@ private static final long serialVersionUID = 1L;
 //
 //        }
 //    }
-    
 //</editor-fold>
-    
-     public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
+    public void zdarzeniaOnBlurStronaKwotaWn(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
         if (Z.z(kwotastara) != Z.z(kwotanowa)) {
@@ -375,12 +352,12 @@ private static final long serialVersionUID = 1L;
             } catch (Exception e1) {
                 E.e(e1);
             }
-            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    rozliczsaldo(Integer.parseInt(indexwiersza));
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                rozliczsaldo(Integer.parseInt(indexwiersza));
             }
         }
     }
-    
+
     public void zdarzeniaOnBlurStronaKwotaMa(ValueChangeEvent e) {
         double kwotastara = (double) e.getOldValue();
         double kwotanowa = (double) e.getNewValue();
@@ -394,35 +371,32 @@ private static final long serialVersionUID = 1L;
             } catch (Exception e1) {
                 E.e(e1);
             }
-            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    rozliczsaldo(Integer.parseInt(indexwiersza));
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                rozliczsaldo(Integer.parseInt(indexwiersza));
             }
         }
     }
 
-
     public void dodajPustyWierszNaKoncu() {
-           int dlugosc = selected.getListawierszy().size();
-           
-           int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
-           selected.przeliczKwotyWierszaDoSumyDokumentu();
-           RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
-           if (wynik == 1) {
-               Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
-           }
+        int dlugosc = selected.getListawierszy().size();
+
+        int wynik = DialogWpisywanie.dodajPustyWierszNaKoncu(selected);
+        selected.przeliczKwotyWierszaDoSumyDokumentu();
+        RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
+        if (wynik == 1) {
+            Msg.msg("w", "Uzupełnij dane przed dodaniem nowego wiersza");
+        }
     }
-    
+
     public void rozliczsaldo(int indexwTabeli) {
         int koncowyindex = selected.getListawierszy().size();
         for (int i = indexwTabeli; i < koncowyindex; i++) {
             DialogWpisywanie.rozliczkolejnesaldo(selected, i);
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+i+":saldo");
+            RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + i + ":saldo");
         }
     }
-   
 
 //////////////////////EWIDENCJE VAT  
-    
     public void podepnijEwidencjeVat(int rodzaj) {
         boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
         if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5 && !nievatowiec) {
@@ -437,7 +411,7 @@ private static final long serialVersionUID = 1L;
                 int k = 0;
                 if (rodzaj == 1) {
                     k = this.selected.getEwidencjaVAT().size();
-                } 
+                }
                 for (String p : opisewidencji) {
                     EVatwpisFK eVatwpisFK = new EVatwpisFK();
                     eVatwpisFK.setLp(k++);
@@ -455,11 +429,9 @@ private static final long serialVersionUID = 1L;
             }
         }
     }
-    
-    
-    
+
     public void usunEwidencjeDodatkowa(EVatwpisFK eVatwpisFK) {
-        if (eVatwpisFK.getLp()!=0) {
+        if (eVatwpisFK.getLp() != 0) {
             for (Iterator<EVatwpisFK> it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
                 EVatwpisFK p = (EVatwpisFK) it.next();
                 if (p.getLp() == eVatwpisFK.getLp()) {
@@ -468,6 +440,7 @@ private static final long serialVersionUID = 1L;
             }
         }
     }
+
     private void stworzlisteewidencjiRK() {
         List<String> nazwyewidencji = new ArrayList<>();
         nazwyewidencji.add("zakup");
@@ -480,34 +453,33 @@ private static final long serialVersionUID = 1L;
             listaewidencjivatRK.add(evewidencjaDAO.znajdzponazwie(p));
         }
     }
-  
-    
+
     public void dolaczWierszeZKwotami(EVatwpisFK evatwpis) {
         //Msg.msg("dolaczWierszeZKwotami");
         Rodzajedok rodzajdok = selected.getRodzajedok();
         double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
-        if (selected.getListawierszy().size() == 1 && selected.isImportowany()==false) {
-            if (rodzajdok.getKategoriadokumentu()==1) {
+        if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
+            if (rodzajdok.getKategoriadokumentu() == 1) {
                 if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
                     //oblicza polowe vat dla faktur samochody osobowe
                     evatwpis.setVat(wartosciVAT[4]);
-                    evatwpis.setBrutto(Z.z(evatwpis.getNetto()+evatwpis.getVat()));
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+evatwpis.getLp()+":vat");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:"+evatwpis.getLp()+":brutto");
+                    evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                 }
                 DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
-            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto()==null && rodzajdok.getKategoriadokumentu()==2) {
+            } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
                 DokFKVATBean.rozliczVatPrzychod(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
-            } 
-        } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==1) {
+            }
+        } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 1) {
             DokFKVATBean.rozliczVatKosztEdycja(evatwpis, wartosciVAT, selected, wpisView);
-        } else if (selected.getListawierszy().size() > 1 &&  rodzajdok.getKategoriadokumentu()==2) {
+        } else if (selected.getListawierszy().size() > 1 && rodzajdok.getKategoriadokumentu() == 2) {
             DokFKVATBean.rozliczVatPrzychodEdycja(evatwpis, wartosciVAT, selected, wpisView);
         }
         selected.przeliczKwotyWierszaDoSumyDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
     }
-    
+
     public void dolaczWierszZKwotamiRK() {
         if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
             selected.getEwidencjaVAT().add(ewidencjaVatRK);
@@ -522,7 +494,7 @@ private static final long serialVersionUID = 1L;
             dodanewiersze = DokFKVATBean.rozliczVatKosztRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
         } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
             dodanewiersze = DokFKVATBean.rozliczVatPrzychodRK(evatwpis, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
-        } 
+        }
         for (Wiersz p : dodanewiersze) {
             przepiszWaluty(p);
         }
@@ -533,7 +505,7 @@ private static final long serialVersionUID = 1L;
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwpisbutton");
         Msg.msg("Zachowano zapis w ewidencji VAT");
     }
-    
+
     public void edytujWierszZKwotamiRK() {
         if (ewidencjaVatRK.getNetto() == 0.0 && ewidencjaVatRK.getVat() == 0.0) {
             selected.getEwidencjaVAT().remove(ewidencjaVatRK);
@@ -548,8 +520,8 @@ private static final long serialVersionUID = 1L;
             if (ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
                 dodanewiersze = DokFKVATBean.rozliczEdytujVatKosztRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
             } else if (!ewidencjaVatRK.getEwidencja().getNazwa().equals("zakup")) {
-                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT,selected, wpisView, wierszRKindex, kontoDAOfk);
-            } 
+                dodanewiersze = DokFKVATBean.rozliczEdytujVatPrzychodRK(e, wartosciVAT, selected, wpisView, wierszRKindex, kontoDAOfk);
+            }
             for (Wiersz p : dodanewiersze) {
                 przepiszWaluty(p);
             }
@@ -560,20 +532,19 @@ private static final long serialVersionUID = 1L;
             Msg.msg("Zachowano zapis w ewidencji VAT");
         }
     }
-    
-      
-public void updatenetto(EVatwpisFK evatwpis, String form) {
+
+    public void updatenetto(EVatwpisFK evatwpis, String form) {
         DokFKVATBean.ustawvat(evatwpis, selected);
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
         int lp = evatwpis.getLp();
         symbolWalutyNettoVat = " zł";
-        String update = form+":tablicavat:" + lp + ":netto";
+        String update = form + ":tablicavat:" + lp + ":netto";
         RequestContext.getCurrentInstance().update(update);
-        update = form+":tablicavat:" + lp + ":vat";
+        update = form + ":tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
-        update = form+":tablicavat:" + lp + ":brutto";
+        update = form + ":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
-        String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":vat_input').select();";
+        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":vat_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
 
@@ -582,16 +553,15 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
         if (!w.getSymbolwaluty().equals("PLN")) {
-            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat()/kurs));
+            evatwpis.setVatwwalucie(Z.z(evatwpis.getVat() / kurs));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
-        String update = form+":tablicavat:" + lp + ":brutto";
+        String update = form + ":tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
-        String activate = "document.getElementById('"+form+":tablicavat:" + lp + ":brutto_input').select();";
+        String activate = "document.getElementById('" + form + ":tablicavat:" + lp + ":brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
-    
-   
+
     public void updatenettoRK() {
         EVatwpisFK evatwpis = ewidencjaVatRK;
         double stawkavat = 0.23;
@@ -612,7 +582,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         Waluty w = selected.getWalutadokumentu();
         double kurs = selected.getTabelanbp().getKurssredni();
         if (!w.getSymbolwaluty().equals("PLN")) {
-            e.setVatwwalucie(Z.z(e.getVat()/kurs));
+            e.setVatwwalucie(Z.z(e.getVat() / kurs));
         }
         e.setBrutto(Z.z(e.getNetto() + e.getVat()));
         String update = "ewidencjavatRK:brutto";
@@ -620,12 +590,10 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         String activate = "document.getElementById('ewidencjavatRK:brutto_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
     }
-    
-    
-//////////////////////////////EWIDENCJE VAT    
 
+//////////////////////////////EWIDENCJE VAT    
     public void dodaj() {
-        if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
+        if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             komunikatywpisdok = "Probujesz zapisać pusty dokument";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
             return;
@@ -634,11 +602,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
-            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    int index = selected.getListawierszy().size() -1;
-                    rozliczsaldo(index);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
-                    selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size()-1).getSaldoWBRK());
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                int index = selected.getListawierszy().size() - 1;
+                rozliczsaldo(index);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
+                selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
             }
             try {
@@ -646,7 +614,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 selected.getDokfkPK().setPodatnik(wpisView.getPodatnikWpisu());
                 UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
                 //nanosimy zapisy na kontach
-                if (selected.sprawdzczynaniesionorozrachunki()==1) {
+                if (selected.sprawdzczynaniesionorozrachunki() == 1) {
                     komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
                     RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
                 }
@@ -655,7 +623,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 selected.oznaczewidencjeVAT();
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
-                if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5)  && klientdlaPK != null) {
+                if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
                 }
                 dokDAOfk.edit(selected);
@@ -667,7 +635,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
                 RequestContext.getCurrentInstance().update("rozrachunki");
                 RequestContext.getCurrentInstance().update("formwpisdokument");
-            } catch (Exception e) {  
+            } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
                 RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
@@ -679,119 +647,121 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
             Msg.msg("w", "Uzupełnij wiersze o kwoty/konto!");
         }
-    
-}
+
+    }
+
     public void przepiszWaluty(Wiersz wiersz) {
         try {
             StronaWiersza wn = wiersz.getStronaWn();
             StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp() == null ) {
+            if (wiersz.getTabelanbp() == null) {
                 if (wn != null && wn.getKwotaPLN() == 0.0) {
-                   if (wn.getSymbolWalutyBO().equals("PLN")) {
+                    if (wn.getSymbolWalutyBO().equals("PLN")) {
                         wn.setKwotaPLN(wn.getKwota());
                         wn.setKwotaWaluta(wn.getKwota());
-                   } else {
+                    } else {
                         wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
                         wn.setKwotaWaluta(wn.getKwota());
-                   }
+                    }
                 }
                 if (ma != null && ma.getKwotaPLN() == 0.0) {
                     if (ma.getSymbolWalutyBO().equals("PLN")) {
                         ma.setKwotaPLN(ma.getKwota());
                         ma.setKwotaWaluta(ma.getKwota());
-                   } else {
+                    } else {
                         ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
                         ma.setKwotaWaluta(ma.getKwota());
-                   }
-                   
+                    }
+
                 }
             } else {
                 if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                     if (wn != null) {
+                    if (wn != null) {
                         wn.setKwotaPLN(wn.getKwota());
                         wn.setKwotaWaluta(wn.getKwota());
-                     }
-                     if (ma != null) {
+                    }
+                    if (ma != null) {
                         ma.setKwotaPLN(ma.getKwota());
                         ma.setKwotaWaluta(ma.getKwota());
-                     }
+                    }
                 } else {
-                     if (wn != null) {
+                    if (wn != null) {
                         wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
                         wn.setKwotaWaluta(wn.getKwota());
-                     }
-                     if (ma != null) {
+                    }
+                    if (ma != null) {
                         ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
                         ma.setKwotaWaluta(ma.getKwota());
-                     }
+                    }
                 }
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("Blad DokfkView przepisz waluty");
         }
     }
-    
+
     public void przepiszWalutyZapisEdycja(Wiersz wiersz) {
         try {
             StronaWiersza wn = wiersz.getStronaWn();
             StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp() == null ) {
+            if (wiersz.getTabelanbp() == null) {
                 if (wn != null && wn.getKwotaPLN() == 0.0) {
-                   if (wn.getSymbolWalutyBO().equals("PLN")) {
+                    if (wn.getSymbolWalutyBO().equals("PLN")) {
                         wn.setKwotaPLN(wn.getKwota());
                         wn.setKwotaWaluta(wn.getKwota());
-                   } else {
+                    } else {
                         wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWnBO(wiersz));
                         wn.setKwotaWaluta(wn.getKwota());
-                   }
+                    }
                 }
                 if (ma != null && ma.getKwotaPLN() == 0.0) {
                     if (ma.getSymbolWalutyBO().equals("PLN")) {
                         ma.setKwotaPLN(ma.getKwota());
                         ma.setKwotaWaluta(ma.getKwota());
-                   } else {
+                    } else {
                         ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMaBO(wiersz));
                         ma.setKwotaWaluta(ma.getKwota());
-                   }
-                   
+                    }
+
                 }
             } else {
                 if (wiersz.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-                     if (wn != null && wn.getKwotaPLN() == 0.0) {
+                    if (wn != null && wn.getKwotaPLN() == 0.0) {
                         wn.setKwotaPLN(wn.getKwota());
                         wn.setKwotaWaluta(wn.getKwota());
-                     }
-                     if (ma != null && ma.getKwotaPLN() == 0.0) {
+                    }
+                    if (ma != null && ma.getKwotaPLN() == 0.0) {
                         ma.setKwotaPLN(ma.getKwota());
                         ma.setKwotaWaluta(ma.getKwota());
-                     }
+                    }
                 } else {
-                     if (wn != null && wn.getKwotaPLN() == 0.0) {
+                    if (wn != null && wn.getKwotaPLN() == 0.0) {
                         wn.setKwotaPLN(StronaWierszaBean.przeliczWalutyWn(wiersz));
                         wn.setKwotaWaluta(wn.getKwota());
-                     }
-                     if (ma != null && ma.getKwotaPLN() == 0.0) {
+                    }
+                    if (ma != null && ma.getKwotaPLN() == 0.0) {
                         ma.setKwotaPLN(StronaWierszaBean.przeliczWalutyMa(wiersz));
                         ma.setKwotaWaluta(ma.getKwota());
-                     }
+                    }
                 }
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("Blad DokfkView przepisz waluty");
         }
     }
 
-
     public void edycja() {
-        if (selected.getListawierszy().get(selected.getListawierszy().size()-1).getOpisWiersza().equals("")) {
+        if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             return;
         }
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
-            if (selected.getRodzajedok().getKategoriadokumentu()==0) {
-                    int index = selected.getListawierszy().size() -1;
-                    rozliczsaldo(index);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList:"+index+":saldo");
-                    selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size()-1).getSaldoWBRK());
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                int index = selected.getListawierszy().size() - 1;
+                rozliczsaldo(index);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
+                selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
             }
             try {
@@ -811,7 +781,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 selected = new Dokfk();
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
-            } catch (Exception e) {  
+            } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Nie udało się zmienic dokumentu ";
                 RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
@@ -829,7 +799,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             UzupelnijWierszeoDane.uzupelnijWierszeoDate(selected);
             dokDAOfk.edit(selected);
             Msg.msg("i", "Pomyślnie zaktualizowano dokument edycja rozrachunow");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie udało się zmenic dokumentu podczas edycji rozrachunkow " + e.toString());
         }
     }
@@ -837,7 +808,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void przygotujdousuniecia(Dokfk dousuniecia) {
         dokumentdousuniecia = dousuniecia;
     }
-    
+
     public void usundokument() {
         try {
             dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dokumentdousuniecia));
@@ -847,12 +818,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             }
             try {
                 wykazZaksiegowanychDokumentowimport.remove(dokumentdousuniecia);
-            } catch (Exception e1) {  
+            } catch (Exception e1) {
                 E.e(e1);
             }
             dokumentdousuniecia = null;
             Msg.msg("i", "Dokument usunięty");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie udało się usunąć dokumentu. Czy nie jest to dokument środka trwałego lub RMK?");
         }
     }
@@ -887,7 +859,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                         liczbawierszyWDokumencie--;
                     }
                     Msg.msg("Wiersz usunięty.");
-                } catch (Exception e) {  E.e(e);
+                } catch (Exception e) {
+                    E.e(e);
 
                 }
             }
@@ -895,7 +868,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
                 liczbawierszyWDokumencie = 1;
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("Błąd podczas usuwania wiersz");
         }
     }
@@ -908,7 +882,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 Dokfk dokument = null;
                 try {
                     dokument = dokDAOfk.findDokfkObj(selected);
-                } catch (Exception e) { 
+                } catch (Exception e) {
                     E.e(e);
                 }
                 if (dokument != null) {
@@ -921,24 +895,25 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             }
         }
     }
-    
+
     public void skopiujopisdopierwszegowiersza() {
-            try {
-                Wiersz w = selected.getListawierszy().get(0);
-                if (w.getOpisWiersza() == null) {
-                    w.setOpisWiersza(selected.getOpisdokfk());
-                }
-            } catch (Exception e) {
-                E.e(e);
+        try {
+            Wiersz w = selected.getListawierszy().get(0);
+            if (w.getOpisWiersza() == null) {
+                w.setOpisWiersza(selected.getOpisdokfk());
             }
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
-    
+
     public void znajdzduplicatdokumentuKontrahent() {
         if (zapisz0edytuj1 == false && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
             Dokfk dokument = null;
             try {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
-            } catch (Exception e) {  E.e(e);
+            } catch (Exception e) {
+                E.e(e);
             }
             if (dokument != null) {
                 wlaczZapiszButon = false;
@@ -947,20 +922,19 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             }
         }
     }
-    
-        
+
     public void pobierzopiszpoprzedniegodok() {
-         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-            if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
-                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-            }
+        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+        if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
+            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+        }
     }
-    
+
     public void pobierzopiszpoprzedniegodokItemSelect() {
-         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-            if (poprzedniDokument != null) {
-                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-            }
+        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+        if (poprzedniDokument != null) {
+            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+        }
     }
 
     public void wygenerujokreswpisudokumentu(AjaxBehaviorEvent event) {
@@ -987,9 +961,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             }
         }
     }
-    
+
     public void skorygujokreswpisudokumentu(ValueChangeEvent event) {
-        if (selected.getRodzajedok().getKategoriadokumentu()==1) {
+        if (selected.getRodzajedok().getKategoriadokumentu() == 1) {
             //generuje okres wpisu tylko jezeli jest w trybie wpisu, a wiec zapisz0edytuj1 jest false
             if (zapisz0edytuj1 == false) {
                 String data = selected.getDatawplywu();
@@ -1020,12 +994,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 selected.setKontr(k);
             }
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
-    
 
     public void przygotujDokumentEdycja() {
         selected.setwTrakcieEdycji(true);
@@ -1035,12 +1008,13 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         try {
             Msg.msg("i", "Wybrano dokument do edycji " + selected.getDokfkPK().toString());
             setZapisz0edytuj1(true);
-             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-            pokazPanelWalutowy = true;
-        } else {
-            pokazPanelWalutowy = false;
-        }
-        } catch (Exception e) {  E.e(e);
+            if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                pokazPanelWalutowy = true;
+            } else {
+                pokazPanelWalutowy = false;
+            }
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
         rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
@@ -1049,30 +1023,29 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void wybranoWierszMsg() {
         Msg.msg("Wybrano wiesz do edycji lp: " + wybranyWiersz.getIdporzadkowy());
     }
-    
+
     public void usunWskazanyWierszWymus() {
         if (wybranyWiersz != null) {
-            for (Iterator it = selected.getEwidencjaVAT().iterator();it.hasNext();) {
+            for (Iterator it = selected.getEwidencjaVAT().iterator(); it.hasNext();) {
                 EVatwpisFK p = (EVatwpisFK) it.next();
-                    if (p.getWiersz() == wybranyWiersz) {
-                        it.remove();
-                    }
+                if (p.getWiersz() == wybranyWiersz) {
+                    it.remove();
                 }
+            }
             selected.getListawierszy().remove(wybranyWiersz);
         }
     }
 
-    public void naprawwiersznkup () {
+    public void naprawwiersznkup() {
         if (wybranyWiersz == null) {
             Msg.msg("e", "Nie wybrano wiersza do naprawy.");
         } else {
             StronaWiersza stronaWn = new StronaWiersza(wybranyWiersz, "Wn");
             wybranyWiersz.setStronaWn(stronaWn);
-             Msg.msg("i", "Naprawilem wiersz.");
+            Msg.msg("i", "Naprawilem wiersz.");
         }
     }
-        
-    
+
     public void usunWskazanyWiersz() {
         int flag = 0;
         if (wybranyWiersz == null) {
@@ -1088,7 +1061,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     flag = 1;
                 }
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
         }
         try {
             if (flag != 1) {
@@ -1097,7 +1071,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     flag = 1;
                 }
             }
-        } catch (Exception e) {  
+        } catch (Exception e) {
             E.e(e);
         }
         if (flag == 0) {
@@ -1151,11 +1125,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     it.remove();
                 }
             }
-        int liczbawierszyWDokumencie = selected.getListawierszy().size();
-        if (liczbawierszyWDokumencie == 0) {
-            selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
-            liczbawierszyWDokumencie = 1;
-        }
+            int liczbawierszyWDokumencie = selected.getListawierszy().size();
+            if (liczbawierszyWDokumencie == 0) {
+                selected.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(selected));
+                liczbawierszyWDokumencie = 1;
+            }
         }
     }
 
@@ -1209,22 +1183,23 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //                    System.out.println("Udane obliczenie salda");
 //                }
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
+
     public void rezygnujzedycji() {
 //        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(selected);
 //        odnalezionywbazie.setwTrakcieEdycji(false);
 //        dokDAOfk.edit(selected);
-        
+
     }
-    
+
     public void przygotujDokumentEdycjaImport(Dokfk wybranyDokfk, Integer row) {
         try {
             Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            wierszedytowany = "zestawieniedokumentowimport:dataListImport:"+String.valueOf(row)+":";
+            wierszedytowany = "zestawieniedokumentowimport:dataListImport:" + String.valueOf(row) + ":";
             if (odnalezionywbazie.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
@@ -1246,7 +1221,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie wybrano dokumentu do edycji ");
         }
     }
@@ -1254,11 +1230,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
     public void znajdzDokumentOznaczWierszDoPodswietlenia() {
         selected = wiersz.getDokfk();
-        int numer = wiersz.getIdporzadkowy()-1;
+        int numer = wiersz.getIdporzadkowy() - 1;
         wierszDoPodswietlenia = numer;
         setZapisz0edytuj1(true);
     }
-    
+
 //
 //    //on robi nie tylko to ze przywraca button, on jeszcze resetuje selected
 //    //dodalem to tutaj a nie przy funkcji edytuj bo wtedy nie wyswietlalo wiadomosci o edycji
@@ -1269,7 +1245,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
 //    //</editor-fold>
-    
     public void sprawdzWnMawDokfk() {
         List<Dokfk> listaroznice = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
@@ -1305,41 +1280,41 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                 }
             }
-            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnieWn == true || jestkontonieostatnieMa ==  true) {
+            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
                 listaroznice.add(p);
             }
             if (brakwpln == true) {
                 listabraki.add(p);
             }
         }
-        String main = "Występują różnice w "+listaroznice.size()+" dokumentach: ";
+        String main = "Występują różnice w " + listaroznice.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listaroznice) {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        main = "Występują braki w pln w "+listabraki.size()+" dokumentach: ";
+        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        main = "Występują braki w pln w " + listabraki.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listabraki) {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i",b.toString(), b.toString() ,"zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        System.out.println("Ilosc roznych dokummentow "+listabraki.size());
+        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        System.out.println("Ilosc roznych dokummentow " + listabraki.size());
     }
-    
+
     public void sprawdzsalda(String wybranakategoriadok) {
         List<Dokfk> wykaz = dokDAOfk.findDokfkPodatnikRokKategoriaOrderByNo(wpisView, wybranakategoriadok);
         for (Dokfk p : wykaz) {
             int nrserii = p.getDokfkPK().getNrkolejnywserii();
             if (nrserii == 1) {
-                double saldobo = pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe());
+                double saldobo = DokFKBean.pobierzwartosczBO(p.getRodzajedok().getKontorozrachunkowe(), wpisView, wierszBODAO);
                 p.setSaldopoczatkowe(saldobo);
             } else {
-                Dokfk poprzedni = wykaz.get(wykaz.indexOf(p)-1);
+                Dokfk poprzedni = wykaz.get(wykaz.indexOf(p) - 1);
                 double saldopoprzednie = poprzedni.getSaldokoncowe();
                 p.setSaldopoczatkowe(saldopoprzednie);
             }
@@ -1350,7 +1325,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         dokDAOfk.editList(wykaz);
         wykazZaksiegowanychDokumentow = wykaz;
     }
-    
+
     public void odswiezzaksiegowane() {
         if (wybranakategoriadok == null) {
             wybranakategoriadok = "wszystkie";
@@ -1372,17 +1347,17 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0) {
             for (Iterator<Dokfk> it = wykazZaksiegowanychDokumentow.iterator(); it.hasNext();) {
-               Dokfk r = (Dokfk) it.next();
-               if (r.isImportowany()==true) {
-                   it.remove();
-               }
-           }
+                Dokfk r = (Dokfk) it.next();
+                if (r.isImportowany() == true) {
+                    it.remove();
+                }
+            }
         }
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
     }
-    
+
     public void odswiezzaksiegowaneimport() {
         if (wybranakategoriadokimport == null) {
             wybranakategoriadokimport = "wszystkie";
@@ -1404,7 +1379,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         for (Iterator<Dokfk> p = wykazZaksiegowanychDokumentowimport.iterator(); p.hasNext();) {
             Dokfk r = (Dokfk) p.next();
-            if (r.isImportowany()==false) {
+            if (r.isImportowany() == false) {
                 p.remove();
             }
         }
@@ -1446,20 +1421,20 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
         RequestContext.getCurrentInstance().update("formwpisdokument:paneldaneogolnefaktury");
     }
-    
+
     public void pobranieWiersza(Wiersz wybranywiersz) {
         lpWierszaWpisywanie = wybranywiersz.getIdporzadkowy();
         //Msg.msg("Wiersz "+lpWierszaWpisywanie);
-        System.out.println("pobrano wiersz "+lpWierszaWpisywanie);
+        System.out.println("pobrano wiersz " + lpWierszaWpisywanie);
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
-        lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy()-1;
+        lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy() - 1;
         String pole = null;
         if (wybranastronawiersza.getWnma().equals("Wn")) {
-            pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontown_input");
+            pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown_input");
         } else {
-            pole = (String) Params.params("formwpisdokument:dataList:"+lpWierszaWpisywanie+":kontoma_input");
+            pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
         }
         if (pole.contains("dodaj konto")) {
             jest1niema0_konto = 0;
@@ -1469,9 +1444,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         try {
             if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
-                
+
                 String wnma = wybranastronawiersza.getWnma();
-                wnmadoprzeniesienia = wybranastronawiersza.getWnma();   
+                wnmadoprzeniesienia = wybranastronawiersza.getWnma();
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                     biezacetransakcje = new ArrayList<>();
                     aktualnyWierszDlaRozrachunkow = wybranastronawiersza;
@@ -1535,7 +1510,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //            wybranoRachunekPlatnoscCD(stronawiersza);
 //        }
 //    }
-    
     //to pojawia sie na dzien dobry jak ktos wcisnie alt-r
     public void wybranoStronaWierszaCecha() {
         int idwiersza = Integer.parseInt((String) Params.params("wpisywaniefooter:wierszid"));
@@ -1554,20 +1528,18 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             RequestContext.getCurrentInstance().update("formCHW");
         }
     }
-    
+
     public void dodajcechedostronawiersza(Cechazapisu c) {
         pobranecechy.remove(c);
         stronaWierszaCechy.getCechazapisuLista().add(c);
         c.getStronaWierszaLista().add(stronaWierszaCechy);
     }
+
     public void usuncechedostronawiersza(Cechazapisu c) {
         pobranecechy.add(c);
         stronaWierszaCechy.getCechazapisuLista().remove(c);
         c.getStronaWierszaLista().remove(stronaWierszaCechy);
     }
-  
-
-    
 
     //to sie pojawia jak wciscnie alt-r i wiesz juz jest okreslony
     public void wybranoRachunekPlatnoscCD() {
@@ -1590,7 +1562,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         //nowa transakcja
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 1) {
             biezacetransakcje = tworzenieTransakcjiRachunek(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
-        //platnosc
+            //platnosc
         } else if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() == 2) {
             biezacetransakcje = tworzenieTransakcjiPlatnosc(wnmadoprzeniesienia, aktualnyWierszDlaRozrachunkow);
         } else {
@@ -1623,13 +1595,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 wiersz.getStronaMa().setWiersz(wiersz);
                 return wiersz.getStronaMa();
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
             return null;
         }
     }
 
-    public List<Transakcja>  tworzenieTransakcjiPlatnosc(String stronawiersza,StronaWiersza wybranastronawiersza) {
+    public List<Transakcja> tworzenieTransakcjiPlatnosc(String stronawiersza, StronaWiersza wybranastronawiersza) {
         List<Transakcja> transakcje = new ArrayList<>();
         List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
         List<StronaWiersza> innezBazy = new ArrayList<>();
@@ -1638,11 +1611,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 if (wybranastronawiersza.getKwota() < 0) {
                     if (stronawiersza.equals("Wn")) {
                         stronawiersza = "Ma";
-                    } else  {
+                    } else {
                         stronawiersza = "Wn";
                     }
                 }
-                System.out.println("aktualny wiersz dla roarachunku "+wybranastronawiersza.toString());
+                System.out.println("aktualny wiersz dla roarachunku " + wybranastronawiersza.toString());
                 pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(wybranastronawiersza.getKonto().getPelnynumer(), stronawiersza, wybranastronawiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
                 innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO);
                 transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
@@ -1679,7 +1652,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 //zerujemy rzeczy w dialogu
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
             RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -1713,13 +1687,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 //chyba nadmiarowe, jest juz w javascript onShow
 //                String znajdz = "znadzpasujacepolerozrachunku(" + wybranastronawiersza.getPozostalo() + ")";
 //                RequestContext.getCurrentInstance().execute(znajdz);
-                
+
             } else {
                 Msg.msg("e", "Wybierz najpierw konto rozrachunkowe");
                 //zerujemy rzeczy w dialogu
                 RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
             }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wybierz pole zawierające numer konta");
             //zerujemy rzeczy w dialogu
             RequestContext.getCurrentInstance().execute("powrotdopolaPoNaniesieniuRozrachunkow();");
@@ -1727,10 +1702,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         return transakcje;
     }
 
-
-
-    
-    
     public void zapistransakcji() {
         if (aktualnyWierszDlaRozrachunkow.getTypStronaWiersza() != 1) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
@@ -1743,12 +1714,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             } else {
                 if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza() != null) {
                     String datawiersza;
-                    if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza().length()==1) {
-                        datawiersza = "0"+aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
+                    if (aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza().length() == 1) {
+                        datawiersza = "0" + aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
                     } else {
                         datawiersza = aktualnyWierszDlaRozrachunkow.getWiersz().getDataWalutyWiersza();
                     }
-                    String data = selected.getDokfkPK().getRok()+"-"+selected.getMiesiac()+"-"+datawiersza;
+                    String data = selected.getDokfkPK().getRok() + "-" + selected.getMiesiac() + "-" + datawiersza;
                     tr.setDatarozrachunku(data);
                 } else {
                     tr.setDatarozrachunku(Data.aktualnyDzien());
@@ -1799,7 +1770,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
                 }
                 if (zapisz0edytuj1 == false) {
-                    symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                 } else {
                     symbolWalutyNettoVat = " zł";
                 }
@@ -1821,7 +1792,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                         tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
                         tabelanbpDAO.dodaj(tabelanbpPLN);
                     }
-                } catch (Exception e) {  E.e(e);
+                } catch (Exception e) {
+                    E.e(e);
                 }
                 selected.setTabelanbp(tabelanbpPLN);
                 List<Wiersz> wiersze = selected.getListawierszy();
@@ -1830,7 +1802,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 pokazRzadWalutowy = false;
                 if (zapisz0edytuj1 == false) {
-                    symbolWalutyNettoVat = " "+selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
                 } else {
                     symbolWalutyNettoVat = " zł";
                 }
@@ -1841,13 +1813,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
         }
     }
-    
+
 //    public void zmienbiezacatabele() {
 //        selected.dodajTabeleWalut(wybranaTabelanbp);
 //        DokFKWalutyBean.zmienkurswaluty(selected);
 //        symbolWalutyNettoVat = wybranaTabelanbp.getWaluta().getSkrotsymbolu();
 //    }
-
     public void wyliczroznicekursowa(Transakcja loop, int row) {
         try {
             double kursPlatnosci = loop.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
@@ -1898,32 +1869,32 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
             }
-        } catch (Exception e) { 
+        } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd podczas pobierania tabel NBP. Nie obliczono różnic kursowych");
         }
     }
-    
+
     public static void main(String[] args) {
         double kwotarozrachunku = Double.parseDouble("18370.80");
-                System.out.println(kwotarozrachunku);
-                double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.2053 * 100);
-                kwotaAktualnywPLN /= 100;
-                double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.1968 * 100);
-                kwotaSparowanywPLN /= 100;
-                double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN);
-                System.out.println("aktualny "+kwotaAktualnywPLN);
-                System.out.println("sparowany "+kwotaSparowanywPLN);
-                roznicakursowa = Math.round(roznicakursowa*100);
-                roznicakursowa /= 100;
-                System.out.println("roznica " +roznicakursowa);
+        System.out.println(kwotarozrachunku);
+        double kwotaAktualnywPLN = Math.round(kwotarozrachunku * 4.2053 * 100);
+        kwotaAktualnywPLN /= 100;
+        double kwotaSparowanywPLN = Math.round(kwotarozrachunku * 4.1968 * 100);
+        kwotaSparowanywPLN /= 100;
+        double roznicakursowa = (kwotaAktualnywPLN - kwotaSparowanywPLN);
+        System.out.println("aktualny " + kwotaAktualnywPLN);
+        System.out.println("sparowany " + kwotaSparowanywPLN);
+        roznicakursowa = Math.round(roznicakursowa * 100);
+        roznicakursowa /= 100;
+        System.out.println("roznica " + roznicakursowa);
     }
-    
+
     public void obsluzDataWiersza(Wiersz wierszbiezacy) {
         pobierzkursNBPwiersz(wierszbiezacy.getDataWalutyWiersza(), wierszbiezacy);
         przepiszWaluty(wierszbiezacy);
-        int lpwtabeli = wierszbiezacy.getIdporzadkowy()-1;
-        String update="formwpisdokument:dataList:"+lpwtabeli+":kurswiersza";
+        int lpwtabeli = wierszbiezacy.getIdporzadkowy() - 1;
+        String update = "formwpisdokument:dataList:" + lpwtabeli + ":kurswiersza";
         RequestContext.getCurrentInstance().update(update);
     }
 
@@ -1933,16 +1904,17 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             int numerpoprzedni = numerwiersza - 2;
             int numeraktualny = numerwiersza - 1;
             String dataWierszPoprzedni = selected.getListawierszy().get(numerpoprzedni).getDataWalutyWiersza();
-            Wiersz wierszBiezacy =  selected.getListawierszy().get(numeraktualny);
+            Wiersz wierszBiezacy = selected.getListawierszy().get(numeraktualny);
             wierszBiezacy.setDataWalutyWiersza(dataWierszPoprzedni);
             Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
         }
     }
 //    //a to jest rodzial dotyczacy walut w wierszu
+
     private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
         if (!symbolwaluty.equals("PLN")) {
-            
+
             String datadokumentu;
             datadokumentu = selected.getDatadokumentu();
             if (datawiersza.length() == 1) {
@@ -1970,8 +1942,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 
     public void skopiujKwoteWndoMa(Wiersz wiersz) {
         try {
-            int wierszlp = wiersz.getIdporzadkowy()-1;
-            String coupdate = "formwpisdokument:dataList:"+wierszlp+":ma";
+            int wierszlp = wiersz.getIdporzadkowy() - 1;
+            String coupdate = "formwpisdokument:dataList:" + wierszlp + ":ma";
             if (wiersz.getTypWiersza() == 0) {
                 if (wiersz.getStronaMa().getKwota() == 0.0) {
                     wiersz.getStronaMa().setKwota(wiersz.getStronaWn().getKwota());
@@ -1985,8 +1957,9 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     RequestContext.getCurrentInstance().update(coupdate);
                 }
             }
-           
-        } catch (Exception e) {  E.e(e);
+
+        } catch (Exception e) {
+            E.e(e);
 
         }
     }
@@ -2001,123 +1974,47 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 wierszBiezacy.setKonto(kontoPoprzedni);
                 Msg.msg("Skopiowano konto z wiersza poprzedzającego");
             }
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
 
     public void skopiujKwoteZWierszaWyzej(int numerwiersza, String wnma) {
         //jak nie bylo tego zastrzezenia z opisem to przyprzechodzeniu po polach usuwal ostatni wiersz po dojsciu do konta wn
-        if (numerwiersza > 1 && !selected.getListawierszy().get(numerwiersza-1).getOpisWiersza().equals("")) {
+        if (numerwiersza > 1 && !selected.getListawierszy().get(numerwiersza - 1).getOpisWiersza().equals("")) {
             int numerpoprzedni = numerwiersza - 2;
             int numeraktualny = numerwiersza - 1;
             StronaWiersza wierszPoprzedni = (wnma.equals("Wn") ? selected.getListawierszy().get(numerpoprzedni).getStronaWn() : selected.getListawierszy().get(numerpoprzedni).getStronaMa());
             StronaWiersza wierszBiezacy = (wnma.equals("Wn") ? selected.getListawierszy().get(numeraktualny).getStronaWn() : selected.getListawierszy().get(numeraktualny).getStronaMa());
             if (wierszBiezacy.getKwota() == 0) {
                 int typ = selected.getListawierszy().get(numerpoprzedni).getTypWiersza();
-                    wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
-                    Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
+                wierszBiezacy.setKwota(wierszPoprzedni.getKwota());
+                Msg.msg("Skopiowano kwote z wiersza poprzedzającego");
             }
         }
     }
-    
-    public void wygenerujnumerkolejny(int tak1nie0) {
-        if (selected.getNumerwlasnydokfk() == null || tak1nie0 == 1) {
-            String nowynumer = "";
-            Podatnik podX = wpisView.getPodatnikObiekt();
-            Integer rok = wpisView.getRokWpisu();
-            String mc = wpisView.getMiesiacWpisu();
-            String wzorzec = "";
-            String[] elementy;
-            String separator = null;
-            Dokfk ostatnidokument = null;
-            Rodzajedok rodzajdok = selected.getRodzajedok();
-            if (rodzajdok != null) {
-                wzorzec = rodzajdok.getWzorzec();
-                //odnajdywanie podzielnika;
-                if (wzorzec.contains("/")) {
-                    separator = "/";
-                }
-                if (wzorzec.contains("N")) {
-                    ostatnidokument = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-                } else {
-                    ostatnidokument = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), rodzajdok.getSkrot(), wpisView.getRokWpisuSt());
-                }
-                if (zapisz0edytuj1 == false) {
-                    if (ostatnidokument != null) {
-                        selected.getDokfkPK().setNrkolejnywserii(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
-                        selected.setLp(ostatnidokument.getDokfkPK().getNrkolejnywserii() + 1);
-                    } else {
-                        selected.getDokfkPK().setNrkolejnywserii(1);
-                        selected.setLp(1);
-                    }
-                }
-                if (ostatnidokument != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                       selected.setSaldopoczatkowe(ostatnidokument.getSaldokoncowe());
-                       selected.getListawierszy().get(0).setSaldoWBRK(ostatnidokument.getSaldokoncowe());
-                } else if (ostatnidokument == null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                    obliczsaldorkwb();
-                    Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                    selected.setKontr(klient);
-                }
-            }
-            try {
-                elementy = wzorzec.split(separator);
-                String[] elementyold;
-                elementyold = ostatnidokument.getNumerwlasnydokfk().split(separator);
-                for (int i = 0; i < elementy.length; i++) {
-                    String typ = elementy[i];
-                    switch (typ) {
-                        case "n":
-                            String tmp = elementyold[i];
-                            Integer tmpI = Integer.parseInt(tmp);
-                            tmpI++;
-                            nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
-                            break;
-                        case "m":
-                            nowynumer = nowynumer.concat(mc).concat(separator);
-                            break;
-                        case "r":
-                            nowynumer = nowynumer.concat(rok.toString()).concat(separator);
-                            break;
-                        //to jest wlasna wstawka typu FVZ
-                        case "s":
-                            nowynumer = nowynumer.concat(elementyold[i]).concat(separator);
-                            break;
-                    }
-                }
-                if (nowynumer.endsWith(separator)) {
-                    nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
-                }
-            } catch (Exception e) {  
-                System.out.println("Brak poprzedniego dokumnetu z wzorcem w numerze");
-                nowynumer = wzorzec;
-            }
+
+    public void wygenerujnumerkolejny() {
+            Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klient, wierszBODAO);
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk().isEmpty()) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
-            if (!nowynumer.isEmpty() && tak1nie0 == 1) {
+            if (!nowynumer.isEmpty() && zapisz0edytuj1 == false) {
                 selected.setNumerwlasnydokfk(nowynumer);
             }
             if (nowynumer.equals("")) {
                 selected.setNumerwlasnydokfk("");
             }
-        }
-    }
-    
-    public void obliczsaldorkwb() {
-         if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                saldoBO = pobierzwartosczBO(selected.getRodzajedok().getKontorozrachunkowe());
-                selected.getListawierszy().get(0).setSaldoWBRK(saldoBO);
-                selected.setSaldopoczatkowe(Z.z(saldoBO));
-                System.out.println("Udane obliczenie salda BO");
-            }
     }
 
-    public void dodajPozycjeRKDoEwidencji () {
+   
+
+    public void dodajPozycjeRKDoEwidencji() {
 //        Konto konto = selected.getRodzajedok().getKontorozrachunkowe();
 //        if (!selected.getEwidencjaVAT().contains(ewidencjaVatRK)) {
 //            selected.getEwidencjaVAT().add(ewidencjaVatRK);
@@ -2151,21 +2048,24 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //        ewidencjaVatRK = null;
 //        Msg.msg("Zachowano zapis w ewidencji VAT");
     }
+
     public void przenumeruj() {
         ObslugaWiersza.przenumerujSelected(selected);
     }
+
     //to służy do pobierania wiersza do dialgou ewidencji w przypadku edycji ewidencji raportu kasowego
+
     public void ewidencjaVatRKInit() {
         if (lpwierszaRK != null) {
             lpWierszaWpisywanie = lpwierszaRK;
             if (selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) {
                 try {
     //                DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("formwpisdokument:dataList");
-    //                Object o = d.getLocalSelection();
-    //                wierszRKindex = d.getRowIndex();
-    //                wierszRK = (Wiersz) d.getRowData();
-                    System.out.println("lpwiersza "+lpWierszaWpisywanie);
-                    wierszRKindex = lpWierszaWpisywanie -1;
+                    //                Object o = d.getLocalSelection();
+                    //                wierszRKindex = d.getRowIndex();
+                    //                wierszRK = (Wiersz) d.getRowData();
+                    System.out.println("lpwiersza " + lpWierszaWpisywanie);
+                    wierszRKindex = lpWierszaWpisywanie - 1;
                     wierszRK = selected.getListawierszy().get(wierszRKindex);
                     ewidencjaVatRK = null;
                     for (EVatwpisFK p : selected.getEwidencjaVAT()) {
@@ -2186,7 +2086,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                     RequestContext.getCurrentInstance().update("dialogewidencjavatRK");
                     System.out.println("Generowanie ewidencji vat rk");
-                } catch (Exception e) {  
+                } catch (Exception e) {
                     E.e(e);
                 }
             }
@@ -2196,8 +2096,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
     }
 
-
-    
     public void zmienwalutezapisow() {
         if (pokazzapisywzlotowkach == true) {
             pokazzapisywzlotowkach = false;
@@ -2205,52 +2103,38 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             pokazzapisywzlotowkach = true;
         }
     }
-    
+
     public void dodajcechedodokumentu(Cechazapisu c) {
         pobranecechy.remove(c);
         selected.getCechadokumentuLista().add(c);
         c.getDokfkLista().add(selected);
     }
+
     public void usuncechedodokumentu(Cechazapisu c) {
         pobranecechy.add(c);
         selected.getCechadokumentuLista().remove(c);
         c.getDokfkLista().remove(selected);
     }
-    
+
     private void obsluzcechydokumentu() {
         //usuwamy z listy dostepnych cech te, ktore sa juz przyporzadkowane do dokumentu
         pobranecechy = cechazapisuDAOfk.findAll();
         List<Cechazapisu> cechyuzyte = null;
-        if (selected.getCechadokumentuLista() == null) {
-            cechyuzyte = new ArrayList<>();
-        } else {
-            cechyuzyte = selected.getCechadokumentuLista();
-        }
-        for (Cechazapisu c : cechyuzyte) {
-            pobranecechy.remove(c);
+        if (selected != null) {
+            if (selected.getCechadokumentuLista() == null) {
+                cechyuzyte = new ArrayList<>();
+            } else {
+                cechyuzyte = selected.getCechadokumentuLista();
+            }
+            for (Cechazapisu c : cechyuzyte) {
+                pobranecechy.remove(c);
+            }
         }
         RequestContext.getCurrentInstance().update("formCH");
     }
-    
-    
-  
-    
-    private double pobierzwartosczBO(Konto kontorozrachunkowe) {
-        List<WierszBO> wierszBOlista = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), kontorozrachunkowe);
-        double kwota = 0.0;
-        if (wierszBOlista != null && !wierszBOlista.isEmpty()) {
-            for (WierszBO p : wierszBOlista) {
-                if (p.getKwotaWn() != 0) {
-                    kwota += p.getKwotaWn();
-                } else {
-                    kwota -= p.getKwotaMa();
-                }
-            }
 
-        }
-        return kwota;
-    }
     
+
     private double obliczsaldopoczatkowe() {
         List<StronaWiersza> kontozapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWaluta(wpisView.getPodatnikObiekt(), selected.getRodzajedok().getKontorozrachunkowe(), wpisView.getRokWpisuSt(), selected.getTabelanbp().getWaluta().getSymbolwaluty());
         if (kontozapisy != null && !kontozapisy.isEmpty()) {
@@ -2260,7 +2144,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 StronaWiersza p = it.next();
                 if (p.getWiersz().getDokfk().getDokfkPK().equals(selected.getDokfkPK())) {
                     it.remove();
-                } else if  (p.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii() > selected.getDokfkPK().getNrkolejnywserii()) {
+                } else if (p.getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii() > selected.getDokfkPK().getNrkolejnywserii()) {
                     it.remove();
                 } else {
                     switch (p.getWnma()) {
@@ -2273,14 +2157,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     }
                 }
             }
-            return sumaWn-sumaMa;
+            return sumaWn - sumaMa;
         } else {
             return 0.0;
         }
     }
-   
-    
-    
+
     public void uzupelnijdokumentyodkontrahenta() {
         try {
             for (Dokfk p : wykazZaksiegowanychDokumentow) {
@@ -2290,19 +2172,21 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                     dokDAOfk.edit(p);
                 }
             }
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
+
     public void oznaczewidencjevat() {
         List<EVatwpisFK> lista = eVatwpisFKDAO.findAll();
         for (EVatwpisFK p : lista) {
             try {
                 p.setRokEw(p.getDokfk().getVatR());
                 p.setMcEw(p.getDokfk().getVatM());
-            } catch (Exception e) {  E.e(e);
-                
+            } catch (Exception e) {
+                E.e(e);
+
             }
         }
         for (EVatwpisFK p : lista) {
@@ -2310,7 +2194,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         Msg.msg("Zmieniono ewidencje");
     }
-    
+
     public void sprawdzwartoscigrupy() {
         if (nrgrupywierszy == null) {
             return;
@@ -2355,30 +2239,29 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
                 }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
             }
-            rozliczsaldo(wierszpodstawowy.getIdporzadkowy()-1);
-        } catch (Exception e) {  E.e(e);
+            rozliczsaldo(wierszpodstawowy.getIdporzadkowy() - 1);
+        } catch (Exception e) {
+            E.e(e);
             System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
         }
     }
-    
+
     public void przelicznaklawiszu() {
         selected.przeliczKwotyWierszaDoSumyDokumentu();
         RequestContext.getCurrentInstance().update("formwpisdokument:wartoscdokumentu");
     }
-    
+
 //    public void resetujzaksiegowane() {
 //        wykazZaksiegowanychDokumentow = new ArrayList<>();
 //    }
-    
     public void resetujzaksiegowaneimport() {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
     }
-    
+
     public void niedodawajkonta() {
         niedodawajkontapole = true;
     }
-   
-    
+
     public void przenumerujDokumentyFK() {
         List<Dokfk> dokumenty = null;
         List<String> serie = null;
@@ -2388,12 +2271,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         } else {
             serie = new ArrayList<>();
             serie.add(wybranakategoriadok);
-            dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView,wybranakategoriadok);
+            dokumenty = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
         }
         nadajnowenumery(serie, dokumenty);
         System.out.println("df");
     }
-    
+
     private void nadajnowenumery(List<String> serie, List<Dokfk> dokumenty) {
         List<Dokfk> nowadosortowania = null;
         for (String r : serie) {
@@ -2407,14 +2290,14 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
             int kolejny = 1;
             for (Dokfk f : nowadosortowania) {
                 f.setLp(kolejny++);
-                
+
             }
         }
         if (nowadosortowania != null) {
             dokDAOfk.editList(nowadosortowania);
         }
     }
-    
+
     public void usunwszytskieimportowane() {
         for (Dokfk p : wykazZaksiegowanychDokumentowimport) {
             dokDAOfk.destroy(p);
@@ -2422,7 +2305,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         wykazZaksiegowanychDokumentow = new ArrayList<>();
         Msg.msg("Usunięto wszystkie zaimportowane dokumenty");
     }
-    
+
     private String poledlawaluty;
 
     public String getPoledlawaluty() {
@@ -2432,48 +2315,49 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setPoledlawaluty(String poledlawaluty) {
         this.poledlawaluty = poledlawaluty;
     }
-    
+
     public void pobierzpoledlawaluty() {
         String wierszlp = (String) Params.params("wpisywaniefooter:lpwierszaRK");
         if (!wiersz.equals("")) {
             poledlawaluty = wierszlp;
         }
     }
-    
+
     public void zamienkursnareczny() {
         try {
             String wierszlp = poledlawaluty;
             if (!wiersz.equals("")) {
-                int wierszid = Integer.parseInt(wierszlp)-1;
+                int wierszid = Integer.parseInt(wierszlp) - 1;
                 Wiersz wiersz = selected.getListawierszy().get(wierszid);
                 wiersz.setTabelanbp(tabelanbprecznie);
                 przepiszWaluty(wiersz);
-                String update="formwpisdokument:dataList:"+wierszid+":kurswiersza";
+                String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
                 RequestContext.getCurrentInstance().update(update);
                 poledlawaluty = "";
             }
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
+
     public void oznaczDokfkJakoWzorzec() {
         if (selected == null) {
             Msg.msg("e", "Nie wybrano dokumentu");
         } else {
             selected.setWzorzec(!selected.isWzorzec());
             dokDAOfk.edit(selected);
-            if (selected.isWzorzec()==true) {
+            if (selected.isWzorzec() == true) {
                 Msg.msg("Oznaczono dokument jako wzorzec.");
             } else {
-                Msg.msg("w","Odznaczono dokument jako wzorzec.");
+                Msg.msg("w", "Odznaczono dokument jako wzorzec.");
             }
         }
     }
-    
+
     public void drukujzaksiegowanydokument() {
         if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0 && filteredValue.size() == 0) {
-            String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
+            String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane";
             File file = new File(nazwa);
             if (file.isFile()) {
                 file.delete();
@@ -2484,21 +2368,21 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         }
         if (filteredValue != null && filteredValue.size() > 0) {
             for (Dokfk p : filteredValue) {
-                String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getDokfkPK().getNrkolejnywserii();
+                String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane" + p.getDokfkPK().getNrkolejnywserii();
                 File file = new File(nazwa);
                 if (file.isFile()) {
                     file.delete();
                 }
                 Uz uz = wpisView.getWprowadzil();
                 PdfDokfk.drukujtrescpojedynczegodok(nazwa, p, uz);
-                String f = "pokazwydruk('"+nazwa+"');";
+                String f = "pokazwydruk('" + nazwa + "');";
                 RequestContext.getCurrentInstance().execute(f);
             }
         } else {
             Msg.msg("w", "Nie wybrano wierszy do wydruku");
         }
     }
-    
+
     private void wydrukujzestawieniedok(String nazwa, List<Dokfk> wiersze) {
         Uz uz = wpisView.getWprowadzil();
         Document document = inicjacjaA4Portrait();
@@ -2506,12 +2390,12 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
         dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
+        dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100, 0);
         finalizacjaDokumentu(document);
-        String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";
+        String f = "wydrukZaksiegowaneLista('" + wpisView.getPodatnikObiekt().getNip() + "');";
         RequestContext.getCurrentInstance().execute(f);
     }
-    
+
     public void usunzaznaczone() {
         if (selectedlist != null && selectedlist.size() > 0) {
             for (Dokfk p : selectedlist) {
@@ -2523,10 +2407,11 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
-     public String getWybranakategoriadok() {
+    public String getWybranakategoriadok() {
         return wybranakategoriadok;
     }
-    public void setWybranakategoriadok(String wybranakategoriadok) {    
+
+    public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
     }
 
@@ -2578,8 +2463,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.nrgrupywierszy = nrgrupywierszy;
     }
 
-   
-
     public boolean isNiedodawajkontapole() {
         return niedodawajkontapole;
     }
@@ -2588,7 +2471,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.niedodawajkontapole = niedodawajkontapole;
     }
 
-    
     public Dokfk getDokumentdousuniecia() {
         return dokumentdousuniecia;
     }
@@ -2636,8 +2518,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setWlaczZapiszButon(boolean wlaczZapiszButon) {
         this.wlaczZapiszButon = wlaczZapiszButon;
     }
-    
-    
+
     public List<Evewidencja> getListaewidencjivatRK() {
         return listaewidencjivatRK;
     }
@@ -2653,8 +2534,7 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setEwidencjaVatRK(EVatwpisFK ewidencjaVatRK) {
         this.ewidencjaVatRK = ewidencjaVatRK;
     }
-    
-   
+
     public String getSymbolWalutyNettoVat() {
         return symbolWalutyNettoVat;
     }
@@ -2663,7 +2543,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.symbolWalutyNettoVat = symbolWalutyNettoVat;
     }
 
-    
     public int getRodzajBiezacegoDokumentu() {
         return rodzajBiezacegoDokumentu;
     }
@@ -2672,7 +2551,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.rodzajBiezacegoDokumentu = rodzajBiezacegoDokumentu;
     }
 
-    
     public Wiersz getWybranyWiersz() {
         return wybranyWiersz;
     }
@@ -2712,10 +2590,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setLpWierszaWpisywanie(Integer lpWierszaWpisywanie) {
         this.lpWierszaWpisywanie = lpWierszaWpisywanie;
     }
-
-    
-   
-
 
     public WpisView getWpisView() {
         return wpisView;
@@ -2781,7 +2655,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.biezacetransakcje = biezacetransakcje;
     }
 
-   
     public boolean isZablokujprzyciskzapisz() {
         return zablokujprzyciskzapisz;
     }
@@ -2830,7 +2703,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.pokazPanelWalutowy = pokazPanelWalutowy;
     }
 
-
     public boolean isPokazRzadWalutowy() {
         return pokazRzadWalutowy;
     }
@@ -2838,8 +2710,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setPokazRzadWalutowy(boolean pokazRzadWalutowy) {
         this.pokazRzadWalutowy = pokazRzadWalutowy;
     }
-
-    
 
     public boolean isEwidencjaVATRKzapis0edycja1() {
         return ewidencjaVATRKzapis0edycja1;
@@ -2856,8 +2726,8 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
     public void setWybranaTabelanbp(Tabelanbp wybranaTabelanbp) {
         this.wybranaTabelanbp = wybranaTabelanbp;
     }
-    
- public boolean isPotraktujjakoNowaTransakcje() {
+
+    public boolean isPotraktujjakoNowaTransakcje() {
         return potraktujjakoNowaTransakcje;
     }
 
@@ -2865,9 +2735,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.potraktujjakoNowaTransakcje = potraktujjakoNowaTransakcje;
     }
 
-    
-
-  
 //    public static void main(String[] args) {
 //        String staranazwa = "EUR";
 //        String nazwawaluty = "PLN";
@@ -2887,9 +2754,6 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
 //        kwota = Math.round(kwota * kurs * 100);
 //        kwota = kwota / 100;
 //}        
-
-
-   
     public Dokfk getSelectedimport() {
         return selectedimport;
     }
@@ -2946,23 +2810,19 @@ public void updatenetto(EVatwpisFK evatwpis, String form) {
         this.lpwierszaRK = lpwierszaRK;
     }
 
-   
-
     public int getRodzaj() {
         return rodzaj;
     }
-  
+
     public void setRodzaj(int rodzaj) {
         this.rodzaj = rodzaj;
     }
 
 //</editor-fold>  
-    
-   public DataModel getDatamodel() {
-       DataModel dataModel = new ArrayDataModel<Wiersz>();
-       dataModel.setWrappedData(selected.getListawierszy().toArray());
-       return dataModel;
-   }
+    public DataModel getDatamodel() {
+        DataModel dataModel = new ArrayDataModel<Wiersz>();
+        dataModel.setWrappedData(selected.getListawierszy().toArray());
+        return dataModel;
+    }
 
 }
-

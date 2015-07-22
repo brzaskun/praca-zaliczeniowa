@@ -141,6 +141,7 @@ public class Logowanie implements Serializable {
         if (uz != null) {
             switch (uz.getLocale()) {
                 case "pl":
+                    localeChanger.polishAction();
                     break;
                 case "de":
                     localeChanger.deutschAction();
@@ -149,6 +150,8 @@ public class Logowanie implements Serializable {
                     localeChanger.englishAction();
                     break;
             }
+        } else {
+            localeChanger.polishAction();
         }
     }
 

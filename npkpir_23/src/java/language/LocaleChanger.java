@@ -28,6 +28,14 @@ public class LocaleChanger implements Serializable{
         locale = new Locale("pl");
         return null;
     }
+    
+    public String polishAction(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.getViewRoot().setLocale(new Locale("pl"));
+        locale = new Locale("pl");
+        return null;
+    }
+    
     public String englishAction(ActionEvent e){
         FacesContext context = FacesContext.getCurrentInstance();
         context.getViewRoot().setLocale(Locale.ENGLISH);
@@ -55,6 +63,8 @@ public class LocaleChanger implements Serializable{
         locale = Locale.GERMAN;
         return null;
     }
+     
+     
 
     public Locale getLocale() {
         return locale;
