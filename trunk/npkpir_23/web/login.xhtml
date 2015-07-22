@@ -71,7 +71,7 @@
                         <h:outputText value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
                                      autocomplete="true" onkeydown="PF('bar').show()">
-                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(Logowuzytkownikuzytk)}" partialSubmit="true" global="false" />
+                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false" />
                         </h:inputText>
                         <h:outputText value="#{mgs.haslo}"/>
                         <h:inputSecret value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" />
