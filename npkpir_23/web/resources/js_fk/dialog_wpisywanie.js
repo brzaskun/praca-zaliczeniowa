@@ -73,7 +73,13 @@ var odtworzwierszKontoWpis = function() {
 
 var wpisywanieOnShow = function (szer, wys) {
     try {
-        ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
+        var menudokumenty = document.getElementById('menudokumenty');
+        var menuzapisykont = document.getElementById('menuzapisykont');
+        if (menudokumenty === null) {
+            ustawdialog('dialogpierwszy','zapisy',szer, wys+30);
+        } else {
+            ustawdialog('dialogpierwszy','menudokumenty',szer, wys);
+        }
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).focus();
         $(document.getElementById('formwpisdokument:data2DialogWpisywanie')).select();
     } catch (Exception) {
