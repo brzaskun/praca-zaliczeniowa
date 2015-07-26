@@ -196,6 +196,7 @@ public class DokFKBean {
         int numerserii = 1;
         if (ostatnidokumentR != null) {
             numerserii = ostatnidokumentR.getDokfkPK().getNrkolejnywserii();
+            numerserii = numerserii + 1;
         }
         return numerserii;
     }

@@ -134,6 +134,7 @@
                 <h:form id="tabelazzapisami">
                      <p:contextMenu for="tabela" style="width: 200px;">
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
+                         <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1090px; height: 550px; overflow-y: scroll;"
@@ -143,7 +144,9 @@
                         <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
-                        <p:ajax event="rowSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>-->
+                        <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
+                        <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
+                            update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
                         <p:column headerText="id" width="20"  >
                             <h:outputText value="#{loop.id}"/>
@@ -253,7 +256,10 @@
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>  
-        </p:layout>  
+        </p:layout>
+        <h:form id="zestawieniezapisownakontachpola">
+            <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
+        </h:form>
     </p:dialog>
 </ui:composition>
 

@@ -45,7 +45,6 @@ import entityfk.Tabelanbp;
 import entityfk.Transakcja;
 import entityfk.Waluty;
 import entityfk.Wiersz;
-import entityfk.WierszBO;
 import error.E;
 import java.io.File;
 import java.io.Serializable;
@@ -57,7 +56,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
@@ -85,7 +84,7 @@ import waluty.Z;
  * @author Osito
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class DokfkView implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -148,7 +147,6 @@ public class DokfkView implements Serializable {
     private List<Waluty> wprowadzonesymbolewalut;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-
     private String rachunekCzyPlatnosc;
     private int typwiersza;
     private Wiersz wybranyWiersz;
@@ -207,8 +205,8 @@ public class DokfkView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
-            obsluzcechydokumentu();
+            //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
+            //obsluzcechydokumentu();
             stworzlisteewidencjiRK();
             RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
@@ -254,6 +252,7 @@ public class DokfkView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+        obsluzcechydokumentu();
         rodzajBiezacegoDokumentu = 1;
         RequestContext.getCurrentInstance().update("formwpisdokument");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -593,7 +592,7 @@ public class DokfkView implements Serializable {
 
 //////////////////////////////EWIDENCJE VAT    
     public void dodaj() {
-        if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
+            if (selected.getListawierszy().get(selected.getListawierszy().size() - 1).getOpisWiersza().equals("")) {
             komunikatywpisdok = "Probujesz zapisać pusty dokument";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
             return;
@@ -778,7 +777,12 @@ public class DokfkView implements Serializable {
                 ObslugaWiersza.przenumerujSelected(selected);
                 selected.oznaczewidencjeVAT();
                 dokDAOfk.edit(selected);
+                wykazZaksiegowanychDokumentow.remove(selected);
+                wykazZaksiegowanychDokumentow.add(selected);
+                Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
                 selected = new Dokfk();
+                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update("zestawieniezapisownakontach:dataList");
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
@@ -1229,10 +1233,23 @@ public class DokfkView implements Serializable {
 
 //samo podswietlanie wiersza jest w javscript on compleyte w menucontext pobiera rzad wiersza z wierszDoPodswietlenia
     public void znajdzDokumentOznaczWierszDoPodswietlenia() {
-        selected = wiersz.getDokfk();
+        Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wiersz.getDokfk());
+        selected = odnalezionywbazie;
         int numer = wiersz.getIdporzadkowy() - 1;
         wierszDoPodswietlenia = numer;
         setZapisz0edytuj1(true);
+    }
+    
+    public void znajdzDokumentOznaczWierszDoPodswietlenia(List<StronaWiersza> wybranekontadosumowania) {
+        if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
+            StronaWiersza s = wybranekontadosumowania.get(0);
+            Wiersz w = s.getWiersz();
+            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(w.getDokfk());
+            selected = odnalezionywbazie;
+            int numer = w.getIdporzadkowy() - 1;
+            wierszDoPodswietlenia = numer;
+            setZapisz0edytuj1(true);
+        }
     }
 
 //
@@ -1326,6 +1343,12 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentow = wykaz;
     }
 
+    public void odswiezzaksiegowaneInit() {    
+        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
+        filteredValue = null;
+    }
+    
     public void odswiezzaksiegowane() {
         if (wybranakategoriadok == null) {
             wybranakategoriadok = "wszystkie";
@@ -2821,7 +2844,9 @@ public class DokfkView implements Serializable {
 //</editor-fold>  
     public DataModel getDatamodel() {
         DataModel dataModel = new ArrayDataModel<Wiersz>();
-        dataModel.setWrappedData(selected.getListawierszy().toArray());
+        if (selected != null) {
+            dataModel.setWrappedData(selected.getListawierszy().toArray());
+        }
         return dataModel;
     }
 

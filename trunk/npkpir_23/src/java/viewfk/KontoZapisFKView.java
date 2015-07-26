@@ -372,10 +372,12 @@ public class KontoZapisFKView implements Serializable{
             }
             RequestContext.getCurrentInstance().update("zapisydopodswietlenia");
             RequestContext.getCurrentInstance().execute("podswietlrozrachunki();");
+            
         } catch (Exception e) {  E.e(e);
             
         }
     }
+   
     
     public int sortZapisynaKoncie(Object o1, Object o2) {
         String datao1 = ((StronaWiersza) o1).getWiersz().getDokfk().getDatadokumentu();

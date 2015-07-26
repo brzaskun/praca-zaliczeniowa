@@ -127,9 +127,13 @@ var zakryjpolaedycjadokumentu = function(iloscwierszy){
 //};
 
 var zamykanieDialogow = function() {
-    PF('wpisywanie').hide();
-    PF('wiersze').hide();
-    PF('tablicadokumenty').unselectAllRows();
+    try {
+        PF('wpisywanie').hide();
+        PF('wiersze').hide();
+        PF('tablicadokumenty').unselectAllRows();
+    } catch (e) {
+        
+    }
 };
 
 var powrocNaPoczatekDokfk = function() {
