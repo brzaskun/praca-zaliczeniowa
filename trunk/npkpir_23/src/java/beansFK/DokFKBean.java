@@ -206,27 +206,31 @@ public class DokFKBean {
         String separator = "/";
         String[] elementy = wzorzec.split(separator);
         String[] elementyold = ostatnidokument.getNumerwlasnydokfk().split(separator);
-        for (int i = 0; i < elementy.length; i++) {
-            String typ = elementy[i];
-            switch (typ) {
-                case "N":
-                case "n":
-                    String tmp = elementyold != null && elementyold.length > 0 ? elementyold[i] : "0";
-                    Integer tmpI = Integer.parseInt(tmp);
-                    tmpI++;
-                    nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
-                    break;
-                case "m":
-                    nowynumer = nowynumer.concat(wpisView.getMiesiacWpisu()).concat(separator);
-                    break;
-                case "r":
-                    nowynumer = nowynumer.concat(wpisView.getRokWpisuSt()).concat(separator);
-                    break;
-                //to jest wlasna wstawka typu FVZ
-                case "s":
-                    nowynumer = elementyold != null && elementyold.length > 0 ? nowynumer.concat(elementyold[i]).concat(separator) : nowynumer.concat(elementy[i]).concat(separator);
-                    break;
+        try {
+            for (int i = 0; i < elementy.length; i++) {
+                String typ = elementy[i];
+                switch (typ) {
+                    case "N":
+                    case "n":
+                        String tmp = elementyold != null && elementyold.length > 0 ? elementyold[i] : "0";
+                        Integer tmpI = Integer.parseInt(tmp);
+                        tmpI++;
+                        nowynumer = nowynumer.concat(tmpI.toString()).concat(separator);
+                        break;
+                    case "m":
+                        nowynumer = nowynumer.concat(wpisView.getMiesiacWpisu()).concat(separator);
+                        break;
+                    case "r":
+                        nowynumer = nowynumer.concat(wpisView.getRokWpisuSt()).concat(separator);
+                        break;
+                    //to jest wlasna wstawka typu FVZ
+                    case "s":
+                        nowynumer = elementyold != null && elementyold.length > 0 ? nowynumer.concat(elementyold[i]).concat(separator) : nowynumer.concat(elementy[i]).concat(separator);
+                        break;
+                }
             }
+        } catch (Exception e) {
+            nowynumer = "poprzedni nr niezgodny z wzorcem";
         }
         if (nowynumer.endsWith(separator)) {
             nowynumer = nowynumer.substring(0, nowynumer.lastIndexOf(separator));
