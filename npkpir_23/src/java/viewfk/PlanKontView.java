@@ -199,12 +199,14 @@ public class PlanKontView implements Serializable {
     
     public void dodajanalityczne() {
         String podatnik;
+        Konto kontomacierzyste = null;
         if (czyoddacdowzorca == true) {
             podatnik = "Wzorcowy";
+            kontomacierzyste = selectednodekontowzorcowy;
         } else {
             podatnik = wpisView.getPodatnikWpisu();
+            kontomacierzyste = selectednodekonto;
         }
-        Konto kontomacierzyste = selectednodekonto;
         if (kontomacierzyste.isBlokada() == false) {
             int wynikdodaniakonta = 1;
             if (podatnik.equals("Wzorcowy")) {
