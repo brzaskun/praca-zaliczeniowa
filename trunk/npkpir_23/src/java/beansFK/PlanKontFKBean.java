@@ -250,8 +250,9 @@ public class PlanKontFKBean {
         }
     }
     
-    public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, PojazdyDAO pojazdyDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
+    public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         List<String> listamiesiace = Mce.getMcenazwaList();
+        listamiesiace.add("BO");
         if (listamiesiace != null) {
             int i = 1;
             for (String p : listamiesiace) {
@@ -481,6 +482,18 @@ public class PlanKontFKBean {
             nowekonto.setSlownikowe(true);
             nowekonto.setBlokada(true);
             PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+        }
+    }
+    
+    public static void porzadkujslownikMiesiace(List<Konto> wykazkont, String nazwamca, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,4);
+        for (Konto p : kontamacierzysteZeSlownikiem) {
+            Konto nowekonto = new Konto();
+            nowekonto.setNazwapelna(nazwamca);
+            nowekonto.setNazwaskrocona(nazwamca);
+            nowekonto.setSlownikowe(true);
+            nowekonto.setBlokada(true);
+            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, String.valueOf(numerkonta), wpisView);
         }
     }
             

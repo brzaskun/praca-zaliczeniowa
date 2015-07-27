@@ -31,12 +31,13 @@
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
                     <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab0"
                                  >
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
-                            <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" 
+                            <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
                                             minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
@@ -75,14 +76,14 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0" onfocus="selectpustepolebo(0,#{bilansWprowadzanieView.lista0.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid  id="sum0" columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 0 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
@@ -95,7 +96,8 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="1">
-                    <p:dataTable id="tabelakasa" value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab1">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -148,7 +150,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tabelakasa"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
@@ -165,7 +167,7 @@
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tabelakasa"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
@@ -180,14 +182,14 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid id="sum1"  columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 1 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
@@ -200,7 +202,8 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" id="tabelarozrachunki" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab2">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -243,7 +246,7 @@
                                              onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');"
                                              >
-                                <f:ajax />
+                                <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -253,7 +256,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column >
@@ -262,7 +265,9 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
-                                            minValue="-1000000" styleClass="wiersznetto"/>
+                                            minValue="-1000000" styleClass="wiersznetto">
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN)}"/>
+                            </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
@@ -270,7 +275,7 @@
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tabelarozrachunki"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -279,20 +284,22 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
-                                            minValue="-1000000" styleClass="wiersznetto"/>
+                                            minValue="-1000000" styleClass="wiersznetto">
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaMa, item.kwotaMaPLN)}"/>
+                            </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2"/>
                             <p:spacer width="20"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid id="sum2" columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 2 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
@@ -305,7 +312,8 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="3">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab3">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -348,14 +356,14 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid id="sum3" columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 3 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
@@ -368,7 +376,8 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="6">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab6">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -411,14 +420,14 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid id="sum6" columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 6 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
@@ -431,7 +440,8 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="8">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
+                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab8">
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -474,14 +484,14 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" update="@this:@parent:@parent"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
                         <p:column>
-                            <p:panelGrid  columns="6" style="margin-top: 10px;margin-left: 10px;">
+                            <p:panelGrid id="sum8" columns="6" style="margin-top: 10px;margin-left: 10px;">
                                 <h:outputText value="grupa 8 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(0)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>

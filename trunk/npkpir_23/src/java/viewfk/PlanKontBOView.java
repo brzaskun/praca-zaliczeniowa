@@ -4,10 +4,12 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -80,6 +82,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+             Collections.sort(results, new Kontocomparator());
             }
             return results;
         }
@@ -110,6 +113,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+                Collections.sort(results, new Kontocomparator());
             }
             return results;
         }
@@ -140,6 +144,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+                Collections.sort(results, new Kontocomparator());
             }
             return results;
         }
@@ -170,6 +175,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+                Collections.sort(results, new Kontocomparator());
             }
             return results;
         }
@@ -200,6 +206,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+                Collections.sort(results, new Kontocomparator());
             }
             return results;
         }
@@ -230,6 +237,7 @@ public class PlanKontBOView implements Serializable {
                         }
                     }
                 }
+                Collections.sort(results, new Kontocomparator());
             }
             return results;
         }

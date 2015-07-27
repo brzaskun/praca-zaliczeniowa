@@ -195,10 +195,15 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     private void dodawanielista(List<WierszBO> l) {
-        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        Podatnik p = wpisView.getPodatnikObiekt();
-        String r = wpisView.getRokWpisuSt();
-        l.add(new WierszBO(p, r, w));
+        if (l.size() > 0) {
+            WierszBO poprzedni = l.get(l.size()-1);
+            if (poprzedni != null && poprzedni.getKonto() != null) {
+                Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+                Podatnik p = wpisView.getPodatnikObiekt();
+                String r = wpisView.getRokWpisuSt();
+                l.add(new WierszBO(p, r, w));
+            }
+        }
     }
 
     public void usunwiersz(int kategoria, WierszBO wierszBO) {
@@ -372,7 +377,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void przeliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, String strona) {
-        if (kurs != 0.0) {
+        if (kurs != 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             double kwotawPLN = Math.round(kwotaWwalucie * kurs * 100);
             kwotawPLN /= 100;
             if (strona.equals("Wn")) {
@@ -380,27 +385,46 @@ public class BilansWprowadzanieView implements Serializable {
             } else {
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
-        } else {
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+        } else if (wiersz.getWaluta().getSymbolwaluty().equals("PLN")){
             if (strona.equals("Wn")) {
                 wiersz.setKwotaWnPLN(kwotaWwalucie);
             } else {
                 wiersz.setKwotaMaPLN(kwotaWwalucie);
             }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
         }
+    }
+    
+    public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN) {
+        if (kurs == 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
+            double kurswyliczony = Math.round(kwotaWPLN / kwotaWwalucie * 100);
+            kurswyliczony /= 100;
+            wiersz.setKurs(kurswyliczony);
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+        } 
     }
 
     public void przeliczkurs(WierszBO wiersz) {
-        double kurs = wiersz.getKurs();
-        if (wiersz.getKwotaWn() != 0.0) {
-            double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
-            kwotawPLN /= 100;
-            wiersz.setKwotaWnPLN(kwotawPLN);
-        } else if (wiersz.getKwotaMa() != 0.0) {
-            double kwotawPLN = Math.round(wiersz.getKwotaMa() * kurs * 100);
-            kwotawPLN /= 100;
-            wiersz.setKwotaMaPLN(kwotawPLN);
+        if (!wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
+            double kurs = wiersz.getKurs();
+            if (kurs != 0.0) {
+                if (wiersz.getKwotaWn() != 0.0) {
+                    double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
+                    kwotawPLN /= 100;
+                    wiersz.setKwotaWnPLN(kwotawPLN);
+                } else if (wiersz.getKwotaMa() != 0.0) {
+                    double kwotawPLN = Math.round(wiersz.getKwotaMa() * kurs * 100);
+                    kwotawPLN /= 100;
+                    wiersz.setKwotaMaPLN(kwotawPLN);
+                }
+            } else {
+                wiersz.setKwotaWnPLN(0.0);
+                wiersz.setKwotaMaPLN(0.0);
+            }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            podsumujWnMa(listaW);
         }
-        podsumujWnMa(listaW);
     }
 
     public void ksiegujrozrachunki() {
@@ -570,7 +594,6 @@ public class BilansWprowadzanieView implements Serializable {
         }
         listasum.add(stronaWn);
         listasum.add(stronaMa);
-        RequestContext.getCurrentInstance().update("formbilanswprowadzanie");
     }
     
     public void drukuj(List<WierszBO> lista) {
