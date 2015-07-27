@@ -15,6 +15,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
+import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
 import entityfk.Delegacja;
@@ -362,7 +363,7 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Nie można dodać słownika miesięcy!", "formX:messages");
                         return;
                     }
-                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, pojazdyDAO, wpisView, kontopozycjaZapisDAO);
+                    wynikdodaniakonta = PlanKontFKBean.dodajelementyslownikaMiesiace(wykazkont, kontomacierzyste, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
                     if (wynikdodaniakonta == 0) {
                         noweKonto = new Konto();
                         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -829,8 +830,8 @@ public class PlanKontView implements Serializable {
             }
         }
         List<Delegacja> delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, true);
-        sadelegacje = delegacjezagraniczne != null && !delegacjezagraniczne.isEmpty();
-        if (sadelegacje) {
+        boolean sadelegacjezagr = delegacjezagraniczne != null && !delegacjezagraniczne.isEmpty();
+        if (sadelegacjezagr) {
             for (Delegacja r : delegacjezagraniczne) {
                 try {
                     PlanKontFKBean.porzadkujslownikDelegacjeZagraniczne(wykazkont, r, kontoDAOfk, wpisView);
@@ -839,10 +840,15 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
-        if (sakliencifk || samiejscakosztow) {
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-                Msg.msg("Zakonczono aktualizowanie słowników");
+        List<String> listamiesiace = Mce.getMcenazwaList();
+        listamiesiace.add("BO");
+        int nrkonta = 1;
+        for (String l : listamiesiace) {
+            PlanKontFKBean.porzadkujslownikMiesiace(wykazkont, l, nrkonta, kontoDAOfk, wpisView);
+            nrkonta++;
         }
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Msg.msg("Zakonczono aktualizowanie słowników");
     }
      
     public void oznaczkontoJakoKosztowe() {

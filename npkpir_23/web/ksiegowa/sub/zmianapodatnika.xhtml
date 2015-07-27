@@ -15,7 +15,7 @@
                 <h:outputLabel value="#{mgs.mc}"/>
                 <h:outputLabel value=""/>
                 <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 250px;" >
-                    <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
                     <p:ajax event="change"  listener="#{DokTabView.aktualizujTabele}" update=":westKsiegowa, :form" />
                 </p:selectOneMenu>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
