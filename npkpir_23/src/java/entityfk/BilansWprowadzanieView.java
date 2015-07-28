@@ -68,6 +68,12 @@ public class BilansWprowadzanieView implements Serializable {
     private List<WierszBO> lista3;
     private List<WierszBO> lista6;
     private List<WierszBO> lista8;
+    private List<WierszBO> lista0s;
+    private List<WierszBO> lista1s;
+    private List<WierszBO> lista2s;
+    private List<WierszBO> lista3s;
+    private List<WierszBO> lista6s;
+    private List<WierszBO> lista8s;
     private List<WierszBO> listaW;
     private Map<Integer, List<WierszBO>> listazbiorcza;
     private Map<String, List> listaSumList;
@@ -584,13 +590,32 @@ public class BilansWprowadzanieView implements Serializable {
         RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
     }
 
-    private void podsumujWnMa(List<WierszBO> lista, List listasum) {
+    public void podsumujWnMa(List<WierszBO> lista, List listasum) {
         listasum.clear();
         double stronaWn = 0.0;
         double stronaMa = 0.0;
         for (WierszBO p : lista) {
             stronaWn += p.getKwotaWnPLN();
             stronaMa += p.getKwotaMaPLN();
+        }
+        listasum.add(stronaWn);
+        listasum.add(stronaMa);
+    }
+    
+    public void podsumujWnMa(List<WierszBO> listas, List listasum, List<WierszBO> lista) {
+        listasum.clear();
+        double stronaWn = 0.0;
+        double stronaMa = 0.0;
+        if (listas.isEmpty()) {
+            for (WierszBO p : lista) {
+                stronaWn += p.getKwotaWnPLN();
+                stronaMa += p.getKwotaMaPLN();
+            }
+        } else {
+            for (WierszBO p : listas) {
+                stronaWn += p.getKwotaWnPLN();
+                stronaMa += p.getKwotaMaPLN();
+            }
         }
         listasum.add(stronaWn);
         listasum.add(stronaMa);
@@ -647,6 +672,54 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setLista8(List<WierszBO> lista8) {
         this.lista8 = lista8;
+    }
+
+    public List<WierszBO> getLista0s() {
+        return lista0s;
+    }
+
+    public void setLista0s(List<WierszBO> lista0s) {
+        this.lista0s = lista0s;
+    }
+
+    public List<WierszBO> getLista1s() {
+        return lista1s;
+    }
+
+    public void setLista1s(List<WierszBO> lista1s) {
+        this.lista1s = lista1s;
+    }
+
+    public List<WierszBO> getLista2s() {
+        return lista2s;
+    }
+
+    public void setLista2s(List<WierszBO> lista2s) {
+        this.lista2s = lista2s;
+    }
+
+    public List<WierszBO> getLista3s() {
+        return lista3s;
+    }
+
+    public void setLista3s(List<WierszBO> lista3s) {
+        this.lista3s = lista3s;
+    }
+
+    public List<WierszBO> getLista6s() {
+        return lista6s;
+    }
+
+    public void setLista6s(List<WierszBO> lista6s) {
+        this.lista6s = lista6s;
+    }
+
+    public List<WierszBO> getLista8s() {
+        return lista8s;
+    }
+
+    public void setLista8s(List<WierszBO> lista8s) {
+        this.lista8s = lista8s;
     }
 
     public WpisView getWpisView() {
