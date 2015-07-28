@@ -1224,6 +1224,7 @@ public final class DokView implements Serializable {
                 }
             }
             typdokumentu = skrot;
+            selDokument.setNrWlDk(null);
             podepnijListe(skrot);
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
