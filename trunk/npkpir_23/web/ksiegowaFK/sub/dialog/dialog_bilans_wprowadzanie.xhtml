@@ -30,14 +30,18 @@
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab0"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item0" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                                 id="tab0" rowKey="#{item0.hashCode()}" selection="#{bilansWprowadzanieView.lista0s}" 
                                  >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0, bilansWprowadzanieView.listaSumList.get('lista0'))}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
-                            <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete0}" id="konto"
+                            <p:autoComplete value="#{item0.konto}" completeMethod="#{planKontBOView.complete0}" id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
                                             minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
@@ -50,26 +54,26 @@
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
-                            <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
-                                <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
+                            <p:inputText value="#{item0.wierszBOPK.opis}" style="width: 95%;" >
+                                <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item0.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
                             </p:inputText>
                         </p:column>
-                        <p:column style="text-align: center;" sortBy="#{item.kwotaWn}">
+                        <p:column style="text-align: center;" sortBy="#{item0.kwotaWn}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item0.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item0, item0.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
-                        <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
+                        <p:column style="text-align: center;" sortBy="#{item0.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item0.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                              style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item0, item0.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -78,7 +82,7 @@
                             </f:facet>
                             <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0" onfocus="selectpustepolebo(0,#{bilansWprowadzanieView.lista0.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0"/>
+                            <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(0, item0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -97,7 +101,12 @@
                 </p:tab>
                 <p:tab title="1">
                     <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab1">
+                                 id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista1s}" 
+                                 >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get('lista1'), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get('lista1'), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1, bilansWprowadzanieView.listaSumList.get('lista1'))}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -182,7 +191,7 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1" onfocus="selectpustepolebo(1,#{bilansWprowadzanieView.lista1.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1"/>
                         </p:column>
@@ -203,7 +212,12 @@
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
                     <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab2">
+                                 id="tab2" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista2s}" 
+                                 >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2, bilansWprowadzanieView.listaSumList.get('lista2'))}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -292,7 +306,7 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2" onfocus="selectpustepolebo(2,#{bilansWprowadzanieView.lista2.size()})"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2"/>
                         </p:column>
@@ -313,7 +327,12 @@
                 </p:tab>
                 <p:tab title="3">
                     <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab3">
+                                 id="tab3" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista3s}" 
+                                 >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get('lista3'), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get('lista3'), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3, bilansWprowadzanieView.listaSumList.get('lista3'))}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -356,7 +375,7 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3" onfocus="selectpustepolebo(3,#{bilansWprowadzanieView.lista3.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3"/>
                         </p:column>
@@ -377,7 +396,12 @@
                 </p:tab>
                 <p:tab title="6">
                     <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab6">
+                                 id="tab6" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista6s}" 
+                                 >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get('lista6'), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get('lista6'), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6, bilansWprowadzanieView.listaSumList.get('lista6'))}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -420,7 +444,7 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6" onfocus="selectpustepolebo(6,#{bilansWprowadzanieView.lista6.size()})"/>/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6"/>
                         </p:column>
@@ -441,7 +465,12 @@
                 </p:tab>
                 <p:tab title="8">
                     <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab8">
+                                 id="tab8" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista8s}" 
+                                 >
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get('lista8'), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get('lista8'), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8, bilansWprowadzanieView.listaSumList.get('lista8'))}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
@@ -484,7 +513,7 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8"/>
+                            <p:commandButton value="+" actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8" onfocus="selectpustepolebo(8,#{bilansWprowadzanieView.lista8.size()})"/>/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8"/>
                         </p:column>

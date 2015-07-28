@@ -7,6 +7,7 @@
 package entityfk;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
@@ -28,6 +29,41 @@ public class WierszBOPK implements Serializable{
     public String toString() {
         return "WierszBOPK{" + "nippodatnika=" + nippodatnika + ", idkonta=" + idkonta + ", rok=" + rok + ", opis=" + opis + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.nippodatnika);
+        hash = 29 * hash + this.idkonta;
+        hash = 29 * hash + Objects.hashCode(this.rok);
+        hash = 29 * hash + Objects.hashCode(this.opis);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final WierszBOPK other = (WierszBOPK) obj;
+        if (!Objects.equals(this.nippodatnika, other.nippodatnika)) {
+            return false;
+        }
+        if (this.idkonta != other.idkonta) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.opis, other.opis)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 
