@@ -197,7 +197,17 @@
                 </h:outputText>
             </p:column>
         </p:dataTable>
+         
+        
     </p:panelGrid>
+        <div style="margin-top: 15px;">
+        <h:form rendered="#{WpisView.ksiegaryczalt}">
+            <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieView.drukujPodsumowanieRoczne()}" >
+        </p:commandButton>
+<!--        <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
+        </p:commandButton>-->
+            </h:form>
+        </div>
     <!-- ***************************************************************************************a teraz akapit jak jest ryczałt-->
     <p:panelGrid id="zestawienieroczne1" columns="8"  rendered="#{!WpisView.ksiegaryczalt}">
         <p:dataTable  var="wpis" value="#{kolmn.kolumnRyczalt}" id="dokumentyRListaR" > 
@@ -383,15 +393,16 @@
                 </h:outputText>
             </p:column>
         </p:dataTable>
+        
     </p:panelGrid>
     <div style="margin-top: 15px;">
-        <h:form id="form">
+        <h:form id="form" rendered="#{!WpisView.ksiegaryczalt}">
             <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{ZestawienieRyczaltView.drukujPodsumowanieRoczne()}" >
         </p:commandButton>
 <!--        <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
         </p:commandButton>-->
             </h:form>
-        </div>
+    </div>
     </p:tab>
 </ui:composition>   
 
