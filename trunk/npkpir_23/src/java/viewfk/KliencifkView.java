@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.PlanKontFKBean;
+import beansFK.SlownikiBean;
 import comparator.Kliencifkcomparator;
 import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
@@ -14,6 +15,7 @@ import daoFK.KontopozycjaZapisDAO;
 import entity.Klienci;
 import entityfk.Kliencifk;
 import entityfk.Konto;
+import entityfk.MiejsceKosztow;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -51,6 +53,8 @@ public class KliencifkView implements Serializable {
     private KliencifkDAO kliencifkDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private Kliencifk selected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{dokfkView}")
@@ -60,6 +64,7 @@ public class KliencifkView implements Serializable {
     private boolean makonto0niemakonta1;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    private boolean zapisz0edytuj1;
 
     public KliencifkView() {
         listawszystkichklientow = new ArrayList<>();
@@ -181,6 +186,19 @@ public class KliencifkView implements Serializable {
     public boolean isMakonto0niemakonta1() {
         return makonto0niemakonta1;
     }
+    
+    public void edytuj(Kliencifk kliencifk) {
+        selected = kliencifk;
+        zapisz0edytuj1 = true;
+    }
+    
+    public void zapiszedycje() {
+        kliencifkDAO.edit(selected);
+        SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView, kontoDAOfk);
+        selected = new Kliencifk();
+        listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
+        zapisz0edytuj1 = false;
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public void setMakonto0niemakonta1(boolean makonto0niemakonta1) {
@@ -189,6 +207,14 @@ public class KliencifkView implements Serializable {
 
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
+    }
+
+    public Kliencifk getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Kliencifk selected) {
+        this.selected = selected;
     }
 
     public void setListawszystkichklientow(List<Klienci> listawszystkichklientow) {
@@ -241,6 +267,14 @@ public class KliencifkView implements Serializable {
 
     public void setPlanKontCompleteView(PlanKontCompleteView planKontCompleteView) {
         this.planKontCompleteView = planKontCompleteView;
+    }
+
+    public boolean isZapisz0edytuj1() {
+        return zapisz0edytuj1;
+    }
+
+    public void setZapisz0edytuj1(boolean zapisz0edytuj1) {
+        this.zapisz0edytuj1 = zapisz0edytuj1;
     }
 
     public List<Kliencifk> getListawszystkichklientowFk() {
