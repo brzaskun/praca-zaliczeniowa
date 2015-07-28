@@ -7,6 +7,7 @@ package beansFK;
 
 import daoFK.KontoDAOfk;
 import entityfk.Delegacja;
+import entityfk.Kliencifk;
 import entityfk.Konto;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
@@ -55,6 +56,11 @@ public class SlownikiBean {
             pola[0] = ((Pojazdy) obiekt).getNrkonta();
             pola[1] = ((Pojazdy) obiekt).getNrrejestracyjny();
             pola[2] = ((Pojazdy) obiekt).getNazwapojazdu();
+        }
+        if (obiekt instanceof Kliencifk) {
+            pola[0] = ((Kliencifk) obiekt).getNrkonta();
+            pola[1] = ((Kliencifk) obiekt).getNazwa();
+            pola[2] = ((Kliencifk) obiekt).getNip();
         }
         return pola;
      }

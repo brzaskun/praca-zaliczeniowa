@@ -120,7 +120,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapiszedycje() {
         miejsceKosztowDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 2, wpisView, kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 3, wpisView, kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());
