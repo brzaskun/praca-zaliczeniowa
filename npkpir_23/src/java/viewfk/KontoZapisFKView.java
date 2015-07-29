@@ -106,16 +106,11 @@ public class KontoZapisFKView implements Serializable{
             pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            for (Konto p : kontapotomneListaOstateczna) {
-                for (StronaWiersza r : zapisyRok) {
-                    if (r.getKonto()==null) {
-                        System.out.println("");
-                    }
-                    if (r.getKonto().equals(p)) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <=granicaGorna) {
-                            kontozapisy.add(r);
-                        }
+            for (StronaWiersza r : zapisyRok) {
+                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <=granicaGorna) {
+                        kontozapisy.add(r);
                     }
                 }
             }
@@ -165,17 +160,15 @@ public class KontoZapisFKView implements Serializable{
         pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
         int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-        for (Konto p : kontapotomneListaOstateczna) {
-            for (StronaWiersza r : zapisyRok) {
+        for (StronaWiersza r : zapisyRok) {
+            if (kontapotomneListaOstateczna.contains(r.getKonto())) {
                 if (wybranaWalutaDlaKont.equals("wszystkie")) {
-                    if (r.getKonto().equals(p)) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <= granicaGorna) {
-                            kontozapisy.add(r);
-                        }
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <= granicaGorna) {
+                        kontozapisy.add(r);
                     }
                 } else {
-                    if (r.getKonto().equals(p) && r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
+                    if (r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
@@ -204,13 +197,11 @@ public class KontoZapisFKView implements Serializable{
             pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
             int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
             int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
-            for (Konto p : kontapotomneListaOstateczna) {
-                for (StronaWiersza r : zapisyRok) {
-                    if (r.getKonto().equals(p)) {
-                        int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
-                        if (mc >= granicaDolna && mc <= granicaGorna) {
-                            kontozapisy.add(r);
-                        }
+            for (StronaWiersza r : zapisyRok) {
+                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <= granicaGorna) {
+                        kontozapisy.add(r);
                     }
                 }
             }
@@ -449,6 +440,14 @@ public class KontoZapisFKView implements Serializable{
         for (StronaWiersza p : wybranekontadosumowania) {
             kontozapisy.remove(p);
         }
+    }
+
+    public List<Konto> getWykazkont() {
+        return wykazkont;
+    }
+
+    public void setWykazkont(List<Konto> wykazkont) {
+        this.wykazkont = wykazkont;
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

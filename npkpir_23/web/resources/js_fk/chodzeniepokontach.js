@@ -182,6 +182,9 @@ var znajdzwierszzkontonumer = function(wiersze, wartosc) {
     try {
         for(var i = 0; i < iloscrzedow; i++) {
             var trescwiersza = $(wiersze[i]).children()[0].innerText;
+            if (trescwiersza.length < 3) {
+                trescwiersza = $(wiersze[i]).children()[2].innerText;
+            }
             if (trescwiersza === wartosc) {
                 return wiersze[i];
             }
@@ -198,7 +201,7 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
             wartosc = wartosc.trim().split(" ");
             var wiersze = $(document.getElementById(tabela)).children("tr");
             var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
-            ($(node).children("td"))[0].click();
+            ($(node).children("td"))[1].click();
             MYAPP.obiekt = node;
             przejdzwierszNode(tabela, tabela1, node);
             document.getElementById(inputpole).value = "";
