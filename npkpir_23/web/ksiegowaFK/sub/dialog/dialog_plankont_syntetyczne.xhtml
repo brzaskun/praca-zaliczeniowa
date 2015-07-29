@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false" appendTo="@(body)" modal="true">  
+    <p:dialog header="Wpisz dane konta syntetycznego" widgetVar="nowekontosyntetyczne" resizable="false" appendTo="@(body)" modal="true"
+              onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
         <h:form id="formX">
             <p:growl id="messages"/>
             <p:focus for="dkp">
