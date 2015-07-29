@@ -13,6 +13,42 @@ var ustalmaxlevel = function (tabela) {
     MYAPP.currentlevel = maxlevel;
 };
 
+var snapshot = function (tabela){
+    var lista = r(tabela).children();
+    var lsize = lista.length;
+    MYAPP.listaplankont = lista;
+    MYAPP.listanrkont = new Array();
+    for (var i = 0; i < lsize; i++) {
+        var nrkontaP = lista[i].children[2].innerText;
+        (MYAPP.listanrkont).push([nrkontaP,$(lista[i]).is(":visible")]);
+    }
+    
+};
+
+var recover = function(tabela) {
+    var lista = r(tabela).children();
+    var lsize = lista.length;
+    var doklikania = new Array();
+    for (var i = 0; i < lsize; i++) {
+        var nrkontaP = lista[i].children[2].innerText;
+        var znaleziono = $.grep(MYAPP.listanrkont, function (el) {
+            return el[0] === nrkontaP;
+        });
+        if (znaleziono.length > 0) {
+            if (znaleziono[0][1] === false) {
+                $(lista[i]).hide();
+            } else {
+                $(lista[i]).show();
+                doklikania.push(lista[i]);
+            }
+        } else {
+            //tu bedzie ten nowododany
+            $(lista[i]).show();
+        }
+    }
+    dodajczujnik(doklikania, tabela);
+};
+
 var zwinwszystkie = function (tabela) {
     var lista = r(tabela).children();
     var lsize = lista.length;
@@ -128,21 +164,21 @@ var kopiujnazwepelnakonta = function(zrodlo,cel) {
 
 var dodajczujnik = function(listawierszy,tabela) {
     var lista = r(tabela).children();
-    for (var wiersz in listawierszy) {
-        $(listawierszy[wiersz]).dblclick(function(){
+    for (var lp in listawierszy) {
+        $(listawierszy[lp]).dblclick(function(){
            var ltemp0 = new Array();
            ltemp0.push(this);
-           var nr1 = this.children[2].innerText;
-           var liczbaminusow = nr1.split('-').length;
-           for (var wiersz2 in lista) {
+           var nrkontaP = this.children[2].innerText;
+           var liczbaminusowP = nrkontaP.split('-').length;
+           for (var lpCh in lista) {
                try {
-                    var nr2 = lista[wiersz2].children[2].innerText;
-                    var liczbaminusow2 = nr2.split('-').length;
-                    if (nr2.indexOf(nr1) > -1 && liczbaminusow === liczbaminusow2-1) {
+                    var nrkontaCh = lista[lpCh].children[2].innerText;
+                    var liczbaminusowCh = nrkontaCh.split('-').length;
+                    if (nrkontaCh.indexOf(nrkontaP) > -1 && liczbaminusowP === liczbaminusowCh-1) {
                         var ltemp = new Array();
-                        ltemp.push($(lista[wiersz2]));
+                        ltemp.push($(lista[lpCh]));
                         dodajczujnik(ltemp,tabela);
-                        $(lista[wiersz2]).show();
+                        $(lista[lpCh]).show();
                         removeczujnik(ltemp0);
                     }
                 } catch (e) {
