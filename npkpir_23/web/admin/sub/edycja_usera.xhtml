@@ -29,7 +29,7 @@
                     <f:selectItem itemValue="nl"/>
                 </h:selectOneMenu>
                 <h:inputText  value="#{UzView.selUzytkownik.login}"/>
-                 <p:commandButton action="#{UzView.edit()}" value="Edytuj" update=":form:uzytkownicyLista,mess_edit,:dodWiad:ostatniUzytkownik"/>
+                 <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista,mess_edit,:dodWiad:ostatniUzytkownik"/>
          </p:panelGrid>
         </p:panel>
 </ui:composition>   
