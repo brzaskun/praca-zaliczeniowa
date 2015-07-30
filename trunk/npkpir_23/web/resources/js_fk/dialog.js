@@ -37,7 +37,7 @@ var ustawdialog = function(nazwa,rodzic, szerokosc, wysokosc) {
     try {
         $(document.getElementById(nazwa)).position({
         my: "left top",
-        at: "left+40px top",
+        at: "left+20px top-40px",
         of: $(document.getElementById(rodzic)),
         collision: "none none"
         });
