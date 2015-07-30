@@ -11,7 +11,7 @@
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
-                        <h:outputText value="wybierz konto: "/>
+                        <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
@@ -21,11 +21,11 @@
                             <p:ajax event="itemSelect" 
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
-                        <h:outputText value="  wybrane konto:"/>
+                        <h:outputText value=" #{mgs.wybranekonto}:"/>
                         <h:outputText id="nazwawybranegokonta" value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" style="font-weight: 900;" />
                     </h:form>
                     <h:form id="walutazapisynakoncie">
-                        <h:outputText value="waluta dokumentu " style="text-align: right;"/>
+                        <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
                         <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>

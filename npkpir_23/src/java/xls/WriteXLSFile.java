@@ -5,6 +5,7 @@
  */
 package xls;
 
+import entity.Rodzajedok;
 import entityfk.Konto;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -137,6 +138,40 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    public static Workbook zachowajRodzajedokXLS(Map<String, List> listy, WpisView wpisView){
+        List rodzajedok = listy.get("rodzajedok");
+        List headersList = headerrodzajedok();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Rodzajedok");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, rodzajedok, "Rodzajedok", 1, "rodzajedok");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        3, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_PAPERSIZE);
+        sheet.setFitToPage(true);
+        //write this workbook in excel file.
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+            System.out.println(FILE_PATH + " is successfully written");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
     public static List listaprzychody() {
         List przychody = new ArrayList();
         przychody.add(new PozycjaPrzychodKoszt(1,"702-2-1", "Przychody", "Sprzedaż krajowa", 141196.48));
@@ -200,6 +235,15 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headerrodzajedok() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("skrót");
+        headers.add("nazwa");
+        headers.add("tłumaczenie");
+        return headers;
+    }
+    
     private static <T> int drawATable(Workbook workbook, Sheet sheet, int rowIndex, List headers, List<T> elements, String tableheader, int typ, String nazwasumy) {
         int startindex = rowIndex+3;
         int columnIndex = 0;
@@ -243,6 +287,13 @@ public class WriteXLSFile {
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(rowIndex));
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getPelnynumer());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNazwapelna());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getDe());
+        }
+        else if (c.getName().contains("Rodzajedok")) {
+            Rodzajedok st = (Rodzajedok) ob;
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(rowIndex));
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getSkrot());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNazwa());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getDe());
         }
     }

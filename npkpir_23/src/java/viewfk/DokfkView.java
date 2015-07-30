@@ -57,6 +57,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
@@ -84,7 +85,7 @@ import waluty.Z;
  * @author Osito
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class DokfkView implements Serializable {
 
     private static final long serialVersionUID = 1L;
