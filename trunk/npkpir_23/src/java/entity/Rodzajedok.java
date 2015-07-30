@@ -82,6 +82,9 @@ public class Rodzajedok implements Serializable {
     private boolean pokazszt;
     @Column(name = "niepokazuj")
     private boolean niepokazuj;
+    @Size(max = 255)
+    @Column(name = "de")
+    private String de;
 
     public Rodzajedok() {
         this.rodzajedokPK = new RodzajedokPK();
@@ -217,6 +220,14 @@ public class Rodzajedok implements Serializable {
 
     public void setNiepokazuj(boolean niepokazuj) {
         this.niepokazuj = niepokazuj;
+    }
+
+    public String getDe() {
+        return de;
+    }
+
+    public void setDe(String de) {
+        this.de = de;
     }
     
     

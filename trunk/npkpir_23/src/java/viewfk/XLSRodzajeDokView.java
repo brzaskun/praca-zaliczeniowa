@@ -27,28 +27,28 @@ import xls.WriteXLSFile;
  */
 @ManagedBean
 @ViewScoped
-public class XLSPlanKontView implements Serializable{
+public class XLSRodzajeDokView implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
-    public void zachowajPlanKontwXLS(List plankont) {
+    public void zachowajwXLS(List rodzajedok) {
         try {
             Map<String, List> listy = new HashMap<>();
-            listy.put("plankont", plankont);
-            Workbook workbook = WriteXLSFile.zachowajPlanKontXLS(listy, wpisView);
+            listy.put("rodzajedok", rodzajedok);
+            Workbook workbook = WriteXLSFile.zachowajRodzajedokXLS(listy, wpisView);
             // Prepare response.
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             externalContext.setResponseContentType("application/vnd.ms-excel");
-            String filename = "plankont"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
+            String filename = "rodzajedok"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
             externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
             // Write file to response body.
             workbook.write(externalContext.getResponseOutputStream());
             // Inform JSF that response is completed and it thus doesn't have to navigate.
             facesContext.responseComplete();
         } catch (IOException ex) {
-            Logger.getLogger(XLSPlanKontView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XLSRodzajeDokView.class.getName()).log(Level.SEVERE, null, ex);
             
         }
     }

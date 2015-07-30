@@ -5,8 +5,10 @@
  */
 package xls;
 
+import dao.RodzajedokDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.InterpaperXLS;
+import entity.Rodzajedok;
 import entity.Wpis;
 import entityfk.Konto;
 import error.E;
@@ -96,6 +98,38 @@ public class ReadXLSFile {
                         if (k != null && k.getNazwapelna().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             kontoDAOfk.edit(k);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+            file.close();
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public static void updateRodzajedok(RodzajedokDAO rodzajedokDAO, WpisView wpisView, String filename) {
+         try {
+            FileInputStream file = new FileInputStream(new File(filename));
+             //Create Workbook instance holding reference to .xlsx file
+            XSSFWorkbook workbook = new XSSFWorkbook(file);
+             //Get first/desired sheet from the workbook
+            XSSFSheet sheet = workbook.getSheetAt(0);
+             //Iterate through each rows one by one
+            Iterator<Row> rowIterator = sheet.iterator();
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                try {
+                    String skrot = row.getCell(1).getStringCellValue();
+                    String nazwapelna = row.getCell(2).getStringCellValue();
+                    String tlumaczenie = row.getCell(3).getStringCellValue();
+                    if (!tlumaczenie.equals("")) {
+                        Rodzajedok k = rodzajedokDAO.find(skrot, wpisView.getPodatnikObiekt());
+                        if (k != null && k.getNazwa().equals(nazwapelna)) {
+                            k.setDe(tlumaczenie);
+                            rodzajedokDAO.edit(k);
                         }
                     }
                 } catch (Exception e) {

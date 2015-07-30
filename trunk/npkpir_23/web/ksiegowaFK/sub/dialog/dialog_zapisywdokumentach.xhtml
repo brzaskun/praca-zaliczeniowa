@@ -21,7 +21,7 @@
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
                         <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}"/>
-                        <f:selectItem itemLabel="CR" itemValue="CR"/>
+                        <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
