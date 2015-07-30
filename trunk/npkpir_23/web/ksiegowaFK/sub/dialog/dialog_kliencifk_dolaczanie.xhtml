@@ -70,7 +70,7 @@
             </p:column>
         </p:dataTable>
             <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
-                             update=":kontoformLista:infokonta, :kontoformV, :kontoformE" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
+                             update=":kliencifk, :kontoformV, :kontoformE" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
          </h:form>
     </p:dialog>
 </ui:composition>
