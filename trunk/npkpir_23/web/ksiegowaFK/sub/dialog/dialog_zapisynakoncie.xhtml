@@ -155,6 +155,8 @@
                         <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
+                        <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
+                            update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                         <p:ajax event="rowSelect" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 
                             update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
                         <p:column selectionMode="multiple" width="20" style="text-align: center;"></p:column>
