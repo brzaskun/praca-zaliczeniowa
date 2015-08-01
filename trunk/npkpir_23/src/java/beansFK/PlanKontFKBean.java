@@ -190,7 +190,6 @@ public class PlanKontFKBean {
                 nowekonto.setNazwapelna(p.getNazwa());
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
@@ -211,7 +210,6 @@ public class PlanKontFKBean {
                 nowekonto.setNazwapelna(p.getOpismiejsca());
                 nowekonto.setNazwaskrocona(p.getOpisskrocony());
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
@@ -234,7 +232,6 @@ public class PlanKontFKBean {
                 nowekonto.setNazwapelna(p.getNrrejestracyjny());
                 nowekonto.setNazwaskrocona(p.getNazwapojazdu());
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
@@ -252,7 +249,6 @@ public class PlanKontFKBean {
     
     public static int dodajelementyslownikaMiesiace(List<Konto> wykazkont, Konto kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         List<String> listamiesiace = Mce.getMcenazwaList();
-        listamiesiace.add("BO");
         if (listamiesiace != null) {
             int i = 1;
             for (String p : listamiesiace) {
@@ -260,7 +256,6 @@ public class PlanKontFKBean {
                 nowekonto.setNazwapelna(p);
                 nowekonto.setNazwaskrocona(p);
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
@@ -280,7 +275,6 @@ public class PlanKontFKBean {
                 nowekonto.setNazwapelna(p.getOpisdlugi());
                 nowekonto.setNazwaskrocona(p.getOpiskrotki());
                 nowekonto.setSlownikowe(true);
-                nowekonto.setBlokada(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
                 if (wynikdodania == 1) {
                     return 1;
@@ -437,70 +431,113 @@ public class PlanKontFKBean {
         return 0;
     }
     
-    public static void porzadkujslownikKontrahenci(List<Konto> wykazkont, Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 1);
+//    public static void porzadkujslownikKontrahenci(List<Konto> wykazkont, Kliencifk kliencifk, KontoDAOfk kontoDAO, WpisView wpisView) {
+//        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, 1);
+//        for (Konto p : kontamacierzysteZeSlownikiem) {
+//            Konto nowekonto = new Konto();
+//            nowekonto.setNazwapelna(kliencifk.getNazwa());
+//            nowekonto.setNazwaskrocona(kliencifk.getNip());
+//            nowekonto.setSlownikowe(true);
+//            nowekonto.setBlokada(true);
+//            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+//        }
+//    }
+//    
+//    public static void porzadkujslownikMiejscaKosztow(List<Konto> wykazkont, MiejsceKosztow r, KontoDAOfk kontoDAO, WpisView wpisView) {
+//        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,2);
+//        for (Konto p : kontamacierzysteZeSlownikiem) {
+//            Konto nowekonto = new Konto();
+//            nowekonto.setNazwapelna(r.getOpismiejsca());
+//            nowekonto.setNazwaskrocona(r.getOpisskrocony());
+//            nowekonto.setSlownikowe(true);
+//            nowekonto.setBlokada(true);
+//            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+//        }
+//    }
+//    
+//    public static void porzadkujslownikDelegacjeKrajowe(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
+//        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,5);
+//        for (Konto p : kontamacierzysteZeSlownikiem) {
+//            Konto nowekonto = new Konto();
+//            nowekonto.setNazwapelna(r.getOpisdlugi());
+//            nowekonto.setNazwaskrocona(r.getOpiskrotki());
+//            nowekonto.setSlownikowe(true);
+//            nowekonto.setBlokada(true);
+//            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+//        }
+//    }
+//    
+//    public static void porzadkujslownikDelegacjeZagraniczne(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
+//        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,6);
+//        for (Konto p : kontamacierzysteZeSlownikiem) {
+//            Konto nowekonto = new Konto();
+//            nowekonto.setNazwapelna(r.getOpisdlugi());
+//            nowekonto.setNazwaskrocona(r.getOpiskrotki());
+//            nowekonto.setSlownikowe(true);
+//            nowekonto.setBlokada(true);
+//            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
+//        }
+//    }
+//    
+//    public static void porzadkujslownikMiesiace(List<Konto> wykazkont, String nazwamca, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk) {
+//        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,4);
+//        for (Konto p : kontamacierzysteZeSlownikiem) {
+//            Konto nowekonto = new Konto();
+//            nowekonto.setNazwapelna(nazwamca);
+//            nowekonto.setNazwaskrocona(nazwamca);
+//            nowekonto.setSlownikowe(true);
+//            nowekonto.setBlokada(true);
+//            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, String.valueOf(numerkonta), wpisView);
+//            int wynikdodaniakonta = 1;
+//            if (wynikdodaniakonta == 0) {
+//                try {
+//                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(p);
+//                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+//                           Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+//                        }
+//                        if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+//                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
+//                        }
+//                } catch (Exception e) {
+//                    E.e(e);
+//                }
+//            }
+//        }
+//    }
+    
+    
+    public static void porzadkujslownik(List<Konto> wykazkont, String npelna, String nskrocona, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, int nrslownika) {
+        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView, nrslownika);
         for (Konto p : kontamacierzysteZeSlownikiem) {
             Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(kliencifk.getNazwa());
-            nowekonto.setNazwaskrocona(kliencifk.getNip());
+            nowekonto.setNazwapelna(npelna);
+            nowekonto.setNazwaskrocona(nskrocona);
             nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, kliencifk.getNrkonta(), wpisView);
+            int wynikdodaniakonta = 1;
+            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, String.valueOf(numerkonta), wpisView);
+            if (wynikdodaniakonta == 0) {
+                try {
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(p);
+                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                        Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
+                    }
+                    if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
+                        PlanKontFKBean.naniesPrzyporzadkowanie(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
         }
     }
     
-    public static void porzadkujslownikMiejscaKosztow(List<Konto> wykazkont, MiejsceKosztow r, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,2);
-        for (Konto p : kontamacierzysteZeSlownikiem) {
-            Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(r.getOpismiejsca());
-            nowekonto.setNazwaskrocona(r.getOpisskrocony());
-            nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
-        }
-    }
     
-    public static void porzadkujslownikDelegacjeKrajowe(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,5);
-        for (Konto p : kontamacierzysteZeSlownikiem) {
-            Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(r.getOpisdlugi());
-            nowekonto.setNazwaskrocona(r.getOpiskrotki());
-            nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
-        }
-    }
-    
-    public static void porzadkujslownikDelegacjeZagraniczne(List<Konto> wykazkont, Delegacja r, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,6);
-        for (Konto p : kontamacierzysteZeSlownikiem) {
-            Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(r.getOpisdlugi());
-            nowekonto.setNazwaskrocona(r.getOpiskrotki());
-            nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, r.getNrkonta(), wpisView);
-        }
-    }
-    
-    public static void porzadkujslownikMiesiace(List<Konto> wykazkont, String nazwamca, int numerkonta, KontoDAOfk kontoDAO, WpisView wpisView) {
-        List<Konto> kontamacierzysteZeSlownikiem = kontoDAO.findKontaMaSlownik(wpisView,4);
-        for (Konto p : kontamacierzysteZeSlownikiem) {
-            Konto nowekonto = new Konto();
-            nowekonto.setNazwapelna(nazwamca);
-            nowekonto.setNazwaskrocona(nazwamca);
-            nowekonto.setSlownikowe(true);
-            nowekonto.setBlokada(true);
-            PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, p, kontoDAO, String.valueOf(numerkonta), wpisView);
-        }
-    }
             
-    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, List<Konto> wykazkont) {
+    public static int usunelementyslownika(String kontomacierzyste, KontoDAOfk kontoDAO, WpisView wpisView, List<Konto> wykazkont, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         List<Konto> listakont = kontoDAO.findKontaPotomnePodatnik(wpisView, kontomacierzyste);
         if (listakont != null) {
             for (Konto p : listakont) {
+                kontopozycjaZapisDAO.destroy(kontopozycjaZapisDAO.findByKonto(p));
                 kontoDAO.destroy(p);
                 wykazkont.remove(p);
             }
