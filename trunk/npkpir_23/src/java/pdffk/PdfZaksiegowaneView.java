@@ -18,6 +18,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
@@ -37,7 +38,7 @@ public class PdfZaksiegowaneView implements Serializable {
     private UzDAO uzDAO;
     
     public void drukujzaksiegowanydokument(List<Dokfk> wiersze,List<Dokfk> selecteddokfk) {
-        if (wiersze != null && wiersze.size() > 0 && selecteddokfk.size() == 0) {
+        if (wiersze != null && wiersze.size() > 0 && (selecteddokfk == null || selecteddokfk.isEmpty())) {
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
             File file = new File(nazwa);
             if (file.isFile()) {
@@ -70,7 +71,7 @@ public class PdfZaksiegowaneView implements Serializable {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, "Zestawienie zaksięgowanych dokumentów", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        dodajOpisWstepny(document, B.b("zestawieniezaksięgowanychdokumentów"), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         dodajTabele(document, testobjects.testobjects.getTabelaZaksiegowane(wiersze), 100,0);
         finalizacjaDokumentu(document);
         String f = "wydrukZaksiegowaneLista('"+wpisView.getPodatnikObiekt().getNip()+"');";

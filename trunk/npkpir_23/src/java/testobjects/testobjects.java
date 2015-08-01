@@ -22,6 +22,7 @@ import entityfk.Wiersz;
 import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.List;
+import msg.B;
 import viewfk.CechyzapisuPrzegladView;
 import viewfk.CechyzapisuPrzegladView.CechaStronaWiersza;
 
@@ -163,15 +164,15 @@ public class testobjects {
    
    public static List[] getTabelaZaksiegowane(List<Dokfk> wiersze) {
        List n = new ArrayList();
-       n.add("lp");
-       n.add("data dok");
-       n.add("data operacji");
-       n.add("id dok");
-       n.add("kontrahent");
-       n.add("numer wlasny");
-       n.add("opis");  
-       n.add("wartość");
-       n.add("waluta");
+       n.add(B.b("lp"));
+       n.add(B.b("datadok"));
+       n.add(B.b("data"));
+       n.add(B.b("iddok"));
+       n.add(B.b("kontrahent"));
+       n.add(B.b("numerwlasny"));
+       n.add(B.b("opis"));  
+       n.add(B.b("wartość"));
+       n.add(B.b("waluta"));
        List t = getWierszeDokfk(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;

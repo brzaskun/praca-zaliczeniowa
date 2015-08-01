@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import msg.B;
 import testobjects.WierszCecha;
 import testobjects.WierszDokfk;
 import testobjects.WierszKonta;
@@ -258,7 +259,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("okres rozliczeniony " + mc + "/" + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
