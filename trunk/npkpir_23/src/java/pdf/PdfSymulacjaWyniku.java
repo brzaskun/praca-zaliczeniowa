@@ -89,7 +89,6 @@ public class PdfSymulacjaWyniku {
             } else {
                 table.addCell(ustawfraze(B.b("zapisykosztowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
             }
-
             table.addCell(ustawfraze(B.b("lp"), 0, 1));
             table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
             table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));

@@ -44,7 +44,7 @@
         <h:form id="formanalitykanar">
             <p:panelGrid columns="4" style="margin-left: 2%;" >
                  <p:column>
-                    <h:outputText value="dane na koniec m-ca: "/>
+                    <h:outputText value="#{mgs.danenakoniecmca}: "/>
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -66,14 +66,15 @@
                          scrollable="true" scrollHeight="625" selectionMode="single" scrollWidth="700"
                          >
                 <p:ajax event="filter" global="false"/>
-                <p:column id="idcolumn" styleClass="idfrozen" headerText="id" width="20" sortBy="#{loop.id}" >
+                <p:column id="idcolumn" styleClass="idfrozen" headerText="#{mgs.lp}" width="20" sortBy="#{loop.id}" >
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
                 <p:column styleClass="kontofrozen" headerText="#{mgs.numerkonta}" width="90" filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column  styleClass="opisfrozen" headerText="#{mgs.opis}" width="250" >
-                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                     <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
                 <p:column headerText="#{mgs.boWn}" width="80" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">

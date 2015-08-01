@@ -34,7 +34,7 @@
                     <h:outputText value="#{mgs.przetwarzanie}"/>
                     <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                     <p:splitButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}"  style="margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')">
-                        <p:menuitem value="drukuj zap.bież.mc" actionListener="#{saldoAnalitykaView.drukuj(3)}" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                        <p:menuitem value="#{mgs.drukujzapbieżmc}" actionListener="#{saldoAnalitykaView.drukuj(3)}" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                     </p:splitButton>
             </p:panelGrid>
             
@@ -48,14 +48,15 @@
                 <p:column width="20">
                     <p:rowToggler/>
                 </p:column>
-                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
+                <p:column headerText="#{mgs.lp}" width="20" sortBy="#{loop.id}" >
                     <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
                 </p:column>
-                <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
+                <p:column styleClass="#{mgs.konto}" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" >
-                    <h:outputText value="#{loop.konto.nazwapelna}"/>
+                    <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
                 <p:column headerText="#{mgs.boWn}" width="60" >
                     <h:outputText value="#{loop.boWn != 0.0 ? loop.boWn : null}" style="float: right;">
@@ -114,22 +115,22 @@
                         <p:column headerText="#{mgs.kontrahent}">
                             <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                         </p:column>
-                        <p:column headerText="wiersz">
+                        <p:column headerText="#{mgs.opis}">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
-                        <p:column headerText="waluta" width="30">
+                        <p:column headerText="#{mgs.waluta}" width="30">
                             <h:outputText value="#{loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
-                         <p:column headerText="kwota Wn" width="60">
+                        <p:column headerText="#{mgs.kwotaWn}" width="60">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="kwota Ma" width="60">
+                        <p:column headerText="#{mgs.kwotaMa}" width="60">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
-                        <p:column headerText="kwota Wn PLN" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
+                        <p:column headerText="#{mgs.kwotaWnPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Wn' }"/>
                         </p:column>
-                        <p:column headerText="kwota Ma PLN" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
+                        <p:column headerText="#{mgs.kwotaMaPLN}" width="60" rendered="#{(loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.symbolwaluty) ne 'PLN'}">
                             <bcf:outputpl value="#{loopik.kwotaPLN}"  rendered="#{loopik.wnma eq 'Ma' }"/>
                         </p:column>
                     </p:dataTable>
