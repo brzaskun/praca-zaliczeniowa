@@ -50,7 +50,7 @@
                     <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.de}" itemValue="#{item.skrot}"/>
                 </h:selectOneMenu>
                 <p:column>
-                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
                 </p:column>
             </p:panelGrid>

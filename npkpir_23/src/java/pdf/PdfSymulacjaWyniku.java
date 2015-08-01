@@ -24,9 +24,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import msg.B;
 import msg.Msg;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
@@ -58,9 +61,9 @@ public class PdfSymulacjaWyniku {
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
-        document.addTitle("Zestawienie symulacja wyniku");
+        document.addTitle(B.b("zestawieniesymulacjawyniku"));
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
-        document.addSubject("Zestawienie symulacja wyniku finansowego");
+        document.addSubject(B.b("zestawieniesymulacjawyniku"));
         document.addKeywords("Wynik Finansowy, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
@@ -82,19 +85,19 @@ public class PdfSymulacjaWyniku {
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
             if (pk.equals("p")) {
-                table.addCell(ustawfraze("zestawienie kont przychodowych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
+                table.addCell(ustawfraze(B.b("zapisyprzychodowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
             } else {
-                table.addCell(ustawfraze("zestawienie kont kosztowych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
+                table.addCell(ustawfraze(B.b("zapisykosztowe") + ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 5, 0));
             }
 
-            table.addCell(ustawfraze("lp", 0, 1));
-            table.addCell(ustawfraze("nr konta", 0, 1));
-            table.addCell(ustawfraze("nazwa konta", 0, 1));
-            table.addCell(ustawfraze("obroty Wn", 0, 1));
-            table.addCell(ustawfraze("obroty Ma", 0, 1));
-            table.addCell(ustawfraze("saldo Wn", 0, 1));
-            table.addCell(ustawfraze("saldo Ma", 0, 1));
-            table.addCell(ustawfraze("uwagi", 0, 1));
+            table.addCell(ustawfraze(B.b("lp"), 0, 1));
+            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("uwagi"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie symulacja wyniku finansowego", 8, 0, 5));
 
@@ -107,7 +110,12 @@ public class PdfSymulacjaWyniku {
         for (SaldoKonto rs : listakonta) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
-            table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            Locale browserLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            if (browserLocale.getLanguage().equals("pl")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            } else if (browserLocale.getLanguage().equals("de")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+            }
             table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujWaluta(rs.getObrotyWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujWaluta(rs.getObrotyMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujWaluta(rs.getSaldoWn()) : "", "right", 7));
@@ -129,14 +137,13 @@ public class PdfSymulacjaWyniku {
         table.setWidthPercentage(95);
         try {
             table.addCell(ustawfrazeSpanFont("", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("dokument", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("data", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("nr własny", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kontrahent", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("wiersz", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Wn", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Ma", 0, 1, 7));
-
+            table.addCell(ustawfrazeSpanFont(B.b("dokument"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("data"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("numerwlasny"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kontrahent"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("wiersz"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaWn"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaMa"), 0, 1, 7));
             table.setHeaderRows(1);
         } catch (IOException ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
@@ -166,10 +173,10 @@ public class PdfSymulacjaWyniku {
         table.setWidthPercentage(50);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze("obliczenie wyniku fin. i pod.", 2, 0));
+            table.addCell(ustawfraze(B.b("obliczeniewynikufinipod"), 2, 0));
 
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
 
@@ -191,10 +198,10 @@ public class PdfSymulacjaWyniku {
         table.setWidthPercentage(50);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze("obliczenie podatku dochodowego", 2, 0));
+            table.addCell(ustawfraze(B.b("obliczeniepodatku"), 2, 0));
 
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
 
@@ -222,8 +229,8 @@ public class PdfSymulacjaWyniku {
             if (i == 3) {
                 table.addCell(ustawfraze("obliczenie kwot do wypłaty", 2, 0));
             }
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie kwoty do wypłaty", 6, 0, 5));
 
