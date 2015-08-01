@@ -34,9 +34,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
+import msg.B;
 import msg.Msg;
 import org.jdom.filter.ContentFilter;
 import view.WpisView;
@@ -74,9 +77,9 @@ public class PdfKonta {
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
         if (analit0synt1==1) {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+"zestawienie obrotów kont syntetycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             } else {
-                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+"zestawienie obrotów kont analitycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
+                document.add(new Paragraph(wpisView.getPodatnikWpisu()+" "+B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt()));
             }
         document.add(Chunk.NEWLINE);
         if (rodzajdruku==1) {
@@ -123,24 +126,30 @@ public class PdfKonta {
         table.setWidthPercentage(95);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze("lp", 0, 1));
-            table.addCell(ustawfraze("nr konta", 0, 1));
-            table.addCell(ustawfraze("nazwa konta", 0, 1));
-            table.addCell(ustawfraze("saldo BO Wn", 0, 1));
-            table.addCell(ustawfraze("saldo BO Ma", 0, 1));
-            table.addCell(ustawfraze("obroty Wn", 0, 1));
-            table.addCell(ustawfraze("obroty Ma", 0, 1));
-            table.addCell(ustawfraze("suma BO Wn", 0, 1));
-            table.addCell(ustawfraze("suma BO Ma", 0, 1));
-            table.addCell(ustawfraze("saldo Wn", 0, 1));
-            table.addCell(ustawfraze("saldo Ma", 0, 1));
+            table.addCell(ustawfraze(B.b("lp"), 0, 1));
+            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             table.setHeaderRows(1);
         } catch (Exception ex) {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
-            table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            String l = locale.getLanguage();
+            if (l.equals("pl")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+            }
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
@@ -159,16 +168,16 @@ public class PdfKonta {
         table.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.setSpacingAfter(15);
         try {
-            table.addCell(ustawfrazeSpanFont("dokument", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("data", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("nr własny", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kontrahent", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("wiersz", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("wal.", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Wn", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Ma", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Wn PLN", 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont("kwota Ma PLN", 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("dokument"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("data"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("numerwlasny"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kontrahent"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("opis"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("waluta"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaWn"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaMa"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaWnPLN"), 0, 1, 7));
+            table.addCell(ustawfrazeSpanFont(B.b("kwotaMaPLN"), 0, 1, 7));
 
             table.setHeaderRows(1);
         } catch (IOException ex) {
@@ -218,21 +227,21 @@ public class PdfKonta {
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
             if (analit0synt1==1) {
-                table.addCell(ustawfraze("zestawienie obrotów kont syntetycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+                table.addCell(ustawfraze(B.b("zestawienieobrotówkontsyntetycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
             } else {
-                table.addCell(ustawfraze("zestawienie obrotów kont analitycznych za okres: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
+                table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 9, 0));
             }
-            table.addCell(ustawfraze("lp", 0, 1));
-            table.addCell(ustawfraze("nr konta", 0, 1));
-            table.addCell(ustawfraze("nazwa konta", 0, 1));
-            table.addCell(ustawfraze("saldo BO Wn", 0, 1));
-            table.addCell(ustawfraze("saldo BO Ma", 0, 1));
-            table.addCell(ustawfraze("obroty Wn", 0, 1));
-            table.addCell(ustawfraze("obroty Ma", 0, 1));
-            table.addCell(ustawfraze("suma BO Wn", 0, 1));
-            table.addCell(ustawfraze("suma BO Ma", 0, 1));
-            table.addCell(ustawfraze("saldo Wn", 0, 1));
-            table.addCell(ustawfraze("saldo Ma", 0, 1));
+            table.addCell(ustawfraze(B.b("lp"), 0, 1));
+            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
             if (analit0synt1==1) {
                 table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald syntetycznych", 12, 0, 5));
             } else {
@@ -245,10 +254,21 @@ public class PdfKonta {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         int i = 1;
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        String l = locale.getLanguage();
+        if (l.equals("pl")) {
+
+        } else {
+
+        }
         for (SaldoKonto rs : listaSaldoKonto) {
             table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7));
-            table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            if (l.equals("pl")) {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getKonto().getDe(), "left", 7));
+            }
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
             table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
@@ -318,20 +338,20 @@ public class PdfKonta {
         }
     }
 
-    private static void stworzliste(PdfPTable table, String i) {
-        table.addCell(ustawfraze(i, 0, 1));
-        table.addCell(ustawfraze("nr konta", 0, 1));
-        table.addCell(ustawfraze("nazwa konta", 0, 1));
-        table.addCell(ustawfraze("saldo BO Wn", 0, 1));
-        table.addCell(ustawfraze("saldo BO Ma", 0, 1));
-        table.addCell(ustawfraze("obroty Wn", 0, 1));
-        table.addCell(ustawfraze("obroty Ma", 0, 1));
-        table.addCell(ustawfraze("suma BO Wn", 0, 1));
-        table.addCell(ustawfraze("suma BO Ma", 0, 1));
-        table.addCell(ustawfraze("saldo Wn", 0, 1));
-        table.addCell(ustawfraze("saldo Ma", 0, 1));
-    }
-    
+//    private static void stworzliste(PdfPTable table, String i) {
+//        table.addCell(ustawfraze(i, 0, 1));
+//        table.addCell(ustawfraze("nr konta", 0, 1));
+//        table.addCell(ustawfraze("nazwa konta", 0, 1));
+//        table.addCell(ustawfraze("saldo BO Wn", 0, 1));
+//        table.addCell(ustawfraze("saldo BO Ma", 0, 1));
+//        table.addCell(ustawfraze("obroty Wn", 0, 1));
+//        table.addCell(ustawfraze("obroty Ma", 0, 1));
+//        table.addCell(ustawfraze("suma BO Wn", 0, 1));
+//        table.addCell(ustawfraze("suma BO Ma", 0, 1));
+//        table.addCell(ustawfraze("saldo Wn", 0, 1));
+//        table.addCell(ustawfraze("saldo Ma", 0, 1));
+//    }
+//    
      private static PdfPTable subtable() {
         PdfPTable table = new PdfPTable(10);
         try {
