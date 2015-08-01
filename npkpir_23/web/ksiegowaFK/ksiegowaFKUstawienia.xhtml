@@ -12,14 +12,14 @@
             <bcf:ajaxs />
             <bcf:confirm lp="1" wiadomosc="Zaimplementować wzorcowy plan kont dla bieżącego klienta?" listener="#{planKontView.implementacjaKontWzorcowych()}" 
                          update=":form_dialog_plankont" listenerPresent="true"/>
-             <p:confirmDialog id="confirmDialog2" message="Usunąć wszystkie konta? Operacja jest nieodwracalna!"  
+            <p:confirmDialog id="confirmDialog2" message="Usunąć wszystkie konta? Operacja jest nieodwracalna!"  
                              header="Usuwanie kont" severity="alert" widgetVar="confirm2" width="500" appendTo="@(body)"
                              >
                 <h:form>
-                            <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm2').hide();"
-                                             actionListener="#{planKontView.usunieciewszystkichKontPodatnika()}"
-                                             style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
-                            </p:commandButton>
+                    <p:commandButton id="confirm" value="Akceptuj"  oncomplete="PF('confirm2').hide();"
+                                     actionListener="#{planKontView.usunieciewszystkichKontPodatnika()}"
+                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
+                    </p:commandButton>
                     <p:commandButton id="decline" value="Odwołaj" onclick="PF('confirm2').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
                 </h:form>
             </p:confirmDialog> 
@@ -27,8 +27,18 @@
                          update="form_dialog_plankont" listenerPresent="true"/>-->
             <bcf:confirm lp="3" wiadomosc="Rozpoczynam porządkowanie kont. Usuwanie niewłaściwych oznaczeń." listener="#{planKontView.porzadkowanieKontPodatnika()}" 
                          update=":form_dialog_plankont:dataList" listenerPresent="true"/>
-            <bcf:confirm lp="4" wiadomosc="Rozpoczynam porządkowanie słowników. Sprawdzam podpiętych kontrahentów." listener="#{planKontView.porzadkujSlowniki()}" 
-                         update=":form_dialog_plankont:dataList" listenerPresent="true"/>
+            <p:confirmDialog id="confirmDialog4" message="Rozpoczynam porządkowanie słowników"  
+                             header="Porządkowanie kont" severity="alert" widgetVar="confirm4" width="500" appendTo="@(body)"
+                             >
+                <h:form>
+                    <p:commandButton  value="Akceptuj"  oncomplete="PF('confirm4').hide();"
+                                     actionListener="#{planKontView.porzadkujSlowniki()}"
+                                     style="float: left; width: 120px; margin-left: 2%;" update=":form_dialog_plankont">
+                    </p:commandButton>
+                    <p:commandButton value="Odwołaj" onclick="PF('confirm4').hide()" type="button" style="float: right; width: 120px; margin-right: 2%;"/>   
+                </h:form>
+            </p:confirmDialog> 
+
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <ui:include src="sub/layout/north.xhtml"/>  <!-- panel polnocny-->
                 <p:layoutUnit id="centralna" position="center" >

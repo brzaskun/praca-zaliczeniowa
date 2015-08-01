@@ -30,7 +30,7 @@
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item0" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item0" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab0" rowKey="#{item0.hashCode()}" selection="#{bilansWprowadzanieView.lista0s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
@@ -43,9 +43,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item0.konto}" completeMethod="#{planKontBOView.complete0}" id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"  styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(0,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="blur" global="false" partialSubmit="true"/>
                                 <p:ajax event="query" global="false"/></p:autoComplete>
@@ -100,7 +100,7 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="1">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista1s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get('lista1'), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
@@ -113,9 +113,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete1}"  id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"   styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(1,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="blur" global="false" partialSubmit="true"/>
                                 <p:ajax event="query" global="false"/></p:autoComplete>
@@ -212,7 +212,7 @@
                 </p:tab>
                 <p:tab title="2" id="rozrachunki">
                     <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
-                                 id="tab2" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista2s}" 
+                                 id="tab2" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista2s}" rowIndexVar="idx"
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
                         <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
@@ -224,9 +224,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete2}"  id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"  styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(2,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="blur" global="false" partialSubmit="true"/>
                                 <p:ajax event="query" global="false"/></p:autoComplete>
@@ -326,7 +326,7 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="3">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab3" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista3s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get('lista3'), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
@@ -339,9 +339,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete3}"  id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"  styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(3,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
@@ -395,7 +395,7 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="6">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab6" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista6s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get('lista6'), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
@@ -408,9 +408,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete6}"  id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"  styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(6,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
@@ -464,7 +464,7 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab title="8">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab8" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista8s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get('lista8'), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
@@ -477,9 +477,9 @@
                             </f:facet>
                             <p:autoComplete value="#{item.konto}" completeMethod="#{planKontBOView.complete8}"  id="konto"
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10" 
+                                            minQueryLength="1" converter="KontoConv" cache="true" queryDelay="10"  styleClass="kontobo"
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
-                                            onfocus="usunspacje(this);"
+                                            onfocus="usunspacje(this);podswietltesamekonta(8,this);"
                                             ><!--to teraz powoduje blad-->
                                 <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>

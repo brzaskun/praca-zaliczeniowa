@@ -6,6 +6,7 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
+import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
@@ -28,6 +29,7 @@ import entityfk.UkladBR;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -94,6 +96,7 @@ public class PlanKontView implements Serializable {
     @PostConstruct
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
         int czysaslownikowe = sprawdzkonta();
         if (czysaslownikowe==0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
@@ -674,7 +677,7 @@ public class PlanKontView implements Serializable {
                         wykazkont.remove(kontoDoUsuniecia);
                     }
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView, wykazkont);
+                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView, wykazkont, kontopozycjaZapisDAO);
                         if (wynik == 0) {
                             Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
                             kontomacierzyste.setBlokada(false);
@@ -695,7 +698,6 @@ public class PlanKontView implements Serializable {
                             kontoDAOfk.edit(kontomacierzyste);
                         }
                     }
-                    RequestContext.getCurrentInstance().update("form_dialog_plankont");
                     Msg.msg("i", "Usuwam konto");
                 } catch (Exception e) { 
                     E.e(e);
@@ -798,7 +800,7 @@ public class PlanKontView implements Serializable {
         if (sakliencifk) {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
-                    PlanKontFKBean.porzadkujslownikKontrahenci(wykazkont, p, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, p.getNazwa(), p.getNip(), Integer.parseInt(p.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,1);
                 } catch (Exception e) {  E.e(e);
                     
                 }
@@ -809,7 +811,7 @@ public class PlanKontView implements Serializable {
         if (samiejscakosztow) {
             for (MiejsceKosztow r : miejscakosztow) {
                 try {
-                    PlanKontFKBean.porzadkujslownikMiejscaKosztow(wykazkont, r, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,2);
                 } catch (Exception e1) {
                     
                 }
@@ -823,7 +825,7 @@ public class PlanKontView implements Serializable {
                     if (r.getOpisdlugi().equals("113/05/2015/k")) {
                         System.out.println("k");
                     }
-                    PlanKontFKBean.porzadkujslownikDelegacjeKrajowe(wykazkont, r, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,5);
                 } catch (Exception e1) {
                     
                 }
@@ -834,17 +836,16 @@ public class PlanKontView implements Serializable {
         if (sadelegacjezagr) {
             for (Delegacja r : delegacjezagraniczne) {
                 try {
-                    PlanKontFKBean.porzadkujslownikDelegacjeZagraniczne(wykazkont, r, kontoDAOfk, wpisView);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,6);
                 } catch (Exception e1) {
                     
                 }
             }
         }
-        List<String> listamiesiace = Mce.getMcenazwaList();
-        listamiesiace.add("BO");
+        List<String> listamiesiace = Mce.getMcenazwaListSlownik();
         int nrkonta = 1;
         for (String l : listamiesiace) {
-            PlanKontFKBean.porzadkujslownikMiesiace(wykazkont, l, nrkonta, kontoDAOfk, wpisView);
+            PlanKontFKBean.porzadkujslownik(wykazkont, l, l, nrkonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,4);
             nrkonta++;
         }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());

@@ -27,6 +27,7 @@ public class Mce implements Serializable{
     
     private static final List<String> mceList;
     private static final List<String> mcenazwaList;
+    private static final List<String> mcenazwaListSlownik;
     private static final Map<Integer, String> numberToMiesiac;
     private static final Map<Integer, String> numberToNazwamiesiaca;
     private static final Map<String, String> stringToNazwamiesiaca;
@@ -61,6 +62,21 @@ public class Mce implements Serializable{
         mcenazwaList.add("październik");
         mcenazwaList.add("listopad");
         mcenazwaList.add("grudzień");
+        
+        mcenazwaListSlownik = new ArrayList<>();
+        mcenazwaListSlownik.add("styczeń");
+        mcenazwaListSlownik.add("luty");
+        mcenazwaListSlownik.add("marzec");
+        mcenazwaListSlownik.add("kwiecień");
+        mcenazwaListSlownik.add("maj");
+        mcenazwaListSlownik.add("czerwiec");
+        mcenazwaListSlownik.add("lipiec");
+        mcenazwaListSlownik.add("sierpień");
+        mcenazwaListSlownik.add("wrzesień");
+        mcenazwaListSlownik.add("październik");
+        mcenazwaListSlownik.add("listopad");
+        mcenazwaListSlownik.add("grudzień");
+        mcenazwaListSlownik.add("BO");
         
         numberToMiesiac = new HashMap<>();
         numberToMiesiac.put(1, "01");
@@ -297,6 +313,9 @@ public class Mce implements Serializable{
         return mceList;
     }
 
+    public static List<String> getMcenazwaListSlownik() {
+        return mcenazwaListSlownik;
+    }
 
     public static Map<String, String> getStringToNazwamiesiaca() {
         return stringToNazwamiesiaca;
