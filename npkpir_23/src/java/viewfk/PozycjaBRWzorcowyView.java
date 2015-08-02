@@ -400,6 +400,19 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
     
+    public void zachowajInt(TreeNodeExtended root) {
+        List lista = new ArrayList();
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), lista);
+        List<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        for (Object p : lista) {
+            pozycje.add((PozycjaRZiSBilans) p);
+        }
+        pozycjaRZiSDAO.editList(pozycje);
+        Msg.msg("Zachowano zmiany");
+    }
+    
+    
+    
     public void dodajnowapozycjeBilans(String syntetycznaanalityczna) {
         if (syntetycznaanalityczna.equals("syntetyczna")) {
             //dodaje nowa syntetyke

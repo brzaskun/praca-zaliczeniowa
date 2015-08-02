@@ -908,6 +908,10 @@ public class SessionFacade<T> implements Serializable {
     public List<PozycjaRZiS> findUkladBR(String uklad, String podatnik, String rok) {
         return em.createNamedQuery("PozycjaRZiS.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
+    
+    public List<PozycjaRZiS> findUkladBRBilans(String uklad, String podatnik, String rok) {
+        return em.createNamedQuery("PozycjaBilans.findByUkladPodRok").setParameter("uklad", uklad).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
+    }
 
     public List<PozycjaRZiS> findBilansukladAktywa(UkladBR u) {
         String uklad = u.getUklad();

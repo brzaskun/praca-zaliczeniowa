@@ -386,6 +386,56 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
+    public void zachowajInt(TreeNodeExtended root) {
+        List lista = new ArrayList();
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), lista);
+        List<PozycjaRZiSBilans> pozycje = new ArrayList<>();
+        for (Object p : lista) {
+            pozycje.add((PozycjaRZiSBilans) p);
+        }
+        pozycjaRZiSDAO.editList(pozycje);
+        Msg.msg("Zachowano zmiany");
+    }
+    
+            
+    public void implementujRZiS(TreeNodeExtended root, UkladBR uklad) {
+        String nazwa = uklad.getUklad();
+        String rok = uklad.getRok();
+        List<PozycjaRZiS> pozycjewzorowy = pozycjaRZiSDAO.findRzisuklad(nazwa, "Wzorcowy", rok);
+        List pozycjedocelowy = new ArrayList();
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjedocelowy);
+        for (PozycjaRZiS p : pozycjewzorowy) {
+            for (Object r : pozycjedocelowy) {
+                PozycjaRZiS s = (PozycjaRZiS) r;
+                if (s.getNazwa().equals(p.getNazwa()) && s.getPozycjaString().equals(p.getPozycjaString())) {
+                    s.setDe(p.getDe());
+                    break;
+                }
+            }
+        }
+        pozycjaRZiSDAO.editList(pozycjedocelowy);
+        Msg.msg("Zachowano zmiany");
+    }
+    
+    public void implementujBilans(TreeNodeExtended root, UkladBR uklad) {
+        String nazwa = uklad.getUklad();
+        String rok = uklad.getRok();
+        List<PozycjaBilans> pozycjewzorowy = pozycjaBilansDAO.findBilansuklad(nazwa, "Wzorcowy", rok);
+        List pozycjedocelowy = new ArrayList();
+        root.getChildrenTree(new ArrayList<TreeNodeExtended>(), pozycjedocelowy);
+        for (PozycjaBilans p : pozycjewzorowy) {
+            for (Object r : pozycjedocelowy) {
+                PozycjaBilans s = (PozycjaBilans) r;
+                if (s.getNazwa().equals(p.getNazwa()) && s.getPozycjaString().equals(p.getPozycjaString())) {
+                    s.setDe(p.getDe());
+                    break;
+                }
+            }
+        }
+        pozycjaRZiSDAO.editList(pozycjedocelowy);
+        Msg.msg("Zachowano zmiany");
+    }
+    
       
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {

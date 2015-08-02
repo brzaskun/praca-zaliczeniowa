@@ -49,6 +49,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PozycjaBilans.findByRok", query = "SELECT p FROM PozycjaBilans p WHERE p.rok = :rok"),
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRokAktywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok AND p.przychod0koszt1 = '0'"),
     @NamedQuery(name = "PozycjaBilans.findByUkladPodRokPasywa", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok AND p.przychod0koszt1 = '1'"),
+    @NamedQuery(name = "PozycjaBilans.findByUkladPodRok", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad AND  p.podatnik = :podatnik AND p.rok = :rok"),
     @NamedQuery(name = "PozycjaBilans.findByUklad", query = "SELECT p FROM PozycjaBilans p WHERE p.uklad = :uklad")})
 public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
    
@@ -225,20 +226,33 @@ public class PozycjaBilans extends PozycjaRZiSBilans implements Serializable {
     }
 
 
+    @Override
     public String getRok() {
         return rok;
     }
 
+    @Override
     public void setRok(String rok) {
         this.rok = rok;
     }
 
+    @Override
     public String getUklad() {
         return uklad;
     }
 
+    @Override
     public void setUklad(String uklad) {
         this.uklad = uklad;
+    }
+    
+    @Override
+    public String getDe() {
+        return de;
+    }
+    @Override
+    public void setDe(String de) {
+        this.de = de;
     }
 
     @Override
