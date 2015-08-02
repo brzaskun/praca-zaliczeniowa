@@ -56,7 +56,7 @@
             <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterMatchMode="contains" sortBy="#{wpis.opi}" >  
                 <h:outputText value="#{wpis.opis}" />
             </p:column>
-            <p:column id="kwotanettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}">  
+            <p:column id="kwotanettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains"  sortBy="#{wpis.netto}">  
                     <h:outputText value="#{wpis.netto}" style="padding-left: 20%; font-weight: 700; float: right">
                         <f:convertNumber  locale="PL" minFractionDigits="2" />
                      </h:outputText>

@@ -282,7 +282,7 @@
                     <p:column headerText="rodzaj ewidencji" style="width: 25%;">
                         <h:outputText value="#{item.opis}"/>
                     </p:column>
-                    <p:column headerText="netto" style="width: 20%;">
+                    <p:column headerText="#{mgs.netto}" style="width: 20%;">
                         <pe:inputNumber id="netto" value="#{item.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                             <p:ajax event="change" listener="#{DokumentView.updatenetto(item)}" />
                         </pe:inputNumber>
@@ -361,7 +361,7 @@
                 <h:outputText  value="#{DokumentView.wysDokument.nrWlDk}"/>
                 <h:outputText  value="#{DokumentView.wysDokument.opis}"/>
                 <p:dataTable var="subwpis" value="#{DokumentView.wysDokument.listakwot1}" emptyMessage="dokument bez zapisu w pkpir"  resizableColumns="true" style="width: 400px;">
-                    <p:column id="SubColumnP1"  headerText="netto">  
+                    <p:column id="SubColumnP1"  headerText="#{mgs.netto}">  
                         <h:outputText value="#{subwpis.netto}" style="float: right;">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
@@ -402,9 +402,9 @@
                         </f:facet> 
                         <h:outputText value="#{p.ewidencja.pole}" />
                     </p:column>
-                    <p:column id="idColumn2" headerText="netto">  
+                    <p:column id="idColumn2" headerText="#{mgs.netto}">  
                         <f:facet name="header">  
-                            <h:outputText value="netto"/>  
+                            <h:outputText value="#{mgs.netto}"/>  
                         </f:facet> 
                         <h:outputText value="#{p.netto}"  style="float: right;" >
                             <f:convertNumber minFractionDigits="2" locale="PL"/>

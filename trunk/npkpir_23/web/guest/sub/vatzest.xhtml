@@ -12,8 +12,8 @@
         <p:tab id="ewid1" title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
                 <p:tab id="ewid2" title="#{item[0].nazwaewidencji.nazwa}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}', this)"  style="width: 120px;"/>
                 <p:commandButton value="Wyślij" id="wyslijvatbutton" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%; display: none;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
@@ -40,7 +40,7 @@
                         <p:column headerText="opis trans." style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.opis}"/>
                         </p:column>
-                        <p:column headerText="netto" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
