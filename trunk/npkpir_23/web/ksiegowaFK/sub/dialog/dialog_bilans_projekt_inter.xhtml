@@ -1,0 +1,48 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:dialog id="dialog_bilans_projekt_inter" header="Projekt Bilansu - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilans_projekt_inter" 
+              resizable="false" onShow="ustawdialog('dialog_bilans_projekt_inter','menubilanse', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_projekt_inter');"  >
+        <h:form id="form_dialog_bilans_projekt_inter">
+            <p:panelGrid columns="6" >
+                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+                <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{pozycjaBRView.rozwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+                <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+                <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left;" />
+                <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{pozycjaBRView.zachowajInt(pozycjaBRView.rootProjektRZiS)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 100px; width: 120px;" />
+                <p:commandButton id="implementuj" value="implementuj" actionListener="#{pozycjaBRView.implementujBilans(pozycjaBRView.rootProjektRZiS, pozycjaBRView.uklad)}" update=":form_dialog_bilans_projekt_inter:dataList" style="float: left; margin-left: 10px; width: 120px;" />
+            </p:panelGrid>
+            <p:panelGrid columns="3" style="width: 1020px;">
+                <p:treeTable id="dataList" value="#{pozycjaBRView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRView.wybranynodekonta}" 
+                             styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 900px; margin-bottom: 50px; overflow-y: scroll;"
+                             emptyMessage="Brak wybranego układu lub pozycji w wybranym Bilansie">
+                    <f:facet name="header">
+                        <h:outputText value="uklad #{pozycjaBRView.uklad.uklad} #{pozycjaBRView.uklad.rok}"/>
+                    </f:facet>
+                    <p:ajax event="select" global="false" listener="#{pozycjaBRView.wybranopozycjeBilans()}"/>
+                    <p:column headerText="symbol i nazwa pozycji">
+                        <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
+                        <p:spacer width="20"/>
+                        <h:outputText value="#{loop.nazwa}"/> 
+                    </p:column>
+                    <p:column headerText="de" width="400">
+                        <h:inputText value="#{loop.de}" style="width: 400px;"/>
+                    </p:column>
+                </p:treeTable>
+                <p:panel id="wyborbilans" header="pobierz układ" style="margin-top: -50px;">
+                    <h:outputText value="wybierz nazwę kreowanego układu"/>
+                    <p:selectOneListbox value="#{pozycjaBRView.uklad}" style="height: 200px;" converter="UkladBRConv">
+                        <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok} - #{loop.importowany eq true ? 'imp' : 'wsy'}" itemValue="#{String.valueOf(loop.lp)}"/>
+                    </p:selectOneListbox>
+                    <p:commandButton value="wybierz aktywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'aktywa')}" update=":form_dialog_bilans_projekt_inter"/>
+                    <p:commandButton value="wybierz pasywa" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzuklad('b', pozycjaBRView.rootProjektRZiS, 'pasywa')}" update=":form_dialog_bilans_projekt_inter"/>
+                </p:panel>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>
+

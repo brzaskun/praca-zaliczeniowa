@@ -261,6 +261,14 @@ public class PozycjaRZiS extends PozycjaRZiSBilans implements Serializable {
     public void setUklad(String uklad) {
         this.uklad = uklad;
     }
+    @Override
+    public String getDe() {
+        return de;
+    }
+    @Override
+    public void setDe(String de) {
+        this.de = de;
+    }
 
     @Override
     public int hashCode() {

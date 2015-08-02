@@ -68,6 +68,9 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
     @Size(max = 255)
     @Column(length = 255)
     protected String uklad;
+    @Size(max = 255)
+    @Column(length = 255)
+    protected String de;
 
     public PozycjaRZiSBilans() {
     }
@@ -216,6 +219,16 @@ public class PozycjaRZiSBilans extends ToBeATreeNodeObject implements Serializab
         this.uklad = uklad;
     }
 
+    public String getDe() {
+        return de;
+    }
+
+    public void setDe(String de) {
+        this.de = de;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "PozycjaRZiSBilans{" + "lp=" + lp + ", formula=" + formula + ", kwota=" + kwota + ", level=" + level + ", nazwa=" + nazwa + ", podatnik=" + podatnik + ", pozycjaString=" + pozycjaString + ", pozycjaSymbol=" + pozycjaSymbol + ", przychod0koszt1=" + przychod0koszt1 + ", rok=" + rok + ", uklad=" + uklad + '}';
