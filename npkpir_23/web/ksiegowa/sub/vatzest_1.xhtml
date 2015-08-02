@@ -73,7 +73,7 @@
                     <p:column headerText="opis trans." style="width: 190px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.opis}"/>
                     </p:column>
-                    <p:column headerText="netto" style="width: 110px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
+                    <p:column headerText="#{mgs.netto}" style="width: 110px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains" filterStyle="display: none;">
                         <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>

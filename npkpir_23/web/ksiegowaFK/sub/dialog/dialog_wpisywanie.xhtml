@@ -333,7 +333,7 @@
                             <p:column headerText="rodzaj ewid." width="80">
                                 <h:outputText value="#{item.ewidencja.nazwa}" style="height: 20px;"/>
                             </p:column>
-                            <p:column headerText="netto" width="80">
+                            <p:column headerText="#{mgs.netto}" width="80">
                                 <pe:inputNumber id="netto" value="#{item.netto}" symbol="#{dokfkView.symbolWalutyNettoVat}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatenetto(item,'formwpisdokument')}" partialSubmit="true"/>

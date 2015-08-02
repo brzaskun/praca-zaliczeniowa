@@ -11,38 +11,38 @@
     <f:event type="preRenderView" listener="#{ewidencjaVatView.stworzenieEwidencjiZDokumentowFK()}"/>
     <h:form id="formEwidencjeGuestForm">
     <p:tabView>
-        <p:tab title="ewidencje">
+        <p:tab title="#{mgs.ewidencje}">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
                 <p:tab title="#{facesContext.ELContext.locale eq 'pl' ? item[0].nazwaewidencji.nazwa : item[0].nazwaewidencji.de}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji.nazwa)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
                 <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
                 <p:separator/>
                     <p:dataTable value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px;">
                         <f:facet name="header">  
-                            <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
+                            <h:outputText value="#{mgs.EwidencjaVAT}  #{item[0].nazwaewidencji.nazwa}" />  
                         </f:facet>
-                        <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
+                        <p:column headerText="#{mgs.lp}" style="width: 40px;" sortBy="#{itemik.id}">
                             <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
                         </p:column>
-                        <p:column headerText="data wyst." style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.datadok}" style="width: 100px; text-align: center;" sortBy="#{itemik.dataWyst}" filterBy="#{itemik.dataWyst}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.dataWyst}"/>
                         </p:column>
-                        <p:column headerText="data sprz." style="width: 100px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}">
+                        <p:column headerText="#{mgs.data}" style="width: 100px; text-align: center;" sortBy="#{itemik.dataSprz}" filterMatchMode="contains" filterBy="#{itemik.dataSprz}">
                             <h:outputText value="#{itemik.dataSprz}"/>
                         </p:column>
-                        <p:column headerText="nr własny" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.numerwlasny}" style="width: 130px;" sortBy="#{itemik.nrWlDk}" filterBy="#{itemik.nrWlDk}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.nrWlDk}"/>
                         </p:column>
-                        <p:column headerText="nazwa kontrhenta" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.kontrahent}" style="width: 190px;" sortBy="#{itemik.kontr.npelna}" filterBy="#{itemik.kontr.npelna}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.kontr.npelna}"/>
                         </p:column>
-                        <p:column headerText="opis trans." style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.opis}" style="width: 170px;" sortBy="#{itemik.opis}" filterBy="#{itemik.opis}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.opis}"/>
                         </p:column>
-                        <p:column headerText="netto" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
+                        <p:column headerText="#{mgs.netto}" style="width: 100px;" sortBy="#{itemik.netto}" filterBy="#{itemik.netto}" filterMatchMode="contains">
                             <h:outputText value="#{itemik.netto}" style="float: right; padding-right: 3%">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -56,11 +56,13 @@
                 </p:tab>
             </p:tabView>
         </p:tab>
-        <p:tab title="podsumowanie">
+        <p:tab title="#{mgs.suma}">
             <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
-            <p:panel header="VAT rozliczany #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
+            <p:panel header="#{mgs.vatrozliczany} #{WpisView.podatnikObiekt.vatokres.size() gt 0 ? WpisView.podatnikObiekt.vatokres.get(WpisView.podatnikObiekt.vatokres.size()-1).parametr : ''}" 
                      rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}"/>
-            <h:outputText value="Wynik za okres rozliczeniowy: #{ewidencjaVatView.wynikOkresu gt 0 ? 'do zapłaty ' : 'do zwrotu '}"/> <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
+            <h:outputText value="#{mgs.wynikzaokresrozliczeniowy}: #{mgs.dozapłaty}" rendered="#{ewidencjaVatView.wynikOkresu gt 0}"/> 
+            <h:outputText value="#{mgs.wynikzaokresrozliczeniowy}: #{mgs.dozwrotu}" rendered="#{ewidencjaVatView.wynikOkresu lt 0}"/> 
+            <h:outputText value="#{ewidencjaVatView.wynikOkresu}" style="#{ewidencjaVatView.wynikOkresu gt 0 ? 'font-weight: 900; color: red;' : 'font-weight: 900; color: black;'} padding: 2%;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
                 <f:convertNumber minFractionDigits="0" locale="PL" />
             </h:outputText>
             <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfSuma()}" onsuccess="wydruksumavat('#{WpisView.podatnikWpisu}');" style="width: 120px;"/>
@@ -72,19 +74,20 @@
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">
-                    <h:outputText value="zestawienie ewidencji vat - sprzedaż"/>
+                    <h:outputText value="#{mgs.zestawienieewidencjivat} - #{mgs.sprzedaż}"/>
                 </f:facet>
                 <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                 <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
-                <p:column headerText="nazwa ewidencji">
-                    <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                <p:column headerText="#{mgs.nazwaewidencji}">
+                    <h:outputText value="#{itemik.ewidencja.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{itemik.ewidencja.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
-                <p:column headerText="wartość netto" >
+                <p:column headerText="#{mgs.wartośćnetto}" >
                     <h:outputText value="#{itemik.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wartosć vat należny" >
+                <p:column headerText="#{mgs.wartosćvatnaliczony}" >
                     <h:outputText value="#{itemik.vat}"  style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -95,20 +98,21 @@
                          selection="#{ewidencjaVatView.goscwybralsuma}" rowKey="#{itemik.ewidencja.nazwa}" style="width: 50%;"
                          >
                 <f:facet name="header">
-                    <h:outputText value="zestawienie ewidencji vat - koszty"/>
+                    <h:outputText value="#{mgs.zestawienieewidencjivat} - #{mgs.zakup}"/>
                 </f:facet>
                 <p:column selectionMode="multiple" style="width: 50px;" rendered="#{!(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
                 <p:column style="width: 50px;" rendered="#{(itemik.ewidencja.nazwa eq 'podsumowanie')}"></p:column>
 
-                <p:column headerText="nazwa ewidencji">
-                    <h:outputText value="#{itemik.ewidencja.nazwa}"/>
+                <p:column headerText="#{mgs.nazwaewidencji}">
+                    <h:outputText value="#{itemik.ewidencja.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                    <h:outputText value="#{itemik.ewidencja.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                 </p:column>
-                <p:column headerText="wartość netto" >
+                <p:column headerText="#{mgs.wartośćnetto}" >
                     <h:outputText value="#{itemik.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="wartosć vat naliczony" >
+                <p:column headerText="#{mgs.wartosćvatnaliczony}" >
                     <h:outputText value="#{itemik.vat}"  style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -122,18 +126,18 @@
                                 <p:column style="height: 19px; text-align: center;" width="20">
                                     <p:rowToggler />
                                 </p:column>
-                                <p:column headerText="nr konta" width="50">
+                                <p:column headerText="#{mgs.konto}" width="50">
                                     <h:outputText value="#{item.konto.pelnynumer}"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.nazwakonta}">
                                     <h:outputText value="#{item.konto.nazwapelna}"/>
                                 </p:column>
-                                <p:column headerText="saldo Wn">
+                                <p:column headerText="#{mgs.saldoWn}">
                                     <h:outputText value="#{item.saldoWn}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="saldo Ma">
+                                <p:column headerText="#{mgs.saldoMa}">
                                     <h:outputText value="#{item.saldoMa}" style="float: right;">
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
@@ -153,7 +157,7 @@
                                     <p:column headerText="#{mgs.kontrahent}">
                                         <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
                                     </p:column>
-                                    <p:column headerText="wiersz">
+                                    <p:column headerText="#{mgs.opis}">
                                         <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                                     </p:column>
                                     <p:column headerText="#{mgs.kwota}" width="60">

@@ -36,7 +36,7 @@
                 <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.kontrahent.npelna}"  />
                 </p:column>
-                <p:column id="nettoColumn" headerText="netto" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
                     <h:outputText value="#{wpis.netto}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
@@ -61,7 +61,7 @@
                             <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
                                 <h:outputText value="#{subwpis.opis}" />
                             </p:column>
-                            <p:column id="SubColumn1a"  headerText="netto">  
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
                                 <h:outputText value="#{subwpis.netto}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
