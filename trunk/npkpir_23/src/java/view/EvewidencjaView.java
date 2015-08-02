@@ -71,6 +71,10 @@ public class EvewidencjaView {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
+    
+    public void zachowajnowenazwy() {
+        eewidencjaDAO.editList(lista);
+    }
 
     public void edytuj(RowEditEvent ev) {
         try {
