@@ -23,7 +23,7 @@
                     <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto}"/></p:column>
                     <p:column headerText="typ ewidencji" width="70" style="text-align: center;"><h:outputText id="in8" value="#{loop.typewidencji eq 'sz' ? '+/-' : loop.typewidencji eq 's' ? '+' : '-'}"/></p:column>
-                    <p:column id="deleteColumn" headerText="usuń" width="70">
+                    <p:column id="deleteColumn" headerText="usuń" width="70" style="text-align: center;">
                         <p:commandButton action="#{evewidencjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
                 </p:dataTable>
@@ -61,7 +61,20 @@
                         <f:selectItem itemLabel="należny/naliczony" itemValue="sz"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                 <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form :akordeon:form0:" type="submit"/>
+                 <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form :akordeon:form0:" type="submit" style="width: 120px; margin: 10px;"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Internacjonalizacja"> 
+            <h:form>
+                <p:commandButton action="#{evewidencjaView.zachowajnowenazwy()}" value="zachowaj" update="@form" type="submit" style="width: 120px; margin: 10px;"/>
+            <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
+                             pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 80%;">
+                    <p:column headerText="nazwa ewidencji">
+                    <h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
+                    <p:column headerText="nazwa w języku niemieckim" width="300">
+                        <h:inputText id="in2" value="#{loop.de}" style="width: 300px;"/></p:column>
+            </p:dataTable>
             </h:form>
         </p:tab>
         <p:tab title="Lista nazw ewidencji VAT">  
@@ -74,7 +87,7 @@
                     <p:column>
                                 <h:outputText id="in1" value="#{loop.opis}"/>
                     </p:column>
-                    <p:column id="deleteColumn" headerText="usuń">
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                         <p:commandButton action="#{evopisView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
                     </p:column>
                 </p:dataTable>
@@ -85,7 +98,7 @@
                 <h:outputText value="dodaj nowy opis transakcji"/><br/>
                 <p:panelGrid id="parametr" columns="1" >
                     <h:inputText value="#{evopisView.selected.opis}"/>
-                    <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form, :akordeon:form1:tablica1" type="submit"/>
+                    <p:commandButton action="#{evopisView.dodaj()}" value="dodaj" update="@form, :akordeon:form1:tablica1" type="submit" style="width: 120px; margin: 10px;"/>
                 </p:panelGrid>
             </h:form>
 
@@ -97,11 +110,11 @@
                 <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                             rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}"
                              editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nrpolanetto}" sortOrder="ascending">
-                    <p:column headerText="nazwa pola"><h:outputText id="in1" value="#{loop.nazwapola}"/></p:column>
+                    <p:column headerText="nazwa pola" width="800"><h:outputText id="in1" value="#{loop.nazwapola}"/></p:column>
                     <p:column headerText="nr pola netto"><h:outputText id="in2" value="#{loop.nrpolanetto}"/></p:column>
                     <p:column headerText="nr pola vat"><h:outputText id="in3" value="#{loop.nrpolavat}"/></p:column>
-                    <p:column id="deleteColumn" headerText="usuń">
-                        <p:commandButton action="#{evpozycjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit" />
+                    <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
+                        <p:commandButton action="#{evpozycjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit"/>
                     </p:column>
                 </p:dataTable>
             </h:form>
@@ -114,7 +127,7 @@
                     <h:outputText value="nr pola netto"/><h:inputText value="#{evpozycjaView.selected.nrpolanetto}"/>
                     <h:outputText value="nr pola vat"/><h:inputText value="#{evpozycjaView.selected.nrpolavat}"/>
                 </p:panelGrid>
-                 <p:commandButton action="#{evpozycjaView.dodaj()}" value="dodaj" update="@form :akordeon:form2:" type="submit"/>
+                 <p:commandButton action="#{evpozycjaView.dodaj()}" value="dodaj" update="@form :akordeon:form2:" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>
 
         </p:tab>

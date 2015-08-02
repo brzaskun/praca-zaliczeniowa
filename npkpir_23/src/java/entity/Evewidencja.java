@@ -60,6 +60,8 @@ public class Evewidencja implements Serializable {
     private boolean tylkoNetto;
     @Column(name = "typewidencji")
     private String typewidencji;
+    @Column(name = "de")
+    private String de;
 //    @OneToMany(mappedBy = "ewidencja", cascade = CascadeType.ALL,  orphanRemoval=true)
 //    private List<EVatwpis1> eVatwpisList;
 
@@ -149,6 +151,14 @@ public class Evewidencja implements Serializable {
 
     public void setTypewidencji(String typewidencji) {
         this.typewidencji = typewidencji;
+    }
+
+    public String getDe() {
+        return de;
+    }
+
+    public void setDe(String de) {
+        this.de = de;
     }
 
     

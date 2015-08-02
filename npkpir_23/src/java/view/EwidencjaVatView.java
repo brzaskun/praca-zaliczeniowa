@@ -4,6 +4,7 @@
  */
 package view;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import comparator.Dokcomparator;
 import comparator.EVatwpisFKcomparator;
 import dao.DokDAO;
@@ -33,6 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,6 +44,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import mail.MailOther;
 import msg.Msg;
@@ -122,6 +125,8 @@ public class EwidencjaVatView implements Serializable {
             Ewidencjevat pobrane = ewidencjeVatDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
             listaewidencji = pobrane.getEwidencje();
             sumaewidencji = pobrane.getSumaewidencji();
+            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            String l = locale.getLanguage();
             rozdzielsumeEwidencjiNaPodlisty();
         } catch (Exception e) { E.e(e); 
 
@@ -180,7 +185,12 @@ public class EwidencjaVatView implements Serializable {
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
             }
+            Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+            String l = locale.getLanguage();
             for (List<EVatViewPola> p : listaewidencji.values()) {
+                if (l.equals("de")) {
+                    tlumaczewidencje(p);
+                }
                 ewidencje.add(p);
             }
             RequestContext.getCurrentInstance().update("form");
@@ -1099,5 +1109,9 @@ public class EwidencjaVatView implements Serializable {
         Matcher m = p.matcher(prices);
         while (m.find()) {
         }
+    }
+
+    private void tlumaczewidencje(List<EVatViewPola> l) {
+        
     }
 }
