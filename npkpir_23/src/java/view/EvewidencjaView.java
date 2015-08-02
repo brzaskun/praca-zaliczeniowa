@@ -74,6 +74,7 @@ public class EvewidencjaView {
     
     public void zachowajnowenazwy() {
         eewidencjaDAO.editList(lista);
+        Msg.msg("Naniesiono zmiany");
     }
 
     public void edytuj(RowEditEvent ev) {

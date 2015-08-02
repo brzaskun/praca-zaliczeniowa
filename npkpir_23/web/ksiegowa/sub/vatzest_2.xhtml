@@ -13,7 +13,7 @@
     <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item">
     
         
-        <p:tab title="#{item[0].nazwaewidencji}">
+        <p:tab title="#{item[0].nazwaewidencji.nazwa}">
             
         <p:dataTable id="tabela" value="#{item}" var="itemik" 
                             

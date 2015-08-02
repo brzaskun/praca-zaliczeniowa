@@ -52,7 +52,7 @@ public class EwidencjaVATSporzadzanie {
                                 wiersz.setNrWlDk(dokumentkorekty.getNrwłasny());
                                 wiersz.setOpis(dokumentkorekty.getOpisDokumnetu());
                                 Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(ewidwiersz.getOpis());
-                                wiersz.setNazwaewidencji(nowaEv.getNazwa());
+                                wiersz.setNazwaewidencji(nowaEv);
                                 wiersz.setNrpolanetto(nowaEv.getNrpolanetto());
                                 wiersz.setNrpolavat(nowaEv.getNrpolavat());
                                 wiersz.setNetto(ewidwiersz.getNetto());
@@ -72,7 +72,7 @@ public class EwidencjaVATSporzadzanie {
         for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
                 ArrayList<EVatViewPola> listatmp = new ArrayList<>();
                 //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-                String nazwaewidencji = wierszogolny.getNazwaewidencji();
+                String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
                 try {
                     Collection c = listaewidencji.get(nazwaewidencji);
                     listatmp.addAll(c);

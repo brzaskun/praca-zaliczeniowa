@@ -13,16 +13,16 @@
     <p:tabView>
         <p:tab title="ewidencje">
             <p:tabView value="#{ewidencjaVatView.ewidencje}"  var="item"  >
-                <p:tab title="#{item[0].nazwaewidencji}">
-                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
-                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px;"/>
-                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 2%;">
+                <p:tab title="#{facesContext.ELContext.locale eq 'pl' ? item[0].nazwaewidencji.nazwa : item[0].nazwaewidencji.de}">
+                <p:commandButton value="Drukuj data" icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencje(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Drukuj wart." icon="ui-icon-print" actionListener="#{ewidencjaVatView.drukujPdfEwidencjeWartosc(item[0].nazwaewidencji)}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px;"/>
+                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 2%;">
                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                 </p:commandButton>
                 <p:separator/>
                     <p:dataTable value="#{item}" var="itemik" style="width: 1150px; margin-bottom: 30px;">
                         <f:facet name="header">  
-                            <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji}" />  
+                            <h:outputText value="Ewidencja VAT  #{item[0].nazwaewidencji.nazwa}" />  
                         </f:facet>
                         <p:column headerText="id" style="width: 40px;" sortBy="#{itemik.id}">
                             <h:outputText value="#{itemik.id}" rendered="#{itemik.id eq '9999' ? false : true}"/>
