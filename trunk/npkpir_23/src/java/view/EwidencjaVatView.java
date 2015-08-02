@@ -340,7 +340,7 @@ public class EwidencjaVatView implements Serializable {
         for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
             ArrayList<EVatViewPola> listatmp = new ArrayList<>();
             //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
-            String nazwaewidencji = wierszogolny.getNazwaewidencji();
+            String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
             try {
                 Collection c = listaewidencji.get(nazwaewidencji);
                 listatmp.addAll(c);
@@ -382,7 +382,7 @@ public class EwidencjaVatView implements Serializable {
                         String nr = zaksiegowanafaktura.getTypdokumentu()+"/"+zaksiegowanafaktura.getIdDok()+"/"+zaksiegowanafaktura.getPkpirR();
                         wiersz.setNrKolejny(nr);
                         wiersz.setNrWlDk(zaksiegowanafaktura.getNrWlDk());
-                        wiersz.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
+                        wiersz.setNazwaewidencji(ewidwiersz.getEwidencja());
                         wiersz.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
                         wiersz.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
                         wiersz.setNetto(ewidwiersz.getNetto());
@@ -420,7 +420,7 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
                 }
                 eVatViewPole.setId(k++);
-                eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja().getNazwa());
+                eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja());
                 eVatViewPole.setNrpolanetto(ewidwiersz.getEwidencja().getNrpolanetto());
                 eVatViewPole.setNrpolavat(ewidwiersz.getEwidencja().getNrpolavat());
                 eVatViewPole.setNetto(ewidwiersz.getNetto());
@@ -484,7 +484,7 @@ public class EwidencjaVatView implements Serializable {
             wiersz.setKontr(null);
             wiersz.setNrWlDk("");
             wiersz.setOpis("podsumowanie");
-            wiersz.setNazwaewidencji("");
+            wiersz.setNazwaewidencji(null);
             wiersz.setNrpolanetto("");
             wiersz.setNrpolavat("");
             wiersz.setNetto(sumaewidencji.get(p).getNetto().doubleValue());

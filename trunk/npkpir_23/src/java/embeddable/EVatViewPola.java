@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.Evewidencja;
 import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -56,7 +59,9 @@ public class EVatViewPola implements Serializable{
     private double vat;
     private String opizw;
     private String innymc;
-    private String nazwaewidencji;
+    @OneToOne
+    @JoinColumn(name = "nazwaewidencji", referencedColumnName = "nazwa")
+    private Evewidencja nazwaewidencji;
     private String nrpolanetto;
     private String nrpolavat;
 
@@ -138,13 +143,14 @@ public class EVatViewPola implements Serializable{
         this.opizw = opizw;
     }
 
-    public String getNazwaewidencji() {
+    public Evewidencja getNazwaewidencji() {
         return nazwaewidencji;
     }
 
-    public void setNazwaewidencji(String nazwaewidencji) {
+    public void setNazwaewidencji(Evewidencja nazwaewidencji) {
         this.nazwaewidencji = nazwaewidencji;
     }
+
 
     public String getNrpolanetto() {
         return nrpolanetto;

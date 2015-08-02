@@ -20,7 +20,7 @@
                 <p:tabView id="akorderonbis" style="max-width: 1300px; margin-top: -10px;" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? true : false}">
 
                     <c:forEach  items="#{ewidencjaVatView.listaewidencji.values()}"  var="item" varStatus="numer">
-                        <p:tab  title="#{item[0].nazwaewidencji}">
+                        <p:tab  title="#{item[0].nazwaewidencji.nazwa}">
                             <p:panelGrid columns="5">
                                 <h:outputText value="suma wybranych: "/>
                                 <p:panel id="sumka#{numer.index}"  style="width: 400px;">
@@ -34,8 +34,8 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:panel>
-                                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')"  style="width: 120px; margin-left: 200px;"/>
-                                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji}')" 
+                                <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')"  style="width: 120px; margin-left: 200px;"/>
+                                <p:commandButton value="Wyślij" icon="ui-icon-mail-closed" onclick="PF('confirmation').show();" actionListener="#{sesjaView.dodajmail()}" onsuccess="wydrukewidencje('#{WpisView.podatnikWpisu}','#{item[0].nazwaewidencji.nazwa}')" 
                                                  style="width: 120px; margin-left: 10px;">
                                     <f:ajax event="click" listener="#{ewidencjaVatView.ustawNazwaewidencji((item[0].nazwaewidencji))}"/>
                                 </p:commandButton>    
