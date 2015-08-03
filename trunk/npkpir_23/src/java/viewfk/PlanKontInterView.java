@@ -9,6 +9,7 @@ import daoFK.KontoDAOfk;
 import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -61,9 +62,17 @@ public class PlanKontInterView implements Serializable {
     }
      
      public void implementuj() {
-         for (Konto r : wykazkont) {
-                 r.setDe(null);
-                 kontoDAOfk.edit(r);
+         List<String> numery = new ArrayList<>();
+         numery.add("201");
+         numery.add("202");
+         numery.add("203");
+         numery.add("204");
+         List<Konto> slowniki = kontoDAOfk.findWszystkieKontaPodatnikaTylkoSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+         for (Konto r : slowniki) {
+            if (numery.contains(r.getSyntetycznenumer())) {
+                r.setDe(r.getNazwapelna());
+                kontoDAOfk.edit(r);
+            }
          }
          for (Konto p : wykazkontwzor) {
              for (Konto r : wykazkont) {

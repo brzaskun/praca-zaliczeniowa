@@ -12,22 +12,18 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import session.SessionFacade;
 import view.WpisView;
 
@@ -46,6 +42,7 @@ import view.WpisView;
     @NamedQuery(name = "Konto.findWzorcoweBilansowe", query = "SELECT k FROM Konto k WHERE k.podatnik = 'Wzorcowy' AND k.rok = :rok AND k.bilansowewynikowe = 'bilansowe'"),
     @NamedQuery(name = "Konto.findByPodatnik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBezSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe = '0'"),
+    @NamedQuery(name = "Konto.findByPodatnikTylkoSlownik", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.slownikowe != '0'"),
     @NamedQuery(name = "Konto.findByPodatnikKliencifk", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok AND k.nazwapelna = :nazwa AND k.nazwaskrocona = :nip"),
     @NamedQuery(name = "Konto.findByMaxLevelPodatnik", query = "SELECT MAX(k.level) FROM Konto k WHERE k.podatnik = :podatnik  AND k.rok = :rok"),
     @NamedQuery(name = "Konto.findByPodatnikBez0", query = "SELECT k FROM Konto k WHERE k.podatnik = :podatnik AND k.nrkonta != '0' AND k.rok = :rok"),
