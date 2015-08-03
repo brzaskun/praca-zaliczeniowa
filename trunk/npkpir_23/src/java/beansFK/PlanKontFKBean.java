@@ -188,6 +188,7 @@ public class PlanKontFKBean {
             for (Kliencifk p : listaprzyporzadkowanychklientow) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p.getNazwa());
+                nowekonto.setDe(p.getNazwa());
                 nowekonto.setNazwaskrocona(p.getNip());
                 nowekonto.setSlownikowe(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
@@ -208,6 +209,7 @@ public class PlanKontFKBean {
             for (MiejsceKosztow p : listamiejsckosztow) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p.getOpismiejsca());
+                nowekonto.setDe(p.getOpismiejsca());
                 nowekonto.setNazwaskrocona(p.getOpisskrocony());
                 nowekonto.setSlownikowe(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
@@ -230,6 +232,7 @@ public class PlanKontFKBean {
             for (Pojazdy p : listapojazdy) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p.getNrrejestracyjny());
+                nowekonto.setDe(p.getNrrejestracyjny());
                 nowekonto.setNazwaskrocona(p.getNazwapojazdu());
                 nowekonto.setSlownikowe(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
@@ -254,6 +257,7 @@ public class PlanKontFKBean {
             for (String p : listamiesiace) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p);
+                nowekonto.setDe(Mce.getMce_pl_de().get(p));
                 nowekonto.setNazwaskrocona(p);
                 nowekonto.setSlownikowe(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(i++), wpisView);
@@ -273,6 +277,7 @@ public class PlanKontFKBean {
             for (Delegacja p : listadelegacje) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(p.getOpisdlugi());
+                nowekonto.setDe(p.getOpisdlugi());
                 nowekonto.setNazwaskrocona(p.getOpiskrotki());
                 nowekonto.setSlownikowe(true);
                 int wynikdodania = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, p.getNrkonta(), wpisView);
@@ -325,6 +330,7 @@ public class PlanKontFKBean {
             for (Konto p : kontamacierzysteZeSlownikiem) {
                 Konto nowekonto = new Konto();
                 nowekonto.setNazwapelna(kliencifk.getNazwa());
+                nowekonto.setDe(kliencifk.getNazwa());
                 nowekonto.setNazwaskrocona(kliencifk.getNip());
                 nowekonto.setSlownikowe(true);
                 nowekonto.setBlokada(true);

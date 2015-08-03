@@ -33,6 +33,7 @@ public class Mce implements Serializable{
     private static final Map<String, String> stringToNazwamiesiaca;
     private static final Map<String,Integer> miesiacToNumber;
     private static final Map<String,Integer> mapamcyCalendar;
+    private static final Map<String, String> mce_pl_de;
 
     static{
         mceList = new ArrayList<>();
@@ -148,6 +149,21 @@ public class Mce implements Serializable{
         mapamcyCalendar.put("10",Calendar.OCTOBER);
         mapamcyCalendar.put("11",Calendar.NOVEMBER);
         mapamcyCalendar.put("12",Calendar.DECEMBER);
+        
+        mce_pl_de = new HashMap<>();
+        mce_pl_de.put("styczeń","January");
+        mce_pl_de.put("luty", "February");
+        mce_pl_de.put("marzec", "März");
+        mce_pl_de.put("kwiecień", "April");
+        mce_pl_de.put("maj", "Mai");
+        mce_pl_de.put("czerwiec", "Juni");
+        mce_pl_de.put("lipiec", "Juli");
+        mce_pl_de.put("sierpień", "August");
+        mce_pl_de.put("wrzesień", "September");
+        mce_pl_de.put("październik", "Oktober");
+        mce_pl_de.put("listopad", "November");
+        mce_pl_de.put("grudzień", "Dezember");
+        
     }
     
     public static String[] zwiekszmiesiac(String rok, String miesiac) {
@@ -315,6 +331,10 @@ public class Mce implements Serializable{
 
     public static List<String> getMcenazwaListSlownik() {
         return mcenazwaListSlownik;
+    }
+
+    public static Map<String, String> getMce_pl_de() {
+        return mce_pl_de;
     }
 
     public static Map<String, String> getStringToNazwamiesiaca() {
