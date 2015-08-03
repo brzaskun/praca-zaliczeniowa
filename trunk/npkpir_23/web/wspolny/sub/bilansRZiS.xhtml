@@ -43,7 +43,8 @@
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                             <h:outputText value=" " /> 
-                            <h:outputText value="#{loop.nazwa}" /> 
+                            <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                         </p:column>
                          <p:column headerText="#{WpisView.miesiacWpisu}/#{WpisView.rokWpisuSt}">
                             <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
@@ -63,7 +64,8 @@
                                 <h:outputText value="#{loop.konto.pelnynumer}"/>
                             </p:column>
                             <p:column width="350">
-                                <h:outputText value="#{loop.konto.nazwapelna}"/>
+                                <h:outputText value="#{loop.konto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop.konto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
                             <p:column >
                                 <bcf:outputpl value="#{loop.kwota}" />
@@ -143,7 +145,8 @@
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
-                        <h:outputText value="#{loop.nazwa}" /> 
+                        <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                     </p:column>
                     <p:column>
                         <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
@@ -161,7 +164,8 @@
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
                         <h:outputText value=" " /> 
-                        <h:outputText value="#{loop.nazwa}" /> 
+                        <h:outputText value="#{loop.nazwa}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                     </p:column>
                     <p:column>
                         <h:outputText value="#{loop.kwota}" style="float: right; padding-right: 15%">
