@@ -23,7 +23,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
@@ -530,7 +532,9 @@ public class PdfVAT7 extends Pdf implements Serializable {
                 absText(writer, p.getNazwisko(), 210, 262);
                 absText(writer, "91 8120976", 80, 238);
                 try {
-                    absText(writer, l.getDatazlozenia().toString(), 210, 238);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+                    String date = sdf.format(l.getDatazlozenia()); 
+                    absText(writer, date, 210, 238);
                     absText(writer, l.getSporzadzil(), 400, 246);
                 } catch (Exception e) {
                 }
@@ -562,7 +566,9 @@ public class PdfVAT7 extends Pdf implements Serializable {
             absText(writer, p.getNazwisko(), 210, 166);
             absText(writer, "91 8120976", 80, 142);
             try {
-                absText(writer, l.getDatazlozenia().toString(), 210, 142);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+                String date = sdf.format(l.getDatazlozenia()); 
+                absText(writer, date, 210, 142);
                 absText(writer, l.getSporzadzil(), 400, 142);
             } catch (Exception e) {
             }
