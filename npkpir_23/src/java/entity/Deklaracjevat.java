@@ -8,6 +8,7 @@ import embeddable.EVatwpisSuma;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import javax.persistence.Basic;
@@ -21,7 +22,6 @@ import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -359,6 +359,12 @@ public class Deklaracjevat implements Serializable {
         return "Deklaracjevat{" + "deklaracja=" + deklaracja + '}';
     }
 
+    public static void main(String args[]) {
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+	String date = sdf.format(new Date()); 
+        System.out.println(date);
+    }
    
     
 }

@@ -21,6 +21,7 @@ import entity.Podatnik;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -246,7 +247,9 @@ public class PdfVAT7K {
                     absText(writer, "Data potwierdzenia ", 470, 800, 6);
                 }
                 try {
-                    absText(writer, l.getDataupo().toString(), 470, 790, 6);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+                    String date = sdf.format(l.getDataupo()); 
+                    absText(writer, date, 470, 790, 6);
                 } catch (Exception e) {
                 }
                 absText(writer, l.getOpis(), 440, 780, 6);
@@ -314,7 +317,9 @@ public class PdfVAT7K {
                 absText(writer, "Data potwierdzenia ", 470, 800, 6);
             }
             try {
-                absText(writer, l.getDataupo().toString(), 470, 790, 6);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+                String date = sdf.format(l.getDataupo()); 
+                absText(writer, date, 470, 790, 6);
             } catch (Exception e1) {
             }
             absText(writer, l.getOpis(), 440, 780, 6);
