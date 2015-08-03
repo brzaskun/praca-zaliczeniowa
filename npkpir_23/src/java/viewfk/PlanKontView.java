@@ -610,7 +610,7 @@ public class PlanKontView implements Serializable {
         }
     }
     
-     public void usunieciewszystkichKontWzorcowy() {
+    public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
             List<UkladBR> uklady = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
             for (UkladBR u : uklady) {
@@ -651,15 +651,16 @@ public class PlanKontView implements Serializable {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
 
-    public void usun() {
+    public void usun(String klientWzor) {
+        Konto dousuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
         String podatnik;
-        if (czyoddacdowzorca == true) {
+        if (klientWzor.equals("W")) {
             podatnik = "Wzorcowy";
         } else {
             podatnik = wpisView.getPodatnikWpisu();
         }
-        if (selectednodekonto != null) {
-            Konto kontoDoUsuniecia = selectednodekonto;
+        if (dousuniecia != null) {
+            Konto kontoDoUsuniecia = dousuniecia;
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
             } else if (kontoDoUsuniecia.isMapotomkow() == true && !kontoDoUsuniecia.getNrkonta().equals("0")) {
@@ -671,7 +672,7 @@ public class PlanKontView implements Serializable {
                         kontopozycjaZapisDAO.destroy(p);
                     }
                     kontoDAOfk.destroy(kontoDoUsuniecia);
-                    if (czyoddacdowzorca == true) {
+                    if (klientWzor.equals("W")) {
                         wykazkontwzor.remove(kontoDoUsuniecia);
                     } else {
                         wykazkont.remove(kontoDoUsuniecia);

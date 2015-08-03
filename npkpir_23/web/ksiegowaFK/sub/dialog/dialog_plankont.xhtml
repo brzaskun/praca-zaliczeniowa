@@ -21,7 +21,7 @@
                 <p:menuitem id="noweedycjanazwy" value="Edycja konta" icon="ui-icon-circle-plus" onclick="PF('dialogedycjanazwkonta').show();"  global="false"/>
                 <p:menuitem  value="Oznacz jako kosztowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoKosztowe()}" update=":form_dialog_plankont"/>
                 <p:menuitem  value="Oznacz jako przychodowe" icon="ui-icon-circle-plus" actionListener="#{planKontView.oznaczkontoJakoPrzychodowe()}" update=":form_dialog_plankont"/>
-                <p:menuitem value="Usuń" actionListener="#{planKontView.usun()}" icon="ui-icon-trash" update=":form_dialog_plankont"/>
+                <p:menuitem value="Usuń" actionListener="#{planKontView.usun('K')}" icon="ui-icon-trash" update=":form_dialog_plankont"/>
                 <p:separator/>
                 <p:menuitem value="Implem. konto z analityką" actionListener="#{planKontView.implementacjaJednegoKontadoWzorcowychZAnalitykom()}" icon="ui-icon-tag" update=":form_dialog_plankont" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
                 <p:menuitem value="Blokada" actionListener="#{planKontView.obslugaBlokadyKonta()}" icon="ui-icon-locked" update=":form_dialog_plankont"/>

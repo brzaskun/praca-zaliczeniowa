@@ -11,11 +11,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -39,9 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 //@Table(name = "wiersz")
-@Table(name = "wiersz", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
-})
+@Table(name = "wiersz")
+//, uniqueConstraints = {
+//    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
+//})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
