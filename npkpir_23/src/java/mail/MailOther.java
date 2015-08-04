@@ -74,7 +74,7 @@ public class MailOther implements Serializable{
          }
      }
     
-     public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa) {
+     public static void faktura(List<Faktura> fakturydomaila, WpisView wpisView, FakturaDAO fakturaDAO, String wiadomoscdodatkowa, String stopka) {
          Msg.msg("Rozpoczynam wysylanie maila z fakturą. Czekaj na wiadomość końcową");
          int i = 0;
          for (Faktura faktura : fakturydomaila){
@@ -82,7 +82,7 @@ public class MailOther implements Serializable{
                  
                  Klienci klientf = faktura.getKontrahent();
                  MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView);
-                 message.setSubject("Wydruk faktury VAT - Biuro Rachunkowe Taxman","UTF-8");
+                 message.setSubject("Wydruk faktury VAT - "+faktura.getFakturaPK().getWystawcanazwa(),"UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
                  mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
@@ -92,7 +92,7 @@ public class MailOther implements Serializable{
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
                      + "<p>"+wiadomoscdodatkowa+"</p>"
                      + Mail.reklama
-                     + Mail.stopka,  "text/html; charset=utf-8");
+                     + stopka,  "text/html; charset=utf-8");
              
                  // create the second message part
                  MimeBodyPart mbp2 = new MimeBodyPart();

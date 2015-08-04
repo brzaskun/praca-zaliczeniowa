@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Fakturadodelementy.findAll", query = "SELECT f FROM Fakturadodelementy f"),
     @NamedQuery(name = "Fakturadodelementy.findByPodatnik", query = "SELECT f FROM Fakturadodelementy f WHERE f.fakturadodelementyPK.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturadodelementy.findByNazwaelementu", query = "SELECT f FROM Fakturadodelementy f WHERE f.fakturadodelementyPK.nazwaelementu = :nazwaelementu"),
+    @NamedQuery(name = "Fakturadodelementy.findByNazwaelementuPodatnik", query = "SELECT f FROM Fakturadodelementy f WHERE f.fakturadodelementyPK.nazwaelementu = :nazwaelementu AND f.fakturadodelementyPK.podatnik = :podatnik"),
     @NamedQuery(name = "Fakturadodelementy.findByAktywny", query = "SELECT f FROM Fakturadodelementy f WHERE f.aktywny = :aktywny")})
 public class Fakturadodelementy implements Serializable {
     private static final long serialVersionUID = 1L;

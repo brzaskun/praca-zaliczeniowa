@@ -1,0 +1,23 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ck="http://code.google.com/ck-jsf-editor"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+      <p:tab id="stopka" title="Faktura mail stopka">
+           <h:form id="formmailstopka">
+                <p:panelGrid columns="2">
+                    <p:column>
+                        <ck:editor id="ckEd" value="#{fakturadodelementyView.mailfakturastopka}" width="1200" uiColor="#ffffff" height="450" widgetVar="formmailstopka_ckeditor"/>
+                        <p:commandButton value="Reset" onclick="formmailstopka_ckeditor.setContents('');
+                                return false;" style="padding: 10px; width: 120px;"/>
+                        <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajstopke}" style="padding: 10px; width: 120px;" >
+                            <f:ajax execute="ckEd"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+</ui:composition>   
+

@@ -11,6 +11,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import mail.Mail;
 import msg.Msg;
 
 /**
@@ -40,12 +42,14 @@ public class FakturadodelementyView implements Serializable {
         elementy.put("nagłówek", "Biuro Rachunkowe Taxman - program księgowy online");
         elementy.put("stopka", "Fakturę wygenerowano elektronicznie w autorskim programie księgowym Biura Rachunkowego Taxman. "
                 + "Dokument nie wymaga podpisu. Odbiorca dokumentu wyraził zgode na otrzymanie go w formie elektronicznej.");
+        elementy.put("mailstopka", Mail.getStopka());
     }
     private List<Fakturadodelementy> fakturadodelementy;
     @Inject
     private FakturadodelementyDAO fakturadodelementyDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private String mailfakturastopka;
 
     public FakturadodelementyView() {
     }
@@ -54,6 +58,7 @@ public class FakturadodelementyView implements Serializable {
     private void init() {
         try {
             fakturadodelementy = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
+            mailfakturastopka = Mail.getStopka();
             if (fakturadodelementy == null || fakturadodelementy.isEmpty()) {
                 fakturadodelementy = new ArrayList<>();
             }
@@ -64,6 +69,15 @@ public class FakturadodelementyView implements Serializable {
                 if (!fakturadodelementy.contains(f)) {
                     fakturadodelementyDAO.dodaj(f);
                     fakturadodelementy.add(f);
+                }
+            }
+            for (Iterator<Fakturadodelementy> it = fakturadodelementy.iterator(); it.hasNext();) {
+                Fakturadodelementy p = it.next();
+                if (p.getFakturadodelementyPK().getNazwaelementu().equals("mailstopka")) {
+                    if (p.getTrescelementu() != null || !p.getTrescelementu().equals("")) {
+                        mailfakturastopka = p.getTrescelementu();
+                        it.remove();
+                    }
                 }
             }
         } catch (Exception e) { E.e(e); 
@@ -101,6 +115,18 @@ public class FakturadodelementyView implements Serializable {
         }
         return "nie odnaleziono";
     }
+    
+    public void zachowajstopke() {
+        Fakturadodelementy f = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+        if (f != null) {
+            f.setTrescelementu(mailfakturastopka);
+            fakturadodelementyDAO.edit(f);
+        } else {
+            f = new Fakturadodelementy(wpisView.getPodatnikWpisu(), "mailstopka");
+            f.setTrescelementu(mailfakturastopka);
+            fakturadodelementyDAO.dodaj(f);
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Fakturadodelementy> getFakturadodelementy() {
@@ -110,7 +136,13 @@ public class FakturadodelementyView implements Serializable {
     public void setFakturadodelementy(List<Fakturadodelementy> fakturadodelementy) {
         this.fakturadodelementy = fakturadodelementy;
     }
+    public String getMailfakturastopka() {
+        return mailfakturastopka;
+    }
 
+    public void setMailfakturastopka(String mailfakturastopka) {
+        this.mailfakturastopka = mailfakturastopka;
+    }
     public WpisView getWpisView() {
         return wpisView;
     }

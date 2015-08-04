@@ -177,4 +177,18 @@ public class Mail {
                 });
         return session;
     }
+
+    public static String getStopka() {
+        return stopka;
+    }
+
+    public static String getReklama() {
+        return reklama;
+    }
+
+    public static String getFake() {
+        return fake;
+    }
+    
+    
 }
