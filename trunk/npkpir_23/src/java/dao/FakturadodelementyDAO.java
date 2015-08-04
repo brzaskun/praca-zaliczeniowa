@@ -41,6 +41,14 @@ public class FakturadodelementyDAO extends DAO implements Serializable {
             return null;
         }
    }
+    
+    public  Fakturadodelementy findFaktStopkaPodatnik(String podatnik){
+        try {
+            return fakturadodelementyFacade.findFaktStopkaPodatnik(podatnik);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
    
    
 }

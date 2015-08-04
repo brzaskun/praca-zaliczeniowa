@@ -14,6 +14,7 @@ import comparator.Fakturyokresowecomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import dao.FakturadodelementyDAO;
 import dao.FakturywystokresoweDAO;
 import dao.KlienciDAO;
 import dao.PodatnikDAO;
@@ -103,6 +104,8 @@ public class FakturaView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private FakturywystokresoweDAO fakturywystokresoweDAO;
+    @Inject
+    private FakturadodelementyDAO fakturadodelementyDAO;
     //faktury z bazy danych
     private List<Faktura> faktury;
     //faktury z bazy danych przefiltrowane
@@ -150,6 +153,7 @@ public class FakturaView implements Serializable {
     private AutoComplete kontrahentstworz;
     @Inject
     private ListaEwidencjiVat listaEwidencjiVat;
+    
    
     
 
@@ -1157,7 +1161,8 @@ public class FakturaView implements Serializable {
     public void mailfaktura() {
         try {
             pdfFaktura.drukujmail(gosciwybral, wpisView);
-            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa);
+            String stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka);
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
             System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());
@@ -1334,6 +1339,8 @@ public class FakturaView implements Serializable {
         Msg.msg("Przenumerowałem faktury");
     }
     
+    
+    
 //    public void naprawCarrefour() {
 //        Klienci k = klienciDAO.findKlientById(4994);
 //        for (Faktura f : gosciwybral) {
@@ -1358,6 +1365,8 @@ public class FakturaView implements Serializable {
     public boolean isFakturaxxl() {
         return fakturaxxl;
     }
+
+    
 
     public void setFakturaxxl(boolean fakturaxxl) {
         this.fakturaxxl = fakturaxxl;

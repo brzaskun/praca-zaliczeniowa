@@ -203,6 +203,8 @@ public class Faktura implements Serializable {
     private String nazwa;
     @Column(nullable = true)
     private Integer idfakturaokresowa;
+    @Column(name = "stopka")
+    private String stopka;
 
     public Faktura() {
     }
@@ -288,6 +290,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public String getStopka() {
+        return stopka;
+    }
+
+    public void setStopka(String stopka) {
+        this.stopka = stopka;
     }
 
     public Integer getIdfakturaokresowa() {

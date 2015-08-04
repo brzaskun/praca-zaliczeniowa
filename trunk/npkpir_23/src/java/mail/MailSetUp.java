@@ -106,7 +106,7 @@ public class MailSetUp implements Serializable{
                 });
         MimeMessage message = new MimeMessage(session);
         try {
-            message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
+            message.setFrom(new InternetAddress("info@e-taxman.pl", wpisView.getPodatnikWpisu()));
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {
