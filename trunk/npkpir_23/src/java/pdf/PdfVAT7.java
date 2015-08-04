@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
 import dao.PodatnikDAO;
+import data.Data;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
@@ -532,9 +533,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
                 absText(writer, p.getNazwisko(), 210, 262);
                 absText(writer, "91 8120976", 80, 238);
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-                    String date = sdf.format(l.getDatazlozenia()); 
-                    absText(writer, date, 210, 238);
+                    absText(writer, Data.data_ddMMMMyyyy(l.getDatazlozenia()), 210, 238);
                     absText(writer, l.getSporzadzil(), 400, 246);
                 } catch (Exception e) {
                 }
@@ -566,9 +565,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
             absText(writer, p.getNazwisko(), 210, 166);
             absText(writer, "91 8120976", 80, 142);
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-                String date = sdf.format(l.getDatazlozenia()); 
-                absText(writer, date, 210, 142);
+                absText(writer, Data.data_ddMMMMyyyy(l.getDatazlozenia()), 210, 142);
                 absText(writer, l.getSporzadzil(), 400, 142);
             } catch (Exception e) {
             }

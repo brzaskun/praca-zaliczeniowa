@@ -4,10 +4,12 @@
  */
 package mail;
 
+import data.Data;
 import entity.Pismoadmin;
 import entity.Uz;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,12 +54,12 @@ public class MailAdmin implements Serializable {
         try {
              MailSetUp mailSetUp = new MailSetUp();
              MimeMessage message = mailSetUp.logintoMail(wpisView);
-             message.setSubject("Wydruk deklaracji PIT za miesiąc","UTF-8");
+             message.setSubject("Taxman - Informacja o rozwiązaniu problemu","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();
              mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
              mbp1.setContent("Witaj "+p.getNadawca()
-                     + "<p>"+"Informujemy, że twoje zgłoszenie z dnia "+p.getDatawiadomosci()
+                     + "<p>"+"Informujemy, że twoje zgłoszenie z dnia "+Data.data_ddMMMMyyyy(p.getDatawiadomosci())
                      + "o treści:</p>"
                      + "<p style=\"color: green;\">"+p.getTresc()+"</p>"
                      + "<p>zostało załatwione pozytywnie przed admina.</p>"
