@@ -14,6 +14,7 @@ import com.itextpdf.text.pdf.PdfCopy;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import com.itextpdf.text.pdf.PdfWriter;
+import data.Data;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Vatpoz;
 import entity.Deklaracjevat;
@@ -247,9 +248,7 @@ public class PdfVAT7K {
                     absText(writer, "Data potwierdzenia ", 470, 800, 6);
                 }
                 try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-                    String date = sdf.format(l.getDataupo()); 
-                    absText(writer, date, 470, 790, 6);
+                    absText(writer, Data.data_ddMMMMyyyy(l.getDataupo()), 470, 790, 6);
                 } catch (Exception e) {
                 }
                 absText(writer, l.getOpis(), 440, 780, 6);
@@ -317,9 +316,7 @@ public class PdfVAT7K {
                 absText(writer, "Data potwierdzenia ", 470, 800, 6);
             }
             try {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
-                String date = sdf.format(l.getDataupo()); 
-                absText(writer, date, 470, 790, 6);
+                absText(writer, Data.data_ddMMMMyyyy(l.getDataupo()), 470, 790, 6);
             } catch (Exception e1) {
             }
             absText(writer, l.getOpis(), 440, 780, 6);

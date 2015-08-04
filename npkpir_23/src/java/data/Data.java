@@ -6,7 +6,9 @@ package data;
 
 import embeddable.Mce;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 import org.joda.time.DateTime;
@@ -156,5 +158,10 @@ public class Data implements Serializable {
             poprzedniOkres[1] = rok;
         }
         return poprzedniOkres;
+    }
+    
+    public static String data_ddMMMMyyyy(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy HH:mm:ss");
+	return sdf.format(new Date()); 
     }
 }
