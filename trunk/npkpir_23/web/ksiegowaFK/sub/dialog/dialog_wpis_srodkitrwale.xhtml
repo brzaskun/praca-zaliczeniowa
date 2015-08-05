@@ -13,7 +13,7 @@
             width: 300px;
         }
     </style>
-    <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
+    <p:dialog id="dialogwpissrodkitrwale" header="Wpisywanie nowego środka trwałego dla dok #{srodkiTrwaleView.dokfk.dokfkSN}" widgetVar="dialogwpissrodkitrwale"  modal="true" appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialogwpissrodkitrwale','dialogtrzeci',1000,300);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpissrodkitrwale');" >
         <h:form id="srodkiwpis"> 
@@ -86,15 +86,16 @@
             </p:panel>
         <p:panelGrid columns="4" style="padding: 5px; margin-left: 5px;">
             <h:outputText value="konto środka"/>
-            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 200px;" converter="KontoConv">
+            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;" converter="KontoConv">
                 <f:selectItems value="#{kontoView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
             </p:selectOneMenu>
             <h:outputText value="konto umorzeń"/>
-            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 200px;" converter="KontoConv">
+            <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;" converter="KontoConv">
                 <f:selectItems value="#{kontoView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
             </p:selectOneMenu>
         </p:panelGrid>
             <p:commandButton value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('confirm1').show();"/>
+            <p:commandButton value="zamknij" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('dialogwpissrodkitrwale').hide();"/>
         </h:form>
     </p:dialog>
 </ui:composition>

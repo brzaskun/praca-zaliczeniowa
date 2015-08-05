@@ -61,9 +61,9 @@ public class SrodkiTrwaleView implements Serializable {
         Msg.msg("Dodaje srodek");
     }
     
-    public void dodajSrodekTrwalyDokfk(Dokfk wybranydok) {
+    public void dodajSrodekTrwalyDokfk(List<Dokfk> wybranydok) {
         try {
-            this.dokfk = wybranydok;
+            this.dokfk = wybranydok.get(0);
         } catch (Exception e) { E.e(e); 
         }
     }
@@ -224,6 +224,14 @@ public class SrodkiTrwaleView implements Serializable {
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public Dokfk getDokfk() {
+        return dokfk;
+    }
+
+    public void setDokfk(Dokfk dokfk) {
+        this.dokfk = dokfk;
     }
     
     

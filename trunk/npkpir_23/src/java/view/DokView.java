@@ -123,6 +123,8 @@ public final class DokView implements Serializable {
     private KlView klView;
     @ManagedProperty(value = "#{srodkiTrwaleView}")
     private SrodkiTrwaleView sTRView;
+    @ManagedProperty(value = "#{STRTableView}")
+    private STRTabView sTRTableView;
     @ManagedProperty(value = "#{DokTabView}")
     private DokTabView dokTabView;
     @Inject
@@ -599,6 +601,7 @@ public final class DokView implements Serializable {
 
     private void renderujtabele(Rodzajedok rodzajdok) {
         if (rodzajdok.getRodzajedokPK().getSkrotNazwyDok().equals("OTS")) {
+            sTRTableView.init();
             setPokazEST(true);
         } else {
             setPokazEST(false);
@@ -1598,6 +1601,14 @@ public final class DokView implements Serializable {
 
     public void setDokTabView(DokTabView dokTabView) {
         this.dokTabView = dokTabView;
+    }
+
+    public STRTabView getsTRTableView() {
+        return sTRTableView;
+    }
+
+    public void setsTRTableView(STRTabView sTRTableView) {
+        this.sTRTableView = sTRTableView;
     }
 
     //<editor-fold defaultstate="collapsed" desc="comment">

@@ -75,6 +75,12 @@
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNode}" />
                         <p:ajax event="rowUnselect" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
                                 listener="#{kontoObrotyFKView.pobierzZapisyNaKoncieNodeUnselect}" />
+                        <p:column width="0.1">
+                            <h:outputText value="#{loop1.level}" style="font-size: 0.1pt;"/>
+                        </p:column>
+                        <p:column  style="width: 50px; text-align: center;" width="10">
+                            <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
+                        </p:column>
                         <p:column headerText="nr konta" styleClass="#{loop.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
                                 <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
                                 <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 

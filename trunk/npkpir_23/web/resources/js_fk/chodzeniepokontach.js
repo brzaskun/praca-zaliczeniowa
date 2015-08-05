@@ -201,7 +201,11 @@ var zaznacznoda = function(tabela, tabela1, inputpole) {
             wartosc = wartosc.trim().split(" ");
             var wiersze = $(document.getElementById(tabela)).children("tr");
             var node = znajdzwierszzkontonumer(wiersze, wartosc[0]);
-            ($(node).children("td"))[1].click();
+            var komorki = $(node).children("td");
+            var przesun = isScrolledIntoView(komorki[1]);
+            var elem = document.getElementById(tabela1);
+            elem.scrollTop = elem.scrollTop + przesun +800;
+            $(node).children("td")[1].click();
             MYAPP.obiekt = node;
             przejdzwierszNode(tabela, tabela1, node);
             document.getElementById(inputpole).value = "";
