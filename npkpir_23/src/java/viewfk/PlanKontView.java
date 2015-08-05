@@ -640,6 +640,9 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
+        for (Konto p : wykazkont) {
+            p.setKontopozycjaID(null);
+        }
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }

@@ -152,7 +152,7 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "zwyklerozrachszczegolne")
     private String zwyklerozrachszczegolne;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "kontoID")
     @JoinColumn(name = "kontopozycjaID",referencedColumnName = "idKP")
     private KontopozycjaBiezaca kontopozycjaID;
     @Basic(optional = false)
