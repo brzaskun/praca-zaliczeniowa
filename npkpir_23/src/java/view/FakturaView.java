@@ -33,6 +33,7 @@ import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.FakturaPK;
+import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
@@ -1161,8 +1162,8 @@ public class FakturaView implements Serializable {
     public void mailfaktura() {
         try {
             pdfFaktura.drukujmail(gosciwybral, wpisView);
-            String stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
-            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka);
+            Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+            MailOther.faktura(gosciwybral, wpisView, fakturaDAO, wiadomoscdodatkowa, stopka.getTrescelementu());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Błąd podczas wysyłki faktury "+e.getMessage());
             System.out.println("Błąd podczas wysyłki faktury "+e.getMessage());

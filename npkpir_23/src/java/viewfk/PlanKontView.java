@@ -224,7 +224,7 @@ public class PlanKontView implements Serializable {
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                            Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
                         }
-                        if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                        if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
                             PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
                         }
                 } catch (Exception e) {
