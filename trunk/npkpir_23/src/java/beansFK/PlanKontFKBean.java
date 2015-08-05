@@ -297,11 +297,14 @@ public class PlanKontFKBean {
      public static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
+            if (noweKonto.getPelnynumer().equals("034-1-1")){
+                System.out.println("d");
+            }
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
             if (kpo.getSyntetykaanalityka().equals("analityka")) {
                 Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
             }
-            if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+            if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
                 naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
@@ -316,7 +319,7 @@ public class PlanKontFKBean {
             if (kpo.getSyntetykaanalityka().equals("analityka")) {
                 Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
             }
-            if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+            if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
                 naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
@@ -668,17 +671,25 @@ public class PlanKontFKBean {
 
     
     public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja) {
-        KontopozycjaZapis kp = new KontopozycjaZapis();
-        kp.setPozycjaWn(kpo.getPozycjaWn());
-        kp.setPozycjaMa(kpo.getPozycjaMa());
-        kp.setStronaWn(kpo.getStronaWn());
-        kp.setStronaMa(kpo.getStronaMa());
-        kp.setSyntetykaanalityka(wersja);
-        kp.setKontoID(noweKonto);
-        kp.setUkladBR(kpo.getUkladBR());
-        kontopozycjaZapisDAO.edit(kp);
-        noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
-        kontoDAOfk.edit(noweKonto);
+        try {
+            KontopozycjaZapis kp = new KontopozycjaZapis();
+            kp.setPozycjaWn(kpo.getPozycjaWn());
+            kp.setPozycjaMa(kpo.getPozycjaMa());
+            kp.setStronaWn(kpo.getStronaWn());
+            kp.setStronaMa(kpo.getStronaMa());
+            kp.setSyntetykaanalityka(wersja);
+            kp.setKontoID(noweKonto);
+            kp.setUkladBR(kpo.getUkladBR());
+            kontopozycjaZapisDAO.edit(kp);
+        } catch (Exception e) {
+            E.e(e);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto);
+            if (kp != null) {
+                noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+                kontoDAOfk.edit(noweKonto);
+            }
+        }
+        
     }
 
     public static Konto wyszukajmacierzyste(WpisView wpisView, KontoDAOfk kontoDAOfk, String pelnynumer) {

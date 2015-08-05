@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(catalog = "pkpir", schema = "", uniqueConstraints = {
+@Table(name = "kontopozycjabiezaca", uniqueConstraints = {
         @UniqueConstraint(columnNames = "ukladBR, kontoID")
 })
 @XmlRootElement
@@ -159,7 +159,7 @@ public class KontopozycjaBiezaca extends KontopozycjaSuper implements Serializab
 
     @Override
     public String toString() {
-        return "KontopozycjaZapis{" + ", konto=" + kontoID + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
+        return "KontopozycjaBiezaca{" + ", konto=" + kontoID + "pozycjaWn=" + pozycjaWn + ", pozycjaMa=" + pozycjaMa + ", pozycjonowane=" + syntetykaanalityka + ", ukladBR=" + ukladBR + '}';
     }
     
     
