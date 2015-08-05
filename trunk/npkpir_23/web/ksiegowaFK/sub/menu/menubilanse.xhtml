@@ -6,15 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
     <p:tabView id="menubilanse" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">
-                <p:tab title="BO">
-                    <h:form id="dialog1menu1">
-                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();"></p:menuitem>
-                            <p:menuitem value="przegladaj konta Bilansu otwarcia" actionListener="#{bilansPodgladView.init()}" onclick="PF('bilansprzeglad').show();" update=":formbilans"></p:menuitem>
-                            <p:menuitem value="wprowadź Bilans otwarcia" onclick="PF('bilanswprowadzanie').show();"></p:menuitem>
-                        </p:menu>
-                    </h:form>
-                </p:tab>  
                 <p:tab title="#{mgs.Bilans}">
                     <h:form id="dialog1menu2">
                         <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
@@ -37,6 +28,15 @@
                         </p:menu>  
                     </h:form>
                 </p:tab>
+                <p:tab title="BO">
+                    <h:form id="dialog1menu1">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="przegladaj Bilans otwarcia" onclick="PF('dialog_bilansBO_wyliczenie').show();"></p:menuitem>
+                            <p:menuitem value="przegladaj konta Bilansu otwarcia" actionListener="#{bilansPodgladView.init()}" onclick="PF('bilansprzeglad').show();" update=":formbilans"></p:menuitem>
+                            <p:menuitem value="wprowadź Bilans otwarcia" onclick="PF('bilanswprowadzanie').show();"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
                 <p:tab title="Układ RZiS/Bilans" rendered="#{facesContext.externalContext.remoteUser eq '4'}">
                    <h:form id="dialog1menu5">
                        <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
