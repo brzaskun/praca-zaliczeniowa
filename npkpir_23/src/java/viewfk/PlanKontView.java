@@ -654,7 +654,7 @@ public class PlanKontView implements Serializable {
 
     public void usun(String klientWzor) {
         Konto dousuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
-        String podatnik;
+        String podatnik = null;
         if (klientWzor.equals("W")) {
             podatnik = "Wzorcowy";
         } else {
@@ -712,19 +712,24 @@ public class PlanKontView implements Serializable {
     }
 
     public void obslugaBlokadyKonta() {
-        if (selectednodekonto != null) {
-            Konto konto = selectednodekonto;
-            if (konto.isBlokada() == false) {
-                konto.setBlokada(true);
-                kontoDAOfk.edit(konto);
-                Msg.msg("w", "Zabezpieczono konto przed edycją.");
-            } else if (konto.getBoWn() == 0.0 && konto.getBoMa() == 0.0 && konto.isBlokada() == true) {
-                konto.setBlokada(false);
-                kontoDAOfk.edit(konto);
-                Msg.msg("w", "Odblokowano edycję konta.");
+        try {
+            if (selectednodekonto != null) {
+                Konto konto = selectednodekonto;
+                if (konto.isBlokada() == false) {
+                    konto.setBlokada(true);
+                    kontoDAOfk.edit(konto);
+                    Msg.msg("w", "Zabezpieczono konto przed edycją.");
+                } else if (konto.isBlokada() == true) {
+                    konto.setBlokada(false);
+                    kontoDAOfk.edit(konto);
+                    Msg.msg("w", "Odblokowano edycję konta.");
+                }
+            } else {
+                Msg.msg("f", "Nie wybrano konta", "formX:messages");
             }
-        } else {
-            Msg.msg("f", "Nie wybrano konta", "formX:messages");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Problem ze zdjęciem blokady");
         }
     }
 
