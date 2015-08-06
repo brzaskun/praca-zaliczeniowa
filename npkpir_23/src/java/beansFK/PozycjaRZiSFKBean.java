@@ -441,8 +441,8 @@ public class PozycjaRZiSFKBean {
                 r.setSaldoWn(r.getBoWn());
                 r.setSaldoMa(r.getBoMa());
             } else {
-                double sumaObrotyWnBO = r.getObrotyWn()+r.getBoWn();
-                double sumaObrotyMaBO = r.getObrotyMa()+r.getBoMa();
+                double sumaObrotyWnBO = r.getObrotyWn();
+                double sumaObrotyMaBO = r.getObrotyMa();
                 if (sumaObrotyWnBO == sumaObrotyMaBO) {
                     r.setSaldoWn(0.0);
                     r.setSaldoMa(0.0);
