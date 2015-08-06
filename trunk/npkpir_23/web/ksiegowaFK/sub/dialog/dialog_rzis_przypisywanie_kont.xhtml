@@ -23,7 +23,7 @@
                 <p:spacer width="40"/>
                 <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="fa fa-lock"/>
                 <p:spacer width="40"/>
-                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form:dataList, :form:dostepnekonta, :form:selected" icon="fa fa-sign-in"/>
+                <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form:dostepnekonta, :form:selected" icon="fa fa-sign-in"/>
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaView.drukujWynikKonta()}"/>
                 </p:column>

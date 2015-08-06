@@ -64,17 +64,17 @@
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:splitButton id="pnl" value="#{konto.pelnynumer} #{konto.nazwaskrocona}" global="false"
                                            actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropB(konto,'b')}" 
-                                           update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList"
+                                           update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"
                                            style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};" 
                                            rendered="#{konto.mapotomkow == true ? true : (konto.level != 0 ? true : false)}">
-                                <p:menuitem value="analityka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList" icon="ui-icon-arrowrefresh-1-w" 
+                                <p:menuitem value="analityka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.rozwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w" 
                                             rendered="#{konto.mapotomkow}"/>  
-                                <p:menuitem value="syntetyka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList" icon="ui-icon-arrowrefresh-1-w"/>  
+                                <p:menuitem value="syntetyka" global="false" actionListener="#{pozycjaBRKontaWzorcowyView.zwinrzadanalityki(konto)}"  update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane" icon="ui-icon-arrowrefresh-1-w"/>  
 
                             </p:splitButton>
                             <p:commandButton id="pn2" value="#{konto.pelnynumer} #{konto.nazwapelna}" 
                                              actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropB(konto,'b')}"  global="false"
-                                             update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList"
+                                             update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"
                                              style="color: #{konto.level eq 0 ? 'blue' : konto.level eq 1 ? 'green' : konto.level eq 2 ? 'red' : 'black'};"
                                              rendered="#{konto.mapotomkow == false ? (konto.level == 0 ? true : false) : null}">
                             </p:commandButton>
@@ -96,7 +96,7 @@
                         <p:column style="height: 30px; width: 80%" headerText="#{mgs.nazwakonta}">
                             <p:commandButton value="#{konto.pelnynumer} #{konto.nazwaskrocona}"  global="false"
                                              actionListener="#{pozycjaBRKontaWzorcowyView.onKontoRemoveB(konto,'b')}" 
-                                             update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList"/>
+                                             update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane"/>
                         </p:column>
                         <p:column headerText="Wn" style="text-align: center;">
                             <h:outputText value="#{konto.kontopozycjaID.pozycjaWn != null ? '&#x2713;' : ''}"/>
