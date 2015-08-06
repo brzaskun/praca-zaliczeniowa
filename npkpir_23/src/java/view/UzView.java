@@ -207,13 +207,11 @@ public class UzView implements Serializable {
                 sformatuj();
                 Mail.nadanoUprawniednia(selUzytkownik.getEmail(), selUzytkownik.getLogin(), nowy);
                 System.out.println("Nadano uprawnienia "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
-                FacesMessage msg = new FacesMessage("Nowy uzytkownik edytowany View", selUzytkownik.getLogin());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Msg.msg("Nowy uzytkownik edytowany: "+selUzytkownik.getLogin());
             } catch (Exception e) { 
                 E.e(e); 
                 System.out.println("Nie nadano uprawnien "+selUzytkownik.getEmail()+" "+selUzytkownik.getLogin()+" "+selUzytkownik.getUprawnienia());
-                FacesMessage msg = new FacesMessage("Uzytkownik nie zedytowany View", e.getStackTrace().toString());
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                Msg.msg("e", "Uzytkownik nie zedytowany View: "+selUzytkownik.getEmail());
             }
         }
     }

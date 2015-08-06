@@ -6,7 +6,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ck="http://code.google.com/ck-jsf-editor"
-        
+    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
     <p:tabView id="akordeon">
         <p:tab title="wprowadź treść">
@@ -14,12 +14,9 @@
                 <p:panelGrid columns="2">
                     <p:column>
                         <p:growl id="messages" autoUpdate="true"/>
-                        <ck:editor id="ckEd" value="#{adminMailView.zawartoscmaila}" width="1200" uiColor="#ffffff" height="600" />
-                        <p:commandButton value="Reset" onclick="eduardo.setContents('');
-                                return false;" style="padding: 10px; width: 120px;"/>
-                        <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="padding: 10px; width: 120px;" update=":akordeon:wysylanie:wprowadzonymail">
-                            <f:ajax execute="ckEd"/>
-                        </p:commandButton>
+                       <p:editor id="editor"  widgetVar="editorWidget" value="#{adminMailView.zawartoscmaila}" width="1200" height="600"/>
+                       <p:commandButton value="Save" actionListener="#{adminMailView.zachowajMaila}" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-disk"  update=":akordeon:wysylanie:wprowadzonymail"/>
+                       <p:commandButton value="Reset" type="button" onclick="PF('editorWidget').clear();" style="margin-left: 10px; width: 120px; margin-top: 10px;" icon="ui-icon-close"  update=":akordeon:wysylanie:wprowadzonymail"/>
                     </p:column>
                 </p:panelGrid>
             </h:form>
