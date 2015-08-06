@@ -223,8 +223,7 @@ public class PlanKontView implements Serializable {
                     KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                            Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-                        }
-                        if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
+                        } else {
                             PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
                         }
                 } catch (Exception e) {
@@ -261,8 +260,7 @@ public class PlanKontView implements Serializable {
                         KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste);
                         if (kpo.getSyntetykaanalityka().equals("analityka")) {
                            Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-                        }
-                        if (kpo.getSyntetykaanalityka().equals("zwykłe")) {
+                        } else {
                             PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
                         }
                     } catch (Exception e) {

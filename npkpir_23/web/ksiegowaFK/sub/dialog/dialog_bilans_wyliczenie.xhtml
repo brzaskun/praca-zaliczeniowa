@@ -30,11 +30,17 @@
                     }
             </script>
              <p:panelGrid columns="6">
-                <p:panelGrid columns="3">
+                <p:panelGrid columns="4">
                     <h:outputText value="#{mgs.nazwaukładu}"/>
                     <p:selectOneMenu value="#{pozycjaBRView.uklad}" converter="UkladBRConv">
                         <f:selectItems value="#{ukladBRView.lista}" var="loop" itemLabel="#{loop.uklad} - #{loop.rok}" itemValue="#{String.valueOf(loop.lp)}"/>
                     </p:selectOneMenu>
+                    <p:column>
+                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                        <p:ajax event="change" listener="#{pozycjaBRView.odswiezbilansdwiestrony()}" update=":formprzegladbilans" />
+                        <f:selectItems value="#{Mce.mceList}"/>
+                    </p:selectOneMenu>
+                    </p:column>
                     <p:commandButton value="#{mgs.wybierzmcrok}" style="width: 120px;" type="submit" actionListener="#{pozycjaBRView.pobierzukladprzegladBilans()}" update=":formprzegladbilans"/>
                 </p:panelGrid>
                  <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{pozycjaBRView.rozwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
