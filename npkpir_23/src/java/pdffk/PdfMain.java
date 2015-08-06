@@ -44,9 +44,11 @@ import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.faces.context.FacesContext;
 import msg.B;
 import testobjects.WierszCecha;
 import testobjects.WierszDokfk;
@@ -662,6 +664,8 @@ public class PdfMain {
     
 
     private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
+        Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        String l = locale.getLanguage();
         NumberFormat currency = getCurrencyFormater();
         NumberFormat number = getNumberFormater();
         int i = 1;
@@ -700,9 +704,17 @@ public class PdfMain {
                     }
                 }
                 if (p.getLevel() == 0) {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                    if (l.equals("pl")) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                    }
                 } else {
-                    table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                    if (l.equals("pl")) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                    }
                 }
                 if (modyfikator != 2) {
                     if (p.getKwota() != 0.0) {
@@ -735,11 +747,23 @@ public class PdfMain {
                     pozycja.append(p.getPozycjaSymbol());
                     table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 7));
                     if (p.getLevel() == 0) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                        if (l.equals("pl")) {
+                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                        } else {
+                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                        }
                     } else if (p.getLevel() == 1) {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                        if (l.equals("pl")) {
+                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                        } else {
+                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                        }
                     } else {
-                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                        if (l.equals("pl")) {    
+                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                        } else {
+                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                        }
                     }
                     if (p.getKwota() != 0.0) {
                         if (p.getLevel() == 0) {
