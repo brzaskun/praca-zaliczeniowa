@@ -6,18 +6,17 @@
     xmlns:ck="http://code.google.com/ck-jsf-editor"
     xmlns:ui="http://java.sun.com/jsf/facelets">
       <p:tab id="stopka" title="Faktura mail stopka">
-           <h:form id="formmailstopka">
+<!--           <h:form id="formmailstopka">
                 <p:panelGrid columns="2">
                     <p:column>
-                        <ck:editor id="ckEd" value="#{fakturadodelementyView.mailfakturastopka}" width="1200" uiColor="#ffffff" height="450" widgetVar="formmailstopka_ckeditor"/>
-                        <p:commandButton value="Reset" onclick="formmailstopka_ckeditor.setContents('');
+                        <ck:editor id="ckEd" value="#{fakturadodelementyView.mailfakturastopka}" width="1200" uiColor="#ffffff" height="450" widgetVar="editor"/>
+                        <p:commandButton value="Reset" onclick="editor.setContents('');
                                 return false;" style="padding: 10px; width: 120px;"/>
                         <p:commandButton value="Zachowaj" actionListener="#{fakturadodelementyView.zachowajstopke}" style="padding: 10px; width: 120px;" >
-                            <f:ajax execute="ckEd"/>
                         </p:commandButton>
                     </p:column>
                 </p:panelGrid>
-            </h:form>
+            </h:form>-->
         </p:tab>
 </ui:composition>   
 

@@ -79,7 +79,8 @@
                                 <h:outputText value="#{loop1.pelnynumer}" /> 
                             </p:column>
                             <p:column headerText="nazwa pełna" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
-                                <h:outputText value="#{loop1.nazwapelna}"/> 
+                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
                         </p:treeTable>
                     </p:panelGrid>>
@@ -108,16 +109,16 @@
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
                         </p:column>
-                        <p:column headerText="dok." width="40" >
+                        <p:column headerText="#{mgs.dokument}." width="40" >
                             <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
-                        <p:column headerText="nr własny dok" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
+                        <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
                             <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk}"/>
                         </p:column>
-                        <p:column headerText="kwota pierwotna" width="70">
+                        <p:column headerText="#{mgs.kwota}" width="70">
                             <h:outputText value="#{loop.kwota}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
