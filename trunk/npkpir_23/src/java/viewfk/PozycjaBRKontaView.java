@@ -1138,9 +1138,19 @@ public class PozycjaBRKontaView implements Serializable {
 
     private void wyczyscKonta(String rb) {
         if (rb.equals("wynikowe")) {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
+            List<Konto> listakont = kontoDAO.findWszystkieKontaWynikowePodatnika(wpisView);
+            for (Konto p : listakont) {
+                p.setKontopozycjaID(null);
+            }
+            kontoDAO.editList(listakont);
+            //kontoDAO.wyzerujPozycjeWKontach(wpisView,"wynikowe");
         } else {
-            kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
+            List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
+            for (Konto p : listakont) {
+                p.setKontopozycjaID(null);
+            }
+            kontoDAO.editList(listakont);
+            //kontoDAO.wyzerujPozycjeWKontach(wpisView,"bilansowe");
         }
     }
     

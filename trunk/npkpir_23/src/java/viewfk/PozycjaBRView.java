@@ -729,6 +729,11 @@ public class PozycjaBRView implements Serializable {
         pobierzukladprzegladBilans("aktywa");
     }
     
+    public void odswiezbilansdwiestrony() {
+        wpisView.wpisAktualizuj();
+        pobierzukladprzegladBilans();
+    }
+    
     public void drukujRZiS() {
         PdfRZiS.drukujRZiS(rootProjektRZiS, wpisView);
     }

@@ -49,14 +49,14 @@ public class KontaFKBean implements Serializable{
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
-                    PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAO, kontopozycjaZapisDAO);
                 } catch (PersistenceException e) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+p.getPelnynumer());
                 } catch (Exception ef) {
                     Msg.msg("e","Wystąpił błąd przy edycji konta. "+ef.getMessage()+" Nie wyedytowanododano: "+p.getPelnynumer());
                 }
                
-            } 
+            }
+            PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAO, kontopozycjaZapisDAO);
         }
     }
     

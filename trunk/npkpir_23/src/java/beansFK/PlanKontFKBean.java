@@ -297,14 +297,18 @@ public class PlanKontFKBean {
      public static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
-            if (noweKonto.getPelnynumer().equals("034-1-1")){
+            if (noweKonto.getPelnynumer().equals("202-1-0")){
                 System.out.println("d");
             }
-            KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
-            if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
+            KontopozycjaZapis kpo = null;
+            if (macierzyste != null) {
+                kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
+            } else {
+                kpo = kontopozycjaZapisDAO.findByKonto(noweKonto);
             }
-            if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
+            if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "analityka");
+            } else {
                 naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
@@ -318,8 +322,7 @@ public class PlanKontFKBean {
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
             if (kpo.getSyntetykaanalityka().equals("analityka")) {
                 Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-            }
-            if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
+            } else {
                 naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
             }
         } catch (Exception e) {
@@ -529,8 +532,7 @@ public class PlanKontFKBean {
                     KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(p);
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
                         Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
-                    }
-                    if (kpo.getSyntetykaanalityka().equals("zwykłe") || kpo.getSyntetykaanalityka().equals("syntetyka")) {
+                    } else {
                         PlanKontFKBean.naniesPrzyporzadkowanie(kpo, nowekonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
                     }
                 } catch (Exception e) {
@@ -672,15 +674,30 @@ public class PlanKontFKBean {
     
     public static void naniesPrzyporzadkowanie(KontopozycjaZapis kpo, Konto noweKonto, KontopozycjaZapisDAO kontopozycjaZapisDAO, KontoDAOfk kontoDAOfk, String wersja) {
         try {
-            KontopozycjaZapis kp = new KontopozycjaZapis();
-            kp.setPozycjaWn(kpo.getPozycjaWn());
-            kp.setPozycjaMa(kpo.getPozycjaMa());
-            kp.setStronaWn(kpo.getStronaWn());
-            kp.setStronaMa(kpo.getStronaMa());
-            kp.setSyntetykaanalityka(wersja);
-            kp.setKontoID(noweKonto);
-            kp.setUkladBR(kpo.getUkladBR());
-            kontopozycjaZapisDAO.edit(kp);
+            KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto);
+            if (kp == null) {
+                kp = new KontopozycjaZapis();
+                kp.setPozycjaWn(kpo.getPozycjaWn());
+                kp.setPozycjaMa(kpo.getPozycjaMa());
+                kp.setStronaWn(kpo.getStronaWn());
+                kp.setStronaMa(kpo.getStronaMa());
+                kp.setSyntetykaanalityka(wersja);
+                kp.setKontoID(noweKonto);
+                kp.setUkladBR(kpo.getUkladBR());
+                kontopozycjaZapisDAO.edit(kp);
+                noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+                kontoDAOfk.edit(noweKonto);
+            } else {
+                kp.setPozycjaWn(kpo.getPozycjaWn());
+                kp.setPozycjaMa(kpo.getPozycjaMa());
+                kp.setStronaWn(kpo.getStronaWn());
+                kp.setStronaMa(kpo.getStronaMa());
+                kp.setSyntetykaanalityka(wersja);
+                kp.setUkladBR(kpo.getUkladBR());
+                kontopozycjaZapisDAO.edit(kp);
+                noweKonto.setKontopozycjaID(new KontopozycjaBiezaca(kp));
+                kontoDAOfk.edit(noweKonto);
+            }
         } catch (Exception e) {
             E.e(e);
             KontopozycjaZapis kp = kontopozycjaZapisDAO.findByKonto(noweKonto);

@@ -235,6 +235,9 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
+                if (kontopobrane.getPelnynumer().equals("402-1")) {
+                    System.out.println("33");
+                }
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
                 String pozycjaRZiS_ma = kontopobrane.getKontopozycjaID().getPozycjaMa();
                 boolean wn = false;
@@ -250,7 +253,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
-                        donaniesienia = kwotaWn + kwotapierwotna;
+                        if (kontopobrane.isPrzychod0koszt1() == true) {
+                            donaniesienia = kwotapierwotna+kwotaWn;
+                        } else {
+                            donaniesienia = kwotapierwotna-kwotaWn;
+                        }
                         pozycja.setKwota(donaniesienia);
                         wn = true;
                     }
@@ -259,7 +266,11 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
-                        donaniesienia = kwotaMa + kwotapierwotna;
+                        if (kontopobrane.isPrzychod0koszt1() == true) {
+                            donaniesienia = kwotapierwotna-kwotaMa;
+                        } else {
+                            donaniesienia = kwotapierwotna+kwotaMa;
+                        }
                         pozycja.setKwota(donaniesienia);
                         ma = true;
                     }
