@@ -20,6 +20,7 @@ import entityfk.KontopozycjaZapis;
 import entityfk.PozycjaRZiSBilans;
 import entityfk.StronaWiersza;
 import entityfk.UkladBR;
+import error.E;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -147,8 +148,13 @@ public class PozycjaRZiSFKBean {
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
             l.add(konto);
+            try {
+                kontoDAO.edit(konto);
+            } catch (Exception e) {
+                E.e(e);
+            }
         }
-        kontoDAO.editList(l);
+        List<Konto> konta = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {

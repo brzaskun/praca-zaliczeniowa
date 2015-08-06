@@ -616,8 +616,6 @@ public class PlanKontView implements Serializable {
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
                 kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
-                kontoDAOfk.wyzerujPozycjeWKontachWzorcowy(u,"wynikowe");
-                kontoDAOfk.wyzerujPozycjeWKontachWzorcowy(u,"bilansowe");
             }
             for (Konto p : wykazkontwzor) {
                 try {

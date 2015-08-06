@@ -1547,9 +1547,9 @@ public class SessionFacade<T> implements Serializable {
         em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
     }
     
-    public void wyzerujPozycjeWKontachWzorcowy(UkladBR uklad, String bilansowewynikowe) {
-        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", "Wzorcowy").setParameter("rok", Integer.parseInt(uklad.getRok())).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
-    }
+//    public void wyzerujPozycjeWKontachWzorcowy(UkladBR uklad, String bilansowewynikowe) {
+//        em.createNamedQuery("Konto.NullPozycjaBilansoweWynikowe").setParameter("podatnik", "Wzorcowy").setParameter("rok", Integer.parseInt(uklad.getRok())).setParameter("bilansowewynikowe", bilansowewynikowe).executeUpdate();
+//    }
 
     public void zerujkontazLevelu(WpisView wpisView, int i) {
         em.createNamedQuery("Konto.NullObrotyWnLevel").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("level", i).executeUpdate();
