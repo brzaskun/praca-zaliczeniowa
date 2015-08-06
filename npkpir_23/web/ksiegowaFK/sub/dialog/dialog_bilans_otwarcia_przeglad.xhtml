@@ -42,7 +42,8 @@
                         <h:outputText value="#{loop.pelnynumer}" /> 
                     </p:column>
                     <p:column headerText="nazwa pełna" style="width: 150px;">
-                        <h:outputText value="#{loop.nazwapelna}" /> 
+                        <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                                <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                     </p:column>
                     <p:column headerText="typ konta" style="width: 100px; text-align: center;">
                         <h:outputText value="#{loop.zwyklerozrachszczegolne}" /> 

@@ -88,7 +88,8 @@
                                 <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                         </p:column>
                         <p:column headerText="nazwa pełna" >
-                            <h:outputText value="#{loop.nazwapelna}" /> 
+                            <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value="#{loop.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

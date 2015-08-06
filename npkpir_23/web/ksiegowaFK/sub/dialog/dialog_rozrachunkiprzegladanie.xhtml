@@ -83,7 +83,8 @@
                                 <h:outputText value="#{loop1.pelnynumer}"/> 
                             </p:column>
                             <p:column headerText="nazwa pełna" >
-                                <h:outputText value="#{loop1.nazwapelna}"/> 
+                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>
                         </p:treeTable>
                     </p:outputPanel>
