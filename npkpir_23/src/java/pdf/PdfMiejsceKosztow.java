@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
 
@@ -39,8 +40,8 @@ public class PdfMiejsceKosztow {
 
     public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

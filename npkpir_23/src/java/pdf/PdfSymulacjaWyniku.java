@@ -31,6 +31,7 @@ import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
 
@@ -44,8 +45,8 @@ public class PdfSymulacjaWyniku {
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

@@ -75,6 +75,7 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
@@ -2382,7 +2383,7 @@ public class DokfkView implements Serializable {
     public void drukujzaksiegowanydokument() {
         if (wykazZaksiegowanychDokumentow != null && wykazZaksiegowanychDokumentow.size() > 0 && filteredValue.size() == 0) {
             String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane";
-            File file = new File(nazwa);
+            File file = Plik.plik(nazwa, true);
             if (file.isFile()) {
                 file.delete();
             }
@@ -2393,7 +2394,7 @@ public class DokfkView implements Serializable {
         if (filteredValue != null && filteredValue.size() > 0) {
             for (Dokfk p : filteredValue) {
                 String nazwa = wpisView.getPodatnikObiekt().getNip() + "dokumentzaksiegowane" + p.getDokfkPK().getNrkolejnywserii();
-                File file = new File(nazwa);
+                File file = Plik.plik(nazwa, true);
                 if (file.isFile()) {
                     file.delete();
                 }

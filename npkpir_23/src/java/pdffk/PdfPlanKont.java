@@ -22,6 +22,7 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -34,7 +35,7 @@ public class PdfPlanKont {
     
     public static void drukujPlanKont(List<Konto> wykazkont, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankont";
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

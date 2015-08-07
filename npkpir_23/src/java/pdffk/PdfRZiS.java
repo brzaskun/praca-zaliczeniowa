@@ -20,6 +20,7 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -31,7 +32,7 @@ public class PdfRZiS {
 
     public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
@@ -53,7 +54,7 @@ public class PdfRZiS {
     
     public static void drukujRZiSPozycje(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
@@ -75,7 +76,7 @@ public class PdfRZiS {
     
     public static void drukujRZiSKonta(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"RZiSobliczenie-"+wpisView.getRokWpisuSt();
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

@@ -49,6 +49,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import plik.Plik;
 import view.WpisView;
 
 
@@ -85,8 +86,8 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     public void drukuj(Faktura selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "faktura" + String.valueOf(row) + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
@@ -102,8 +103,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     
     public void drukujPodgladfaktury(Faktura selected, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura0" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "faktura0" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
@@ -143,8 +144,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     }
 
     public void drukujokresowa(Fakturywystokresowe selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikWpisu() + ".pdf";
-        File file = new File(nazwapliku);
+        String nazwapliku = "fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikWpisu() + ".pdf";
+        File file = Plik.plik(nazwapliku, true);
         if (file.isFile()) {
             file.delete();
         }

@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 import viewfk.PojazdyView;
 
@@ -39,8 +40,8 @@ public class PdfPojazdy {
 
     public static void drukuj(List<PojazdyView.TabelaPojazdy> listapojazdow, WpisView wpisView, int rodzajdruku) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pojazdy-"+rodzajdruku+ wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "pojazdy-"+rodzajdruku+ wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

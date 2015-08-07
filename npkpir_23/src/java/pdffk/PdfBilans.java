@@ -22,6 +22,7 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -38,7 +39,7 @@ public class PdfBilans {
         } else {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
@@ -76,7 +77,7 @@ public class PdfBilans {
         } else {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
@@ -114,7 +115,7 @@ public class PdfBilans {
         } else {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
@@ -152,7 +153,7 @@ public class PdfBilans {
         } else {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczeniePasywa-"+wpisView.getRokWpisuSt();
         }
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

@@ -71,6 +71,7 @@ import org.primefaces.context.RequestContext;
 import params.Params;
 import pdf.PdfFaktura;
 import pdf.PdfFakturySporzadzone;
+import plik.Plik;
 import serialclone.SerialClone;
 
 /**
@@ -1243,8 +1244,8 @@ public class FakturaView implements Serializable {
     
     public void drukujfakturysporzadzone() {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "fakturysporzadzone-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

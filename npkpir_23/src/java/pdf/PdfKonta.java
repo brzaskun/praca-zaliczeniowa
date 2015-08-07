@@ -42,6 +42,7 @@ import javax.faces.context.FacesContext;
 import msg.B;
 import msg.Msg;
 import org.jdom.filter.ContentFilter;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -54,8 +55,8 @@ public class PdfKonta {
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc) {
         try {
             Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "konta-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

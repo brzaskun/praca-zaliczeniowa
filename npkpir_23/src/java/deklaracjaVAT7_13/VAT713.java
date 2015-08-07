@@ -70,7 +70,7 @@ public class VAT713 implements Serializable{
 //    public static void main(String[] args){
 //        FileWriter fileWriter = null;
 //        try {
-//            File newTextFile = new File("C:/uslugi/testvat1.xml");
+//            File newTextFile = Plik.plik("C:/uslugi/testvat1.xml");
 //            fileWriter = new FileWriter(newTextFile);
 //            fileWriter.write(wiersz);
 //            fileWriter.close();
@@ -99,7 +99,7 @@ public class VAT713 implements Serializable{
 //        System.out.println(wiersz);
 //        FileWriter fileWriter = null;
 //        try {
-//            File newTextFile = new File("C:/uslugi/testvat1.xml");
+//            File newTextFile = Plik.plik("C:/uslugi/testvat1.xml");
 //            fileWriter = new FileWriter(newTextFile);
 //            fileWriter.write(wiersz);
 //            fileWriter.close();

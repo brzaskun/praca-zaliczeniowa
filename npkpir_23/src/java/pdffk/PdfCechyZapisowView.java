@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
+import plik.Plik;
 import view.WpisView;
 import viewfk.CechyzapisuPrzegladView;
 
@@ -37,7 +38,7 @@ public class PdfCechyZapisowView implements Serializable {
     
     public void drukujzaksiegowanydokument(List<CechyzapisuPrzegladView.CechaStronaWiersza> wiersze) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentcechyzapisu";
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

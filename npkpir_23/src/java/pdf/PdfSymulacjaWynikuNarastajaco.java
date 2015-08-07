@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 import viewfk.SymulacjaWynikuView;
 
@@ -39,8 +40,8 @@ public class PdfSymulacjaWynikuNarastajaco {
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
         try {
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = new File(nazwapliku);
+            String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }

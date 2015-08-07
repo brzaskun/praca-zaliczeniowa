@@ -22,6 +22,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -50,7 +51,7 @@ public class MailOther implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
+             File file = Plik.plik("pkpir" + wpisView.getPodatnikWpisu() + ".pdf", true);
              if (file.isFile()) {
                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
@@ -114,7 +115,7 @@ public class MailOther implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("fakturaNr" + String.valueOf(i) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
@@ -166,7 +167,7 @@ public class MailOther implements Serializable{
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("faktura"+String.valueOf(i) + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku faktury");
@@ -228,7 +229,7 @@ public class MailOther implements Serializable{
              message.setContent(mp);
              Transport.send(message);
              try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("pit5" + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -269,7 +270,7 @@ public class MailOther implements Serializable{
              message.setContent(mp);
              Transport.send(message);
               try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/obroty" + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("obroty" + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -310,7 +311,7 @@ public class MailOther implements Serializable{
               message.setContent(mp);
               Transport.send(message);
                try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("srodki" + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");
@@ -341,7 +342,7 @@ public class MailOther implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            if (new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf").isFile()) {
+            if (Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true).isFile()) {
                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
@@ -355,7 +356,7 @@ public class MailOther implements Serializable{
                 message.setContent(mp);
                 Transport.send(message);
                 Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+pod.getEmail());
-                File f  = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
+                File f  = Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true);
                 f.delete();
                 RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
             } else {
@@ -398,7 +399,7 @@ public class MailOther implements Serializable{
             message.setContent(mp);
             Transport.send(message);
               try {
-                    File file = new File("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
+                    File file = Plik.plik("vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf", true);
                     file.delete();
                  } catch (Exception ef) {
                      Msg.msg("e", "Nieudane usunięcie pliku");

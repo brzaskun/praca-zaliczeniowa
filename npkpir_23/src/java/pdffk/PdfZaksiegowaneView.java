@@ -22,8 +22,8 @@ import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
+import plik.Plik;
 import view.WpisView;
-import viewfk.DokfkView;
 
 /**
  *
@@ -40,7 +40,7 @@ public class PdfZaksiegowaneView implements Serializable {
     public void drukujzaksiegowanydokument(List<Dokfk> wiersze,List<Dokfk> selecteddokfk) {
         if (wiersze != null && wiersze.size() > 0 && (selecteddokfk == null || selecteddokfk.isEmpty())) {
             String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane";
-            File file = new File(nazwa);
+            File file = Plik.plik(nazwa, true);
             if (file.isFile()) {
                 file.delete();
             }
@@ -51,7 +51,7 @@ public class PdfZaksiegowaneView implements Serializable {
         if (selecteddokfk != null && selecteddokfk.size() > 0) {
             for (Dokfk p : selecteddokfk) {
                 String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentzaksiegowane"+p.getDokfkPK().getNrkolejnywserii();
-                File file = new File(nazwa);
+                File file = Plik.plik(nazwa, true);
                 if (file.isFile()) {
                     file.delete();
                 }

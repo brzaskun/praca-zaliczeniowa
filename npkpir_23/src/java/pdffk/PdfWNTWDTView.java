@@ -24,6 +24,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -41,7 +42,7 @@ public class PdfWNTWDTView implements Serializable {
     public void drukujzaksiegowanydokument(List<Wiersz> wiersze) {
         dodajsume(wiersze);
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentwntwdt";
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

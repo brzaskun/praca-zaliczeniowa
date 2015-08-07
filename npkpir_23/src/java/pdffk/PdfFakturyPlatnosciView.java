@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.*;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -42,7 +43,7 @@ public class PdfFakturyPlatnosciView implements Serializable {
         } else {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"fakturyplatnosciN";
         }
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }

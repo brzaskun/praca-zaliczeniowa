@@ -50,6 +50,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
+import plik.Plik;
 import testobjects.WierszCecha;
 import testobjects.WierszDokfk;
 import testobjects.WierszKonta;
@@ -133,8 +134,8 @@ public class PdfMain {
 
     public static PdfWriter inicjacjaWritera(Document document, String nazwapliku) {
         try {
-            String nazwa = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/" + nazwapliku + ".pdf";
-            File file = new File(nazwa);
+            String nazwa = nazwapliku + ".pdf";
+            File file = Plik.plik(nazwa, true);
             if (file.isFile()) {
                 file.delete();
             }

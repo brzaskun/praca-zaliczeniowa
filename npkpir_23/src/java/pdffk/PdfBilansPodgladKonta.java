@@ -7,7 +7,6 @@ package pdffk;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
-import embeddablefk.TreeNodeExtended;
 import entity.Uz;
 import entityfk.Konto;
 import java.io.File;
@@ -22,6 +21,7 @@ import static pdffk.PdfMain.inicjacjaA4Portrait;
 import static pdffk.PdfMain.inicjacjaWritera;
 import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -33,7 +33,7 @@ public class PdfBilansPodgladKonta {
     
     public static void drukujBilansPodgladKonta(List<Konto> wykazkont, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"bokonta";
-        File file = new File(nazwa);
+        File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
             file.delete();
         }
