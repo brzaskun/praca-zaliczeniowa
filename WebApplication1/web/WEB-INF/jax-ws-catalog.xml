@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="https://test-bramka.edeklaracje.gov.pl/uslugi/dokumenty?wsdl" uri="wsdl/test-bramka.edeklaracje.gov.pl/uslugi/dokumenty.wsdl"/>
-    <system systemId="https://test-bramka.edeklaracje.gov.pl/uslugi/GateService?xsd=GateService.xsd" uri="wsdl/test-bramka.edeklaracje.gov.pl/uslugi/GateService.xsd_GateService.xsd"/>
-</catalog>

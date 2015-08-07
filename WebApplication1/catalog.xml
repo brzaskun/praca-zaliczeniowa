@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="https://test-bramka.edeklaracje.gov.pl/uslugi/dokumenty?wsdl" uri="src/conf/xml-resources/web-service-references/dokumenty/wsdl/test-bramka.edeklaracje.gov.pl/uslugi/dokumenty.wsdl"/>
-    <system systemId="https://test-bramka.edeklaracje.gov.pl/uslugi/GateService?xsd=GateService.xsd" uri="src/conf/xml-resources/web-service-references/dokumenty/wsdl/test-bramka.edeklaracje.gov.pl/uslugi/GateService.xsd_GateService.xsd"/>
-    <system systemId="file:/C:/Users/Osito/Documents/NetBeansProjects/WebApplication1/src/conf/xml-resources/web-service-references/dokumenty/wsdl/test-bramka.edeklaracje.gov.pl/uslugi/dokumenty.wsdl" uri="src/conf/xml-resources/web-service-references/dokumenty_1/wsdl/dokumenty.wsdl"/>
-    <system systemId="file:/C:/uslugi/dokumenty.wsdl" uri="src/conf/xml-resources/web-service-references/dokumenty_1/wsdl/dokumenty.wsdl"/>
-    <system systemId="file:/C:/Users/Osito/AppData/Roaming/NetBeans/7.2/config/WebServices/dokumenty-wsdl/catalog/dokumenty.wsdl" uri="src/conf/xml-resources/web-service-references/dokumenty_1/wsdl/dokumenty.wsdl"/>
-    <system systemId="file:/C:/uslugi/GateService.xsd" uri="src/conf/xml-resources/web-service-references/dokumenty_1/wsdl/GateService.xsd"/>
-</catalog>
