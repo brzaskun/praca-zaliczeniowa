@@ -14,6 +14,14 @@ import java.io.File;
 public class Plik {
     public static File plik(String nazwa, boolean temp) {
         File file = null;
+        String katalog = "";
+        String pelnanazwa = katalog+nazwa;
+        if (temp == true) {
+            file = new File(pelnanazwa);
+            file.deleteOnExit();
+        } else {
+            file = new File(pelnanazwa);
+        }
         return file;
     }
 }
