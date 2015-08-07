@@ -51,7 +51,10 @@ public class STRTabView implements Serializable {
     private AmoDokDAO amoDokDAO;
     @Inject
     private SrodkikstDAO srodkikstDAO;
+    @Inject
     private SrodekTrw selectedSTR;
+    @Inject
+    private Srodkikst srodekkategoria;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     //tablica obiektów
@@ -87,7 +90,6 @@ public class STRTabView implements Serializable {
     }
     
     private void ustawTabele() {
-        selectedSTR = new SrodekTrw();
         obiektDOKjsf = new ArrayList<>();
         obiektDOKjsfSel = new ArrayList<>();
         obiektDOKmrjsfSel = new ArrayList<>();
@@ -531,7 +533,13 @@ public class STRTabView implements Serializable {
     public void setWybranysrodektrwalyPosiadane(SrodekTrw wybranysrodektrwalyPosiadane) {
         this.wybranysrodektrwalyPosiadane = wybranysrodektrwalyPosiadane;
     }
+    public Srodkikst getSrodekkategoria() {
+        return srodekkategoria;
+    }
 
+    public void setSrodekkategoria(Srodkikst srodekkategoria) {
+        this.srodekkategoria = srodekkategoria;
+    }
     public SrodekTrw getWybranysrodektrwalySprzedane() {
         return wybranysrodektrwalySprzedane;
     }
@@ -544,16 +552,13 @@ public class STRTabView implements Serializable {
     
 
     public void skopiujSTR() {
-        String nazwa = (String) Params.params("formdialogsrodki:acForce1_input");
-        if (!nazwa.isEmpty()) {
-            try {
-                Srodkikst srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
-                selectedSTR.setKst(srodekkategoriawynik.getSymbol());
-                selectedSTR.setUmorzeniepoczatkowe(0.0);
-                selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));
-                RequestContext.getCurrentInstance().update("formdialogsrodki:tabelasrodkitrwaleOT");
-            } catch (Exception e) { E.e(e); 
-            }
+        try {
+            selectedSTR.setKst(srodekkategoria.getSymbol());
+            selectedSTR.setUmorzeniepoczatkowe(0.0);
+            selectedSTR.setStawka(Double.parseDouble(srodekkategoria.getStawka()));
+            RequestContext.getCurrentInstance().update("formdialogsrodki:tabelasrodkitrwaleOT");
+        } catch (Exception e) {
+            E.e(e); 
         }
     }
 

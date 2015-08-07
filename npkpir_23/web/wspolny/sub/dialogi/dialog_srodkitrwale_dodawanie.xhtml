@@ -31,17 +31,18 @@
         
         
     </style>
-    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpir" widgetVar="dialog_srodki_dodaj" 
+    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpiAr" widgetVar="dialog_srodki_dodaj" 
               resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,350);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
         <h:form id="formdialogsrodki">
             <p:panel id="panelwyszukiwarki" style="width: 300px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
-                <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
+                <p:autoComplete id="acForce1" value="#{STRTableView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="20" itemtipMyPosition="rightbottom"
                                 queryDelay="100" size="70" style="margin-left: 2%;" placeholder="wpisz nazwę środka">
-                    <p:ajax event="blur" async="true" global="false" listener="#{STRTableView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
+                    <p:ajax event="itemSelect" async="true" global="false" listener="#{STRTableView.skopiujSTR()}" partialSubmit="true"
+                            oncomplete="try{dataprzyjecia()}catch(e){};" update=":formdialogsrodki"/>
                     <p:ajax event="query" global="false"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400" >  
@@ -63,19 +64,19 @@
                 <p:panelGrid id="tabelasrodkitrwaleOT" columns="4">
                     <h:outputText value="nazwa środka"/>
                     <p:column headerText="nazwa środka">
-                        <p:inputText id="nazwasrodka" value="#{STRTableView.selectedSTR.nazwa}"/>
+                        <p:inputText id="nazwasrodka" value="#{STRTableView.selectedSTR.nazwa}" required="true" requiredMessage="Proszę wpisać nazwę środka"/>
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
-                        <p:inputText id="datazak" value="#{STRTableView.selectedSTR.datazak}" onblur="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                        <p:inputText id="datazak" value="#{STRTableView.selectedSTR.datazak}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
                     </p:column>
                     <h:outputText value="data przyjecia"/>
                     <p:column>
-                        <p:inputText id="dataprz" value="#{STRTableView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                        <p:inputText id="dataprz" value="#{STRTableView.selectedSTR.dataprzek}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
                     </p:column>
                     <h:outputText value="numer faktury"/>
                     <p:column>
-                        <p:inputText value="#{STRTableView.selectedSTR.nrwldokzak}"/>
+                        <p:inputText id="numerfaktzakupu" value="#{STRTableView.selectedSTR.nrwldokzak}"/>
                     </p:column>
                     <h:outputText value="symbol KST"/>
                     <p:column>
@@ -83,7 +84,9 @@
                     </p:column>
                     <h:outputText value="cena zakupu"/>
                     <p:column>
-                        <pe:inputNumber value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        <pe:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                        onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>
@@ -95,7 +98,8 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:panelGrid>
-                <p:commandButton value="dodaj środek trwały" actionListener="#{STRTableView.dodajSrodekTrwaly()}" update=":formSTR:akordeon" onclick="PF('dialog_srodki_dodaj').hide();"/>
+                <p:commandButton id="dodajsrodekbutton" value="dodaj środek trwały" actionListener="#{STRTableView.dodajSrodekTrwaly()}" update=":formSTR:akordeon" 
+                                 style="display: none; margin-top: 10px; width: 120px;" onclick="PF('dialog_srodki_dodaj').hide();"/>
             </p:panel>
         </h:form>
     </p:dialog>

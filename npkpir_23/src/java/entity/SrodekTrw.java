@@ -147,8 +147,8 @@ public class SrodekTrw implements Serializable {
      })
     @ManyToOne
     private Dokfk dokfk;
-            
-            
+
+
     public SrodekTrw() {
         this.niepodlegaamortyzacji = 0.0;
         this.netto = 0.0;

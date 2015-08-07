@@ -134,8 +134,7 @@ public final class DokView implements Serializable {
     private SrodekTrw selectedSTR;
     /*Środki trwałe*/
     private boolean pokazEST;//pokazuje wykaz srodkow dla sprzedazy
-    @Inject
-    private Srodkikst srodekkategoria;
+    
     @Inject
     private Srodkikst srodekkategoriawynik;
     //automatyczne ksiegowanie Storna
@@ -1531,13 +1530,7 @@ public final class DokView implements Serializable {
         this.rodzajedokKlienta = rodzajedokKlienta;
     }
 
-    public Srodkikst getSrodekkategoria() {
-        return srodekkategoria;
-    }
-
-    public void setSrodekkategoria(Srodkikst srodekkategoria) {
-        this.srodekkategoria = srodekkategoria;
-    }
+   
 
     public Srodkikst getSrodekkategoriawynik() {
         return srodekkategoriawynik;
