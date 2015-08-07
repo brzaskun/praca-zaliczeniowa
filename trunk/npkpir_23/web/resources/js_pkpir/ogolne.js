@@ -186,10 +186,14 @@ var przekazdate = function() {
 
 
 var dataprzyjecia = function() {
-    if (rj("dodWiad:acForce1_hinput").value === null) {
-    } else {
-        rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
-        rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
+    try {
+        if (rj("dodWiad:acForce1_hinput").value === null) {
+        } else {
+            rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
+            rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
+        }
+    } catch (e) {
+        
     }
 };
 

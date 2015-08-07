@@ -34,6 +34,19 @@ var zrobFloat = function (kwota){
     }
 };
 
+
+var zweryfikujczyniebrakujesrodektrw = function(tablica) {
+  var nazwa = r(tablica+":nazwasrodka").val();
+  var datazak = r(tablica+":datazak").val();
+  var dataprz = r(tablica+":dataprz").val();
+  var numerfaktzakupu = r(tablica+":numerfaktzakupu").val();
+  var cenazakupu_input = parseInt(r(tablica+":cenazakupu_hinput").val());
+  if (nazwa !== "" && datazak !== "" && dataprz !== "" && numerfaktzakupu !== "" && cenazakupu_input !== "") {
+      r(tablica+":dodajsrodekbutton").show();
+  }
+};
+
+
 // 
 //var t;
 //var startTimer = function (){
