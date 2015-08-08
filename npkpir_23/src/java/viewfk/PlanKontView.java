@@ -581,9 +581,9 @@ public class PlanKontView implements Serializable {
         if (!wykazkont.isEmpty()) {
             List<UkladBR> uklady = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             for (UkladBR ukladpodatnika : uklady) {
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
+                wyczyscKonta("wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "wynikowe");
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
+                wyczyscKonta("bilansowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
             }
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
@@ -607,14 +607,36 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
-    
+    private void wyczyscKonta(String rb) {
+        if (rb.equals("wynikowe")) {
+            List<Konto> listakont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView);
+            for (Konto p : listakont) {
+                p.setKontopozycjaID(null);
+                try {
+                    kontoDAOfk.edit(p);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+        } else {
+            List<Konto> listakont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView);
+            for (Konto p : listakont) {
+                p.setKontopozycjaID(null);
+                try {
+                    kontoDAOfk.edit(p);
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+        }
+    }
     public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
             List<UkladBR> uklady = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
             for (UkladBR u : uklady) {
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
+                wyczyscKonta("wynikowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "wynikowe");
-                kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
+                wyczyscKonta("bilansowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(u, "bilansowe");
             }
             for (Konto p : wykazkontwzor) {

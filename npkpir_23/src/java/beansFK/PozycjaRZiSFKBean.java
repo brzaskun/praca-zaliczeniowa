@@ -145,6 +145,9 @@ public class PozycjaRZiSFKBean {
         }
         List<Konto> l = new ArrayList<>();
         for (KontopozycjaZapis p : kontopozycja) {
+            if (!p.getSyntetykaanalityka().equals("syntetyka")) {
+                System.out.println("d");
+            }
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
             l.add(konto);
@@ -155,6 +158,7 @@ public class PozycjaRZiSFKBean {
             }
         }
         List<Konto> konta = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
+        List<Konto> konta2 = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
@@ -242,6 +246,9 @@ public class PozycjaRZiSFKBean {
             lista = kontoDAO.findKontaPrzyporzadkowaneWzorcowy(pozycja.getPozycjaString(), "wynikowe", Integer.parseInt(uklad.getRok()), wzorcowy);
         } else {
             lista = kontoDAO.findKontaPrzyporzadkowane(pozycja.getPozycjaString(), "wynikowe", wpisView, wzorcowy);
+        }
+        if (lista.size() > 1) {
+            System.out.println("jest lista");
         }
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         if (lista != null) {

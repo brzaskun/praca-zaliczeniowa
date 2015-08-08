@@ -306,11 +306,7 @@ public class PlanKontFKBean {
             } else {
                 kpo = kontopozycjaZapisDAO.findByKonto(noweKonto);
             }
-            if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "analityka");
-            } else {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
-            }
+            naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka());
         } catch (Exception e) {
             E.e(e);
         }
@@ -320,11 +316,7 @@ public class PlanKontFKBean {
         try {
             Konto macierzyste = kontoDAOfk.findKontoWzorcowy(noweKonto.getMacierzyste(), wpisView);
             KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
-            if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-            } else {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
-            }
+            naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
         } catch (Exception e) {
             E.e(e);
         }
