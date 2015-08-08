@@ -716,6 +716,59 @@ public class PlanKontFKBean {
         String nowynumer = pelnynumer.substring(0, indexkoncowy);
         return nowynumer;
     }
+    
+    public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta) {
+        KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
+        if (wnmaPrzypisywanieKont.equals("wn")) {
+            if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
+            } else {
+                kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+            }
+        } else {
+            if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", rodzajkonta);
+            } else {
+                kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", rodzajkonta);
+            }
+        }
+        kp.setWynik0bilans1(true);
+        konto.setKontopozycjaID(kp);
+        kontoDAO.edit(konto);
+        //czesc nanoszaca informacje na potomku
+        if (konto.isMapotomkow() == true) {
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy, Integer.parseInt(uklad.getRok()));
+        }
+        //czesc nanoszaca informacje na macierzyste
+        if (konto.getMacierzysty() > 0) {
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+        }
+    }
+    
+    
+    public static void przyporzadkujBilans_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1) {
+        KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
+        kp.setPozycjaWn(wybranapozycja);
+        kp.setPozycjaMa(wybranapozycja);
+        if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
+            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
+            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
+        } else {
+            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
+            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "1", "zwykłe");
+        }
+        kp.setWynik0bilans1(true);
+        konto.setKontopozycjaID(kp);
+        kontoDAO.edit(konto);
+        //czesc nanoszaca informacje na potomku
+        if (konto.isMapotomkow() == true) {
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "bilans", Integer.parseInt(uklad.getRok()));
+        }
+        //czesc nanoszaca informacje na macierzyste
+        if (konto.getMacierzysty() > 0) {
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+        }
+    }
 
     public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont) {
         KontopozycjaBiezaca kp = new KontopozycjaBiezaca();

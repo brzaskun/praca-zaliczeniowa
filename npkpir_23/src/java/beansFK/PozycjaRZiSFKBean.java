@@ -400,32 +400,7 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void przyporzadkujpotkomkowRozrachunkoweIstniejeKP(Konto konto, KontopozycjaBiezaca pozycja, KontoDAOfk kontoDAO, WpisView wpisView, String wnma, boolean aktywa0pasywa1, boolean wzorcowy, Integer rok) {
-        List<Konto> lista = null;
-        if (wzorcowy) {
-            lista = kontoDAO.findKontaPotomneWzorcowy(rok, konto.getPelnynumer());
-        } else {
-            lista = kontoDAO.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
-        }
-        for (Konto p : lista) {
-             if (pozycja == null) {
-                p.setKontopozycjaID(null);
-            } else {
-                KontopozycjaBiezaca kp = p.getKontopozycjaID();
-                if (wnma.equals("wn")) {
-                    kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
-                    kp.setPozycjaWn(pozycja.getPozycjaWn());
-                } else {
-                    kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
-                    kp.setPozycjaMa(pozycja.getPozycjaMa());
-                }
-            }
-            kontoDAO.edit(p);
-            if (p.isMapotomkow() == true) {
-                przyporzadkujpotkomkowRozrachunkoweIstniejeKP(p, pozycja, kontoDAO, wpisView, wnma, aktywa0pasywa1, wzorcowy, rok);
-            }
-        }
-    }
+    
 
     public static void sumujObrotyNaKontach(List<StronaWiersza> zapisy, List<Konto> plankont) {
         for (StronaWiersza p : zapisy) {
