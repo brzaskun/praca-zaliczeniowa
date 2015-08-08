@@ -306,7 +306,12 @@ public class PozycjaRZiSFKBean {
                 }
             }
             if (sainne == false) {
-                Konto konto = kontoDAO.findKonto(macierzyste, wpisView);
+                Konto konto = null;
+                if(wzorcowy) {
+                    konto = kontoDAO.findKontoWzorcowy(macierzyste, wpisView);
+                } else {
+                    konto = kontoDAO.findKonto(macierzyste, wpisView);
+                }
                 konto.setKontopozycjaID(null);
                 kontoDAO.edit(konto);
                 if (konto.getMacierzysty() > 0) {

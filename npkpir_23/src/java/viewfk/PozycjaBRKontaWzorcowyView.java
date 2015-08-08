@@ -211,6 +211,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     }
 
     public void onKontoDropB(Konto konto, String br) {
+        boolean wzorcowy = true;
         if (wybranapozycja == null) {
             Msg.msg("e", "Nie wybrano pozycji rozrachunku, nie można przyporządkowac konta");
         } else {
