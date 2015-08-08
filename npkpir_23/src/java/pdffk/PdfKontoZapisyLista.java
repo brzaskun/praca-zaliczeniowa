@@ -27,14 +27,13 @@ import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
 import error.E;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 import waluty.Z;
 
@@ -50,7 +49,7 @@ public class PdfKontoZapisyLista {
             Podatnik pod = wpisView.getPodatnikObiekt();
             List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 30);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

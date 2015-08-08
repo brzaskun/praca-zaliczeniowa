@@ -55,7 +55,7 @@ public class PdfKontaNarastajaco {
 
     private static void drukujcd(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A3.rotate(), 5,5,5,5);
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie obroty sald narastająco");

@@ -24,16 +24,14 @@ import entity.Podatnik;
 import entity.Uz;
 import entityfk.Vatuepodatnik;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -58,7 +56,7 @@ public class PdfVatUE {
                 pobranyVatue = vatuepodatnikDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
             }
             Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
             writer.setInitialLeading(16);
             document.addTitle("VAT-UE dokumenty");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
@@ -221,7 +219,7 @@ public class PdfVatUE {
     //    public static void main(String[] args) throws FileNotFoundException, DocumentException, IOException {
     //        System.out.println("Drukuje Vat-UE sumowanie");
     //        Document document = new Document();
-    //        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VATUE-kadrzyński.pdf"));
+    //        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE-kadrzyński.pdf"));
     //        writer.setInitialLeading(16);
     //        document.addTitle("VAT-UE dokumenty");
     //        document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");

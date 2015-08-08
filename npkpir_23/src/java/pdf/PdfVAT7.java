@@ -24,12 +24,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 
 /**
  *
@@ -235,7 +234,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
 
             Vatpoz v = dkl.getSelected();
             Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7" + v.getPodatnik() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("vat7" + v.getPodatnik() + ".pdf"));
             document.addTitle("Deklaracja VAT");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
             document.addSubject("Wydruk deklaracji VAT " + dkl.getPodatnik());
@@ -251,7 +250,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
             document.close();
             PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7" + v.getPodatnik() + ".pdf");
             reader.removeUsageRights();
-            PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + dkl.getPodatnik() + ".pdf"));
+            PdfStamper pdfStamper = new PdfStamper(reader, Plik.plikR("vat7-13" + dkl.getPodatnik() + ".pdf"));
             PdfContentByte underContent = pdfStamper.getUnderContent(1);
             Image image;
             image = Image.getInstance(vat71);
@@ -315,7 +314,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
             }
             Vatpoz v = dkl.getSelected();
             Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7" + v.getPodatnik() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("vat7" + v.getPodatnik() + ".pdf"));
             document.addTitle("Deklaracja VAT wysyłka");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
             document.addSubject("Wydruk deklaracji tetsowej VAT " + dkl.getPodatnik());
@@ -331,7 +330,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
             document.close();
             PdfReader reader = new PdfReader("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7" + v.getPodatnik() + ".pdf");
             reader.removeUsageRights();
-            PdfStamper pdfStamper = new PdfStamper(reader, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + dkl.getPodatnik() + ".pdf"));
+            PdfStamper pdfStamper = new PdfStamper(reader, Plik.plikR("vat7-13" + dkl.getPodatnik() + ".pdf"));
             PdfContentByte underContent = pdfStamper.getUnderContent(1);
             Image image;
             image = Image.getInstance(vat71);
@@ -762,7 +761,7 @@ public class PdfVAT7 extends Pdf implements Serializable {
                     break;
             }
             Document PDFCombineUsingJava = new Document();
-            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/VAT7Comb" + kto + ".pdf"));
+            PdfCopy copy = new PdfCopy(PDFCombineUsingJava, Plik.plikR("VAT7Comb" + kto + ".pdf"));
             PDFCombineUsingJava.open();
             int number_of_pages;
             for (String p : files) {

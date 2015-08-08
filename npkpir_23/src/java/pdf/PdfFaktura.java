@@ -182,7 +182,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta)) {
                 Document document = new Document();
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                String nazwapliku = "fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
@@ -244,7 +244,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 System.out.println("no ");
             } else {
                 Document document = new Document();
-                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                String nazwapliku = "fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
@@ -266,7 +266,7 @@ public class PdfFaktura extends Pdf implements Serializable {
     
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
+        String nazwapliku = "faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();

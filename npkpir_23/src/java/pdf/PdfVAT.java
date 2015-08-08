@@ -42,6 +42,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -75,9 +76,9 @@ public class PdfVAT {
                     } else {
                         nowanazwa = p;
                     }
-                    String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
                     try {
-                        File file = new File(nazwapliku);
+                        File file = Plik.plik(nazwapliku, true);
                         if (file.isFile()) {
                             file.delete();
                         }
@@ -214,9 +215,9 @@ public class PdfVAT {
                     } else {
                         nowanazwa = p;
                     }
-                    String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
+                    String nazwapliku = "vat-" + nowanazwa + "-" + wpisView.getPodatnikWpisu() + ".pdf";
                     try {
-                        File file = new File(nazwapliku);
+                        File file = Plik.plik(nazwapliku, true);
                         if (file.isFile()) {
                             file.delete();
                         }

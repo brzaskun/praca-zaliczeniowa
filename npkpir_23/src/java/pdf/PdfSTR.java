@@ -22,13 +22,13 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.STRtabela;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -40,7 +40,7 @@ public class PdfSTR {
 
     public static void drukuj(WpisView wpisView, List<STRtabela> wykaz) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("srodki" + wpisView.getPodatnikWpisu() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

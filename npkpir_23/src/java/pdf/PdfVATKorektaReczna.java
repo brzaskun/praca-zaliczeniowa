@@ -26,7 +26,6 @@ import entity.Podatnik;
 import entity.Uz;
 import entity.VATDeklaracjaKorektaDok;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -40,6 +39,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -53,7 +53,7 @@ public class PdfVATKorektaReczna {
     public static void drukuj(VATDeklaracjaKorektaDok selected, WpisView wpisView, PodatnikDAO podatnikDAO){
         try {
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/dokumentyVATKorektaReczna" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+            PdfWriter.getInstance(document, Plik.plikR("dokumentyVATKorektaReczna" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
             document.addTitle("Wykaz dokumentów dla korekty VAT");
             document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
             document.addSubject("Wydruk listy dokumentów korekty");

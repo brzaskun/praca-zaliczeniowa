@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -38,7 +39,7 @@ public class PdfEwidencjaPrzychodow {
 
     public static void drukujksiege(List<DokEwidPrzych> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("pkpir" + wpisView.getPodatnikWpisu() + ".pdf"));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

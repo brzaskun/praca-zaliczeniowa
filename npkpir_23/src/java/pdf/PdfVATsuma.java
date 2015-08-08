@@ -23,7 +23,6 @@ import entity.Ewidencjevat;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -33,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import plik.Plik;
 import view.WpisView;
 import waluty.Z;
 
@@ -45,7 +45,7 @@ public class PdfVATsuma {
 
     public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, Plik.plikR("vatsuma" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("Zestawienie sum z ewidencji VAT");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk danych z ewidencji VAT");

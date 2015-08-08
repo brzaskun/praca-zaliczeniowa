@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -45,7 +46,7 @@ public class PdfKontoZapisy {
         try {
             List<Parametr> param = pod.getVatokres();
             Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
             writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

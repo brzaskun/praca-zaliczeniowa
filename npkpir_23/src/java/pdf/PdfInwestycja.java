@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -47,9 +48,9 @@ public class PdfInwestycja {
      
     public static void drukujinwestycje (Inwestycje inwestycja, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), 20, 20, 20, 10);
-        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycja" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("inwestycja" + wpisView.getPodatnikWpisu() + ".pdf"));
         int liczydlo = 1;
-        //PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/inwestycjaTesting.pdf"));
+        //PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR("inwestycjaTesting.pdf"));
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
         writer.setPageEvent(headerfoter);

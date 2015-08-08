@@ -61,7 +61,7 @@ public class PdfSymulacjaWyniku {
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle(B.b("zestawieniesymulacjawyniku"));
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject(B.b("zestawieniesymulacjawyniku"));

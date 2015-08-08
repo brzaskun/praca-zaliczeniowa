@@ -70,7 +70,7 @@ public class PdfKonta {
 
     private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A4, 20,20,20,20);
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie obroty sald");
@@ -285,7 +285,7 @@ public class PdfKonta {
     public static void main(String[] args) {
         try {
             Document document = new Document(PageSize.A4, 10,10,20,20);
-            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/konta-Testowy.pdf";
+            String nazwapliku = "konta-Testowy.pdf";
             PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
             File file = new File(nazwapliku);
             if (file.isFile()) {

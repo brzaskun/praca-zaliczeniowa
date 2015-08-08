@@ -21,7 +21,6 @@ import entity.Pitpoz;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -30,6 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.ejb.Stateless;
 import msg.Msg;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -42,7 +42,7 @@ public class PdfPIT5 {
     public static void drukuj(Pitpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {
         System.out.println("Drukuje PK dokumentu "+selected.toString());
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
+        PdfWriter.getInstance(document, Plik.plikR("pit5" + wpisView.getPodatnikWpisu() + ".pdf")).setInitialLeading(16);
         document.addTitle("PIT5");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Wydruk PIT5");

@@ -51,7 +51,7 @@ public class PdfPK {
     public static String drukujPK(List<Dok> gosciuwybral, PodatnikDAO podatnikDAO, WpisView wpisView, UzDAO uzDAO, AmoDokDAO amoDokDAO) throws DocumentException, FileNotFoundException, IOException {
         Dok selected = gosciuwybral.get(0);
         Document document = new Document();
-        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pk" + wpisView.getPodatnikWpisu() + ".pdf";
+        String nazwapliku = "pk" + wpisView.getPodatnikWpisu() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         writer.setInitialLeading(16);
         document.addTitle("Polecenie księgowania");

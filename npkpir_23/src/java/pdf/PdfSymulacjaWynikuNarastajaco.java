@@ -57,7 +57,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie wyniku narastająco");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie wyniku finansowego narastająco");

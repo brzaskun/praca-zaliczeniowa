@@ -55,7 +55,7 @@ public class PdfMiejsceKosztow {
 
     private static void drukujcd(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
+        PdfWriter.getInstance(document, Plik.plikR("miejscakosztow-"+rodzajdruku + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie miejsce kosztów");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject("Zestawienie miejsce kosztów");
