@@ -21,7 +21,7 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaView.zwinwszystkie(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaView.zwin(rootProjektKonta)}" update=":form:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="fa fa-lock"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaView.zaksiegujzmianypozycji('r')}" icon="fa fa-lock" update=":form"/>
                 <p:spacer width="40"/>
                 <p:commandButton value="importuj" actionListener="#{pozycjaBRKontaView.importujwzorcoweprzyporzadkowanie('r')}" update=":form:dostepnekonta, :form:selected" icon="fa fa-sign-in"/>
                 <p:column>

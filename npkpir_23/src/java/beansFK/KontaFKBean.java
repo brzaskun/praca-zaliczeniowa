@@ -38,8 +38,8 @@ public class KontaFKBean implements Serializable{
         for (Konto r : wykazkont) {
             r.setMapotomkow(false);
             r.setBlokada(false);
+            kontoDAO.edit(r);
         }
-        kontoDAO.editList(wykazkont);
 //         kontoDAO.resetujKolumneMapotomkow(podatnikWpisu);
 //         kontoDAO.resetujKolumneZablokowane(podatnikWpisu);
          for (Konto p : wykazkont) {

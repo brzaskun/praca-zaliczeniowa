@@ -38,7 +38,7 @@ public class PozycjaRZiSFKBean {
     public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
             if (p.getKontopozycjaID() != null) {
-                if (p.getKontopozycjaID().getPozycjaWn() == null) {
+                if (p.getKontopozycjaID().getPozycjaWn() == null || p.getKontopozycjaID().getPozycjaMa() == null) {
                     if (!wykazkont.contains(p)) {
                         wykazkont.add(p);
                     }

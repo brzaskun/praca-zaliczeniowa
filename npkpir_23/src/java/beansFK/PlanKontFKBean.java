@@ -21,6 +21,7 @@ import entityfk.KontopozycjaBiezaca;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.Pojazdy;
+import entityfk.UkladBR;
 import error.E;
 import java.util.ArrayList;
 import java.util.List;
@@ -297,7 +298,7 @@ public class PlanKontFKBean {
      public static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
-            if (noweKonto.getPelnynumer().equals("202-1-0")){
+            if (noweKonto.getPelnynumer().equals("201")){
                 System.out.println("d");
             }
             KontopozycjaZapis kpo = null;
@@ -306,7 +307,9 @@ public class PlanKontFKBean {
             } else {
                 kpo = kontopozycjaZapisDAO.findByKonto(noweKonto);
             }
-            naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka());
+            if (kpo != null) {
+                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka());
+            }
         } catch (Exception e) {
             E.e(e);
         }
@@ -714,6 +717,61 @@ public class PlanKontFKBean {
         return nowynumer;
     }
 
-   
+    public static void przyporzadkujRZiS_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont) {
+        KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
+        kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
+        kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "99", "wynikowe");
+        konto.setKontopozycjaID(kp);
+        kontoDAO.edit(konto);
+        //czesc nanoszaca informacje na potomku
+        if (konto.isMapotomkow() == true) {
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(konto.getPelnynumer(), kp, kontoDAO, wpisView, wzorcowy, "wynik", Integer.parseInt(uklad.getRok()));
+        }
+        //czesc nanoszaca informacje na macierzyste
+        if (konto.getMacierzysty() > 0) {
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+        }
+    }
+    
+    public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont) {
+        //to jest niezbedne dla kont specjalnych
+        KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
+        if (wnmaPrzypisywanieKont.equals("wn")) {
+            kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "88", "szczegolne");
+        } else {
+            kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "88", "szczegolne");
+        }
+        konto.setKontopozycjaID(kp);
+        kontoDAO.edit(konto);
+         if (konto.isMapotomkow() == true) {
+            PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy, Integer.parseInt(uklad.getRok()));
+        }
+        //czesc nanoszaca informacje na macierzyste
+        if (konto.getMacierzysty() > 0) {
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+        }
+    }
+    
+    private static void kontopozycjaBiezacaWn (KontopozycjaBiezaca kp,String wybranapozycja, Konto konto, UkladBR uklad, String numer, String wynikoweszczegolne) {
+        kp.setPozycjaWn(wybranapozycja);
+        kp.setStronaWn(numer);
+        kp.setSyntetykaanalityka(wynikoweszczegolne);
+        if (kp.getKontoID() == null) {
+            kp.setKontoID(konto);
+            kp.setUkladBR(uklad);
+        }
+    }
+    
+     private static void kontopozycjaBiezacaMa (KontopozycjaBiezaca kp,String wybranapozycja, Konto konto, UkladBR uklad, String numer, String wynikoweszczegolne) {
+        kp.setPozycjaMa(wybranapozycja);
+        kp.setStronaMa(numer);
+        kp.setSyntetykaanalityka(wynikoweszczegolne);
+        if (kp.getKontoID() == null) {
+            kp.setKontoID(konto);
+            kp.setUkladBR(uklad);
+        }
+    }
+    
+        
     
 }
