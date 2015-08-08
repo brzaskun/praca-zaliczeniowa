@@ -56,7 +56,6 @@ public class KontaFKBean implements Serializable{
                 }
                
             }
-            PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAO, kontopozycjaZapisDAO);
         }
     }
     

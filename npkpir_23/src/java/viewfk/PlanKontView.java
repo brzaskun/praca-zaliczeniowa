@@ -6,6 +6,7 @@ package viewfk;
 
 import beansFK.KontaFKBean;
 import beansFK.PlanKontFKBean;
+import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
 import daoFK.DelegacjaDAO;
@@ -662,6 +663,27 @@ public class PlanKontView implements Serializable {
             p.setKontopozycjaID(null);
         }
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+        for (Konto p : wykazkont) {
+            if (p.getPelnynumer().equals("220")) {
+                System.out.println("s");
+            }
+            PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO);
+            if (p.isMapotomkow() == true) {
+                if (p.getBilansowewynikowe().equals("wynikowe")) {
+                    if (p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView, "wnma", false, wpisView.getRokWpisu());
+                    } else {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView, false, "wynik", wpisView.getRokWpisu());
+                    }
+                } else {
+                    if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView, "wnma", false, wpisView.getRokWpisu());
+                    } else {
+                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView, false, "bilans", wpisView.getRokWpisu());
+                    }
+                }
+            }
+        }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
 

@@ -385,8 +385,12 @@ public class PozycjaRZiSFKBean {
                      if (wnma.equals("wn")) {
                         pozycja.setKontoID(p);
                         pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                     } else if (wnma.equals("ma")){
+                        pozycja.setKontoID(p);
+                        pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      } else {
                         pozycja.setKontoID(p);
+                        pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                         pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      }
                     pozycja.setSyntetykaanalityka("syntetyka");

@@ -304,11 +304,14 @@ public class PlanKontFKBean {
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
                 kpo = kontopozycjaZapisDAO.findByKonto(macierzyste);
+                if (kpo != null) {
+                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka");
+                }
             } else {
                 kpo = kontopozycjaZapisDAO.findByKonto(noweKonto);
-            }
-            if (kpo != null) {
-                naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka());
+                if (kpo != null) {
+                    naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, kpo.getSyntetykaanalityka());
+                }
             }
         } catch (Exception e) {
             E.e(e);
@@ -788,13 +791,18 @@ public class PlanKontFKBean {
     
     public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont) {
         //to jest niezbedne dla kont specjalnych
-        KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
+        KontopozycjaBiezaca kp = null;
+        if (konto.getKontopozycjaID() != null) {
+            kp = konto.getKontopozycjaID();
+        } else {
+            kp = new KontopozycjaBiezaca();
+            konto.setKontopozycjaID(kp);
+        }
         if (wnmaPrzypisywanieKont.equals("wn")) {
             kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "88", "szczegolne");
         } else {
             kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "88", "szczegolne");
         }
-        konto.setKontopozycjaID(kp);
         kontoDAO.edit(konto);
          if (konto.isMapotomkow() == true) {
             PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(konto, kp, kontoDAO, wpisView, wnmaPrzypisywanieKont, wzorcowy, Integer.parseInt(uklad.getRok()));
