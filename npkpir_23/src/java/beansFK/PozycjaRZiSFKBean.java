@@ -419,13 +419,15 @@ public class PozycjaRZiSFKBean {
                         kp.setUkladBR(konto.getKontopozycjaID().getUkladBR());
                     } 
                      if (wnma.equals("wn")) {
-                        kp.setKontoID(p);
+                        kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
                         kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                      } else if (wnma.equals("ma")){
-                        kp.setKontoID(p);
+                        kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
                         kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      } else {
                         kp.setKontoID(p);
+                        kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
+                        kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
                         kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                         kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      }

@@ -721,6 +721,9 @@ public class PlanKontFKBean {
     }
     
     public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta) {
+        if (konto.getPelnynumer().equals("201") || konto.getPelnynumer().equals("201-1") || konto.getPelnynumer().equals("201-1-0")){
+            System.out.println("mam");
+        }
         KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
         if (wnmaPrzypisywanieKont.equals("wn")) {
             if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
@@ -786,6 +789,7 @@ public class PlanKontFKBean {
             PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, wpisView, wzorcowy, false);
         }
     }
+    
     
     public static void przyporzadkujRZiS_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont) {
         //to jest niezbedne dla kont specjalnych
