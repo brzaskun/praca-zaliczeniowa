@@ -225,8 +225,6 @@ public class PozycjaBRKontaView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 kontabezprzydzialu.remove(konto);
                 //czesc przekazujaca przyporzadkowanie do konta do wymiany
-              
-               
             }
             uzupelnijpozycjeOKonta(pozycje);
         }
@@ -254,9 +252,9 @@ public class PozycjaBRKontaView implements Serializable {
                 }
                 //czesc nanoszaca informacje na potomku
             }
+            uzupelnijpozycjeOKontaR(pozycje);
+            RequestContext.getCurrentInstance().update(":form");
         }
-        uzupelnijpozycjeOKontaR(pozycje);
-        RequestContext.getCurrentInstance().update(":form");
     }
 
    
@@ -283,9 +281,9 @@ public class PozycjaBRKontaView implements Serializable {
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
                 //czesc nanoszaca informacje na potomku
             }
+            uzupelnijpozycjeOKonta(pozycje);
+            RequestContext.getCurrentInstance().update(":formbilansuklad");
         }
-        uzupelnijpozycjeOKonta(pozycje);
-        RequestContext.getCurrentInstance().update(":formbilansuklad");
     }
 
    

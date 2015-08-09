@@ -69,7 +69,6 @@ public class WierszeView implements Serializable {
                 }
             }
         }
-        System.out.println("d");
     }
     
     public void initwierszeWNT(){

@@ -179,7 +179,7 @@ public class EwidencjaPrzychodowView implements Serializable {
         podsumowanie.setIdDok(new Long(1222));
         podsumowanie.setKontr(new Klienci());
         lista.add(podsumowanie);
-        System.out.println("d");
+       // System.out.println("d");
     }
 
        

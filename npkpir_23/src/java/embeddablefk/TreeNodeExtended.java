@@ -286,7 +286,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
             if (p.getPelnynumer().equals("262-1")) {
-                System.out.println("d");
+                //System.out.println("d");
             }
             Konto kontopobrane = p;
             try {

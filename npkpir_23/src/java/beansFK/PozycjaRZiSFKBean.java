@@ -59,6 +59,9 @@ public class PozycjaRZiSFKBean {
     
      public static void wyluskajNieprzyporzadkowaneAnalitykiBilans(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, Integer rok) {
         for (Konto p : pobraneKontaSyntetyczne) {
+            if (p.getPelnynumer().equals("201")) {
+                System.out.println("");
+            }
             if (p.getKontopozycjaID() != null) {
                 if (p.getZwyklerozrachszczegolne().equals("szczególne") && (p.getKontopozycjaID().getPozycjaWn() != null || p.getKontopozycjaID().getPozycjaMa() != null)) {
                     if (!wykazkont.contains(p) && !(p.getKontopozycjaID().getPozycjaWn() != null && p.getKontopozycjaID().getPozycjaMa() != null)) {
@@ -146,7 +149,7 @@ public class PozycjaRZiSFKBean {
         List<Konto> l = new ArrayList<>();
         for (KontopozycjaZapis p : kontopozycja) {
             if (!p.getSyntetykaanalityka().equals("syntetyka")) {
-                System.out.println("d");
+                //System.out.println("d");
             }
             Konto konto = p.getKontoID();
             konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
@@ -321,23 +324,37 @@ public class PozycjaRZiSFKBean {
         }
     }
     
-    public static void oznaczmacierzyste(Konto dziecko, KontopozycjaBiezaca kp, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy) {
+    public static void oznaczmacierzyste(Konto dziecko, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, boolean wynik0bilans1) {
         Konto kontomacierzyste = null;
         if (wzorcowy) {
             kontomacierzyste = kontoDAO.findKontoWzorcowy(dziecko.getMacierzyste(), uklad);
         } else {
             kontomacierzyste = kontoDAO.findKonto(dziecko.getMacierzyste(), wpisView);
         }
-        if (kontomacierzyste.getKontopozycjaID() == null) {
+        KontopozycjaBiezaca kp = kontomacierzyste.getKontopozycjaID() != null ? kontomacierzyste.getKontopozycjaID() : new KontopozycjaBiezaca();
+        if (kp.getIdKP() == null) {
             kp.setSyntetykaanalityka("analityka");
             kp.setStronaWn(dziecko.getKontopozycjaID().getStronaWn());
             kp.setStronaMa(dziecko.getKontopozycjaID().getStronaMa());
+            kp.setPozycjaWn(dziecko.getKontopozycjaID().getPozycjaWn());
+            kp.setPozycjaMa(dziecko.getKontopozycjaID().getPozycjaMa());
             kp.setKontoID(kontomacierzyste);
+            kp.setWynik0bilans1(wynik0bilans1);
             kp.setUkladBR(uklad);
             kontomacierzyste.setKontopozycjaID(kp);
             kontoDAO.edit(kontomacierzyste);
             if (kontomacierzyste.getMacierzysty() > 0) {
-                oznaczmacierzyste(kontomacierzyste, kp, uklad, kontoDAO, wpisView, wzorcowy);
+                oznaczmacierzyste(kontomacierzyste, uklad, kontoDAO, wpisView, wzorcowy, wynik0bilans1);
+            }
+        } else {
+            kp.setSyntetykaanalityka("analityka");
+            kp.setStronaWn(dziecko.getKontopozycjaID().getStronaWn());
+            kp.setStronaMa(dziecko.getKontopozycjaID().getStronaMa());
+            kp.setPozycjaWn(dziecko.getKontopozycjaID().getPozycjaWn());
+            kp.setPozycjaMa(dziecko.getKontopozycjaID().getPozycjaMa());
+            kontoDAO.edit(kontomacierzyste);
+            if (kontomacierzyste.getMacierzysty() > 0) {
+                oznaczmacierzyste(kontomacierzyste, uklad, kontoDAO, wpisView, wzorcowy, wynik0bilans1);
             }
         }
     }
@@ -432,7 +449,7 @@ public class PozycjaRZiSFKBean {
         //a teraz trzeba podsumowac konta bez obrotow ale z bo no i z obrotami (wyjalem to z gory)
         for (Konto r : plankont) {
             if (r.getPelnynumer().equals("262-1")) {
-                System.out.println("d");
+                //System.out.println("d");
             }
             if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
                 r.setSaldoWn(r.getBoWn());

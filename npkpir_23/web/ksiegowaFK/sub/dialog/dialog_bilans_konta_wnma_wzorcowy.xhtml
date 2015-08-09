@@ -20,7 +20,7 @@
                         <f:selectItem itemLabel="saldem Wn" itemValue="wn"/>
                         <f:selectItem itemLabel="saldem Ma" itemValue="ma"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalne()}" 
+                    <p:commandButton value="ok" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.onKontoDropKontaSpecjalne(true,pozycjaBRKontaWzorcowyView.uklad)}" 
                                      oncomplete="PF('dialog_bilans_konta_wnma_wzorcowy').hide();"
                                      update=":formdialogbilansukladwzorcowy:dostepnekonta, :formdialogbilansukladwzorcowy:kontaprzypisane, :formdialogbilansukladwzorcowy:dataList"/>
                 </p:focus>

@@ -299,7 +299,7 @@ public class PlanKontFKBean {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
             if (noweKonto.getPelnynumer().equals("201")){
-                System.out.println("d");
+                //System.out.println("d");
             }
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
@@ -744,7 +744,7 @@ public class PlanKontFKBean {
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, wpisView, wzorcowy, true);
         }
     }
     
@@ -769,7 +769,7 @@ public class PlanKontFKBean {
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, wpisView, wzorcowy, true);
         }
     }
 
@@ -785,7 +785,7 @@ public class PlanKontFKBean {
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, wpisView, wzorcowy, false);
         }
     }
     
@@ -809,7 +809,7 @@ public class PlanKontFKBean {
         }
         //czesc nanoszaca informacje na macierzyste
         if (konto.getMacierzysty() > 0) {
-            PozycjaRZiSFKBean.oznaczmacierzyste(konto, kp, uklad, kontoDAO, wpisView, wzorcowy);
+            PozycjaRZiSFKBean.oznaczmacierzyste(konto, uklad, kontoDAO, wpisView, wzorcowy, false);
         }
     }
     
