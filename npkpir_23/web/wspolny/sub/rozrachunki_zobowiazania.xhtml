@@ -22,7 +22,10 @@
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
                         </p:autoComplete>
                         <h:outputText value=" #{mgs.wybranekonto}:"/>
-                        <h:outputText id="nazwawybranegokonta" value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" style="font-weight: 900;" />
+                        <p:panelGrid id="nazwawybranegokonta">
+                            <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                        </p:panelGrid>
                     </h:form>
                     <h:form id="walutazapisynakoncie">
                         <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
@@ -73,8 +76,8 @@
                     <p:panelGrid id="kontenertabeli" columns="1" style="width: 325px; height: 500px;" >
                         <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
                                      styleClass="grid" style="width: 100%;">
-                            <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
-                            <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta:nazwawybranegokonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
+                            <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
+                            <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column headerText="nr konta" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
                                 <h:outputText value="#{loop1.pelnynumer}" /> 
                             </p:column>
@@ -90,7 +93,7 @@
             <p:layoutUnit position="center" style="width: 1050px;">
                 <h:form id="tabelanowerozrachunki">
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
-                                 emptyMessage="Nie ma rozrachunków na koncie" sortBy="#{loop.id}"
+                                 emptyMessage="#{mgs.Niemarozrachunkównakoncie}" sortBy="#{loop.id}"
                                  rowIndexVar="rowindex" styleClass="grid1" style="width: 1020px;" expandedRow="true"
                                  >
                         <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
@@ -100,10 +103,10 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="waluta" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
+                        <p:column headerText="#{mgs.waluta}" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
                             <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.symbolWalutyBO : loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
                         </p:column>
-                        <p:column headerText="kurs" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
+                        <p:column headerText="#{mgs.kurs}" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
                             <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.kursBO : loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
@@ -123,12 +126,12 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="rozliczono" width="70">
+                        <p:column headerText="#{mgs.rozliczono}" width="70">
                             <h:outputText value="#{loop.rozliczono}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="pozostało" width="70">
+                        <p:column headerText="#{mgs.pozostało}" width="70">
                             <h:outputText value="#{loop.pozostalo}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -142,38 +145,38 @@
                                     }
                                 </style>
                                 <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
-                                <p:column headerText="kwota trans." >
+                                <p:column headerText="#{mgs.kwotatrans}" >
                                 <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
                                      <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                                 </p:column>
-                                <p:column headerText="data trans.">
+                                <p:column headerText="#{mgs.datatrans}">
                                 <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
                                 </h:outputText>
                                 </p:column>
-                                <p:column headerText="kwota rozl.">
+                                <p:column headerText="#{mgs.kwotarozl}">
                                     <h:outputText value="#{subwpis.rozliczajacy.kwotaR}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                                 </p:column>
-                                  <p:column headerText="kurs" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                    <p:column headerText="#{mgs.kurs}" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}"/>
                                 </p:column>
-                                <p:column headerText="różnice kurs." rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                <p:column headerText="#{mgs.różnicekurs}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                     <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                                 </p:column>
-                                <p:column headerText="nr dok rozl." style="text-align: center;">
+                                    <p:column headerText="#{mgs.nrdokrozl}" style="text-align: center;">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                                 </p:column>
-                                <p:column headerText="lp wiersza" style="text-align: center;">
+                                <p:column headerText="#{mgs.lpwiersza}" style="text-align: center;">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
                                 </p:column>
-                                <p:column headerText="nr wlasny">
+                                    <p:column headerText="#{mgs.numerwlasny}">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
                                 </p:column>
-                                <p:column headerText="opis wiersza" width="280">
+                                    <p:column headerText="#{mgs.opis}" width="280">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
                                 </p:column>
                             </p:dataTable>
@@ -188,9 +191,9 @@
                     <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
                         <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
                         <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
-                        <f:selectItem itemLabel="rozliczone" itemValue="rozliczone"/>
-                        <f:selectItem itemLabel="częściowo" itemValue="częściowo"/>
-                        <f:selectItem itemLabel="nowe" itemValue="nowe"/>
+                        <f:selectItem itemLabel="#{mgs.rozliczone}" itemValue="rozliczone"/>
+                        <f:selectItem itemLabel="#{mgs.częściowo}" itemValue="częściowo"/>
+                        <f:selectItem itemLabel="#{mgs.nowe}" itemValue="nowe"/>
                     </p:selectOneMenu>
                         </h:form>
                 </p:panelGrid>

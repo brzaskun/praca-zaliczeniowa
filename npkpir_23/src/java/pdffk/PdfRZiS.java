@@ -11,6 +11,7 @@ import embeddablefk.TreeNodeExtended;
 import entity.Uz;
 import java.io.File;
 import javax.ejb.Stateless;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -64,7 +65,7 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rachunek Zysków i Strat firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, B.b("RachunekZyskówiStratfirmy")+" "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKonta(rootProjektRZiS),95,1);
             finalizacjaDokumentu(document);
             String f = "wydrukRZiS('"+nazwa+"');";
@@ -86,7 +87,7 @@ public class PdfRZiS {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rachunek Zysków i Strat z nr kont", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, B.b("RachunekZyskówiStratznrkont")+" ", wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaRZiSKontaPrzyporządkowane(rootProjektRZiS),75,2);
             finalizacjaDokumentu(document);
             String f = "wydrukRZiS('"+nazwa+"');";

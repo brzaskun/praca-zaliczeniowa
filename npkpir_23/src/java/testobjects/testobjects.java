@@ -154,7 +154,7 @@ public class testobjects {
        n.add("data operacji");
        n.add("opis");
        n.add("konto");
-       n.add("kwota");
+       n.add(B.b("kwota"));
        List t = getWierszeCechyZapisow(wiersze);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -249,8 +249,8 @@ public class testobjects {
        for (int i = 0; i < level; i++) {
         n.add("");
        }
-       n.add("nazwa pozycji RZiS");
-       n.add("kwota");
+       n.add(B.b("nazwapozycjiRZiS"));
+       n.add(B.b(B.b("kwota")));
        List t = getWierszeRZiS(rootProjektRZiS, level);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -264,8 +264,8 @@ public class testobjects {
        for (int i = 0; i < level; i++) {
         n.add("");
        }
-       n.add("nazwa pozycji RZiS");
-       n.add("kwota");
+       n.add(B.b("nazwapozycjiRZiS"));
+       n.add(B.b(B.b("kwota")));
        n.add("konta");
        List t = getWierszeRZiS(rootProjektRZiS, level);
        List[] tabela = new List[2];
@@ -280,8 +280,8 @@ public class testobjects {
        for (int i = 0; i < level; i++) {
         n.add("");
        }
-       n.add("nazwa pozycji RZiS");
-       n.add("konta");
+       n.add(B.b("nazwapozycjiRZiS"));
+       n.add(B.b(B.b("kwota")));
        List t = getWierszeRZiS(rootProjektRZiS, level);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -294,7 +294,7 @@ public class testobjects {
        List n = new ArrayList();
        n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
-       n.add("kwota");
+       n.add(B.b(B.b("kwota")));
        List t = getWierszeRZiS(rootProjekt, level);
        List[] tabela = new List[2];
        tabela[0] = n;
@@ -307,7 +307,7 @@ public class testobjects {
        List n = new ArrayList();
        n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
-       n.add("kwota");
+       n.add(B.b("kwota"));
        n.add("konta");
        List t = getWierszeRZiS(rootProjekt, level);
        List[] tabela = new List[2];
@@ -320,7 +320,7 @@ public class testobjects {
        List n = new ArrayList();
        n.add("pozycja");
        n.add("nazwa pozycji Bilansu");
-       n.add("kwota");
+       n.add(B.b("kwota"));
        n.add("konta");
        List t = getWierszeRZiS(rootProjekt, level);
        List[] tabela = new List[2];

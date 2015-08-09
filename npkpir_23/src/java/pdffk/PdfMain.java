@@ -139,14 +139,10 @@ public class PdfMain {
             if (file.isFile()) {
                 file.delete();
             }
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwa));
+            PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwa));
             writer.setInitialLeading(16);
             writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
             return writer;
-        } catch (FileNotFoundException ex) {
-            System.out.println("Problem z zachowaniem pliku PDFMain inicjacjaWritera");
-            E.e(ex);
-            return null;
         } catch (DocumentException ex) {
             System.out.println("Problem z otwarciem dokumentu PDFMain inicjacjaWritera");
             E.e(ex);
