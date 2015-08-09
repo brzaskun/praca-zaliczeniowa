@@ -29,8 +29,8 @@
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRKontaWzorcowyView.zwinwszystkie(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRKontaWzorcowyView.zwin(rootProjektKonta)}" update=":formdialogbilansukladwzorcowy:dataList" style="float: left;" />
                 <p:spacer width="40"/>
-                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy"/>
-                <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy" style="margin-left: 10px;"/>
+                <p:commandButton value="zapamiętaj" actionListener="#{pozycjaBRKontaWzorcowyView.zaksiegujzmianypozycji('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy, :formwzorcowy"/>
+                <p:commandButton value="resetuj" actionListener="#{pozycjaBRKontaWzorcowyView.resetujprzyporzadkowanie('b')}" icon="ui-icon-locked" update=":formdialogbilansukladwzorcowy, :formwzorcowy" style="margin-left: 10px;"/>
                 <p:column>
                     <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-left: 10px;" type="submit" actionListener="#{pozycjaBRKontaWzorcowyView.drukujBilansKonta()}"/>
                 </p:column>
