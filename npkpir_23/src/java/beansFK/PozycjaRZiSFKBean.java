@@ -374,15 +374,22 @@ public class PozycjaRZiSFKBean {
                 if (pozycja == null) {
                     p.setKontopozycjaID(null);
                 } else {
-                    pozycja.setKontoID(p);
-                    pozycja.setSyntetykaanalityka("syntetyka");
-                    if (bilanswynik.equals("bilans")) {
-                        pozycja.setWynik0bilans1(true);
-                    } else {
-                        pozycja.setWynik0bilans1(false);
+                    KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
+                    if (kp.getIdKP() == null) {
+                        kp.setKontoID(p);
+                        kp.setSyntetykaanalityka("syntetyka");
+                        kp.setUkladBR(pozycja.getUkladBR());
+                        if (bilanswynik.equals("bilans")) {
+                            kp.setWynik0bilans1(true);
+                        } else {
+                            kp.setWynik0bilans1(false);
+                        }
+                        p.setKontopozycjaID(kp);
                     }
-                    p.setKontopozycjaID(pozycja);
-
+                    kp.setPozycjaWn(pozycja.getPozycjaWn());
+                    kp.setPozycjaMa(pozycja.getPozycjaMa());
+                    kp.setStronaWn(pozycja.getStronaWn());
+                    kp.setStronaMa(pozycja.getStronaMa());
                 }
                 kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {
@@ -404,19 +411,27 @@ public class PozycjaRZiSFKBean {
                  if (pozycja == null) {
                     p.setKontopozycjaID(null);
                 } else {
+                     KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
+                     if (kp.getIdKP() == null) {
+                        kp.setKontoID(p);
+                        kp.setSyntetykaanalityka("syntetyka");
+                        kp.setWynik0bilans1(konto.getKontopozycjaID().isWynik0bilans1());
+                        kp.setUkladBR(konto.getKontopozycjaID().getUkladBR());
+                    } 
                      if (wnma.equals("wn")) {
-                        pozycja.setKontoID(p);
-                        pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                        kp.setKontoID(p);
+                        kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
                      } else if (wnma.equals("ma")){
-                        pozycja.setKontoID(p);
-                        pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
+                        kp.setKontoID(p);
+                        kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      } else {
-                        pozycja.setKontoID(p);
-                        pozycja.setStronaWn(konto.getKontopozycjaID().getStronaWn());
-                        pozycja.setStronaMa(konto.getKontopozycjaID().getStronaMa());
+                        kp.setKontoID(p);
+                        kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                        kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
                      }
-                    pozycja.setSyntetykaanalityka("syntetyka");
-                    p.setKontopozycjaID(pozycja);
+                    kp.setKontoID(p);
+                    kp.setSyntetykaanalityka("syntetyka");
+                    p.setKontopozycjaID(kp);
                 }
                 kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {

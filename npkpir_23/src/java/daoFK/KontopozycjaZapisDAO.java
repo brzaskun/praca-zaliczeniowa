@@ -53,6 +53,7 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
         }
     }
     
+        
     public KontopozycjaZapis findByKonto(Konto konto) {
         try {
             return sessionFacade.fintKontoPozycjaZapisByKonto(konto);

@@ -751,8 +751,6 @@ public class PlanKontFKBean {
     
     public static void przyporzadkujBilans_kontozwykle(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1) {
         KontopozycjaBiezaca kp = new KontopozycjaBiezaca();
-        kp.setPozycjaWn(wybranapozycja);
-        kp.setPozycjaMa(wybranapozycja);
         if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
             kontopozycjaBiezacaWn(kp,wybranapozycja, konto, uklad, "0", "zwykłe");
             kontopozycjaBiezacaMa(kp,wybranapozycja, konto, uklad, "0", "zwykłe");

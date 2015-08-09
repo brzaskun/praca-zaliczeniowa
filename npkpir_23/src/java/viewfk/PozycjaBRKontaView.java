@@ -509,14 +509,38 @@ public class PozycjaBRKontaView implements Serializable {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
             for (KontopozycjaBiezaca p : pozycjebiezace) {
-                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                try {
+                    if (p.isWynik0bilans1() == false) {
+                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                    }
+                } catch (Exception e) {
+                    // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
+                    E.e(e);
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID());
+                    if (znajda != null) {
+                        kontopozycjaZapisDAO.destroy(znajda);
+                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                    }
+                }
             }
         }
         if (rb.equals("b")) {
             List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
             kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
             for (KontopozycjaBiezaca p : pozycjebiezace) {
-                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                try {
+                    if (p.isWynik0bilans1() == true) {
+                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                    }
+                } catch (Exception e) {
+                    // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
+                    E.e(e);
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID());
+                    if (znajda != null) {
+                        kontopozycjaZapisDAO.destroy(znajda);
+                        kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
+                    }
+                }
             }
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");

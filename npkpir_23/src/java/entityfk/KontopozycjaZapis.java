@@ -42,7 +42,7 @@ public class KontopozycjaZapis extends KontopozycjaSuper implements Serializable
 
     
     public KontopozycjaZapis(KontopozycjaBiezaca p) {
-        this.idKP = p.idKP;
+        this.idKP = null;
         this.kontoID = p.kontoID;
         this.pozycjaMa = p.pozycjaMa;
         this.pozycjaWn = p.pozycjaWn;

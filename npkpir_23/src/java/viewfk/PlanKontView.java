@@ -662,6 +662,7 @@ public class PlanKontView implements Serializable {
         for (Konto p : wykazkont) {
             p.setKontopozycjaID(null);
         }
+        //tutaj nanosi czy ma potomkow
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
         for (Konto p : wykazkont) {
             if (p.getPelnynumer().equals("220")) {
@@ -734,12 +735,20 @@ public class PlanKontView implements Serializable {
                         }
                     } else {
                         boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView, kontoDoUsuniecia, kontoDAOfk);
+                        List<Konto> siostry = null;
+                        Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
+                        if (klientWzor.equals("W")) {
+                            siostry = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
+                        } else {
+                            siostry = kontoDAOfk.findKontaPotomnePodatnik(wpisView, kontomacierzyste.getPelnynumer());
+                        }
+                        if (siostry.size() < 1) {
                         //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
-                        if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
-                            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
-                            kontomacierzyste.setBlokada(false);
-                            kontomacierzyste.setMapotomkow(false);
-                            kontoDAOfk.edit(kontomacierzyste);
+                            if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
+                                kontomacierzyste.setBlokada(false);
+                                kontomacierzyste.setMapotomkow(false);
+                                kontoDAOfk.edit(kontomacierzyste);
+                            }
                         }
                     }
                     Msg.msg("i", "Usuwam konto");
