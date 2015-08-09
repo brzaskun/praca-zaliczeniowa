@@ -148,20 +148,18 @@ public class PozycjaRZiSFKBean {
         }
         List<Konto> l = new ArrayList<>();
         for (KontopozycjaZapis p : kontopozycja) {
-            if (!p.getSyntetykaanalityka().equals("syntetyka")) {
-                //System.out.println("d");
-            }
-            Konto konto = p.getKontoID();
-            konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
-            l.add(konto);
             try {
+                if (!p.getSyntetykaanalityka().equals("syntetyka")) {
+                    //System.out.println("d");
+                }
+                Konto konto = p.getKontoID();
+                konto.setKontopozycjaID(new KontopozycjaBiezaca(p));
+                l.add(konto);
                 kontoDAO.edit(konto);
             } catch (Exception e) {
                 E.e(e);
             }
         }
-        List<Konto> konta = kontoDAO.findWszystkieKontaWzorcowy(wpisView);
-        List<Konto> konta2 = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
     
     public static List<Konto> wyszukajprzyporzadkowane(KontoDAOfk kontoDAO, String pozycja, WpisView wpisView, boolean aktywa0pasywa1, boolean wzorcowy, UkladBR uklad) {
