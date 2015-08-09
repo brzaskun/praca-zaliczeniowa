@@ -652,9 +652,6 @@ public class PozycjaBRKontaView implements Serializable {
                         try {
                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
                             boxNaKonto = kontouzytkownika;
-                            if (kontouzytkownika.getPelnynumer().equals("201") || kontouzytkownika.getPelnynumer().equals("201-1") || kontouzytkownika.getPelnynumer().equals("201-1-0")){
-                                System.out.println("mam");
-                            }
                             if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
                                 if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
                                     wybranapozycja = p.getPozycjaWn();
@@ -689,11 +686,11 @@ public class PozycjaBRKontaView implements Serializable {
                 if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
                         Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
-                        if (kontouzytkownika.getPelnynumer().equals("201") || kontouzytkownika.getPelnynumer().equals("201-1") || kontouzytkownika.getPelnynumer().equals("201-1-0")){
-                                System.out.println("mam");
-                        }
                         boxNaKonto = kontouzytkownika;
                         if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
+                            if (kontouzytkownika.getPelnynumer().equals("010-3")) {
+                               System.out.println("mam");
+                            }
                             if (!kontouzytkownika.getZwyklerozrachszczegolne().equals("zwykłe")) {
                                 wybranapozycja = p.getPozycjaWn();
                                 wnmaPrzypisywanieKont = "wn";
@@ -717,6 +714,7 @@ public class PozycjaBRKontaView implements Serializable {
                     //nie przejmuje sie tym bo wyzej jest funkcja oznaczajaca takie macierzyste
                     System.out.println("konto przyporzadkowane analityka");
                 }
+                
             }
         }
         Msg.msg("Zapamiętano przyporządkowane pozycje");

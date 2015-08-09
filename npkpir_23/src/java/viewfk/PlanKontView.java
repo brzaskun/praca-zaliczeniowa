@@ -19,6 +19,7 @@ import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
+import entity.Klienci_;
 import entity.Podatnik;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
@@ -659,13 +660,15 @@ public class PlanKontView implements Serializable {
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         //resetuj kolumne macierzyste
+        kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, wewy);
         for (Konto p : wykazkont) {
             p.setKontopozycjaID(null);
         }
         //tutaj nanosi czy ma potomkow
         KontaFKBean.czyszczenieKont(wykazkont, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         for (Konto p : wykazkont) {
-            if (p.getPelnynumer().equals("220")) {
+            if (p.getPelnynumer().equals("010")) {
                 System.out.println("s");
             }
             PlanKontFKBean.naniesprzyporzadkowanieSlownikowe(p, wpisView, kontoDAOfk, kontopozycjaZapisDAO);

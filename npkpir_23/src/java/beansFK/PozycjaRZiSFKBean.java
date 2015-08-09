@@ -233,9 +233,13 @@ public class PozycjaRZiSFKBean {
         }
         List<KontoKwota> kontokwotalist = new ArrayList<>();
         for (Konto p : lista) {
-            if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
-                KontoKwota t = new KontoKwota(p,0.0);
-                kontokwotalist.add(t);
+            try {
+                if (!p.getKontopozycjaID().getSyntetykaanalityka().equals("syntetyka") && !p.getKontopozycjaID().getSyntetykaanalityka().equals("analityka")) {
+                    KontoKwota t = new KontoKwota(p,0.0);
+                    kontokwotalist.add(t);
+                }
+            } catch (Exception e) {
+                E.e(e);
             }
         }
         pozycja.setPrzyporzadkowanekonta(kontokwotalist);
@@ -408,34 +412,38 @@ public class PozycjaRZiSFKBean {
         }
         if (potomki != null) {
             for (Konto p : potomki) {
-                 if (pozycja == null) {
-                    p.setKontopozycjaID(null);
-                } else {
-                     KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
-                     if (kp.getIdKP() == null) {
-                        kp.setKontoID(p);
-                        kp.setSyntetykaanalityka("syntetyka");
-                        kp.setWynik0bilans1(konto.getKontopozycjaID().isWynik0bilans1());
-                        kp.setUkladBR(konto.getKontopozycjaID().getUkladBR());
-                    } 
-                     if (wnma.equals("wn")) {
-                        kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
-                        kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
-                     } else if (wnma.equals("ma")){
-                        kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
-                        kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
-                     } else {
-                        kp.setKontoID(p);
-                        kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
-                        kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
-                        kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
-                        kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
-                     }
-                    kp.setKontoID(p);
-                    kp.setSyntetykaanalityka("syntetyka");
-                    p.setKontopozycjaID(kp);
+                try {
+                    if (pozycja == null) {
+                       p.setKontopozycjaID(null);
+                   } else {
+                        KontopozycjaBiezaca kp = p.getKontopozycjaID() != null ? p.getKontopozycjaID() : new KontopozycjaBiezaca();
+                        if (kp.getIdKP() == null) {
+                           kp.setKontoID(p);
+                           kp.setSyntetykaanalityka("syntetyka");
+                           kp.setWynik0bilans1(konto.getKontopozycjaID().isWynik0bilans1());
+                           kp.setUkladBR(konto.getKontopozycjaID().getUkladBR());
+                       } 
+                        if (wnma.equals("wn")) {
+                           kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
+                           kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                        } else if (wnma.equals("ma")){
+                           kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
+                           kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
+                        } else {
+                           kp.setKontoID(p);
+                           kp.setPozycjaWn(konto.getKontopozycjaID().getPozycjaWn());
+                           kp.setPozycjaMa(konto.getKontopozycjaID().getPozycjaMa());
+                           kp.setStronaWn(konto.getKontopozycjaID().getStronaWn());
+                           kp.setStronaMa(konto.getKontopozycjaID().getStronaMa());
+                        }
+                       kp.setKontoID(p);
+                       kp.setSyntetykaanalityka("syntetyka");
+                       p.setKontopozycjaID(kp);
+                   }
+                    kontoDAO.edit(p);
+                } catch (Exception e) {
+                    E.e(e);
                 }
-                kontoDAO.edit(p);
                 if (p.isMapotomkow() == true) {
                     przyporzadkujpotkomkowRozrachunkowe(p, pozycja, kontoDAO, wpisView, wnma, wzorcowy, rok);
                 }

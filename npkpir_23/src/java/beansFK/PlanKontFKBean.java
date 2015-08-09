@@ -298,8 +298,8 @@ public class PlanKontFKBean {
      public static void naniesprzyporzadkowanieSlownikowe(Konto noweKonto, WpisView wpisView, KontoDAOfk kontoDAOfk, KontopozycjaZapisDAO kontopozycjaZapisDAO) {
         try {
             Konto macierzyste = kontoDAOfk.findKonto(noweKonto.getMacierzyste(), wpisView);
-            if (noweKonto.getPelnynumer().equals("201")){
-                //System.out.println("d");
+            if (noweKonto.getPelnynumer().equals("010-3")){
+                System.out.println("d");
             }
             KontopozycjaZapis kpo = null;
             if (macierzyste != null) {
@@ -721,9 +721,6 @@ public class PlanKontFKBean {
     }
     
     public static void przyporzadkujBilans_kontoszczegolne(String wybranapozycja, Konto konto, UkladBR uklad, KontoDAOfk kontoDAO, WpisView wpisView, boolean wzorcowy, String wnmaPrzypisywanieKont, boolean aktywa0pasywa1, String rodzajkonta) {
-        if (konto.getPelnynumer().equals("201") || konto.getPelnynumer().equals("201-1") || konto.getPelnynumer().equals("201-1-0")){
-            System.out.println("mam");
-        }
         KontopozycjaBiezaca kp = konto.getKontopozycjaID() != null ? konto.getKontopozycjaID() : new KontopozycjaBiezaca();
         if (wnmaPrzypisywanieKont.equals("wn")) {
             if (aktywa0pasywa1 == false) {//jest informacja w jaqkim miejscu winiec byc czy po aktywach czy po pasywach
