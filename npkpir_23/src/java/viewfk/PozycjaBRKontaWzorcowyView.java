@@ -271,6 +271,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
                 PlanKontFKBean.przyporzadkujBilans_kontoszczegolne(wybranapozycja,konto, ukladpodatnika, kontoDAO, wpisView, wzorcowy, wnmaPrzypisywanieKont, aktywa0pasywa1,"szczególne");
                 przyporzadkowanekonta.add(konto);
                 Collections.sort(przyporzadkowanekonta, new Kontocomparator());
+                kontabezprzydzialu.remove(konto);
                 //czesc nanoszaca informacje na potomku
             }
             uzupelnijpozycjeOKonta(pozycje);
