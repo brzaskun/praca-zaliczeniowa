@@ -214,6 +214,9 @@ public class DokfkView implements Serializable {
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            if (klientdlaPK == null) {
+                klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+            }
         } catch (Exception e) {
             E.e(e);
         }
@@ -240,6 +243,7 @@ public class DokfkView implements Serializable {
         try {
             if (ostatniklient == null) {
                 ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                ostatniklient = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }
         } catch (Exception e) {
             E.e(e);
@@ -914,7 +918,7 @@ public class DokfkView implements Serializable {
     }
 
     public void znajdzduplicatdokumentuKontrahent() {
-        if (zapisz0edytuj1 == false && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
+        if (zapisz0edytuj1 == false && selected.getKontr() != null && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
             Dokfk dokument = null;
             try {
                 dokument = dokDAOfk.findDokfkObjKontrahent(selected);
@@ -999,6 +1003,9 @@ public class DokfkView implements Serializable {
             if (rodzajBiezacegoDokumentu != 1 && rodzajBiezacegoDokumentu != 2) {
                 Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
                 selected.setKontr(k);
+                if (k==null) {
+                    selected.setKontr(new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!"));
+                }
             }
         } catch (Exception e) {
             E.e(e);
@@ -2025,6 +2032,9 @@ public class DokfkView implements Serializable {
 
     public void wygenerujnumerkolejny() {
             Klienci klient = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            if (klient == null) {
+                klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+            }
             String nowynumer = DokFKBean.wygenerujnumerkolejny(selected, wpisView, dokDAOfk, klient, wierszBODAO);
             if (!nowynumer.isEmpty() && selected.getNumerwlasnydokfk() == null) {
                 selected.setNumerwlasnydokfk(nowynumer);
@@ -2196,6 +2206,9 @@ public class DokfkView implements Serializable {
             for (Dokfk p : wykazZaksiegowanychDokumentow) {
                 if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2 && p.getKontr() == null) {
                     Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+                    if (k == null) {
+                        k = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+                    }
                     p.setKontr(k);
                     dokDAOfk.edit(p);
                 }

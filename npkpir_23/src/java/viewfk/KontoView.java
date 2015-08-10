@@ -4,6 +4,7 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
 import dao.WierszeDAO;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
@@ -11,6 +12,8 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -80,6 +83,7 @@ public class KontoView  implements Serializable {
                  }
              }
          }
+         Collections.sort(results, new Kontocomparator());
          return results;
      }
      

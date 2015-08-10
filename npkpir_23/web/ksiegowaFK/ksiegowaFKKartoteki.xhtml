@@ -16,6 +16,14 @@
                     <h:form>
                         <p:growl autoUpdate="true"/>
                     </h:form>
+                    <p:confirmDialog id="confirmDialog" message="Usunąć wybranego kontrahenta?"  
+                                     header="Rozpoczęcie usuwania kontrahenta" severity="alert" widgetVar="confirmation" appendTo="@(body)">  
+
+                        <p:commandButton id="confirm" value="Tak, usunąć" update=":formY:tabelaKontr" oncomplete="PF('confirmation').hide()"  
+                                         actionListener="#{KlView.destroy2}" />  
+                        <p:commandButton id="decline" value="Nie usuwać" onclick="PF('confirmation').hide()" type="button" />   
+
+                    </p:confirmDialog>  
                     <ui:include src="sub/menu/menuslowniki.xhtml"/>
                     <ui:include src="sub/dialog/dialog_waluty.xhtml"/>
                     <ui:include src="sub/dialog/dialog_wykazkursow.xhtml"/>
