@@ -206,7 +206,7 @@
                             <f:facet name="header">
                                 <p:row>
                                     <p:column>
-                                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}"/>
+                                        <h:outputText value="#{mgs.kontrahent}" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}"/>
                                     </p:column>
                                     <p:column>  
                                         <h:outputText value="treść dokumentu"/>
@@ -222,7 +222,7 @@
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                                     forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
-                                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 1 or dokfkView.selected.rodzajedok.kategoriadokumentu == 2 ? true : false}" style="width: 250px;">
+                                                    rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:wybranawaluta"/>
                                         <p:ajax event="focus" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" update=":formwpisdokument:opisdokumentu" global="false"/>

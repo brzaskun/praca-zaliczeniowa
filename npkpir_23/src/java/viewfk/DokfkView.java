@@ -1268,8 +1268,11 @@ public class DokfkView implements Serializable {
         List<Dokfk> listaroznice = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
-            if ((p.getRodzajedok().getKategoriadokumentu() == 0 || p.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
-                if (!p.getKontr().equals(klientdlaPK)) {
+            if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
+                if (p.getKontr() == null) {
+                    p.setKontr(klientdlaPK);
+                    dokDAOfk.edit(p);
+                } else if (!p.getKontr().equals(klientdlaPK)) {
                     p.setKontr(klientdlaPK);
                     dokDAOfk.edit(p);
                 }
