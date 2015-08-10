@@ -74,6 +74,8 @@
                     <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kategoriadokumentu}"  rendered="#{WpisView.ksiegirachunkowe}">
                         <f:selectItem itemLabel="koszt z VAT" itemValue="1"/>
                         <f:selectItem itemLabel="przychód z VAT" itemValue="2"/>
+                        <f:selectItem itemLabel="koszt bez VAT" itemValue="3"/>
+                        <f:selectItem itemLabel="przychód bez VAT" itemValue="4"/>
                         <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                         <f:selectItem itemLabel="#{mgs.płatności}" itemValue="0"/>
                         <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>

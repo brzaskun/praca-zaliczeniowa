@@ -384,11 +384,11 @@ public class PdfVAT {
             nazwy.addAll(mapa.keySet());
             String nazwapliku = null;
             if (wartosc) {
-                nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-wartosc-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "vat-wszystko-wartosc-" + wpisView.getPodatnikWpisu() + ".pdf";
             } else {
-                nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
+                nazwapliku = "vat-wszystko-" + wpisView.getPodatnikWpisu() + ".pdf";
             }
-                File file = new File(nazwapliku);
+                File file = Plik.plik(nazwapliku, true);
                 if (file.isFile()) {
                     file.delete();
                 }
