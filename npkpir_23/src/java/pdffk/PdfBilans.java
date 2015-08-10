@@ -13,6 +13,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import javax.ejb.Stateless;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -52,9 +53,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, "Bilans Aktywa firmy "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+" "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, "Bilans Pasywa firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);
