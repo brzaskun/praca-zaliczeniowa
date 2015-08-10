@@ -183,7 +183,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta)) {
                 Document document = new Document();
                 String nazwapliku = "fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+                PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 PdfFP.dodajopisdok(document);
@@ -245,7 +245,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             } else {
                 Document document = new Document();
                 String nazwapliku = "fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+                PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 PdfFP.dodajopisdok(document);
@@ -267,7 +267,7 @@ public class PdfFaktura extends Pdf implements Serializable {
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         String nazwapliku = "faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();
         List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());
@@ -300,7 +300,7 @@ public class PdfFaktura extends Pdf implements Serializable {
 public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         String nazwapliku = "C:/testowa.pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));

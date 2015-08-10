@@ -5,6 +5,7 @@
 package pdf;
 
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -37,6 +38,8 @@ import java.util.List;
 import javax.ejb.Stateless;
 import msg.Msg;
 import static pdf.PdfVAT7.absText;
+import static pdf.PdfVAT7.absText;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -52,7 +55,7 @@ public class PdfPK {
         Dok selected = gosciuwybral.get(0);
         Document document = new Document();
         String nazwapliku = "pk" + wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         writer.setInitialLeading(16);
         document.addTitle("Polecenie księgowania");
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");

@@ -7,6 +7,7 @@ package pdf;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -27,6 +28,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import plik.Plik;
 import view.WpisView;
 
 /**
@@ -39,7 +41,7 @@ public class PdfPkpir {
     public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         String nazwapliku = "pkpir" + wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+        PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
         writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

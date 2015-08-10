@@ -85,7 +85,7 @@ public class PdfVAT {
                     } catch (Exception e) {
 
                     }
-                    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+                    PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
                     int liczydlo = 1;
                     PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                     writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -224,7 +224,7 @@ public class PdfVAT {
                     } catch (Exception e) {
 
                     }
-                    PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+                    PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
                     int liczydlo = 1;
                     PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                     writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));
@@ -392,7 +392,7 @@ public class PdfVAT {
                 if (file.isFile()) {
                     file.delete();
                 }
-                PdfWriter writer = PdfWriter.getInstance(pdf, new FileOutputStream(nazwapliku));
+                PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
                 int liczydlo = 1;
                 PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
                 writer.setBoxSize("art", new Rectangle(1500, 600, 0, 0));

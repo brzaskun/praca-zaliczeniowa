@@ -286,7 +286,7 @@ public class PdfKonta {
         try {
             Document document = new Document(PageSize.A4, 10,10,20,20);
             String nazwapliku = "konta-Testowy.pdf";
-            PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
+            PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
             File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
