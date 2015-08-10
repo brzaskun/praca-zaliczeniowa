@@ -5,8 +5,11 @@
  */
 package xls;
 
+import embeddablefk.TreeNodeExtended;
 import entity.Rodzajedok;
 import entityfk.Konto;
+import entityfk.PozycjaRZiS;
+import entityfk.PozycjaRZiSBilans;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -138,6 +141,78 @@ public class WriteXLSFile {
         return workbook;
     }
     
+    
+    public static Workbook zachowajRZiSInterXLS(Map<String, List> listy, WpisView wpisView){
+        List listapozycji = listy.get("rzisinter");
+        List headersList = headerRZiSBilansInter();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("RZiSInter");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, listapozycji, "RZiSInter", 1, "RZiSInter");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        4, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_ROTATED_PAPERSIZE);
+        sheet.setFitToPage(true);
+        sheet.getPrintSetup().setLandscape(true);
+        //write this workbook in excel file.
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+            System.out.println(FILE_PATH + " is successfully written");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
+    public static Workbook zachowajBilansInterXLS(Map<String, List> listy, WpisView wpisView){
+        List listapozycji = listy.get("bilansinter");
+        List headersList = headerRZiSBilansInter();
+        // Using XSSF for xlsx format, for xls use HSSF
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("BilansInter");
+        insertPrintHeader(sheet, wpisView);
+        int rowIndex = 0;
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersList, listapozycji, "BilansInter", 1, "BilansInter");
+        workbook.setPrintArea(
+        0, //sheet index
+        0, //start column
+        4, //end column
+        0, //start row
+        rowIndex //end row
+        );
+      //set paper size
+        sheet.getPrintSetup().setPaperSize(XSSFPrintSetup.A4_ROTATED_PAPERSIZE);
+        sheet.setFitToPage(true);
+        sheet.getPrintSetup().setLandscape(true);
+        //write this workbook in excel file.
+        try {
+            FileOutputStream fos = new FileOutputStream(FILE_PATH);
+            workbook.write(fos);
+            fos.close();
+
+            System.out.println(FILE_PATH + " is successfully written");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
+    
+    
     public static Workbook zachowajRodzajedokXLS(Map<String, List> listy, WpisView wpisView){
         List rodzajedok = listy.get("rodzajedok");
         List headersList = headerrodzajedok();
@@ -235,6 +310,16 @@ public class WriteXLSFile {
         return headers;
     }
     
+    public static List headerRZiSBilansInter() {
+        List headers = new ArrayList();
+        headers.add("lp");
+        headers.add("id");
+        headers.add("pozycja");
+        headers.add("nazwa pozycji");
+        headers.add("tłumaczenie");
+        return headers;
+    }
+    
     public static List headerrodzajedok() {
         List headers = new ArrayList();
         headers.add("lp");
@@ -288,11 +373,17 @@ public class WriteXLSFile {
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getPelnynumer());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNazwapelna());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getDe());
-        }
-        else if (c.getName().contains("Rodzajedok")) {
+        }   else if (c.getName().contains("Rodzajedok")) {
             Rodzajedok st = (Rodzajedok) ob;
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(rowIndex));
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getSkrot());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNazwa());
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getDe());
+        }   else if (c.getName().contains("TreeNodeExtended")) {
+            PozycjaRZiSBilans st = (PozycjaRZiSBilans) ((TreeNodeExtended) ob).getData();
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(rowIndex));
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, String.valueOf(st.getLp()));
+            createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, st.getPozycjaString());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getNazwa());
             createCell(workbook, row, (short) columnIndex++, CellStyle.ALIGN_LEFT, CellStyle.VERTICAL_CENTER, st.getDe());
         }
@@ -370,6 +461,21 @@ public class WriteXLSFile {
         cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
         cell.setCellStyle(cellStyle);
     }
+    
+     private static void createCell(Workbook wb, Row row, short column, short halign, short valign, String value, boolean locked) {
+        Cell cell = row.createCell(column);
+        cell.setCellValue(new XSSFRichTextString(value));
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(halign);
+        cellStyle.setLocked(locked);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setBorderBottom(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderTop(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderRight(XSSFCellStyle.BORDER_THIN);
+        cellStyle.setBorderLeft(XSSFCellStyle.BORDER_THIN);
+        cell.setCellStyle(cellStyle);
+    }
+    
     private static void createCell(Workbook wb, Row row, short column, short halign, short valign, double value) {
         Cell cell = row.createCell(column);
         cell.setCellValue(value);
@@ -401,5 +507,6 @@ public class WriteXLSFile {
         sheet.autoSizeColumn((short) 1);
         sheet.autoSizeColumn((short) 2);
         sheet.autoSizeColumn((short) 3);
+        sheet.autoSizeColumn((short) 4);
     }
 }

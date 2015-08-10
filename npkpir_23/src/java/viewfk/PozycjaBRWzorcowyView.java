@@ -33,6 +33,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.model.TreeNode;
 import view.WpisView;
+import xls.ReadXLSFile;
 
 /**
  *
@@ -292,6 +293,8 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
 
+    
+    
     public void zwinwszystkie(TreeNodeExtended root) {
         root.foldAll();
         level = 0;
@@ -313,6 +316,15 @@ public class PozycjaBRWzorcowyView implements Serializable {
         }
     }
 
+    public void pobierzdanezpliku() {
+        ReadXLSFile.updateRZiSInter(pozycjaRZiSDAO, wpisView, "c://temp//rzisinter.xlsx");
+        pobierzuklad("r", rootProjektRZiS, "");
+    }
+    
+    public void pobierzdanezplikuBilans() {
+        ReadXLSFile.updateBilansInter(pozycjaBilansDAO, wpisView, "c://temp//bilansinter.xlsx");
+        pobierzuklad("b", rootProjektRZiS, "aktywa");
+    }
       
 
     public void dodajnowapozycje(String syntetycznaanalityczna) {
