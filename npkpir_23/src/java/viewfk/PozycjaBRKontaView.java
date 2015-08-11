@@ -650,8 +650,14 @@ public class PozycjaBRKontaView implements Serializable {
                     if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
                         System.out.println("Szukam konta " + p.getKontoID().toString());
                         try {
+                            if (p.getKontoID().getPelnynumer().equals("755")) {
+                                System.out.println("skopiujPozycje()");
+                            }
                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
                             boxNaKonto = kontouzytkownika;
+                            if (kontouzytkownika.getPelnynumer().equals("755")) {
+                                System.out.println("skopiujPozycje()");
+                            }
                             if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("wynikowe")) {
                                 if (kontouzytkownika.getZwyklerozrachszczegolne().equals("szczególne")) {
                                     wybranapozycja = p.getPozycjaWn();
