@@ -513,7 +513,7 @@ public class PdfMain {
                     col10[1] = 2;
                     col10[2] = 5;
                     col10[3] = 3;
-                    col10[4] = 3;
+                    col10[4] = 5;
                     return col10;
                 } else {
                     int[] col10 = new int[size];
