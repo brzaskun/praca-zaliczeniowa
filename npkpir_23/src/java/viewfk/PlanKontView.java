@@ -1002,6 +1002,9 @@ public class PlanKontView implements Serializable {
                 wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
+            case "tłumaczenie":
+                PdfPlanKont.drukujPlanKontTłumaczenie(wykazkont, wpisView);
+                break;
         }
 
     }

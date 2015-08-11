@@ -498,6 +498,10 @@
             <to-view-id>/wspolny/wspolnyZobowiazania.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfkPlankont</from-outcome>
+            <to-view-id>/wspolny/wspolnyPlanKont.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>gfkNaleznosci</from-outcome>
             <to-view-id>/wspolny/wspolnyNaleznosci.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

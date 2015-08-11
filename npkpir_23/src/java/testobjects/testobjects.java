@@ -196,6 +196,19 @@ public class testobjects {
        return tabela;
    }
     
+    public static List[] getTabelaPlanKontTR(List<Konto> wiersze) {
+       List n = new ArrayList();
+       n.add(B.b("lp"));
+       n.add(B.b("numerkonta"));
+       n.add(B.b("nazwapełna"));
+       n.add(B.b("nazwaskrócona"));
+       n.add(B.b("tłumaczenie"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
     public static List[] getTabelaRRK(List<Transakcja> wiersze) {
        List n = new ArrayList();
        n.add("lp");

@@ -13,6 +13,7 @@ import entityfk.Konto;
 import java.io.File;
 import java.util.List;
 import javax.ejb.Stateless;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdffk.PdfMain.dodajOpisWstepny;
@@ -45,8 +46,30 @@ public class PdfPlanKont {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Plan Kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Plan Kont firmy "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaPlanKont(wykazkont),95,0);
+            finalizacjaDokumentu(document);
+            String f = "pokazwydruk('"+nazwa+"');";
+            RequestContext.getCurrentInstance().execute(f);
+        } else {
+            Msg.msg("w", "Nie wybrano Planu kont do wydruku");
+        }
+    }
+    
+    public static void drukujPlanKontTłumaczenie(List<Konto> wykazkont, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"plankontTR";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        if (wykazkont != null && wykazkont.size() > 0) {
+            Uz uz = wpisView.getWprowadzil();
+            Document document = inicjacjaA4Portrait();
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, B.b("plankontfirmy")+" "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajTabele(document, testobjects.testobjects.getTabelaPlanKontTR(wykazkont),95,2);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

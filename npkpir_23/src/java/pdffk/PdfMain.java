@@ -507,6 +507,14 @@ public class PdfMain {
                     col10[6] = 3;
                     col10[7] = 3;
                     return col10;
+                } else if (modyfikator==2) {
+                    int[] col10 = new int[size];
+                    col10[0] = 1;
+                    col10[1] = 2;
+                    col10[2] = 5;
+                    col10[3] = 3;
+                    col10[4] = 3;
+                    return col10;
                 } else {
                     int[] col10 = new int[size];
                     col10[0] = 3;
@@ -829,6 +837,13 @@ public class PdfMain {
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
+                } else if (modyfikator == 2) {
+                    Konto p = (Konto) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                 } else {
                     Konto p = (Konto) it.next();
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
