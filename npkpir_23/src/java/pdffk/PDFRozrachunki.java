@@ -16,13 +16,7 @@ import javax.ejb.Stateless;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
-import static pdffk.PdfMain.inicjacjaWritera;
-import static pdffk.PdfMain.naglowekStopkaP;
-import static pdffk.PdfMain.otwarcieDokumentu;
+import static pdffk.PdfMain.*;
 import plik.Plik;
 import view.WpisView;
 
@@ -45,7 +39,7 @@ public class PDFRozrachunki {
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, B.b("zestawienierozrachunków")+" "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            dodajTabele(document, testobjects.testobjects.getTabelaRozrachunki(stronyWiersza),95,0);
+            dodajTabele(document, testobjects.testobjects.getTabelaRozrachunki(stronyWiersza),95,1);
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);

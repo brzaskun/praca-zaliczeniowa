@@ -196,6 +196,21 @@ public class testobjects {
        return tabela;
    }
     
+     public static List[] getTabelaTransakcje(List<Transakcja> wiersze) {
+       List n = new ArrayList();
+       n.add(B.b("kwotatrans"));
+       n.add(B.b("datatrans"));
+       n.add(B.b("rozliczono"));
+       n.add(B.b("dokument"));
+       n.add(B.b("wiersz"));
+       n.add(B.b("nrdokrozl"));
+       n.add(B.b("opis"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
     public static List[] getTabelaRozrachunki(List<StronaWiersza> wiersze) {
        List n = new ArrayList();
        n.add(B.b("lp"));
