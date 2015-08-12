@@ -48,12 +48,12 @@
                            <p:menuitem value="środki trwałe"  outcome="srodkiewidencja" icon="ui-icon-circle-arrow-e"/>  
                        </p:menu>
                         <p:menu style="width: 180px;">
-                            <p:menuitem value="#{mgs.faktury}"  outcome="gfaktura" icon="ui-icon-circle-arrow-e"/>
+                            <p:menuitem value="#{mgs.faktury}"  outcome="gfaktura" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         </p:menu> 
                         <p:menu style="width: 180px;">
                             <p:menuitem value="uwagi do programu"  outcome="gadmin" icon="ui-icon-circle-arrow-e"/>
                         </p:menu> 
-                        <p:commandButton id="wyloguj" value="Wyloguj" action="#{logowanie.logout()}" style="margin-left: 25%"/>
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%"/>
                     </p:panelGrid>
                 </h:form>
             </p:panel>

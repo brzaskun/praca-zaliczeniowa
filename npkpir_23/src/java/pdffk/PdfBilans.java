@@ -53,9 +53,9 @@ public class PdfBilans {
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             String sumatxt = formatter.format(sumabilansowa);
             if (ap.equals("a")) {
-                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+" "+wpisView.getPodatnikWpisu()+" suma aktywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansAktywafirmy")+" "+wpisView.getPodatnikWpisu()+" "+B.b("sumaaktywów")+" - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             } else {
-                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+                dodajOpisWstepny(document, B.b("BilansPasywafirmy")+" "+wpisView.getPodatnikWpisu()+" "+B.b("sumapasywów")+" - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
             dodajTabele(document, testobjects.testobjects.getTabelaBilans(rootProjekt),75,0);
             finalizacjaDokumentu(document);

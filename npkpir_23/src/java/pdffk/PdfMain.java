@@ -755,7 +755,7 @@ public class PdfMain {
                         if (l.equals("pl")) {
                             table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
                         } else {
-                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 9));
                         }
                     } else if (p.getLevel() == 1) {
                         if (l.equals("pl")) {

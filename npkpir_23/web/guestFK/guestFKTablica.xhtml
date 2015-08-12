@@ -17,7 +17,7 @@
                     <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;">
+                        <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}" >
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania zaksięgowanych w danym miesiącu dokumentów. Zmiana miesiąca możliwa jest w polu obok przycisku 'pobierz'."/><br/>
                                 <h:outputText value="Filtr z pisanym słowem 'wszystkie' umożliwia segregowanie dokumentów wg kategorii."/> <br/>

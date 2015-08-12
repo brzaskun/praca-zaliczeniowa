@@ -23,8 +23,8 @@
             <p:panel header="Menu:">
                 <p:panelGrid columns="1">
                     <p:menu style="width: 180px;">
-                        <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e"/><p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e"/>
-                        <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e"/>
+                        <p:menuitem value="#{mgs.dokumenty}"  outcome="gfktablica" icon="ui-icon-circle-arrow-e"/><p:menuitem value="#{mgs.faktury}"  outcome="gfkFaktura" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <p:menuitem value="#{mgs.płatności}"  outcome="gfakturaFakturaPlatnosci" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         <p:menuitem value="#{mgs.kontrahenci}"  outcome="gfakturaFakturaKontrahenci" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>
                     <p:menu style="width: 180px;">
@@ -44,7 +44,7 @@
                     <p:menu style="width: 180px;" rendered="#{facesContext.externalContext.isUserInRole('Multiuser')}">
                         <p:menuitem value="#{mgs.zmianafirmy}"  outcome="Multiuser" icon="ui-icon-circle-arrow-e"/>
                     </p:menu>  
-                    <p:commandButton id="wyloguj" value="Wyloguj" action="#{logowanie.logout()}" style="margin-left: 25%"/>
+                    <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

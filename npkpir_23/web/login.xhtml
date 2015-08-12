@@ -82,7 +82,7 @@
                                          icon="fa fa-user" rendered="#{logowanie.liczniklogowan gt 0}"/>
                         <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>
-                    <!--                        <p:commandButton value="Wyloguj" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
+                    <!--                        <p:commandButton value="#{mgs.wyloguj}" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
                 </p:panel>
             </h:form>
             <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >

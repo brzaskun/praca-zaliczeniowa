@@ -16,10 +16,21 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
                                         converterMessage="Nieudana konwersja Klient"
-                                        styleClass="kontoinput, autoCompleteBig" 
+                                        styleClass="kontoinput, autoCompleteBig" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"
                                         >
-                            <p:ajax event="itemSelect" 
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" global="false"
                                     oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
+                        </p:autoComplete>
+                        <p:autoComplete id="wyborkonta1" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.de}" itemValue="#{p}" cache="true" 
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
+                                        converterMessage="Nieudana konwersja Klient"
+                                        styleClass="kontoinput, autoCompleteBig"  rendered="#{facesContext.viewRoot.locale.language.equals('de')}"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" global="false" 
+                                    oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta1_input');" />
                         </p:autoComplete>
                         <h:outputText value=" #{mgs.wybranekonto}:"/>
                         <p:panelGrid id="nazwawybranegokonta">
@@ -40,10 +51,7 @@
             </p:layoutUnit>  
             <!--            lewa strona z drzewem kont-->
             <p:layoutUnit id="westtree" position="west" size="350" >
-                <p:panelGrid columns="2" style="width: 300px;">
-                    <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{rozrachunkiPrzegladView.rozwinwszystkie(rozrachunkiPrzegladView.root)}" style="float: left;" />
-                    <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{rozrachunkiPrzegladView.zwinwszystkie(rozrachunkiPrzegladView.root)}"  style="float: left;" />
-                </p:panelGrid>
+               
                 <h:outputScript library="js_fk" name="chodzeniepokontach.js"/>
                 <h:form id="form">
                     <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
@@ -78,10 +86,10 @@
                                      styleClass="grid" style="width: 100%;">
                             <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
                             <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
-                            <p:column headerText="nr konta" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
+                            <p:column headerText="#{mgs.numerkonta}" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
                                 <h:outputText value="#{loop1.pelnynumer}" /> 
                             </p:column>
-                            <p:column headerText="nazwa pełna" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
+                            <p:column headerText="#{mgs.nazwapełna}" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
                                 <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                                 <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                             </p:column>

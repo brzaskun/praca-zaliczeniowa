@@ -200,9 +200,9 @@ public class SymulacjaWynikuView implements Serializable {
     private void obliczsymulacje() {
         podatnikkwotarazem = new HashMap<>();
         pozycjePodsumowaniaWyniku = new ArrayList<>();
-        double przychody = Z.z(sumuj(listakontaprzychody, "przychody"));
+        double przychody = Z.z(sumuj(listakontaprzychody, B.b("przychody")));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("przychodyrazem"), przychody));
-        double koszty = Z.z(sumuj(listakontakoszty, "koszty"));
+        double koszty = Z.z(sumuj(listakontakoszty, B.b("koszty")));
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("kosztyrazem"), koszty));
         wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));

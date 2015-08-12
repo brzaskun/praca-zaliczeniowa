@@ -15,7 +15,7 @@
                     <ui:include src="sub/layoutTablica/north.xhtml"/>  <!-- panel polnocny-->
                     <ui:include src="sub/layoutTablica/west.xhtml"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center">
-                        <p:panel toggleable="true" closable="true" style="width: 90%;">
+                        <p:panel toggleable="true" closable="true" style="width: 90%;" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do wyświetlania poszczególnych zapisów i zestawień w danym miesiącu. Zmiana miesiąca możliwa jest w panelu po lewej."/><br/>
                                 <h:outputText value="Dane po pobraniu mogąć być sortowane. Wystarczy kliknąć na symbol strzałek znajdujących sie obok opisu kolumny."/> <br/>

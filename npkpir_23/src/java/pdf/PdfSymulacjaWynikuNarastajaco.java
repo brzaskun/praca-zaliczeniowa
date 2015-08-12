@@ -8,6 +8,7 @@ package pdf;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfFont.ustawfrazeSpanFont;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import msg.B;
 import msg.Msg;
 import plik.Plik;
 import view.WpisView;
@@ -81,15 +83,15 @@ public class PdfSymulacjaWynikuNarastajaco {
         table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
-            table.addCell(ustawfraze("zestawienie kwot wyników za poszczególne miesiące do " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 4, 0));
+            table.addCell(ustawfraze(B.b("zestawieniekwotwyników")+" " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 4, 0));
             
-            table.addCell(ustawfraze("mc", 0, 1));
-            table.addCell(ustawfraze("przychód", 0, 1));
-            table.addCell(ustawfraze("koszt", 0, 1));
-            table.addCell(ustawfraze("wynik finansowy", 0, 1));
-            table.addCell(ustawfraze("npup", 0, 1));
-            table.addCell(ustawfraze("nkup", 0, 1));
-            table.addCell(ustawfraze("wynik podatkowy", 0, 1));
+            table.addCell(ustawfraze(B.b("mc"), 0, 1));
+            table.addCell(ustawfraze(B.b("przychód"), 0, 1));
+            table.addCell(ustawfraze(B.b("koszt)"), 0, 1));
+            table.addCell(ustawfraze(B.b("wynikfinansowy"), 0, 1));
+            table.addCell(ustawfraze(B.b("npup"), 0, 1));
+            table.addCell(ustawfraze(B.b("nkup"), 0, 1));
+            table.addCell(ustawfraze(B.b("wynikpodatkowy"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie wyniku finansowego narastająco", 7, 0, 5));
 
@@ -118,10 +120,10 @@ public class PdfSymulacjaWynikuNarastajaco {
         table.setWidthPercentage(50);
         table.setSpacingBefore(15);
         try {
-            table.addCell(ustawfraze("obliczenie wyniku fin. i pod. narast.", 2, 0));
+            table.addCell(ustawfraze(B.b("obliczeniewynikufinipod"), 2, 0));
 
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 2, 0, 5));
 
@@ -144,13 +146,13 @@ public class PdfSymulacjaWynikuNarastajaco {
         table.setSpacingBefore(15);
         try {
             if (i == 1) {
-                table.addCell(ustawfraze("obliczenie podatku mce poprzednie", 2, 0));
+                table.addCell(ustawfraze(B.b("obliczeniepodatkunar"), 2, 0));
             } else {
-                table.addCell(ustawfraze("obliczenie podatku do zapłaty", 2, 0));
+                table.addCell(ustawfraze(B.b("obliczeniepodatkudozapłaty"), 2, 0));
             }
 
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie podatku", 6, 0, 5));
 
@@ -173,10 +175,10 @@ public class PdfSymulacjaWynikuNarastajaco {
         table.setSpacingBefore(15);
         try {
             if (i == 3) {
-                table.addCell(ustawfraze("obliczenie kwot do wypłaty", 2, 0));
+                table.addCell(ustawfraze(B.b("obliczeniekwotdowypłaty"), 2, 0));
             }
-            table.addCell(ustawfraze("opis", 0, 1));
-            table.addCell(ustawfraze("kwota", 0, 1));
+            table.addCell(ustawfraze(B.b("opis"), 0, 1));
+            table.addCell(ustawfraze(B.b("kwota"), 0, 1));
 
             table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - obliczenie kwoty do wypłaty", 6, 0, 5));
 
