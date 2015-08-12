@@ -33,6 +33,7 @@ import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
+import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.WierszBO;
 import error.E;
@@ -273,7 +274,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("roku rozliczeniowy" + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("rok") + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -382,6 +383,19 @@ public class PdfMain {
                 for (int i = 2; i < size; i++) {
                     col[i] = 2;
                 }
+                return col;
+            case "entityfk.StronaWiersza":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 2;
+                col[2] = 2;
+                col[3] = 2;
+                col[4] = 3;
+                col[5] = 3;
+                col[6] = 4;
+                col[7] = 3;
+                col[8] = 3;
+                col[9] = 3;
                 return col;
             case "testobjects.WierszKonta":
                 int[] col2 = new int[size];
@@ -815,6 +829,19 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 7));
                 table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
+            }
+            if (nazwaklasy.equals("entityfk.StronaWiersza")) {
+                StronaWiersza p = (StronaWiersza) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNazwaWaluty(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getKursWaluty(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfk().getDatadokumentu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfk().getNumerwlasnydokfk(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getWiersz().getOpisWiersza(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczono())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 7));
             }
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {

@@ -196,6 +196,24 @@ public class testobjects {
        return tabela;
    }
     
+    public static List[] getTabelaRozrachunki(List<StronaWiersza> wiersze) {
+       List n = new ArrayList();
+       n.add(B.b("lp"));
+       n.add(B.b("waluta"));
+       n.add(B.b("kurs"));
+       n.add(B.b("datadok"));
+       n.add(B.b("symbol"));
+       n.add(B.b("dokument"));
+       n.add(B.b("opis"));
+       n.add(B.b("kwota"));
+       n.add(B.b("zapłacono"));
+       n.add(B.b("dozapłaty"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
     public static List[] getTabelaPlanKontTR(List<Konto> wiersze) {
        List n = new ArrayList();
        n.add(B.b("lp"));

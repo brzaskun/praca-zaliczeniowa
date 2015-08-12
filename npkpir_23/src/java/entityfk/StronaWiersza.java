@@ -286,6 +286,22 @@ public class StronaWiersza implements Serializable{
         }
         return this.pozostalo;
     }
+    
+    public String getNazwaWaluty() {
+        if (this.getWiersz().getTabelanbp() != null) {
+            return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
+        } else {
+            return this.symbolWalutyBO;
+        }
+    }
+
+    public double getKursWaluty() {
+         if (this.getWiersz().getTabelanbp() != null) {
+            return this.wiersz.getTabelanbp().getKurssredni();
+        } else {
+            return this.kursBO;
+        }
+    }
 
     public void setPozostalo(double pozostalo) {
         this.pozostalo = pozostalo;

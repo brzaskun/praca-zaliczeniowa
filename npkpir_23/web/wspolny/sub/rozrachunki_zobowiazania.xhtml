@@ -45,9 +45,7 @@
                             <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
-                    </h:form>
-                    <h:form>
-                        <p:commandButton value="#{mgs.drukuj}"/>
+                        <p:commandButton value="#{mgs.drukuj}" actionListener="#{rozrachunkiPrzegladView.drukuj()}" style="margin-right: 50xp; float: left;"/>
                     </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  />
@@ -114,11 +112,11 @@
                         <p:column headerText="#{mgs.numerkolejny}" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
                             <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.waluta}" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.symbolWalutyBO : loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
+                        <p:column headerText="#{mgs.waluta}" sortBy="#{loop.nazwaWaluty}" width="40">
+                            <h:outputText value="#{loop.nazwaWaluty}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kurs}" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.kursBO : loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                        <p:column headerText="#{mgs.kurs}" sortBy="#{loop.kursWaluty}" width="40">
+                            <h:outputText value="#{loop.kursWaluty ne 0.0 ? loop.kursWaluty: ''}" rendered="#{loop.kursWaluty ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
