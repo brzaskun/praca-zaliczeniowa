@@ -46,6 +46,9 @@
                             <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
                         </h:selectOneMenu>
                     </h:form>
+                    <h:form>
+                        <p:commandButton value="#{mgs.drukuj}"/>
+                    </h:form>
                 </p:panelGrid>
                 <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  />
             </p:layoutUnit>  
@@ -102,7 +105,7 @@
                 <h:form id="tabelanowerozrachunki">
                     <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
                                  emptyMessage="#{mgs.Niemarozrachunkównakoncie}" sortBy="#{loop.id}"
-                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1020px;" expandedRow="true"
+                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1200px;" expandedRow="true"
                                  >
                         <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
                         <p:column style="height: 19px; text-align: center;" width="20">
@@ -120,10 +123,10 @@
                         <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
                             <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.dokument}." width="40" >
+                        <p:column headerText="#{mgs.dokument}." width="60" >
                             <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
+                        <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="110">
                             <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
@@ -152,7 +155,8 @@
                                         margin: 0px !important;
                                     }
                                 </style>
-                                <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
+                                <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" 
+                                             emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
                                 <p:column headerText="#{mgs.kwotatrans}" >
                                 <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
                                      <f:convertNumber minFractionDigits="2" locale="PL"/>
