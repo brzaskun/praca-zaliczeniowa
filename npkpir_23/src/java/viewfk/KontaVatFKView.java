@@ -284,11 +284,11 @@ public class KontaVatFKView implements Serializable {
                 }
             }
         }
-        double przesuniete = ewidencjaVatView.getSumaprzesunietych();
-        double przesunieteBardziej = ewidencjaVatView.getSumaprzesunietychBardziej();
+        double przesuniete = Z.z(ewidencjaVatView.getSumaprzesunietych());
+        double przesunieteBardziej = Z.z(ewidencjaVatView.getSumaprzesunietychBardziej());
         SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView));
         double roznica = Z.z(saldodlaprzesunietychBardziej.getSaldoWn() - (przesuniete+przesunieteBardziej));
-        if (saldo2214 < przesuniete || roznica < 0) {
+        if (Z.z(saldo2214) < Z.z(przesuniete) || roznica < 0) {
             Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
             return;
         } else {

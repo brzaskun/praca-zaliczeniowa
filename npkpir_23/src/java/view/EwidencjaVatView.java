@@ -635,10 +635,10 @@ public class EwidencjaVatView implements Serializable {
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     String ostatnimc = miesiacewkwartale.get(miesiacewkwartale.size()-1);
+                    int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
                     for (EVatwpisFK p : listadokvat) {
                         try {
-                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok) {
-                                int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
+                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
                                 int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
                                 if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
                                     listatymczasowa.add(p);
