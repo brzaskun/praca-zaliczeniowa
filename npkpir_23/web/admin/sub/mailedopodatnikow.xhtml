@@ -58,17 +58,23 @@
                 </p:panelGrid>
             </h:form>
         </p:tab>
-        <p:tab title="wyslane maile">
+        <p:tab title="wysłane maile">
             <h:form id="formmaile">
                 <p:dataTable id="wyslenemaile" value="#{adminMailView.wyslanemaile}" var="loop" rowIndexVar="index" style="width: 1400px;" sortBy="#{loop.id}" sortOrder="descending">
+                <p:ajax event="rowToggle" global="false" />
+                <p:column style="height: 19px; text-align: center;" width="20">
+                    <p:rowToggler />
+                </p:column>
                 <f:facet name="header">
                     <h:outputText value="Wykaz wysłanych maili"/>
                 </f:facet>
-                <p:column headerText="#{mgs.numerkolejny}">
+                    <p:column headerText="#{mgs.numerkolejny}" width="30">
                     <h:outputText value="#{loop.id}"/>
                 </p:column>
                     <p:column headerText="data wysyłki" width="150">
-                    <h:outputText value="#{loop.datawysylki}"/>
+                        <h:outputText value="#{loop.datawysylki}">
+                            <f:convertDateTime dateStyle="full" locale="pl"/>
+                        </h:outputText>
                 </p:column>
                     <p:column headerText="tytuł" width="250">
                     <h:outputText value="#{loop.tytul}"/>
@@ -76,9 +82,19 @@
                 <p:column headerText="treść">
                     <h:outputText value="#{loop.tresc}"/>
                 </p:column>
-                <p:column headerText="liczba maili">
+                <p:column headerText="liczba maili" width="30">
                     <h:outputText value="#{loop.maile.size()}"/>
                 </p:column>
+                    <p:rowExpansion>
+                        <p:dataTable value="#{loop.podatnicy}" var="loopik" rowIndexVar="index" style="width: 500px;">
+                            <p:column width="40">
+                                <h:outputText value="#{index+1}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{loopik}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:rowExpansion>
             </p:dataTable>
                 </h:form>
         </p:tab>

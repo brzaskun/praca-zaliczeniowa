@@ -77,12 +77,16 @@ public class AdminMailView implements Serializable {
     public void wyslijAdminMail() {
         for (Klienci p : klientList) {
         try {
-            MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila);
+            if (p.getEmail() != null) {
+                MailAdmin.mailAdmin(p.getEmail(), tematwiadomosci, zawartoscmaila);
+            } else {
+                Msg.msg("w", "Brak maila dla " + p.getNpelna());
+            }
+            Msg.msg("i", "Wyslano wiadomości");
         } catch (Exception e) {
             Msg.msg("e", "Blad nie wyslano wiadomosci! " + e.toString());
         }
         }
-        Msg.msg("i", "Wyslano wiadomości");
         zachowajmail();
     }
     
@@ -105,8 +109,10 @@ public class AdminMailView implements Serializable {
             List<String> email = new ArrayList<>();
             List<String> nazwy = new ArrayList<>();
             for (Klienci p : klientList) {
-                email.add(p.getEmail());
-                nazwy.add(p.getNpelna());
+                if (p.getEmail() != null) {
+                    email.add(p.getEmail());
+                    nazwy.add(p.getNpelna());
+                }
             }
             adminmail.setMaile(email);
             adminmail.setPodatnicy(nazwy);
