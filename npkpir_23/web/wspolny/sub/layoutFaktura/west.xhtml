@@ -23,7 +23,7 @@
             <p:panel header="Tu możesz sprawdzić:">
                 <h:form>
                     <p:panelGrid columns="1">
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                             <p:menuitem value="dokumenty za mc" outcome="gtablica" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="dokumenty w roku"  icon="ui-icon-circle-arrow-e" action="#{obrotyView.initG()}" update="@form"/>
                             <p:menuitem value="podatkowa ksiega"  outcome="gksiega" icon="ui-icon-circle-arrow-e" />
@@ -36,24 +36,24 @@
                             <p:menuitem value="faktury okresowe"  outcome="gfmiesieczne" icon="ui-icon-circle-arrow-e" />
                             <p:menuitem value="podsumowanie roku"  outcome="gzestawienie" icon="ui-icon-circle-arrow-e"/>
                         </p:menu>
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                             <p:menuitem value="terminy płatności"  outcome="gzobow" icon="ui-icon-circle-arrow-e"/>
                             <p:menuitem value="wysokość zobowiązań"  outcome="gpodatki" icon="ui-icon-circle-arrow-e" />
                         </p:menu>
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                             <p:menuitem value="PIT-y"  outcome="gpit" icon="ui-icon-circle-arrow-e"/>
                             <p:menuitem value="VAT-y"  outcome="gvat" icon="ui-icon-circle-arrow-e" />
                         </p:menu>
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                            <p:menuitem value="środki trwałe"  outcome="srodkiewidencja" icon="ui-icon-circle-arrow-e"/>  
                        </p:menu>
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                             <p:menuitem value="#{mgs.faktury}"  outcome="gfaktura" icon="ui-icon-circle-arrow-e" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
                         </p:menu> 
-                        <p:menu style="width: 180px;">
+                        <p:menu style="width: 200px;">
                             <p:menuitem value="uwagi do programu"  outcome="gadmin" icon="ui-icon-circle-arrow-e"/>
                         </p:menu> 
-                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%"/>
+                        <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" style="margin-left: 25%; margin-top: 10px;"/>
                     </p:panelGrid>
                 </h:form>
             </p:panel>

@@ -7,195 +7,197 @@
     xmlns:pe="http://primefaces.org/ui/extensions"
     >
     <f:event type="preRenderView" listener="#{kontoView.init()}"/>
-        <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
-            <p:layoutUnit position="north" >
-                <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
-                    <h:form id="formwpiskonta">
-                        <h:outputText value="#{mgs.wybierzkonto}: "/>
-                        <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
-                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
-                                        converterMessage="Nieudana konwersja Klient"
-                                        styleClass="kontoinput, autoCompleteBig" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"
-                                        >
-                            <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" global="false"
-                                    oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
-                        </p:autoComplete>
-                        <p:autoComplete id="wyborkonta1" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
-                                        var="p" itemLabel="#{p.pelnynumer} #{p.de}" itemValue="#{p}" cache="true" 
-                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
-                                        converterMessage="Nieudana konwersja Klient"
-                                        styleClass="kontoinput, autoCompleteBig"  rendered="#{facesContext.viewRoot.locale.language.equals('de')}"
-                                        >
-                            <p:ajax event="query" global="false"/>
-                            <p:ajax event="itemSelect" global="false" 
-                                    oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta1_input');" />
-                        </p:autoComplete>
-                        <h:outputText value=" #{mgs.wybranekonto}:"/>
-                        <p:panelGrid id="nazwawybranegokonta">
-                            <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                            <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
-                        </p:panelGrid>
-                    </h:form>
-                    <h:form id="walutazapisynakoncie">
-                        <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
-                        <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
-                            <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
-                            <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
-                        </h:selectOneMenu>
-                    </h:form>
-                </p:panelGrid>
-                <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  />
-            </p:layoutUnit>  
-            <!--            lewa strona z drzewem kont-->
-            <p:layoutUnit id="westtree" position="west" size="350" >
-               
-                <h:outputScript library="js_fk" name="chodzeniepokontach.js"/>
-                <h:form id="form">
-                    <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
-                    <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
-                    <script>
-                        /* <![CDATA[ */
-                        //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
-                       
-                        $(document).on("click", '.grid tr', function(e) {
-                            try {
-                                zachowajobiekt(this, e);
-                            } catch (ex) {
-                                alert('error dialog zapisynakoncie' + ex.toString());
-                            }
-                        });
-                        $(document).on("click", '.grid1 tr', function(e) {
-                            var lolo = $("#form\\:dataList_data").children("tr");
-                            var pierwszy = $(lolo[0]).find(".lpwiersza").text();
-                            try {
-                                e.stopPropagation(); // will prevent double click events from link being clicked within row
-                                var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
-                                var numerwiersza = unitNo - pierwszy;
-                                zachowajnumerwiersza("zmiennazapisy", numerwiersza);
-                            } catch (e) {
-                                alert('error');
-                            }
-                        });
-                        /* ]]> */
-                    </script>
-                    <p:panelGrid id="kontenertabeli" columns="1" style="width: 325px; height: 500px;" >
-                        <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
-                                     styleClass="grid" style="width: 100%;">
-                            <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
-                            <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
-                            <p:column headerText="#{mgs.numerkonta}" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
-                                <h:outputText value="#{loop1.pelnynumer}" /> 
-                            </p:column>
-                            <p:column headerText="#{mgs.nazwapełna}" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
-                                <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
-                                <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
-                            </p:column>
-                        </p:treeTable>
-                    </p:panelGrid>>
+    <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
+        <p:layoutUnit position="north" >
+            <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
+                <h:form id="formwpiskonta">
+                    <h:outputText value="#{mgs.wybierzkonto}: "/>
+                    <p:autoComplete id="wyborkonta" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
+                                    var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" 
+                                    minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
+                                    converterMessage="Nieudana konwersja Klient"
+                                    styleClass="kontoinput, autoCompleteBig" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"
+                                    >
+                        <p:ajax event="query" global="false"/>
+                        <p:ajax event="itemSelect" global="false"
+                                oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta_input');" />
+                    </p:autoComplete>
+                    <p:autoComplete id="wyborkonta1" value="#{rozrachunkiPrzegladView.wybranekonto}" completeMethod="#{rozrachunkiPrzegladView.complete}"
+                                    var="p" itemLabel="#{p.pelnynumer} #{p.de}" itemValue="#{p}" cache="true" 
+                                    minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv" queryDelay="10" 
+                                    converterMessage="Nieudana konwersja Klient"
+                                    styleClass="kontoinput, autoCompleteBig"  rendered="#{facesContext.viewRoot.locale.language.equals('de')}"
+                                    >
+                        <p:ajax event="query" global="false"/>
+                        <p:ajax event="itemSelect" global="false" 
+                                oncomplete="zaznacznoda('form:dataList_data','form:dataList','formwpiskonta:wyborkonta1_input');" />
+                    </p:autoComplete>
+                    <h:outputText value=" #{mgs.wybranekonto}:"/>
+                    <p:panelGrid id="nazwawybranegokonta">
+                        <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                        <h:outputText value=" #{rozrachunkiPrzegladView.wybranekonto.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
+                    </p:panelGrid>
                 </h:form>
-            </p:layoutUnit>  
+                <h:form id="walutazapisynakoncie">
+                    <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
+                    <h:selectOneMenu id="wybranawaluta" value="#{rozrachunkiPrzegladView.wybranaWalutaDlaKont}">
+                        <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaWaluty}" update=":tabelanowerozrachunki:tabela" />
+                        <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
+                        <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                    </h:selectOneMenu>
+                    <p:commandButton value="#{mgs.drukuj}" actionListener="#{rozrachunkiPrzegladView.drukuj()}" style="margin-right: 50xp; float: left;"/>
+                </h:form>
+            </p:panelGrid>
+            <h:outputText value="#{kontoZapisFKView.zapisydopodswietlenia}" id="zapisydopodswietlenia"  />
+        </p:layoutUnit>  
+        <!--            lewa strona z drzewem kont-->
+        <p:layoutUnit id="westtree" position="west" size="350" >
 
-            <p:layoutUnit position="center" style="width: 1050px;">
-                <h:form id="tabelanowerozrachunki">
-                    <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
-                                 emptyMessage="#{mgs.Niemarozrachunkównakoncie}" sortBy="#{loop.id}"
-                                 rowIndexVar="rowindex" styleClass="grid1" style="width: 1020px;" expandedRow="true"
-                                 >
-                        <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
-                        <p:column style="height: 19px; text-align: center;" width="20">
-                            <p:rowToggler />
+            <h:outputScript library="js_fk" name="chodzeniepokontach.js"/>
+            <h:form id="form">
+                <p:hotkey bind="down" global="false"  onstart="przejdzwiersz();"/>
+                <p:hotkey bind="up" global="false"  onstart="wrocwiersz();"/>
+                <script>
+                    /* <![CDATA[ */
+                    //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+
+                    $(document).on("click", '.grid tr', function (e) {
+                        try {
+                            zachowajobiekt(this, e);
+                        } catch (ex) {
+                            alert('error dialog zapisynakoncie' + ex.toString());
+                        }
+                    });
+                    $(document).on("click", '.grid1 tr', function (e) {
+                        var lolo = $("#form\\:dataList_data").children("tr");
+                        var pierwszy = $(lolo[0]).find(".lpwiersza").text();
+                        try {
+                            e.stopPropagation(); // will prevent double click events from link being clicked within row
+                            var unitNo = $.trim($(this).closest("tr").find(".lpwiersza").text()); // trim to remove end space, closest gets closest parent of selected type
+                            var numerwiersza = unitNo - pierwszy;
+                            zachowajnumerwiersza("zmiennazapisy", numerwiersza);
+                        } catch (e) {
+                            alert('error');
+                        }
+                    });
+                    /* ]]> */
+                </script>
+                <p:panelGrid id="kontenertabeli" columns="1" style="width: 325px; height: 500px;" >
+                    <p:treeTable id="dataList" value="#{rozrachunkiPrzegladView.root}" var="loop1" selectionMode="single" selection="#{rozrachunkiPrzegladView.wybranekontoNode}" 
+                                 styleClass="grid" style="width: 100%;">
+                        <p:ajax event="select" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNode}" />
+                        <p:ajax event="unselect" global="false" update=":tabelanowerozrachunki:tabela, :sumy, :formwpiskonta" listener="#{rozrachunkiPrzegladView.pobierzZapisyNaKoncieNodeUnselect}" />
+                        <p:column headerText="#{mgs.numerkonta}" style="width: 90px; height: 40px;" styleClass="#{loop1.level eq 2 ? 'druga' : null}" >
+                            <h:outputText value="#{loop1.pelnynumer}" /> 
                         </p:column>
-                        <p:column headerText="#{mgs.numerkolejny}" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
-                            <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
+                        <p:column headerText="#{mgs.nazwapełna}" style="width: 170px; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;">
+                            <h:outputText value="#{loop1.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
+                            <h:outputText value="#{loop1.de}" rendered="#{facesContext.viewRoot.locale.language.equals('de')}"/>
                         </p:column>
-                        <p:column headerText="#{mgs.waluta}" sortBy="#{loop.wiersz.tabelanbp.waluta.symbolwaluty}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.symbolWalutyBO : loop.wiersz.tabelanbp.waluta.symbolwaluty}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kurs}" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" width="40">
-                            <h:outputText value="#{loop.wiersz.tabelanbp eq null ? loop.kursBO : loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
-                            <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.dokument}." width="40" >
-                            <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="90">
-                            <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
-                            <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk}"/>
-                        </p:column>
-                        <p:column headerText="#{mgs.kwota}" width="70">
-                            <h:outputText value="#{loop.kwota}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{mgs.rozliczono}" width="70">
-                            <h:outputText value="#{loop.rozliczono}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{mgs.pozostało}" width="70">
-                            <h:outputText value="#{loop.pozostalo}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:rowExpansion>
-                            <p:column  headerText="wykaz transakcji" width="500" resizable="true" rendered="#{loop.platnosci.size() gt 0}">
-                                <style>
-                                    .dokumentyZestawienie tr td {
-                                        padding: 0px !important;
-                                        margin: 0px !important;
-                                    }
-                                </style>
-                                <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
+                    </p:treeTable>
+                </p:panelGrid>>
+            </h:form>
+        </p:layoutUnit>  
+
+        <p:layoutUnit position="center" style="width: 1050px;">
+            <h:form id="tabelanowerozrachunki">
+                <p:dataTable id="tabela" value="#{rozrachunkiPrzegladView.stronyWiersza}" var="loop" rowKey="#{loop.id}" 
+                             emptyMessage="#{mgs.Niemarozrachunkównakoncie}" sortBy="#{loop.id}"
+                             rowIndexVar="rowindex" styleClass="grid1" style="width: 1200px;" expandedRow="true"
+                             >
+                    <p:column selectionMode="multiple" width="35" style="text-align: center;"></p:column>
+                    <p:column style="height: 19px; text-align: center;" width="20">
+                        <p:rowToggler />
+                    </p:column>
+                    <p:column headerText="#{mgs.numerkolejny}" width="40" style="text-align: center;" sortBy="#{loop.rowindex}" >
+                        <h:outputText styleClass="lpwiersza" value="#{rowindex+1}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.waluta}" sortBy="#{loop.nazwaWaluty}" width="40">
+                        <h:outputText value="#{loop.nazwaWaluty}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kurs}" sortBy="#{loop.kursWaluty}" width="40">
+                        <h:outputText value="#{loop.kursWaluty ne 0.0 ? loop.kursWaluty: ''}" rendered="#{loop.kursWaluty ne 'PLN'}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.data}" width="60" style="text-align: center;" sortBy="#{loop.wiersz.dataksiegowania}">
+                        <h:outputText value="#{loop.wiersz.dataksiegowania.substring(0,10)}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.dokument}." width="60" >
+                        <h:outputText value="#{loop.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.numerwlasny}" sortBy="#{loop.wiersz.dokfk.numerwlasnydokfk}" width="110">
+                        <h:outputText value="#{loop.wiersz.dokfk.numerwlasnydokfk}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.opis}" width="150" sortBy="#{loop.wiersz.dokfk.opisdokfk}">
+                        <h:outputText value="#{loop.wiersz.opisWiersza}/#{loop.wiersz.dokfk.opisdokfk}"/>
+                    </p:column>
+                    <p:column headerText="#{mgs.kwota}" width="70">
+                        <h:outputText value="#{loop.kwota}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{mgs.rozliczono}" width="70">
+                        <h:outputText value="#{loop.rozliczono}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{mgs.pozostało}" width="70">
+                        <h:outputText value="#{loop.pozostalo}" style="float: right;">
+                            <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:column  headerText="wykaz transakcji" width="500" resizable="true" rendered="#{loop.platnosci.size() gt 0}">
+                            <style>
+                                .dokumentyZestawienie tr td {
+                                    padding: 0px !important;
+                                    margin: 0px !important;
+                                }
+                            </style>
+                            <p:dataTable styleClass="dokumentyZestawienie" var="subwpis" value="#{loop.platnosci}" 
+                                         emptyMessage="brak transakcji"  resizableColumns="true" style="width: 90%; float: right;">
                                 <p:column headerText="#{mgs.kwotatrans}" >
-                                <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
-                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
-                                </h:outputText>
+                                    <h:outputText value="#{subwpis.kwotatransakcji}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="#{mgs.datatrans}">
-                                <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
-                                </h:outputText>
+                                    <h:outputText value="#{subwpis.datarozrachunku}" style="float: right;">
+                                    </h:outputText>
                                 </p:column>
                                 <p:column headerText="#{mgs.kwotarozl}">
                                     <h:outputText value="#{subwpis.rozliczajacy.kwotaR}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
                                 </p:column>
-                                    <p:column headerText="#{mgs.kurs}" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                                <p:column headerText="#{mgs.kurs}" sortBy="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" width="40" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.tabelanbp.kurssredni}"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.różnicekurs}" rendered="#{loop.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
                                     <h:outputText value="#{subwpis.roznicekursowe}" style="float: right;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
                                 </p:column>
-                                    <p:column headerText="#{mgs.nrdokrozl}" style="text-align: center;">
+                                <p:column headerText="#{mgs.nrdokrozl}" style="text-align: center;">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{subwpis.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"/>
                                 </p:column>
                                 <p:column headerText="#{mgs.lpwiersza}" style="text-align: center;">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.idporzadkowy}"/>
                                 </p:column>
-                                    <p:column headerText="#{mgs.numerwlasny}">
+                                <p:column headerText="#{mgs.numerwlasny}">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}"/>
                                 </p:column>
-                                    <p:column headerText="#{mgs.opis}" width="280">
+                                <p:column headerText="#{mgs.opis}" width="280">
                                     <h:outputText value="#{subwpis.rozliczajacy.wiersz.opisWiersza}"/>
                                 </p:column>
                             </p:dataTable>
                         </p:column>
-                        </p:rowExpansion>
-                    </p:dataTable>
-                </h:form>  
-            </p:layoutUnit>  
-            <p:layoutUnit position="south">  
-                <p:panelGrid id="sumy" columns="8" style="float: right; width: 1000px;">
-                    <h:form>
+                    </p:rowExpansion>
+                </p:dataTable>
+            </h:form>  
+        </p:layoutUnit>  
+        <p:layoutUnit position="south">  
+            <p:panelGrid id="sumy" columns="8" style="float: right; width: 1000px;">
+                <h:form>
                     <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px;" >
                         <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
                         <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
@@ -203,11 +205,11 @@
                         <f:selectItem itemLabel="#{mgs.częściowo}" itemValue="częściowo"/>
                         <f:selectItem itemLabel="#{mgs.nowe}" itemValue="nowe"/>
                     </p:selectOneMenu>
-                        </h:form>
-                </p:panelGrid>
-            </p:layoutUnit>  
-        </p:layout>  
-    
+                </h:form>
+            </p:panelGrid>
+        </p:layoutUnit>  
+    </p:layout>  
+
 </ui:composition>
 
 

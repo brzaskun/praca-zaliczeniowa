@@ -19,6 +19,7 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.KontoKwotacomparator;
@@ -33,6 +34,7 @@ import entityfk.Konto;
 import entityfk.PozycjaBilans;
 import entityfk.PozycjaRZiS;
 import entityfk.PozycjaRZiSBilans;
+import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import entityfk.WierszBO;
 import error.E;
@@ -273,7 +275,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase("roku rozliczeniowy" + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("rok") + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -373,6 +375,25 @@ public class PdfMain {
         }
     }
     
+     public static PdfPTable dodajSubTabele(List[] tabela, int perc, int modyfikator) {
+        try {
+            List naglowki = tabela[0];
+            List wiersze = tabela[1];
+            String nazwaklasy = wiersze.get(0).getClass().getName();
+            int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+            PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+            ustawnaglowki(table, naglowki);
+            ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+            return table;
+        } catch (Exception ex) {
+            System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
+            E.e(ex);
+            return null;
+        }
+    }
+    
+    
+        
     private static int[] obliczKolumny(int size, String classname, int modyfikator) {
         switch (classname) {
             case "testobjects.WierszTabeli":
@@ -382,6 +403,19 @@ public class PdfMain {
                 for (int i = 2; i < size; i++) {
                     col[i] = 2;
                 }
+                return col;
+            case "entityfk.StronaWiersza":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 2;
+                col[2] = 2;
+                col[3] = 2;
+                col[4] = 3;
+                col[5] = 3;
+                col[6] = 4;
+                col[7] = 3;
+                col[8] = 3;
+                col[9] = 3;
                 return col;
             case "testobjects.WierszKonta":
                 int[] col2 = new int[size];
@@ -528,16 +562,28 @@ public class PdfMain {
                     return col10;
                 }
             case "entityfk.Transakcja":
-                int[] col13 = new int[size];
-                col13[0] = 1;
-                col13[1] = 5;
-                col13[2] = 2;
-                col13[3] = 5;
-                col13[4] = 2;
-                col13[5] = 3;
-                col13[6] = 3;
-                col13[7] = 3;
-                return col13;
+                if (modyfikator == 1) {
+                    int[] col13 = new int[size];
+                    col13[0] = 3;
+                    col13[1] = 3;
+                    col13[2] = 3;
+                    col13[3] = 3;
+                    col13[4] = 3;
+                    col13[5] = 3;
+                    col13[6] = 5;
+                    return col13;
+                } else {
+                    int[] col13 = new int[size];
+                    col13[0] = 1;
+                    col13[1] = 5;
+                    col13[2] = 2;
+                    col13[3] = 5;
+                    col13[4] = 2;
+                    col13[5] = 3;
+                    col13[6] = 3;
+                    col13[7] = 3;
+                    return col13;
+                }
             case "entityfk.WierszBO":
                 int[] col14 = new int[size];
                 col14[0] = 1;
@@ -816,6 +862,25 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getWartosc())), "right", 7));
                 table.addCell(ustawfrazeAlign(p.getWaluta(), "center", 7));
             }
+            if (nazwaklasy.equals("entityfk.StronaWiersza")) {
+                StronaWiersza p = (StronaWiersza) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNazwaWaluty(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getKursWaluty(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfk().getDatadokumentu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfkS(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfk().getNumerwlasnydokfk(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getWiersz().getOpisWiersza(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczono())), "right", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 7));
+                if(modyfikator==1) {
+                    PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1);
+                    PdfPCell r = new PdfPCell(subtable);
+                    r.setColspan(10);
+                    table.addCell(r);
+                }
+            }
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {
                     Konto p = (Konto) it.next();
@@ -895,19 +960,30 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {
-                Transakcja p = (Transakcja) it.next();
-                table.addCell(ustawfrazeAlign(i++, "center", 8));
-                String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
-                table.addCell(ustawfrazeAlign(rachunek, "left", 8));
-                double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
-                String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
-                table.addCell(ustawfrazeAlign(platnosc, "left", 8));
-                kurs = p.getRozliczajacy().getKursBO() != 0.0 ? p.getRozliczajacy().getKursBO() : p.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
-                table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
-                table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 8));
-                table.addCell(ustawfrazeAlign(number.format(p.getRoznicekursowe()), "right", 8));
-                table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 8));
+                if (modyfikator == 1) {
+                    Transakcja p = (Transakcja) it.next();
+                    table.addCell(ustawfrazeAlign(p.getKwotatransakcji(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczajacy().getKwotaR())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getDokfkS(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getIdporzadkowy(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getDokfk().getNumerwlasnydokfk(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRozliczajacy().getWiersz().getOpisWiersza(), "left", 8));
+                } else {
+                    Transakcja p = (Transakcja) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "center", 8));
+                    String rachunek = p.getNowaTransakcja().getWiersz().getOpisWiersza()+"/"+p.getNowaTransakcja().getWiersz().getDokfkS();
+                    table.addCell(ustawfrazeAlign(rachunek, "left", 8));
+                    double kurs = p.getNowaTransakcja().getKursBO() != 0.0 ? p.getNowaTransakcja().getKursBO() : p.getNowaTransakcja().getWiersz().getTabelanbp().getKurssredni();
+                    table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
+                    String platnosc = p.getRozliczajacy().getWiersz().getOpisWiersza()+"/"+p.getRozliczajacy().getWiersz().getDokfkS();
+                    table.addCell(ustawfrazeAlign(platnosc, "left", 8));
+                    kurs = p.getRozliczajacy().getKursBO() != 0.0 ? p.getRozliczajacy().getKursBO() : p.getRozliczajacy().getWiersz().getTabelanbp().getKurssredni();
+                    table.addCell(ustawfrazeAlign(number.format(kurs), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getDatarozrachunku(), "center", 8));
+                    table.addCell(ustawfrazeAlign(number.format(p.getRoznicekursowe()), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getNowaTransakcja().getKonto().getPelnynumer(), "right", 8));
+                }
             }
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
                 if (modyfikator == 0) {

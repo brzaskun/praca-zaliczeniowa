@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
+import pdffk.PDFRozrachunki;
 import view.WpisView;
 
 /**
@@ -198,6 +199,10 @@ public class RozrachunkiPrzegladView implements Serializable{
          }
          return results;
      }
+    
+    public void drukuj() {
+        PDFRozrachunki.drukujRozrachunki(stronyWiersza, wpisView);
+    }
     
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
         stronyWiersza.clear();
