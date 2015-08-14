@@ -13,6 +13,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.DelegacjaDAO;
 import daoFK.KontopozycjaZapisDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.DelegacjaZest;
 import entityfk.Konto;
 import entityfk.Delegacja;
@@ -22,11 +23,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import view.WpisView;
@@ -50,6 +49,8 @@ public class DelegacjeView  implements Serializable{
     private boolean zapisz0edytuj1;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private Map<Delegacja, List<DelegacjaZest>> listadelegacja;
@@ -105,10 +106,10 @@ public class DelegacjeView  implements Serializable{
             delegacjaDAO.dodaj(selected);
             if (krajowa0zagraniczna1) {
                 delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-                PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+                PlanKontFKBean.aktualizujslownikDelegacjeZagraniczne(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             } else {
                 delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView, krajowa0zagraniczna1);
-                PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+                PlanKontFKBean.aktualizujslownikDelegacjeKrajowe(wykazkont, delegacjaDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             }
             selected = new Delegacja();
             Msg.msg("Dodaje delegację");

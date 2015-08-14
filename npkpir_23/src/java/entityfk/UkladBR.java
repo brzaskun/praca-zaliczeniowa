@@ -6,7 +6,9 @@
 
 package entityfk;
 
+import daoFK.UkladBRDAO;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -66,7 +68,8 @@ public class UkladBR implements Serializable {
     private boolean blokada;
     @Column(name = "importowany")
     private boolean importowany;
-
+    @Column(name = "aktualny")
+    private boolean aktualny;
 
     public UkladBR() {
     }
@@ -86,6 +89,19 @@ public class UkladBR implements Serializable {
         this.importowany = ukladBR.isImportowany();
     }
   
+    public void oznaczUkladBR(UkladBRDAO ukladBRDAO) {
+        List<UkladBR> pobraneUkladyPodatnika = ukladBRDAO.findPodatnik(podatnik);
+        if (pobraneUkladyPodatnika != null) {
+            for (UkladBR p : pobraneUkladyPodatnika) {
+                if (p.equals(this)) {
+                    p.setAktualny(true);
+                } else {
+                    p.setAktualny(false);
+                }
+            }
+            ukladBRDAO.editList(pobraneUkladyPodatnika);
+        }
+    }
    
     public boolean getBlokada() {
         return blokada;
@@ -134,6 +150,14 @@ public class UkladBR implements Serializable {
 
     public void setImportowany(boolean importowany) {
         this.importowany = importowany;
+    }
+
+    public boolean isAktualny() {
+        return aktualny;
+    }
+
+    public void setAktualny(boolean aktualny) {
+        this.aktualny = aktualny;
     }
     
     

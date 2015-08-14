@@ -12,6 +12,7 @@ import dao.KlienciDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
+import daoFK.UkladBRDAO;
 import entity.Klienci;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -53,6 +54,8 @@ public class KliencifkView implements Serializable {
     private KliencifkDAO kliencifkDAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private Kliencifk selected;
     @ManagedProperty(value = "#{WpisView}")
@@ -137,7 +140,7 @@ public class KliencifkView implements Serializable {
         try {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             kliencifkDAO.dodaj(klientBezKonta);
-            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+            int wynik = PlanKontFKBean.aktualizujslownikKontrahenci(wykazkont, kliencifkDAO, klientBezKonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
             listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         } catch (Exception e) {
             E.e(e);

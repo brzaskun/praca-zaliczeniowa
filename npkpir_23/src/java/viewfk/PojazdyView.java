@@ -13,6 +13,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaZapisDAO;
 import daoFK.PojazdyDAO;
+import daoFK.UkladBRDAO;
 import embeddablefk.PojazdyZest;
 import entityfk.Konto;
 import entityfk.Pojazdy;
@@ -46,6 +47,8 @@ public class PojazdyView  implements Serializable{
     private List<Pojazdy> pojazdy;
     @Inject
     private PojazdyDAO pojazdyDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private boolean zapisz0edytuj1;
@@ -90,7 +93,7 @@ public class PojazdyView  implements Serializable{
         List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         selected.uzupelnij(wpisView.getPodatnikObiekt(), pobierzkolejnynumer());
         pojazdyDAO.dodaj(selected);
-        PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, pojazdyDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO);
+        PlanKontFKBean.aktualizujslownikPojazdy(wykazkont, pojazdyDAO, selected, kontoDAOfk, wpisView, kontopozycjaZapisDAO, ukladBRDAO);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);

@@ -88,6 +88,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void pobierzukladkontoR() {
         try {
+            uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = new ArrayList<>();
             wyczyscKonta("wynikowe");
             kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "wynikowe");
@@ -112,6 +113,7 @@ public class PozycjaBRKontaView implements Serializable {
 
     public void pobierzukladkontoB(String aktywapasywa) {
         try {
+            uklad.oznaczUkladBR(ukladBRDAO);
             przyporzadkowanekonta = new ArrayList<>();
             wyczyscKonta("bilansowe");
             kontopozycjaBiezacaDAO.usunZapisaneKontoPozycjaPodatnikUklad(uklad, "bilansowe");
@@ -519,7 +521,7 @@ public class PozycjaBRKontaView implements Serializable {
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID());
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), ukladBRDAO);
                     if (znajda != null) {
                         kontopozycjaZapisDAO.destroy(znajda);
                         kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
@@ -538,7 +540,7 @@ public class PozycjaBRKontaView implements Serializable {
                 } catch (Exception e) {
                     // ma usuwac jak zmienie kwalifikacje przyporzadkowanego juz konta
                     E.e(e);
-                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID());
+                    KontopozycjaZapis znajda = kontopozycjaZapisDAO.findByKonto(p.getKontoID(), ukladBRDAO);
                     if (znajda != null) {
                         kontopozycjaZapisDAO.destroy(znajda);
                         kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
