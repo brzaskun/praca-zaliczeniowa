@@ -1867,10 +1867,28 @@ public class DokfkView implements Serializable {
             String kwotazwiersza = (String) Params.params(wiersz);
             kwotazwiersza = kwotazwiersza.replaceAll("\\s", "");
             double placonakwota = Double.parseDouble(kwotazwiersza);
+            if (placonakwota == 0.0) {
+                loop.setRoznicekursowe(0.0);
+                wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
+                RequestContext.getCurrentInstance().update(wiersz);
+                loop.setKwotawwalucierachunku(0.0);
+                wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
+                RequestContext.getCurrentInstance().update(wiersz);
+            }
             if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
                 if (placonakwota > 0.0) {
                     double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
-                    loop.setKwotawwalucierachunku(kwotaPlatnosciwWalucie);
+                    double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota();
+                    double roznicakursowa = Z.z(kwotaPlatnosciwWalucie - kwotaRachunkuwWalucie);
+                    if (roznicakursowa > 0.0) {
+                        loop.setRoznicekursowe(roznicakursowa);
+                        wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
+                    } else {
+                        loop.setRoznicekursowe(0.0);
+                        wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
+                    }
+                    RequestContext.getCurrentInstance().update(wiersz);
+                    loop.setKwotawwalucierachunku(kwotaPlatnosciwWalucie > kwotaRachunkuwWalucie ? kwotaRachunkuwWalucie : kwotaPlatnosciwWalucie);
                     wiersz = "rozrachunki:dataList:" + row + ":kwotawwalucierachunku";
                     RequestContext.getCurrentInstance().update(wiersz);
                 }
@@ -1887,6 +1905,9 @@ public class DokfkView implements Serializable {
                     double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
                     if (roznicakursowa > 0.0) {
                         loop.setRoznicekursowe(roznicakursowa);
+                        wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
+                    } else {
+                        loop.setRoznicekursowe(0.0);
                         wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
                     }
                     RequestContext.getCurrentInstance().update(wiersz);

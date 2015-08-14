@@ -1,12 +1,9 @@
-var pilnujwprowadzanychrozrachunkow = function () {
-    var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
-    MYAPP.limit = limit;
-    doklejsumowaniewprowadzonych();
-};
 
 var rozrachunkiOnShow = function () {
     ustawdialog('dialogdrugi', 'menudokumenty');
-    pilnujwprowadzanychrozrachunkow();
+    var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
+    MYAPP.limit = limit;
+    doklejsumowaniewprowadzonych();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
 };
