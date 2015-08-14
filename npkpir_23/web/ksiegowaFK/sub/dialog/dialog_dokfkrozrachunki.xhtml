@@ -138,7 +138,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="kwota trans. w PLN" width="50" rendered="#{dokfkView.selected.tabelanbp.waluta.symbolwaluty != 'PLN'}">
+                        <p:column headerText="kwota trans. w PLN" width="50">
                             <h:outputText value="#{loop.nowaTransakcja.kwotaPLNR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -163,7 +163,7 @@
                                 <f:convertNumber minFractionDigits="4" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="różnica kurs." width="40" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                        <p:column headerText="różnica kurs." width="40">
                             <h:outputText id="roznicakursowa" value="#{loop.roznicekursowe}"  style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
