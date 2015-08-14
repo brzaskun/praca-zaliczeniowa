@@ -43,6 +43,7 @@ public class WpisView implements Serializable {
     private Integer rokNastepny;
     private String rokNastepnySt;
     private String miesiacWpisu;
+    private String miesiacWpisuArchiwum;
     private String miesiacNastepny;
     private String miesiacUprzedni;
     @Inject
@@ -81,6 +82,7 @@ public class WpisView implements Serializable {
                 wpis.setMiesiacWpisu("01");
                 wpis.setMiesiacOd("01");
                 wpis.setMiesiacDo("01");
+                miesiacWpisuArchiwum = "01";
                 wpis.setRokWpisu(Roki.getRokiListS().get(Roki.getRokiListS().size()-1));
                 Uz podatnikwpisu = uzDAO.findUzByLogin(wpis.getWprowadzil());
                 String nipfirmy;
@@ -99,6 +101,7 @@ public class WpisView implements Serializable {
                 wpisDAO.edit(wpis);
             } else {
                 miesiacWpisu = wpis.getMiesiacWpisu();
+                miesiacWpisuArchiwum = wpis.getMiesiacWpisu();
             }
             rokWpisu = wpis.getRokWpisu();
            obsluzRok();
@@ -184,7 +187,10 @@ public class WpisView implements Serializable {
         Wpis wpis = new Wpis();
         wpis = wpisDAO.find(wprowadzilX);
         wpis.setPodatnikWpisu(podatnikWpisu);
-        wpis.setMiesiacWpisu(miesiacWpisu);
+        if (!miesiacWpisu.equals("CR")) {
+            wpis.setMiesiacWpisu(miesiacWpisu);
+            miesiacWpisuArchiwum = miesiacWpisu;
+        } 
         wpis.setRokWpisuSt(String.valueOf(rokWpisu));
         wpis.setRokWpisu(rokWpisu);
         wpis.setMiesiacOd(miesiacOd);
@@ -297,6 +303,14 @@ public class WpisView implements Serializable {
 
     public void setRokNastepny(Integer rokNastepny) {
         this.rokNastepny = rokNastepny;
+    }
+
+    public String getMiesiacWpisuArchiwum() {
+        return miesiacWpisuArchiwum;
+    }
+
+    public void setMiesiacWpisuArchiwum(String miesiacWpisuArchiwum) {
+        this.miesiacWpisuArchiwum = miesiacWpisuArchiwum;
     }
 
     public String getRokNastepnySt() {

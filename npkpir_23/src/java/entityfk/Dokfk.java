@@ -245,7 +245,7 @@ public class Dokfk implements Serializable {
         this.listawierszy = new ArrayList<>();
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
-        String mc = wpisView.getMiesiacWpisu().equals("CR") ? "01" : wpisView.getMiesiacWpisu();
+        String mc = wpisView.getMiesiacWpisu().equals("CR") ? wpisView.getMiesiacWpisuArchiwum() : wpisView.getMiesiacWpisu();
         String data = Data.ostatniDzien(wpisView.getRokWpisuSt(), mc);
         this.setDatawystawienia(data);
         this.setDatawplywu(data);
@@ -624,9 +624,10 @@ public class Dokfk implements Serializable {
             this.dokfkPK.setSeriadokfk("ZZ");
         }
         this.dokfkPK.setRok(wpisView.getRokWpisuSt());
-        this.setMiesiac(wpisView.getMiesiacWpisu());
+        String mc = wpisView.getMiesiacWpisu().equals("CR") ? wpisView.getMiesiacWpisuArchiwum() : wpisView.getMiesiacWpisu();
+        this.setMiesiac(mc);
         this.setVatR(wpisView.getRokWpisuSt());
-        this.setVatM(wpisView.getMiesiacWpisu());
+        this.setVatM(mc);
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
         this.setZablokujzmianewaluty(false); 
     }

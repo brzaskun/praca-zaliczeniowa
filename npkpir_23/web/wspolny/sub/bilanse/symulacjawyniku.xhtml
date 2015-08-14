@@ -118,7 +118,7 @@
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" width="60">
-                            <bcf:outputpl value="#{loopik.kwota}"/>
+                            <bcf:outputpl value="#{loopik.wnma eq 'Ma' ? loopik.kwota : -loopik.kwota}"/>
                             <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}"/>
                         </p:column>
                     </p:dataTable>
@@ -190,7 +190,7 @@
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" width="60">
-                            <bcf:outputpl value="#{loopik.kwota}"/>
+                            <bcf:outputpl value="#{loopik.wnma eq 'Wn' ? loopik.kwota : -loopik.kwota}"/>
                             <h:outputText value="#{loopik.wiersz.tabelanbp.waluta.skrotsymbolu}"/>
                         </p:column>
                     </p:dataTable>
