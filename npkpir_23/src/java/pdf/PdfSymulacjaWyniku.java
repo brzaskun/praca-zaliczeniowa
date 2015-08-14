@@ -45,7 +45,12 @@ public class PdfSymulacjaWyniku {
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
         try {
-            String nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
+            String nazwapliku = null;
+            if (rodzajdruku == 1) {
+                nazwapliku = "symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf";
+            } else {
+                nazwapliku = "symulacjawynikukonta-" + wpisView.getPodatnikWpisu() + ".pdf";
+            }
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
@@ -61,7 +66,11 @@ public class PdfSymulacjaWyniku {
     private static void drukujcd(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji,
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, WpisView wpisView, int rodzajdruku, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            if (rodzajdruku == 1) {
+                PdfWriter.getInstance(document, Plik.plikR("symulacjawyniku-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            } else {
+                PdfWriter.getInstance(document, Plik.plikR("symulacjawynikukonta-" + wpisView.getPodatnikWpisu() + ".pdf"));
+            }
         document.addTitle(B.b("zestawieniesymulacjawyniku"));
         document.addAuthor("Biuro Rachunkowe Taxman Grzegorz Grzelczyk");
         document.addSubject(B.b("zestawieniesymulacjawyniku"));

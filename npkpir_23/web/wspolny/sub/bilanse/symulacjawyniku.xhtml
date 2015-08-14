@@ -44,8 +44,8 @@
                                      style="width: 120px; margin-left: 20px;" update="@form"/>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
-                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
-                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>
+                <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 1)"/>
+                <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 2)"/>
                 <p:splitButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(0)}" style=" margin-left: 15px; display: none;" global="false" ajax="false">
                     <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
             </p:splitButton>

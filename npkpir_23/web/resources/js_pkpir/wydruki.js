@@ -104,8 +104,12 @@ var wydrukpojazdy = function(kto, nr){
     window.open('../wydruki/pojazdy-'+nr+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
 };
 
-var wydruksymulacjawyniku = function(kto){
-    window.open('../wydruki/symulacjawyniku-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+var wydruksymulacjawyniku = function(kto, numer){
+    if (numer===1) {
+        window.open('../wydruki/symulacjawyniku-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    } else {
+        window.open('../wydruki/symulacjawynikukonta-'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    }
 };
 
 var wydruksymulacjawynikunar = function(kto){
