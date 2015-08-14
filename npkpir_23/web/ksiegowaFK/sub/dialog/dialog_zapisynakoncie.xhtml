@@ -152,8 +152,8 @@
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
                                  >
-                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
-                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
+                        <p:ajax event="rowSelectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" />
+                        <p:ajax event="rowUnselectCheckbox" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false" oncomplete="odswietlrozrachunki()"/>
                         <p:ajax event="toggleSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.sumazapisowtotal}" global="false"/>
                         <p:ajax event="rowSelect" update=":tabelazsumami:sumy" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}" global="false"/>
                         <p:ajax event="rowSelectCheckbox" global="false"  listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia(kontoZapisFKView.wybranekontadosumowania)}" 

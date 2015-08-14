@@ -117,6 +117,7 @@ public class StronaWiersza implements Serializable{
     private double kursBO;
     private String opisBO;
     
+    
 
    
     public StronaWiersza(Wiersz nowywiersz, String wnma) {

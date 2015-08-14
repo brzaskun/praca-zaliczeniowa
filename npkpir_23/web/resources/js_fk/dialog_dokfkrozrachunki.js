@@ -1,72 +1,72 @@
-var pilnujwprowadzanychrozrachunkow = function() {
+var pilnujwprowadzanychrozrachunkow = function () {
     var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
     MYAPP.limit = limit;
     doklejsumowaniewprowadzonych();
 };
 
-var rozrachunkiOnShow = function() {
+var rozrachunkiOnShow = function () {
     ustawdialog('dialogdrugi', 'menudokumenty');
     pilnujwprowadzanychrozrachunkow();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
 };
 
-var niemarachunkowShow = function (){
+var niemarachunkowShow = function () {
     $(document.getElementById('niemarachunkow')).width(450).height(80);
     try {
         $(document.getElementById('niemarachunkow')).position({
-        my: "center center",
-        at: "center center",
-        of: $(document.getElementById('dialogpierwszy')),
-        collision: "none none"
-    });
-    $(document.getElementById("niemarachunkowform:niemarachunkowbutton")).focus();
+            my: "center center",
+            at: "center center",
+            of: $(document.getElementById('dialogpierwszy')),
+            collision: "none none"
+        });
+        $(document.getElementById("niemarachunkowform:niemarachunkowbutton")).focus();
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
+        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 " + Exception);
     }
 };
 
-var transakcjawyborShow = function (){
+var transakcjawyborShow = function () {
     $(document.getElementById('transakcjawybor')).width(300).height(80);
     try {
         $(document.getElementById('transakcjawybor')).position({
-        my: "center center",
-        at: "center center",
-        of: $(document.getElementById('dialogpierwszy')),
-        collision: "none none"
-    });
+            my: "center center",
+            at: "center center",
+            of: $(document.getElementById('dialogpierwszy')),
+            collision: "none none"
+        });
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 "+Exception);
+        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 14 " + Exception);
     }
     $(document.getElementById("formtransakcjawybor:transakcjawybormenu")).focus();
 };
 
-var kontownmawyborShow = function (){
+var kontownmawyborShow = function () {
     $(document.getElementById('kontownmawybor')).width(300).height(80);
     try {
         $(document.getElementById('kontownmawybor')).position({
-        my: "center center",
-        at: "center center",
-        of: $(document.getElementById('dialogbilansuklad')),
-        collision: "none none"
-    });
+            my: "center center",
+            at: "center center",
+            of: $(document.getElementById('dialogbilansuklad')),
+            collision: "none none"
+        });
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 44 "+Exception);
+        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 44 " + Exception);
     }
     $(document.getElementById("formkontowybor:wybormenu")).focus();
 };
 
-var kontownmawyborRZiSShow = function (){
+var kontownmawyborRZiSShow = function () {
     $(document.getElementById('kontownmawyborRZiS')).width(300).height(80);
     try {
         $(document.getElementById('kontownmawyborRZiS')).position({
-        my: "center center",
-        at: "center center",
-        of: $(document.getElementById('dialogrzisuklad')),
-        collision: "none none"
-    });
+            my: "center center",
+            at: "center center",
+            of: $(document.getElementById('dialogrzisuklad')),
+            collision: "none none"
+        });
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 44 "+Exception);
+        alert("blad w fukncji ustawdialog w pliku dialog_dokfkrozrachunki.js wiersz 44 " + Exception);
     }
     $(document.getElementById("formkontowyborRZiS:wybormenuRZiS")).focus();
 };
@@ -85,7 +85,7 @@ var powrotDoStronyPoWyborzeRachunekPlatnosc = function () {
 //    setTimeout(znadzpasujacepolerozrachunku2(kwota), 1000);
 //};
 
-var znadzpasujacepolerozrachunku2 = function(kwota) {
+var znadzpasujacepolerozrachunku2 = function (kwota) {
     var wiersze = $(document.getElementById("rozrachunki:dataList_data")).children("tr");
     var opisy = new Array();
     var sumarozliczonych = 0.0;
@@ -95,7 +95,7 @@ var znadzpasujacepolerozrachunku2 = function(kwota) {
             for (var i = 0; i < dlwiersze; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
                 opisy[i] = trescwiersza[3].innerText;
-                var linijka = "rozrachunki:dataList:"+i+":kwotarozliczenia_input";
+                var linijka = "rozrachunki:dataList:" + i + ":kwotarozliczenia_input";
                 sumarozliczonych += zrobFloat(r(linijka).val());
             }
             //uzupelniamy tylko wtedy jak inne pola sa puste. inaczej przy edycji bedzie gupota
@@ -146,20 +146,20 @@ var znadzpasujacepolerozrachunku2 = function(kwota) {
                 dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
                 $(document.getElementById(dopasowanywiersz)).focus();
                 $(document.getElementById(dopasowanywiersz)).change();
-                $(document.getElementById(dopasowanywiersz)).select();  
+                $(document.getElementById(dopasowanywiersz)).select();
             }
         } catch (el) {
-             dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
-             $(document.getElementById(dopasowanywiersz)).keyup();
-             $(document.getElementById(dopasowanywiersz)).change();
-             $(document.getElementById(dopasowanywiersz)).select();
+            dopasowanywiersz = "rozrachunki:dataList:" + 0 + ":kwotarozliczenia_input";
+            $(document.getElementById(dopasowanywiersz)).keyup();
+            $(document.getElementById(dopasowanywiersz)).change();
+            $(document.getElementById(dopasowanywiersz)).select();
         }
     }
 
 };
 
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
-var rozrachunkiOnHide = function() {
+var rozrachunkiOnHide = function () {
     resetujdialog('dialogdrugi');
     try {
         powrotdopolaPoNaniesieniuRozrachunkow();
@@ -167,14 +167,14 @@ var rozrachunkiOnHide = function() {
     }
 };
 //sluzy do zaznaczania pol nierozrachunowych
-var powrotdopolaPoNaniesieniuRozrachunkow = function() {
+var powrotdopolaPoNaniesieniuRozrachunkow = function () {
     var powrot = $(MYAPP.zaznaczonepole).attr('id');
     $(document.getElementById(powrot)).focus();
     $(document.getElementById(powrot)).select();
 };
 //sluszy do sumowania wprowadzonych kwot czy nie przekraczaja limitu i czy indywidualnie nie przekraczaja limitu w wierszu
-var doklejsumowaniewprowadzonych = function() {
-    $("#rozrachunki\\:dataList :input").keyup(function() {
+var doklejsumowaniewprowadzonych = function () {
+    $("#rozrachunki\\:dataList :input").keyup(function () {
         var wprowadzonowpole = $(this).val();
         if (wprowadzonowpole !== "0.00") {
             r("rozrachunki:zapiszrozrachunekButton").show();
@@ -190,7 +190,7 @@ var doklejsumowaniewprowadzonych = function() {
             }
             var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
             var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
-            if (isNaN(wartoscpoprawej)===true) {
+            if (isNaN(wartoscpoprawej) === true) {
                 wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
                 wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
             }
@@ -228,8 +228,8 @@ var doklejsumowaniewprowadzonych = function() {
             }
             var kwotapierwotna = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
             $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
-            $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna-wprowadzono));
-            MYAPP.limit = (kwotapierwotna-wprowadzono).round(2);
+            $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna - wprowadzono));
+            MYAPP.limit = (kwotapierwotna - wprowadzono).round(2);
             for (var i = 0; i < iloscpozycji; i = i + 2) {
                 if (MYAPP.limit < 0) {
                     $(wszystkiewiersze[i]).css("font-weight", "900");
@@ -243,7 +243,7 @@ var doklejsumowaniewprowadzonych = function() {
                     $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "600");
                     $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
                     //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
-                    if (_jednak_nie_odslaniaj===false)  {
+                    if (_jednak_nie_odslaniaj === false) {
                         r("rozrachunki:zapiszrozrachunekButton").show();
                     }
                 }
@@ -333,7 +333,7 @@ var doklejsumowaniewprowadzonych = function() {
 //           
 //};
 //chodzenie po wierszach tabeli przy uzyciu klawiszy strzalek z przewijaniem
-var przejdzwiersz = function() {
+var przejdzwiersz = function () {
     var wierszewbiezacejtabeli = $("#zestawieniedokumentow\\:dataList_data").children("tr");
     if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
@@ -353,7 +353,7 @@ var przejdzwiersz = function() {
     $(komorki[1]).click();
 };
 
-var wrocwiersz = function() {
+var wrocwiersz = function () {
     var wierszewbiezacejtabeli = $("#zestawieniedokumentow\\:dataList_data").children("tr");
     if (!MYAPP.hasOwnProperty('nrbiezacegowiersza')) {
         MYAPP.nrbiezacegowiersza = 0;
@@ -386,7 +386,7 @@ function isScrolledIntoView(elem)
 }
 
 //podswietla powiazane rozrachunki w zapisach konta
-var podswietlrozrachunki = function() {
+var podswietlrozrachunki = function () {
     var listawierszy = document.getElementById("zapisydopodswietlenia").innerHTML;
     if (listawierszy.length === 0) {
         alert("Lista kont pusta, nie ma co podswietlac");
@@ -403,15 +403,29 @@ var podswietlrozrachunki = function() {
         znaleziono = $.inArray(nrpolazapisu, listawierszy);
         if (znaleziono > -1) {
             for (var kom = 0; kom < 15; kom++) {
-                $(komorki[kom]).css("font-weight", "800");
+                $(komorki[kom]).css("font-weight", "600");
                 $(komorki[kom]).css("color", "green");
             }
+            break;
         }
     }
-
 };
 
-var zablokujcheckbox = function(zablokuj, pole) {
+var odswietlrozrachunki = function () {
+    var wierszewtabeli = $("#tabelazzapisami\\:tabela_data").children("tr");
+    var dlugosc = wierszewtabeli.length;
+    var znaleziono = -1;
+    for (var i = 0; i < dlugosc; i++) {
+        var wierszdoobrobki = wierszewtabeli[i];
+        var komorki = $(wierszdoobrobki).children("td");
+        for (var kom = 0; kom < 15; kom++) {
+            $(komorki[kom]).css("font-weight", "initial");
+            $(komorki[kom]).css("color", "initial");
+        }
+    }
+};
+
+var zablokujcheckbox = function (zablokuj, pole) {
     try {
         if (zablokuj === 'true') {
             if (pole === 'rachunek') {
@@ -419,14 +433,14 @@ var zablokujcheckbox = function(zablokuj, pole) {
                 r("formcheckbox:labelcheckboxrozrachunki").text("Rachunek został rozliczony przez płatności. Nie można odznaczyć go jako transakcji do rozliczenia.");
             } else {
                 $(document.getElementById("formcheckbox:znaczniktransakcji")).hide();
-                r("formcheckbox:labelcheckboxrozrachunki").text("Płatność rozliczyla rachunki. Nie można oznaczyć jej jako nowej transakcji.");   
+                r("formcheckbox:labelcheckboxrozrachunki").text("Płatność rozliczyla rachunki. Nie można oznaczyć jej jako nowej transakcji.");
             }
         } else {
             $(document.getElementById("formcheckbox:znaczniktransakcji")).show();
             r("formcheckbox:labelcheckboxrozrachunki").text("Oznacz jako transakcję do rozliczenia");
         }
     } catch (e) {
-        console.log('error dialog_dokfkrozrachunki.js zablokujcheckbox '+e);
+        console.log('error dialog_dokfkrozrachunki.js zablokujcheckbox ' + e);
     }
 
 };
@@ -435,8 +449,8 @@ var zablokujwierszereadonly = function () {
     var wiersze = $(document.getElementById("formwpisdokument:dataList_data")).children("tr");
     var dl = wiersze.size();
     if (dl > 0) {
-         var blockwaluty = "formwpisdokument:wybranawaluta";
-         try {//moze sie zdarzyc ze nie bedzie nic
+        var blockwaluty = "formwpisdokument:wybranawaluta";
+        try {//moze sie zdarzyc ze nie bedzie nic
             for (var i = 0; i < dl; i++) {
                 var trescwiersza = $(wiersze[i]).children("td");
                 var czyzablokowac;
@@ -445,12 +459,12 @@ var zablokujwierszereadonly = function () {
                 } else {
                     czyzablokowac = trescwiersza[9].innerText;
                 }
-                var cozablokowacWn = "formwpisdokument:dataList:"+i+":wn_input";
-                var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":wn_hinput";
+                var cozablokowacWn = "formwpisdokument:dataList:" + i + ":wn_input";
+                var cozablokowacWn2 = "formwpisdokument:dataList:" + i + ":wn_hinput";
                 if (czyzablokowac === "true") {
-                    $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
-                    $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
-                    $(document.getElementById(blockwaluty)).attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn)).attr('readonly', 'readonly');
+                    $(document.getElementById(cozablokowacWn2)).attr('readonly', 'readonly');
+                    $(document.getElementById(blockwaluty)).attr('readonly', 'readonly');
                 } else {
                     $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
                     $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
@@ -465,12 +479,12 @@ var zablokujwierszereadonly = function () {
                 } else {
                     czyzablokowac = trescwiersza[10].innerText;
                 }
-                var cozablokowacWn = "formwpisdokument:dataList:"+i+":ma_input";
-                var cozablokowacWn2 = "formwpisdokument:dataList:"+i+":ma_hinput";
+                var cozablokowacWn = "formwpisdokument:dataList:" + i + ":ma_input";
+                var cozablokowacWn2 = "formwpisdokument:dataList:" + i + ":ma_hinput";
                 if (czyzablokowac === "true") {
-                    $(document.getElementById(cozablokowacWn)).attr('readonly','readonly');
-                    $(document.getElementById(cozablokowacWn2)).attr('readonly','readonly');
-                    $(document.getElementById(blockwaluty)).attr('readonly','readonly');
+                    $(document.getElementById(cozablokowacWn)).attr('readonly', 'readonly');
+                    $(document.getElementById(cozablokowacWn2)).attr('readonly', 'readonly');
+                    $(document.getElementById(blockwaluty)).attr('readonly', 'readonly');
                 } else {
                     $(document.getElementById(cozablokowacWn)).removeAttr('readonly');
                     $(document.getElementById(cozablokowacWn2)).removeAttr('readonly');
@@ -480,7 +494,7 @@ var zablokujwierszereadonly = function () {
         } catch (el) {
         }
     }
-    
+
 };
 
 
