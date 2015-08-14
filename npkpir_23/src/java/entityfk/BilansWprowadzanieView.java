@@ -34,6 +34,7 @@ import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdffk.PdfWierszBO;
 import view.WpisView;
+import waluty.Z;
 
 /**
  *
@@ -391,6 +392,7 @@ public class BilansWprowadzanieView implements Serializable {
             } else {
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
         } else if (wiersz.getWaluta().getSymbolwaluty().equals("PLN")){
             if (strona.equals("Wn")) {
@@ -398,17 +400,28 @@ public class BilansWprowadzanieView implements Serializable {
             } else {
                 wiersz.setKwotaMaPLN(kwotaWwalucie);
             }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
         }
     }
     
-    public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN) {
+    public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN, String WnMa) {
         if (kurs == 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             double kurswyliczony = Math.round(kwotaWPLN / kwotaWwalucie * 100);
             kurswyliczony /= 100;
             wiersz.setKurs(kurswyliczony);
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
-        } 
+        } else if (kurs != 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN") && kwotaWwalucie == 0.0) {
+            double kwotaWwaluciewyliczona = Z.z(kwotaWPLN / kurs);
+            if (WnMa.equals("Wn")) {
+                wiersz.setKwotaWn(kwotaWwaluciewyliczona);
+            } else {
+                wiersz.setKwotaMa(kwotaWwaluciewyliczona);
+            }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+        }
     }
 
     public void przeliczkurs(WierszBO wiersz) {
@@ -424,13 +437,33 @@ public class BilansWprowadzanieView implements Serializable {
                     kwotawPLN /= 100;
                     wiersz.setKwotaMaPLN(kwotawPLN);
                 }
+                if (wiersz.getKwotaWn() != 0.0) {
+                    double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
+                    kwotawPLN /= 100;
+                    wiersz.setKwotaWnPLN(kwotawPLN);
+                } else if (wiersz.getKwotaMa() != 0.0) {
+                    double kwotawPLN = Math.round(wiersz.getKwotaMa() * kurs * 100);
+                    kwotawPLN /= 100;
+                    wiersz.setKwotaMaPLN(kwotawPLN);
+                }
             } else {
                 wiersz.setKwotaWnPLN(0.0);
                 wiersz.setKwotaMaPLN(0.0);
             }
+            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
             podsumujWnMa(listaW);
+        } else {
+            if (wiersz.getKwotaWn() != 0.0 || wiersz.getKwotaMa() != 0.0) {
+                wiersz.setKurs(0.0);
+                wiersz.setKwotaWnPLN(wiersz.getKwotaWn());
+                wiersz.setKwotaMaPLN(wiersz.getKwotaMa());
+                RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
+                RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+                podsumujWnMa(listaW);
+            }
         }
+       
     }
 
     public void ksiegujrozrachunki() {
