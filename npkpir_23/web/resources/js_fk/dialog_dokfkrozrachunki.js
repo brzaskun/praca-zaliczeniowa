@@ -185,11 +185,39 @@ var doklejsumowaniewprowadzonych = function () {
                 $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_hinput")).val(0.0);
                 $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kwotarozliczenia_input")).select();
             }
+            var waluta;
+            try {
+                waluta = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":walutaWn")).text();
+                if (waluta === "") {
+                    waluta = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":walutaMa")).text();
+                }
+                if (waluta === "") {
+                    waluta = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":walutaMaBO")).text();
+                }
+            } catch (e) {
+                
+            }
+            var kurs;
+            try {
+                kurs = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kursWn")).text();
+                if (kurs === "") {
+                    kurs = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kursWn1")).text();
+                }
+                if (kurs === "") {
+                    kurs = $(document.getElementById("rozrachunki:dataList:" + numerwiersza + ":kursMa")).text();
+                }
+            } catch (e) {
+                
+            }
+            kurs = zrobFloat(kurs);
             var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
             var wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
             if (isNaN(wartoscpoprawej) === true) {
                 wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
                 wartoscpoprawej = zrobFloat($(document.getElementById(wiersz)).text());
+            }
+            if (waluta !== "PLN") {
+                wartoscpoprawej = wartoscpoprawej * kurs + wartoscpoprawej*.2;
             }
             $(document.getElementById(wiersz)).css("font-weight", "normal");
             $(document.getElementById(wiersz)).css("color", "black");
@@ -197,6 +225,11 @@ var doklejsumowaniewprowadzonych = function () {
             $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "normal");
             $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
             var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
+            var walutarozliczajacego = $(document.getElementById("rozrachunki:walutarozliczajacego")).text();
+            if (walutarozliczajacego != "PLN" && waluta == "PLN") {
+                var kursrozliczajacego = parseFloat($(document.getElementById("rozrachunki:kursrozliczajacego")).text());
+                wartoscwprowadzona = wartoscwprowadzona * kursrozliczajacego - wartoscpoprawej*0.2;
+            }
             var _jednak_nie_odslaniaj;
             if (wartoscwprowadzona > wartoscpoprawej) {
                 if (wartoscpoprawej === 0) {

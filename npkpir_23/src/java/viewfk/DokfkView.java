@@ -1878,8 +1878,9 @@ public class DokfkView implements Serializable {
             if (kursPlatnosci == 0.0 && kursRachunku != 0.0) {
                 if (placonakwota > 0.0) {
                     double kwotaPlatnosciwWalucie = Z.z(placonakwota / kursRachunku);
-                    double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota();
-                    double roznicakursowa = Z.z(kwotaPlatnosciwWalucie - kwotaRachunkuwWalucie);
+                    double kwotaRachunkuwWalucie = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono();
+                    double kwotaRachunkuwPLN = kwotaRachunkuwWalucie * kursRachunku;
+                    double roznicakursowa = Z.z(placonakwota - kwotaRachunkuwPLN);
                     if (roznicakursowa > 0.0) {
                         loop.setRoznicekursowe(roznicakursowa);
                         wiersz = "rozrachunki:dataList:" + row + ":roznicakursowa";
@@ -1901,7 +1902,7 @@ public class DokfkView implements Serializable {
             } else if (kursPlatnosci != 0.0 && kursRachunku == 0.0) {
                 if (placonakwota > 0.0) {
                     double kwotaPlatnosciwPLN = Z.z(placonakwota * kursPlatnosci);
-                    double kwotaRachunkuwPLN = loop.getNowaTransakcja().getKwota();
+                    double kwotaRachunkuwPLN = loop.getNowaTransakcja().getKwota() - loop.getNowaTransakcja().getRozliczono();
                     double roznicakursowa = Z.z(kwotaPlatnosciwPLN - kwotaRachunkuwPLN);
                     if (roznicakursowa > 0.0) {
                         loop.setRoznicekursowe(roznicakursowa);

@@ -39,10 +39,10 @@
                     <h:outputText value="opis wiersza: "/>
                     <h:outputText id="opiswierszaaktualnyrozrachunek" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.length() > 40 ? dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza.substring(0,39) : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.opisWiersza}" style="font-weight: bold;"/>
                     <h:outputText value="waluta: "/>
-                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
+                    <h:outputText id="walutarozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.symbolWalutyBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty}" 
                                   style="font-weight: bold; #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? null : 'color: blue;'}"/>
                     <h:outputText value="kurs: " style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.waluta.symbolwaluty eq 'PLN' ? 'white' : 'black'}"/>
-                    <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.kursBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold; width: 50px;
+                    <h:outputText id="kursrozliczajacego" value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp eq null ? dokfkView.aktualnyWierszDlaRozrachunkow.kursBO : dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.kurssredni}" style="font-weight: bold; width: 50px;
                                   color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
                     <h:outputText value="tabela: "  style="color : #{dokfkView.aktualnyWierszDlaRozrachunkow.symbolWaluty eq 'PLN' ? 'white' : 'black'}"/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.nrtabeli} z dnia #{dokfkView.aktualnyWierszDlaRozrachunkow.wiersz.tabelanbp.datatabeli}" 
@@ -95,10 +95,10 @@
                             <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                         </p:column>
                         <p:column headerText="zostało do rozlicz." width="50" >
-                            <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK != null ? loop.nowaTransakcja.pozostalo+loop.kwotawwalucierachunku : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                            <h:outputText id="pozostaloWn" value="#{loop.transakcjaPK != null ? loop.nowaTransakcja.pozostalo : loop.nowaTransakcja.pozostalo}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText id="pozostaloMa" value="#{loop.transakcjaPK != null ? loop.rozliczajacy.pozostalo+loop.kwotawwalucierachunku : loop.rozliczajacy.pozostalo}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                            <h:outputText id="pozostaloMa" value="#{loop.transakcjaPK != null ? loop.rozliczajacy.pozostalo : loop.rozliczajacy.pozostalo}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
@@ -115,22 +115,22 @@
                                           style="width: 60px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                             <h:outputText id="symboldokMa" value="#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.rozliczajacy.wiersz.dokfk.dokfkPK.nrkolejnywserii}"  style="width: 60px;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
                         </p:column>
-                        <p:column headerText="kwota w walucie rach." width="50">
+                        <p:column headerText="kwota rozliczenia w walucie rach." width="50">
                             <h:outputText id="kwotawwalucierachunku" value="#{loop.kwotawwalucierachunku}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
 
                         <p:column headerText="kwota rozlicz. innymi dok." width="50">
-                            <h:outputText value="#{loop.transakcjaPK  != null ? loop.nowaTransakcja.rozliczono-loop.kwotawwalucierachunku : loop.nowaTransakcja.rozliczono}" 
+                            <h:outputText value="#{loop.transakcjaPK  != null ? loop.nowaTransakcja.rozliczono : loop.nowaTransakcja.rozliczono}" 
                                           style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
-                            <h:outputText value="#{loop.transakcjaPK != null ? loop.rozliczajacy.rozliczono-loop.kwotawwalucierachunku : loop.rozliczajacy.rozliczono}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                            <h:outputText value="#{loop.transakcjaPK != null ? loop.rozliczajacy.rozliczono : loop.rozliczajacy.rozliczono}" style="float: right;" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="kwota transakcji" width="50" filterBy="#{loop.nowaTransakcja.kwotaR}" filterStyle="display: none;">
+                        <p:column headerText="wartość pierw. rachunku" width="50" filterBy="#{loop.nowaTransakcja.kwotaR}" filterStyle="display: none;">
                             <h:outputText value="#{loop.nowaTransakcja.kwotaR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -138,7 +138,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="kwota trans. w PLN" width="50">
+                        <p:column headerText="wartość pierw. rachunku w PLN" width="50">
                             <h:outputText value="#{loop.nowaTransakcja.kwotaPLNR}" style="float: right;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
                             </h:outputText>
@@ -154,8 +154,12 @@
                             <h:outputText id="walutaMaBO" value="#{loop.nowaTransakcja.symbolWalutyBO}"  rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                         </p:column>
                         <p:column headerText="kurs" width="40">
-                            <h:outputText id="kursWn" value="#{loop.nowaTransakcja.wiersz.tabelanbp eq null ? loop.nowaTransakcja.kursBO : loop.nowaTransakcja.wiersz.tabelanbp.kurssredni}"  
-                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}">
+                            <h:outputText id="kursWn" value="#{loop.nowaTransakcja.kursBO gt 0.0 ? loop.nowaTransakcja.kursBO : null}"  
+                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz.tabelanbp eq null}">
+                                <f:convertNumber minFractionDigits="4" locale="PL"/>
+                            </h:outputText>
+                            <h:outputText id="kursWn1" value="#{loop.nowaTransakcja.wiersz.tabelanbp.kurssredni gt 0.0 ? loop.nowaTransakcja.wiersz.tabelanbp.kurssredni : null}"  
+                                          style="float: right;"  rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja and loop.nowaTransakcja.wiersz.tabelanbp ne null}">
                                 <f:convertNumber minFractionDigits="4" locale="PL"/>
                             </h:outputText>
                             <h:outputText id="kursMa" value="#{loop.rozliczajacy.wiersz.tabelanbp eq null ? loop.rozliczajacy.kursBO : loop.rozliczajacy.wiersz.tabelanbp.kurssredni}" 
