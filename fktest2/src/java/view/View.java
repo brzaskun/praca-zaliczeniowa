@@ -7,17 +7,19 @@
 package view;
 
 import entity.Dok;
-import entity.Rozrachunek;
 import entity.Strona;
 import entity.Transakcja;
 import entity.Wiersz;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 
 /**
  *
@@ -50,17 +52,42 @@ public class View implements Serializable{
     
    
     public static void main(String[] args) {
-        Dok dok = new Dok(listanazw.get(1));
-        dok.setWiersz(new Wiersz(listanazw.get(1)));
-        dok.getWiersz().setStrona(new Strona(listanazw.get(1)));
-        dok.getWiersz().getStrona().setRozrachunek(new Rozrachunek(listanazw.get(1)));
-        dok.getWiersz().getStrona().getRozrachunek().setTransakcja(new Transakcja(listanazw.get(1)));
-        p(dok);
-        p(dok.getWiersz());
-        p(dok.getWiersz().getStrona());
-        p(dok.getWiersz().getStrona().getRozrachunek());
-        p(dok.getWiersz().getStrona().getRozrachunek().getTransakcja());
-        p(usunDokument(dok));
+        Dok dok1 = new Dok(listanazw.get(1));
+        Wiersz w1 = new Wiersz(listanazw.get(1));
+        w1.setDok(dok1);
+        dok1.setWiersz(w1);
+        Strona s1 = new Strona(listanazw.get(1));
+        s1.setWiersz(w1);
+        dok1.getWiersz().setStrona(s1);
+        zachowaj(dok1);
+        p(dok1);
+        Dok dok2 = new Dok(listanazw.get(2));
+        Wiersz w2 = new Wiersz(listanazw.get(2));
+        w2.setDok(dok2);
+        dok2.setWiersz(w2);
+        Strona s2 = new Strona(listanazw.get(2));
+        s2.setWiersz(w2);
+        dok2.getWiersz().setStrona(s2);
+        zachowaj(dok2);
+        p(dok2);
+        Dok dok1t = (Dok) pobierz(Dok.class, 1);
+        Strona st = (Strona) pobierz(Strona.class, 2);
+        Transakcja t1 = new Transakcja("jeden-dwa");
+        t1.setNowaTransakcja(dok1t.getWiersz().getStrona());
+        t1.setRozliczajacy(st);
+        dok1t.getWiersz().getStrona().getNowetransakcje().add(t1);
+        st.getPlatnosci().add(t1);
+        edytuj(dok1t);
+        System.out.println("zachowano");
+        Dok domodyfikacji = (Dok) pobierz(Dok.class, 1);
+        Dok niezmieniony = (Dok) pobierz(Dok.class, 2);
+        domodyfikacji.setWiersz(null);
+        //edytuj(domodyfikacji);
+        niezmieniony = (Dok) pobierz(Dok.class, 2);
+        System.out.println("koniec");
+        List<Object> dokumenty = pobierzWszystkieDok(Dok.class);
+        Strona st2 = (Strona) pobierz(Strona.class, 2);
+        System.out.println("pobrano dok");
     }
     
     public static int usunDokument(Dok dokument) {
@@ -76,6 +103,46 @@ public class View implements Serializable{
             return 1;
         }
     }
+    
+    public static Object pobierz(Class c, Object id) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Object ret = em.find(c, id);
+        //em.refresh(ret);
+        em.getTransaction().commit();
+        em.clear();
+        return ret;
+    }
+    
+     public static List<Object> pobierzWszystkieDok(Class c) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        CriteriaQuery<Object> criteria = em.getCriteriaBuilder().createQuery(c);
+        criteria.select(criteria.from(c));
+        List<Object> lista = em.createQuery(criteria).getResultList();
+        em.getTransaction().commit();
+        em.clear();
+        return lista;
+    }
+    
+    public static void zachowaj(Object o) {
+        System.out.println("Utrwalam "+o.getClass().getName());
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.persist(o);
+        em.getTransaction().commit();
+        em.clear();
+    }
+    
+    public static void edytuj(Object o) {
+        System.out.println("Edytuje "+o.getClass().getName());
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.merge(o);
+        em.getTransaction().commit();
+        em.clear();
+    }
+    
     public static Object utrwalam(int i, String klasa) {
         try {
             System.out.println("Utrwalam "+listanazw.get(i));
@@ -91,9 +158,6 @@ public class View implements Serializable{
                     break;
                 case "Strona":
                     nowyObject = new Strona(listanazw.get(i));
-                    break;
-                case "Rozrachunek":
-                    nowyObject = new Rozrachunek(listanazw.get(i));
                     break;
                 case "Transakcja":
                     nowyObject = new Transakcja(listanazw.get(i));
@@ -122,9 +186,6 @@ public class View implements Serializable{
                     break;
                 case "Strona":
                     obj1 = new Strona(listanazw.get(i));
-                    break;
-                case "Rozrachunek":
-                    obj1 = new Rozrachunek(listanazw.get(i));
                     break;
                 case "Transakcja":
                     obj1 = new Transakcja(listanazw.get(i));

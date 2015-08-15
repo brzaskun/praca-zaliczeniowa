@@ -7,12 +7,19 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,18 +31,21 @@ import javax.validation.constraints.Size;
 public class Transakcja implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(nullable = false)
-    private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    
+    @EmbeddedId 
+    private TransakcjaPK transakcjaPK;
+    @MapsId("rozliczajacyPK")
+    @JoinColumn(name="rozliczajacy_id", referencedColumnName = "id")
+    @ManyToOne
+    private Strona rozliczajacy;
+    @MapsId("nowaTransakcjaPK")
+    @JoinColumn(name="nowaTransakcja_id", referencedColumnName = "id")
+    @ManyToOne
+    private Strona nowaTransakcja;
     private String nazwa;
-
+    
     public Transakcja() {
+
     }
 
     
@@ -44,13 +54,7 @@ public class Transakcja implements Serializable{
     }
 
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+   
 
     public String getNazwa() {
         return nazwa;
@@ -60,11 +64,39 @@ public class Transakcja implements Serializable{
         this.nazwa = nazwa;
     }
 
+    public TransakcjaPK getTransakcjaPK() {
+        return transakcjaPK;
+    }
+
+    public void setTransakcjaPK(TransakcjaPK transakcjaPK) {
+        this.transakcjaPK = transakcjaPK;
+    }
+
+    public Strona getRozliczajacy() {
+        return rozliczajacy;
+    }
+
+    public void setRozliczajacy(Strona rozliczajacy) {
+        this.rozliczajacy = rozliczajacy;
+    }
+
+    public Strona getNowaTransakcja() {
+        return nowaTransakcja;
+    }
+
+    public void setNowaTransakcja(Strona nowaTransakcja) {
+        this.nowaTransakcja = nowaTransakcja;
+    }
+
     @Override
     public String toString() {
-        return "Transakcja{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Transakcja{" + "transakcjaPK=" + transakcjaPK + ", nazwa=" + nazwa + ", rozliczajacy=" + rozliczajacy + ", nowaTransakcja=" + nowaTransakcja + '}';
     }
+
     
+
+
+   
     
     
 }

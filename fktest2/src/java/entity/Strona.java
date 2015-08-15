@@ -7,12 +7,18 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,13 +40,24 @@ public class Strona implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
-    private Rozrachunek rozrachunek;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "rozliczajacy", fetch = FetchType.EAGER)
+    private List<Transakcja> nowetransakcje;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "nowaTransakcja", fetch = FetchType.EAGER)
+    private List<Transakcja> platnosci;
+    @OneToOne
+    private Wiersz wiersz;
+
+    
 
     public Strona() {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
     }
 
     
     public Strona(String nazwa) {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
         this.nazwa = "Strona "+nazwa;
     }
 
@@ -61,14 +78,29 @@ public class Strona implements Serializable{
         this.nazwa = nazwa;
     }
 
-    public Rozrachunek getRozrachunek() {
-        return rozrachunek;
+    public List<Transakcja> getNowetransakcje() {
+        return nowetransakcje;
     }
 
-    public void setRozrachunek(Rozrachunek rozrachunek) {
-        this.rozrachunek = rozrachunek;
+    public void setNowetransakcje(List<Transakcja> nowetransakcje) {
+        this.nowetransakcje = nowetransakcje;
     }
-    
+
+    public List<Transakcja> getPlatnosci() {
+        return platnosci;
+    }
+
+    public void setPlatnosci(List<Transakcja> platnosci) {
+        this.platnosci = platnosci;
+    }
+
+    public Wiersz getWiersz() {
+        return wiersz;
+    }
+
+    public void setWiersz(Wiersz wiersz) {
+        this.wiersz = wiersz;
+    }
 
     @Override
     public String toString() {

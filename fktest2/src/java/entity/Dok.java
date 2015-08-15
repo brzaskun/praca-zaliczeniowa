@@ -8,11 +8,16 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,8 +37,9 @@ public class Dok implements Serializable{
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String nazwa;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Wiersz wiersz;
 
     public Dok() {
@@ -66,12 +72,14 @@ public class Dok implements Serializable{
     public void setWiersz(Wiersz wiersz) {
         this.wiersz = wiersz;
     }
-    
 
     @Override
     public String toString() {
-        return "Dok{" + "id=" + id + ", nazwa=" + nazwa + '}';
+        return "Dok{" + "id=" + id + ", nazwa=" + nazwa + ", wiersz=" + wiersz + '}';
     }
+    
+
+    
     
     
     

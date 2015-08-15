@@ -8,11 +8,14 @@ package entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,7 +37,10 @@ public class Wiersz implements Serializable{
     @Size(min = 1, max = 100)
     @Column(nullable = false, length = 100)
     private String nazwa;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Strona strona;
+    @OneToOne
+    private Dok dok;
 
     public Wiersz() {
     }
@@ -67,6 +73,14 @@ public class Wiersz implements Serializable{
 
     public void setStrona(Strona strona) {
         this.strona = strona;
+    }
+
+    public Dok getDok() {
+        return dok;
+    }
+
+    public void setDok(Dok dok) {
+        this.dok = dok;
     }
     
     
