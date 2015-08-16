@@ -32,7 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "transakcja", catalog = "pkpir", schema = "")
 @XmlRootElement
-@Cacheable(false)
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findByNowaTransakcja", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja = :nowatransakcja"),
     @NamedQuery(name = "Transakcja.findByRozliczajacy", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy = :rozliczajacy"),
