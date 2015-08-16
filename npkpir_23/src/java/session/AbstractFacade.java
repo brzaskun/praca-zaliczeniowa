@@ -32,9 +32,15 @@ public abstract class AbstractFacade<T> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
+    
+    public void refresh(T entity) {
+        getEntityManager().refresh(entity);
+    }
 
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        T ob = getEntityManager().find(entityClass, id);
+        getEntityManager().refresh(ob);
+        return ob;
     }
 
     public List<T> findAll() {

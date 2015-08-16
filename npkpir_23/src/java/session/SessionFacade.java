@@ -105,6 +105,10 @@ public class SessionFacade<T> implements Serializable {
     public void create(T entity) {
         getEntityManager().persist(entity);
     }
+    
+    public void refresh (T entity) {
+        getEntityManager().refresh(getEntityManager().merge(entity));
+    }
 
     public T findEntity(Class<T> entityClass, T entityPK) {
         T find = getEntityManager().find(entityClass, entityPK);
@@ -112,7 +116,9 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public void remove(T entity) {
-        getEntityManager().remove(em.merge(entity));
+        em.flush();
+        em.remove(em.merge(entity));
+        em.flush();
     }
 
     public void edit(T entity) {
@@ -1143,6 +1149,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWaluta(Konto konto, String symbolwaluty, String wnma) {
         try {
+            em.flush();
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWaluta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1152,6 +1159,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMa(Konto konto, String wnma) {
         try {
+            em.flush();
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKonto").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1161,6 +1169,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaWalutaKorekta(Konto konto, String symbolwaluty, String wnma) {
         try {
+            em.flush();
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoWalutaKorekta").setParameter("konto", konto).setParameter("symbolwaluty", symbolwaluty).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1170,6 +1179,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaKorekta(Konto konto, String wnma) {
         try {
+            em.flush();
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoKorekta").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1179,6 +1189,7 @@ public class SessionFacade<T> implements Serializable {
 
     public List<StronaWiersza> findStronaWierszaByKontoWnMaBO(Konto konto, String wnma) {
         try {
+            em.flush();
             return em.createNamedQuery("StronaWiersza.findByStronaWierszaKontoBO").setParameter("konto", konto).setParameter("wnma", wnma).getResultList();
         } catch (Exception e) {
             E.e(e);
@@ -1605,6 +1616,7 @@ public class SessionFacade<T> implements Serializable {
         return (List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
 
+    
    
 
    

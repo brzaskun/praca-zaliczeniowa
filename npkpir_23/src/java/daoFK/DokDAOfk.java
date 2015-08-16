@@ -43,6 +43,9 @@ public class DokDAOfk extends DAO implements Serializable {
         this.dokFacade = dokFacade;
     }
     
+    public void refresh(Dokfk dokfk) {
+        dokFacade.refresh(dokfk);
+    }
         
     public List<Dokfk> findAll(){
         return dokFacade.findAll(Dokfk.class);

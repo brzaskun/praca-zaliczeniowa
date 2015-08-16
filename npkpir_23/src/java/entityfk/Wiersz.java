@@ -14,6 +14,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -92,7 +93,7 @@ public class Wiersz implements Serializable {
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyColumn(name="strona_key")
     private Map<String, StronaWiersza> strona;
     @Column(name="lpmacierzystego")

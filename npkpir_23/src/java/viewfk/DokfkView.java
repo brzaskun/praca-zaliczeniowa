@@ -821,7 +821,7 @@ public class DokfkView implements Serializable {
 
     public void usundokument() {
         try {
-            dokDAOfk.usun(dokDAOfk.findDokfkObjUsun(dokumentdousuniecia));
+            dokDAOfk.usun(dokumentdousuniecia);
             wykazZaksiegowanychDokumentow.remove(dokumentdousuniecia);
             if (filteredValue != null) {
                 filteredValue.remove(dokumentdousuniecia);
@@ -1167,19 +1167,19 @@ public class DokfkView implements Serializable {
 
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
-            Dokfk odnalezionywbazie = dokDAOfk.findDokfkObj(wybranyDokfk);
-            if (odnalezionywbazie.iswTrakcieEdycji() == true) {
+            dokDAOfk.refresh(wybranyDokfk);
+            if (wybranyDokfk.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
             } else {
-                selected = odnalezionywbazie;
+                selected = wybranyDokfk;
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();
                 tabelenbp = new ArrayList<>();
                 tabelenbp.add(wybranaTabelanbp);
                 obsluzcechydokumentu();
-                Msg.msg("i", "Wybrano dokument do edycji " + odnalezionywbazie.getDokfkPK().toString());
+                Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
                 if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                     pokazPanelWalutowy = true;
@@ -1639,8 +1639,8 @@ public class DokfkView implements Serializable {
 
     public List<Transakcja> tworzenieTransakcjiPlatnosc(String stronawiersza, StronaWiersza wybranastronawiersza) {
         List<Transakcja> transakcje = new ArrayList<>();
-        List<StronaWiersza> pobranezDokumentu = new ArrayList<>();
-        List<StronaWiersza> innezBazy = new ArrayList<>();
+        List<StronaWiersza> stronyWierszazDokumentu = new ArrayList<>();
+        List<StronaWiersza> stronyWierszazBazy = new ArrayList<>();
         try {
             if (StronaWierszaBean.czyKontoJestRozrachunkowe(wybranastronawiersza, stronawiersza)) {
                 if (wybranastronawiersza.getKwota() < 0) {
@@ -1651,9 +1651,9 @@ public class DokfkView implements Serializable {
                     }
                 }
                 System.out.println("aktualny wiersz dla roarachunku " + wybranastronawiersza.toString());
-                pobranezDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(wybranastronawiersza.getKonto().getPelnynumer(), stronawiersza, wybranastronawiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
-                innezBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO);
-                transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(pobranezDokumentu, innezBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
+                stronyWierszazDokumentu = (DokFKTransakcjeBean.pobierzStronaWierszazDokumentu(wybranastronawiersza.getKonto().getPelnynumer(), stronawiersza, wybranastronawiersza.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty(), selected.getListawierszy()));
+                stronyWierszazBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO, transakcjaDAO);
+                transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(stronyWierszazDokumentu, stronyWierszazBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(wybranastronawiersza, transakcje, selected.getListawierszy(), stronawiersza);
                 Collections.sort(transakcje, new Transakcjacomparator());
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -1759,6 +1759,7 @@ public class DokfkView implements Serializable {
                 } else {
                     tr.setDatarozrachunku(Data.aktualnyDzien());
                 }
+                //tr.getNowaTransakcja().getPlatnosci().add(tr);
             }
         }
         if (aktualnyWierszDlaRozrachunkow.getNowetransakcje().isEmpty()) {

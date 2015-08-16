@@ -10,9 +10,12 @@ package entityfk;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Basic;
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -29,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name = "transakcja", catalog = "pkpir", schema = "")
 @XmlRootElement
+@Cacheable(false)
 @NamedQueries({
     @NamedQuery(name = "Transakcja.findByNowaTransakcja", query = "SELECT t FROM Transakcja t WHERE t.nowaTransakcja = :nowatransakcja"),
     @NamedQuery(name = "Transakcja.findByRozliczajacy", query = "SELECT t FROM Transakcja t WHERE t.rozliczajacy = :rozliczajacy"),

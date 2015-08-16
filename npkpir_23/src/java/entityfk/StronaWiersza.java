@@ -34,6 +34,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "stronawiersza")
+@Cacheable(false)
 @NamedQueries({
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKontoWaluta", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
     @NamedQuery(name = "StronaWiersza.findByStronaWierszaKonto", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wnma = :wnma AND t.typStronaWiersza = '1'"),
@@ -158,6 +159,8 @@ public class StronaWiersza implements Serializable{
     }
     
      public StronaWiersza(WierszBO w, String wnma, String zapisy) {
+         this.nowetransakcje = new ArrayList<>();
+         this.platnosci = new ArrayList<>();
          this.konto = w.getKonto();
          this.typStronaWiersza = 9;
          if (wnma.equals("Wn")) {
@@ -179,6 +182,8 @@ public class StronaWiersza implements Serializable{
        }
      
       public StronaWiersza(WierszBO w, String wnma) {
+         this.nowetransakcje = new ArrayList<>();
+         this.platnosci = new ArrayList<>();
          this.konto = w.getKonto();
          this.typStronaWiersza = 9;
          this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
