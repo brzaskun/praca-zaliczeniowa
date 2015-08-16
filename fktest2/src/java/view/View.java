@@ -11,14 +11,12 @@ import entity.Strona;
 import entity.Transakcja;
 import entity.Wiersz;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**
@@ -52,41 +50,25 @@ public class View implements Serializable{
     
    
     public static void main(String[] args) {
-        Dok dok1 = new Dok(listanazw.get(1));
-        Wiersz w1 = new Wiersz(listanazw.get(1));
-        w1.setDok(dok1);
-        dok1.setWiersz(w1);
-        Strona s1 = new Strona(listanazw.get(1));
-        s1.setWiersz(w1);
-        dok1.getWiersz().setStrona(s1);
-        zachowaj(dok1);
-        p(dok1);
-        Dok dok2 = new Dok(listanazw.get(2));
-        Wiersz w2 = new Wiersz(listanazw.get(2));
-        w2.setDok(dok2);
-        dok2.setWiersz(w2);
-        Strona s2 = new Strona(listanazw.get(2));
-        s2.setWiersz(w2);
-        dok2.getWiersz().setStrona(s2);
-        zachowaj(dok2);
-        p(dok2);
-        Dok dok1t = (Dok) pobierz(Dok.class, 1);
-        Strona st = (Strona) pobierz(Strona.class, 2);
-        Transakcja t1 = new Transakcja("jeden-dwa");
-        t1.setNowaTransakcja(dok1t.getWiersz().getStrona());
-        t1.setRozliczajacy(st);
-        dok1t.getWiersz().getStrona().getNowetransakcje().add(t1);
-        st.getPlatnosci().add(t1);
-        edytuj(dok1t);
+        generujDok(1);
+        generujDok(2);
+        generujDok(3);
+        generujTrans(1, 2);
+        generujTrans(3, 2);
+        //edytuj(st);
         System.out.println("zachowano");
-        Dok domodyfikacji = (Dok) pobierz(Dok.class, 1);
-        Dok niezmieniony = (Dok) pobierz(Dok.class, 2);
-        domodyfikacji.setWiersz(null);
-        //edytuj(domodyfikacji);
-        niezmieniony = (Dok) pobierz(Dok.class, 2);
+        Dok dok1 = (Dok) pobierz(Dok.class, 1);
+        Dok dok2 = (Dok) pobierz(Dok.class, 2);
+        Dok dok2Ref = (Dok) pobierzRef(Dok.class, 2);
+        Strona stronaDok2 = (Strona) pobierz(Strona.class, 2);
+        dok1.setWiersz(null);
+        edytuj(dok1);
+        dok2 = (Dok) pobierz(Dok.class, 2);
+        dok2Ref = (Dok) pobierzRef(Dok.class, 2);
+        Dok dok1Ref = (Dok) pobierzRef(Dok.class, 1);
         System.out.println("koniec");
-        List<Object> dokumenty = pobierzWszystkieDok(Dok.class);
-        Strona st2 = (Strona) pobierz(Strona.class, 2);
+        List<Object> tran = pobierzWszystkieDok(Dok.class);
+        Strona st3 = (Strona) pobierz(Strona.class, 2);
         System.out.println("pobrano dok");
     }
     
@@ -104,11 +86,44 @@ public class View implements Serializable{
         }
     }
     
+    public static void generujDok(int i) {
+        Dok dok1 = new Dok(listanazw.get(i));
+        Wiersz w1 = new Wiersz(listanazw.get(i));
+        w1.setDok(dok1);
+        dok1.setWiersz(w1);
+        Strona s1 = new Strona(listanazw.get(i));
+        s1.setWiersz(w1);
+        dok1.getWiersz().setStrona(s1);
+        zachowaj(dok1);
+        p(dok1);
+    }
+    
+    public static void generujTrans(int i, int j) {
+        Dok platnosc = (Dok) pobierz(Dok.class, i);
+        Strona rachunek = (Strona) pobierz(Strona.class, j);
+        Transakcja t1 = new Transakcja(i+" + "+j);
+        t1.setNowaTransakcja(rachunek);
+        t1.setRozliczajacy(platnosc.getWiersz().getStrona());
+        platnosc.getWiersz().getStrona().getNowetransakcje().add(t1);
+        rachunek.getPlatnosci().add(t1);
+        edytuj(platnosc);
+    }
+    
     public static Object pobierz(Class c, Object id) {
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
         Object ret = em.find(c, id);
         //em.refresh(ret);
+        em.getTransaction().commit();
+        em.clear();
+        return ret;
+    }
+    
+     public static Object pobierzRef(Class c, Object id) {
+        EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        Object ret = em.find(c, id);
+        em.refresh(ret);
         em.getTransaction().commit();
         em.clear();
         return ret;

@@ -35,11 +35,11 @@ public class Wiersz implements Serializable{
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String nazwa;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Strona strona;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REFRESH)
     private Dok dok;
 
     public Wiersz() {
