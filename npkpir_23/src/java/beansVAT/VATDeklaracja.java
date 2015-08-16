@@ -75,8 +75,10 @@ public class VATDeklaracja implements Serializable {
         }
     }
 
-    public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeUzupelniane, ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu) {
-        for (EVatwpisSuma ew : ewidencjeDoPrzegladu) {
+    public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu) {
+        ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>();
+        for (Iterator<EVatwpisSuma> it = ewidencjeDoPrzegladu.iterator(); it.hasNext();) {
+            EVatwpisSuma ew = (EVatwpisSuma) it.next();
             //dodaje wartosci ujete pierwotnie jako przychod, drugi raz jako koszt
             if (ew.getEwidencja().getNazwa().equals("import usług") || ew.getEwidencja().getNazwa().equals("rejestr WNT") || ew.getEwidencja().getNazwa().equals("odwrotne obciążenie")) {
                 EVatwpisSuma suma = new EVatwpisSuma(ew.getEwidencja(), ew.getNetto(), ew.getVat(), ew.getEstawka());
@@ -103,6 +105,7 @@ public class VATDeklaracja implements Serializable {
                 ewidencjeUzupelniane.add(suma);
             }
         }
+        ewidencjeDoPrzegladu.addAll(ewidencjeUzupelniane);
     }
 
     public static void agregacjaEwidencjiZakupowych5152(ArrayList<EVatwpisSuma> ewidencjeUzupelniane) {

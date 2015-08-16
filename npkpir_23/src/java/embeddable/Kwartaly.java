@@ -23,6 +23,8 @@ public class Kwartaly implements Serializable{
     private static final List<String> mceList;
     private static final List<String> kwList;
     private static final Map<Integer, String> mapanrkw;
+    private static final Map<String, String> mapamckw;
+    private static final Map<String, String> mapamcMcwkw;
     private static final Map<Integer, List<String>> mapakwnr;
 
     static{
@@ -60,6 +62,34 @@ public class Kwartaly implements Serializable{
         mapanrkw.put(11, "4");
         mapanrkw.put(12, "4");
         
+        mapamckw = new HashMap<>();
+        mapamckw.put("01", "1");
+        mapamckw.put("02", "1");
+        mapamckw.put("03", "1");
+        mapamckw.put("04", "2");
+        mapamckw.put("05", "2");
+        mapamckw.put("06", "2");
+        mapamckw.put("07", "3");
+        mapamckw.put("08", "3");
+        mapamckw.put("09", "3");
+        mapamckw.put("10", "4");
+        mapamckw.put("11", "4");
+        mapamckw.put("12", "4");
+        
+        mapamcMcwkw = new HashMap<>();
+        mapamcMcwkw.put("01", "03");
+        mapamcMcwkw.put("02", "03");
+        mapamcMcwkw.put("03", "03");
+        mapamcMcwkw.put("04", "06");
+        mapamcMcwkw.put("05", "06");
+        mapamcMcwkw.put("06", "06");
+        mapamcMcwkw.put("07", "09");
+        mapamcMcwkw.put("08", "09");
+        mapamcMcwkw.put("09", "09");
+        mapamcMcwkw.put("10", "12");
+        mapamcMcwkw.put("11", "12");
+        mapamcMcwkw.put("12", "12");
+        
         mapakwnr = new HashMap<>();
         mapakwnr.put(1, Szeregmcy.kwmce1);
         mapakwnr.put(2, Szeregmcy.kwmce2);
@@ -73,6 +103,7 @@ public class Kwartaly implements Serializable{
         return mapakwnr.get(Integer.parseInt(kwartal));
     }
     
+        
     public static List<String> getKwList() {
         return kwList;
     }
@@ -91,6 +122,16 @@ public class Kwartaly implements Serializable{
     public List<String> getMceList() {
         return mceList;
     }
+
+    public static Map<String, String> getMapamckw() {
+        return mapamckw;
+    }
+
+    public static Map<String, String> getMapamcMcwkw() {
+        return mapamcMcwkw;
+    }
+    
+    
 
     public static class Szeregmcy {
 

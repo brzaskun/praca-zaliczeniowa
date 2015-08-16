@@ -5,6 +5,7 @@
 package embeddable;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Embeddable;
 
 /**
@@ -26,7 +27,28 @@ public class Parametr implements Serializable {
         return "Parametr{" + "mcOd=" + mcOd + ", rokOd=" + rokOd + ", mcDo=" + mcDo + ", rokDo=" + rokDo + ", parametr=" + parametr + '}';
     }
 
-    
+    public static Parametr wyluskajParametr(List<Parametr> lista, String mc, String rok) {
+        Parametr par = null;
+        for (Parametr p : lista) {
+            Integer mcI = Mce.getMiesiacToNumber().get(mc);
+            Integer rokI = Integer.parseInt(rok);
+            Integer rokOdI = Integer.parseInt(p.getRokOd());
+            Integer mcOdI = Integer.parseInt(p.getMcOd());
+            Integer mcDoI = 13;
+            Integer rokDoI = 9999;
+            if (p.getMcDo() != null && p.getRokDo() != null && !p.getMcDo().equals("") && !p.getRokDo().equals("")) {
+                mcDoI = Integer.parseInt(p.getMcDo());
+                rokDoI = Integer.parseInt(p.getRokDo());
+            }
+            if (rokOdI < rokI && rokDoI > rokI) {
+                if (mcOdI <= mcI && mcDoI >= mcI) {
+                    par = p;
+                    break;
+                }
+            }
+        }
+        return par;
+    }
    
 //<editor-fold defaultstate="collapsed" desc="comment">
 

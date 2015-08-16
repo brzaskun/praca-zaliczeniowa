@@ -202,8 +202,22 @@ public class Mce implements Serializable{
             nowedane[1] = numberToMiesiac.get(--mcInt);
         } else {
             int rokInt = Integer.parseInt(rok);
-            nowedane[0] = String.valueOf(-rokInt);
-            nowedane[1] = "12";
+            nowedane[0] = String.valueOf(--rokInt);
+            nowedane[1] = numberToMiesiac.get(13-mcInt);;
+        }
+        return nowedane;
+    }
+    
+    public static String[] zmniejszmiesiac(String rok, String miesiac, int oilezmniejszyc) {
+        String[] nowedane = new String[2];
+        int mcInt = miesiacToNumber.get(miesiac)-oilezmniejszyc;
+        if (mcInt > 1) {
+            nowedane[0] = rok;
+            nowedane[1] = numberToMiesiac.get(mcInt);
+        } else {
+            int rokInt = Integer.parseInt(rok);
+            nowedane[0] = String.valueOf(--rokInt);
+            nowedane[1] = numberToMiesiac.get(13-mcInt);;
         }
         return nowedane;
     }

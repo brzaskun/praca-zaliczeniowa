@@ -200,11 +200,10 @@ public class VatKorektaView implements Serializable {
         HashMap<String, EVatwpisSuma> sumaewidencjiPierwotna = new HashMap<>();
         EwidencjaVATSporzadzanie.rozdzielEVatwpisNaEwidencje(listadokvatprzetworzona, listaewidencji, sumaewidencjiPierwotna, evewidencjaDAO);
         ArrayList<EVatwpisSuma> ewidencjeUzupelniane = new ArrayList<>(sumaewidencjiPierwotna.values());
-        ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu = new ArrayList<>(sumaewidencjiPierwotna.values());
         /**
          * pobiera stowrzone ewidencje i robi pozycje szczegolowe korekta zeby wyswietlic
          */
-        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, pozycjeSzczegoloweVATKorekta, nowaWartoscVatZPrzeniesienia);
         /**
@@ -221,9 +220,7 @@ public class VatKorektaView implements Serializable {
          */
         ewidencjeUzupelniane.clear();
         ewidencjeUzupelniane.addAll(sumaewidencjiNowakorekta.values());
-        ewidencjeDoPrzegladu.clear();
-        ewidencjeDoPrzegladu.addAll(sumaewidencjiNowakorekta.values());
-        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane, ewidencjeDoPrzegladu);
+        VATDeklaracja.duplikujZapisyDlaTransakcji(ewidencjeUzupelniane);
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(ewidencjeUzupelniane);
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(ewidencjeUzupelniane, deklaracjaVATPoKorekcie.getPozycjeszczegolowe(), nowaWartoscVatZPrzeniesienia);
         /**
