@@ -1272,7 +1272,8 @@ public class DokfkView implements Serializable {
 
 //    //</editor-fold>
     public void sprawdzWnMawDokfk() {
-        List<Dokfk> listaroznice = new ArrayList<>();
+        List<Dokfk> listabrakKwotwPLN = new ArrayList<>();
+        List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
@@ -1309,17 +1310,28 @@ public class DokfkView implements Serializable {
                     }
                 }
             }
-            if (Z.z(sumawn) != Z.z(sumama) || jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
-                listaroznice.add(p);
+            if (Z.z(sumawn) != Z.z(sumama)) {
+                listabrakKwotwPLN.add(p);
+            }
+            if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
+                listabrakiKontaAnalityczne.add(p);
             }
             if (brakwpln == true) {
                 listabraki.add(p);
             }
         }
-        String main = "Występują różnice w " + listaroznice.size() + " dokumentach: ";
+        String main = "Występują braki w kontach analitycznych w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
         b.append(main);
-        for (Dokfk p : listaroznice) {
+        for (Dokfk p : listabrakiKontaAnalityczne) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        main = "Występują różnice w kwotach w PLN w " + listabrakKwotwPLN.size() + " dokumentach: ";
+        b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : listabrakKwotwPLN) {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
