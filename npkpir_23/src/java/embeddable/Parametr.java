@@ -29,23 +29,30 @@ public class Parametr implements Serializable {
 
     public static Parametr wyluskajParametr(List<Parametr> lista, String mc, String rok) {
         Parametr par = null;
-        for (Parametr p : lista) {
-            Integer mcI = Mce.getMiesiacToNumber().get(mc);
-            Integer rokI = Integer.parseInt(rok);
-            Integer rokOdI = Integer.parseInt(p.getRokOd());
-            Integer mcOdI = Integer.parseInt(p.getMcOd());
-            Integer mcDoI = 13;
-            Integer rokDoI = 9999;
-            if (p.getMcDo() != null && p.getRokDo() != null && !p.getMcDo().equals("") && !p.getRokDo().equals("")) {
-                mcDoI = Integer.parseInt(p.getMcDo());
-                rokDoI = Integer.parseInt(p.getRokDo());
-            }
-            if (rokOdI < rokI && rokDoI > rokI) {
-                if (mcOdI <= mcI && mcDoI >= mcI) {
-                    par = p;
-                    break;
+        if (lista != null && lista.size() > 0) {
+            for (Parametr p : lista) {
+                Integer mcI = Mce.getMiesiacToNumber().get(mc);
+                Integer rokI = Integer.parseInt(rok);
+                Integer rokOdI = Integer.parseInt(p.getRokOd());
+                Integer mcOdI = Integer.parseInt(p.getMcOd());
+                Integer mcDoI = 0;
+                Integer rokDoI = 0;
+                if (p.getMcDo() != null && p.getRokDo() != null && !p.getMcDo().equals("") && !p.getRokDo().equals("")) {
+                    mcDoI = Integer.parseInt(p.getMcDo());
+                    rokDoI = Integer.parseInt(p.getRokDo());
+                }
+                if (rokOdI < rokI && rokDoI == 0) {
+                        par = p;
+                        break;
+                } else if ((rokOdI < rokI && rokDoI > rokI)) {
+                    if (mcOdI <= mcI && mcDoI >= mcI) {
+                        par = p;
+                        break;
+                    }
                 }
             }
+        } else {
+            System.out.println("Lista z parametrami nie zawiera zadnych elementów! Parametr.java wyluskajparametr");
         }
         return par;
     }

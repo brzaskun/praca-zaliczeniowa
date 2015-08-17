@@ -465,31 +465,34 @@ public class PozycjaRZiSFKBean {
                 k.setObrotyWn(k.getObrotyWn()+kwotaWn);
                 k.setObrotyMa(k.getObrotyMa()+kwotaMa);
             } catch (Exception e) {
-                //System.out.println("Blad " + e.getStackTrace()[0].toString()+" "+e.toString());
+                E.e(e);
+                System.out.println("Blad sumujObrotyNaKontach");
             }
             
         }
         //a teraz trzeba podsumowac konta bez obrotow ale z bo no i z obrotami (wyjalem to z gory)
         for (Konto r : plankont) {
-            if (r.getPelnynumer().equals("262-1")) {
-                //System.out.println("d");
-            }
-            if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
-                r.setSaldoWn(r.getBoWn());
-                r.setSaldoMa(r.getBoMa());
-            } else {
-                double sumaObrotyWnBO = r.getObrotyWn();
-                double sumaObrotyMaBO = r.getObrotyMa();
-                if (sumaObrotyWnBO == sumaObrotyMaBO) {
-                    r.setSaldoWn(0.0);
-                    r.setSaldoMa(0.0);
+            if (r.getBilansowewynikowe().equals("bilansowe")) {
+                if (r.getPelnynumer().equals("262-1")) {
+                    //System.out.println("d");
+                }
+                if (r.getObrotyWn() == 0 && r.getObrotyMa() == 0) {
+                    r.setSaldoWn(r.getBoWn());
+                    r.setSaldoMa(r.getBoMa());
                 } else {
-                    if (sumaObrotyWnBO > sumaObrotyMaBO) {
-                        r.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                    double sumaObrotyWnBO = r.getObrotyWn();
+                    double sumaObrotyMaBO = r.getObrotyMa();
+                    if (sumaObrotyWnBO == sumaObrotyMaBO) {
+                        r.setSaldoWn(0.0);
                         r.setSaldoMa(0.0);
                     } else {
-                        r.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
-                        r.setSaldoWn(0.0);
+                        if (sumaObrotyWnBO > sumaObrotyMaBO) {
+                            r.setSaldoWn(sumaObrotyWnBO-sumaObrotyMaBO);
+                            r.setSaldoMa(0.0);
+                        } else {
+                            r.setSaldoMa(sumaObrotyMaBO-sumaObrotyWnBO);
+                            r.setSaldoWn(0.0);
+                        }
                     }
                 }
             }

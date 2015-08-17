@@ -37,11 +37,15 @@ public class WierszeView implements Serializable {
     private List<Wiersz> wierszeWDT;
     private double sumakg;
     private double sumaszt;
+    private double sumawn;
+    private double sumama;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private boolean tylkobezrozrachunkow;
     
     public void init(){
+        sumawn = 0.0;
+        sumama = 0.0;
         wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
         if (tylkobezrozrachunkow == true) {
             for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
@@ -51,6 +55,7 @@ public class WierszeView implements Serializable {
                 boolean kwnbrak = false;
                 boolean kmabrak = false;
                 if (kwn != null) {
+                    sumawn += p.getKwotaWnPLN();
                     if (kwn.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                         if (p.getStronaWn().getTypStronaWiersza() == 0) {
                             kwnbrak = true;
@@ -58,6 +63,7 @@ public class WierszeView implements Serializable {
                     }
                 }
                 if (kma != null) {
+                    sumama += p.getKwotaMaPLN();
                     if (kma.getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
                         if (p.getStronaMa().getTypStronaWiersza() == 0) {
                             kwnbrak = true;
@@ -66,6 +72,18 @@ public class WierszeView implements Serializable {
                 }
                 if (kwnbrak == false && kmabrak == false) {
                     it.remove();
+                }
+            }
+        } else {
+            for (Iterator<Wiersz> it = wiersze.iterator(); it.hasNext();) {
+                Wiersz p = (Wiersz) it.next();
+                Konto kwn = p.getStronaWn() != null ? p.getStronaWn().getKonto() : null;
+                Konto kma = p.getStronaMa() != null ? p.getStronaMa().getKonto() : null;
+                if (kwn != null) {
+                    sumawn += p.getKwotaWnPLN();
+                }
+                if (kma != null) {
+                    sumama += p.getKwotaMaPLN();
                 }
             }
         }
@@ -142,12 +160,10 @@ public class WierszeView implements Serializable {
     
     public void odswiezzaksiegowane() {
         if (wpisView.getMiesiacWpisu().equals("CR")) {
-            wiersze = wierszeDAO.findWierszePodatnikRok(wpisView.getPodatnikObiekt(), wpisView);
-            RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
+            init();
         } else {
             wpisView.wpisAktualizuj();
-            wiersze = wierszeDAO.findWierszePodatnikMcRok(wpisView.getPodatnikObiekt(), wpisView);
-            RequestContext.getCurrentInstance().update("zestawieniezapisownakontach");
+            init();
         }
     }
     
@@ -187,6 +203,22 @@ public class WierszeView implements Serializable {
             sumakg += p.getIlosc_kg();
             sumaszt += p.getIlosc_szt();
         }
+    }
+
+    public double getSumawn() {
+        return sumawn;
+    }
+
+    public void setSumawn(double sumawn) {
+        this.sumawn = sumawn;
+    }
+
+    public double getSumama() {
+        return sumama;
+    }
+
+    public void setSumama(double sumama) {
+        this.sumama = sumama;
     }
     
     public List<Wiersz> getWiersze() {

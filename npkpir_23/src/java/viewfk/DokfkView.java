@@ -1295,9 +1295,17 @@ public class DokfkView implements Serializable {
                     StronaWiersza wn = r.getStronaWn();
                     StronaWiersza ma = r.getStronaMa();
                     if (wn != null) {
+                        if (wn.getKonto().getPelnynumer().equals("402-1")) {
+                            System.out.println("d");
+                        }
                         jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
                         if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
                             brakwpln = true;
+                        }
+                        if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                            if (Z.z(wn.getKwota()) != Z.z(wn.getKwotaPLN())) {
+                                brakwpln = true;
+                            }
                         }
                         sumawn += wn.getKwotaPLN();
                     }
@@ -1306,21 +1314,28 @@ public class DokfkView implements Serializable {
                         if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
                             brakwpln = true;
                         }
+                        if (r.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                            if (Z.z(ma.getKwota()) != Z.z(ma.getKwotaPLN())) {
+                                brakwpln = true;
+                            }
+                        }
                         sumama += ma.getKwotaPLN();
+                    }
+                    if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
+                        if (!listabrakiKontaAnalityczne.contains(p)) {
+                            listabrakiKontaAnalityczne.add(p);
+                        }
                     }
                 }
             }
             if (Z.z(sumawn) != Z.z(sumama)) {
                 listabrakKwotwPLN.add(p);
             }
-            if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
-                listabrakiKontaAnalityczne.add(p);
-            }
             if (brakwpln == true) {
                 listabraki.add(p);
             }
         }
-        String main = "Występują braki w kontach analitycznych w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
+        String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listabrakiKontaAnalityczne) {
@@ -1328,23 +1343,38 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        main = "Występują różnice w kwotach w PLN w " + listabrakKwotwPLN.size() + " dokumentach: ";
+        main = "Występują różnice w stronach Wn i Ma w PLN w " + listabrakKwotwPLN.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listabrakKwotwPLN) {
+            for (StronaWiersza sw : p.getStronyWierszy()) {
+                String symbol = sw.getSymbolWaluty() != null ? sw.getSymbolWaluty() : sw.getSymbolWalutyBO();
+                if (symbol.equals("PLN")) {
+                    sw.setKwotaPLN(sw.getKwota());
+                }
+            }
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
+        dokDAOfk.editList(listabrakKwotwPLN);
         Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        main = "Występują braki w pln w " + listabraki.size() + " dokumentach: ";
+        main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listabraki) {
+            for (StronaWiersza sw : p.getStronyWierszy()) {
+                String symbol = sw.getSymbolWaluty() != null ? sw.getSymbolWaluty() : sw.getSymbolWalutyBO();
+                if (symbol.equals("PLN")) {
+                    sw.setKwotaPLN(sw.getKwota());
+                }
+            }
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
+        dokDAOfk.editList(listabraki);
         Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         System.out.println("Ilosc roznych dokummentow " + listabraki.size());
+        init();
     }
 
     public void sprawdzsalda(String wybranakategoriadok) {

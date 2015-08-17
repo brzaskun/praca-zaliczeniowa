@@ -98,7 +98,10 @@
                     </p:column>
                 </p:treeTable>
             </p:panelGrid>
-           
+            <p:panel style="width: 300px;" >
+            <h:outputText value="Różnica sum bilansowych"/>
+            <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa-pozycjaBRView.sumabilansowapasywa}"/>
+            </p:panel>
         </h:form>
     </p:dialog>
 </ui:composition>

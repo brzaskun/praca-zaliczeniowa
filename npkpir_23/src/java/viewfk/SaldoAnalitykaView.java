@@ -49,14 +49,29 @@ public class SaldoAnalitykaView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    private String wybranyRodzajKonta;
 
     public SaldoAnalitykaView() {
         sumaSaldoKonto = new ArrayList<>();
+        wybranyRodzajKonta = "wszystkie";
     }
     
     
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+       if (wybranyRodzajKonta.equals("bilansowe")) {
+           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+               if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                   it.remove();
+               }
+           }
+       } else if (wybranyRodzajKonta.equals("wynikowe")){
+           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+               if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                   it.remove();
+               }
+           }
+       }
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
@@ -100,6 +115,14 @@ public class SaldoAnalitykaView implements Serializable {
 
     public void setSumaSaldoKonto(List<SaldoKonto> sumaSaldoKonto) {
         this.sumaSaldoKonto = sumaSaldoKonto;
+    }
+
+    public String getWybranyRodzajKonta() {
+        return wybranyRodzajKonta;
+    }
+
+    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
+        this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
 
     public List<SaldoKonto> getListaSaldoKonto() {
@@ -148,10 +171,10 @@ public class SaldoAnalitykaView implements Serializable {
         }
         for (StronaWiersza r : zapisyRok) {
             if (r.getKonto() == null) {
-                System.out.println(r.toString());
+                System.out.println("Konto null "+r.toString());
             }
             if (r.getWiersz().getDokfk().getMiesiac()==null) {
-                System.out.println(r.toString());
+                System.out.println("Miesiac null "+r.toString());
             }
             try {
                 if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {

@@ -4,7 +4,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <style>
         .tabelawierszy td {
@@ -20,25 +21,26 @@
                 </p:column>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}"/>
+                        <p:ajax event="change" listener="#{wierszeView.odswiezzaksiegowane}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer"/>
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update="@form" style="margin-left: 20px; width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" style="margin-left: 20px; width: 120px;"/>
                 <h:outputText value="tylko bez rozrachunkow"/>
                 <h:selectBooleanCheckbox value="#{wierszeView.tylkobezrozrachunkow}"/>
             </p:panelGrid>
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 670px; overflow-y: scroll;" 
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 640px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}">
                 <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" 
                         update=":formwpisdokument, :zestawieniezapisownakontachpola"/>
+                <p:ajax event="filter" global="false"/>
                 <f:facet name="header">  
-                    <h:outputText value="Zestawienie wierszy w dokumentów " />  
+                    <h:outputText value="Zestawienie wierszy w dokumentach " />  
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokwpisTable').filter()" style="width:150px" />  
                 </f:facet>
@@ -95,8 +97,13 @@
         <h:form id="zestawieniezapisownakontachpola">
             <h:inputHidden id="wierszDoPodswietlenia" value="#{dokfkView.wierszDoPodswietlenia}"/>
         </h:form>
-        <f:facet name="footer">
-            
-        </f:facet>
+        <h:form id="zestawieniezapisownakontach_footer">
+            <p:panelGrid columns="4" style="margin-top: 10px;">
+            <h:outputText value="suma Wn"/>
+            <bcf:outputpl value="#{wierszeView.sumawn}"/>
+            <h:outputText value=" / suma Ma"/>
+            <bcf:outputpl value="#{wierszeView.sumama}"/>
+            </p:panelGrid>
+        </h:form>
     </p:dialog>
 </ui:composition>

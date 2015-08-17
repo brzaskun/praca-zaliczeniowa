@@ -45,7 +45,7 @@
               onHide="resetujdialog('saldakontanalitycznych');"  closeOnEscape="true" 
               >
         <h:form id="formtablicaanalityczne">
-            <p:panelGrid columns="6" style="margin-left: 2%;" >
+            <p:panelGrid columns="7" style="margin-left: 2%;" >
                 <!--            <p:column>
                                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
                                     <f:selectItems value="#{Roki.rokiList}"/>
@@ -54,24 +54,25 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update="@form, :tabelazsumamianalityka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamianalityka:sumy"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaView.odswiezsaldoanalityczne()}" style="width: 120px; margin-left: 20px;" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>
                     <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                     <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{saldoAnalitykaView.drukuj(2)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
-<!--                     <p:commandLink id="pdf" ajax="false"> 
-        <p:graphicImage name="/demo/images/pdf.png" />
-        <pe:exporter type="pdf" target="tablicasaldaanalityczne" fileName="obrotykont"  orientation="Landscape"  
-                     tableTitle="Zestawienie obrotów na kontach w m-cu" facetBackground="#FFFFFF" facetFontSize="15"  
-                     facetFontColor="#000000"  cellFontColor="#0000FF" cellFontSize="8"  datasetPadding="4"  
-                     cellFontStyle="NORMAL"/>  
-    </p:commandLink>-->
+                 <p:column >
+                     <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                        <p:ajax event="change" listener="#{saldoAnalitykaView.odswiezsaldoanalityczne}" update=":formtablicaanalityczne, :tabelazsumamianalityka:sumy"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                </p:column> 
             </p:panelGrid>
 
              <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"

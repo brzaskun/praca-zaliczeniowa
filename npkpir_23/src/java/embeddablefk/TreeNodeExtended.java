@@ -285,119 +285,122 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
         ArrayList<TreeNodeExtended> finallNodes = new ArrayList<>();
         this.getFinallChildren(finallNodes);
         for (Konto p: plankont) {
-            if (p.getPelnynumer().equals("262-1")) {
-                //System.out.println("d");
+            System.out.println("Bilans konto "+p.getPelnynumer());
+            if (p.getPelnynumer().equals("201-1")) {
+                System.out.println("d");
             }
             Konto kontopobrane = p;
-            try {
-                String pozycjaBilansWn = null;
-                String pozycjaBilansMa = null;
-                boolean stronaWn;
-                boolean stronaMa;
-                if (kontopobrane.getKontopozycjaID() != null) {
-                    pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
-                    pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
-                    stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
-                    stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
-                    boolean zrobionoWn = false;
-                    boolean zrobionoMa = false;
-                    for (TreeNodeExtended r : finallNodes) {
-                        if (zrobionoWn == true && zrobionoMa == true) {
-                            break;
-                        }
-                        //sprawdzamy czy dane konto nalezy do danego wezla
-                            PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
-                            if (pozycja.getPozycjaString().equals(pozycjaBilansWn) || pozycja.getPozycjaString().equals(pozycjaBilansMa)) {
-                                if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
-                                    double kwotapierwotna = pozycja.getKwota();
-                                    if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                        //pobieramy kwoty oraz to czy jest to przychod czy koszt
-                                            if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
-                                                if (p.getSaldoWn() > 0) {
-                                                    pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
-                                                } else if (p.getSaldoMa() > 0) {
-                                                    pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
-                                                }
-                                            } else {
-                                                if (p.getSaldoMa() > 0) {
-                                                    pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
-                                                } else if (p.getSaldoWn() > 0) {
-                                                    pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
-                                                }
-                                            }
-                                            break;//tu break ma sens bo konto zwykle jest tylko w jednym miejscu
-                                    }
-                                } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
-                                    double kwotapierwotna = pozycja.getKwota();
-                                    if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
+            if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
+                try {
+                    String pozycjaBilansWn = null;
+                    String pozycjaBilansMa = null;
+                    boolean stronaWn;
+                    boolean stronaMa;
+                    if (kontopobrane.getKontopozycjaID() != null) {
+                        pozycjaBilansWn = kontopobrane.getKontopozycjaID().getPozycjaWn();
+                        pozycjaBilansMa = kontopobrane.getKontopozycjaID().getPozycjaMa();
+                        stronaWn =  kontopobrane.getKontopozycjaID().getStronaWn().equals("1") ? true : false;
+                        stronaMa = kontopobrane.getKontopozycjaID().getStronaMa().equals("1") ? true : false;
+                        boolean zrobionoWn = false;
+                        boolean zrobionoMa = false;
+                        for (TreeNodeExtended r : finallNodes) {
+                            if (zrobionoWn == true && zrobionoMa == true) {
+                                break;
+                            }
+                            //sprawdzamy czy dane konto nalezy do danego wezla
+                                PozycjaRZiSBilans pozycja = (PozycjaRZiSBilans) r.getData();
+                                if (pozycja.getPozycjaString().equals(pozycjaBilansWn) || pozycja.getPozycjaString().equals(pozycjaBilansMa)) {
+                                    if (kontopobrane.getZwyklerozrachszczegolne().equals("zwykłe")) {
+                                        double kwotapierwotna = pozycja.getKwota();
                                         if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                            if (stronaWn==false && stronaMa==false) {
-                                                pozycja.setKwota(kwotapierwotna+p.getSaldoWn()-p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn()-p.getSaldoMa(), p);
-                                            } else {
-                                                pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
-                                            }
-                                            zrobionoWn = true;
-                                        } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                            if (stronaWn==true && stronaMa==true) {
-                                                pozycja.setKwota(kwotapierwotna+p.getSaldoMa()-p.getSaldoWn());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa()-p.getSaldoWn(), p);
-                                            } else {
-                                                pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
-                                                pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
-                                            }
-                                            zrobionoMa = true;
+                                            //pobieramy kwoty oraz to czy jest to przychod czy koszt
+                                                if (stronaWn == false) {//jesli konto zwykle jest przyporzadowane do aktywow
+                                                    if (p.getSaldoWn() != 0.0) {
+                                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
+                                                    } else if (p.getSaldoMa() != 0.0) {
+                                                        pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
+                                                    }
+                                                } else {
+                                                    if (p.getSaldoMa() != 0.0) {
+                                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
+                                                    } else if (p.getSaldoWn() != 0.0) {
+                                                        pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
+                                                    }
+                                                }
+                                                break;//tu break ma sens bo konto zwykle jest tylko w jednym miejscu
                                         }
-                                    }
-                                } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
-                                    double kwotapierwotna = pozycja.getKwota();
-                                    if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
-                                        if (aktywapasywa.equals("aktywa")) {
+                                    } else if (kontopobrane.getZwyklerozrachszczegolne().equals("rozrachunkowe") || kontopobrane.getZwyklerozrachszczegolne().equals("vat")) {
+                                        double kwotapierwotna = pozycja.getKwota();
+                                        if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
                                             if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                                if (p.getSaldoWn() != 0) {
+                                                if (stronaWn==false && stronaMa==false) {
+                                                    pozycja.setKwota(kwotapierwotna+p.getSaldoWn()-p.getSaldoMa());
+                                                    pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn()-p.getSaldoMa(), p);
+                                                } else {
                                                     pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
                                                     pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
                                                 }
                                                 zrobionoWn = true;
-                                            } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
-                                            if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                                if (p.getSaldoMa() != 0) {
-                                                    pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
-                                                }
-                                                zrobionoMa = true;
-                                            }
-                                        } else {
-                                            if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
-                                                if (p.getSaldoWn() != 0) {
-                                                    pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
-                                                    pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
-                                                }
-                                                zrobionoWn = true;
-                                            } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
-                                            if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
-                                                if (p.getSaldoMa() != 0) {
+                                            } else if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                                if (stronaWn==true && stronaMa==true) {
+                                                    pozycja.setKwota(kwotapierwotna+p.getSaldoMa()-p.getSaldoWn());
+                                                    pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa()-p.getSaldoWn(), p);
+                                                } else {
                                                     pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
                                                     pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
                                                 }
                                                 zrobionoMa = true;
+                                            }
+                                        }
+                                    } else if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
+                                        double kwotapierwotna = pozycja.getKwota();
+                                        if (p.getSaldoWn() != 0.0 || p.getSaldoMa() != 0.0) {
+                                            if (aktywapasywa.equals("aktywa")) {
+                                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                                    if (p.getSaldoWn() != 0) {
+                                                        pozycja.setKwota(kwotapierwotna+p.getSaldoWn());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoWn(), p);
+                                                    }
+                                                    zrobionoWn = true;
+                                                } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                                    if (p.getSaldoMa() != 0) {
+                                                        pozycja.setKwota(kwotapierwotna-p.getSaldoMa());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoMa(), p);
+                                                    }
+                                                    zrobionoMa = true;
+                                                }
+                                            } else {
+                                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansWn) && pozycja.isPrzychod0koszt1() == stronaWn) {
+                                                    if (p.getSaldoWn() != 0) {
+                                                        pozycja.setKwota(kwotapierwotna-p.getSaldoWn());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(-p.getSaldoWn(), p);
+                                                    }
+                                                    zrobionoWn = true;
+                                                } //sa dwa idy zamiast else bo przy szczegolnych dwa salda moga byc przypisane do jednej pozycji
+                                                if ((pozycja.getPozycjaString()).equals(pozycjaBilansMa) && pozycja.isPrzychod0koszt1() == stronaMa) {
+                                                    if (p.getSaldoMa() != 0) {
+                                                        pozycja.setKwota(kwotapierwotna+p.getSaldoMa());
+                                                        pozycja.obsluzPrzyporzadkowaneKonta(p.getSaldoMa(), p);
+                                                    }
+                                                    zrobionoMa = true;
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            }
+                        }
                     }
+                } catch (Exception e) {
+                    if (e.getStackTrace() != null && e.getStackTrace().length >0) {
+                        E.e(e);
+                    }
+                    throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
                 }
-            } catch (Exception e) {
-                if (e.getStackTrace() != null && e.getStackTrace().length >0) {
-                    E.e(e);
-                }
-                throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
             }
         }
     }
