@@ -457,35 +457,35 @@ public class PlanKontView implements Serializable {
     }
 
     public void implementacjaJednegoKontaWzorcowego() {
-        if (selectednodekonto != null) {
+        if (selectednodekontowzorcowy != null) {
             try {
-            List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
-            for (Podatnik p : listapodatnikowfk) {
-                Konto konto = selectednodekonto;
-                konto.setPodatnik(p.getNazwapelna());
-                if (!konto.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
-                    konto.setMacierzysty(macierzyste.getId());
-                    macierzyste.setMapotomkow(true);
-                    macierzyste.setBlokada(true);
-                    kontoDAOfk.edit(macierzyste);
-                } else {
-                    konto.setMapotomkow(false);
-                    konto.setBlokada(false);
+                List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
+                for (Podatnik p : listapodatnikowfk) {
+                    Konto konto = selectednodekontowzorcowy;
+                    try {
+                        konto.setPodatnik(p.getNazwapelna());
+                        Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
+                        if (!konto.getMacierzyste().equals("0")) {
+                            konto.setMacierzysty(macierzyste.getId());
+                            macierzyste.setMapotomkow(true);
+                            macierzyste.setBlokada(true);
+                            kontoDAOfk.edit(macierzyste);
+                        } else {
+                            konto.setMapotomkow(false);
+                            konto.setBlokada(false);
+                        }
+                        kontoDAOfk.dodaj(konto);
+                    } catch (RollbackException e) {
+
+                    } catch (PersistenceException x) {
+                        Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
+                    } catch (Exception ef) {
+                    }
                 }
-                try {
-                    kontoDAOfk.dodaj(konto);
-                } catch (RollbackException e) {
-                    
-                } catch (PersistenceException x) {
-                    Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
-                } catch (Exception ef) {
-                }
-            }
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
+                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego u wszystkich klientów FK");
             } catch (Exception e1) {
-                        Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+                Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
             }
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");

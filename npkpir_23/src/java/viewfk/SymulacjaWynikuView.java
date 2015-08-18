@@ -210,22 +210,23 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), nkup));
         double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
-        wynikfinansowynetto = wynikpodatkowy;
+        double wynikspolki = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy);
             double podatek = Z.z0(podstawaopodatkowania*0.19);
             pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
-            wynikfinansowynetto = wynikpodatkowy - podatek; 
+            wynikspolki = wynikpodatkowy - podatek; 
             pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
+        wynikfinansowynetto = wynikspolki + npup + nkup;
         try {
             int i = 1;
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto);
+                double podstawaopodatkowania = Z.z0(udział*wynikspolki);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
