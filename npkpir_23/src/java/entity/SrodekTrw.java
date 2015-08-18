@@ -428,8 +428,9 @@ public class SrodekTrw implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Str[ id=" + id + " ]";
+        return "SrodekTrw{" + "id=" + id + ", nrsrodka=" + nrsrodka + ", odpisrok=" + odpisrok + ", stawka=" + stawka + ", netto=" + netto + ", podatnik=" + podatnik + ", datawy=" + datawy + ", dataprzek=" + dataprzek + ", datazak=" + datazak + ", nrwldokzak=" + nrwldokzak + '}';
     }
-    
+
+   
 }
 

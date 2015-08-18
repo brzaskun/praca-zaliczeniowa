@@ -182,7 +182,10 @@ public class STRTabView implements Serializable {
         it = lista.iterator();
         while (it.hasNext()) {
             SrodekTrw srodek = (SrodekTrw) it.next();
-            odpisypojedynczysrodek(srodek);
+            //jak tego nie bedzie to zresetuje odpisy sprzedanych
+            if (srodek.getZlikwidowany() == 0) {
+                odpisypojedynczysrodek(srodek);
+            }
         }
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie", "");
         FacesContext.getCurrentInstance().addMessage(null, msg);

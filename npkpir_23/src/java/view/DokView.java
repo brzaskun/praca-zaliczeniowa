@@ -93,6 +93,8 @@ public final class DokView implements Serializable {
     @Inject
     private Klienci selectedKontr;
     @Inject
+    private Srodkikst srodekkategoria;
+    @Inject
     private AmoDokDAO amoDokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
@@ -1528,6 +1530,14 @@ public final class DokView implements Serializable {
 
     public void setRodzajedokKlienta(List<Rodzajedok> rodzajedokKlienta) {
         this.rodzajedokKlienta = rodzajedokKlienta;
+    }
+
+    public Srodkikst getSrodekkategoria() {
+        return srodekkategoria;
+    }
+
+    public void setSrodekkategoria(Srodkikst srodekkategoria) {
+        this.srodekkategoria = srodekkategoria;
     }
 
    

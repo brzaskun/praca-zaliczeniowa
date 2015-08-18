@@ -50,27 +50,27 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         ListIterator it;
         it = grupausun.listIterator();
         while(it.hasNext()){
-            SrodekTrw p = (SrodekTrw) it.next();
-            p.setZlikwidowany(9);
-            p.setStyl("color: blue; font-style:  italic;");
-            p.setDatasprzedazy(data);
-            p.setNrwldokumentu(nrwlasny);
+            SrodekTrw sprzedawanySrodekTrw = (SrodekTrw) it.next();
+            sprzedawanySrodekTrw.setZlikwidowany(9);
+            sprzedawanySrodekTrw.setStyl("color: blue; font-style:  italic;");
+            sprzedawanySrodekTrw.setDatasprzedazy(data);
+            sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
             int rok = Integer.parseInt(data.substring(0,4));
             int mc = Integer.parseInt(data.substring(5,7));
-            String datazakupu = p.getDatazak();
+            String datazakupu = sprzedawanySrodekTrw.getDatazak();
             int rokzakupu = Integer.parseInt(datazakupu.substring(0,4));
             int mczakupu = Integer.parseInt(datazakupu.substring(5,7));
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
-            for(Umorzenie x : p.getUmorzWyk()){
+            for(Umorzenie x : sprzedawanySrodekTrw.getUmorzWyk()){
                 if (x.getRokUmorzenia()<rok){
                     suma += x.getKwota().doubleValue();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()<mc) {
                     suma += x.getKwota().doubleValue();
                 } else if (x.getRokUmorzenia()==rok&&x.getMcUmorzenia()==mc){
-                    umorzeniesprzedaz = p.getNetto()-p.getUmorzeniepoczatkowe()-suma+p.getNiepodlegaamortyzacji();
+                    umorzeniesprzedaz = sprzedawanySrodekTrw.getNetto()-sprzedawanySrodekTrw.getUmorzeniepoczatkowe()-suma+sprzedawanySrodekTrw.getNiepodlegaamortyzacji();
                     x.setKwota(BigDecimal.valueOf(umorzeniesprzedaz).setScale(2, RoundingMode.HALF_EVEN));
-                    p.setKwotaodpislikwidacja(x.getKwota().doubleValue());
+                    sprzedawanySrodekTrw.setKwotaodpislikwidacja(x.getKwota().doubleValue());
                 } else {
                     x.setKwota(BigDecimal.ZERO);
                 }
@@ -78,20 +78,20 @@ public class STRSprzedazView extends STRTabView implements Serializable {
             //wypadek gdy jest zakup i sprzedaz w jednym mcu
             if (rok == rokzakupu && mc == mczakupu) {
                 Umorzenie y = new Umorzenie();
-                y.setKwota(new BigDecimal(p.getNetto()));
+                y.setKwota(new BigDecimal(sprzedawanySrodekTrw.getNetto()));
                 y.setRokUmorzenia(rokzakupu);
                 y.setMcUmorzenia(mczakupu);
-                y.setNazwaSrodka(p.getNazwa());
+                y.setNazwaSrodka(sprzedawanySrodekTrw.getNazwa());
                 y.setNrUmorzenia(1);
-                p.getUmorzWyk().clear();
-                p.getUmorzWyk().add(y);
+                sprzedawanySrodekTrw.setUmorzWyk(new ArrayList<Umorzenie>());
+                sprzedawanySrodekTrw.getUmorzWyk().add(y);
             }
 
             try{
-                sTRDAO.edit(p);
-                Msg.msg("i","Naniesiono sprzedaż: "+p.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
+                sTRDAO.edit(sprzedawanySrodekTrw);
+                Msg.msg("i","Naniesiono sprzedaż: "+sprzedawanySrodekTrw.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
             } catch (Exception e) { E.e(e); 
-                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży: "+p.getNazwa(),"dodWiad:mess_add");
+                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży: "+sprzedawanySrodekTrw.getNazwa(),"dodWiad:mess_add");
         }
       }
 
