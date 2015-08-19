@@ -184,13 +184,12 @@
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 40px; font-weight: 900; margin-left: 15%;">
-                                        <p:ajax event="change" global="false" partialSubmit="true"/>
-                                        <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
+                                    <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 40px; font-weight: 900; margin-left: 15%;" disabled="true">
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
+                                        <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
                                         <p:ajax event="change" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
                                                 update=":parametrydel"/>
