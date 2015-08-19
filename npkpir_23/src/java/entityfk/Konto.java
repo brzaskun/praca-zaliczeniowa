@@ -537,15 +537,16 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     public void setDe(String de) {
         this.de = de;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.podatnik);
+        hash = 97 * hash + Objects.hashCode(this.pelnynumer);
         return hash;
     }
+    
+   
 
     @Override
     public boolean equals(Object obj) {

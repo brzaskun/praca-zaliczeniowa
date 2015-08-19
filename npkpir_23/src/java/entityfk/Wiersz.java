@@ -38,10 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 //@Table(name = "wiersz")
-@Table(name = "wiersz")
-//, uniqueConstraints = {
-//    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
-//})
+@Table(name = "wiersz", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -328,19 +327,18 @@ public class Wiersz implements Serializable {
         this.tabelanbp = tabelanbp;
     }
 
-   
-       
-    
     //</editor-fold>
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.idwiersza);
+        hash = 53 * hash + Objects.hashCode(this.idporzadkowy);
+        return hash;
+    }
   
    
    
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idwiersza != null ? idwiersza.hashCode() : 0);
-        return hash;
-    }
+   
 
 //    @Override
 //    public boolean equals(Object obj) {

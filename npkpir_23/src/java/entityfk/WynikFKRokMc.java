@@ -233,15 +233,19 @@ public class WynikFKRokMc implements Serializable {
     public void setWynikfinansowynetto(Double wynikfinansowynetto) {
         this.wynikfinansowynetto = wynikfinansowynetto;
     }
-    
-
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.mc);
+        hash = 13 * hash + Objects.hashCode(this.rok);
+        hash = 13 * hash + Objects.hashCode(this.podatnikObj);
         return hash;
     }
+    
+
+
+   
 
     @Override
     public boolean equals(Object obj) {

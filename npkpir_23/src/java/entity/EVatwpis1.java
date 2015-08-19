@@ -103,18 +103,16 @@ public class EVatwpis1 implements Serializable {
         this.id = id;
     }
 
-       
-    
-    
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + Objects.hashCode(this.ewidencja);
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.netto) ^ (Double.doubleToLongBits(this.netto) >>> 32));
-        hash = 89 * hash + (int) (Double.doubleToLongBits(this.vat) ^ (Double.doubleToLongBits(this.vat) >>> 32));
-        hash = 89 * hash + Objects.hashCode(this.estawka);
+        int hash = 3;
+        hash = 17 * hash + Objects.hashCode(this.ewidencja);
+        hash = 17 * hash + Objects.hashCode(this.dok);
         return hash;
     }
+
+    
+    
 
     @Override
     public boolean equals(Object obj) {

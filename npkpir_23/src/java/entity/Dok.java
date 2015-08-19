@@ -488,15 +488,19 @@ public class Dok implements Serializable {
         this.rozrachunki1 = rozrachunki1;
     }
 
-    
-    
-
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idDok != null ? idDok.hashCode() : 0);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.nrWlDk);
+        hash = 83 * hash + Objects.hashCode(this.kontr1);
+        hash = 83 * hash + Objects.hashCode(this.podatnik);
+        hash = 83 * hash + Objects.hashCode(this.dataWyst);
+        hash = 83 * hash + Objects.hashCode(this.rodzTrans);
+        hash = 83 * hash + Objects.hashCode(this.netto);
         return hash;
     }
+
+   
 
     @Override
     public boolean equals(Object obj) {

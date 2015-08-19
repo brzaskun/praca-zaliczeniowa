@@ -8,6 +8,7 @@ package entityfk;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -77,6 +78,49 @@ public class KontoZapisy {
     public void setSaldoma(double saldoma) {
         this.saldoma = saldoma;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.konto);
+        hash = 97 * hash + Objects.hashCode(this.stronywiersza);
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.sumawn) ^ (Double.doubleToLongBits(this.sumawn) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.sumama) ^ (Double.doubleToLongBits(this.sumama) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.saldown) ^ (Double.doubleToLongBits(this.saldown) >>> 32));
+        hash = 97 * hash + (int) (Double.doubleToLongBits(this.saldoma) ^ (Double.doubleToLongBits(this.saldoma) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final KontoZapisy other = (KontoZapisy) obj;
+        if (!Objects.equals(this.konto, other.konto)) {
+            return false;
+        }
+        if (!Objects.equals(this.stronywiersza, other.stronywiersza)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.sumawn) != Double.doubleToLongBits(other.sumawn)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.sumama) != Double.doubleToLongBits(other.sumama)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.saldown) != Double.doubleToLongBits(other.saldown)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.saldoma) != Double.doubleToLongBits(other.saldoma)) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
     

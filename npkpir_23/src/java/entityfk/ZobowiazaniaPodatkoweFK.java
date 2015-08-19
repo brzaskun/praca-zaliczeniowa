@@ -7,6 +7,7 @@ package entityfk;
 
 import entity.Podatnik;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,6 +83,36 @@ public class ZobowiazaniaPodatkoweFK implements Serializable {
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.podatnikObj);
+        hash = 47 * hash + Objects.hashCode(this.rok);
+        hash = 47 * hash + Objects.hashCode(this.mc);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ZobowiazaniaPodatkoweFK other = (ZobowiazaniaPodatkoweFK) obj;
+        if (!Objects.equals(this.podatnikObj, other.podatnikObj)) {
+            return false;
+        }
+        if (!Objects.equals(this.rok, other.rok)) {
+            return false;
+        }
+        if (!Objects.equals(this.mc, other.mc)) {
+            return false;
+        }
+        return true;
     }
     
     

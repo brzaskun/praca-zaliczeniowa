@@ -65,15 +65,11 @@ public class WierszBO implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + Objects.hashCode(this.wierszBOPK);
-        hash = 11 * hash + Objects.hashCode(this.podatnik);
-        hash = 11 * hash + Objects.hashCode(this.konto);
-        hash = 11 * hash + (int) (Double.doubleToLongBits(this.kwotaWn) ^ (Double.doubleToLongBits(this.kwotaWn) >>> 32));
-        hash = 11 * hash + (int) (Double.doubleToLongBits(this.kwotaMa) ^ (Double.doubleToLongBits(this.kwotaMa) >>> 32));
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.wierszBOPK);
         return hash;
     }
-    
+
     
 
     @Override
