@@ -114,21 +114,20 @@ public class ZestawienieView implements Serializable {
     //z reki
     private boolean zus51zreki;
     private boolean zus52zreki;
-    @Inject private WpisDAO wpisDAO;
+    @Inject
+    private WpisDAO wpisDAO;
     private boolean pierwszypitwroku;
     private boolean pierwszypitwrokuzaznacz;
-     @Inject
+    @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
-     @Inject
+    @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
-    
-    private int flaga = 0;
 
+    private int flaga = 0;
 
     //rysuje wykres
     private LineChartModel linearModel;
 
-  
     public ZestawienieView() {
         styczen = Arrays.asList(new Double[10]);
         styczen = Arrays.asList(new Double[10]);
@@ -159,13 +158,15 @@ public class ZestawienieView implements Serializable {
                     listawybranychudzialowcow.add(p.getNazwiskoimie());
 
                 }
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Nie uzupełnione parametry podatnika", "formpit:messages");
             }
             Collection c = null;
             try {
                 c = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) {
+                E.e(e);
             }
             if (c != null) {
                 for (int i = 0; i < 10; i++) {
@@ -185,467 +186,473 @@ public class ZestawienieView implements Serializable {
                 lista = new ArrayList<>();
                 lista.addAll(c);
                 for (Dok dokument : lista) {
-                    if (dokument.getUsunpozornie()==false) {
-                    List<KwotaKolumna1> szczegol = dokument.getListakwot1();
-                    for (KwotaKolumna1 tmp : szczegol) {
-                        String selekcja = dokument.getPkpirM();
-                        String selekcja2 = tmp.getNazwakolumny();
-                        Double kwota = tmp.getNetto();
-                        Double temp = 0.0;
-                        switch (selekcja) {
-                            case "01":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = styczen.get(0) + kwota;
-                                        styczen.set(0, temp);
+                    try {
+                        if (dokument.getUsunpozornie() == false) {
+                            List<KwotaKolumna1> szczegol = dokument.getListakwot1();
+                            for (KwotaKolumna1 tmp : szczegol) {
+                                String selekcja = dokument.getPkpirM();
+                                String selekcja2 = tmp.getNazwakolumny();
+                                Double kwota = tmp.getNetto();
+                                Double temp = 0.0;
+                                switch (selekcja) {
+                                    case "01":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = styczen.get(0) + kwota;
+                                                styczen.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = styczen.get(1) + kwota;
+                                                styczen.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = styczen.get(2) + kwota;
+                                                styczen.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = styczen.get(3) + kwota;
+                                                styczen.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = styczen.get(4) + kwota;
+                                                styczen.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = styczen.get(5) + kwota;
+                                                styczen.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = styczen.get(6) + kwota;
+                                                styczen.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "pozost. przych.":
-                                        temp = styczen.get(1) + kwota;
-                                        styczen.set(1, temp);
+                                    case "02":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = luty.get(0) + kwota;
+                                                luty.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = luty.get(1) + kwota;
+                                                luty.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = luty.get(2) + kwota;
+                                                luty.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = luty.get(3) + kwota;
+                                                luty.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = luty.get(4) + kwota;
+                                                luty.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = luty.get(5) + kwota;
+                                                luty.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = luty.get(6) + kwota;
+                                                luty.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "zakup tow. i mat.":
-                                        temp = styczen.get(2) + kwota;
-                                        styczen.set(2, temp);
+                                    case "03":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = marzec.get(0) + kwota;
+                                                marzec.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = marzec.get(1) + kwota;
+                                                marzec.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = marzec.get(2) + kwota;
+                                                marzec.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = marzec.get(3) + kwota;
+                                                marzec.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = marzec.get(4) + kwota;
+                                                marzec.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = marzec.get(5) + kwota;
+                                                marzec.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = marzec.get(6) + kwota;
+                                                marzec.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "koszty ub.zak.":
-                                        temp = styczen.get(3) + kwota;
-                                        styczen.set(3, temp);
+                                    case "04":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = kwiecien.get(0) + kwota;
+                                                kwiecien.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = kwiecien.get(1) + kwota;
+                                                kwiecien.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = kwiecien.get(2) + kwota;
+                                                kwiecien.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = kwiecien.get(3) + kwota;
+                                                kwiecien.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = kwiecien.get(4) + kwota;
+                                                kwiecien.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = kwiecien.get(5) + kwota;
+                                                kwiecien.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = kwiecien.get(6) + kwota;
+                                                kwiecien.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "wynagrodzenia":
-                                        temp = styczen.get(4) + kwota;
-                                        styczen.set(4, temp);
+                                    case "05":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = maj.get(0) + kwota;
+                                                maj.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = maj.get(1) + kwota;
+                                                maj.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = maj.get(2) + kwota;
+                                                maj.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = maj.get(3) + kwota;
+                                                maj.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = maj.get(4) + kwota;
+                                                maj.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = maj.get(5) + kwota;
+                                                maj.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = maj.get(6) + kwota;
+                                                maj.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "poz. koszty":
-                                        temp = styczen.get(5) + kwota;
-                                        styczen.set(5, temp);
+                                    case "06":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = czerwiec.get(0) + kwota;
+                                                czerwiec.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = czerwiec.get(1) + kwota;
+                                                czerwiec.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = czerwiec.get(2) + kwota;
+                                                czerwiec.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = czerwiec.get(3) + kwota;
+                                                czerwiec.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = czerwiec.get(4) + kwota;
+                                                czerwiec.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = czerwiec.get(5) + kwota;
+                                                czerwiec.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = czerwiec.get(6) + kwota;
+                                                czerwiec.set(6, temp);
+                                                break;
+                                        }
                                         break;
-                                    case "inwestycje":
-                                        temp = styczen.get(6) + kwota;
-                                        styczen.set(6, temp);
+                                    case "07":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = lipiec.get(0) + kwota;
+                                                lipiec.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = lipiec.get(1) + kwota;
+                                                lipiec.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = lipiec.get(2) + kwota;
+                                                lipiec.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = lipiec.get(3) + kwota;
+                                                lipiec.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = lipiec.get(4) + kwota;
+                                                lipiec.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = lipiec.get(5) + kwota;
+                                                lipiec.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = lipiec.get(6) + kwota;
+                                                lipiec.set(6, temp);
+                                                break;
+                                        }
+                                        break;
+                                    case "08":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = sierpien.get(0) + kwota;
+                                                sierpien.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = sierpien.get(1) + kwota;
+                                                sierpien.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = sierpien.get(2) + kwota;
+                                                sierpien.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = sierpien.get(3) + kwota;
+                                                sierpien.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = sierpien.get(4) + kwota;
+                                                sierpien.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = sierpien.get(5) + kwota;
+                                                sierpien.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = sierpien.get(6) + kwota;
+                                                sierpien.set(6, temp);
+                                                break;
+                                        }
+                                        break;
+                                    case "09":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = wrzesien.get(0) + kwota;
+                                                wrzesien.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = wrzesien.get(1) + kwota;
+                                                wrzesien.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = wrzesien.get(2) + kwota;
+                                                wrzesien.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = wrzesien.get(3) + kwota;
+                                                wrzesien.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = wrzesien.get(4) + kwota;
+                                                wrzesien.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = wrzesien.get(5) + kwota;
+                                                wrzesien.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = wrzesien.get(6) + kwota;
+                                                wrzesien.set(6, temp);
+                                                break;
+                                        }
+                                        break;
+                                    case "10":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = pazdziernik.get(0) + kwota;
+                                                pazdziernik.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = pazdziernik.get(1) + kwota;
+                                                pazdziernik.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = pazdziernik.get(2) + kwota;
+                                                pazdziernik.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = pazdziernik.get(3) + kwota;
+                                                pazdziernik.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = pazdziernik.get(4) + kwota;
+                                                pazdziernik.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = pazdziernik.get(5) + kwota;
+                                                pazdziernik.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = pazdziernik.get(6) + kwota;
+                                                pazdziernik.set(6, temp);
+                                                break;
+                                        }
+                                        break;
+                                    case "11":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = listopad.get(0) + kwota;
+                                                listopad.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = listopad.get(1) + kwota;
+                                                listopad.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = listopad.get(2) + kwota;
+                                                listopad.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = listopad.get(3) + kwota;
+                                                listopad.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = listopad.get(4) + kwota;
+                                                listopad.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = listopad.get(5) + kwota;
+                                                listopad.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = listopad.get(6) + kwota;
+                                                listopad.set(6, temp);
+                                                break;
+                                        }
+                                        break;
+                                    case "12":
+                                        switch (selekcja2) {
+                                            case "przych. sprz":
+                                                temp = grudzien.get(0) + kwota;
+                                                grudzien.set(0, temp);
+                                                break;
+                                            case "pozost. przych.":
+                                                temp = grudzien.get(1) + kwota;
+                                                grudzien.set(1, temp);
+                                                break;
+                                            case "zakup tow. i mat.":
+                                                temp = grudzien.get(2) + kwota;
+                                                grudzien.set(2, temp);
+                                                break;
+                                            case "koszty ub.zak.":
+                                                temp = grudzien.get(3) + kwota;
+                                                grudzien.set(3, temp);
+                                                break;
+                                            case "wynagrodzenia":
+                                                temp = grudzien.get(4) + kwota;
+                                                grudzien.set(4, temp);
+                                                break;
+                                            case "poz. koszty":
+                                                temp = grudzien.get(5) + kwota;
+                                                grudzien.set(5, temp);
+                                                break;
+                                            case "inwestycje":
+                                                temp = grudzien.get(6) + kwota;
+                                                grudzien.set(6, temp);
+                                                break;
+                                        }
                                         break;
                                 }
-                                break;
-                            case "02":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = luty.get(0) + kwota;
-                                        luty.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = luty.get(1) + kwota;
-                                        luty.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = luty.get(2) + kwota;
-                                        luty.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = luty.get(3) + kwota;
-                                        luty.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = luty.get(4) + kwota;
-                                        luty.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = luty.get(5) + kwota;
-                                        luty.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = luty.get(6) + kwota;
-                                        luty.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "03":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = marzec.get(0) + kwota;
-                                        marzec.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = marzec.get(1) + kwota;
-                                        marzec.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = marzec.get(2) + kwota;
-                                        marzec.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = marzec.get(3) + kwota;
-                                        marzec.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = marzec.get(4) + kwota;
-                                        marzec.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = marzec.get(5) + kwota;
-                                        marzec.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = marzec.get(6) + kwota;
-                                        marzec.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "04":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = kwiecien.get(0) + kwota;
-                                        kwiecien.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = kwiecien.get(1) + kwota;
-                                        kwiecien.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = kwiecien.get(2) + kwota;
-                                        kwiecien.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = kwiecien.get(3) + kwota;
-                                        kwiecien.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = kwiecien.get(4) + kwota;
-                                        kwiecien.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = kwiecien.get(5) + kwota;
-                                        kwiecien.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = kwiecien.get(6) + kwota;
-                                        kwiecien.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "05":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = maj.get(0) + kwota;
-                                        maj.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = maj.get(1) + kwota;
-                                        maj.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = maj.get(2) + kwota;
-                                        maj.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = maj.get(3) + kwota;
-                                        maj.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = maj.get(4) + kwota;
-                                        maj.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = maj.get(5) + kwota;
-                                        maj.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = maj.get(6) + kwota;
-                                        maj.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "06":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = czerwiec.get(0) + kwota;
-                                        czerwiec.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = czerwiec.get(1) + kwota;
-                                        czerwiec.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = czerwiec.get(2) + kwota;
-                                        czerwiec.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = czerwiec.get(3) + kwota;
-                                        czerwiec.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = czerwiec.get(4) + kwota;
-                                        czerwiec.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = czerwiec.get(5) + kwota;
-                                        czerwiec.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = czerwiec.get(6) + kwota;
-                                        czerwiec.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "07":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = lipiec.get(0) + kwota;
-                                        lipiec.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = lipiec.get(1) + kwota;
-                                        lipiec.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = lipiec.get(2) + kwota;
-                                        lipiec.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = lipiec.get(3) + kwota;
-                                        lipiec.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = lipiec.get(4) + kwota;
-                                        lipiec.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = lipiec.get(5) + kwota;
-                                        lipiec.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = lipiec.get(6) + kwota;
-                                        lipiec.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "08":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = sierpien.get(0) + kwota;
-                                        sierpien.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = sierpien.get(1) + kwota;
-                                        sierpien.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = sierpien.get(2) + kwota;
-                                        sierpien.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = sierpien.get(3) + kwota;
-                                        sierpien.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = sierpien.get(4) + kwota;
-                                        sierpien.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = sierpien.get(5) + kwota;
-                                        sierpien.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = sierpien.get(6) + kwota;
-                                        sierpien.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "09":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = wrzesien.get(0) + kwota;
-                                        wrzesien.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = wrzesien.get(1) + kwota;
-                                        wrzesien.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = wrzesien.get(2) + kwota;
-                                        wrzesien.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = wrzesien.get(3) + kwota;
-                                        wrzesien.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = wrzesien.get(4) + kwota;
-                                        wrzesien.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = wrzesien.get(5) + kwota;
-                                        wrzesien.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = wrzesien.get(6) + kwota;
-                                        wrzesien.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "10":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = pazdziernik.get(0) + kwota;
-                                        pazdziernik.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = pazdziernik.get(1) + kwota;
-                                        pazdziernik.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = pazdziernik.get(2) + kwota;
-                                        pazdziernik.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = pazdziernik.get(3) + kwota;
-                                        pazdziernik.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = pazdziernik.get(4) + kwota;
-                                        pazdziernik.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = pazdziernik.get(5) + kwota;
-                                        pazdziernik.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = pazdziernik.get(6) + kwota;
-                                        pazdziernik.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "11":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = listopad.get(0) + kwota;
-                                        listopad.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = listopad.get(1) + kwota;
-                                        listopad.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = listopad.get(2) + kwota;
-                                        listopad.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = listopad.get(3) + kwota;
-                                        listopad.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = listopad.get(4) + kwota;
-                                        listopad.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = listopad.get(5) + kwota;
-                                        listopad.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = listopad.get(6) + kwota;
-                                        listopad.set(6, temp);
-                                        break;
-                                }
-                                break;
-                            case "12":
-                                switch (selekcja2) {
-                                    case "przych. sprz":
-                                        temp = grudzien.get(0) + kwota;
-                                        grudzien.set(0, temp);
-                                        break;
-                                    case "pozost. przych.":
-                                        temp = grudzien.get(1) + kwota;
-                                        grudzien.set(1, temp);
-                                        break;
-                                    case "zakup tow. i mat.":
-                                        temp = grudzien.get(2) + kwota;
-                                        grudzien.set(2, temp);
-                                        break;
-                                    case "koszty ub.zak.":
-                                        temp = grudzien.get(3) + kwota;
-                                        grudzien.set(3, temp);
-                                        break;
-                                    case "wynagrodzenia":
-                                        temp = grudzien.get(4) + kwota;
-                                        grudzien.set(4, temp);
-                                        break;
-                                    case "poz. koszty":
-                                        temp = grudzien.get(5) + kwota;
-                                        grudzien.set(5, temp);
-                                        break;
-                                    case "inwestycje":
-                                        temp = grudzien.get(6) + kwota;
-                                        grudzien.set(6, temp);
-                                        break;
-                                }
-                                break;
+                            }
+                            //obliczenie wyniku
+                            styczen.set(7, styczen.get(0) + styczen.get(1));
+                            styczen.set(8, styczen.get(2) + styczen.get(3) + styczen.get(4) + styczen.get(5));
+                            styczen.set(9, styczen.get(7) - styczen.get(8));
+                            luty.set(7, luty.get(0) + luty.get(1));
+                            luty.set(8, luty.get(2) + luty.get(3) + luty.get(4) + luty.get(5));
+                            luty.set(9, luty.get(7) - luty.get(8));
+                            marzec.set(7, marzec.get(0) + marzec.get(1));
+                            marzec.set(8, marzec.get(2) + marzec.get(3) + marzec.get(4) + marzec.get(5));
+                            marzec.set(9, marzec.get(7) - marzec.get(8));
+                            kwiecien.set(7, kwiecien.get(0) + kwiecien.get(1));
+                            kwiecien.set(8, kwiecien.get(2) + kwiecien.get(3) + kwiecien.get(4) + kwiecien.get(5));
+                            kwiecien.set(9, kwiecien.get(7) - kwiecien.get(8));
+                            maj.set(7, maj.get(0) + maj.get(1));
+                            maj.set(8, maj.get(2) + maj.get(3) + maj.get(4) + maj.get(5));
+                            maj.set(9, maj.get(7) - maj.get(8));
+                            czerwiec.set(7, czerwiec.get(0) + czerwiec.get(1));
+                            czerwiec.set(8, czerwiec.get(2) + czerwiec.get(3) + czerwiec.get(4) + czerwiec.get(5));
+                            czerwiec.set(9, czerwiec.get(7) - czerwiec.get(8));
+                            lipiec.set(7, lipiec.get(0) + lipiec.get(1));
+                            lipiec.set(8, lipiec.get(2) + lipiec.get(3) + lipiec.get(4) + lipiec.get(5));
+                            lipiec.set(9, lipiec.get(7) - lipiec.get(8));
+                            sierpien.set(7, sierpien.get(0) + sierpien.get(1));
+                            sierpien.set(8, sierpien.get(2) + sierpien.get(3) + sierpien.get(4) + sierpien.get(5));
+                            sierpien.set(9, sierpien.get(7) - sierpien.get(8));
+                            wrzesien.set(7, wrzesien.get(0) + wrzesien.get(1));
+                            wrzesien.set(8, wrzesien.get(2) + wrzesien.get(3) + wrzesien.get(4) + wrzesien.get(5));
+                            wrzesien.set(9, wrzesien.get(7) - wrzesien.get(8));
+                            pazdziernik.set(7, pazdziernik.get(0) + pazdziernik.get(1));
+                            pazdziernik.set(8, pazdziernik.get(2) + pazdziernik.get(3) + pazdziernik.get(4) + pazdziernik.get(5));
+                            pazdziernik.set(9, pazdziernik.get(7) - pazdziernik.get(8));
+                            listopad.set(7, listopad.get(0) + listopad.get(1));
+                            listopad.set(8, listopad.get(2) + listopad.get(3) + listopad.get(4) + listopad.get(5));
+                            listopad.set(9, listopad.get(7) - listopad.get(8));
+                            grudzien.set(7, grudzien.get(0) + grudzien.get(1));
+                            grudzien.set(8, grudzien.get(2) + grudzien.get(3) + grudzien.get(4) + grudzien.get(5));
+                            grudzien.set(9, grudzien.get(7) - grudzien.get(8));
+                            //pobierzPity();
+                            zebranieMcy.add(styczen);
+                            zebranieMcy.add(luty);
+                            zebranieMcy.add(marzec);
+                            zebranieMcy.add(kwiecien);
+                            zebranieMcy.add(maj);
+                            zebranieMcy.add(czerwiec);
+                            zebranieMcy.add(lipiec);
+                            zebranieMcy.add(sierpien);
+                            zebranieMcy.add(wrzesien);
+                            zebranieMcy.add(pazdziernik);
+                            zebranieMcy.add(listopad);
+                            zebranieMcy.add(grudzien);
+                        } else {
                         }
+
+                        Ipolrocze = new ArrayList<>();
+                        IIpolrocze = new ArrayList<>();
+                        rok = new ArrayList<>();
+
+                        for (int i = 0; i < 10; i++) {
+                            Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
+                            IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
+                            rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
+                        }
+                    }catch (Exception e) {
+                        Dok t = dokument;
+                        System.out.println(dokument.toString());
+                        E.e(e);
                     }
-                    //obliczenie wyniku
-                    styczen.set(7, styczen.get(0)+styczen.get(1));
-                    styczen.set(8, styczen.get(2)+styczen.get(3)+styczen.get(4)+styczen.get(5));
-                    styczen.set(9, styczen.get(7)-styczen.get(8));
-                    luty.set(7, luty.get(0)+luty.get(1));
-                    luty.set(8, luty.get(2)+luty.get(3)+luty.get(4)+luty.get(5));
-                    luty.set(9, luty.get(7)-luty.get(8));
-                    marzec.set(7, marzec.get(0) + marzec.get(1));
-                    marzec.set(8, marzec.get(2) + marzec.get(3) + marzec.get(4) + marzec.get(5));
-                    marzec.set(9, marzec.get(7) - marzec.get(8));
-                    kwiecien.set(7, kwiecien.get(0)+kwiecien.get(1));
-                    kwiecien.set(8, kwiecien.get(2)+kwiecien.get(3)+kwiecien.get(4)+kwiecien.get(5));
-                    kwiecien.set(9, kwiecien.get(7)-kwiecien.get(8));
-                    maj.set(7, maj.get(0)+maj.get(1));
-                    maj.set(8, maj.get(2)+maj.get(3)+maj.get(4)+maj.get(5));
-                    maj.set(9, maj.get(7)-maj.get(8));
-                    czerwiec.set(7, czerwiec.get(0)+czerwiec.get(1));
-                    czerwiec.set(8, czerwiec.get(2)+czerwiec.get(3)+czerwiec.get(4)+czerwiec.get(5));
-                    czerwiec.set(9, czerwiec.get(7)-czerwiec.get(8));
-                    lipiec.set(7, lipiec.get(0)+lipiec.get(1));
-                    lipiec.set(8, lipiec.get(2)+lipiec.get(3)+lipiec.get(4)+lipiec.get(5));
-                    lipiec.set(9, lipiec.get(7)-lipiec.get(8));
-                    sierpien.set(7, sierpien.get(0)+sierpien.get(1));
-                    sierpien.set(8, sierpien.get(2)+sierpien.get(3)+sierpien.get(4)+sierpien.get(5));
-                    sierpien.set(9, sierpien.get(7)-sierpien.get(8));
-                    wrzesien.set(7, wrzesien.get(0)+wrzesien.get(1));
-                    wrzesien.set(8, wrzesien.get(2)+wrzesien.get(3)+wrzesien.get(4)+wrzesien.get(5));
-                    wrzesien.set(9, wrzesien.get(7)-wrzesien.get(8));
-                    pazdziernik.set(7, pazdziernik.get(0)+pazdziernik.get(1));
-                    pazdziernik.set(8, pazdziernik.get(2)+pazdziernik.get(3)+pazdziernik.get(4)+pazdziernik.get(5));
-                    pazdziernik.set(9, pazdziernik.get(7)-pazdziernik.get(8));
-                    listopad.set(7, listopad.get(0)+listopad.get(1));
-                    listopad.set(8, listopad.get(2)+listopad.get(3)+listopad.get(4)+listopad.get(5));
-                    listopad.set(9, listopad.get(7)-listopad.get(8));
-                    grudzien.set(7, grudzien.get(0)+grudzien.get(1));
-                    grudzien.set(8, grudzien.get(2)+grudzien.get(3)+grudzien.get(4)+grudzien.get(5));
-                    grudzien.set(9, grudzien.get(7)-grudzien.get(8));
-                    //pobierzPity();
-                    zebranieMcy.add(styczen);
-                    zebranieMcy.add(luty);
-                    zebranieMcy.add(marzec);
-                    zebranieMcy.add(kwiecien);
-                    zebranieMcy.add(maj);
-                    zebranieMcy.add(czerwiec);
-                    zebranieMcy.add(lipiec);
-                    zebranieMcy.add(sierpien);
-                    zebranieMcy.add(wrzesien);
-                    zebranieMcy.add(pazdziernik);
-                    zebranieMcy.add(listopad);
-                    zebranieMcy.add(grudzien);
-                } else {
                 }
-
-                Ipolrocze = new ArrayList<>();
-                IIpolrocze = new ArrayList<>();
-                rok = new ArrayList<>();
-
-                for (int i = 0; i < 10; i++) {
-                    Ipolrocze.add(styczen.get(i) + luty.get(i) + marzec.get(i) + kwiecien.get(i) + maj.get(i) + czerwiec.get(i));
-                    IIpolrocze.add(lipiec.get(i) + sierpien.get(i) + wrzesien.get(i) + pazdziernik.get(i) + listopad.get(i) + grudzien.get(i));
-                    rok.add(Ipolrocze.get(i) + IIpolrocze.get(i));
                 }
-                
-            }
-            }
+            
         }
-        createLinearModel(); 
+        createLinearModel();
     }
 
     public LineChartModel getLinearModel() {
@@ -656,17 +663,13 @@ public class ZestawienieView implements Serializable {
         this.linearModel = linearModel;
     }
 
-   
-
-          
- 
-    private void createLinearModel() {  
+    private void createLinearModel() {
         linearModel = new LineChartModel();
-        
+
         LineChartSeries series1 = new LineChartSeries();
         series1.setLabel("przychody");
         series1.setMarkerStyle("circle");
-        
+
         series1.set("styczeń", styczen.get(7));
         series1.set("luty", luty.get(7));
         series1.set("marzec", marzec.get(7));
@@ -679,11 +682,11 @@ public class ZestawienieView implements Serializable {
         series1.set("październik", pazdziernik.get(7));
         series1.set("listopad", listopad.get(7));
         series1.set("grudzień", grudzien.get(7));
-        
+
         LineChartSeries series2 = new LineChartSeries();
         series2.setLabel("koszty");
         series2.setMarkerStyle("diamond");
-         
+
         series2.set("styczeń", styczen.get(8));
         series2.set("luty", luty.get(8));
         series2.set("marzec", marzec.get(8));
@@ -696,11 +699,11 @@ public class ZestawienieView implements Serializable {
         series2.set("październik", pazdziernik.get(8));
         series2.set("listopad", listopad.get(8));
         series2.set("grudzień", grudzien.get(8));
-        
+
         LineChartSeries series3 = new LineChartSeries();
         series3.setLabel("wynik");
         series3.setMarkerStyle("filledSquare");
-        
+
         series3.set("styczeń", styczen.get(9));
         series3.set("luty", luty.get(9));
         series3.set("marzec", marzec.get(9));
@@ -713,7 +716,7 @@ public class ZestawienieView implements Serializable {
         series3.set("październik", pazdziernik.get(9));
         series3.set("listopad", listopad.get(9));
         series3.set("grudzień", grudzien.get(9));
-        
+
         linearModel.addSeries(series1);
         linearModel.addSeries(series2);
         linearModel.addSeries(series3);
@@ -731,8 +734,9 @@ public class ZestawienieView implements Serializable {
         linearModel.setLegendPosition("e");
         linearModel.setZoom(true);
     }
+
     private double wyliczmaksymalna() {
-        double maxliczbadowykresu =0;
+        double maxliczbadowykresu = 0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
@@ -744,7 +748,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(7));
         lista.add(wrzesien.get(7));
         lista.add(pazdziernik.get(7));
-        lista.add(listopad.get(7));  
+        lista.add(listopad.get(7));
         lista.add(grudzien.get(7));
         lista.add(styczen.get(8));
         lista.add(luty.get(8));
@@ -756,7 +760,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(8));
         lista.add(wrzesien.get(8));
         lista.add(pazdziernik.get(8));
-        lista.add(listopad.get(8));  
+        lista.add(listopad.get(8));
         lista.add(grudzien.get(8));
         lista.add(styczen.get(9));
         lista.add(luty.get(9));
@@ -768,7 +772,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(9));
         lista.add(wrzesien.get(9));
         lista.add(pazdziernik.get(9));
-        lista.add(listopad.get(9));  
+        lista.add(listopad.get(9));
         lista.add(grudzien.get(9));
         for (Double p : lista) {
             if (maxliczbadowykresu < p) {
@@ -776,22 +780,22 @@ public class ZestawienieView implements Serializable {
             }
         }
         if (maxliczbadowykresu < 10000) {
-            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu*0.05;
-            maxliczbadowykresu = maxliczbadowykresu/1000;
+            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.05;
+            maxliczbadowykresu = maxliczbadowykresu / 1000;
             maxliczbadowykresu = Math.round(maxliczbadowykresu);
-            maxliczbadowykresu = maxliczbadowykresu*1000;
-        } else  {
-            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu*0.02;
-            maxliczbadowykresu = maxliczbadowykresu/10000;
+            maxliczbadowykresu = maxliczbadowykresu * 1000;
+        } else {
+            maxliczbadowykresu = maxliczbadowykresu + maxliczbadowykresu * 0.02;
+            maxliczbadowykresu = maxliczbadowykresu / 10000;
             maxliczbadowykresu = Math.round(maxliczbadowykresu);
-            maxliczbadowykresu = maxliczbadowykresu*10000;
+            maxliczbadowykresu = maxliczbadowykresu * 10000;
         }
-        
+
         return maxliczbadowykresu;
     }
-    
+
     private double wyliczminimalna() {
-        double minliczbadowykresu =0;
+        double minliczbadowykresu = 0;
         List<Double> lista = new ArrayList<>();
         lista.add(styczen.get(7));
         lista.add(luty.get(7));
@@ -803,7 +807,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(7));
         lista.add(wrzesien.get(7));
         lista.add(pazdziernik.get(7));
-        lista.add(listopad.get(7));  
+        lista.add(listopad.get(7));
         lista.add(grudzien.get(7));
         lista.add(styczen.get(8));
         lista.add(luty.get(8));
@@ -815,7 +819,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(8));
         lista.add(wrzesien.get(8));
         lista.add(pazdziernik.get(8));
-        lista.add(listopad.get(8));  
+        lista.add(listopad.get(8));
         lista.add(grudzien.get(8));
         lista.add(styczen.get(9));
         lista.add(luty.get(9));
@@ -827,7 +831,7 @@ public class ZestawienieView implements Serializable {
         lista.add(sierpien.get(9));
         lista.add(wrzesien.get(9));
         lista.add(pazdziernik.get(9));
-        lista.add(listopad.get(9));  
+        lista.add(listopad.get(9));
         lista.add(grudzien.get(9));
         for (Double p : lista) {
             if (minliczbadowykresu > p) {
@@ -835,15 +839,15 @@ public class ZestawienieView implements Serializable {
             }
         }
         if (minliczbadowykresu < -10000) {
-            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu*0.05;
-            minliczbadowykresu = minliczbadowykresu/1000;
+            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.05;
+            minliczbadowykresu = minliczbadowykresu / 1000;
             minliczbadowykresu = Math.round(minliczbadowykresu);
-            minliczbadowykresu = minliczbadowykresu*1000;
-        } else  {
-            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu*0.02;
-            minliczbadowykresu = minliczbadowykresu/10000;
+            minliczbadowykresu = minliczbadowykresu * 1000;
+        } else {
+            minliczbadowykresu = minliczbadowykresu + minliczbadowykresu * 0.02;
+            minliczbadowykresu = minliczbadowykresu / 10000;
             minliczbadowykresu = Math.round(minliczbadowykresu);
-            minliczbadowykresu = minliczbadowykresu*10000;
+            minliczbadowykresu = minliczbadowykresu * 10000;
         }
         return minliczbadowykresu;
     }
@@ -914,7 +918,8 @@ public class ZestawienieView implements Serializable {
                         //wyliczenie podatku poczatek
                         biezacyPit.setPodstawa(tmp);
                     }
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("e", "Brak wpisanych stawek ZUS-51,52 indywidualnych dla danego klienta. Jeżeli ZUS 51 nie ma być odliczany, sprawdź czy odpowiednia opcja jest wybrana w ustwieniach klienta");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -926,7 +931,8 @@ public class ZestawienieView implements Serializable {
                 Podstawki skalaPodatkowaZaDanyRok;
                 try {
                     skalaPodatkowaZaDanyRok = podstawkiDAO.find(Integer.parseInt(biezacyPit.getPkpirR()));
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
@@ -970,7 +976,8 @@ public class ZestawienieView implements Serializable {
                             podatek = podatek.setScale(0, RoundingMode.HALF_EVEN);
                             break;
                     }
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("e", "Brak wprowadzonego rodzaju opodatkowania dla danego podatnika!! Nie można przeliczyć PIT za: " + biezacyPit.getPkpirM());
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -996,7 +1003,7 @@ public class ZestawienieView implements Serializable {
                 } else {
                     biezacyPit.setPododpoczrok(tmpX);
                 }
-            //wyliczenie podatku koniec
+                //wyliczenie podatku koniec
 
                 biezacyPit.setNalzalodpoczrok(sumapoprzednichmcy.getNalzalodpoczrok());
                 if (biezacyPit.getPododpoczrok().subtract(biezacyPit.getNalzalodpoczrok()).signum() == 1) {
@@ -1015,7 +1022,8 @@ public class ZestawienieView implements Serializable {
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
                     RequestContext.getCurrentInstance().update("formpit:");
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
                     biezacyPit = new Pitpoz();
                     wybranyudzialowiec = "wybierz osobe";
@@ -1027,78 +1035,82 @@ public class ZestawienieView implements Serializable {
             }
         }
     }
-    
+
     private BigDecimal pobierzZUS51() {
         Podatnik p = wpisView.getPodatnikObiekt();
         Iterator it;
         it = p.getZusparametr().iterator();
         double suma51 = 0;
-            while (it.hasNext()) {
-                Zusstawki tmpX = (Zusstawki) it.next();
-                if (wpisView.isMc0kw1()) {
-                    List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
-                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
-                        if (p.getOdliczaczus51() == true) {
-                            if (tmpX.getZus51ch() != null) {
-                                suma51 += tmpX.getZus51ch();
-                            } else {
-                                suma51 += tmpX.getZus51bch();
-                            }
+        while (it.hasNext()) {
+            Zusstawki tmpX = (Zusstawki) it.next();
+            if (wpisView.isMc0kw1()) {
+                List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
+                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                        && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                    if (p.getOdliczaczus51() == true) {
+                        if (tmpX.getZus51ch() != null) {
+                            suma51 += tmpX.getZus51ch();
+                        } else {
+                            suma51 += tmpX.getZus51bch();
                         }
                     }
-                } else {
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
-                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                        if (p.getOdliczaczus51() == true) {
-                            if (tmpX.getZus51ch() != null) {
-                                suma51 += tmpX.getZus51ch();
-                            } else {
-                                suma51 += tmpX.getZus51bch();
-                            }
+                }
+            } else {
+                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                        && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    if (p.getOdliczaczus51() == true) {
+                        if (tmpX.getZus51ch() != null) {
+                            suma51 += tmpX.getZus51ch();
+                        } else {
+                            suma51 += tmpX.getZus51bch();
                         }
                     }
                 }
             }
-            return BigDecimal.valueOf(suma51);
+        }
+        return BigDecimal.valueOf(suma51);
     }
-    
+
     private BigDecimal pobierzZUS52() {
         Podatnik p = wpisView.getPodatnikObiekt();
         Iterator it;
         it = p.getZusparametr().iterator();
         double suma52 = 0;
         List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
-            while (it.hasNext()) {
-                Zusstawki tmpX = (Zusstawki) it.next();
-                if (wpisView.isMc0kw1()) {
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
-                            && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
-                                suma52 += tmpX.getZus52odl();
-                        }
-                } else {
-                    if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt()) 
-                            && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                        suma52 += tmpX.getZus52odl();
-                    }
+        while (it.hasNext()) {
+            Zusstawki tmpX = (Zusstawki) it.next();
+            if (wpisView.isMc0kw1()) {
+                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                        && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
+                    suma52 += tmpX.getZus52odl();
+                }
+            } else {
+                if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
+                        && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
+                    suma52 += tmpX.getZus52odl();
                 }
             }
-            return BigDecimal.valueOf(suma52);
+        }
+        return BigDecimal.valueOf(suma52);
     }
-    
+
     private void sprawdzczyzaksiegowanoamortyzacje() {
         Amodok amortyzacjawmiesiacu = null;
         Dok dokumentamo = null;
-        try{
+        try {
             amortyzacjawmiesiacu = amoDokDAO.findMR(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu());
-            if(amortyzacjawmiesiacu.getUmorzenia().isEmpty()){
-                amortyzacjawmiesiacu=null;
+            if (amortyzacjawmiesiacu.getUmorzenia().isEmpty()) {
+                amortyzacjawmiesiacu = null;
             }
-        } catch (Exception e) { E.e(e); }
+        } catch (Exception e) {
+            E.e(e);
+        }
         try {
             dokumentamo = dokDAO.findDokMC("AMO", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu());
-        } catch (Exception e) { E.e(e); }
-        if(amortyzacjawmiesiacu!=null&&dokumentamo==null){
+        } catch (Exception e) {
+            E.e(e);
+        }
+        if (amortyzacjawmiesiacu != null && dokumentamo == null) {
             Msg.msg("e", "Brak zaksięgowanej amortyzacji mimo istnienia dokumentu umorzeniowego za miesiąc!", "formpit:messages");
             flaga = 1;
         }
@@ -1128,30 +1140,31 @@ public class ZestawienieView implements Serializable {
             } else {
                 biezacyPit.setStrata(BigDecimal.ZERO);
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             biezacyPit.setStrata(BigDecimal.ZERO);
         }
     }
-    
+
     //wyliczenie niezbedne przy wracaniu do historycznych pitow pojedynczo dla kazdego pitu
     private double wyliczStrataZostalo(Straty1 tmp) {
         double zostalo = 0.0;
         double sumabiezace = 0.0;
         if (tmp.getWykorzystanieBiezace() != null) {
             for (Straty1.Wykorzystanie s : tmp.getWykorzystanieBiezace()) {
-                if (Integer.parseInt(s.getRokwykorzystania())<wpisView.getRokWpisu()) {
+                if (Integer.parseInt(s.getRokwykorzystania()) < wpisView.getRokWpisu()) {
                     sumabiezace += s.getKwotawykorzystania();
                     sumabiezace = Math.round(sumabiezace * 100.0) / 100.0;
                 }
             }
         } else {
             tmp.setWykorzystanieBiezace(new ArrayList<Straty1.Wykorzystanie>());
-            
+
         }
         double kwota = Double.parseDouble(tmp.getKwota());
         double uprzednio = Double.parseDouble(tmp.getWykorzystano());
         double biezace = sumabiezace;
-        zostalo += Math.round((kwota-uprzednio-biezace) * 100.0) / 100.0;
+        zostalo += Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0;
         return Math.round(zostalo * 100.0) / 100.0;
     }
 
@@ -1162,32 +1175,34 @@ public class ZestawienieView implements Serializable {
                 pitDAO.destroy(find);
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Edytowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
-                Msg.msg("i", wiad );
-            } catch (Exception e) { E.e(e); 
+                Msg.msg("i", wiad);
+            } catch (Exception e) {
+                E.e(e);
                 pitDAO.dodaj(biezacyPit);
                 String wiad = String.format("Zachowano PIT %s za m-c:%s", biezacyPit.getUdzialowiec(), biezacyPit.getPkpirM());
-                Msg.msg("i", wiad );
+                Msg.msg("i", wiad);
             }
 
         } else {
             Msg.msg("e", "Nie można zachować. PIT nie wypełniony");
         }
     }
-    
-    public void zachowajPit13(){
+
+    public void zachowajPit13() {
         biezacyPit.setPkpirM("13");
         BigDecimal roznicaremanentow = new BigDecimal(remanentView.getRoznica());
         biezacyPit.setRemanent(roznicaremanentow);
         zachowajPit();
     }
-    
+
     public void aktualizujPIT(AjaxBehaviorEvent e) {
         wybranyudzialowiec = "wybierz osobe";
         RequestContext.getCurrentInstance().update("formpit");
         aktualizuj();
         Msg.msg("i", "Zmieniono miesiąc obrachunkowy.");
     }
-private void aktualizujGuest(){
+
+    private void aktualizujGuest() {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
@@ -1197,7 +1212,8 @@ private void aktualizujGuest(){
         wpistmp.setRokWpisu(wpisView.getRokWpisu());
         wpisDAO.edit(wpistmp);
     }
-     private void aktualizuj(){
+
+    private void aktualizuj() {
         HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String user = (String) sessionX.getAttribute("user");
         Wpis wpistmp = wpisDAO.find(user);
@@ -1208,8 +1224,8 @@ private void aktualizujGuest(){
         wpisDAO.edit(wpistmp);
         wpisView.naniesDaneDoWpis();
     }
-    
-     public void aktualizujGuest(String strona) throws IOException {
+
+    public void aktualizujGuest(String strona) throws IOException {
         aktualizujGuest();
         aktualizuj();
         init();
@@ -1222,7 +1238,7 @@ private void aktualizujGuest(){
         tmp.setZus52(BigDecimal.ZERO);
         tmp.setNalzalodpoczrok(BigDecimal.ZERO);
         try {
-            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(),wpisView.getPodatnikWpisu());
+            Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
             Iterator it;
             it = c.iterator();
 
@@ -1231,13 +1247,13 @@ private void aktualizujGuest(){
                 int miesiacPituPobranego = Integer.parseInt(tmpX.getPkpirM());
                 int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
                 if (wpisView.isMc0kw1()) {
-                    poprzednimc = poprzednimc -3;
+                    poprzednimc = poprzednimc - 3;
                 } else {
-                    poprzednimc = poprzednimc -1;
+                    poprzednimc = poprzednimc - 1;
                 }
                 String starymcS = Mce.getNumberToMiesiac().get(poprzednimc);
-                if(miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec)){
-                    if(tmpX.getNaleznazal().signum()==1){
+                if (miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec)) {
+                    if (tmpX.getNaleznazal().signum() == 1) {
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
                     }
                 }
@@ -1252,13 +1268,14 @@ private void aktualizujGuest(){
                     } else {
                         tmp.setZus52(BigDecimal.ZERO);
                     }
-                    
+
                 }
 
             }
 
             return tmp;
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
 
             return tmp;
         }
@@ -1344,13 +1361,14 @@ private void aktualizujGuest(){
                     break;
             }
             return suma;
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie było w tym roku żadnych przychodów");
             return new BigDecimal(BigInteger.ZERO);
         }
     }
 
-    private BigDecimal obliczkoszt(){
+    private BigDecimal obliczkoszt() {
         try {
             BigDecimal suma = new BigDecimal(0);
             String selekcja = wpisView.getMiesiacWpisu();
@@ -1453,16 +1471,18 @@ private void aktualizujGuest(){
                     break;
             }
             return suma;
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Nie było w tym roku żadnych kosztów");
             return new BigDecimal(BigInteger.ZERO);
         }
     }
-    
-    public void pobierzPity(){
+
+    public void pobierzPity() {
         try {
             pobierzPity.addAll(pitDAO.findAll());
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) {
+            E.e(e);
         }
         narPitpoz = new Pitpoz();
         int index = 0;
@@ -1480,23 +1500,25 @@ private void aktualizujGuest(){
         narPitpoz = pobierzPity.get(index);
         biezacyPit = narPitpoz;
     }
-    
+
     public void drukujbiezacypit() {
         try {
             PdfPIT5.drukuj(biezacyPit, wpisView, podatnikDAO);
-        } catch (Exception e) { E.e(e); 
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
-     public void drukujPodsumowanieRoczne() {
+
+    public void drukujPodsumowanieRoczne() {
         try {
             PdfZestRok.drukuj(wpisView, this);
-        } catch (Exception e) { E.e(e); 
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
+
     public void ustawZus51() {
         setZus51zreki(true);
     }
@@ -1504,7 +1526,7 @@ private void aktualizujGuest(){
     public void ustawZus52() {
         setZus52zreki(true);
     }
-    
+
     public DokDAO getDokDAO() {
         return dokDAO;
     }
@@ -1776,8 +1798,6 @@ private void aktualizujGuest(){
     public void setPierwszypitwrokuzaznacz(boolean pierwszypitwrokuzaznacz) {
         this.pierwszypitwrokuzaznacz = pierwszypitwrokuzaznacz;
     }
-    
-    
 
     private int sprawdzczyjestpitwpoprzednimmiesiacu() {
         if (pierwszypitwroku == true) {
@@ -1786,21 +1806,23 @@ private void aktualizujGuest(){
         if (wpisView.isMc0kw1()) {
             if (!wpisView.getMiesiacWpisu().equals("03") || wybranyudzialowiec.equals("wybierz osobe")) {
                 int numermiesiaca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-                String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca-3);
+                String numermiesiacaS = Mce.getNumberToMiesiac().get(numermiesiaca - 3);
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), numermiesiacaS, wpisView.getPodatnikWpisu(), wybranyudzialowiec);
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("w", "Brak PIT-u w poprzednim kwartale. Nie można wyliczyć bieżącego miesiąca");
                     pierwszypitwrokuzaznacz = true;
                     return 1;
                 }
             }
-            
+
         } else {
             if (!wpisView.getMiesiacWpisu().equals("01") || wybranyudzialowiec.equals("wybierz osobe")) {
                 try {
                     Pitpoz poprzednipit = pitDAO.find(wpisView.getRokWpisuSt(), wpisView.getMiesiacUprzedni(), wpisView.getPodatnikWpisu(), wybranyudzialowiec);
-                } catch (Exception e) { E.e(e); 
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("w", "Brak PIT-u w miesiącu poprzednim. Nie można wyliczyć bieżącego miesiąca");
                     pierwszypitwrokuzaznacz = true;
                     return 1;
@@ -1818,6 +1840,4 @@ private void aktualizujGuest(){
         this.remanentView = remanentView;
     }
 
-    
-    
 }
