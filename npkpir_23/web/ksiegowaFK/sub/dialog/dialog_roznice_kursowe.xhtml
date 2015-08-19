@@ -21,30 +21,30 @@
                     <h:outputText value="#{index+1}" />
                 </p:column>
                 <p:column headerText="rachunek" width="250">
-                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}/#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}"/>
+                    <h:outputText value="#{wpis.nowaTransakcja.wiersz.opisWiersza}/#{wpis.nowaTransakcja.wiersz.dokfk.dokfkPK}"  style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs rachunku" width="60">
                     <h:outputText value="#{wpis.nowaTransakcja.wiersz.tabelanbp.kurssredni}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="płatność" width="250">
-                    <h:outputText value="#{wpis.rozliczajacy.wiersz.opisWiersza}/#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}"/>
+                <p:column headerText="płatność" width="300">
+                    <h:outputText value="#{wpis.rozliczajacy.wiersz.opisWiersza}/#{wpis.rozliczajacy.wiersz.dokfk.dokfkPK}" style="word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap;"/>
                 </p:column>
                 <p:column headerText="kurs płatności" width="60">
                     <h:outputText value="#{wpis.rozliczajacy.wiersz.tabelanbp.kurssredni}" style="float: right;">
-                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                        <f:convertNumber minFractionDigits="4" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="data zapłaty">
+                <p:column headerText="data zapłaty" width="70">
                     <h:outputText value="#{wpis.rozliczajacy.wiersz.dokfk.datadokumentu}"/>
                 </p:column>
-                <p:column headerText="różnica kursowa">
+                <p:column headerText="różnica kursowa" width="70">
                     <h:outputText value="#{wpis.roznicekursowe}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="konto rozrachunkowe">
+                <p:column headerText="konto rozrachw" width="70">
                     <h:outputText value="#{wpis.nowaTransakcja.konto.pelnynumer}" >
                     </h:outputText>
                 </p:column>

@@ -451,6 +451,16 @@ public class StronaWiersza implements Serializable{
         return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
     }
     
+    public String getSymbolWalut() {
+        String symbol = null;
+        if (this.wiersz.getTabelanbp() != null) {
+            symbol = this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
+        } else {
+            symbol = this.symbolWalutyBO;
+        }
+        return symbol;
+    }
+    
     
     
     

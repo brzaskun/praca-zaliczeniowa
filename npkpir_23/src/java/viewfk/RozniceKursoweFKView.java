@@ -77,9 +77,9 @@ public class RozniceKursoweFKView implements Serializable {
         if (nrkolejny > 1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
-        Dokfk dokumentvat = stworznowydokument(nrkolejny);
+        Dokfk dokumentRKK = stworznowydokument(nrkolejny);
         try {
-            dokDAOfk.dodaj(dokumentvat);
+            dokDAOfk.dodaj(dokumentRKK);
             Msg.msg("Zaksięgowano dokument RRK");
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu RRK");
@@ -163,10 +163,18 @@ public class RozniceKursoweFKView implements Serializable {
             String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy+" "+p.getNowaTransakcja().getId()+"/"+p.getRozliczajacy().getId(); 
             w.setOpisWiersza(opiswiersza);
             Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView);
+            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView);
+            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView);
+            String walutarachunku = p.getNowaTransakcja().getSymbolWalut();
+            String walutaplatnosci = p.getRozliczajacy().getSymbolWalut();
+            boolean sazlotowki = walutarachunku.equals("PLN") || walutaplatnosci.equals("PLN") ? true : false;
             double roznicakursowa = Math.abs(p.getRoznicekursowe());
             if (p.getNowaTransakcja().getWnma().equals("Wn")) {
                 if (p.getRoznicekursowe() < 0) {
                     StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
+                    if (sazlotowki) {
+                        konto755.setKonto(kosztyfinansowe);
+                    }
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
                     w.setStronaWn(konto755);
                     w.setStronaMa(kontoRozrachunku);
@@ -174,6 +182,9 @@ public class RozniceKursoweFKView implements Serializable {
                     w.getStronaMa().setKwotaPLN(roznicakursowa);
                 } else {
                     StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
+                    if (sazlotowki) {
+                        konto755.setKonto(przychodyfinansowe);
+                    }
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
                     w.setStronaWn(kontoRozrachunku);
                     w.setStronaMa(konto755);
@@ -185,6 +196,9 @@ public class RozniceKursoweFKView implements Serializable {
                 if (p.getRoznicekursowe() > 0) {
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
                     StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
+                    if (sazlotowki) {
+                        konto755.setKonto(kosztyfinansowe);
+                    }
                     w.setStronaWn(konto755);
                     w.setStronaMa(kontoRozrachunku);
                     w.getStronaWn().setKwotaPLN(roznicakursowa);
@@ -192,6 +206,9 @@ public class RozniceKursoweFKView implements Serializable {
                 } else {
                     StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
                     StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
+                    if (sazlotowki) {
+                        konto755.setKonto(przychodyfinansowe);
+                    }
                     w.setStronaWn(kontoRozrachunku);
                     w.setStronaMa(konto755);
                     w.getStronaWn().setKwotaPLN(roznicakursowa);
