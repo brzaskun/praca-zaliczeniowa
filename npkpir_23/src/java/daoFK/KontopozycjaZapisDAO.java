@@ -60,7 +60,7 @@ public class KontopozycjaZapisDAO extends DAO implements Serializable{
             List<UkladBR> findall = ukladBRDAO.findPodatnik(konto.getPodatnik());
             if (findall != null ) {
                 for (UkladBR p : findall) {
-                    if (p.isAktualny() == true) {
+                    if (p.isAktualny() == true || findall.size() == 1) {
                         kontopozycjaZapis = sessionFacade.fintKontoPozycjaZapisByKonto(konto, p);
                     }
                 }

@@ -95,6 +95,7 @@ public class UkladBR implements Serializable {
             for (UkladBR p : pobraneUkladyPodatnika) {
                 if (p.equals(this)) {
                     p.setAktualny(true);
+                    this.setAktualny(true);
                 } else {
                     p.setAktualny(false);
                 }

@@ -25,6 +25,9 @@
                 <h:outputText value="suma brutto: "/>
                 <bcf:outputpl value="#{fakturaView.podsumowaniewybranychbrutto}" style="text-align: right; font-weight: 800;"/>
             </p:panelGrid>
+            <p:panel header="">
+                <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
+            </p:panel>
             <p:dataTable id="dokumentyArchiwum" value="#{fakturaView.fakturyarchiwum}" var="wpis"  rowIndexVar="row"  filteredValue="#{fakturaView.fakturyFiltered}"
                          selection="#{fakturaView.gosciwybral}" rowKey="#{wpis.fakturaPK.numerkolejny}" widgetVar="archTable" rowSelectMode="add" style="max-width: 1400px;"
                          emptyMessage="Nie ma wygenerowanych i zaksięgowanych faktur w tym miesiącu" >
