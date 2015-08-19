@@ -111,6 +111,9 @@
                                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                                     </h:outputText>
                                 </p:column>
+                                <p:column id="usuCol" width="40" style="text-align: center;">  
+                                    <p:commandButton icon="fa fa-trash" actionListener="#{inwestycjeView.usunrachunek(item,wpis)}" update=":forminwestycje"/>
+                                </p:column>
                             </p:dataTable>
                         </p:column>
                     </p:rowExpansion>

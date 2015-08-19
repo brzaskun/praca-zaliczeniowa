@@ -34,6 +34,7 @@ import entity.Faktura;
 import entity.Fakturadodelementy;
 import entity.Fakturywystokresowe;
 import entity.Pozycjenafakturze;
+import error.E;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -79,6 +80,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 drukujcd(selected, fdod, i, "mail", wpisView);
                 i++;
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Błąd - nie wybrano faktury");
             }
         }
@@ -86,8 +88,8 @@ public class PdfFaktura extends Pdf implements Serializable {
 
     public void drukuj(Faktura selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "faktura" + String.valueOf(row) + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = Plik.plik(nazwapliku, true);
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(row) + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
@@ -96,6 +98,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             Msg.msg("Wydruk faktury");
 
         } catch (DocumentException | IOException e) {
+            E.e(e);
             Msg.msg("e", "Błąd - nie wybrano faktury");
 
         }
@@ -103,8 +106,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     
     public void drukujPodgladfaktury(Faktura selected, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         try {
-            String nazwapliku = "faktura0" + wpisView.getPodatnikWpisu() + ".pdf";
-            File file = Plik.plik(nazwapliku, true);
+            String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura0" + wpisView.getPodatnikWpisu() + ".pdf";
+            File file = new File(nazwapliku);
             if (file.isFile()) {
                 file.delete();
             }
@@ -113,6 +116,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             Msg.msg("i","Wygenerowano podgląd faktury.","akordeon:formstworz:messagesinline");
 
         } catch (DocumentException | IOException e) {
+            E.e(e);
             Msg.msg("e", "Błąd - nie wybrano faktury");
 
         }
@@ -126,6 +130,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 drukujcd(selected, fdod, i, "druk", wpisView);
                 i++;
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Błąd - nie wybrano faktury");
             }
         }
@@ -138,14 +143,15 @@ public class PdfFaktura extends Pdf implements Serializable {
                 PDFDirectPrint.silentPrintPdf(drukujcdPrinter(selected, fdod, i, "druk", wpisView));
                 i++;
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Błąd - nie wybrano faktury");
             }
         }
     }
 
     public void drukujokresowa(Fakturywystokresowe selected, int row, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
-        String nazwapliku = "fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikWpisu() + ".pdf";
-        File file = Plik.plik(nazwapliku, true);
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(row) + "firma" + wpisView.getPodatnikWpisu() + ".pdf";
+        File file = new File(nazwapliku);
         if (file.isFile()) {
             file.delete();
         }
@@ -153,6 +159,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             List<Fakturadodelementy> fdod = fakturadodelementyDAO.findFaktElementyPodatnik(wpisView.getPodatnikWpisu());
             drukujcd(selected.getDokument(), fdod, row, "druk", wpisView);
         } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Błąd - nie wybrano faktury");
         }
     }
@@ -165,6 +172,7 @@ public class PdfFaktura extends Pdf implements Serializable {
                 drukujcdPrinter(selected.getDokument(), fdod, i, "druk",wpisView);
                 i++;
             } catch (Exception e) {
+                E.e(e);
                 Msg.msg("e", "Błąd - nie wybrano faktury");
             }
         }
@@ -182,8 +190,8 @@ public class PdfFaktura extends Pdf implements Serializable {
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
             if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta)) {
                 Document document = new Document();
-                String nazwapliku = "fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
+                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 PdfFP.dodajopisdok(document);
@@ -244,8 +252,8 @@ public class PdfFaktura extends Pdf implements Serializable {
                 System.out.println("no ");
             } else {
                 Document document = new Document();
-                String nazwapliku = "fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
-                PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
+                String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
+                PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
                 writer.setBoxSize("art", new Rectangle(800, 830, 0, 0));
                 writer.setViewerPreferences(PdfWriter.PageLayoutSinglePage);
                 PdfFP.dodajopisdok(document);
@@ -266,8 +274,8 @@ public class PdfFaktura extends Pdf implements Serializable {
     
      private String drukujcdPrinter(Faktura selected, List<Fakturadodelementy> elementydod, int nrfakt, String przeznaczenie, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
+        String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/faktura" + String.valueOf(nrfakt) + wpisView.getPodatnikWpisu() + ".pdf";
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
         PdfFP.dodajopisdok(document);
         document.open();
         List<Pozycjenafakturze> lista = pozycjeDAO.findFakturyPodatnik(wpisView.getPodatnikWpisu());

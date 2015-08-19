@@ -139,6 +139,35 @@ public class InwestycjeView implements Serializable{
         }
     }
     
+    public void usunrachunek(Inwestycje inwestycja, Dok dok) {
+        try{
+            List<Dok> dokumenty = inwestycja.getDokumenty();
+            dokumenty.remove(dok);
+            inwestycjeDAO.edit(inwestycja);
+            inwestycjerozpoczete = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(),false);
+            inwestycjesymbole = new ArrayList<>();
+            if (inwestycjerozpoczete != null) {
+            int i = 1;
+            for (Inwestycje p : inwestycjerozpoczete) {
+                List<Dok> tmp = p.getDokumenty();
+                for(Dok r : tmp){
+                    r.setNrWpkpir(i++);
+                }
+                p.setDokumenty(tmp);
+                inwestycjesymbole.add("wybierz");
+                inwestycjesymbole.add(p.getSymbol());
+                i=1;
+                aktualizujwartosci(p);
+                }
+            }
+                Msg.msg("i","Usunąłem rachunek z inwestycji "+dok.toString(),"form:messages");
+            } catch (Exception e) { 
+                E.e(e);
+                Msg.msg("e","Wystąpił błąd. Nie można było usunąć rachunku "+dok.toString(),"form:messages");
+            }
+    }
+    
+    
     @Inject
     private DokDAO dokDAO;
     public void naprawkontrahentow() {
