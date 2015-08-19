@@ -85,6 +85,8 @@ public class Rodzajedok implements Serializable {
     @Size(max = 255)
     @Column(name = "de")
     private String de;
+    @Column(name = "procentvat")
+    private double procentvat;
 
     public Rodzajedok() {
         this.rodzajedokPK = new RodzajedokPK();
@@ -144,6 +146,14 @@ public class Rodzajedok implements Serializable {
 
     public String getRodzajtransakcji() {
         return rodzajtransakcji;
+    }
+
+    public double getProcentvat() {
+        return procentvat;
+    }
+
+    public void setProcentvat(double procentvat) {
+        this.procentvat = procentvat;
     }
 
     public void setRodzajtransakcji(String rodzajtransakcji) {

@@ -38,6 +38,11 @@
                     <p:column headerText="szt" width="30" style="text-align: center;">
                         <h:outputText value="#{loop.pokazszt eq true ? 'tak' : 'nie'}" />
                     </p:column>
+                    <p:column headerText="% VAT" width="30" style="text-align: right;">
+                        <h:outputText value="#{loop.procentvat}">
+                            <f:convertNumber integerOnly="true"/>
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="konto rozrach." style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
                         <h:outputText value="#{loop.kontorozrachunkowe.pelnynumer}" />
                     </p:column>
@@ -88,6 +93,11 @@
                         <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                         <p:ajax event="change" global="false" partialSubmit="true" update   =":akordeon:form7:parametryDokKsi1"/>
                     </p:selectOneMenu>
+                    <h:outputText value=" procent VAT**: " />
+                    <p:inputText value="#{podatnikView.selectedDokKsi.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                        <f:validateLongRange minimum="0" maximum="99"/>
+                        <f:convertNumber integerOnly="true" type="number" />
+                    </p:inputText>
                     <h:outputText value=" pokaż kg: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazkg}" />
                     <h:outputText value=" pokaż szt: " />
@@ -125,6 +135,7 @@
             </p:panelGrid>
             <p:panelGrid columns="1" style="margin-top: 15px;">
                 <h:outputText value="*Dopuszczalne elementy wzorca: n - numer kolejny w roku, N - numer kolejny w miesiącu,	m - numer miesiąca, r - numer roku, s - dowolny ciąg znaków za wyjątkiem: /"/>
+                <h:outputText value="**Dotyczy faktur kosztowych. Wpisać tylko gdy inny niż 100%. Format wpisu dla np. faktur samochodowych: 50"/>
             </p:panelGrid>
                 
                 </f:ajax>
