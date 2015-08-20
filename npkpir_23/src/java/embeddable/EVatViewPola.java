@@ -64,6 +64,7 @@ public class EVatViewPola implements Serializable{
     private Evewidencja nazwaewidencji;
     private String nrpolanetto;
     private String nrpolavat;
+    private double procentvat;
 
     
     
@@ -84,6 +85,14 @@ public class EVatViewPola implements Serializable{
 
     public void setDataWyst(String dataWyst) {
         this.dataWyst = dataWyst;
+    }
+
+    public double getProcentvat() {
+        return procentvat;
+    }
+
+    public void setProcentvat(double procentvat) {
+        this.procentvat = procentvat;
     }
 
     public String getDataSprz() {

@@ -10,6 +10,7 @@ import comparator.EVatwpisFKcomparator;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.EwidencjeVatDAO;
+import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.EVatwpisFKDAO;
 import data.Data;
@@ -22,6 +23,7 @@ import entity.Dok;
 import entity.EVatwpis1;
 import entity.Evewidencja;
 import entity.Ewidencjevat;
+import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import error.E;
@@ -98,9 +100,11 @@ public class EwidencjaVatView implements Serializable {
     private Double suma3;
     //tablica obiektw danego klienta
     @Inject
-    DokDAO dokDAO;
+    private DokDAO dokDAO;
     @Inject
-    DokDAOfk dokDAOfk;
+    private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
     private String nazwaewidencjiMail;
     private List<EVatViewPola> wybranewierszeewidencji;
     private List<EVatViewPola> zachowanewybranewierszeewidencji;
@@ -388,6 +392,8 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setNetto(ewidwiersz.getNetto());
                         wiersz.setVat(ewidwiersz.getVat());
                         wiersz.setOpizw(ewidwiersz.getEstawka());
+                        Rodzajedok r = rodzajedokDAO.find(ewidwiersz.getDok().getTypdokumentu(), wpisView.getPodatnikObiekt());
+                        wiersz.setProcentvat(r.getProcentvat());
                         listadokvatprzetworzona.add(wiersz);
                     }
                 }
@@ -410,6 +416,7 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getWiersz().getOpisWiersza());
+                    eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
                 } else {
                     eVatViewPole.setDataSprz(ewidwiersz.getDokfk().getDataoperacji());
                     eVatViewPole.setDataWyst(ewidwiersz.getDokfk().getDatadokumentu());
@@ -418,6 +425,7 @@ public class EwidencjaVatView implements Serializable {
                     eVatViewPole.setNrKolejny(nrdok);
                     eVatViewPole.setNrWlDk(ewidwiersz.getDokfk().getNumerwlasnydokfk());
                     eVatViewPole.setOpis(ewidwiersz.getDokfk().getOpisdokfk());
+                    eVatViewPole.setProcentvat(ewidwiersz.getDokfk().getRodzajedok().getProcentvat());
                 }
                 eVatViewPole.setId(k++);
                 eVatViewPole.setNazwaewidencji(ewidwiersz.getEwidencja());

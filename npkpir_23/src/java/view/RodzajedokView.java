@@ -54,6 +54,20 @@ public class RodzajedokView implements Serializable {
         try {
             listaWspolnych = rodzajedokDAO.findListaWspolne();
             listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            //automatycznie uzupelnia liste podatnika o nowo dodane do wzorcow
+            if (!wpisView.getPodatnikObiekt().getNip().equals("0001005008")) {
+                for (Rodzajedok zrodlo : listaWspolnych) {
+                    boolean znaleziono = false;
+                    for (Rodzajedok docelowy : listaPodatnika) {
+                        if ( zrodlo.getSkrot().equals(docelowy.getSkrot())) {
+                            znaleziono = true;
+                        }
+                    }
+                    if (znaleziono == false) {
+                        rodzajedokDAO.dodaj(new Rodzajedok(zrodlo, wpisView.getPodatnikObiekt()));
+                    }
+                }
+            }
         } catch (Exception e) { E.e(e); 
         }
 

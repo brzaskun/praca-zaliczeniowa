@@ -359,9 +359,10 @@ public final class DokView implements Serializable {
             }
             //obliczam 23% dla pierwszego
             ewidencjaAddwiad.get(0).setNetto(sumanetto);
+            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
             if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
                 ewidencjaAddwiad.get(0).setVat(0.0);
-            } else if (skrotRT.contains("ZZP")) {
+            } else if (r.getProcentvat() != 0.0) {
                 ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
                 ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
                 sumbrutto = ewidencjaAddwiad.get(0).getNetto() + (ewidencjaAddwiad.get(0).getNetto() * 0.23);
@@ -437,10 +438,11 @@ public final class DokView implements Serializable {
             double stawkaint = Double.parseDouble(stawkavat) / 100;
             ewidencjaAddwiad.get(lp).setVat(e.getNetto() * stawkaint);
         } catch (Exception ex) {
+            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
             String opis = ewidencjaAddwiad.get(lp).getOpis();
             if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
                 ewidencjaAddwiad.get(0).setVat(0.0);
-            } else if (skrotRT.contains("ZZP")) {
+            } else if (r.getProcentvat() != 0.0) {
                 ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
             } else {
                 ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
@@ -498,7 +500,8 @@ public final class DokView implements Serializable {
             } else {
                 ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
                 String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
-                if (skrotRT.contains("ZZP")) {
+                Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
+                if (r.getProcentvat() != 0.0) {
                     sumbrutto = e.getNetto() + (e.getVat() * 2);
                 } else {
                     sumbruttoAddwiad();
@@ -697,7 +700,8 @@ public final class DokView implements Serializable {
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
-            if (selDokument.getTypdokumentu().equals("ZZP") && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
+            Rodzajedok r = rodzajedokDAO.find(selDokument.getTypdokumentu(), podatnikWDokumencie);
+            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(kwotavat, "poz. koszty");
                 selDokument.getListakwot1().add(kwotaKolumna);
             }

@@ -34,6 +34,11 @@
                 <p:column headerText="kategoria" style="text-align: center;">
                     <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': 'płatność')))}" />
                 </p:column>
+                <p:column headerText="% VAT" width="30" style="text-align: right;">
+                    <h:outputText value="#{loop.procentvat}">
+                        <f:convertNumber integerOnly="true"/>
+                    </h:outputText>
+                </p:column>
                  <p:column headerText="automat" style="text-align: center;">
                      <h:outputText value="#{loop.niepokazuj eq true ? 'n/p' : null}" />
                 </p:column>
@@ -52,7 +57,7 @@
             <h:outputText value="skrót: " />
             <h:inputText value="#{rodzajedokView.wprowadzany.rodzajedokPK.skrotNazwyDok}" />
             <h:outputText value=" nazwa pelna: " />
-            <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" />
+            <h:inputText value="#{rodzajedokView.wprowadzany.nazwa}" style="width: 400px;"/>
             <h:outputText value=" rodzaj transakcji: " />
             <h:selectOneMenu value="#{rodzajedokView.wprowadzany.rodzajtransakcji}" >
                 <f:selectItems value="#{Trans.transListView}"/>
@@ -68,12 +73,17 @@
                 <f:selectItem itemLabel="dokument prosty" itemValue="5"/>
                 <f:selectItem itemLabel="#{mgs.płatności}" itemValue="0"/>
             </h:selectOneMenu>
+            <h:outputText value=" procent VAT**: " />
+            <p:inputText value="#{rodzajedokView.wprowadzany.procentvat}" maxlength="2" validatorMessage="Wprowadz procent od 1 do 99">
+                <f:validateLongRange minimum="0" maximum="99"/>
+                <f:convertNumber integerOnly="true" type="number" />
+            </p:inputText>
             <h:outputText value=" dokument automatyczny: " />
             <p:selectBooleanCheckbox value="#{rodzajedokView.wprowadzany.niepokazuj}"/>
         </p:panelGrid>
         <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
-            <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update=":form:dokLista"/>
-            <p:commandButton  actionListener="#{rodzajedokView.edytuj()}" value="edytuj dokument" update=":form:dokLista"/>
+            <p:commandButton  actionListener="#{rodzajedokView.dodaj()}" value="dodaj dokument" update=":form"/>
+            <p:commandButton  actionListener="#{rodzajedokView.edytuj()}" value="edytuj dokument" update=":form"/>
         </p:panelGrid>
     </h:form>
 </ui:composition>   

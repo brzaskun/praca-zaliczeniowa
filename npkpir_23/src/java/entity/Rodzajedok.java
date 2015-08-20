@@ -95,6 +95,21 @@ public class Rodzajedok implements Serializable {
     public Rodzajedok(RodzajedokPK rodzajedokPK) {
         this.rodzajedokPK = rodzajedokPK;
     }
+    
+    public Rodzajedok(Rodzajedok rodzajedok, Podatnik podatnik) {
+        this.rodzajedokPK = new RodzajedokPK(rodzajedok.getSkrot(), podatnik.getNazwapelna());
+        this.de = rodzajedok.getDe();
+        this.kategoriadokumentu = rodzajedok.getKategoriadokumentu();
+        this.nazwa = rodzajedok.getNazwa();
+        this.niepokazuj = rodzajedok.isNiepokazuj();
+        this.podatnikObj = podatnik;
+        this.pokazkg = rodzajedok.isPokazkg();
+        this.pokazszt = rodzajedok.isPokazszt();
+        this.procentvat = rodzajedok.getProcentvat();
+        this.rodzajtransakcji = rodzajedok.getRodzajtransakcji();
+        this.skrot = rodzajedok.getSkrot();
+        this.wzorzec = rodzajedok.getWzorzec();
+    }
 
     
     public Rodzajedok(String skrot) {

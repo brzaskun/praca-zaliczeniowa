@@ -85,7 +85,7 @@ public class DokFKVATBean {
         }
         if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
             evatwpis.setVat(0.0);
-        } else if (skrotRT.contains("ZZP")) {
+        } else if (selected.getRodzajedok().getProcentvat() != 0.0) {
             evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
@@ -331,11 +331,11 @@ public class DokFKVATBean {
                 }
                 int lpnastepnego = 2;
                 int limitwierszy = 1;
-                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                if (selected.getRodzajedok().getProcentvat() != 0.0) {
                    wartosciVAT[1] = wartosciVAT[4];
                    wartosciVAT[3] = wartosciVAT[6];
                 }
-                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                if (selected.getRodzajedok().getProcentvat() != 0.0) {
                        dolaczwiersz2_3Koszt(wartosciVAT, w, 2, 1, selected, kontoDAOfk, wpisView);
                        lpnastepnego++;
                        limitwierszy++;
@@ -489,11 +489,11 @@ public class DokFKVATBean {
                     }
                 }
                 int lpnastepnego = 2;
-                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                if (selected.getRodzajedok().getProcentvat() != 0.0) {
                    wartosciVAT[1] = wartosciVAT[4];
                    wartosciVAT[3] = wartosciVAT[6];
                 }
-                if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                if (selected.getRodzajedok().getProcentvat() != 0.0) {
                        dolaczwiersz2_3KosztEdit(wartosciVAT, w, 1, 1, selected);
                        lpnastepnego++;
                 }
@@ -502,7 +502,7 @@ public class DokFKVATBean {
                     wierszdrugi.getStronaWn().setKwota(wartosciVAT[0]);
                     dolaczwiersz2_3Edit(wartosciVAT, w, lpnastepnego+1, 0, selected);
                 } else if (!wpisView.isFKpiatki() && wartosciVAT[1] != 0.0 && wartosciVAT[0] != 0.0) {
-                    if (selected.getRodzajedok().getSkrot().equals("ZZP")) {
+                    if (selected.getRodzajedok().getProcentvat() != 0.0) {
                         dolaczwiersz2_3Edit(wartosciVAT, w, 2, 0, selected);
                     } else {
                         dolaczwiersz2_3Edit(wartosciVAT, w, 1, 0, selected);
