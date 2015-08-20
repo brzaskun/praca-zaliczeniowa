@@ -38,9 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 //@Table(name = "wiersz")
-@Table(name = "wiersz", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
-})
+//@Table(name = "wiersz", uniqueConstraints = {
+//    @UniqueConstraint(columnNames = {"idwiersza, idporzadkowy, nrkolejnywserii, rok, podatnikObj, seriadokfk"})
+//})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Wiersz.findAll", query = "SELECT w FROM Wiersz w"),
@@ -337,28 +337,7 @@ public class Wiersz implements Serializable {
     }
   
    
-   
-   
-
-//    @Override
-//    public boolean equals(Object obj) {
-//        if (obj == null) {
-//            return false;
-//        }
-//        if (getClass() != obj.getClass()) {
-//            return false;
-//        }
-//        final Wiersz other = (Wiersz) obj;
-//        if (!Objects.equals(this.idporzadkowy, other.idporzadkowy)) {
-//            return false;
-//        }
-//        if (!Objects.equals(this.dokfk, other.dokfk)) {
-//            return false;
-//        }
-//        return true;
-//    }
-
-    @Override
+     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

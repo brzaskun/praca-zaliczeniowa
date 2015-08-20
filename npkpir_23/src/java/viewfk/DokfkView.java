@@ -1167,12 +1167,11 @@ public class DokfkView implements Serializable {
 
     public void przygotujDokumentEdycja(Dokfk wybranyDokfk, Integer row) {
         try {
-            dokDAOfk.refresh(wybranyDokfk);
             if (wybranyDokfk.iswTrakcieEdycji() == true) {
                 wybranyDokfk.setwTrakcieEdycji(true);
                 Msg.msg("e", "Dokument został otwarty do edycji przez inną osobę. Nie można go wyedytować");
             } else {
-                selected = wybranyDokfk;
+                selected = dokDAOfk.findDokfkObj(wybranyDokfk);
                 //selected.setwTrakcieEdycji(true);
                 //dokDAOfk.edit(selected);
                 wybranaTabelanbp = selected.getTabelanbp();

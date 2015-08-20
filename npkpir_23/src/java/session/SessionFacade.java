@@ -123,6 +123,7 @@ public class SessionFacade<T> implements Serializable {
 
     public void edit(T entity) {
         getEntityManager().merge(entity);
+        em.flush();
     }
     
     public void edit(List<T> entityList) {
