@@ -65,6 +65,7 @@ import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -190,6 +191,7 @@ public class DokfkView implements Serializable {
     private String komunikatywpisdok;
     private Integer lpwierszaRK;
     private Klienci klientdlaPK;
+    private InputText miesiacksiegowania;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -232,6 +234,7 @@ public class DokfkView implements Serializable {
         Rodzajedok rodzajDokPoprzedni = null;
         Klienci ostatniklient = null;
         komunikatywpisdok = null;
+        miesiacksiegowania.setStyle("font-weight: initial; width: 40px;");
         if (selected != null) {
             symbolPoprzedniegoDokumentu = selected.pobierzSymbolPoprzedniegoDokfk();
             rodzajDokPoprzedni = selected.getRodzajedok();
@@ -965,6 +968,11 @@ public class DokfkView implements Serializable {
                 if (!mc.equals(selected.getMiesiac())) {
                     selected.setMiesiac(mc);
                     selected.setVatM(mc);
+                    if (!mc.equals(wpisView.getMiesiacWpisu())) {
+                        miesiacksiegowania.setStyle("color: red; font-weight: 700; width: 40px;");
+                    } else {
+                        miesiacksiegowania.setStyle("font-weight: initial; width: 40px;");
+                    }
                     RequestContext.getCurrentInstance().update("formwpisdokument:miesiac");
                     RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
                 }
@@ -2521,6 +2529,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public InputText getMiesiacksiegowania() {
+        return miesiacksiegowania;
+    }
+
+    public void setMiesiacksiegowania(InputText miesiacksiegowania) {
+        this.miesiacksiegowania = miesiacksiegowania;
     }
 
     public String getKomunikatywpisdok() {
