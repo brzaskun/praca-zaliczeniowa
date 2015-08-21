@@ -345,6 +345,10 @@ public class WriteXLSFile {
             columnIndex = 0;
             ustawWiersz(workbook, row, columnIndex, st, rowIndex);
         }
+//        sheet.createRow(rowIndex++);//pusty row
+        if (headers.size()> 3) {
+            rowIndex = summaryRow(startindex, rowIndex, workbook, sheet, typ, nazwasumy);
+        }
         autoAlign(sheet);
         return rowIndex;
     }

@@ -41,10 +41,10 @@ public class Parametr implements Serializable {
                     mcDoI = Integer.parseInt(p.getMcDo());
                     rokDoI = Integer.parseInt(p.getRokDo());
                 }
-                if (rokOdI < rokI && rokDoI == 0) {
+                if (rokOdI <= rokI && rokDoI == 0) {
                         par = p;
                         break;
-                } else if ((rokOdI < rokI && rokDoI > rokI)) {
+                } else if ((rokOdI <= rokI && rokDoI >= rokI)) {
                     if (mcOdI <= mcI && mcDoI >= mcI) {
                         par = p;
                         break;

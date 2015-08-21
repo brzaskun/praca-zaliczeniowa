@@ -58,11 +58,10 @@
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
                 
-                <p:splitButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update="@form :formY" icon="ui-icon-disk">  
-                    <p:menuitem value="Edytuj" actionListener="#{KlView.edit()}" update="@form :formY" icon="ui-icon-arrowrefresh-1-w"/>  
+                <p:splitButton value="Dodaj" actionListener="#{KlView.dodajKlienta()}" update=":formX :formY" icon="ui-icon-disk">  
+                    <p:menuitem value="Edytuj" actionListener="#{KlView.edit()}" update=":formX :formY" icon="ui-icon-arrowrefresh-1-w"/>  
                 </p:splitButton>  
-  
-            
+              
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania1" columns="5" >
                 <h:outputLabel value="kraj*" style="font-weight: 700"/>
@@ -97,9 +96,9 @@
                  paginator="true" paginatorAlwaysVisible="true" rows="20"
                  paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                  rowsPerPageTemplate="20,28,36,50" filteredValue="#{KlView.klienciFiltered}"
-                 rowKey="#{wpis.npelna}" selection="#{KlView.selected}" 
+                 rowKey="#{wpis}" selection="#{KlView.selectedtablica}" 
                  emptyMessage="Nie ma klientów" style="margin-left: 2%; max-width: 1200px;">
-            <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update="@form :formX" />
+            <p:ajax event="rowSelectRadio" listener="#{KlView.wybranodoedycji}" update=":formY :formX" global="false"/>
             <p:ajax event="filter" global="false"/>
         <f:facet name="header">  
             <h:outputText value="Wykaz klientów" />  
