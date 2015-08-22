@@ -181,11 +181,11 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         return false;
     }
     
-    public void drukuj(int i) {
+    public void drukuj(int i, int polowaroku) {
         if (listaSaldoKontoSelected==null) {
-            PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0);
+            PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0, polowaroku);
         } else {
-            PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0);
+            PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0, polowaroku);
         }
     }
 }

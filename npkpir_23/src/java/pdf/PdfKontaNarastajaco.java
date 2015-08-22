@@ -38,14 +38,14 @@ import view.WpisView;
 @Stateless
 public class PdfKontaNarastajaco {
     
-    public static void drukuj(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1) {
+    public static void drukuj(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, int polowaroku) {
         try {
             String nazwapliku = "konta-" + wpisView.getPodatnikWpisu() + ".pdf";
             File file = Plik.plik(nazwapliku, true);
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1);
+            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, polowaroku);
             Msg.msg("Wydruk zestawienia obrotów sald narastająco");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia obrotów sald");
@@ -53,7 +53,7 @@ public class PdfKontaNarastajaco {
         }
     }
 
-    private static void drukujcd(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, int polowaroku)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A3.rotate(), 5,5,5,5);
         PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
@@ -62,7 +62,11 @@ public class PdfKontaNarastajaco {
         document.addKeywords("Wynik Finansowy, PDF");
         document.addCreator("Grzegorz Grzelczyk");
         document.open();
-        document.add(tablica(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
+        if (polowaroku == 1) {
+            document.add(tablica(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
+        } else {
+            document.add(tablica2(wpisView, listaSaldoKonto, rodzajdruku, analit0synt1));
+        }
         document.close();
         Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
@@ -107,6 +111,66 @@ public class PdfKontaNarastajaco {
             table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
             table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 8));
             for (int j = 0 ; j < 6 ; j ++ ) {
+                if (j < granica) {
+                    SaldoKontoNarastajaco.Obrotymca numerlisty = rs.getObrotymiesiecy().get(j);
+                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyWn() != 0 ? formatujLiczba(numerlisty.getObrotyWn()) : "", "right", 8));
+                    table.addCell(ustawfrazeAlign(numerlisty.getObrotyMa() != 0 ? formatujLiczba(numerlisty.getObrotyMa()) : "", "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                }
+            }
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 8));
+        }
+        } catch (IOException ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return table;
+    }
+    
+    private static PdfPTable tablica2(WpisView wpisView, List<SaldoKontoNarastajaco> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
+        PdfPTable table = new PdfPTable(21);
+        table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidthPercentage(100);
+        int granica = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        try {
+            table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 4, 0));
+            table.addCell(ustawfraze(B.b("zestawienieobrotówkontanalitycznych")+ ": " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt(), 17, 0));
+            table.addCell(ustawfraze(B.b("lp"), 0, 1));
+            table.addCell(ustawfraze(B.b("numerkonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("nazwakonta"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 07", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 07", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 08", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 08", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 09", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 09", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 10", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 10", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 11", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 11", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn")+" 12", 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa")+" 12", 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.addCell(ustawfrazeSpanFont("Biuro Rachunkowe Taxman - zestawienie obrotów sald analitycznych narastająco", 21, 0, 5));
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+        int i = 1;
+        for (SaldoKontoNarastajaco rs : listaSaldoKonto) {
+            table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8));
+            table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
+            table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 8));
+            for (int j = 6 ; j < 12 ; j ++ ) {
                 if (j < granica) {
                     SaldoKontoNarastajaco.Obrotymca numerlisty = rs.getObrotymiesiecy().get(j);
                     table.addCell(ustawfrazeAlign(numerlisty.getObrotyWn() != 0 ? formatujLiczba(numerlisty.getObrotyWn()) : "", "right", 8));
