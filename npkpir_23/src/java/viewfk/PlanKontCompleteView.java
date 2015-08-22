@@ -94,6 +94,11 @@ public class PlanKontCompleteView implements Serializable {
                 p.setNazwapelna("dodaj konto");
                 p.setPelnynumer(query);
                 results.add(p);
+                p = new Konto();
+                p.setNazwapelna("dodaj kontrahenta");
+                p.setPelnynumer(query);
+                results.add(p);
+
             }
             return results;
         }

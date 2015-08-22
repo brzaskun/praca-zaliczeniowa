@@ -1,0 +1,47 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:f="http://java.sun.com/jsf/core">
+    <p:dialog header="Wpisz dane kontrahenta dla nowego konta" widgetVar="dialog_wpisywanie_znajdzkontrahenta" 
+              resizable="false" id="dialog_wpisywanie_znajdzkontrahenta" modal="true" appendTo="@(body)"
+              onShow="dialog_wpisywanie_znajdzkontrahentakontoShow();" closeOnEscape="true" onHide="resetujdialog('dialog_wpisywanie_znajdzkontrahenta');"
+              focus="form_dialog_wpisywanie_znajdzkontrahenta:numernip">  
+        <h:form id="form_dialog_wpisywanie_znajdzkontrahenta">  
+            <p:focus for="dkp">
+                <p:panelGrid id="dkp" columns="2" style="width: 400px;">
+                    <h:outputLabel value="Wpisz nazwę lub nip kontrahenta" />
+                    <p:autoComplete id="numernip" value="#{kliencifkView.wybranyklient}" completeMethod="#{klienciConverterView.completeKL}"
+                                    valueChangeListener="#{kliencifkView.kopiujwybranyklient}"
+                                    var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                    minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
+                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
+                                    style="width: 250px;">
+                        <p:ajax event="query" global="false"/>
+                        <p:ajax event="itemSelect" global="false" partialSubmit="true" update=":form_dialog_wpisywanie_znajdzkontrahenta:dodajbutton"/>
+                        <f:facet name="itemtip">  
+                            <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                <f:facet name="header">  
+                                    <h:outputText value="Dane kontrahenta"/>
+                                </f:facet>  
+                                <h:outputText value="Nazwa: " />  
+                                <h:outputText id="npelna" value="#{p.npelna}" />  
+                                <h:outputText value="NIP: " />  
+                                <h:outputText id="nip" value="#{p.nip}" />  
+                                <h:outputText value="Adres " />  
+                                <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                            </h:panelGrid>
+                        </f:facet>
+                    </p:autoComplete>
+                    <p:commandButton id="dodajbutton" value="dodaj" actionListener="#{kliencifkView.dolaczanieKontrDoSlownikowych()}" type="submit" update=":form_dialog_wpisywanie_znajdzkontrahenta, :formwpisdokument:dataList, :parametrynowekonto" 
+                                     style="margin-left: 15px; float: left; margin-top: 15px; width: 120px;" oncomplete="odtworzwierszKontoWpisKontrahent('#{kliencifkView.wybranyklient1.npelna}');PF('dialog_wpisywanie_znajdzkontrahenta').hide();">
+                    </p:commandButton>
+                    <p:commandButton value="anuluj" style="margin-right: 15px; margin-top: 15px; float: right; width: 120px;" oncomplete="odtworzwierszKontoWpisKontrahent();PF('dialog_wpisywanie_znajdzkontrahenta').hide();" update=":parametrynowekonto"/>
+                </p:panelGrid>
+            </p:focus>
+        </h:form>  
+    </p:dialog> 
+
+</ui:composition>

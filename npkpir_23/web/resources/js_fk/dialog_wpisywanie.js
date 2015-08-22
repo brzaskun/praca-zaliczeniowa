@@ -70,6 +70,30 @@ var odtworzwierszKontoWpis = function() {
     }
 };
 
+var odtworzwierszKontoWpisKontrahent = function(nazwakontrahenta) {
+    document.getElementById("parametrynowekonto:jest1niema0").value = "1";
+    var id = parseInt(MYAPP.dodajnowekontoLP)-1;
+    var strona  = MYAPP.dodajnowekontoStrona;
+    var stronawiersza;
+    var widget;
+    if (strona === "Wn") {
+        stronawiersza = "formwpisdokument:dataList:"+id+":kontown_input";
+        widget = "complWn"+MYAPP.dodajnowekontoLP;
+    } else {
+        stronawiersza = "formwpisdokument:dataList:"+id+":kontoma_input";
+        widget = "complMa"+MYAPP.dodajnowekontoLP;
+    }
+    if (stronawiersza) {
+        rj(stronawiersza).value = nazwakontrahenta;
+        PF(widget).search(nazwakontrahenta);
+        r(stronawiersza).focus();
+        r(stronawiersza).select();
+        delete MYAPP.dodajnowekontoStrona;
+        delete MYAPP.dodajnowekontoLP;
+        delete MYAPP.nrnowegokonta;
+    }
+};
+
 
 var wpisywanieOnShow = function (szer, wys) {
     try {
@@ -256,7 +280,24 @@ var dialog_wpisywanie_dodajkontoShow = function (){
     });
     r("form_dialog_wpisywanie_dodajkonto:numerkonta").focus();
     } catch (Exception) {
-        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 214 "+Exception);
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 247 "+Exception);
+    }
+    
+};
+
+var dialog_wpisywanie_znajdzkontrahentakontoShow = function (){
+    $(document.getElementById('dialog_wpisywanie_znajdzkontrahenta')).width(420).height(140);
+    try {
+        $(document.getElementById('dialog_wpisywanie_znajdzkontrahenta')).position({
+        my: "center center",
+        at: "center center",
+        of: $(document.getElementById('dialogpierwszy')),
+        collision: "none none"
+        
+    });
+    r("form_dialog_wpisywanie_znajdzkontrahenta:numernip_input").focus();
+    } catch (Exception) {
+        alert ("blad w fukncji ustawdialog w pliku dialog_wpisywanie.js wiersz 264 "+Exception);
     }
     
 };
@@ -632,7 +673,7 @@ var dodajnowekontoWpis = function(lp,wnma) {
     MYAPP.dodajnowekontoStrona = wnma;
     MYAPP.dodajnowekontoLP = lp;
     var jest1niema0 = document.getElementById("parametrynowekonto:jest1niema0").value;
-    if (jest1niema0 === "0") {
+    if (jest1niema0 !== "1") {
         var id = parseInt(lp)-1;
         var nrkonta;
         if (wnma === "Wn") {
@@ -644,7 +685,11 @@ var dodajnowekontoWpis = function(lp,wnma) {
         }
         nrkonta = nrkonta.split(" ")[0];
         document.getElementById("form_dialog_wpisywanie_dodajkonto:numerkonta").value = nrkonta;
+    }
+    if (jest1niema0 === "0") {
         PF('dialog_wpisywanie_dodajkonto').show();
+    } else if (jest1niema0 === "11") {
+        PF('dialog_wpisywanie_znajdzkontrahenta').show();
     }
 };
 

@@ -26,6 +26,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -44,6 +45,7 @@ public class KliencifkView implements Serializable {
     private KlienciDAO klienciDAO;
     @Inject
     private Klienci wybranyklient;
+    private Klienci wybranyklient1;
     private List<Klienci> listawszystkichklientow;
     private List<Kliencifk> listawszystkichklientowFk;
     @Inject
@@ -80,6 +82,13 @@ public class KliencifkView implements Serializable {
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
     }
 
+    public void dolaczanieKontrDoSlownikowych() {
+        int wynik = pobieraniekontaFK();
+        if (wynik == 1) {
+            pobieraniekontaFKWpisCD();
+        }
+    }
+    
     public void pobieraniekontaFKWpis() {
         if (dokfkView.isNiedodawajkontapole() == false) {
             if (dokfkView.getRodzajBiezacegoDokumentu() != 0 && dokfkView.getRodzajBiezacegoDokumentu() != 5) {
@@ -150,6 +159,11 @@ public class KliencifkView implements Serializable {
         klientMaKonto = new Kliencifk();
         klientBezKonta = new Kliencifk();
     }
+    
+    public void kopiujwybranyklient(ValueChangeEvent e) {
+        wybranyklient1 = serialclone.SerialClone.clone((Klienci) e.getNewValue());
+        System.out.println("e");
+    }
 
     private String pobierznastepnynumer() {
         try {
@@ -212,6 +226,14 @@ public class KliencifkView implements Serializable {
 
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
+    }
+
+    public Klienci getWybranyklient1() {
+        return wybranyklient1;
+    }
+
+    public void setWybranyklient1(Klienci wybranyklient1) {
+        this.wybranyklient1 = wybranyklient1;
     }
 
     public Kliencifk getSelected() {

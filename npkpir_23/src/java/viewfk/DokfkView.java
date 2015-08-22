@@ -1527,8 +1527,12 @@ public class DokfkView implements Serializable {
         } else {
             pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
         }
+        //11 dodaje nowego klienta
         if (pole.contains("dodaj konto")) {
             jest1niema0_konto = 0;
+            return;
+        } else if (pole.contains("dodaj kontrahenta")) {
+            jest1niema0_konto = 11;
             return;
         } else {
             jest1niema0_konto = 1;
