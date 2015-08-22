@@ -272,20 +272,14 @@ public class DokFKTransakcjeBean implements Serializable{
     
     public static int sprawdzrozliczoneWiersze(List<Wiersz> listawierszy) {
         int iloscrozliczonychwierszy = 0;
-        List<StronaWiersza> stronywiersza = new ArrayList<>();
         for (Wiersz p : listawierszy) {
             if (p.getTypWiersza() == 0) {
-                stronywiersza.add(p.getStronaWn());
-                stronywiersza.add(p.getStronaMa());
+                iloscrozliczonychwierszy += p.getStronaWn().getTypStronaWiersza();
+                iloscrozliczonychwierszy += p.getStronaMa().getTypStronaWiersza();
             } else if (p.getTypWiersza() == 1) {
-                stronywiersza.add(p.getStronaWn());
+                iloscrozliczonychwierszy += p.getStronaWn().getTypStronaWiersza();
             } else if (p.getTypWiersza() == 2) {
-                stronywiersza.add(p.getStronaMa());
-            }
-        }
-        for (StronaWiersza r : stronywiersza) {
-            if (r.getTypStronaWiersza() != 0) {
-                iloscrozliczonychwierszy++;
+                iloscrozliczonychwierszy += p.getStronaMa().getTypStronaWiersza();
             }
         }
         return iloscrozliczonychwierszy;

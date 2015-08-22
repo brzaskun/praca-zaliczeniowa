@@ -921,6 +921,7 @@ public class DokfkView implements Serializable {
     }
 
     public void znajdzduplicatdokumentuKontrahent() {
+        wlaczZapiszButon = true;
         if (zapisz0edytuj1 == false && selected.getKontr() != null && !selected.getKontr().getNpelna().equals("nowy kontrahent")) {
             Dokfk dokument = null;
             try {
@@ -1188,12 +1189,18 @@ public class DokfkView implements Serializable {
                 obsluzcechydokumentu();
                 Msg.msg("i", "Wybrano dokument do edycji " + wybranyDokfk.getDokfkPK().toString());
                 zapisz0edytuj1 = true;
-                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                if (rodzajBiezacegoDokumentu == 0) {
                     pokazPanelWalutowy = true;
                 } else {
                     pokazPanelWalutowy = false;
                 }
-                rodzajBiezacegoDokumentu = selected.getRodzajedok().getKategoriadokumentu();
+                selected.setLiczbarozliczonych(DokFKTransakcjeBean.sprawdzrozliczoneWiersze(selected.getListawierszy()));
+                if (selected.getLiczbarozliczonych() > 0) {
+                    selected.setZablokujzmianewaluty(true);
+                } else {
+                    selected.setZablokujzmianewaluty(false);
+                }
 //                if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
 //                    saldoinnedok = obliczsaldopoczatkowe();
 //                    selected.setSaldopoczatkowe(Z.z(saldoinnedok));

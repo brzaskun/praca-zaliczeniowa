@@ -223,7 +223,7 @@
                                                     forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
-                                        <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:wybranawaluta"/>
+                                        <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
                                         <p:ajax event="focus" listener="#{dokfkView.pobierzopiszpoprzedniegodokItemSelect}" update=":formwpisdokument:opisdokumentu" global="false"/>
                                         <p:ajax event="blur" listener="#{dokfkView.znajdzduplicatdokumentuKontrahent}" partialSubmit="true" global="false"  update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();"/>
                                         <p:ajax event="itemSelect" oncomplete="dodajnowegoklienta();" global="false"/>
@@ -270,9 +270,16 @@
                                     </p:row>
                                 </f:facet>
                                 <p:row>
-                                    <p:column>
-                                        <h:selectOneMenu id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" valueChangeListener="#{dokfkView.pobierzkursNBP}" 
-                                                         readonly="#{dokfkView.selected.zablokujzmianewaluty}" immediate="true"
+                                    <p:column rendered="#{dokfkView.wlaczZapiszButon eq false}">
+                                        <h:outputText  id="wybranawalutaR" value="#{dokfkView.selected.walutadokumentu.symbolwaluty}" 
+                                                         style="height: 19px;"
+                                                         >
+                                        </h:outputText>
+                                    </p:column>
+                                <p:column rendered="#{dokfkView.wlaczZapiszButon eq true}">
+                                        <h:selectOneMenu  id="wybranawaluta" value="#{dokfkView.selected.walutadokumentu}" 
+                                                         valueChangeListener="#{dokfkView.pobierzkursNBP}" 
+                                                         immediate="true"
                                                          styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" converter="WalutyConv"
                                                          onfocus="$(this).removeClass('ui-state-default');
                                                                  $(this).addClass('ui-state-focus');"
