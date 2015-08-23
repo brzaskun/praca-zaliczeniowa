@@ -6,8 +6,7 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    
-    <p:tabView id="akordeon" style="max-width: 1200px; min-width: 900px;" activeIndex="#{fakturaView.aktywnytab}" >
+    <p:tabView id="akordeon" styleClass="tabakordeonbilans" style="max-width: 1200px; min-width: 900px;" activeIndex="3" >
         <ui:include src="/wspolny/sub/bilanse/kontanalityczne.xhtml"/>
         <ui:include src="/wspolny/sub/bilanse/kontanalitycznenarastajaco.xhtml"/>
         <ui:include src="/wspolny/sub/bilanse/kontasyntetyczne.xhtml"/>

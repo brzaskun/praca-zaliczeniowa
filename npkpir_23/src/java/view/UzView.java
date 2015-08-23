@@ -54,9 +54,11 @@ public class UzView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private Panel panelrejestracji;
+    private List<DemoWiersz> polademo;
 
     public UzView() {
         obiektUZjsf = new ArrayList<>();
+        polademo = new ArrayList<>();
     }
 
     @PostConstruct
@@ -71,6 +73,9 @@ public class UzView implements Serializable {
         }
         selUzytkownik = wpisView.getWprowadzil();
         nowymail = selUzytkownik.getEmail();
+        polademo.add(new DemoWiersz("1", "pozycja1", "pozycja1a", "pozycja1b"));
+        polademo.add(new DemoWiersz("2", "pozycja2", "pozycja2a", "pozycja2b"));
+        polademo.add(new DemoWiersz("3", "pozycja3", "pozycja3a", "pozycja3b"));
     }
 
     public void dodaj() {
@@ -281,6 +286,14 @@ public class UzView implements Serializable {
         this.panelrejestracji = panelrejestracji;
     }
 
+    public List<DemoWiersz> getPolademo() {
+        return polademo;
+    }
+
+    public void setPolademo(List<DemoWiersz> polademo) {
+        this.polademo = polademo;
+    }
+
     public String getNowymail() {
         return nowymail;
     }
@@ -363,4 +376,58 @@ public class UzView implements Serializable {
     }
 
     //</editor-fold>
+
+    public static class DemoWiersz {
+
+        public String lp;
+        public String opis1;
+        public String opis2;
+        public String opis3;
+        
+        public DemoWiersz() {
+        }
+
+        public DemoWiersz(String lp, String opis1, String opis2, String opis3) {
+            this.lp = lp;
+            this.opis1 = opis1;
+            this.opis2 = opis2;
+            this.opis3 = opis3;
+        }
+        
+
+        public String getLp() {
+            return lp;
+        }
+
+        public void setLp(String lp) {
+            this.lp = lp;
+        }
+
+        public String getOpis1() {
+            return opis1;
+        }
+
+        public void setOpis1(String opis1) {
+            this.opis1 = opis1;
+        }
+
+        public String getOpis2() {
+            return opis2;
+        }
+
+        public void setOpis2(String opis2) {
+            this.opis2 = opis2;
+        }
+
+        public String getOpis3() {
+            return opis3;
+        }
+
+        public void setOpis3(String opis3) {
+            this.opis3 = opis3;
+        }
+        
+        
+        
+    }
 }

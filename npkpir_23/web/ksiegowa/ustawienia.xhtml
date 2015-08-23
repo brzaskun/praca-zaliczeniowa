@@ -28,8 +28,22 @@
                                     <f:selectItems value="#{themeSwitcherBean.themes}" />  
                                </p:themeSwitcher>
                             </p:panelGrid>
+                            <p:dataTable value="#{UzView.polademo}" var="wpis" style="400px">
+                                <p:column width="40" headerText="lp">
+                                    <h:outputText value="#{wpis.lp}"/>
+                                </p:column>
+                                <p:column headerText="tak będzie wyglądać">
+                                    <h:outputText value="#{wpis.opis1}"/>
+                                </p:column>
+                                <p:column headerText="następna">
+                                    <h:inputText value="#{wpis.opis2}"/>
+                                </p:column>
+                                <p:column headerText="tabela">
+                                    <h:outputText value="#{wpis.opis3}"/>
+                                </p:column>
+                            </p:dataTable>
                             <p:panelGrid id="polawprowadzania3" columns="1" >
-                                <p:commandButton value="zmień" action="#{UzView.zmienustawienia()}" accesskey="w"/>
+                                <p:commandButton value="zmień" action="#{UzView.zmienustawienia()}" accesskey="w" style="width: 120px;"/>
                             </p:panelGrid>
                         </p:panel>
                     </h:form>

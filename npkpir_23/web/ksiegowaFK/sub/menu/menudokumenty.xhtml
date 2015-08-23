@@ -36,6 +36,7 @@
 
                     <p:menuitem value="Dokumenty" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
                     <p:menuitem value="Wiersze" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
+                    <p:menuitem value="#{mgs.zestawienia}"  outcome="guestbilansFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
                     <p:menuitem value="WierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
                     <p:menuitem value="WierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
                 </p:menu>  
