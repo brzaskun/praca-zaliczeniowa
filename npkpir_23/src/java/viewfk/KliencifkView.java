@@ -83,7 +83,8 @@ public class KliencifkView implements Serializable {
     }
 
     public void dolaczanieKontrDoSlownikowych() {
-        int wynik = pobieraniekontaFK();
+        int wynik = 0;
+        wynik = pobieraniekontaFK();
         if (wynik == 1) {
             pobieraniekontaFKWpisCD();
         }

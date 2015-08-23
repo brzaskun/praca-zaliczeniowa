@@ -14,13 +14,13 @@
                 <p:panelGrid id="dkp" columns="2" style="width: 400px;">
                     <h:outputLabel value="Wpisz nazwę lub nip kontrahenta" />
                     <p:autoComplete id="numernip" value="#{kliencifkView.wybranyklient}" completeMethod="#{klienciConverterView.completeKL}"
-                                    valueChangeListener="#{kliencifkView.kopiujwybranyklient}"
+                                    valueChangeListener="#{kliencifkView.kopiujwybranyklient}" widgetVar="dialog_wpisywanie_znajdzkontrahenta_input"
                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
                                     forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                     style="width: 250px;">
                         <p:ajax event="query" global="false"/>
-                        <p:ajax event="itemSelect" global="false" partialSubmit="true" update=":form_dialog_wpisywanie_znajdzkontrahenta:dodajbutton"/>
+                        <p:ajax event="itemSelect" global="false" partialSubmit="true" oncomplete="dodajnowegoklientakonto();" update=":form_dialog_wpisywanie_znajdzkontrahenta:dodajbutton"/>
                         <f:facet name="itemtip">  
                             <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                 <f:facet name="header">  

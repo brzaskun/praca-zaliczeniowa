@@ -5,6 +5,7 @@
  */
 package viewfk;
 
+import beansFK.DokumentFKBean;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
@@ -26,6 +27,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -61,14 +63,19 @@ public class RozniceKursoweFKView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private double sumatransakcji;
 
     public RozniceKursoweFKView() {
         pobranetransakcje = new ArrayList<>();
     }
 
-    
+    @PostConstruct
     public void init() {
         pobranetransakcje = transakcjaDAO.findPodatnikRokRozniceKursowe(wpisView);
+        sumatransakcji = 0.0;
+        for (Transakcja p : pobranetransakcje) {
+            sumatransakcji += p.getRoznicekursowe();
+        }
         RequestContext.getCurrentInstance().update("transakcje");
     }
 
@@ -77,7 +84,7 @@ public class RozniceKursoweFKView implements Serializable {
         if (nrkolejny > 1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
-        Dokfk dokumentRKK = stworznowydokument(nrkolejny);
+        Dokfk dokumentRKK = DokumentFKBean.generujdokument(wpisView, klienciDAO, "RRK", "zaksięgowanie różnicC kursowych", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, pobranetransakcje, dokDAOfk);
         try {
             dokDAOfk.dodaj(dokumentRKK);
             Msg.msg("Zaksięgowano dokument RRK");
@@ -98,135 +105,6 @@ public class RozniceKursoweFKView implements Serializable {
         }
     }
 
-    private Dokfk stworznowydokument(int nrkolejny) {
-        Dokfk nd = new Dokfk("RRK", nrkolejny, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        ustawdaty(nd);
-        ustawkontrahenta(nd);
-        ustawnumerwlasny(nd);
-        nd.setOpisdokfk("zaksięgowanie róznic kursowych za: " + wpisView.getMiesiacWpisu() + "/" + wpisView.getRokWpisuSt());
-        nd.setPodatnikObj(wpisView.getPodatnikObiekt());
-        ustawrodzajedok(nd);
-        ustawtabelenbp(nd);
-        ustawwiersze(nd);
-        return nd;
-    }
-    
-     private void ustawdaty(Dokfk nd) {
-        String datadokumentu = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        nd.setDatadokumentu(datadokumentu);
-        nd.setDataoperacji(datadokumentu);
-        nd.setDatawplywu(datadokumentu);
-        nd.setDatawystawienia(datadokumentu);
-        nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(wpisView.getMiesiacWpisu());
-        nd.setVatR(wpisView.getRokWpisuSt());
-    }
-
-    private void ustawkontrahenta(Dokfk nd) {
-        try {
-            Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            nd.setKontr(k);
-        } catch (Exception e) {  E.e(e);
-            
-        }
-    }
-
-    private void ustawnumerwlasny(Dokfk nd) {
-        String numer = "1/"+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt()+"/RRK";
-        nd.setNumerwlasnydokfk(numer);
-    }
-    
-    private void ustawrodzajedok(Dokfk nd) {
-        Rodzajedok rodzajedok = rodzajedokDAO.find("RRK", wpisView.getPodatnikObiekt());
-        if (rodzajedok != null) {
-            nd.setRodzajedok(rodzajedok);
-        } else {
-            Msg.msg("e", "Brak zdefiniowanego dokumentu RKK");
-        }
-    }
-
-    private void ustawtabelenbp(Dokfk nd) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        nd.setTabelanbp(t);
-        Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-        nd.setWalutadokumentu(w);
-    }
-
-    private void ustawwiersze(Dokfk nd) {
-        nd.setListawierszy(new ArrayList<Wiersz>());
-        int idporzadkowy = 1;
-        for (Transakcja p : pobranetransakcje) {
-            Wiersz w = new Wiersz(idporzadkowy++, 0);
-            uzupelnijwiersz(w, nd);
-            String rozliczajacy = p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getRozliczajacy().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii();
-            String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: "+p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii(); 
-            String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy+" "+p.getNowaTransakcja().getId()+"/"+p.getRozliczajacy().getId(); 
-            w.setOpisWiersza(opiswiersza);
-            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView);
-            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView);
-            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView);
-            String walutarachunku = p.getNowaTransakcja().getSymbolWalut();
-            String walutaplatnosci = p.getRozliczajacy().getSymbolWalut();
-            boolean sazlotowki = walutarachunku.equals("PLN") || walutaplatnosci.equals("PLN") ? true : false;
-            double roznicakursowa = Math.abs(p.getRoznicekursowe());
-            if (p.getNowaTransakcja().getWnma().equals("Wn")) {
-                if (p.getRoznicekursowe() < 0) {
-                    StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
-                    if (sazlotowki) {
-                        konto755.setKonto(kosztyfinansowe);
-                    }
-                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
-                    w.setStronaWn(konto755);
-                    w.setStronaMa(kontoRozrachunku);
-                    w.getStronaWn().setKwotaPLN(roznicakursowa);
-                    w.getStronaMa().setKwotaPLN(roznicakursowa);
-                } else {
-                    StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
-                    if (sazlotowki) {
-                        konto755.setKonto(przychodyfinansowe);
-                    }
-                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
-                    w.setStronaWn(kontoRozrachunku);
-                    w.setStronaMa(konto755);
-                    w.getStronaWn().setKwotaPLN(roznicakursowa);
-                    w.getStronaMa().setKwotaPLN(roznicakursowa);
-                }
-                
-            } else {
-                if (p.getRoznicekursowe() > 0) {
-                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Ma", roznicakursowa, p.getNowaTransakcja().getKonto());
-                    StronaWiersza konto755 = new StronaWiersza(w, "Wn", roznicakursowa, kontoRozniceKursowe);
-                    if (sazlotowki) {
-                        konto755.setKonto(kosztyfinansowe);
-                    }
-                    w.setStronaWn(konto755);
-                    w.setStronaMa(kontoRozrachunku);
-                    w.getStronaWn().setKwotaPLN(roznicakursowa);
-                    w.getStronaMa().setKwotaPLN(roznicakursowa);
-                } else {
-                    StronaWiersza kontoRozrachunku = new StronaWiersza(w, "Wn", roznicakursowa, p.getNowaTransakcja().getKonto());
-                    StronaWiersza konto755 = new StronaWiersza(w, "Ma", roznicakursowa, kontoRozniceKursowe);
-                    if (sazlotowki) {
-                        konto755.setKonto(przychodyfinansowe);
-                    }
-                    w.setStronaWn(kontoRozrachunku);
-                    w.setStronaMa(konto755);
-                    w.getStronaWn().setKwotaPLN(roznicakursowa);
-                    w.getStronaMa().setKwotaPLN(roznicakursowa);
-                }
-            }
-            nd.getListawierszy().add(w);
-        }
-    }
-    
-     private void uzupelnijwiersz(Wiersz w, Dokfk nd) {
-        Tabelanbp t = tabelanbpDAO.findByTabelaPLN();
-        w.setTabelanbp(t);
-        w.setDokfk(nd);
-        w.setLpmacierzystego(0);
-        w.setTabelanbp(w.getTabelanbp());
-        w.setDataksiegowania(nd.getDatawplywu());
-    }
      
     public void przepiszTransakcjeNowePole() {
         List<Transakcja> lista = transakcjaDAO.findAll();
@@ -258,4 +136,13 @@ public class RozniceKursoweFKView implements Serializable {
         this.wpisView = wpisView;
     }
 
+    public double getSumatransakcji() {
+        return sumatransakcji;
+    }
+
+    public void setSumatransakcji(double sumatransakcji) {
+        this.sumatransakcji = sumatransakcji;
+    }
+
+    
 }

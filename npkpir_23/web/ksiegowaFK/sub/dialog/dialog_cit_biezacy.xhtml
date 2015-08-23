@@ -12,7 +12,7 @@
               resizable="false" onShow="ustawdialog('citbiezacy','menubilanse', 750, 750);" closeOnEscape="true" onHide="resetujdialog('citbiezacy');"  >
         <p:outputPanel style="height: 710px;; overflow-y:  scroll;">
             <h:form id="formcitbiezacy">
-                <p:commandButton value="oblicz cit" style="width: 120px;" actionListener="#{citView.obliczcitbiezacy()}" update="@form"/>
+                <p:commandButton value="oblicz cit" style="width: 120px;" actionListener="#{citView.obliczcitbiezacy()}" update=":formcitbiezacy"/>
                 <p:dataTable value="#{citView.listaPrzychody}" var="item"  style="width: 580px; margin-top: 10px;" emptyMessage="nie pobrano pozycji rzis"
                              sortBy="#{item.przychod0koszt1}">
                     <f:facet name="header">

@@ -53,5 +53,18 @@ var skopiujdanenowegoklientafk = function () {
     } catch (e) {
     }
     
+//     try {
+//        var czywidzialne = rj("dialog_wpisywanie_znajdzkontrahenta").getAttribute("aria-hidden");
+//        if (czywidzialne === "false"){
+//            var nowyklient = document.getElementById('formXNowyKlient:nazwaPole').value;
+//            r('form_dialog_wpisywanie_znajdzkontrahenta:numernip_input').val(nowyklient);
+//            r('form_dialog_wpisywanie_znajdzkontrahenta:numernip_hinput').val(nowyklient);
+//            PF('dialog_wpisywanie_znajdzkontrahenta').serach(nowyklient);
+//            r('form_dialog_wpisywanie_znajdzkontrahenta:numernip_input').focus();
+//            r('form_dialog_wpisywanie_znajdzkontrahenta:numernip_input').select();
+//            //PF('poleklientawpisywaniefkRK').search(szukana);
+//        }
+//    } catch (e) {
+//    }
 };
 

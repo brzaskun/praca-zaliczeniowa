@@ -27,6 +27,7 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.event.SelectEvent;
 import params.Params;
 import viewfk.DokfkView;
+import viewfk.KliencifkView;
 import viewfk.PlanKontCompleteView;
 
 /**
@@ -47,6 +48,8 @@ public class KlView implements Serializable {
     private boolean edycja;
     @ManagedProperty(value = "#{dokfkView}")
     private DokfkView dokfkView;
+    @ManagedProperty(value = "#{kliencifkView}")
+    private KliencifkView kliencifkView;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
 
@@ -187,6 +190,9 @@ public class KlView implements Serializable {
             dokfkView.getEwidencjaVatRK().setKlient(selected);
             RequestContext.getCurrentInstance().update("ewidencjavatRK:klientRK");
         }
+        kliencifkView.setWybranyklient(serialclone.SerialClone.clone(selected));
+        kliencifkView.setWybranyklient1(serialclone.SerialClone.clone(selected));
+        RequestContext.getCurrentInstance().update("form_dialog_wpisywanie_znajdzkontrahenta");
         selected = new Klienci();
     }
 
@@ -520,4 +526,13 @@ public class KlView implements Serializable {
         this.planKontCompleteView = planKontCompleteView;
     }
 
+    public KliencifkView getKliencifkView() {
+        return kliencifkView;
+    }
+
+    public void setKliencifkView(KliencifkView kliencifkView) {
+        this.kliencifkView = kliencifkView;
+    }
+
+    
 }

@@ -4,18 +4,28 @@
  */
 package view;
 
+import beansFK.DokumentFKBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.SrodekTrwcomparator;
 import dao.AmoDokDAO;
+import dao.KlienciDAO;
+import dao.RodzajedokDAO;
 import dao.STRDAO;
 import dao.SrodkikstDAO;
+import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
+import daoFK.TabelanbpDAO;
+import daoFK.TransakcjaDAO;
+import daoFK.WalutyDAOfk;
 import data.Data;
+import embeddable.Mce;
 import embeddable.Roki;
 import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.AmodokPK;
 import entity.SrodekTrw;
 import entity.Srodkikst;
+import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -32,7 +42,6 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import params.Params;
 
 /**
  *
@@ -51,6 +60,16 @@ public class STRTabView implements Serializable {
     private AmoDokDAO amoDokDAO;
     @Inject
     private SrodkikstDAO srodkikstDAO;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private KlienciDAO klienciDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
     @Inject
     private SrodekTrw selectedSTR;
     @Inject
@@ -210,7 +229,7 @@ public class STRTabView implements Serializable {
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
         amoDokDAO.destroy(pod, rokOd, mcOd);
         Roki roki = new Roki();
-        while (rokOd <= roki.getRokiList().get(roki.getRokiList().size()-1)) {
+        while (rokOd <= roki.getRokiList().get(0)) {
             Amodok amoDok = new Amodok();
             AmodokPK amodokPK = new AmodokPK();
             amodokPK.setPodatnik(pod);
@@ -587,6 +606,28 @@ public class STRTabView implements Serializable {
             posiadane.add(selectedSTR);
             Collections.sort(sprzedane, new SrodekTrwcomparator());
         } catch (Exception e) { E.e(e); 
+        }
+    }
+    
+    
+        public void ksiegujUmorzenieFK(Amodok amodok) {
+        double kwotaumorzenia = 0.0;
+        if (amodok.getAmodokPK().getMc() != Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+            Msg.msg("e", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Przerywam księgowanie");
+            return;
+        }
+        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodok.getAmodokPK().getMc()));
+        if (znalezionyBiezacy != null) {
+            dokDAOfk.destroy(znalezionyBiezacy);
+        }
+        Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getUmorzenia(), dokDAOfk);
+        try {
+            dokDAOfk.dodaj(dokumentAMO);
+            amodok.setZaksiegowane(true);
+            amoDokDAO.edit(amodok);
+            Msg.msg("Zaksięgowano dokument AMO");
+        } catch (Exception e) {  E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
         }
     }
 

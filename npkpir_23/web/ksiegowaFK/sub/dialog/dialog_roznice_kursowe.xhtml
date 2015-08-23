@@ -10,8 +10,9 @@
               resizable="false"  onShow="ustawdialog('dialogroznicekursowe','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogroznicekursowe');" >
         <bcf:ajaxs/>
         <h:form id="transakcje">
-            <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" 
-                         scrollable="true" style="width: 1100px;" scrollHeight="500" widgetVar="tabelaroznicekursowe" rowIndexVar="index">
+            <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
+                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" 
+                          style="width: 1100px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
                     <h:outputText value="- wyszukiwanie: " />  
@@ -48,9 +49,15 @@
                     <h:outputText value="#{wpis.nowaTransakcja.konto.pelnynumer}" >
                     </h:outputText>
                 </p:column>
+                <f:facet name="footer">  
+                    <p:panelGrid columns="2">
+                        <h:outputText value="razem"/>
+                        <bcf:outputpl value="#{rozniceKursoweFKView.sumatransakcji}" style="margin-right: 85px; float: right;"/>
+                    </p:panelGrid>
+                </f:facet>
             </p:dataTable>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięguj" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="zaksięgujA" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
                 <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
             </p:outputPanel>
         </h:form>

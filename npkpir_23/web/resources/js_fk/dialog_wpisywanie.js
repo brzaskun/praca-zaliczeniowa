@@ -311,6 +311,13 @@ var dodajnowegoklienta = function () {
     }
 };
 
+var dodajnowegoklientakonto = function () {
+    var zawartosc = r('form_dialog_wpisywanie_znajdzkontrahenta:numernip_input').val();
+    if (zawartosc === "nowy klient") {
+        PF('dlgwprowadzanieklienta').show();
+    }
+};
+
 var sprawdzczymakonto = function (niemakonta0makonto1) {
         if (niemakonta0makonto1) {
             PF('czydodackonto').show();
