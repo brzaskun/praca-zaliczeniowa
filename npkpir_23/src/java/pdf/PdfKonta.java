@@ -126,7 +126,7 @@ public class PdfKonta {
         SaldoKonto rs = listasuma.get(0);
         PdfPTable table = new PdfPTable(9);
         table.setWidths(new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2});
-        table.setWidthPercentage(70);
+        table.setWidthPercentage(80);
         table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze("", 0, 1));

@@ -40,7 +40,7 @@
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         filteredValue="#{saldoSyntetykaView.listaSaldoKontoSelected}"
+                         filteredValue="#{saldoSyntetykaView.listaSaldoKontofilter}"
                          sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >

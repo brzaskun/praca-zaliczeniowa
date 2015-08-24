@@ -38,7 +38,8 @@ import waluty.Z;
 public class SaldoSyntetykaView implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
-    private List<SaldoKonto> listaSaldoKontoSelected;
+    private List<SaldoKonto> listaSaldoKontofilter;
+    private List<SaldoKonto> listaSaldoKontowybrane;
     private List<SaldoKonto> sumaSaldoKonto;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -48,6 +49,7 @@ public class SaldoSyntetykaView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    private String wybranyRodzajKonta;
 
     public SaldoSyntetykaView() {
         sumaSaldoKonto = new ArrayList<>();
@@ -56,6 +58,19 @@ public class SaldoSyntetykaView implements Serializable {
     
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
+       if (wybranyRodzajKonta.equals("bilansowe")) {
+           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+               if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                   it.remove();
+               }
+           }
+       } else if (wybranyRodzajKonta.equals("wynikowe")){
+           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+               if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                   it.remove();
+               }
+           }
+       }
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
     
@@ -94,6 +109,14 @@ public class SaldoSyntetykaView implements Serializable {
         this.sumaSaldoKonto = sumaSaldoKonto;
     }
 
+    public String getWybranyRodzajKonta() {
+        return wybranyRodzajKonta;
+    }
+
+    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
+        this.wybranyRodzajKonta = wybranyRodzajKonta;
+    }
+
     public List<SaldoKonto> getListaSaldoKonto() {
         return listaSaldoKonto;
     }
@@ -102,13 +125,22 @@ public class SaldoSyntetykaView implements Serializable {
          this.listaSaldoKonto = listaSaldoKonto;
      }
 
-    public List<SaldoKonto> getListaSaldoKontoSelected() {
-        return listaSaldoKontoSelected;
+    public List<SaldoKonto> getListaSaldoKontofilter() {
+        return listaSaldoKontofilter;
     }
 
-    public void setListaSaldoKontoSelected(List<SaldoKonto> listaSaldoKontoSelected) {
-        this.listaSaldoKontoSelected = listaSaldoKontoSelected;
+    public void setListaSaldoKontofilter(List<SaldoKonto> listaSaldoKontofilter) {
+        this.listaSaldoKontofilter = listaSaldoKontofilter;
     }
+
+    public List<SaldoKonto> getListaSaldoKontowybrane() {
+        return listaSaldoKontowybrane;
+    }
+
+    public void setListaSaldoKontowybrane(List<SaldoKonto> listaSaldoKontowybrane) {
+        this.listaSaldoKontowybrane = listaSaldoKontowybrane;
+    }
+    
      
      public WpisView getWpisView() {
          return wpisView;
@@ -169,21 +201,28 @@ public class SaldoSyntetykaView implements Serializable {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
-    
+    public void sumujwybranekonta() {
+        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontowybrane));
+    }
     
     public void drukuj(int i) {
-        if (listaSaldoKontoSelected == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu());
+        if (listaSaldoKontofilter == null) {
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         } else {
-            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 0, wpisView.getMiesiacWpisu());
+            PdfKonta.drukuj(listaSaldoKontofilter, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         }
     }
     
     public void drukujS(int i) {
-        if (listaSaldoKontoSelected == null) {
-            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1, wpisView.getMiesiacWpisu());
-        } else {
-            PdfKonta.drukuj(listaSaldoKontoSelected, wpisView, i, 1, wpisView.getMiesiacWpisu());
+        if (listaSaldoKontofilter == null && listaSaldoKontowybrane.size() == 0) {
+            PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 1, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+        }
+        if (listaSaldoKontofilter != null && listaSaldoKontowybrane.size() == 0) {
+            PdfKonta.drukuj(listaSaldoKontofilter, wpisView, i, 1, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
+        }
+        if (listaSaldoKontowybrane.size() > 0) {
+            PdfKonta.drukuj(listaSaldoKontowybrane, wpisView, i, 1, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         }
     }
     

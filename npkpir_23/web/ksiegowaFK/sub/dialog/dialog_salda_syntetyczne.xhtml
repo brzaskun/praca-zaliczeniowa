@@ -72,21 +72,30 @@
                      facetFontColor="#000000"  cellFontColor="#0000FF" cellFontSize="8"  datasetPadding="4"  
                      cellFontStyle="NORMAL"/>  
     </p:commandLink>-->
+<p:column >
+                     <p:selectOneMenu id="rodzajkont" value="#{saldoSyntetykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update=":formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                </p:column> 
             </p:panelGrid>
             <p:dataTable id="tablicasaldasyntetyczne" value="#{saldoSyntetykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         filteredValue="#{saldoSyntetykaView.listaSaldoKontoSelected}"
-                         sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
+                         filteredValue="#{saldoSyntetykaView.listaSaldoKontofilter}" selection="#{saldoSyntetykaView.listaSaldoKontowybrane}"
+                         sortBy="#{loop.konto}" sortFunction="#{saldoSyntetykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" 
                          styleClass="gridtablicasyntetyczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldasyntetyczne"
                          >
                           <p:ajax event="filter" global="false"/>
+                    <p:ajax event="rowSelectCheckbox" global="false" update=":tabelazsumamisyntetyka:sumy" listener="#{saldoSyntetykaView.sumujwybranekonta}"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" update=":tabelazsumamisyntetyka:sumy" listener="#{saldoSyntetykaView.sumujwybranekonta}"/>
+                <p:ajax event="toggleSelect" global="false" update=":tabelazsumamisyntetyka:sumy" listener="#{saldoSyntetykaView.sumujwybranekonta}"/>
     <!--            <p:ajax event="rowSelectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowUnselectCheckbox" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="toggleSelect" update=":sumy" listener="#{kontoZapisFKView.sumazapisowtotal}"/>
                 <p:ajax event="rowSelect" update=":tabelazzapisami:tabela" listener="#{kontoZapisFKView.odszukajsparowanerozrachunki}"/>-->-->
                 <!--            <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>-->
-                <p:column headerText="id" width="20" sortBy="#{loop.id}" >
-                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
-                </p:column>
+                <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                 <p:column styleClass="kontosyntetyczne" headerText="#{mgs.konto}" width="40" filterBy="#{loop.konto.pelnynumer}">
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
