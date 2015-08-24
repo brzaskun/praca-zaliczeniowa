@@ -130,7 +130,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt-npup-nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt+npup-nkup));
         return w;
     }
     
@@ -151,7 +151,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         w.setWynikfinansowy(Z.z(przychod-koszt));
         w.setNpup(npup);
         w.setNkup(nkup);
-        w.setWynikpodatkowy(Z.z(przychod-koszt-npup-nkup));
+        w.setWynikpodatkowy(Z.z(przychod-koszt+npup-nkup));
         return w;
     }
     
@@ -168,7 +168,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("npup"), npup));
         double nkup = sumamiesiecy.getNkup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
-        double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
+        double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
@@ -204,7 +204,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         double wynikfinansowy = Z.z(przychody - koszty);
         double npup = sumapoprzednichmiesiecy.getNpup();
         double nkup = sumapoprzednichmiesiecy.getNkup();
-        double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
+        double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
         pozycjeObliczeniaPodatkuPoprzedniemiesiace = new ArrayList<>();
         podatnikkwota = new HashMap<>();
         try {

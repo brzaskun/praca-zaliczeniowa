@@ -208,7 +208,7 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"), npup));
         double nkup = Z.z(razemzapisycechakoszt);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), nkup));
-        double wynikpodatkowy = Z.z(wynikfinansowy - npup - nkup);
+        double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         double wynikspolki = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
@@ -219,7 +219,7 @@ public class SymulacjaWynikuView implements Serializable {
             pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
-        wynikfinansowynetto = wynikspolki + npup + nkup;
+        wynikfinansowynetto = wynikspolki - npup + nkup;
         try {
             int i = 1;
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
