@@ -39,7 +39,7 @@
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         filteredValue="#{saldoAnalitykaView.listaSaldoKontoSelected}"
+                         filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}"
                          sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
                          >

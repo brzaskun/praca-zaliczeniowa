@@ -52,7 +52,7 @@ import view.WpisView;
 @Stateless
 public class PdfKonta {
     
-    public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc) {
+    public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto) {
         try {
             Collections.sort(listaSaldoKonto, new SaldoKontocomparator());
             String nazwapliku = "konta-" + wpisView.getPodatnikWpisu() + ".pdf";
@@ -60,7 +60,7 @@ public class PdfKonta {
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc);
+            drukujcd(listaSaldoKonto, wpisView, rodzajdruku, analit0synt1, mc, sumaSaldoKonto);
             Msg.msg("Wydruk zestawienia obrotów sald");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia obrotów sald");
@@ -68,7 +68,7 @@ public class PdfKonta {
         }
     }
 
-    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc)  throws DocumentException, FileNotFoundException, IOException {
+    private static void drukujcd(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto)  throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document(PageSize.A4, 20,20,20,20);
         PdfWriter.getInstance(document, Plik.plikR("konta-" + wpisView.getPodatnikWpisu() + ".pdf"));
         document.addTitle("Zestawienie obroty sald");
@@ -117,8 +117,41 @@ public class PdfKonta {
                 }
             }
         }
+        document.add(tablicasuma(sumaSaldoKonto));
         document.close();
         Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
+    }
+    
+    private static PdfPTable tablicasuma(List<SaldoKonto> listasuma) throws DocumentException, IOException {
+        SaldoKonto rs = listasuma.get(0);
+        PdfPTable table = new PdfPTable(9);
+        table.setWidths(new int[]{2, 2, 2, 2, 2, 2, 2, 2, 2});
+        table.setWidthPercentage(70);
+        table.setSpacingBefore(15);
+        try {
+            table.addCell(ustawfraze("", 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("obrotyMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("sumaBOMa"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoWn"), 0, 1));
+            table.addCell(ustawfraze(B.b("saldoMa"), 0, 1));
+            table.setHeaderRows(1);
+        } catch (Exception ex) {
+            Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            table.addCell(ustawfrazeAlign(B.b("suma"), "left", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getBoMa() != 0 ? formatujLiczba(rs.getBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyWn() != 0 ? formatujLiczba(rs.getObrotyWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyMa() != 0 ? formatujLiczba(rs.getObrotyMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoWn() != 0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getObrotyBoMa() != 0 ? formatujLiczba(rs.getObrotyBoMa()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoWn() != 0 ? formatujLiczba(rs.getSaldoWn()) : "", "right", 7));
+            table.addCell(ustawfrazeAlign(rs.getSaldoMa() != 0 ? formatujLiczba(rs.getSaldoMa()) : "", "right", 7));
+        return table;
     }
 
     private static PdfPTable tablica(SaldoKonto rs, int i) throws DocumentException, IOException {
