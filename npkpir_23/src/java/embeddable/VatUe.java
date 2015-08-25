@@ -6,6 +6,7 @@ package embeddable;
 
 import entity.Dok;
 import entity.Klienci;
+import entityfk.Dokfk;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -26,6 +27,8 @@ public class VatUe implements Serializable{
     private int liczbadok;
     @Lob
     private List<Dok> zawiera;
+    @Lob
+    private List<Dokfk> zawierafk;
 
     public VatUe() {
     }
@@ -38,6 +41,15 @@ public class VatUe implements Serializable{
         this.liczbadok = liczbadok;
         this.zawiera = zawiera;
     }
+    
+    public VatUe(String transakcja, Klienci kontrahent, Double netto, int liczbadok) {
+        this.transakcja = transakcja;
+        this.kontrahent = kontrahent;
+        this.netto = netto;
+        this.liczbadok = liczbadok;
+        this.zawierafk = zawierafk;
+    }
+
 
      public String getTransakcja() {
         return transakcja;
@@ -80,6 +92,15 @@ public class VatUe implements Serializable{
         this.zawiera = zawiera;
     }
 
+    public List<Dokfk> getZawierafk() {
+        return zawierafk;
+    }
+
+    public void setZawierafk(List<Dokfk> zawierafk) {
+        this.zawierafk = zawierafk;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 5;
