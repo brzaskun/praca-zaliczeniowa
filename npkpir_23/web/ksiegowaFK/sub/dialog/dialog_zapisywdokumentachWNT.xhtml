@@ -25,7 +25,7 @@
                 <bcf:outputpl value="#{wierszeView.sumakg}" style="margin-left: 30px;"/>
                 <h:outputText value="suma szt" style="margin-left: 30px;"/>
                 <bcf:outputpl value="#{wierszeView.sumaszt}" style="margin-left: 30px;"/>
-                <p:commandButton id="rukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWNT)}" styleClass="fkbutton"
+                <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfWNTWDTView.drukujzaksiegowanydokument(wierszeView.wybranewierszeWNT, wierszeView.wierszeWNT)}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
             </p:panelGrid>
             <p:dataTable id="dataList" value="#{wierszeView.wierszeWNT}" var="loop" rowIndexVar="row" style="wheight: 700px; height: 650px; overflow-y: scroll" 

@@ -219,10 +219,13 @@ public class SymulacjaWynikuView implements Serializable {
             }
             pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
             wynikspolki = wynikpodatkowy - podatek; 
+            wynikfinansowynetto = wynikspolki - npup + nkup;
+            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
+        } else {
+            wynikfinansowynetto = wynikspolki - npup + nkup;
             pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
-        wynikfinansowynetto = wynikspolki - npup + nkup;
         try {
             int i = 1;
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
@@ -263,8 +266,11 @@ public class SymulacjaWynikuView implements Serializable {
     }
 
     private void pobierzzapisyzcechami() {
+        //pobieram wszystkie strony wiersza z roku
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        //pobieram strony wiersza z cecha i wyluskuje strony wiersza z dokumentu z cecha
         List<StronaWiersza> zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP", wpisView.getMiesiacWpisu());
+        //sumuje
         double sumankup = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP", wpisView.getMiesiacWpisu());
         zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "KUPMN", wpisView.getMiesiacWpisu());
         double sumankupmn = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacWpisu());
@@ -275,7 +281,15 @@ public class SymulacjaWynikuView implements Serializable {
         }
         razemzapisycechakoszt = Z.z(sumankup - sumankupmn + sumakupmnPoprzedniMc);
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
-        razemzapisycechaprzychod = Z.z(CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu()));
+        double sumanpup = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
+        zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacWpisu());
+        double sumapmn = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
+        double sumapmnPoprzedniMc = 0.0;
+        if (!wpisView.getMiesiacWpisu().equals("01")) {
+            zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
+            sumapmnPoprzedniMc = CechazapisuBean.sumujcecha(zapisycechakoszt, "PMN", wpisView.getMiesiacUprzedni());
+        }
+        razemzapisycechaprzychod = Z.z(sumanpup + sumapmn - sumapmnPoprzedniMc);
     }
     
     public void zaksiegujwynik () {

@@ -39,7 +39,13 @@ public class PdfWNTWDTView implements Serializable {
     @Inject
     private UzDAO uzDAO;
     
-    public void drukujzaksiegowanydokument(List<Wiersz> wiersze) {
+    public void drukujzaksiegowanydokument(List<Wiersz> wierszewybrane, List<Wiersz> wierszewszystkie) {
+        List<Wiersz> wiersze = null;
+        if (wierszewybrane.size() > 0) {
+            wiersze = wierszewybrane;
+        } else {
+            wiersze = wierszewszystkie;
+        }
         dodajsume(wiersze);
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"dokumentwntwdt";
         File file = Plik.plik(nazwa, true);
