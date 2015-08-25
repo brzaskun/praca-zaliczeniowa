@@ -58,18 +58,20 @@ public class SaldoSyntetykaView implements Serializable {
     
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontazLevelu(wpisView, 0);
-       if (wybranyRodzajKonta.equals("bilansowe")) {
-           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-               if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                   it.remove();
-               }
-           }
-       } else if (wybranyRodzajKonta.equals("wynikowe")){
-           for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-               if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                   it.remove();
-               }
-           }
+       if (wybranyRodzajKonta != null) {
+        if (wybranyRodzajKonta.equals("bilansowe")) {
+            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                    it.remove();
+                }
+            }
+        } else if (wybranyRodzajKonta.equals("wynikowe")){
+            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                    it.remove();
+                }
+            }
+        }
        }
        listaSaldoKonto = przygotowanalistasald(kontaklienta);
     }
