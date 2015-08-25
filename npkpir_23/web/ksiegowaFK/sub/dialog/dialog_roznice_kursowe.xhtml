@@ -11,7 +11,7 @@
         <bcf:ajaxs/>
         <h:form id="transakcje">
             <p:dataTable id="tabelaroznicekursowe" var="wpis" value="#{rozniceKursoweFKView.pobranetransakcje}" editable="true" 
-                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" 
+                         emptyMessage="Nie ma różnic kursowych w danym miesiącu rozliczeniowym" scrollable="true" scrollHeight="500"
                           style="width: 1100px;"  widgetVar="tabelaroznicekursowe" rowIndexVar="index">
                 <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych transakcji walutowych " />  
@@ -57,7 +57,7 @@
                 </f:facet>
             </p:dataTable>
             <p:outputPanel style="margin-top: 10px">
-                <p:commandButton value="zaksięgujA" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
+                <p:commandButton value="zaksięguja" style="width: 120px; margin-bottom: 10px;" actionListener="#{rozniceKursoweFKView.generowanieDokumentuRRK()}"/>
                 <p:commandButton value="#{mgs.drukuj}" style="width: 120px; margin-bottom: 10px; margin-left: 10px;" actionListener="#{rozniceKursoweFKView.drukowanieRRK()}"/>
             </p:outputPanel>
         </h:form>

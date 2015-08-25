@@ -72,7 +72,7 @@
                      facetFontColor="#000000"  cellFontColor="#0000FF" cellFontSize="8"  datasetPadding="4"  
                      cellFontStyle="NORMAL"/>  
     </p:commandLink>-->
-<p:column >
+            <p:column >
                      <p:selectOneMenu id="rodzajkont" value="#{saldoSyntetykaView.wybranyRodzajKonta}"  style="margin-left: 20px;">
                         <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update=":formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
                         <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
