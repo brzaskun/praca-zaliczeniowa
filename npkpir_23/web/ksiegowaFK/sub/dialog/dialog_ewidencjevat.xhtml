@@ -10,7 +10,7 @@
     <p:dialog id="dialogewidencjevat" header="Zestawienie ewidencji vat - #{WpisView.podatnikWpisu}" widgetVar="dialogewidencjevat"  
               maximizable="true" onShow="ustawdialog('dialogewidencjevat','menurejestry',1250,750);" closeOnEscape="true" onHide="resetujdialog('dialogewidencjevat');"
               resizable="true">
-        <h:form id="form">
+        <h:form id="form"> 
     <style>
         .ui-datatable .mc .ui-column-filter {
             width: 25px !important;
@@ -92,6 +92,90 @@
                             </p:dataTable>
                         </p:tab>
                     </p:tabView>
+                </p:tab>
+                <p:tab title="VAT UE">
+                    <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
+                    <h:form id="formVATUE">
+                        <p:outputPanel id="wrapper"> 
+                            
+                            <p:dataTable  var="wpis" value="#{vatUeFKView.klienciWDTWNT}" id="dokumentyLista" editable="true" 
+                                          rowKey="#{wpis.kontrahent.nip}" selection="#{vatUeFKView.listawybranych}"
+                                          emptyMessage="W danym miesiącu nie było żadnych zapisów"
+                                          style="max-width: 85%" widgetVar="dokTable"
+                                          > 
+                                <f:facet name="header">  
+                                    <h:outputText value="#{WpisView.podatnikWpisu} - Zestawienie dokumentów do deklaracji VAT-UE z okres #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" /> 
+                                    <h:outputText value="- wyszukiwanie: " />  
+                                    <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />  
+                                </f:facet>
+                                <p:column style="width: 5%;">
+                                    <p:rowToggler rendered="#{wpis.zawierafk.size() gt 0 ? true : false}"/>
+                                </p:column>
+                                <p:column id="typdokColumn" headerText="transakcja" filterBy="#{wpis.transakcja}" filterMatchMode="contains" sortBy="#{wpis.transakcja}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.transakcja}"/>
+                                </p:column>
+                                <p:column id="krajkodColumn" headerText="kod kraju" filterBy="#{wpis.kontrahent.krajkod}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.krajkod}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.kontrahent.krajkod}"/>
+                                </p:column>
+                                <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.kontrahent.nip}" />
+                                </p:column>
+                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.kontrahent.npelna}"  />
+                                </p:column>
+                                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.netto}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column id="liczbaColumn" headerText="ilość dok" filterBy="#{wpis.liczbadok}" filterMatchMode="contains" sortBy="#{wpis.liczbadok}" style="width: 15%;" filterStyle="display : none;" >  
+                                    <h:outputText value="#{wpis.liczbadok}" style="float: right;" rendered="#{wpis.transakcja eq 'podsumowanie' ? false : true}">
+                                        <f:convertNumber minFractionDigits="0" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
+                                        <p:dataTable var="subwpis" value="#{wpis.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
+                                            <p:column id="SubColumn0" headerText="waluta" style="text-align: center;">  
+                                                <h:outputText value="#{subwpis.walutadokumentu.symbolwaluty}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1" headerText="data wyst">  
+                                                <h:outputText value="#{subwpis.datadokumentu}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1b" headerText="nr własny">  
+                                                <h:outputText value="#{subwpis.numerwlasnydokfk}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
+                                                <h:outputText value="#{subwpis.opisdokfk}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1a"  headerText="wartoscdokumentu">  
+                                                <h:outputText value="#{subwpis.wartoscdokumentu}" style="float: right;">
+                                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                                </h:outputText>
+                                            </p:column>
+                                            <p:column id="SubColumn4" headerText="okresy vat">  
+                                                <h:outputText value="#{subwpis.vatM}/#{subwpis.vatR}" style="float: right;"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:column>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                            <p:separator/>
+<!--                            <p:dataTable value="#{vatUeFKView.danezdeklaracji}" var="row" emptyMessage="brak wysłanych deklaracji za okres" style="max-width: 35%">
+                                <p:column>
+                                    <h:outputText value="#{row.nazwa}"/>
+                                </p:column>
+                                <p:column headerText="#{mgs.miesiąc}" style="text-align: center;">
+                                    <h:outputText value="#{row.miesiac}"/>
+                                </p:column>
+                                <p:column headerText="#{mgs.wartość}">
+                                    <h:outputText value="#{row.netto}" style="float: right;">
+                                        <f:convertNumber minFractionDigits="0" locale="PL"/>
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>-->
+                        </p:outputPanel>
+                    </h:form>
                 </p:tab>
                 <p:tab title="podsumowanie">
                     <p:panel header="firma nie będąca płatnikiem podatku VAT" rendered="#{WpisView.podatnikObiekt.vatokres.size() gt 0 ? false : true}"/>
@@ -255,10 +339,8 @@
                                     </p:column>
                          </p:dataTable>
                     </p:outputPanel>
-                   
                 </p:tab>
             </p:tabView>
-
         </h:form>
     </p:dialog>
 </ui:composition>
