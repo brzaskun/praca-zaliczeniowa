@@ -43,13 +43,18 @@ public class DokFKTransakcjeBean implements Serializable{
             try {
                 DateFormat formatter;
                 formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
+                String datarozrachunku = null;
+                if (stronaWiersza.getWiersz().getDataWalutyWiersza() != null) {
+                    datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+stronaWiersza.getWiersz().getDokfk().getMiesiac()+"-"+stronaWiersza.getWiersz().getDataWalutyWiersza();
+                    } else {
+                    datarozrachunku = stronaWiersza.getWiersz().getDokfk().getDatadokumentu();
+                }
                 Date dataR = formatter.parse(datarozrachunku);
                 Iterator it = listaStronaWierszazBazy.iterator();
                 while(it.hasNext()) {
-                    StronaWiersza p = (StronaWiersza) it.next();
-                    List<Transakcja> odnalezione = transakcjaDAO.findByNowaTransakcja(p);
-                    for (Iterator<Transakcja> itx = p.getPlatnosci().iterator(); itx.hasNext();) {
+                    StronaWiersza wierszZbazy = (StronaWiersza) it.next();
+                    List<Transakcja> odnalezione = transakcjaDAO.findByNowaTransakcja(wierszZbazy);
+                    for (Iterator<Transakcja> itx = wierszZbazy.getPlatnosci().iterator(); itx.hasNext();) {
                         Transakcja t = (Transakcja) itx.next();
                         if (odnalezione == null || odnalezione.size() == 0) {
                             itx.remove();
@@ -58,18 +63,18 @@ public class DokFKTransakcjeBean implements Serializable{
                         }
                     }
                     for (Transakcja ta : odnalezione) {
-                        if (!p.getPlatnosci().contains(ta)) {
-                            p.getPlatnosci().add(ta);
+                        if (!wierszZbazy.getPlatnosci().contains(ta)) {
+                            wierszZbazy.getPlatnosci().add(ta);
                         }
                     }
-                    if (Z.z(p.getPozostalo()) <= 0.0) {
+                    if (Z.z(wierszZbazy.getPozostalo()) <= 0.0) {
                         it.remove();
                     } else {
                         String dataplatnosci;
-                        if (p.getWiersz().getDataWalutyWiersza() != null) {
-                            dataplatnosci = p.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+p.getWiersz().getDokfk().getMiesiac()+"-"+p.getWiersz().getDataWalutyWiersza();
+                        if (wierszZbazy.getWiersz().getDataWalutyWiersza() != null) {
+                            dataplatnosci = wierszZbazy.getWiersz().getDokfk().getDokfkPK().getRok()+"-"+wierszZbazy.getWiersz().getDokfk().getMiesiac()+"-"+wierszZbazy.getWiersz().getDataWalutyWiersza();
                         } else {
-                            dataplatnosci = p.getWiersz().getDokfk().getDatadokumentu();
+                            dataplatnosci = wierszZbazy.getWiersz().getDokfk().getDatadokumentu();
                         }
                         Date dataP = formatter.parse(dataplatnosci);
                         if (dataP.compareTo(dataR) > 0)  {
