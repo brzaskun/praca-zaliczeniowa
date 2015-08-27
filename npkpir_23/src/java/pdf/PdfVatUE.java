@@ -22,6 +22,7 @@ import embeddable.VatUe;
 import entity.Dok;
 import entity.Podatnik;
 import entity.Uz;
+import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -111,7 +112,11 @@ public class PdfVatUE {
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
                     document.add(table);
+                    if (p.getZawiera() != null) {
                     document.add(createsubtable(p.getZawiera()));
+                    } else {
+                        document.add(createsubtablefk(p.getZawierafk()));
+                    }
                     document.add(Chunk.NEWLINE);
                 }
             }
@@ -161,6 +166,49 @@ public class PdfVatUE {
                 table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getOpis(), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
+                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 8));
+            }
+        } catch (Exception e) {
+        }
+        return table;
+    }
+
+    private static PdfPTable createsubtablefk(List<Dokfk> zawiera) {
+        PdfPTable table = new PdfPTable(6);
+        try {
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            formatter.setMaximumFractionDigits(2);
+            formatter.setMinimumFractionDigits(2);
+            formatter.setGroupingUsed(true);
+            table.setWidths(new int[]{1, 2, 2, 2, 2, 2});
+            table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
+            table.addCell(ustawfraze("nr kol", 0, 1));
+            table.addCell(ustawfraze("data wystawienia", 0, 1));
+            table.addCell(ustawfraze("nr własny", 0, 1));
+            table.addCell(ustawfraze("opis", 0, 1));
+            table.addCell(ustawfraze("netto", 0, 1));
+            table.addCell(ustawfraze("okres VAT", 0, 1));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
+            table.addCell(ustawfrazeAlign("1", "center", 6));
+            table.addCell(ustawfrazeAlign("2", "center", 6));
+            table.addCell(ustawfrazeAlign("3", "center", 6));
+            table.addCell(ustawfrazeAlign("4", "center", 6));
+            table.addCell(ustawfrazeAlign("5", "center", 6));
+            table.addCell(ustawfrazeAlign("6", "center", 6));
+            table.setHeaderRows(3);
+            table.setFooterRows(1);
+            int i = 1;
+            for (Dokfk p : zawiera) {
+                table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpisdokfk(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartoscdokumentu())), "right", 8));
                 table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 8));
             }
         } catch (Exception e) {
