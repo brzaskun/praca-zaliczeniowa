@@ -1044,7 +1044,7 @@ public class ZestawienieView implements Serializable {
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
             if (wpisView.isMc0kw1()) {
-                List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
+                List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
                 if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
                         && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
                     if (p.getOdliczaczus51() == true) {
@@ -1076,7 +1076,7 @@ public class ZestawienieView implements Serializable {
         Iterator it;
         it = p.getZusparametr().iterator();
         double suma52 = 0;
-        List<String> miesiaceWkwartale = Kwartaly.mctoMcwKw(wpisView.getMiesiacWpisu());
+        List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
             if (wpisView.isMc0kw1()) {

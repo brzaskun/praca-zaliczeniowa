@@ -4,7 +4,6 @@
  */
 package view;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import comparator.Dokcomparator;
 import comparator.EVatwpisFKcomparator;
 import dao.DokDAO;
@@ -37,12 +36,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -154,10 +153,12 @@ public class EwidencjaVatView implements Serializable {
     public void stworzenieEwidencjiZDokumentow() {
         try {
             zerujListy();
-            pobierzdokumentyzaRok();
+            pobierzdokumentyzaOkres();
             String vatokres = sprawdzjakiokresvat();
             listadokvat = zmodyfikujlisteMcKw(listadokvat, vatokres);
-            transferujDokdoEVatwpis1();
+            List<Rodzajedok> listaPodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            Map<String,Double> rodzajProcent = pobierzprocenty(listaPodatnika);
+            transferujDokdoEVatwpis1(rodzajProcent);
             stworzenieEwidencjiCzescWspolna(vatokres);
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -170,6 +171,14 @@ public class EwidencjaVatView implements Serializable {
             E.e(e);
         }
         //drukuj ewidencje
+    }
+    
+    private Map<String, Double> pobierzprocenty(List<Rodzajedok> listaPodatnika){
+        Map<String, Double> rodzajProcent = new HashMap<>();
+        for (Rodzajedok p : listaPodatnika) {
+            rodzajProcent.put(p.getSkrot(), p.getProcentvat());
+        }
+        return rodzajProcent;
     }
 
     public void stworzenieEwidencjiZDokumentowFK() {
@@ -298,16 +307,14 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private void pobierzdokumentyzaRok() {
+    private void pobierzdokumentyzaOkres() {
         try {
-            List<Dok> listatmp = dokDAO.zwrocBiezacegoKlientaRokVAT(wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
+            List<Dok> listatmp = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             //sortowanie dokumentów
             Collections.sort(listatmp, new Dokcomparator());
-            //
-            String rokvat = String.valueOf(wpisView.getRokWpisu());
             int numerk = 1;
             for (Dok tmpx : listatmp) {
-                if (tmpx.getVatR().equals(rokvat)) {
+                if (tmpx.getVatR().equals(wpisView.getRokWpisuSt())) {
                     tmpx.setNrWpkpir(numerk++);
                     listadokvat.add(tmpx);
                 }
@@ -342,35 +349,24 @@ public class EwidencjaVatView implements Serializable {
 
     private void rozdzielEVatwpis1NaEwidencje() {
         for (EVatViewPola wierszogolny : listadokvatprzetworzona) {
-            ArrayList<EVatViewPola> listatmp = new ArrayList<>();
             //sprawdza nazwe ewidencji zawarta w wierszu ogolnym i dodaje do listy
             String nazwaewidencji = wierszogolny.getNazwaewidencji().getNazwa();
-            try {
-                Collection c = listaewidencji.get(nazwaewidencji);
-                listatmp.addAll(c);
-            } catch (Exception e) { 
-                System.out.println("Blad " + e.toString()); 
-                try {
-                    listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
-                    Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
-                    sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
-                } catch (Exception ex) {
-                    Logger.getLogger(EwidencjaVatView.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (!listaewidencji.containsKey(nazwaewidencji)) {
+                listaewidencji.put(nazwaewidencji, new ArrayList<EVatViewPola>());
+                Evewidencja nowaEv = evewidencjaDAO.znajdzponazwie(nazwaewidencji);
+                sumaewidencji.put(nazwaewidencji, new EVatwpisSuma(nowaEv, BigDecimal.ZERO, BigDecimal.ZERO, wierszogolny.getOpizw()));
             }
-            listatmp.add(wierszogolny);
+            listaewidencji.get(nazwaewidencji).add(wierszogolny);
             EVatwpisSuma ew = sumaewidencji.get(nazwaewidencji);
             BigDecimal sumanetto = ew.getNetto().add(BigDecimal.valueOf(wierszogolny.getNetto()).setScale(2, RoundingMode.HALF_EVEN));
             ew.setNetto(sumanetto);
             BigDecimal sumavat = ew.getVat().add(BigDecimal.valueOf(wierszogolny.getVat()).setScale(2, RoundingMode.HALF_EVEN));
             ew.setVat(sumavat);
-            sumaewidencji.put(nazwaewidencji, ew);
-            listaewidencji.put(nazwaewidencji, listatmp);
         }
         
     }
 
-    private void transferujDokdoEVatwpis1() {
+    private void transferujDokdoEVatwpis1(Map<String,Double> rodzajProcent) {
         for (Dok zaksiegowanafaktura : listadokvat) {
             if (zaksiegowanafaktura.getEwidencjaVAT1() != null) {
                 List<EVatwpis1> ewidencja = new ArrayList<>();
@@ -392,8 +388,7 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setNetto(ewidwiersz.getNetto());
                         wiersz.setVat(ewidwiersz.getVat());
                         wiersz.setOpizw(ewidwiersz.getEstawka());
-                        Rodzajedok r = rodzajedokDAO.find(ewidwiersz.getDok().getTypdokumentu(), wpisView.getPodatnikObiekt());
-                        wiersz.setProcentvat(r.getProcentvat());
+                        wiersz.setProcentvat(rodzajProcent.get(ewidwiersz.getDok().getTypdokumentu()));
                         listadokvatprzetworzona.add(wiersz);
                     }
                 }

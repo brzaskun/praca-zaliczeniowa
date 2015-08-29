@@ -4,6 +4,7 @@
  */
 package dao;
 
+import embeddable.Kwartaly;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
@@ -85,6 +86,11 @@ public class DokDAO extends DAO implements Serializable {
    
     public List<Dok> zwrocBiezacegoKlientaRokMC(String pod, String rok, String mc) {
         return dokFacade.findDokBK(pod, rok, mc);
+    }
+    
+    public List<Dok> zwrocBiezacegoKlientaRokKW(String pod, String rok, String mc) {
+        List<String> mce = Kwartaly.mctoMcewKw(mc);
+        return dokFacade.findDokRokKW(pod, rok, mce);
     }
     
     public Object iledokumentowklienta(String pod, String rok, String mc) {
