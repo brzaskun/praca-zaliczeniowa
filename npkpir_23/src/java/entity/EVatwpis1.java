@@ -50,6 +50,14 @@ public class EVatwpis1 implements Serializable {
         this.vat = vat;
         this.estawka = estawka;
     }
+    
+    public EVatwpis1(Evewidencja ewidencja, double netto, double vat, String estawka, Dok dok) {
+        this.ewidencja = ewidencja;
+        this.netto = netto;
+        this.vat = vat;
+        this.estawka = estawka;
+        this.dok = dok;
+    }
 
     public EVatwpis1() {
     }

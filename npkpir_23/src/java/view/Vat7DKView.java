@@ -117,7 +117,7 @@ public class Vat7DKView implements Serializable {
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> wartosci = new ArrayList<>(sumaewidencji.values());
         //tu zduplikowac ewidencje
-        VATDeklaracja.duplikujZapisyDlaTransakcji(wartosci);
+        //VATDeklaracja.duplikujZapisyDlaTransakcji(wartosci);
         //sumuj ewidencje 51 i52 pola
         VATDeklaracja.agregacjaEwidencjiZakupowych5152(wartosci);
         //

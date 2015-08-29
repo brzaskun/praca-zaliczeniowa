@@ -31,15 +31,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.bean.ManagedBean;
@@ -107,6 +104,7 @@ public class EwidencjaVatView implements Serializable {
     private String nazwaewidencjiMail;
     private List<EVatViewPola> wybranewierszeewidencji;
     private List<EVatViewPola> zachowanewybranewierszeewidencji;
+    private Evewidencja ewidencjazakupu;
 
     public EwidencjaVatView() {
         nazwyewidencji = new ArrayList<>();
@@ -152,6 +150,7 @@ public class EwidencjaVatView implements Serializable {
 
     public void stworzenieEwidencjiZDokumentow() {
         try {
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
             pobierzdokumentyzaOkres();
             String vatokres = sprawdzjakiokresvat();
@@ -248,6 +247,9 @@ public class EwidencjaVatView implements Serializable {
                 case "z":
                     wynikOkresu = wynikOkresu.subtract(p.getVat());
                     break;
+                case "sz":
+                    wynikOkresu = wynikOkresu.add(p.getVat());
+                    break;
             }
         }
     }
@@ -301,7 +303,8 @@ public class EwidencjaVatView implements Serializable {
                     break;
                 case "sz":
                     sumydowyswietleniasprzedaz.add(ew);
-                    sumydowyswietleniazakupy.add(ew);
+                    //wywalamy to bo pobieranie wpisow generuje duplikaty z ewidencja zakup
+                    //sumydowyswietleniazakupy.add(ew);
                     break;
             }
         }
@@ -369,9 +372,9 @@ public class EwidencjaVatView implements Serializable {
     private void transferujDokdoEVatwpis1(Map<String,Double> rodzajProcent) {
         for (Dok zaksiegowanafaktura : listadokvat) {
             if (zaksiegowanafaktura.getEwidencjaVAT1() != null) {
-                List<EVatwpis1> ewidencja = new ArrayList<>();
-                ewidencja.addAll(zaksiegowanafaktura.getEwidencjaVAT1());
-                for (EVatwpis1 ewidwiersz : ewidencja) {
+                List<EVatwpis1> ewidencjeZdokumentu = new ArrayList<>();
+                ewidencjeZdokumentu.addAll(zaksiegowanafaktura.getEwidencjaVAT1());
+                for (EVatwpis1 ewidwiersz : ewidencjeZdokumentu) {
                     if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
                         EVatViewPola wiersz = new EVatViewPola();
                         wiersz.setId(zaksiegowanafaktura.getNrWpkpir());
@@ -390,10 +393,32 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setOpizw(ewidwiersz.getEstawka());
                         wiersz.setProcentvat(rodzajProcent.get(ewidwiersz.getDok().getTypdokumentu()));
                         listadokvatprzetworzona.add(wiersz);
+                        duplikujEVatwpis1(wiersz);
                     }
                 }
             }
         }
+    }
+    
+    private void duplikujEVatwpis1(EVatViewPola wiersz) {
+         if (wiersz.getNazwaewidencji().getNazwa().equals("import usług") || wiersz.getNazwaewidencji().getNazwa().equals("rejestr WNT") || wiersz.getNazwaewidencji().getNazwa().equals("odwrotne obciążenie")) {
+                EVatViewPola duplikat = new EVatViewPola(wiersz);
+                //wpisuje pola zakupu
+                duplikat.setNazwaewidencji(ewidencjazakupu);
+                duplikat.setNrpolanetto("51");
+                duplikat.setNrpolavat("52");
+                duplikat.setDuplikat(true);
+                listadokvatprzetworzona.add(duplikat);
+            }
+            //nie ma ewidencji o takicj polach jak to dziala?
+//            if (wiersz.getNazwaewidencji().getNazwa().equals("import usług")) {
+//                EVatViewPola duplikat = new EVatViewPola(wiersz);
+//                //wpisuje pola zakupu
+//                duplikat.setNazwaewidencji(ewidencjazakupu);
+//                duplikat.setNrpolanetto("39");
+//                duplikat.setNrpolavat("40");
+//                listadokvatprzetworzona.add(duplikat);
+//            }
     }
 
     private void transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {

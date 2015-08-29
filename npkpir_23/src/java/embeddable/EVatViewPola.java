@@ -65,11 +65,31 @@ public class EVatViewPola implements Serializable{
     private String nrpolanetto;
     private String nrpolavat;
     private double procentvat;
+    private boolean duplikat;
 
     
     
     public EVatViewPola() {
     }
+
+    public EVatViewPola(EVatViewPola old) {
+        this.dataWyst = old.getDataWyst();
+        this.dataSprz = old.getDataSprz();
+        this.nrWlDk = old.getNrWlDk();
+        this.nrKolejny = old.getNrKolejny();
+        this.kontr = old.getKontr();
+        this.opis = old.getOpis();
+        this.netto = old.getNetto();
+        this.vat = old.getVat();
+        this.opizw = old.getOpizw();
+        this.innymc = old.getInnymc();
+        this.nazwaewidencji = old.getNazwaewidencji();
+        this.nrpolanetto = old.getNrpolanetto();
+        this.nrpolavat = old.getNrpolavat();
+        this.procentvat = old.getProcentvat();
+    }
+    
+    
 
     public int getId() {
         return id;
@@ -191,6 +211,14 @@ public class EVatViewPola implements Serializable{
 
     public void setNrKolejny(String nrKolejny) {
         this.nrKolejny = nrKolejny;
+    }
+
+    public boolean isDuplikat() {
+        return duplikat;
+    }
+
+    public void setDuplikat(boolean duplikat) {
+        this.duplikat = duplikat;
     }
 
     
