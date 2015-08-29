@@ -32,7 +32,7 @@
                     <h:outputText value="#{loop.wzorzec}" />
                 </p:column>
                 <p:column headerText="kategoria" style="text-align: center;">
-                    <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': 'płatność')))}" />
+                    <h:outputText value="#{loop.kategoriadokumentu eq 1 ? 'koszt z VAT' : (loop.kategoriadokumentu eq 2 ? 'przychód z VAT' : (loop.kategoriadokumentu eq 3 ? 'koszt bez VAT' : (loop.kategoriadokumentu eq 4 ? 'przychód bez VAT': (loop.kategoriadokumentu eq 5 ? 'dokument prosty':'płatność'))))}" />
                 </p:column>
                 <p:column headerText="% VAT" width="30" style="text-align: right;">
                     <h:outputText value="#{loop.procentvat}">

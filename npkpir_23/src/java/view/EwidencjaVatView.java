@@ -182,6 +182,7 @@ public class EwidencjaVatView implements Serializable {
 
     public void stworzenieEwidencjiZDokumentowFK() {
         try {
+            ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
             List<EVatwpisFK> listadokvat = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
@@ -393,14 +394,14 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setOpizw(ewidwiersz.getEstawka());
                         wiersz.setProcentvat(rodzajProcent.get(ewidwiersz.getDok().getTypdokumentu()));
                         listadokvatprzetworzona.add(wiersz);
-                        duplikujEVatwpis1(wiersz);
+                        duplikujEVatViewPola(wiersz);
                     }
                 }
             }
         }
     }
     
-    private void duplikujEVatwpis1(EVatViewPola wiersz) {
+    private void duplikujEVatViewPola(EVatViewPola wiersz) {
          if (wiersz.getNazwaewidencji().getNazwa().equals("import usług") || wiersz.getNazwaewidencji().getNazwa().equals("rejestr WNT") || wiersz.getNazwaewidencji().getNazwa().equals("odwrotne obciążenie")) {
                 EVatViewPola duplikat = new EVatViewPola(wiersz);
                 //wpisuje pola zakupu
@@ -408,6 +409,9 @@ public class EwidencjaVatView implements Serializable {
                 duplikat.setNrpolanetto("51");
                 duplikat.setNrpolavat("52");
                 duplikat.setDuplikat(true);
+                if (duplikat.getProcentvat() != 0) {
+                    duplikat.setVat(Z.z(duplikat.getVat()*(duplikat.getProcentvat()/100)));
+                }
                 listadokvatprzetworzona.add(duplikat);
             }
             //nie ma ewidencji o takicj polach jak to dziala?
@@ -456,6 +460,7 @@ public class EwidencjaVatView implements Serializable {
                 eVatViewPole.setOpizw(ewidwiersz.getEstawka());
                 eVatViewPole.setInnymc(ewidwiersz.getDokfk().getMiesiac());
                 listadokvatprzetworzona.add(eVatViewPole);
+                duplikujEVatViewPola(eVatViewPole);
             }
             //kosztyprzesuniete
             if (!ewidwiersz.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
