@@ -8,6 +8,7 @@ package viewfk;
 
 import beansFK.BOFKBean;
 import beansFK.KontaFKBean;
+import beansFK.SaldoAnalitykaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
@@ -185,14 +186,11 @@ public class SaldoAnalitykaView implements Serializable {
             if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
                 it.remove();
             }
+            if (Mce.getMiesiacToNumber().get(st.getWiersz().getDokfk().getMiesiac()) > granicamca) {
+                it.remove();
+            }
         }
         for (StronaWiersza r : zapisyRok) {
-            if (r.getKonto() == null) {
-                System.out.println("Konto null "+r.toString());
-            }
-            if (r.getWiersz().getDokfk().getMiesiac()==null) {
-                System.out.println("Miesiac null "+r.toString());
-            }
             try {
                 if (r.getKonto().equals(p) && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                     if (r.getWnma().equals("Wn")) {
@@ -202,7 +200,14 @@ public class SaldoAnalitykaView implements Serializable {
                     }
                     saldoKonto.getZapisy().add(r);
                 }
-            } catch (Exception e) {  E.e(e);
+            } catch (Exception e) {
+                 if (r.getKonto() == null) {
+                System.out.println("Konto null "+r.toString());
+                }
+                if (r.getWiersz().getDokfk().getMiesiac()==null) {
+                    System.out.println("Miesiac null "+r.toString());
+                }
+                E.e(e);
                 if (wierszenieuzupelnione.size() > 0) {
                     boolean jest = false;
                     for (StronaWiersza t : wierszenieuzupelnione) {
