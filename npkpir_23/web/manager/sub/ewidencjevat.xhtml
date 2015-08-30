@@ -14,11 +14,11 @@
            <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 80%;">
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 100%;">
                     <p:column headerText="nazwa ewidencji"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
-                    <p:column headerText="nazwa pola w deklaracji" width="250"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
-                    <p:column headerText="nr pola netto" width="50"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nr pola vat" width="50"><h:outputText id="in4" value="#{loop.nrpolavat}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="400"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
+                    <p:column headerText="pole netto" width="50"><h:outputText id="in3" value="#{loop.nrpolanetto}"/></p:column>
+                    <p:column headerText="pole vat" width="50"><h:outputText id="in4" value="#{loop.nrpolavat}"/></p:column>
                     <p:column headerText="rodzaj transkacji"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
                     <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto}"/></p:column>
@@ -61,7 +61,7 @@
                         <f:selectItem itemLabel="należny/naliczony" itemValue="sz"/>
                     </h:selectOneMenu>
                 </p:panelGrid>
-                 <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form :akordeon:form0:" type="submit" style="width: 120px; margin: 10px;"/>
+                 <p:commandButton action="#{evewidencjaView.dodaj()}" value="dodaj" update="@form" type="submit" style="width: 120px; margin: 10px;"/>
             </h:form>
         </p:tab>
         <p:tab title="Internacjonalizacja"> 
@@ -69,7 +69,7 @@
                 <p:commandButton action="#{evewidencjaView.zachowajnowenazwy()}" value="zachowaj" update="@form" type="submit" style="width: 120px; margin: 10px;"/>
             <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 80%;">
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 600px;">
                     <p:column headerText="nazwa ewidencji">
                     <h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
                     <p:column headerText="nazwa w języku niemieckim" width="300">
@@ -83,8 +83,8 @@
            <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evopisView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evopisView.selected}" selectionMode="single" rowKey="#{loop.opis}"
-                             editable="true" resizableColumns="true" paginatorPosition="top">
-                    <p:column>
+                             editable="true" resizableColumns="true" paginatorPosition="top"  style="width: 400px;">
+                    <p:column width="300">
                                 <h:outputText id="in1" value="#{loop.opis}"/>
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
@@ -108,11 +108,11 @@
                 <h:outputText value="Nazwy pól deklaracji VAT" style="font-size: 15px"/>
            <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evpozycjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
-                            rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}"
+                             rows="10" selection="#{evpozycjaView.selected}" selectionMode="single" rowKey="#{loop.nazwapola}" style="width: 980px;"
                              editable="true" resizableColumns="true" paginatorPosition="top" sortBy="#{loop.nrpolanetto}" sortOrder="ascending">
-                    <p:column headerText="nazwa pola" width="800"><h:outputText id="in1" value="#{loop.nazwapola}"/></p:column>
-                    <p:column headerText="nr pola netto"><h:outputText id="in2" value="#{loop.nrpolanetto}"/></p:column>
-                    <p:column headerText="nr pola vat"><h:outputText id="in3" value="#{loop.nrpolavat}"/></p:column>
+                    <p:column headerText="nazwa pola" width="700"><h:outputText id="in1" value="#{loop.nazwapola}"/></p:column>
+                    <p:column headerText="pole netto"><h:outputText id="in2" value="#{loop.nrpolanetto}"/></p:column>
+                    <p:column headerText="pole vat"><h:outputText id="in3" value="#{loop.nrpolavat}"/></p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center;">
                         <p:commandButton action="#{evpozycjaView.usun()}" id="delete" icon="ui-icon ui-icon-trash" update="@form" type="submit"/>
                     </p:column>

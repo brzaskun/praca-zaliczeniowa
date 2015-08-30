@@ -1,0 +1,65 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:accordionPanel id="akordeon">
+        <p:tab title="Schemy deklaracji">  
+            <h:form>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 800px;"
+                             emptyMessage="nie ma zdefiniowanych schem">
+                    <f:facet name="header">
+                        <h:outputText value="lista zdefiniowanych schem"/>
+                    </f:facet>
+                    <p:column width="40">
+                        <f:facet name="header">
+                            <h:outputText value="Id"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="RokOd"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rokOd}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="RokDo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rokDo}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="McOd"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mcOd}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="McDo"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mcDo}"/>
+                    </p:column>
+                    <p:column width="300">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwaschemy}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form>
+                <p:panelGrid id="parametrydeklaracjaschema" columns="5" style="padding: 10px;">
+                    <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.nazwaschemy}"/>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
+    </p:accordionPanel>
+</ui:composition>   
+

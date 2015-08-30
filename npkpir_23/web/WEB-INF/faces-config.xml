@@ -297,9 +297,13 @@
             <from-outcome>managerzusmail</from-outcome>
             <to-view-id>/manager/managerZUSMail.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
-         <navigation-case>
+        <navigation-case>
             <from-outcome>ewidvat</from-outcome>
             <to-view-id>/manager/managerEwVat.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>deklaracjevat</from-outcome>
+            <to-view-id>/manager/managerDeklaracjevat.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>kasa</from-outcome>
