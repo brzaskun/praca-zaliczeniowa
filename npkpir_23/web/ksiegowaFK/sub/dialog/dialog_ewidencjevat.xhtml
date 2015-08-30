@@ -123,7 +123,8 @@
                                 <p:column id="nipColumn" headerText="nip" filterBy="#{wpis.kontrahent.nip}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.nip}" style="width: 15%;" filterStyle="display : none;" >  
                                     <h:outputText value="#{wpis.kontrahent.nip}" />
                                 </p:column>
-                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" >  
+                                <p:column id="kontrColumn" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" 
+                                          sortBy="#{wpis.kontrahent.npelna}" style="width: 20%;" filterStyle="display : none;" width="300">  
                                     <h:outputText value="#{wpis.kontrahent.npelna}"  />
                                 </p:column>
                                 <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" sortBy="#{wpis.netto}" style="width: 15%;" filterStyle="display : none;" >  
@@ -148,10 +149,10 @@
                                             <p:column id="SubColumn1b" headerText="nr własny">  
                                                 <h:outputText value="#{subwpis.numerwlasnydokfk}" />
                                             </p:column>
-                                            <p:column id="SubColumn1c" headerText="#{mgs.opis}">  
+                                            <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  
                                                 <h:outputText value="#{subwpis.opisdokfk}" />
                                             </p:column>
-                                            <p:column id="SubColumn1a"  headerText="wartoscdokumentu">  
+                                            <p:column id="SubColumn1a"  headerText="wartość dok.">  
                                                 <h:outputText value="#{subwpis.wartoscdokumentu}" style="float: right;">
                                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                                 </h:outputText>

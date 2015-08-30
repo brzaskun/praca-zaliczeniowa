@@ -132,7 +132,7 @@ public class VatUeFKView implements Serializable {
     private Set<VatUe> kontrahenci(List<Dokfk> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
         for (Dokfk p : listadokumentow) {
-            if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT"))) {
+            if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK"))) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
                 VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawierafk(new ArrayList<Dokfk>());

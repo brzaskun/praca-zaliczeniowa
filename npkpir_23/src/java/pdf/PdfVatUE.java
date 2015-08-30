@@ -138,7 +138,7 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{1, 2, 2, 2, 2, 2});
+            table.setWidths(new int[]{1, 2, 2, 4, 2, 2});
             table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
             table.addCell(ustawfraze("nr kol", 0, 1));
             table.addCell(ustawfraze("data wystawienia", 0, 1));
@@ -180,7 +180,7 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{1, 2, 2, 2, 2, 2});
+            table.setWidths(new int[]{1, 2, 2, 4, 2, 2});
             table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
             table.addCell(ustawfraze("nr kol", 0, 1));
             table.addCell(ustawfraze("data wystawienia", 0, 1));
