@@ -8,17 +8,16 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:accordionPanel id="akordeon">
         <p:tab title="Schemy deklaracji">  
-            <h:form>
-                <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 800px;"
+            <h:form id="form_deklaracjaVatSchemaView">
+                <p:growl autoUpdate="true"/>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 680px;"
                              emptyMessage="nie ma zdefiniowanych schem">
+                    <p:ajax event="toggleSelect" global="false"/>
                     <f:facet name="header">
                         <h:outputText value="lista zdefiniowanych schem"/>
                     </f:facet>
-                    <p:column width="40">
-                        <f:facet name="header">
-                            <h:outputText value="Id"/>
-                        </f:facet>
-                        <h:outputText value="#{item.id}"/>
+                    <p:column width="30" style="text-align: center;">
+                        <p:rowToggler/>
                     </p:column>
                     <p:column>
                         <f:facet name="header">
@@ -28,21 +27,9 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
-                            <h:outputText value="RokDo"/>
-                        </f:facet>
-                        <h:outputText value="#{item.rokDo}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
                             <h:outputText value="McOd"/>
                         </f:facet>
                         <h:outputText value="#{item.mcOd}"/>
-                    </p:column>
-                    <p:column>
-                        <f:facet name="header">
-                            <h:outputText value="McDo"/>
-                        </f:facet>
-                        <h:outputText value="#{item.mcDo}"/>
                     </p:column>
                     <p:column width="300">
                         <f:facet name="header">
@@ -50,14 +37,57 @@
                         </f:facet>
                         <h:outputText value="#{item.nazwaschemy}"/>
                     </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="mc/kw"/>
+                        </f:facet>
+                        <h:outputText value="#{item.mc0kw1 eq false ? 'miesięczna' : 'kwartalna'}" style="#{item.mc0kw1 eq false ? 'color: green' : 'color:blue'}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatSchemaView.usun(item)}" update="akordeon:form_deklaracjaVatSchemaView"/>
+                    </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid>
+                            <f:facet name="header">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="wstęp"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="pouczenie"/>
+                                    </p:column>
+                                </p:row>
+                            </f:facet>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="#{item.wstep}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{item.pouczenie}"/>
+                                </p:column>
+                            </p:row>
+                        </p:panelGrid>
+                    </p:rowExpansion>
                 </p:dataTable>
             </h:form>
             <h:form>
-                <p:panelGrid id="parametrydeklaracjaschema" columns="5" style="padding: 10px;">
+                <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
-                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.nazwaschemy}"/>
+                    <h:outputText value="nazwa schemy: "/><p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.nazwaschemy}" style="width: 200px;"/>
+                    <h:outputText value="mc/kw: " />
+                    <p:selectOneListbox value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mc0kw1}">
+                        <f:selectItem itemLabel="miesięczna" itemValue="false"/>
+                        <f:selectItem itemLabel="kwartalna" itemValue="true"/>
+                    </p:selectOneListbox>
                 </p:panelGrid>
+                <p:panelGrid columns="2" style="padding: 10px;">
+                    <h:outputText value="wstęp: " />
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.wstep}" style="width: 300px;"/>
+                    <h:outputText value="pouczenie: " />
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.pouczenie}" style="width: 600px;"/>
+                </p:panelGrid>
+                <p:commandButton value="dodaj" actionListener="#{deklaracjaVatSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklaracjaVatSchemaView"/>
             </h:form>
         </p:tab>
     </p:accordionPanel>

@@ -5,6 +5,7 @@
  */
 package view;
 
+import beansDok.DeklaracjaVatSchemaBean;
 import entity.DeklaracjaVatSchema;
 import dao.DeklaracjaVatSchemaDAO;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import msg.Msg;
 
 /**
  *
@@ -32,6 +34,27 @@ public class DeklaracjaVatSchemaView implements Serializable {
         schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();
     }
 
+    public void dodajscheme() {
+        int czyschemaistnieje = DeklaracjaVatSchemaBean.sprawdzScheme(deklaracjaVatSchema, schemyDeklaracjiVat);
+        if (czyschemaistnieje == 1) {
+            Msg.msg("e", "Nie można dodać, taka schema o takiej nazwie już istnieje");
+        } else if (czyschemaistnieje == 2) {
+            Msg.msg("e", "Nie można dodać, niedopasowany okres schemy. Istnieją wcześniejsze");
+        } else {
+            deklaracjaVatSchemaDAO.dodaj(deklaracjaVatSchema);
+            schemyDeklaracjiVat.add(deklaracjaVatSchema);
+            deklaracjaVatSchema = new DeklaracjaVatSchema();
+            Msg.msg("Dodano schemę");
+        }
+    }
+    
+    public void usun(DeklaracjaVatSchema s) {
+        deklaracjaVatSchemaDAO.destroy(s);
+        schemyDeklaracjiVat.remove(s);
+        Msg.msg("Usunieto schemę");
+    }
+    
+    
     public List getSchemyDeklaracjiVat() {
         return schemyDeklaracjiVat;
     }

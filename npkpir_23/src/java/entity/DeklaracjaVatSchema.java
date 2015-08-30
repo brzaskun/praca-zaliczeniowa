@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
@@ -33,14 +34,16 @@ public class DeklaracjaVatSchema implements Serializable {
     private Integer id;
     @Column(name = "rokOd")
     private String rokOd;
-    @Column(name = "rokDo")
-    private String rokDo;
     @Column(name = "mcOd")
     private String mcOd;
-    @Column(name = "mcDo")
-    private String mcDo;
     @Column(name = "nazwaschemy")
     private String nazwaschemy;
+    @Column(name = "wstep")
+    private String wstep;
+    @Column(name = "pouczenie", length = 2048)
+    private String pouczenie;
+    @Column(name = "mc0kw1")
+    private boolean mc0kw1;
 
     @Override
     public int hashCode() {
@@ -66,10 +69,9 @@ public class DeklaracjaVatSchema implements Serializable {
 
     @Override
     public String toString() {
-        return "DelkaracjaVatSchema{rokOd=" + rokOd + ", rokDo=" + rokDo + ", mcOd=" + mcOd + ", mcDo=" + mcDo + ", nazwaschemy=" + nazwaschemy + '}';
+        return "DeklaracjaVatSchema{" + "rokOd=" + rokOd + ", mcOd=" + mcOd + ", nazwaschemy=" + nazwaschemy + ", wstep=" + wstep + ", pouczenie=" + pouczenie + ", mc0kw1=" + mc0kw1 + '}';
     }
-
-    
+  
     
     public Integer getId() {
         return id;
@@ -87,14 +89,7 @@ public class DeklaracjaVatSchema implements Serializable {
         this.rokOd = rokOd;
     }
 
-    public String getRokDo() {
-        return rokDo;
-    }
-
-    public void setRokDo(String rokDo) {
-        this.rokDo = rokDo;
-    }
-
+  
     public String getMcOd() {
         return mcOd;
     }
@@ -103,20 +98,37 @@ public class DeklaracjaVatSchema implements Serializable {
         this.mcOd = mcOd;
     }
 
-    public String getMcDo() {
-        return mcDo;
-    }
-
-    public void setMcDo(String mcDo) {
-        this.mcDo = mcDo;
-    }
-
+  
     public String getNazwaschemy() {
         return nazwaschemy;
     }
 
     public void setNazwaschemy(String nazwaschemy) {
         this.nazwaschemy = nazwaschemy;
+    }
+
+    public String getWstep() {
+        return wstep;
+    }
+
+    public void setWstep(String wstep) {
+        this.wstep = wstep;
+    }
+
+    public String getPouczenie() {
+        return pouczenie;
+    }
+
+    public void setPouczenie(String pouczenie) {
+        this.pouczenie = pouczenie;
+    }
+
+    public boolean isMc0kw1() {
+        return mc0kw1;
+    }
+
+    public void setMc0kw1(boolean mc0kw1) {
+        this.mc0kw1 = mc0kw1;
     }
     
     
