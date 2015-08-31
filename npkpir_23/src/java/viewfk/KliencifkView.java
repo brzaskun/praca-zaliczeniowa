@@ -147,6 +147,13 @@ public class KliencifkView implements Serializable {
     }
 
     public void przyporzadkujdokonta() {
+        if (klientBezKonta.getNip().isEmpty()) {
+            Msg.msg("e", "Kontrahent nie posiada numeru NIP/Pesel. Nie można podpiąć kont");
+            wybranyklient = new Klienci();
+            klientMaKonto = new Kliencifk();
+            klientBezKonta = new Kliencifk();
+            return;
+        }
         try {
             List<Konto> wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             kliencifkDAO.dodaj(klientBezKonta);

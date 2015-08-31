@@ -66,7 +66,8 @@
                 <h:outputText value="#{wpis.nip}"/>
             </p:column>
             <p:column headerText="nrkonta">
-                <h:outputText value="#{wpis.nrkonta}"/>
+                <h:outputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser ne '4'}"/>
+                <h:inputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:column>
         </p:dataTable>
             <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
