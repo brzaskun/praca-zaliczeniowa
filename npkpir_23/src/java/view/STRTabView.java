@@ -15,8 +15,6 @@ import dao.SrodkikstDAO;
 import daoFK.DokDAOfk;
 import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
-import daoFK.TransakcjaDAO;
-import daoFK.WalutyDAOfk;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Roki;
@@ -77,19 +75,17 @@ public class STRTabView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     //tablica obiektów
-    private List<SrodekTrw> obiektDOKjsf;
+    private List<SrodekTrw> srodkiTrwaleWyposazenie;
     //tablica obiektw danego klienta
-    private List<SrodekTrw> obiektDOKjsfSel;
+    private List<SrodekTrw> srodkiTrwale;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
     private double posiadanesumanetto;
     private List<SrodekTrw> sprzedane;
     //tablica obiektów danego klienta z określonego roku i miesiąca
-    protected List<SrodekTrw> obiektDOKmrjsfSel;
-    //tablica obiektów danego klienta z określonego roku i miesiecy
-    private List<SrodekTrw> obiektDOKmrjsfSelX;
+    protected List<SrodekTrw> srodkiZakupRokBiezacy;
     //wyposazenie
-    private List<SrodekTrw> obiektDOKmrjsfSelWyposazenie;
+    private List<SrodekTrw> wyposazenie;
     //dokumenty amortyzacyjne
     private List<Amodok> amodoklist;
     private List<Amodok> amodoklistselected;
@@ -109,11 +105,10 @@ public class STRTabView implements Serializable {
     }
     
     private void ustawTabele() {
-        obiektDOKjsf = new ArrayList<>();
-        obiektDOKjsfSel = new ArrayList<>();
-        obiektDOKmrjsfSel = new ArrayList<>();
-        obiektDOKmrjsfSelX = new ArrayList<>();
-        obiektDOKmrjsfSelWyposazenie = new ArrayList<>();
+        srodkiTrwaleWyposazenie = new ArrayList<>();
+        srodkiTrwale = new ArrayList<>();
+        srodkiZakupRokBiezacy = new ArrayList<>();
+        wyposazenie = new ArrayList<>();
         posiadane = new ArrayList<>();
         sprzedane = new ArrayList<>();
         amodoklist = new ArrayList<>();
@@ -125,61 +120,38 @@ public class STRTabView implements Serializable {
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
         if (wpisView.getPodatnikWpisu() != null) {
-            List<SrodekTrw> c = new ArrayList<>();
+            List<SrodekTrw> srodkizBazy = new ArrayList<>();
             try {
-                c = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-            } catch (Exception e) { E.e(e); 
+                srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+            } catch (Exception e) {
+                E.e(e); 
             }
-            if (!c.isEmpty()) {
+            if (!srodkizBazy.isEmpty()) {
                 int i = 1;
                 int j = 1;
-                for (SrodekTrw tmp : c) {
-                    obiektDOKjsf.add(tmp);
-                    if (tmp.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        if (tmp.getTyp() != null && tmp.getTyp().equals("wyposazenie")) {
-                            tmp.setNrsrodka(i++);
-                            obiektDOKmrjsfSelWyposazenie.add(tmp);
+                for (SrodekTrw srodek : srodkizBazy) {
+                    srodkiTrwaleWyposazenie.add(srodek);
+                    if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                        if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
+                            srodek.setNrsrodka(i++);
+                            wyposazenie.add(srodek);
 
                         } else {
-                            tmp.setNrsrodka(j++);
-                            if (tmp.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                            srodek.setNrsrodka(j++);
+                            if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
                                 zakupionewbiezacyrok++;
                             }
-                            obiektDOKjsfSel.add(tmp);
-                            if (tmp.getZlikwidowany() == 0) {
-                                posiadane.add(tmp);
-                                posiadanesumanetto += tmp.getNetto();
+                            srodkiTrwale.add(srodek);
+                            if (srodek.getZlikwidowany() == 0) {
+                                posiadane.add(srodek);
+                                posiadanesumanetto += srodek.getNetto();
                             } else {
-                                sprzedane.add(tmp);
+                                sprzedane.add(srodek);
                             }
                         }
                     }
                 }
-                iloscsrodkow = obiektDOKjsfSel.size();
-//                for (SrodekTrw tmpx : obiektDOKjsfSel) {
-//                    String m = wpisView.getMiesiacWpisu();
-//                    Integer r = wpisView.getRokWpisu();
-//                    obiektDOKmrjsfSel.add(tmpx);
-//                }
-                //sortowanie dokumentów
-
-                //
-//                if (wpisView.getMiesiacOd() != null) {
-//                    obiektDOKmrjsfSelX.clear();
-//                    Iterator itxX;
-//                    itxX = obiektDOKjsfSel.iterator();
-//                    Integer r = wpisView.getRokWpisu();
-//                    String mOd = wpisView.getMiesiacOd();
-//                    Integer mOdI = Integer.parseInt(mOd);
-//                    String mDo = wpisView.getMiesiacDo();
-//                    Integer mDoI = Integer.parseInt(mDo);
-//                    while (itxX.hasNext()) {
-//                        SrodekTrw tmpx = (SrodekTrw) itxX.next();
-//                        for (int iX = mOdI; iX <= mDoI; iX++) {
-//                            obiektDOKmrjsfSelX.add(tmpx);
-//                        }
-//                    }
-//                }
+                iloscsrodkow = srodkiTrwale.size();
             }
         }
         /**
@@ -195,10 +167,11 @@ public class STRTabView implements Serializable {
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
     public void generujodpisy() {
-        List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(obiektDOKjsfSel);
-        Iterator it;
-        it = lista.iterator();
+        if (srodkiTrwale == null || srodkiTrwale.size() == 0) {
+            init();
+            Msg.msg("Pobieram środki do umorzeń");
+        }
+        Iterator it = srodkiTrwale.iterator();
         while (it.hasNext()) {
             SrodekTrw srodek = (SrodekTrw) it.next();
             //jak tego nie bedzie to zresetuje odpisy sprzedanych
@@ -206,24 +179,22 @@ public class STRTabView implements Serializable {
                 odpisypojedynczysrodek(srodek);
             }
         }
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie", "");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-
+        Msg.msg("Odpisy wygenerowane. Pamiętaj o wygenerowaniu dokumentów umorzeń! W tym celu wybierz w menu stronę umorzenie");
     }
     
     public void odpisypojedynczysrodek(SrodekTrw srodek) {
         try {
             srodek.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(srodek, wpisView));
             sTRDAO.edit(srodek);
-        } catch (Exception e) { E.e(e); 
-
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
 
     public void generujamodokumenty() {
         generujodpisy();
         List<SrodekTrw> lista = new ArrayList<>();
-        lista.addAll(obiektDOKjsfSel);
+        lista.addAll(srodkiTrwale);
         String pod = wpisView.getPodatnikWpisu();
         Integer rokOd = wpisView.getRokWpisu();
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
@@ -300,7 +271,8 @@ public class STRTabView implements Serializable {
         if (wpisView.getPodatnikWpisu() != null) {
             try {
                 amodoklist = amoDokDAO.amodokklient(wpisView.getPodatnikWpisu());
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) { 
+                E.e(e); 
             }
         }
     }
@@ -322,7 +294,7 @@ public class STRTabView implements Serializable {
             if (dokdoUsuniecia.isUmorzeniezaksiegowane() == true && napewnousunac == false) {
                 throw new Exception();
             }
-            obiektDOKjsfSel.remove(dokdoUsuniecia);
+            srodkiTrwale.remove(dokdoUsuniecia);
             posiadane.remove(dokdoUsuniecia);
             sprzedane.remove(dokdoUsuniecia);
             sTRDAO.destroy(dokdoUsuniecia);
@@ -444,45 +416,40 @@ public class STRTabView implements Serializable {
         this.wpisView = wpisView;
     }
 
-    public List<SrodekTrw> getObiektDOKjsf() {
-        return obiektDOKjsf;
+    public List<SrodekTrw> getSrodkiTrwaleWyposazenie() {
+        return srodkiTrwaleWyposazenie;
     }
 
-    public void setObiektDOKjsf(List<SrodekTrw> obiektDOKjsf) {
-        this.obiektDOKjsf = obiektDOKjsf;
+    public void setSrodkiTrwaleWyposazenie(List<SrodekTrw> srodkiTrwaleWyposazenie) {
+        this.srodkiTrwaleWyposazenie = srodkiTrwaleWyposazenie;
     }
 
-    public List<SrodekTrw> getObiektDOKjsfSel() {
-        return obiektDOKjsfSel;
+    public List<SrodekTrw> getSrodkiTrwale() {
+        return srodkiTrwale;
     }
 
-    public void setObiektDOKjsfSel(List<SrodekTrw> obiektDOKjsfSel) {
-        this.obiektDOKjsfSel = obiektDOKjsfSel;
+    public void setSrodkiTrwale(List<SrodekTrw> srodkiTrwale) {
+        this.srodkiTrwale = srodkiTrwale;
     }
 
-    public List<SrodekTrw> getObiektDOKmrjsfSel() {
-        return obiektDOKmrjsfSel;
+    public List<SrodekTrw> getSrodkiZakupRokBiezacy() {
+        return srodkiZakupRokBiezacy;
     }
 
-    public void setObiektDOKmrjsfSel(List<SrodekTrw> obiektDOKmrjsfSel) {
-        this.obiektDOKmrjsfSel = obiektDOKmrjsfSel;
+    public void setSrodkiZakupRokBiezacy(List<SrodekTrw> srodkiZakupRokBiezacy) {
+        this.srodkiZakupRokBiezacy = srodkiZakupRokBiezacy;
     }
 
-    public List<SrodekTrw> getObiektDOKmrjsfSelX() {
-        return obiektDOKmrjsfSelX;
+
+    public List<SrodekTrw> getWyposazenie() {
+        return wyposazenie;
     }
 
-    public void setObiektDOKmrjsfSelX(List<SrodekTrw> obiektDOKmrjsfSelX) {
-        this.obiektDOKmrjsfSelX = obiektDOKmrjsfSelX;
+    public void setWyposazenie(List<SrodekTrw> wyposazenie) {
+        this.wyposazenie = wyposazenie;
     }
 
-    public List<SrodekTrw> getObiektDOKmrjsfSelWyposazenie() {
-        return obiektDOKmrjsfSelWyposazenie;
-    }
-
-    public void setObiektDOKmrjsfSelWyposazenie(List<SrodekTrw> obiektDOKmrjsfSelWyposazenie) {
-        this.obiektDOKmrjsfSelWyposazenie = obiektDOKmrjsfSelWyposazenie;
-    }
+   
 
     public SrodekTrw getDokdoUsuniecia() {
         return dokdoUsuniecia;

@@ -61,8 +61,10 @@ public class DokFKVATBean {
         }
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
             evatwpis.setVat(0.0);
+        } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
         } else {
-            evatwpis.setVat(Z.z(evatwpis.getNetto()* stawkavat));
+            evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
         }
         if (!w.getSymbolwaluty().equals("PLN")) {
             //ten vat tu musi byc bo inaczej bylby onblur przy vat i cykliczne odswiezanie
@@ -85,7 +87,7 @@ public class DokFKVATBean {
         }
         if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
             evatwpis.setVat(0.0);
-        } else if (selected.getRodzajedok().getProcentvat() != 0.0) {
+        } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
             evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));

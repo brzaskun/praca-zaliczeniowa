@@ -149,7 +149,7 @@
                 <p:menuitem global="false" value="Odkup" onclick="PF('confirmation1').show()" actionListener="#{sTRSprzedazView.sprzedajgrupa(DokumentView.selDokument.dataWyst,DokumentView.selDokument.nrWlDk)}" icon="ui-icon-trash"/>
             </p:contextMenu>
             <p:panel id="panelewidencji" style="max-width: 1100px;">
-                <p:dataTable  var="wpis" value="#{STRTableView.obiektDOKjsfSel}" id="srodkiLista" rendered="#{DokumentView.pokazEST}"
+                <p:dataTable  var="wpis" value="#{STRTableView.srodkiTrwale}" id="srodkiLista" rendered="#{DokumentView.pokazEST}"
                               paginator="true" paginatorAlwaysVisible="true" rows="6"  filteredValue="#{STRTableView.filteredValues}"
                               paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
                               rowsPerPageTemplate="6,12,18,24,32,50" style="max-width: 1100px; " widgetVar="srodkiListadodWiad"

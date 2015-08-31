@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujKurs;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
@@ -130,11 +131,11 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "center", 6));
                 table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
                 if (rs.getWiersz().getTabelanbp() == null) {
-                    table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKursBO()), "right", 7));
+                    table.addCell(ustawfrazeAlign(formatujKurs(rs.getKursBO()), "right", 7));
                     table.addCell(ustawfrazeAlign("zap. BO", "right", 7));
                 } else {
                     if (rs.getWiersz().getTabelanbp().getKurssredni() > 0.0) {
-                        table.addCell(ustawfrazeAlign(formatujWaluta(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
+                        table.addCell(ustawfrazeAlign(formatujKurs(rs.getWiersz().getTabelanbp().getKurssredni()), "right", 7));
                         table.addCell(ustawfrazeAlign(rs.getWiersz().getTabelanbp().getNrtabeli(), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 7));

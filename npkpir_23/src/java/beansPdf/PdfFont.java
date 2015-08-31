@@ -136,6 +136,18 @@ public class PdfFont {
         }
     }
     
+    public static String formatujKurs(Double wsad) {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        formatter.setMinimumFractionDigits(4);
+        formatter.setMaximumFractionDigits(4);
+        try {
+            String moneyString = formatter.format(wsad);
+            return moneyString;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
     public static String formatujProcent(Double wsad) {
         NumberFormat formatter = NumberFormat.getPercentInstance();
         formatter.setMinimumFractionDigits(2);
