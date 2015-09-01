@@ -7,6 +7,7 @@ package beansFaktura;
 
 import dao.FakturaDAO;
 import entity.Faktura;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -23,22 +24,19 @@ import view.WpisView;
 public class FakturaOkresowaGenNum {
     
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {
+         List<String> numerypobranych = new ArrayList<>();
          List<Faktura> wykazfaktur = fakturaDAO.findbyKontrahentNipRok(selected.getKontrahent().getNip(), wpisView.getPodatnikWpisu(), String.valueOf(wpisView.getRokWpisu()));
                 int istniejafakturykontrahenta = 0;
                 try {
                     if (wykazfaktur.size() > 0) {
+                        for (Faktura p : wykazfaktur) {
+                            numerypobranych.add(p.getFakturaPK().getNumerkolejny());
+                        }
                         istniejafakturykontrahenta = 1;
                     }
                 } catch (Exception er) {
                 }
-                List<Faktura> wykazfakturogolem = fakturaDAO.findFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu());
-                int istniejafakturyrok = 0;
-                try {
-                    if (wykazfakturogolem.size() > 0) {
-                        istniejafakturyrok = 1;
-                    }
-                } catch (Exception er) {
-                }
+                Integer istniejafakturyrok = fakturaDAO.liczFakturyByRokPodatnik(wpisView.getRokWpisuSt(), wpisView.getPodatnikWpisu()).intValue();
          if (wpisView.getPodatnikObiekt().getSchematnumeracji() != null && !wpisView.getPodatnikObiekt().getSchematnumeracji().equals("")) {
                         if (istniejafakturyrok == 0) {
                             String numer = FakturaBean.uzyjwzorcagenerujpierwszynumerFaktura(wpisView.getPodatnikObiekt().getSchematnumeracji(), wpisView);
@@ -64,19 +62,14 @@ public class FakturaOkresowaGenNum {
                         } else {
                             String ostatniafaktura = wykazfaktur.get(wykazfaktur.size() - 1).getFakturaPK().getNumerkolejny();
                             String separator = "/";
-                            String[] elementy;
-                            elementy = ostatniafaktura.split(separator);
-                            int starynumer = Integer.parseInt(elementy[0]);
-                            starynumer++;
-                            String numer = String.valueOf(starynumer);
-                            int i = 0;
-                            for (String p : elementy) {
-                                if (i > 0) {
-                                    numer += "/" + p;
-                                }
-                                i++;
-                            }
-                            selected.getFakturaPK().setNumerkolejny(numer);
+                            String[] elementy = ostatniafaktura.split(separator);
+                            String nowypoczateknumeru = elementy[0];
+                            String nowynumer = null;
+                            do {
+                               nowypoczateknumeru = zwiekszNumer(nowypoczateknumeru);
+                               nowynumer = generujNumer(nowypoczateknumeru, elementy);
+                               selected.getFakturaPK().setNumerkolejny(nowynumer);
+                            } while (czynumerjestnaliscie(nowynumer, numerypobranych));
                             Msg.msg("i", "Generuje kolejny numer faktury");
                         }
                         RequestContext.getCurrentInstance().update("akordeon:formstworz:nrfaktury");
@@ -84,4 +77,21 @@ public class FakturaOkresowaGenNum {
                     }
     }
     
+    private static String zwiekszNumer(String stnumer) {
+        int starynumer = Integer.parseInt(stnumer);
+        starynumer++;
+        return String.valueOf(starynumer);
+    }
+    
+    private static String generujNumer(String poczatek, String[] elementy) {
+        String nowynumer = poczatek;
+        for (int i = 1; i < elementy.length; i++) {
+            nowynumer += "/" + elementy[i];
+        }
+        return nowynumer;
+    }
+
+    private static boolean czynumerjestnaliscie(String nowynumer, List<String> numerypobranych) {
+        return numerypobranych.contains(nowynumer);
+    }
 }
