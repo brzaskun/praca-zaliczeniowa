@@ -164,10 +164,11 @@ public class PismoAdminView implements Serializable{
     @PostConstruct
     public void init() {
         listapism = pismoadminDAO.findBiezace();
+        //zrobilem odwrotnie bez zmiany nazwy bo przeca po co mi widzie cte archiwalne
         if (wybierztylkobiezace==true) {
-            listapismwszytskie = pismoadminDAO.findBiezace();
-        } else {
             listapismwszytskie = pismoadminDAO.findAll();
+        } else {
+            listapismwszytskie = pismoadminDAO.findBiezace();
         }
     }
 

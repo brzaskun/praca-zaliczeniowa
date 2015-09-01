@@ -10,7 +10,7 @@
         <bcf:ajaxs/>
         <h:form style="padding: 0.5%;">
             <p:panelGrid columns="2">
-                <h:outputText value="bez archiwalnych"/>
+                <h:outputText value="z archiwalnymi"/>
                 <p:selectBooleanCheckbox value="#{pismoAdminView.wybierztylkobiezace}" label="bez archiwalnych">
                     <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism"/>
                 </p:selectBooleanCheckbox>
