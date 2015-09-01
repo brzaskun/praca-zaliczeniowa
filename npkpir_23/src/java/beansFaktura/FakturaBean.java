@@ -8,20 +8,28 @@ package beansFaktura;
 import dao.DokDAO;
 import dao.EvewidencjaDAO;
 import dao.FakturaDAO;
+import data.Data;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import entity.Dok;
 import entity.Evewidencja;
 import entity.Faktura;
 import entity.Podatnik;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import msg.Msg;
 import org.joda.time.DateTime;
+import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
 import view.WpisView;
 import waluty.Z;
@@ -171,7 +179,28 @@ public class FakturaBean {
         String rokmiesiac = wpisView.getRokWpisuSt() + "-" + wpisView.getMiesiacWpisu() + "-";
         String dzien = String.valueOf((new DateTime()).getDayOfMonth());
         dzien = dzien.length() == 1 ? "0" + dzien : dzien;
-        return rokmiesiac + dzien;
+        return sprawdzDateDlaFaktury(rokmiesiac + dzien, wpisView);
+    }
+    
+    private static String sprawdzDateDlaFaktury(String data, WpisView wpisView) {
+        String nowadata = data;
+        try {
+            DateTime dt = new DateTime(data);
+            
+        } catch (IllegalFieldValueException e) {
+            nowadata = Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+        }
+        return nowadata;
+    }
+    
+    public static void main(String[] args) {
+        try {
+            String dzien = "2015-09-31";
+            DateTime dt = new DateTime(dzien);
+            System.out.println("d");
+        } catch (Exception ex) {
+            Logger.getLogger(FakturaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public static String obliczterminzaplaty(Podatnik podatnikobiekt, String pelnadata) {
@@ -346,11 +375,11 @@ public class FakturaBean {
         return null;
     }
   
-    public static void main(String[] a) {
-        double netto = 1000.0/3.0;
-        double stawka = 0.23;
-        netto = Z.z(netto);
-        double vat = Z.z(netto*stawka);
-        System.out.println(vat);
-    }
+//    public static void main(String[] a) {
+//        double netto = 1000.0/3.0;
+//        double stawka = 0.23;
+//        netto = Z.z(netto);
+//        double vat = Z.z(netto*stawka);
+//        System.out.println(vat);
+//    }
 }
