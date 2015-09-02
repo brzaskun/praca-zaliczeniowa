@@ -56,7 +56,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
@@ -65,7 +64,6 @@ import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
-import org.primefaces.component.inputtext.InputText;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -191,6 +189,7 @@ public class DokfkView implements Serializable {
     private String komunikatywpisdok;
     private Integer lpwierszaRK;
     private Klienci klientdlaPK;
+    private String miesiacDlaZestawieniaZaksiegowanych;
 
 
     public DokfkView() {
@@ -245,7 +244,9 @@ public class DokfkView implements Serializable {
         try {
             if (ostatniklient == null) {
                 ostatniklient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                ostatniklient = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+                if (ostatniklient == null) {
+                    ostatniklient = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+                }
             }
         } catch (Exception e) {
             E.e(e);
@@ -360,7 +361,7 @@ public class DokfkView implements Serializable {
                 E.e(e1);
             }
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                rozliczsaldo(Integer.parseInt(indexwiersza));
+                rozliczsaldoWBRK(Integer.parseInt(indexwiersza));
             }
         }
     }
@@ -379,7 +380,7 @@ public class DokfkView implements Serializable {
                 E.e(e1);
             }
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-                rozliczsaldo(Integer.parseInt(indexwiersza));
+                rozliczsaldoWBRK(Integer.parseInt(indexwiersza));
             }
         }
     }
@@ -395,11 +396,14 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void rozliczsaldo(int indexwTabeli) {
-        int koncowyindex = selected.getListawierszy().size();
-        for (int i = indexwTabeli; i < koncowyindex; i++) {
-            DialogWpisywanie.rozliczkolejnesaldo(selected, i);
-            RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + i + ":saldo");
+    public void rozliczsaldoWBRK(int indexwTabeli) {
+        Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+        if (selected.getRodzajedok().getKategoriadokumentu() == 0 && kontorozrachunkowe != null) {
+            int koncowyindex = selected.getListawierszy().size();
+            for (int i = indexwTabeli; i < koncowyindex; i++) {
+                DialogWpisywanie.rozliczPojedynczeSaldoWBRK(selected, i, kontorozrachunkowe);
+                RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + i + ":saldo");
+            }
         }
     }
 
@@ -611,7 +615,7 @@ public class DokfkView implements Serializable {
         } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
-                rozliczsaldo(index);
+                rozliczsaldoWBRK(index);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
@@ -766,7 +770,7 @@ public class DokfkView implements Serializable {
         if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
-                rozliczsaldo(index);
+                rozliczsaldoWBRK(index);
                 RequestContext.getCurrentInstance().update("formwpisdokument:dataList:" + index + ":saldo");
                 selected.setSaldokoncowe(selected.getListawierszy().get(selected.getListawierszy().size() - 1).getSaldoWBRK());
 
@@ -1405,7 +1409,8 @@ public class DokfkView implements Serializable {
         wykazZaksiegowanychDokumentow = wykaz;
     }
 
-    public void odswiezzaksiegowaneInit() {    
+    public void odswiezzaksiegowaneInit() {
+        miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
@@ -1416,16 +1421,18 @@ public class DokfkView implements Serializable {
             wybranakategoriadok = "wszystkie";
         }
         if (wybranakategoriadok.equals("wszystkie")) {
-            if (wpisView.getMiesiacWpisu().equals("CR")) {
+            if (miesiacDlaZestawieniaZaksiegowanych.equals("CR")) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
             } else {
+                wpisView.setMiesiacWpisu(miesiacDlaZestawieniaZaksiegowanych);
                 wpisView.wpisAktualizuj();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
             }
         } else {
-            if (wpisView.getMiesiacWpisu().equals("CR")) {
+            if (miesiacDlaZestawieniaZaksiegowanych.equals("CR")) {
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokKategoria(wpisView, wybranakategoriadok);
             } else {
+                wpisView.setMiesiacWpisu(miesiacDlaZestawieniaZaksiegowanych);
                 wpisView.wpisAktualizuj();
                 wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMcKategoria(wpisView, wybranakategoriadok);
             }
@@ -1522,7 +1529,10 @@ public class DokfkView implements Serializable {
             pole = (String) Params.params("formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma_input");
         }
         //11 dodaje nowego klienta
-        if (pole.contains("dodaj konto")) {
+        if (pole.equals("")) {
+            //jak nie ma konta to nie ma co uruchamiac
+            return;
+        } else if (pole.contains("dodaj konto")) {
             jest1niema0_konto = 0;
             return;
         } else if (pole.contains("dodaj kontrahenta")) {
@@ -1533,7 +1543,6 @@ public class DokfkView implements Serializable {
         }
         try {
             if (aktualnyWierszDlaRozrachunkow != wybranastronawiersza || wybranastronawiersza.getTypStronaWiersza() == 0) {
-
                 String wnma = wybranastronawiersza.getWnma();
                 wnmadoprzeniesienia = wybranastronawiersza.getWnma();
                 if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
@@ -1566,7 +1575,9 @@ public class DokfkView implements Serializable {
                     System.out.println(wybranastronawiersza.toString());
 
                 }
-                rozliczsaldo(lpWierszaWpisywanie);
+                if (wybranastronawiersza.getKonto() != null && wybranastronawiersza.getKonto().equals(selected.getRodzajedok().getKontorozrachunkowe())) {
+                    rozliczsaldoWBRK(lpWierszaWpisywanie);
+                }
             }
         } catch (Exception e) {
             System.out.println("Blad DokfkView pobranieStronaWiersza");
@@ -2360,7 +2371,7 @@ public class DokfkView implements Serializable {
                 }
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
             }
-            rozliczsaldo(wierszpodstawowy.getIdporzadkowy() - 1);
+            rozliczsaldoWBRK(wierszpodstawowy.getIdporzadkowy() - 1);
         } catch (Exception e) {
             E.e(e);
             System.out.println("Problem z numerem grupy DokfkView sprawdzwartoscigrupy()");
@@ -2534,6 +2545,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public String getMiesiacDlaZestawieniaZaksiegowanych() {
+        return miesiacDlaZestawieniaZaksiegowanych;
+    }
+
+    public void setMiesiacDlaZestawieniaZaksiegowanych(String miesiacDlaZestawieniaZaksiegowanych) {
+        this.miesiacDlaZestawieniaZaksiegowanych = miesiacDlaZestawieniaZaksiegowanych;
     }
 
     public String getKomunikatywpisdok() {

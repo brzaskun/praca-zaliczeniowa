@@ -31,19 +31,16 @@ public class DialogWpisywanie {
         return wynik;
     }
     
-    public static void rozliczkolejnesaldo(Dokfk selected, int indexwTabeli) {
-        if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
-            Konto kontorozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
-            Wiersz wierszbiezacy = selected.getListawierszy().get(indexwTabeli);
-            double sumapoprzednich = 0.0;
-            if (indexwTabeli==0) {
-                sumapoprzednich = selected.getSaldopoczatkowe();
-            } else {
-                sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
-            }
-            double kwotawiersza = obliczsaldo(wierszbiezacy, kontorozrachunkowe);
-            wierszbiezacy.setSaldoWBRK(sumapoprzednich + kwotawiersza);
+    public static void rozliczPojedynczeSaldoWBRK(Dokfk selected, int indexwTabeli, Konto kontorozrachunkowe) {
+        Wiersz wierszbiezacy = selected.getListawierszy().get(indexwTabeli);
+        double sumapoprzednich = 0.0;
+        if (indexwTabeli==0) {
+            sumapoprzednich = selected.getSaldopoczatkowe();
+        } else {
+            sumapoprzednich = selected.getListawierszy().get(indexwTabeli-1).getSaldoWBRK();
         }
+        double kwotawiersza = obliczsaldo(wierszbiezacy, kontorozrachunkowe);
+        wierszbiezacy.setSaldoWBRK(sumapoprzednich + kwotawiersza);
     }
     
     public static void naprawsaldo(Dokfk selected,Wiersz wiersz) {

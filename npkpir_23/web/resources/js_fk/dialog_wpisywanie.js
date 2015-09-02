@@ -1,3 +1,4 @@
+
 var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {
         var source = event.target || event.srcElement;
