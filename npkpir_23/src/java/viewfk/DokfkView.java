@@ -1685,22 +1685,22 @@ public class DokfkView implements Serializable {
         selected.setZablokujzmianewaluty(true);
     }
 
-    private StronaWiersza pobierzStronaWierszaDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
-        zablokujprzyciskzapisz = false;
-        try {
-            if (stronawiersza.equals("Wn")) {
-                wiersz.getStronaWn().setWiersz(wiersz);
-                return wiersz.getStronaWn();
-            } else {
-                wiersz.getStronaMa().setWiersz(wiersz);
-                return wiersz.getStronaMa();
-            }
-        } catch (Exception e) {
-            E.e(e);
-            System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
-            return null;
-        }
-    }
+//    private StronaWiersza pobierzStronaWierszaDlaRozrachunkow(Wiersz wiersz, String stronawiersza) {
+//        zablokujprzyciskzapisz = false;
+//        try {
+//            if (stronawiersza.equals("Wn")) {
+//                wiersz.getStronaWn().setWiersz(wiersz);
+//                return wiersz.getStronaWn();
+//            } else {
+//                wiersz.getStronaMa().setWiersz(wiersz);
+//                return wiersz.getStronaMa();
+//            }
+//        } catch (Exception e) {
+//            E.e(e);
+//            System.out.println("błąd pobierzStronaWierszaDlaRozrachunkow DokfkView 2652");
+//            return null;
+//        }
+//    }
 
     public List<Transakcja> tworzenieTransakcjiPlatnosc(String stronawiersza, StronaWiersza wybranastronawiersza) {
         List<Transakcja> transakcje = new ArrayList<>();
