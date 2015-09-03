@@ -4,18 +4,13 @@
  */
 package converter;
 
-import dao.PodatnikDAO;
 import entity.Podatnik;
-import entityfk.Konto;
-import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import view.PodatnikView;
 import view.PodatnikWyborView;
-import viewfk.PlanKontConverterView;
 
 /**
  *

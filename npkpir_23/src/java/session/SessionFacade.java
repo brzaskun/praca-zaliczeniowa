@@ -6,6 +6,7 @@ package session;
 
 import embeddable.Mce;
 import entity.Amodok;
+import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
@@ -33,6 +34,7 @@ import entity.Pozycjenafakturze;
 import entity.Rejestrlogowan;
 import entity.Rodzajedok;
 import entity.Ryczpoz;
+import entity.SchemaEwidencja;
 import entity.Sesja;
 import entity.SrodekTrw;
 import entity.Srodkikst;
@@ -1623,6 +1625,10 @@ public class SessionFacade<T> implements Serializable {
 
     public List<String> findZnajdzSeriePodatnik(WpisView wpisView) {
         return (List<String>) em.createNamedQuery("Dokfk.znajdzSeriePodatnik").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+    }
+
+    public List<SchemaEwidencja> findEwidencjeSchemy(DeklaracjaVatSchema wybranaschema) {
+        return (List<SchemaEwidencja>) em.createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
     }
 
     

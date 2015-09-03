@@ -87,7 +87,49 @@
                     <h:outputText value="pouczenie: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.pouczenie}" style="width: 600px;"/>
                 </p:panelGrid>
-                <p:commandButton value="dodaj" actionListener="#{deklaracjaVatSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:form_deklaracjaVatSchemaView"/>
+                <p:commandButton value="dodaj" actionListener="#{deklaracjaVatSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="@form"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="Definiowanie pozycji dla ewidencji">
+            <h:form>
+                <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv">
+                    <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="@form" style="width: 120px; margin: 10px;"/>
+                <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowaj()}" update="@form" style="width: 120px; margin: 10px;"/>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemaewidencjalista}" var="item" style="width: 900px;"
+                             emptyMessage="Nie pobrano schemy" sortBy="#{item.evewidencja.nazwa}">
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjaVatSchema.nazwaschemy}"/>
+                    </p:column>
+                    <p:column width="200">
+                        <f:facet name="header">
+                            <h:outputText value="Ewidencja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.evewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column width="350">
+                        <f:facet name="header">
+                            <h:outputText value="Pole nazwa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.evewidencja.pole}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Pole netto"/>
+                        </f:facet>
+                        <p:inputText value="#{item.polenetto}" style="width: 60px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Pole vat"/>
+                        </f:facet>
+                        <p:inputText value="#{item.polevat}" style="width: 60px;"/>
+                    </p:column>
+                </p:dataTable>
             </h:form>
         </p:tab>
     </p:accordionPanel>

@@ -5,17 +5,12 @@
  */
 package converter;
 
-import daoFK.TabelanbpDAO;
-import entity.Klienci;
 import entityfk.Tabelanbp;
 import java.util.List;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.inject.Inject;
-import view.KlienciConverterView;
 import viewfk.TabelaNBPView;
 
 /**
