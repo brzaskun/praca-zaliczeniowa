@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku #{WpisView.rokWpisuSt} - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilansBO_wyliczenie" 
               resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1250, 750);" closeOnEscape="true" 
@@ -49,6 +50,10 @@
                           <p:menuitem global="false" value="#{mgs.pasywa} z nr kont" actionListener="#{pozycjaBRBOView.drukujBilansPozycje('b', pozycjaBRBOView.sumabilansowapasywa)}" icon="fa fa-print"/>  
                       </p:splitButton>
                 </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <h:outputText value="różnica stron: "/>
+                <bcf:outputpl value="#{pozycjaBRBOView.sumabilansowaaktywa-pozycjaBRBOView.sumabilansowapasywa}"/>
             </p:panelGrid>
             <p:panelGrid columns="1" >
                 <p:treeTable id="dataList" value="#{pozycjaBRBOView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRBOView.selectedNodes}" 
