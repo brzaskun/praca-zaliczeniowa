@@ -235,7 +235,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
             double kwotaMa = stronaWiersza.getWnma().equals("Ma") ? stronaWiersza.getKwotaPLN() : 0.0;
             try {
                 Konto kontopobrane = plankont.get(plankont.indexOf(stronaWiersza.getKonto()));
-                if (kontopobrane.getPelnynumer().equals("402-1")) {
+                if (kontopobrane.getPelnynumer().equals("755")) {
                     System.out.println("33");
                 }
                 String pozycjaRZiS_wn = kontopobrane.getKontopozycjaID().getPozycjaWn();
@@ -253,10 +253,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaWn, stronaWiersza);
-                        if (kontopobrane.isPrzychod0koszt1() == true) {
+                        if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                             donaniesienia = kwotapierwotna+kwotaWn;
                         } else {
-                            donaniesienia = kwotapierwotna-kwotaWn;
+                            if (kontopobrane.isPrzychod0koszt1() == true) {
+                                donaniesienia = kwotapierwotna+kwotaWn;
+                            } else {
+                                donaniesienia = kwotapierwotna-kwotaWn;
+                            }
                         }
                         pozycja.setKwota(donaniesienia);
                         wn = true;
@@ -266,10 +270,14 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         double kwotapierwotna = pozycja.getKwota();
                         double donaniesienia = 0.0;
                         pozycja.obsluzPrzyporzadkowaneStronaWiersza(kwotaMa, stronaWiersza);
-                        if (kontopobrane.isPrzychod0koszt1() == true) {
-                            donaniesienia = kwotapierwotna-kwotaMa;
-                        } else {
+                        if (kontopobrane.getZwyklerozrachszczegolne().equals("szczególne")) {
                             donaniesienia = kwotapierwotna+kwotaMa;
+                        } else {
+                            if (kontopobrane.isPrzychod0koszt1() == true) {
+                                donaniesienia = kwotapierwotna-kwotaMa;
+                            } else {
+                                donaniesienia = kwotapierwotna+kwotaMa;
+                            }
                         }
                         pozycja.setKwota(donaniesienia);
                         ma = true;
@@ -396,9 +404,7 @@ public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable
                         }
                     }
                 } catch (Exception e) {
-                    if (e.getStackTrace() != null && e.getStackTrace().length >0) {
-                        E.e(e);
-                    }
+                    E.e(e);
                     throw new Exception("Istnieją konta nieprzyporządkowane do RZiS. Nie można przetworzyć danych za okres.");
                 }
             }

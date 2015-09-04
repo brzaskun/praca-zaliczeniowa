@@ -6,7 +6,7 @@
 
     xmlns:f="http://java.sun.com/jsf/core">
 
-    <p:dialog header="Zmien nazwy konta: #{planKontView.selectednodekontowzorcowy.pelnynumer} #{planKontView.selectednodekontowzorcowy.nazwaskrocona}" 
+    <p:dialog header="Zmień parametry konta: #{planKontView.selectednodekontowzorcowy.pelnynumer} #{planKontView.selectednodekontowzorcowy.nazwaskrocona}" 
               widgetVar="dialogedycjanazwkontawzorcowy" resizable="false" id="dialogedycjanazwkontawzorcowy">  
         <h:form id="formedycjanazwwzorcowy">  
             <p:focus for="dkp">
@@ -27,7 +27,7 @@
                         <f:selectItem itemLabel="zwykłe" itemValue="zwykłe"/>
                         <f:selectItem itemLabel="rozrachunkowe" itemValue="rozrachunkowe"/>
                         <f:selectItem itemLabel="szczególne" itemValue="szczególne"/>
-                        <f:selectItem itemLabel="#{mgs.VAT}" itemValue="#{mgs.VAT}"/>
+                        <f:selectItem itemLabel="#{mgs.VAT}" itemValue="vat"/>
                     </p:selectOneMenu>
                     <h:outputText value=""/>
                     <p:commandButton value="edytuj" actionListener="#{planKontView.zmiananazwykontawzorcowy()}" accesskey="d" type="submit" update=":formedycjanazwwzorcowy, :formwzorcowy" 

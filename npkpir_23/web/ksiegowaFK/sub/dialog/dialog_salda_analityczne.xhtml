@@ -124,12 +124,12 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.saldoWn}" width="60" >
+                <p:column headerText="#{mgs.saldoWn}" width="60" sortBy="#{loop.saldoWn}">
                     <h:outputText value="#{loop.saldoWn != 0.0 ? loop.saldoWn : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
-                <p:column headerText="#{mgs.saldoMa}" width="60" >
+                <p:column headerText="#{mgs.saldoMa}" width="60" sortBy="#{loop.saldoMa}">
                     <h:outputText value="#{loop.saldoMa != 0.0 ? loop.saldoMa : null}" style="float: right; color: green; font-weight: 700;">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
