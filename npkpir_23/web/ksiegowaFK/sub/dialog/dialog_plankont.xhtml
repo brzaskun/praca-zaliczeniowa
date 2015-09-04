@@ -108,7 +108,7 @@
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
                     <p:column style="width: 60px;"  rendered="#{facesContext.externalContext.remoteUser eq '4'}">
-                        <h:outputText value="#{loop.mapotomkow}"/> 
+                        <h:outputText value="#{loop.mapotomkow eq true ? 't' : null}"/> 
                     </p:column>
                     <p:column style="width: 100px;"  rendered="#{facesContext.externalContext.remoteUser ne '4'}">
                         <h:outputText value="#{loop.nazwaskrocona.length() lt 37 ? loop.nazwaskrocona : loop.nazwaskrocona.substring(0,37)}"/> 

@@ -76,7 +76,7 @@
                 </p:column>
                 <p:column headerText="konto Wn" width="80"  filterBy="#{loop.stronaWn.konto.pelnynumer}"
                           filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaWn.konto.pelnynumer}">
-                    <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" style="margin-left: 3px;"/>
+                    <h:outputText value="#{loop.stronaWn.konto.pelnynumer}" style="margin-left: 3px; #{loop.stronaWn.konto.mapotomkow eq true ? 'color: red' : null}"/>
                 </p:column>
                 
                 <p:column headerText="kwota Ma" width="60" filterBy="#{loop.stronaMa.kwota}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.kwota}">
@@ -90,7 +90,7 @@
                         </h:outputText>
                 </p:column>
                 <p:column headerText="konto Ma" width="80"   filterBy="#{loop.stronaMa.konto.pelnynumer}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{loop.stronaMa.konto.pelnynumer}">
-                    <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px;"/>
+                    <h:outputText value="#{loop.stronaMa.konto.pelnynumer}"  style="margin-left: 3px;  #{loop.stronaMa.konto.mapotomkow eq true ? 'color: red' : null}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
