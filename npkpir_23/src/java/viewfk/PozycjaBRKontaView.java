@@ -656,6 +656,7 @@ public class PozycjaBRKontaView implements Serializable {
                                 System.out.println("skopiujPozycje()");
                             }
                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
+                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             boxNaKonto = kontouzytkownika;
                             if (kontouzytkownika.getPelnynumer().equals("755")) {
                                 System.out.println("skopiujPozycje()");
@@ -694,6 +695,7 @@ public class PozycjaBRKontaView implements Serializable {
                 if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
                         Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
+                        kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                         boxNaKonto = kontouzytkownika;
                         if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
                             if (kontouzytkownika.getPelnynumer().equals("010-3")) {
@@ -741,6 +743,7 @@ public class PozycjaBRKontaView implements Serializable {
                         System.out.println("Szukam konta " + p.getKontoID().toString());
                         try {
                             Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladdocelowy);
+                            kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             if (kontouzytkownika.getPelnynumer().equals("407")) {
                                System.out.println("dd");
                             }
@@ -778,6 +781,7 @@ public class PozycjaBRKontaView implements Serializable {
                          System.out.println("Szukam konta "+p.getKontoID().toString());
                          try {
                              Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladdocelowy);
+                             kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                              boxNaKonto = kontouzytkownika;
                              if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
                                   if (!kontouzytkownika.getZwyklerozrachszczegolne().equals("zwykłe")) {

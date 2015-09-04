@@ -888,8 +888,10 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaWn(), "center", 8));
-                    table.addCell(ustawfrazeAlign(p.getKontopozycjaID().getPozycjaMa(), "center", 8));
+                    String pozycjaWn = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaWn() : "brak przyp.Wn";
+                    table.addCell(ustawfrazeAlign(pozycjaWn, "center", 8));
+                    String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
+                    table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
                     double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
                     if (kwota > 0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
