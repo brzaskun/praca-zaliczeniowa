@@ -11,7 +11,7 @@
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1600,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
               onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
               >
-        <p:layout fullPage="false" style="height: 720px;" >  
+        <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
             <p:layoutUnit position="north">
                 <p:panelGrid columns="3" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
@@ -93,23 +93,23 @@
                         });
                         /* ]]> */
                     </script>
-                    <p:outputPanel id="kontenertabeli" deferred="true">
+                    <p:outputPanel id="kontenertabeli">
                           <style>
                                 .grid .ui-widget-content .ui-datatable-odd td{
                                     height : 30px !important;
-                                    padding: 0px 1px  !important;
+                                    padding: 0px 0px  !important;
                                 }
                                 .grid .ui-widget-content .ui-datatable-even td{
                                     height : 30px !important;
-                                    padding: 0px 1px  !important;
+                                    padding: 0px 0px  !important;
                                 }
                                 .grid1 .ui-widget-content .ui-datatable-odd td{
                                     height : 30px !important;
-                                    padding: 0px 1px  !important;
+                                    padding: 0px 0px  !important;
                                 }
                                 .grid1 .ui-widget-content .ui-datatable-even td{
                                     height : 30px !important;
-                                    padding: 0px 1px  !important;
+                                    padding: 0px 0px  !important;
                                 }
                           </style>
                         <p:dataTable id="dataList" value="#{kontoZapisFKView.wykazkont}" var="loop1" selectionMode="single" 
@@ -148,7 +148,7 @@
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
-                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1090px; height: 550px; overflow-y: scroll;"
+                                 selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
                                  >
@@ -223,6 +223,15 @@
                 </h:form>  
             </p:layoutUnit> 
             <p:layoutUnit position="south" style="height: 70px;">
+                <h:form>
+                    <h:outputText value="rodzaje kont: "/>
+                     <p:selectOneMenu id="rodzajkont" value="#{kontoZapisFKView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                         <p:ajax event="change" listener="#{kontoZapisFKView.publicinit()}" update=":form:dataList, :tabelazsumami"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
+                </h:form>
                 <h:form id="tabelazsumami">
                     <p:dataTable id="sumy" value="#{kontoZapisFKView.listasum}" var="loop"
                                  style="float: right; margin-left: 300px; width: 800px; height: 70px;" emptyMessage="#{mgs.niewybranokonta}">

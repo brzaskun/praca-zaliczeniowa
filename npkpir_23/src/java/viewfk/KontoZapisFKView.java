@@ -68,6 +68,7 @@ public class KontoZapisFKView implements Serializable{
     private List<ListaSum> listasum;
     private List<Konto> wykazkont;
     private List<StronaWiersza> zapisyRok;
+    private String wybranyRodzajKonta;
 
     
 
@@ -81,13 +82,36 @@ public class KontoZapisFKView implements Serializable{
     }
     
     @PostConstruct
-    private void init(){
+    private void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         zapisyRok = pobierzzapisy();
         if (wykazkont != null) {
             wybranekonto = wykazkont.get(0);
         }
     }
+    
+    public void publicinit() {
+         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (wybranyRodzajKonta != null) {
+            if (wybranyRodzajKonta.equals("bilansowe")) {
+                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                        it.remove();
+                    }
+                }
+            } else if (wybranyRodzajKonta.equals("wynikowe")) {
+                for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                        it.remove();
+                    }
+                }
+            }
+        }
+        if (wykazkont != null) {
+            wybranekonto = wykazkont.get(0);
+        }
+    }
+    
     private List<StronaWiersza> pobierzzapisy() {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
@@ -520,6 +544,14 @@ public class KontoZapisFKView implements Serializable{
 
     public void setSumaWnPLN(Double sumaWnPLN) {
         this.sumaWnPLN = sumaWnPLN;
+    }
+
+    public String getWybranyRodzajKonta() {
+        return wybranyRodzajKonta;
+    }
+
+    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
+        this.wybranyRodzajKonta = wybranyRodzajKonta;
     }
 
     public Double getSumaMaPLN() {

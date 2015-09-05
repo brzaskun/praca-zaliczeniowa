@@ -39,12 +39,16 @@
             </p:panelGrid>
             
             <p:dataTable id="tablicasaldaanalityczne" value="#{saldoAnalitykaView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
-                         filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}"
-                         sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}" selectionMode="single" 
+                         filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
+                         sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}"  
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
                          >
                 <p:ajax event="filter" global="false"/>
+                 <p:ajax event="rowSelectCheckbox" global="false" update="akordeon:tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" update="akordeon:tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
+                <p:ajax event="toggleSelect" global="false" update="akordeon:tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
                 <p:ajax event="rowToggle" global="false"/>
+                <p:column selectionMode="multiple" width="25" style="text-align: center;"></p:column>
                 <p:column width="20">
                     <p:rowToggler/>
                 </p:column>

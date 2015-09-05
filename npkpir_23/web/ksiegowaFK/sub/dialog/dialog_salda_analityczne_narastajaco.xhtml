@@ -58,7 +58,10 @@
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                 </p:column>
                <p:column>
-                    <p:commandButton value="#{mgs.drukujtab}" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="#{mgs.drukujtab} 01-06" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="#{mgs.drukujtab} 07-12" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 2)}" style="width: 120px; margin-left: 10px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                 </p:column>
             </p:panelGrid>
 
