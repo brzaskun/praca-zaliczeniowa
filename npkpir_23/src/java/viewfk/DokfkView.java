@@ -1287,6 +1287,7 @@ public class DokfkView implements Serializable {
         List<Dokfk> listaRozniceWnMa = new ArrayList<>();
         List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
+        List<Dokfk> listabrakiPozycji = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
                 if (p.getKontr() == null) {
@@ -1302,6 +1303,7 @@ public class DokfkView implements Serializable {
             boolean jestkontonieostatnieWn = false;
             boolean jestkontonieostatnieMa = false;
             boolean brakwpln = false;
+            boolean brakPozycji = false;
             int liczbawierszy = p.getListawierszy().size();
             if (!p.getDokfkPK().getSeriadokfk().equals("BO")) {
                 for (Wiersz r : p.getListawierszy()) {
@@ -1310,6 +1312,9 @@ public class DokfkView implements Serializable {
                     if (wn != null) {
                         if (wn.getKonto().getPelnynumer().equals("402-1")) {
                             System.out.println("d");
+                        }
+                        if (wn.getKonto().getKontopozycjaID() == null) {
+                            brakPozycji = true;
                         }
                         jestkontonieostatnieWn = wn.getKonto().isMapotomkow();
                         if (wn.getKwota() > 0 && wn.getKwotaPLN() == 0) {
@@ -1323,6 +1328,9 @@ public class DokfkView implements Serializable {
                         sumawn += wn.getKwotaPLN();
                     }
                     if (ma != null) {
+                        if (ma.getKonto().getKontopozycjaID() == null) {
+                            brakPozycji = true;
+                        }
                         jestkontonieostatnieMa = ma.getKonto().isMapotomkow();
                         if (ma.getKwota() > 0 && ma.getKwotaPLN() == 0) {
                             brakwpln = true;
@@ -1360,6 +1368,9 @@ public class DokfkView implements Serializable {
             if (brakwpln == true) {
                 listabraki.add(p);
             }
+            if (brakPozycji == true) {
+                listabrakiPozycji.add(p);
+            }
         }
         String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
@@ -1392,6 +1403,14 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         dokDAOfk.editList(listabraki);
+        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
+        b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : listabrakiPozycji) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
         Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         System.out.println("Ilosc roznych dokumentow " + listabraki.size());
         init();
