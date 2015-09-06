@@ -1352,7 +1352,7 @@ public class DokfkView implements Serializable {
             if (Z.z(sumawn) != Z.z(sumama)) {
                 double roznica = Z.z(Z.z(sumawn) - Z.z(sumama));
                 listaRozniceWnMa.add(p);
-                    if (liczbawierszy == 2) {
+                    if (liczbawierszy > 1) {
                     StronaWiersza swWn = p.getListawierszy().get(0).getStronaWn();
                     StronaWiersza swMa = p.getListawierszy().get(0).getStronaMa();
                     String symbol = swWn.getSymbolWaluty() != null ? swWn.getSymbolWaluty() : swWn.getSymbolWalutyBO();
