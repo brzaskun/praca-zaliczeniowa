@@ -15,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Max;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -44,6 +45,7 @@ public class DeklaracjaVatSchema implements Serializable {
     private String pouczenie;
     @Column(name = "mc0kw1")
     private boolean mc0kw1;
+    
 
     @Override
     public int hashCode() {
@@ -130,7 +132,8 @@ public class DeklaracjaVatSchema implements Serializable {
     public void setMc0kw1(boolean mc0kw1) {
         this.mc0kw1 = mc0kw1;
     }
-    
+
+  
     
     
 }

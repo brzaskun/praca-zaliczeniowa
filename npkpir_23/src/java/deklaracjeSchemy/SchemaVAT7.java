@@ -30,7 +30,7 @@ public class SchemaVAT7 implements Serializable{
        schemalist.add(new Schema("kwartalne", "2013", null, "1", "K-7", "2013/01/17/1084/", "<Pouczenie>W przypadku niewpłacenia w obowiązującym terminie kwoty z poz.58 lub wpłacenia jej w niepełnej wysokości, niniejsza deklaracja stanowi podstawę do wystawienia tytułu wykonawczego, zgodnie z przepisami ustawy z dnia 17 czerwca 1966 r. o postępowaniu egzekucyjnym w administracji (Dz.U. z 2012 r. poz. 1015, z późn. zm.).</Pouczenie>"));
    }
    /**
-     * Porównywanie dwóch rokow i mce. Przyjmuje String
+     * Wyszukiwanie właściwej schemy
      * 
      * @param okres "miesięczne" lub "kwartalne"
      * @param rok rok okresu rozliczeniowego

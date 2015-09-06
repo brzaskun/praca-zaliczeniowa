@@ -5,9 +5,11 @@
 package view;
 
 import beansVAT.VATDeklaracja;
+import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
 import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
+import dao.SchemaEwidencjaDAO;
 import deklaracjaVAT7_13.VAT713;
 import deklaracjeSchemy.SchemaVAT7;
 import embeddable.EVatwpisSuma;
@@ -17,8 +19,10 @@ import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.TKodUS;
 import embeddable.Vatpoz;
+import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
 import entity.Podatnik;
+import entity.SchemaEwidencja;
 import error.E;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -82,6 +86,10 @@ public class Vat7DKView implements Serializable {
     private TKodUS tKodUS;
     @Inject
     protected DeklaracjevatDAO deklaracjevatDAO;
+    @Inject
+    private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
+    @Inject
+    private SchemaEwidencjaDAO schemaEwidencjaDAO;
     private int flaga;
     private String rok;
     private String mc;
@@ -109,6 +117,7 @@ public class Vat7DKView implements Serializable {
     }
 
     public void oblicz() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         Podatnik pod = wpisView.getPodatnikObiekt();
         String vatokres = sprawdzjakiokresvat();
         if (!vatokres.equals("miesięczne")) {
@@ -169,6 +178,69 @@ public class Vat7DKView implements Serializable {
             zachowaj = false;
         }
     }
+    
+    public void obliczNowa() throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
+        String vatokres = sprawdzjakiokresvat();
+        if (!vatokres.equals("miesięczne")) {
+            mc = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
+        }
+        HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
+        ArrayList<EVatwpisSuma> wartosci = new ArrayList<>(sumaewidencji.values());
+        VATDeklaracja.agregacjaEwidencjiZakupowych5152(wartosci);
+        pozycjeDeklaracjiVAT.setCelzlozenia("1");
+        //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
+        List<DeklaracjaVatSchema> pobranaschemaLista = deklaracjaVatSchemaDAO.findAll();
+        DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, pobranaschemaLista);
+        List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
+        VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, wartosci, pozycjeSzczegoloweVAT, null);
+        String kwotaautoryzujaca = kwotaautoryzujcaPobierz();
+        System.out.println("Koniec");
+        //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
+        if (flaga != 1) {
+            try {
+                deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
+                deklaracjawyslana = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
+                if (flaga != 3) {
+                    flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
+                    //pobiera tylko wtedy jak nie ma z reki
+                    if (pole47zreki == false) {
+                        pobierz47zpoprzedniej(deklaracjawyslana);
+                    }
+                } else {
+                    RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
+                    Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                }
+            } catch (Exception e) {
+                E.e(e);
+                pobierz47zustawien();
+                najpierwszadeklaracja();
+            }
+        }
+        if (flaga != 1) {
+            podsumujszczegolowe();
+            uzupelnijPozycje(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres);
+        }
+        //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
+        if (zachowaj == true) {
+            if (flaga == 2) {
+                deklaracjevatDAO.destroy(deklaracjakorygowana);
+                deklaracjevatDAO.edit(nowadeklaracja);
+                deklaracjakorygowana = new Deklaracjevat();
+                Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
+            } else if (flaga == 1) {
+                Msg.msg("e", podatnik + " Deklaracja nie zachowana", "form:msg");
+            } else {
+                deklaracjevatDAO.dodaj(nowadeklaracja);
+                Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc, "form:msg");
+            }
+            //pobieranie potwierdzenia
+            RequestContext.getCurrentInstance().update("vat7:");
+            zachowaj = false;
+        }
+    }
+    
     
      private String kodUrzaduSkarbowegoPobierz() {
         String kodaUrzaduSkarbowego = null;

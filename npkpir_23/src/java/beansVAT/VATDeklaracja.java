@@ -5,11 +5,17 @@
  */
 package beansVAT;
 
+import data.Data;
+import deklaracjapit37.DeklaracjaVAT;
 import embeddable.Daneteleadresowe;
 import embeddable.EVatwpisSuma;
+import embeddable.Kwartaly;
 import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.Schema;
+import entity.DeklaracjaVatSchema;
 import entity.Evewidencja;
 import entity.Podatnik;
+import entity.SchemaEwidencja;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -73,6 +79,61 @@ public class VATDeklaracja implements Serializable {
                 System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
+    }
+    
+    public static void przyporzadkujPozycjeSzczegoloweNowe(List<SchemaEwidencja> schemaewidencjalista, List<EVatwpisSuma> wyciagnieteewidencje, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
+        for (EVatwpisSuma ew : wyciagnieteewidencje) {
+            try {
+                SchemaEwidencja odnalezionyWierszSchemaEwidencja = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
+                String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
+                String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
+                String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
+                int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
+                String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
+                int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
+                Class[] paramString = new Class[1];
+                paramString[0] = String.class;
+                Method met;
+                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolanetto, paramString);
+                met.invoke(pozycjeSzczegoloweVAT, new String(netto));
+                paramString = new Class[1];
+                paramString[0] = Integer.class;
+                try {
+                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolanetto, paramString);
+                    met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
+                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                }
+                if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
+                    paramString = new Class[1];
+                    paramString[0] = String.class;
+                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolavat, paramString);
+                    met.invoke(pozycjeSzczegoloweVAT, new String(vat));
+                    paramString = new Class[1];
+                    paramString[0] = Integer.class;
+                    try {
+                        met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolavat, paramString);
+                        met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
+                    } catch (Exception e) {
+                    }
+                }
+                if (nowaWartoscVatZPrzeniesienia != null) {
+                    pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
+                    pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
+                }
+            } catch (Exception ex) {
+                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
+            }
+        }
+    }
+    
+    private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {
+        SchemaEwidencja s = null;
+        for (SchemaEwidencja p : schemaewidencjalista) {
+            if (p.getEvewidencja().equals(evewidencja)) {
+                s = p;
+            }
+        }
+        return s;
     }
 
     public static void duplikujZapisyDlaTransakcji(ArrayList<EVatwpisSuma> ewidencjeDoPrzegladu) {
@@ -229,5 +290,29 @@ public class VATDeklaracja implements Serializable {
         p.setPoleI65(roznica);
         p.setPole65(roznica.toString());
         pozycjeSzczegoloweVAT = p;
+    }
+    
+     public static DeklaracjaVatSchema odnajdzscheme(String okres, String rok, String mckw, List<DeklaracjaVatSchema> schemydoprzeszukania) {
+        DeklaracjaVatSchema pasujaca = null;
+        if (okres.equals("miesięczne")) {
+            for (DeklaracjaVatSchema p : schemydoprzeszukania) {
+                if (p.isMc0kw1() == false) {
+                    int wynik = Data.compare(rok, mckw, p.getRokOd(), p.getMcOd());
+                    if (wynik > -1) {
+                        pasujaca = p;
+                    }
+                }
+            }
+        } else {
+            for (DeklaracjaVatSchema p : schemydoprzeszukania) {
+                if (p.isMc0kw1() == true) {
+                    int wynik = Data.compare(rok, mckw, p.getRokOd(), p.getMcOd());
+                    if (wynik > -1) {
+                        pasujaca = p;
+                    }
+                }
+            }
+        }
+        return pasujaca;
     }
 }

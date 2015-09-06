@@ -45,6 +45,8 @@ public class SchemaEwidencja implements Serializable {
     private String polenetto;
     @Column(name = "polevat")
     private String polevat;
+    @Column(name = "czescdeklaracji", length = 1)
+    private String czescdeklaracji;
 
     public SchemaEwidencja(DeklaracjaVatSchema deklaracjaVatSchema, Evewidencja evewidencja, String polenetto, String polevat) {
         this.deklaracjaVatSchema = deklaracjaVatSchema;
@@ -123,6 +125,14 @@ public class SchemaEwidencja implements Serializable {
 
     public void setPolevat(String polevat) {
         this.polevat = polevat;
+    }
+    
+    public String getCzescdeklaracji() {
+        return czescdeklaracji;
+    }
+
+    public void setCzescdeklaracji(String czescdeklaracji) {
+        this.czescdeklaracji = czescdeklaracji;
     }
     
     

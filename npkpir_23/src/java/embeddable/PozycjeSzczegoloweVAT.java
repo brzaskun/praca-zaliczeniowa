@@ -17,6 +17,16 @@ import javax.persistence.Embeddable;
 public class PozycjeSzczegoloweVAT implements Serializable {
     private static final long serialVersionUID = -4763993669394275545L;
     
+    private String pole10;
+    private String pole11;
+    private String pole12;
+    private String pole13;
+    private String pole14;
+    private String pole15;
+    private String pole16;
+    private String pole17;
+    private String pole18;
+    private String pole19;
     private String pole20;
     private String pole21;
     private String pole22;
@@ -69,6 +79,16 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     private String pole69;
     private String pole70;
     
+    private Integer poleI10;
+    private Integer poleI11;
+    private Integer poleI12;
+    private Integer poleI13;
+    private Integer poleI14;
+    private Integer poleI15;
+    private Integer poleI16;
+    private Integer poleI17;
+    private Integer poleI18;
+    private Integer poleI19;
     private Integer poleI20;
     private Integer poleI21;
     private Integer poleI22;
@@ -122,6 +142,16 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     private Integer poleI70;
 
     public PozycjeSzczegoloweVAT() {
+        poleI10 = 0;
+        poleI11 = 0;
+        poleI12 = 0;
+        poleI13 = 0;
+        poleI14 = 0;
+        poleI15 = 0;
+        poleI16 = 0;
+        poleI17 = 0;
+        poleI18 = 0;
+        poleI19 = 0;
         poleI20=0;
         poleI21=0;
         poleI22=0;
@@ -174,8 +204,168 @@ public class PozycjeSzczegoloweVAT implements Serializable {
         poleI69=0;
         poleI70=0;
     }
+//<editor-fold defaultstate="collapsed" desc="comment">    
+    public String getPole10() {
+        return pole10;
+    }
+
+    public void setPole10(String pole10) {
+        this.pole10 = pole10;
+    }
+
+    public String getPole11() {
+        return pole11;
+    }
+
+    public void setPole11(String pole11) {
+        this.pole11 = pole11;
+    }
+
+    public String getPole12() {
+        return pole12;
+    }
+
+    public void setPole12(String pole12) {
+        this.pole12 = pole12;
+    }
+
+    public String getPole13() {
+        return pole13;
+    }
+
+    public void setPole13(String pole13) {
+        this.pole13 = pole13;
+    }
+
+    public String getPole14() {
+        return pole14;
+    }
+
+    public void setPole14(String pole14) {
+        this.pole14 = pole14;
+    }
+
+    public String getPole15() {
+        return pole15;
+    }
+
+    public void setPole15(String pole15) {
+        this.pole15 = pole15;
+    }
+
+    public String getPole16() {
+        return pole16;
+    }
+
+    public void setPole16(String pole16) {
+        this.pole16 = pole16;
+    }
+
+    public String getPole17() {
+        return pole17;
+    }
+
+    public void setPole17(String pole17) {
+        this.pole17 = pole17;
+    }
+
+    public String getPole18() {
+        return pole18;
+    }
+
+    public void setPole18(String pole18) {
+        this.pole18 = pole18;
+    }
+
+    public String getPole19() {
+        return pole19;
+    }
+
+    public void setPole19(String pole19) {
+        this.pole19 = pole19;
+    }
+
+    public Integer getPoleI10() {
+        return poleI10;
+    }
+
+    public void setPoleI10(Integer poleI10) {
+        this.poleI10 = poleI10;
+    }
+
+    public Integer getPoleI11() {
+        return poleI11;
+    }
+
+    public void setPoleI11(Integer poleI11) {
+        this.poleI11 = poleI11;
+    }
+
+    public Integer getPoleI12() {
+        return poleI12;
+    }
+
+    public void setPoleI12(Integer poleI12) {
+        this.poleI12 = poleI12;
+    }
+
+    public Integer getPoleI13() {
+        return poleI13;
+    }
+
+    public void setPoleI13(Integer poleI13) {
+        this.poleI13 = poleI13;
+    }
+
+    public Integer getPoleI14() {
+        return poleI14;
+    }
+
+    public void setPoleI14(Integer poleI14) {
+        this.poleI14 = poleI14;
+    }
+
+    public Integer getPoleI15() {
+        return poleI15;
+    }
+
+    public void setPoleI15(Integer poleI15) {
+        this.poleI15 = poleI15;
+    }
+
+    public Integer getPoleI16() {
+        return poleI16;
+    }
+
+    public void setPoleI16(Integer poleI16) {
+        this.poleI16 = poleI16;
+    }
+
+    public Integer getPoleI17() {
+        return poleI17;
+    }
+
+    public void setPoleI17(Integer poleI17) {
+        this.poleI17 = poleI17;
+    }
+
+    public Integer getPoleI18() {
+        return poleI18;
+    }
+
+    public void setPoleI18(Integer poleI18) {
+        this.poleI18 = poleI18;
+    }
+
+    public Integer getPoleI19() {
+        return poleI19;
+    }
+
     
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    public void setPoleI19(Integer poleI19) {    
+        this.poleI19 = poleI19;
+    }
+
     public String getPole20() {
         return pole20;
     }
