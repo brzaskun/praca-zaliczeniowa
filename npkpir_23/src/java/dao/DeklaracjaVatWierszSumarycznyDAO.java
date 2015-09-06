@@ -6,6 +6,7 @@
 package dao;
 
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatWierszSumaryczny;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Inject;
@@ -17,18 +18,18 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-public class DeklaracjaVatSchemaDAO extends DAO implements Serializable{
+public class DeklaracjaVatWierszSumarycznyDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     
     @Inject
     private SessionFacade sessionFacade;
-
-    public DeklaracjaVatSchemaDAO() {
-        super(DeklaracjaVatSchema.class);
+    
+    public DeklaracjaVatWierszSumarycznyDAO() {
+        super(DeklaracjaVatWierszSumaryczny.class);
     }
     
     public List findAll() {
-        return sessionFacade.findAll(DeklaracjaVatSchema.class);
+        return sessionFacade.findAll(DeklaracjaVatWierszSumaryczny.class);
     }
     
 }

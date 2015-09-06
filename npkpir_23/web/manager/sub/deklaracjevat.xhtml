@@ -143,6 +143,28 @@
                 </p:dataTable>
             </h:form>
         </p:tab>
+        <p:tab title="Definiowanie nazw pozycji sumarycznych">
+            <h:form id="definowanienazwpozycjisum">
+                <p:dataTable value="#{deklaracjaVatWierszeSumaryczneView.wierszesumarycznelista}" var="item" style="width: 500px;"
+                             emptyMessage="Nie zdefiniowano wierszy" id="tabelawierszy">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa pozycji"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nazwapozycji}"/>
+                    </p:column>
+                    <p:column width="40">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{deklaracjaVatWierszeSumaryczneView.usun(item)}" update="akordeon:definowanienazwpozycjisum:tabelawierszy"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <h:form id="dodawaniewierszasum">
+                <p:panelGrid columns="1" style="margin-top: 10px;">
+                    <p:inputText value="#{deklaracjaVatWierszeSumaryczneView.nazwawierszasumarycznego.nazwapozycji}" style="width: 600px;"/>
+                    <p:commandButton value="dodaj" actionListener="#{deklaracjaVatWierszeSumaryczneView.dodajwiersz()}" style="width: 120px;" update="akordeon:definowanienazwpozycjisum:tabelawierszy, akordeon:dodawaniewierszasum"/>
+                </p:panelGrid>
+            </h:form>
+        </p:tab>
     </p:accordionPanel>
 </ui:composition>   
 
