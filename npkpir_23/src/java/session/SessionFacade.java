@@ -7,6 +7,7 @@ package session;
 import embeddable.Mce;
 import entity.Amodok;
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
@@ -1631,6 +1632,9 @@ public class SessionFacade<T> implements Serializable {
         return (List<SchemaEwidencja>) em.createNamedQuery("SchemaEwidencja.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
     }
 
+    public List<DeklaracjaVatSchemaWierszSum> findWierszSumSchemy(DeklaracjaVatSchema wybranaschema) {
+        return (List<DeklaracjaVatSchemaWierszSum>) em.createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
+    }
     
    
 

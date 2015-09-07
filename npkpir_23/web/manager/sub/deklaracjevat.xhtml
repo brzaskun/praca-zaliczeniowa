@@ -143,6 +143,59 @@
                 </p:dataTable>
             </h:form>
         </p:tab>
+        <p:tab title="Definiowanie pozycji dla wierszy sumarycznych">
+            <h:form id="definowaniewierszysumarycznych">
+                <p:selectOneMenu value="#{deklaracjaVatSchemaView.wybranaschema}" converter="DeklaracjaVatSchemaConv" rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}">
+                    <f:selectItems value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" itemLabel="#{item.nazwaschemy}" itemValue="#{item}"/>
+                </p:selectOneMenu>
+                <p:commandButton value="pobierz" actionListener="#{deklaracjaVatSchemaView.pobierzschemaewidencja()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
+                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowaj()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
+                                 rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
+                <p:dataTable value="#{deklaracjaVatSchemaView.schemaewidencjalista}" var="item" style="width: 960px;"
+                             emptyMessage="Nie pobrano schemy/Nie zdefinowano jeszcze schem" sortBy="#{item.evewidencja.nazwa}">
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="Nazwa schemy"/>
+                        </f:facet>
+                        <h:outputText value="#{item.deklaracjaVatSchema.nazwaschemy}"/>
+                    </p:column>
+                    <p:column width="200">
+                        <f:facet name="header">
+                            <h:outputText value="Ewidencja"/>
+                        </f:facet>
+                        <h:outputText value="#{item.evewidencja.nazwa}"/>
+                    </p:column>
+                    <p:column width="350">
+                        <f:facet name="header">
+                            <h:outputText value="Pole nazwa"/>
+                        </f:facet>
+                        <h:outputText value="#{item.evewidencja.pole}"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Pole netto"/>
+                        </f:facet>
+                        <p:inputText value="#{item.polenetto}" style="width: 60px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Pole vat"/>
+                        </f:facet>
+                        <p:inputText value="#{item.polevat}" style="width: 60px;"/>
+                    </p:column>
+                    <p:column style="text-align: center;">
+                        <f:facet name="header">
+                            <h:outputText value="Część dekl"/>
+                        </f:facet>
+                        <p:selectOneMenu value="#{item.czescdeklaracji}">
+                            <f:selectItem itemLabel="C" itemValue="C"/>
+                            <f:selectItem itemLabel="D" itemValue="D"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
         <p:tab title="Definiowanie nazw pozycji sumarycznych">
             <h:form id="definowanienazwpozycjisum">
                 <p:dataTable value="#{deklaracjaVatWierszeSumaryczneView.wierszesumarycznelista}" var="item" style="width: 500px;"
