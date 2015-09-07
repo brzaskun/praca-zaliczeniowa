@@ -216,9 +216,9 @@ public class ZUSMailView implements Serializable {
     
     private void usuzpelnijdane(Zusmail zusmail) {
         try {
-            Zusmail zusmailznaleziony = zusmailDAO.findZusmail(zusmail);
-            if (zusmailznaleziony != null) {
-               zusmail.setNrwysylki(zusmailznaleziony.getNrwysylki()+1);
+            Zusmail zusmaielwyslany = zusmailDAO.findZusmail(zusmail);
+            if (zusmaielwyslany != null) {
+               zusmail.setNrwysylki(zusmaielwyslany.getNrwysylki()+1);
                zusmail.setDatawysylki(new Date());
                zusmailDAO.edit(zusmail);
                Msg.msg("Edytowano istniejący zusmail");

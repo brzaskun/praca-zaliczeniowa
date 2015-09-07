@@ -151,6 +151,8 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
             podatnikDAO.edit(selected);
             obrabianeparametryzus =  new Zusstawki();
             ustawRokMc();
+            pokazButtonUsun = false;
+            dodaj0edtuj1 = false;
             Msg.msg("Usunięto parametr ZUS do podatnika "+selected.getNazwapelna());
         } catch (Exception e) { E.e(e); 
             Msg.msg("Nieusunięto parametr ZUS do podatnika "+selected.getNazwapelna());
