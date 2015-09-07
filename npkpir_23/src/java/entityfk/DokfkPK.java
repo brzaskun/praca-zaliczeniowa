@@ -20,8 +20,8 @@ import javax.validation.constraints.Size;
 public class DokfkPK implements Serializable {
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 5)
-    @Column(name = "seriadokfk", nullable = false, length = 5)
+    @Size(min = 1, max = 15)
+    @Column(name = "seriadokfk", nullable = false, length = 15)
     private String seriadokfk;
     @Basic(optional = false)
     @NotNull
