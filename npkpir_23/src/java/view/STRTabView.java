@@ -200,7 +200,7 @@ public class STRTabView implements Serializable {
         Integer mcOd = Integer.parseInt(wpisView.getMiesiacWpisu());
         amoDokDAO.destroy(pod, rokOd, mcOd);
         Roki roki = new Roki();
-        while (rokOd <= roki.getRokiList().get(0)) {
+        while (roki.getRokiList().contains(rokOd)) {
             Amodok amoDok = new Amodok();
             AmodokPK amodokPK = new AmodokPK();
             amodokPK.setPodatnik(pod);

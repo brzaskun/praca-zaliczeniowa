@@ -471,7 +471,7 @@ public class DokfkView implements Serializable {
         double[] wartosciVAT = DokFKVATBean.podsumujwartosciVAT(selected.getEwidencjaVAT());
         if (selected.getListawierszy().size() == 1 && selected.isImportowany() == false) {
             if (rodzajdok.getKategoriadokumentu() == 1) {
-                if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+                if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("sz")) {
                     //oblicza polowe vat dla faktur samochody osobowe
                     evatwpis.setVat(wartosciVAT[4]);
                     evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
@@ -562,8 +562,8 @@ public class DokfkView implements Serializable {
     public void updatevat(EVatwpisFK evatwpis, String form) {
         int lp = evatwpis.getLp();
         Waluty w = selected.getWalutadokumentu();
-        double kurs = selected.getTabelanbp().getKurssredni();
         if (!w.getSymbolwaluty().equals("PLN")) {
+            double kurs = selected.getTabelanbp().getKurssredni();
             evatwpis.setVatwwalucie(Z.z(evatwpis.getVat() / kurs));
         }
         evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));

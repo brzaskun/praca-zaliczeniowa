@@ -62,7 +62,7 @@ public class DokFKVATBean {
         if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
             evatwpis.setVat(0.0);
         } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
-            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) / 2));
+            evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) * selected.getRodzajedok().getProcentvat() /100));
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));
         }
@@ -97,18 +97,33 @@ public class DokFKVATBean {
     public static double[] podsumujwartosciVAT(List<EVatwpisFK> ewidencja) {
         double[] wartosciVAT = new double[8];
         for (EVatwpisFK p : ewidencja) {
-            wartosciVAT[0] += p.getNetto();
-            wartosciVAT[1] += p.getVat();
-            wartosciVAT[2] += p.getNettowwalucie();
-            wartosciVAT[3] += p.getVatwwalucie();
-            double vatplnpolowa = Z.z(p.getVat()/2);
-            double vatplnreszta = Z.z(p.getVat()-vatplnpolowa);
-            wartosciVAT[4] = vatplnpolowa;
-            wartosciVAT[5] = vatplnreszta;
-            double vatpolowa = Z.z(p.getVatwwalucie()/2);
-            double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
-            wartosciVAT[6] = vatpolowa;
-            wartosciVAT[7] = vatreszta;
+            if (p.getDokfk().getRodzajedok().getProcentvat() != 0.0 && p.getEwidencja().getTypewidencji().equals("z")) {
+                wartosciVAT[0] += p.getNetto();
+                wartosciVAT[1] += Z.z(p.getVat()*100/p.getDokfk().getRodzajedok().getProcentvat());
+                wartosciVAT[2] += p.getNettowwalucie();
+                wartosciVAT[3] += p.getVatwwalucie();
+                double vatplnpolowa = p.getVat();
+                double vatplnreszta = wartosciVAT[1] - vatplnpolowa;
+                wartosciVAT[4] = vatplnpolowa;
+                wartosciVAT[5] = vatplnreszta;
+                double vatpolowa = Z.z(p.getVatwwalucie()*p.getDokfk().getRodzajedok().getProcentvat()/100);
+                double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
+                wartosciVAT[6] = vatpolowa;
+                wartosciVAT[7] = vatreszta;
+            } else {
+                wartosciVAT[0] += p.getNetto();
+                wartosciVAT[1] += p.getVat();
+                wartosciVAT[2] += p.getNettowwalucie();
+                wartosciVAT[3] += p.getVatwwalucie();
+                double vatplnpolowa = Z.z(p.getVat()/2);
+                double vatplnreszta = Z.z(p.getVat()-vatplnpolowa);
+                wartosciVAT[4] = vatplnpolowa;
+                wartosciVAT[5] = vatplnreszta;
+                double vatpolowa = Z.z(p.getVatwwalucie()/2);
+                double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
+                wartosciVAT[6] = vatpolowa;
+                wartosciVAT[7] = vatreszta;
+            }
         }
         return wartosciVAT;
     }
