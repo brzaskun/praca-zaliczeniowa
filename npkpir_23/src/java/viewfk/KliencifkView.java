@@ -100,6 +100,8 @@ public class KliencifkView implements Serializable {
                     int wynik = pobieraniekontaFK();
                     if (wynik == 1) {
                         makonto0niemakonta1 = true;
+                    } else {
+                        makonto0niemakonta1 = false;
                     }
                 }
             }

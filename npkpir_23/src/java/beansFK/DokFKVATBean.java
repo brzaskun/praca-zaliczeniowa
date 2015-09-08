@@ -318,7 +318,7 @@ public class DokFKVATBean {
                         if (w.getSymbolwaluty().equals("PLN")) {
                             wn.setKwota(wartosciVAT[0]);
                             wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                                 ma.setKwota(wartosciVAT[0]);
                                 ma.setKwotaPLN(wartosciVAT[0]);
                             } else {
@@ -328,7 +328,7 @@ public class DokFKVATBean {
                         } else {
                             wn.setKwota(wartosciVAT[2]);
                             wn.setKwotaPLN(wartosciVAT[0]);
-                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                            if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                                 ma.setKwota(wartosciVAT[2]);
                                 ma.setKwotaPLN(wartosciVAT[0]);
                             } else {
@@ -385,7 +385,7 @@ public class DokFKVATBean {
     private static void dolaczwiersz2_3(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1, Dokfk selected, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          Wiersz wiersz2_3;
                 if (w.getSymbolwaluty().equals("PLN")) {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[1], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
@@ -394,7 +394,7 @@ public class DokFKVATBean {
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                     }
                 } else {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[3], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[1]);
@@ -424,7 +424,7 @@ public class DokFKVATBean {
     private static void dolaczwiersz2_3Koszt(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1, Dokfk selected, KontoDAOfk kontoDAOfk, WpisView wpisView) {
          Wiersz wiersz2_3;
                 if (w.getSymbolwaluty().equals("PLN")) {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[5], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
@@ -433,7 +433,7 @@ public class DokFKVATBean {
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
                     }
                 } else {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3 = ObslugaWiersza.utworzNowyWierszWNT(selected, lp, wartosciVAT[7], 1);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
                         wiersz2_3.getStronaMa().setKwotaPLN(wartosciVAT[5]);
@@ -486,7 +486,7 @@ public class DokFKVATBean {
                     if (w.getSymbolwaluty().equals("PLN")) {
                         wn.setKwota(wartosciVAT[0]);
                         wn.setKwotaPLN(wartosciVAT[0]);
-                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                             ma.setKwota(wartosciVAT[0]);
                             ma.setKwotaPLN(wartosciVAT[0]);
                         } else {
@@ -496,7 +496,7 @@ public class DokFKVATBean {
                     } else {
                         wn.setKwota(wartosciVAT[2]);
                         wn.setKwotaPLN(wartosciVAT[0]);
-                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                        if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                             ma.setKwota(wartosciVAT[2]);
                             ma.setKwotaPLN(wartosciVAT[0]);
                         } else {
@@ -540,7 +540,7 @@ public class DokFKVATBean {
     private static void dolaczwiersz2_3Edit(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1, Dokfk selected) {
          Wiersz wiersz2_3 = selected.getListawierszy().get(lp);
                 if (w.getSymbolwaluty().equals("PLN")) {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3.getStronaWn().setKwota(wartosciVAT[1]);
                         wiersz2_3.getStronaMa().setKwota(wartosciVAT[1]);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
@@ -550,7 +550,7 @@ public class DokFKVATBean {
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
                     }
                 } else {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3.getStronaWn().setKwota(wartosciVAT[3]);
                         wiersz2_3.getStronaMa().setKwota(wartosciVAT[3]);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[1]);
@@ -567,7 +567,7 @@ public class DokFKVATBean {
     private static void dolaczwiersz2_3KosztEdit(double[] wartosciVAT, Waluty w, int lp, int odliczenie0koszt1, Dokfk selected) {
          Wiersz wiersz2_3 = selected.getListawierszy().get(lp);
                 if (w.getSymbolwaluty().equals("PLN")) {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3.getStronaWn().setKwota(wartosciVAT[5]);
                         wiersz2_3.getStronaMa().setKwota(wartosciVAT[5]);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
@@ -577,7 +577,7 @@ public class DokFKVATBean {
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
                     }
                 } else {
-                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług")) {
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().equals("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
                         wiersz2_3.getStronaWn().setKwota(wartosciVAT[7]);
                         wiersz2_3.getStronaMa().setKwota(wartosciVAT[7]);
                         wiersz2_3.getStronaWn().setKwotaPLN(wartosciVAT[5]);
