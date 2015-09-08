@@ -24,6 +24,7 @@ import javax.persistence.ManyToOne;
 @Named
 @Entity
 public class EVatwpis1 implements Serializable {
+    private static final long serialVersionUID = -3274961058594456484L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)

@@ -142,16 +142,16 @@ public class PozycjeSzczegoloweVAT implements Serializable {
     private Integer poleI70;
 
     public PozycjeSzczegoloweVAT() {
-        poleI10 = 0;
-        poleI11 = 0;
-        poleI12 = 0;
-        poleI13 = 0;
-        poleI14 = 0;
-        poleI15 = 0;
-        poleI16 = 0;
-        poleI17 = 0;
-        poleI18 = 0;
-        poleI19 = 0;
+        poleI10=0;
+        poleI11=0;
+        poleI12=0;
+        poleI13=0;
+        poleI14=0;
+        poleI15=0;
+        poleI16=0;
+        poleI17=0;
+        poleI18=0;
+        poleI19=0;
         poleI20=0;
         poleI21=0;
         poleI22=0;

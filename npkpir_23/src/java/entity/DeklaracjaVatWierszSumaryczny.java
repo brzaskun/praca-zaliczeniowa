@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,6 +33,30 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
     private Integer id;
     @Column(name = "nazwapozycji")
     private String nazwapozycji;
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.nazwapozycji);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DeklaracjaVatWierszSumaryczny other = (DeklaracjaVatWierszSumaryczny) obj;
+        if (!Objects.equals(this.nazwapozycji, other.nazwapozycji)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
     public Integer getId() {
         return id;

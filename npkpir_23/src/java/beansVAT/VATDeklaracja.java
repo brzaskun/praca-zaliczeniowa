@@ -16,6 +16,7 @@ import entity.DeklaracjaVatSchema;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
+import error.E;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -46,36 +47,17 @@ public class VATDeklaracja implements Serializable {
                 int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
                 String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                 int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                Class[] paramString = new Class[1];
-                paramString[0] = String.class;
-                Method met;
-                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolanetto, paramString);
-                met.invoke(pozycjeSzczegoloweVAT, new String(netto));
-                paramString = new Class[1];
-                paramString[0] = Integer.class;
-                try {
-                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolanetto, paramString);
-                    met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
-                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                }
+                ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                 if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
-                    paramString = new Class[1];
-                    paramString[0] = String.class;
-                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolavat, paramString);
-                    met.invoke(pozycjeSzczegoloweVAT, new String(vat));
-                    paramString = new Class[1];
-                    paramString[0] = Integer.class;
-                    try {
-                        met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolavat, paramString);
-                        met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
-                    } catch (Exception e) {
-                    }
+                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                 }
+                //to jest uzywane przy korektach
                 if (nowaWartoscVatZPrzeniesienia != null) {
                     pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
                     pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
                 }
             } catch (Exception ex) {
+                E.e(ex);
                 System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
@@ -91,41 +73,39 @@ public class VATDeklaracja implements Serializable {
                 int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
                 String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                 int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                Class[] paramString = new Class[1];
-                paramString[0] = String.class;
-                Method met;
-                met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolanetto, paramString);
-                met.invoke(pozycjeSzczegoloweVAT, new String(netto));
-                paramString = new Class[1];
-                paramString[0] = Integer.class;
-                try {
-                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolanetto, paramString);
-                    met.invoke(pozycjeSzczegoloweVAT, new Integer(nettoI));
-                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                }
+                ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                 if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
-                    paramString = new Class[1];
-                    paramString[0] = String.class;
-                    met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpolavat, paramString);
-                    met.invoke(pozycjeSzczegoloweVAT, new String(vat));
-                    paramString = new Class[1];
-                    paramString[0] = Integer.class;
-                    try {
-                        met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpolavat, paramString);
-                        met.invoke(pozycjeSzczegoloweVAT, new Integer(vatI));
-                    } catch (Exception e) {
-                    }
+                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                 }
+                //to jest uzywane przy korektach
                 if (nowaWartoscVatZPrzeniesienia != null) {
                     pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
                     pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
                 }
             } catch (Exception ex) {
+                E.e(ex);
                 System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
             }
         }
     }
     
+    private static void ustawPozycje(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, String nrpola, String kwotaString, int kwotaInt) {
+        try {
+            Class[] paramString = new Class[1];
+            paramString[0] = String.class;
+            Method met;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPole" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new String(kwotaString));
+            paramString = new Class[1];
+            paramString[0] = Integer.class;
+            met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("setPoleI" + nrpola, paramString);
+            met.invoke(pozycjeSzczegoloweVAT, new Integer(kwotaInt));
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            E.e(e);
+        }
+    }
+    
+        
     private static SchemaEwidencja szukaniewieszaSchemy(List<SchemaEwidencja> schemaewidencjalista, Evewidencja evewidencja) {
         SchemaEwidencja s = null;
         for (SchemaEwidencja p : schemaewidencjalista) {

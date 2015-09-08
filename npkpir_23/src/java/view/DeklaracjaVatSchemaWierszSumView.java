@@ -5,13 +5,10 @@
  */
 package view;
 
-import beansDok.DeklaracjaVatSchemaBean;
-import entity.DeklaracjaVatSchema;
 import dao.DeklaracjaVatSchemaDAO;
+import entity.DeklaracjaVatSchema;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
 import dao.DeklaracjaVatWierszSumarycznyDAO;
-import dao.EvewidencjaDAO;
-import dao.SchemaEwidencjaDAO;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Evewidencja;
@@ -33,51 +30,75 @@ import msg.Msg;
 @ViewScoped
 public class DeklaracjaVatSchemaWierszSumView implements Serializable {
     @Inject
-    private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
-    private List<DeklaracjaVatSchemaWierszSum> schemyWierszSum;
-    @Inject
-    private DeklaracjaVatSchema deklaracjaVatSchema;
+    private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
+    private List<DeklaracjaVatSchema> schemyDeklaracjiVat;
     private DeklaracjaVatSchema wybranaschema;
     @Inject
     private DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO;
-    private List<DeklaracjaVatWierszSumaryczny> deklaracjaVatWierszSumaryczny;
-    
+    private List<DeklaracjaVatWierszSumaryczny> listawierszy;
+    @Inject
+    private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
+    private List<DeklaracjaVatSchemaWierszSum> schemawierszlista;
+   
     @PostConstruct
     private void init() {
-        schemyWierszSum = deklaracjaVatSchemaWierszSumDAO.findAll();
-        deklaracjaVatWierszSumaryczny = deklaracjaVatWierszSumarycznyDAO.findAll();
+        schemyDeklaracjiVat = deklaracjaVatSchemaDAO.findAll();
+        listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
+       
     }
 
-       
-//    public void pobierzschemaewidencja() {
-//        deklaracjaVatWierszSumaryczny = deklaracjaVatWierszSumarycznyDAO.findEwidencjeSchemy(wybranaschema);
-//        List<Evewidencja> uzupelnioneewidencje = new ArrayList<>();
-//        for (SchemaEwidencja p : schemyWierszSum) {
-//            uzupelnioneewidencje.add(p.getEvewidencja());
-//        }
-//        List<Evewidencja> ewidencjedododania = new ArrayList<>();
-//        for (Evewidencja r : deklaracjaVatWierszSumaryczny) {
-//            if (uzupelnioneewidencje.contains(r)) {
-//                uzupelnioneewidencje.remove(r);
-//            } else {
-//                ewidencjedododania.add(r);
-//            }
-//        }
-//        if (!ewidencjedododania.isEmpty()) {
-//            for (Evewidencja s : ewidencjedododania) {
-//                SchemaEwidencja nowaschemaewidencja = new SchemaEwidencja(wybranaschema, s, null, null);
-//                schemaewidencjalista.add(nowaschemaewidencja);
-//            }
-//        }
-//    }
-//
-//    public void zachowaj() {
-//        deklaracjaVatSchemaWierszSumDAO.editList(schemyWierszSum);
-//        Msg.msg("Zachowano schemat wierszy");
-//    }
-//    
+    public void pobierzschemawiersz() {
+        schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findEwidencjeSchemy(wybranaschema);
+        List<DeklaracjaVatWierszSumaryczny> uzupelnionewiersze = new ArrayList<>();
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
+            uzupelnionewiersze.add(p.getDeklaracjaVatWierszSumaryczny());
+        }
+        List<DeklaracjaVatWierszSumaryczny> wierszedododania = new ArrayList<>();
+        for (DeklaracjaVatWierszSumaryczny r : listawierszy) {
+            if (uzupelnionewiersze.contains(r)) {
+                uzupelnionewiersze.remove(r);
+            } else {
+                wierszedododania.add(r);
+            }
+        }
+        if (!wierszedododania.isEmpty()) {
+            for (DeklaracjaVatWierszSumaryczny s : wierszedododania) {
+                DeklaracjaVatSchemaWierszSum nowyschemawiersz = new DeklaracjaVatSchemaWierszSum(wybranaschema, s, null, null);
+                schemawierszlista.add(nowyschemawiersz);
+            }
+        }
+    }
+    
+     public void zachowaj() {
+        deklaracjaVatSchemaWierszSumDAO.editList(schemawierszlista);
+        Msg.msg("Zachowano scheme-wiersz");
+    }
+    
+    public List<DeklaracjaVatSchema> getSchemyDeklaracjiVat() {
+        return schemyDeklaracjiVat;
+    }
+
+    public void setSchemyDeklaracjiVat(List<DeklaracjaVatSchema> schemyDeklaracjiVat) {
+        this.schemyDeklaracjiVat = schemyDeklaracjiVat;
+    }
+
+    public DeklaracjaVatSchema getWybranaschema() {
+        return wybranaschema;
+    }
+
+    public void setWybranaschema(DeklaracjaVatSchema wybranaschema) {
+        this.wybranaschema = wybranaschema;
+    }
+
+    public List<DeklaracjaVatSchemaWierszSum> getSchemawierszlista() {
+        return schemawierszlista;
+    }
+
+    public void setSchemawierszlista(List<DeklaracjaVatSchemaWierszSum> schemawierszlista) {
+        this.schemawierszlista = schemawierszlista;
+    }
    
-   
+    
     
     
     
