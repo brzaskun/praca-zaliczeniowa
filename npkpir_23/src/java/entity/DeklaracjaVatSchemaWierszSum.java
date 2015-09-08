@@ -39,7 +39,7 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
     private Integer id;
     @JoinColumn(name = "deklaracjaVatSchema", referencedColumnName = "nazwaschemy")
     private DeklaracjaVatSchema deklaracjaVatSchema;
-    @JoinColumn(name = "deklaracjaVatWierszSumaryczny", referencedColumnName = "nazwa")
+    @JoinColumn(name = "deklaracjaVatWierszSumaryczny", referencedColumnName = "nazwapozycji")
     private DeklaracjaVatWierszSumaryczny deklaracjaVatWierszSumaryczny;
     @Column(name = "polenetto")
     private String polenetto;

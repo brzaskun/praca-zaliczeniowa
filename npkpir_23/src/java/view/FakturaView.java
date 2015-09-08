@@ -353,8 +353,8 @@ public class FakturaView implements Serializable {
             dataTablepozycjenafakturze.setStyle("width: 1280px;");
             dataTablepozycjenafakturzekorekta.setStyle("width: 1280px;");
         } else {
-            dataTablepozycjenafakturze.setStyle("width: 740px;");
-            dataTablepozycjenafakturzekorekta.setStyle("width: 740px;");
+            dataTablepozycjenafakturze.setStyle("width: 790px;");
+            dataTablepozycjenafakturzekorekta.setStyle("width: 790px;");
         }
         fakturakorekta = faktura.getPozycjepokorekcie() != null;
         aktywnytab = 0;
@@ -602,6 +602,30 @@ public class FakturaView implements Serializable {
             selected.getPozycjenafakturze().remove(selected.getPozycjenafakturze().size() - 1);
             RequestContext.getCurrentInstance().update("akordeon:formstworz:panel");
             String nazwafunkcji = "wybierzrzadfaktury()";
+            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+        }
+    }
+    
+    public void usunwierszSrodek(Pozycjenafakturzebazadanych wiersz) {
+        if (!selected.getPozycjenafakturze().isEmpty()) {
+            selected.getPozycjenafakturze().remove(wiersz);
+            int i = 1;
+            for (Pozycjenafakturzebazadanych p : selected.getPozycjenafakturze()) {
+                p.setLp(i++);
+            }
+            String nazwafunkcji = "wybierzrzadfaktury()";
+            RequestContext.getCurrentInstance().execute(nazwafunkcji);
+        }
+    }
+    
+    public void usunwierszSrodekk(Pozycjenafakturzebazadanych wiersz) {
+        if (!selected.getPozycjepokorekcie().isEmpty()) {
+            selected.getPozycjepokorekcie().remove(wiersz);
+            int i = 1;
+            for (Pozycjenafakturzebazadanych p : selected.getPozycjepokorekcie()) {
+                p.setLp(i++);
+            }
+            String nazwafunkcji = "wybierzrzadfakturykorekta()";
             RequestContext.getCurrentInstance().execute(nazwafunkcji);
         }
     }

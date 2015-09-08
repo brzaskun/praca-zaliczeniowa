@@ -192,7 +192,7 @@
                     
                 </div>
                 <p:outputPanel id="panel" style="margin-top: 15px;">
-                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 740px;"
+                    <p:dataTable id="rzad" value="#{fakturaView.selected.pozycjenafakturze}" var="row" rowIndexVar="rowStat" style="width: 790px;"
                                  binding="#{fakturaView.dataTablepozycjenafakturze}">
                         <f:facet name="header" >
                             <h:outputText value="przed korektą"  rendered="#{fakturaView.fakturakorekta}"/>
@@ -291,6 +291,9 @@
                                 <f:selectItem itemLabel="5%" itemValue="5"/>
                                 <f:selectItem itemLabel="0%" itemValue="0"/>
                             </h:selectOneMenu>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodek(row)}" update="akordeon:formstworz:panel" global="false"/>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
@@ -402,6 +405,9 @@
                                 <f:selectItem itemLabel="5%" itemValue="5"/>
                                 <f:selectItem itemLabel="0%" itemValue="0"/>
                             </h:selectOneMenu>
+                        </p:column>
+                        <p:column style="text-align: center;">
+                            <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaView.usunwierszSrodekk(row)}" update="akordeon:formstworz:panelkorekty" global="false"/>
                         </p:column>
                     </p:dataTable>
                 </p:outputPanel>
