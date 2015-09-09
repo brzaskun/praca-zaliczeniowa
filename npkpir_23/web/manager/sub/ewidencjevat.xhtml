@@ -14,8 +14,9 @@
                 <p:growl id="msg1" showDetail="true"/>
                 <p:dataTable id="tablica1" value="#{evewidencjaView.lista}"  var="loop" paginatorAlwaysVisible="true" paginator="true" 
                              pageLinks="12" rows="10" selection="#{evewidencjaView.selected}" selectionMode="single" rowKey="#{loop.nazwa}"
-                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 900px;" emptyMessage="nie zdefiniowano ewidencji">
-                    <p:column headerText="nazwa ewidencji" width="300"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
+                             editable="true" resizableColumns="true" paginatorPosition="top" style="width: 1200px;" emptyMessage="nie zdefiniowano ewidencji">
+                    <p:column headerText="nazwa ewidencji" width="200"><h:outputText id="in1" value="#{loop.nazwa}"/></p:column>
+                    <p:column headerText="nazwa pola w deklaracji" width="350"><h:outputText id="in2" value="#{loop.pole}"/></p:column>
                     <p:column headerText="rodzaj transkacji" width="150"><h:outputText id="in5" value="#{loop.transakcja}"/></p:column>
                     <p:column headerText="rodzaj zakupu"><h:outputText id="in6" value="#{loop.rodzajzakupu}"/></p:column>
                     <p:column headerText="tylko netto"><h:outputText id="in7" value="#{loop.tylkoNetto eq true ? 'tak' : null}"/></p:column>
@@ -33,6 +34,10 @@
                     <h:outputText value="nazwa ewidencji"/>
                     <p:selectOneMenu value="#{evewidencjaView.selected.nazwa}" style="width: 400px;">
                         <f:selectItems value="#{evopisView.lista}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="pole w deklaracji"/>
+                    <p:selectOneMenu value="#{evewidencjaView.selected.pole}" style="width: 400px;">
+                        <f:selectItems value="#{evpozycjaView.lista}"/>
                     </p:selectOneMenu>
                     <h:outputText value="rodzaj transkacji"/>
                     <p:selectOneMenu value="#{evewidencjaView.selected.transakcja}" style="width: 400px;">

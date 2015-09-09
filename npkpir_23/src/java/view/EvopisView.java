@@ -57,6 +57,7 @@ public class EvopisView {
             }
             eopisDAO.dodaj(selected);
             lista.add(selected);
+            selected = new Evopis();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodano nowy opis", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) { E.e(e); 

@@ -9,6 +9,7 @@ import dao.EvpozycjaDAO;
 import entity.Evewidencja;
 import entity.Evpozycja;
 import error.E;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,8 @@ import org.primefaces.event.RowEditEvent;
  */
 @ManagedBean
 @ViewScoped
-public class EvewidencjaView {
+public class EvewidencjaView implements  Serializable {
+    private static final long serialVersionUID = 1L;
     private List<Evewidencja> lista;
 
     @Inject
@@ -52,11 +54,6 @@ public class EvewidencjaView {
     }
 
     public void dodaj() {
-        Evpozycja ewodszukana = evpozycjaDAO.find(selected.getPole());
-        selected.setNrpolanetto(ewodszukana.getNrpolanetto());
-        try{
-        selected.setNrpolavat(ewodszukana.getNrpolavat());
-        } catch (Exception e) { E.e(e); }
         Iterator it;
         it = lista.iterator();
         try {
@@ -68,6 +65,7 @@ public class EvewidencjaView {
             }
             evwidencjaDAO.dodaj(selected);
             lista.add(selected);
+            selected = new Evewidencja();
             Msg.msg("i", "Dodano nową ewidencję VAT");
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
