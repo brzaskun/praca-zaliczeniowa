@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
@@ -27,13 +28,13 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class EvewidencjaView {
     private List<Evewidencja> lista;
 
     @Inject
     private Evewidencja selected;
-    @Inject private EvewidencjaDAO eewidencjaDAO;
+    @Inject private EvewidencjaDAO evwidencjaDAO;
     @Inject private EvpozycjaDAO evpozycjaDAO;
 
     public EvewidencjaView() {
@@ -44,8 +45,10 @@ public class EvewidencjaView {
     @PostConstruct
     private void init() {
         try{
-        lista.addAll(eewidencjaDAO.findAll());
-        } catch (Exception e) { E.e(e); }
+            lista = evwidencjaDAO.findAll();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
     }
 
     public void dodaj() {
@@ -63,7 +66,7 @@ public class EvewidencjaView {
                     throw new Exception();
                 }
             }
-            eewidencjaDAO.dodaj(selected);
+            evwidencjaDAO.dodaj(selected);
             lista.add(selected);
             Msg.msg("i", "Dodano nową ewidencję VAT");
         } catch (Exception e) { E.e(e); 
@@ -73,13 +76,13 @@ public class EvewidencjaView {
     }
     
     public void zachowajnowenazwy() {
-        eewidencjaDAO.editList(lista);
+        evwidencjaDAO.editList(lista);
         Msg.msg("Naniesiono zmiany");
     }
 
     public void edytuj(RowEditEvent ev) {
         try {
-            eewidencjaDAO.edit(selected);
+            evwidencjaDAO.edit(selected);
             Msg.msg("i", "Poprawiono ewidencję VAT");
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
@@ -88,7 +91,7 @@ public class EvewidencjaView {
     }
 
     public void usun() {
-        eewidencjaDAO.destroy(selected);
+        evwidencjaDAO.destroy(selected);
         lista.remove(selected);
         Msg.msg("i", "Usunięto ewidencję VAT"+selected.getNazwa());
         RequestContext.getCurrentInstance().update("akordeon:form0");
@@ -113,10 +116,10 @@ public class EvewidencjaView {
    
 
     public EvewidencjaDAO getEvewidencjaDAO() {
-        return eewidencjaDAO;
+        return evwidencjaDAO;
     }
 
     public void setEvewidencjaDAO(EvewidencjaDAO eewidencjaDAO) {
-        this.eewidencjaDAO = eewidencjaDAO;
+        this.evwidencjaDAO = eewidencjaDAO;
     }
 }

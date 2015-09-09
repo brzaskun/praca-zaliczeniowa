@@ -161,8 +161,7 @@ public class Evewidencja implements Serializable {
         this.de = de;
     }
 
-    
-  
+     
     
     @Override
     public int hashCode() {

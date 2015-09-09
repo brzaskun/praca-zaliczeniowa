@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -62,9 +63,12 @@ public class EvpozycjaView {
         }
     }
 
+    //edycja jest niemozliwa bo nazwa jest primarykey!
     public void edytuj(RowEditEvent ev) {
         try {
-            epozycjaDAO.edit(selected);
+            Evpozycja evpozycja  = (Evpozycja) ev.getObject();
+            epozycjaDAO.edit(evpozycja);
+            Msg.msg("Zachowano zmiany");
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
