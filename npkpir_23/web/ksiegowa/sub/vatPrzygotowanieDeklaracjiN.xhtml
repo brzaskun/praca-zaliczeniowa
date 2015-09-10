@@ -5,10 +5,10 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
-                <p:commandButton id="przycisk1" value="#{vat7DKView.zachowaj eq true ? 'zachowaj dekl.' : 'oblicz vat7'}"  actionListener="#{vat7DKView.oblicz()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
                 <p:commandButton id="przycisk2" value="obliczNowa"  actionListener="#{vat7DKView.obliczNowa()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki." rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
             <h:outputText value="Dane zgodne, można zachować." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.zachowaj}" style="width: 120px" valueChangeListener="#{vat7DKView.odswiezprzycisk}" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
@@ -19,8 +19,90 @@
               </p:panelGrid>
             <p:growl id="msg" />
             <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}"/>
-            <h:panelGrid columns="2" columnClasses="fifty-percent,fifty-percent" style="width: 90%;">
-                
+            <h:panelGrid columns="1"  style="width: 90%;">
+                <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
+                             >
+                    <f:facet name="header">
+                        <h:outputText value="rozliczenie podatku należnego"/>
+                    </f:facet>
+                    <p:column width="400">
+                        <h:outputText value="#{loop.schemaEwidencja.evewidencja.pole}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.schemaEwidencja.polenetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl value="#{loop.EVatwpisSuma.netto}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.schemaEwidencja.polevat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl value="#{loop.EVatwpisSuma.vat}"/>
+                    </p:column>
+                </p:dataTable>
+                <p:panelGrid style="text-align: center;width: 790px;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(0).nazwapozycji}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(0).sumanetto}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(0).sumavat}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:panel style="text-align: center;width: 800px;">
+                    <f:facet name="header">
+                        <h:outputText value="rozliczenie podatku naliczonego"/>
+                    </f:facet>
+                    <p:panelGrid style="width: 790px; margin-left: -15px;">
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                            <p:column>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(1).nazwapozycji}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(1).sumanetto}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(1).sumavat}"/>
+                        </p:column>
+                    </p:row>
+                        <p:row>
+                        <p:column>
+                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(2).nazwapozycji}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(2).sumanetto}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(2).sumavat}"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                </p:panel>
             </h:panelGrid>
         </h:form>
 </ui:composition>   

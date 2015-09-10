@@ -84,6 +84,11 @@ public class SchemaEwidencja implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "SchemaEwidencja{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", evewidencja=" + evewidencja.getNazwa() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", czescdeklaracji=" + czescdeklaracji + '}';
+    }
     
     
 

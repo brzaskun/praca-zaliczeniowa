@@ -100,7 +100,7 @@
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaView.zachowaj()}" update="akordeon:definowaniepozycji" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:dataTable value="#{deklaracjaVatSchemaView.schemaewidencjalista}" var="item" style="width: 960px;"
-                             emptyMessage="Nie pobrano schemy/Nie zdefinowano jeszcze schem" sortBy="#{item.evewidencja.nazwa}">
+                             emptyMessage="Nie pobrano schemy/Nie zdefinowano jeszcze schem" sortBy="#{item.polenetto}">
                     <p:column width="70">
                         <f:facet name="header">
                             <h:outputText value="Nazwa schemy"/>

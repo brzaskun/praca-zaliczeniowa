@@ -4,6 +4,7 @@
  */
 package view;
 
+
 import beansVAT.VATDeklaracja;
 import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjaVatSchemaWierszSumDAO;
@@ -19,6 +20,7 @@ import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
+import embeddable.SchemaEwidencjaSuma;
 import embeddable.TKodUS;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
@@ -111,6 +113,9 @@ public class Vat7DKView implements Serializable {
     private boolean pokaz56lub59;
     private boolean zachowaj;
     private boolean pierwotnazamiastkorekty;
+    private List<SchemaEwidencjaSuma> sumaschemewidencjilista;
+    private List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne;
+
 
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -195,12 +200,13 @@ public class Vat7DKView implements Serializable {
         }
         HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
-        List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne = wygenerujwierszesumaryczne(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO);
+        wierszesumaryczne = wygenerujwierszesumaryczne(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO);
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
-        List<DeklaracjaVatSchema> pobranaschemaLista = deklaracjaVatSchemaDAO.findAll();
-        DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, pobranaschemaLista);
+        List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+        DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
+        sumaschemewidencjilista = VATDeklaracja.uzupelnijSchemyoKwoty(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         List<DeklaracjaVatSchemaWierszSum> schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszlista, wierszesumaryczne, pozycjeSzczegoloweVAT, null);
@@ -781,4 +787,23 @@ public class Vat7DKView implements Serializable {
         this.pole70zreki = pole70zreki;
     }
 
+    public List<SchemaEwidencjaSuma> getSumaschemewidencjilista() {
+        return sumaschemewidencjilista;
     }
+
+    public void setSumaschemewidencjilista(List<SchemaEwidencjaSuma> sumaschemewidencjilista) {
+        this.sumaschemewidencjilista = sumaschemewidencjilista;
+    }
+
+    public List<DeklaracjaVatWierszSumaryczny> getWierszesumaryczne() {
+        return wierszesumaryczne;
+    }
+
+    public void setWierszesumaryczne(List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne) {
+        this.wierszesumaryczne = wierszesumaryczne;
+    }
+
+    
+       
+
+}

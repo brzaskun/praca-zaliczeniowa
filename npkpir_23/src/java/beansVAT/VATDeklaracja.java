@@ -14,6 +14,7 @@ import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Schema;
+import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
@@ -338,10 +339,29 @@ public class VATDeklaracja implements Serializable {
     }
 
     public static DeklaracjaVatWierszSumaryczny podsumujewidencje(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO, int przychod0srodki1koszt2) {
-        DeklaracjaVatWierszSumaryczny wierszsumaryczny = deklaracjaVatWierszSumarycznyDAO.findWiersz("Razem (suma przychodów)");
+        DeklaracjaVatWierszSumaryczny wierszsumaryczny = null;
         if (przychod0srodki1koszt2 == 0) {
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (!ew.getEwidencja().getTypewidencji().equals("z")) {
+                    wierszsumaryczny = deklaracjaVatWierszSumarycznyDAO.findWiersz("Razem (suma przychodów)");
+                    wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
+                    wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                }
+            }
+        }
+        if (przychod0srodki1koszt2 == 1) {
+            for (EVatwpisSuma ew : pobraneewidencje) {
+                if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
+                    wierszsumaryczny = deklaracjaVatWierszSumarycznyDAO.findWiersz("Nabycie środków trwałych");
+                    wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
+                    wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                }
+            }
+        }
+        if (przychod0srodki1koszt2 == 2) {
+            for (EVatwpisSuma ew : pobraneewidencje) {
+                wierszsumaryczny = deklaracjaVatWierszSumarycznyDAO.findWiersz("Nabycie towarów i usług pozostałych");
+                if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
                     wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
                 }
@@ -349,4 +369,31 @@ public class VATDeklaracja implements Serializable {
         }
         return wierszsumaryczny;
     }
+
+    public static List<SchemaEwidencjaSuma> uzupelnijSchemyoKwoty(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje) {
+        List<SchemaEwidencjaSuma> lista = new ArrayList<>();
+        for (Iterator<SchemaEwidencja> it = schemaewidencjalista.iterator(); it.hasNext();) {
+            SchemaEwidencja p = it.next();
+            if (p.getEvewidencja().getNazwa().equals("sprzedaż 23%")) {
+                System.out.println("s");
+            }
+            if(!p.getCzescdeklaracji().equals("C")) {
+                it.remove();
+            } else {
+                for (EVatwpisSuma s : pobraneewidencje) {
+                    if (s.getEwidencja().equals(p.getEvewidencja())) {
+                        SchemaEwidencjaSuma se = new SchemaEwidencjaSuma();
+                        se.setSchemaEwidencja(p);
+                        se.setEVatwpisSuma(s);
+                        lista.add(se);
+                        break;
+                    }
+                }
+            }
+        }
+        return lista;
+    }
+
+  
+   
 }
