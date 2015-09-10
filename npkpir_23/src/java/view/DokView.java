@@ -84,7 +84,7 @@ import params.Params;
 @ManagedBean(name = "DokumentView")
 @ViewScoped
 public final class DokView implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private HtmlSelectOneMenu pkpirLista;
     @Inject
     private Dok selDokument;

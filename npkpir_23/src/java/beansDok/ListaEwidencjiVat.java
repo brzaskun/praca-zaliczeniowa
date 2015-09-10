@@ -23,7 +23,7 @@ import javax.inject.Named;
 @Named
 @Stateless
 public class ListaEwidencjiVat implements Serializable{
-   
+   private static final long serialVersionUID = 1L;
     private static final List<String> naglowekVList;
     static {
         naglowekVList = new ArrayList<String>();

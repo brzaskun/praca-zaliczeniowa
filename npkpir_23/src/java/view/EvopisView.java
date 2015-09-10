@@ -13,8 +13,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 
@@ -23,7 +25,7 @@ import org.primefaces.event.RowEditEvent;
  * @author Osito
  */
 @ManagedBean
-@RequestScope
+@ViewScoped
 public class EvopisView {
     private static final long serialVersionUID = 1L;
     private List<Evopis> lista;
@@ -34,23 +36,23 @@ public class EvopisView {
     private EvopisDAO eopisDAO;
 
     public EvopisView() {
-        lista = new ArrayList<>();
     }
     
     
     @PostConstruct
     private void init() {
         try{
-        lista.addAll(eopisDAO.findAll());
-        } catch (Exception e) { E.e(e); }
+            lista = eopisDAO.findAll();
+        } catch (Exception e) { 
+            E.e(e); 
+        }
     }
 
     public void dodaj() {
-        Iterator it;
-        it = lista.iterator();
+        Iterator<Evopis> it = lista.iterator();
         try {
             while (it.hasNext()) {
-                Evopis tmp = (Evopis) it.next();
+                Evopis tmp = it.next();
                 if (tmp.getOpis().equals(selected.getOpis())) {
                     throw new Exception();
                 }
@@ -58,11 +60,9 @@ public class EvopisView {
             eopisDAO.dodaj(selected);
             lista.add(selected);
             selected = new Evopis();
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodano nowy opis", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("Dodano nowy opis");
         } catch (Exception e) { E.e(e); 
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka opis już istnieje", "");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            Msg.msg("e","Taka opis już istnieje");
         }
     }
 
@@ -77,9 +77,9 @@ public class EvopisView {
         }
     }
 
-    public void usun() {
-        eopisDAO.destroy(selected);
-        lista.remove(selected);
+    public void usun(Evopis evopis) {
+        eopisDAO.destroy(evopis);
+        lista.remove(evopis);
         RequestContext.getCurrentInstance().update("akordeon:form1");
     }
 

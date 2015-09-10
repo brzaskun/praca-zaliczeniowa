@@ -33,11 +33,15 @@ public class OstatnidokumentDAO extends DAO implements Serializable {
 
         
     public Dok pobierz(String nazwa){
-        List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
-        for(Ostatnidokument p :temp){
-            if(p.getUzytkownik().equals(nazwa)){
-                return p.getDokument();
+        try {
+            List<Ostatnidokument> temp = ostatnidokumentFacade.findAll(Ostatnidokument.class);
+            for(Ostatnidokument p :temp){
+                if(p.getUzytkownik().equals(nazwa)){
+                    return p.getDokument();
+                }
             }
+        } catch (Exception e) {
+            E.e(e);
         }
         return null;
     }

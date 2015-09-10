@@ -218,6 +218,10 @@
             <to-view-id>/ksiegowa/ksiegowaVAT.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
          <navigation-case>
+            <from-outcome>vatyN</from-outcome>
+            <to-view-id>/ksiegowa/ksiegowaVATN.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+         <navigation-case>
             <from-outcome>vatywyslane</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaVatwyslane.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

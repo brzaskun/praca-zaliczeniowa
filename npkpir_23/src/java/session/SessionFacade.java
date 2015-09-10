@@ -8,6 +8,7 @@ import embeddable.Mce;
 import entity.Amodok;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
+import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Deklaracjevat;
 import entity.Dok;
 import entity.EVatOpis;
@@ -1634,6 +1635,10 @@ public class SessionFacade<T> implements Serializable {
 
     public List<DeklaracjaVatSchemaWierszSum> findWierszSumSchemy(DeklaracjaVatSchema wybranaschema) {
         return (List<DeklaracjaVatSchemaWierszSum>) em.createNamedQuery("DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy").setParameter("deklarachaVatSchema", wybranaschema).getResultList();
+    }
+
+    public DeklaracjaVatWierszSumaryczny findWierszSumaryczny(String razem_suma_przychodów) {
+        return (DeklaracjaVatWierszSumaryczny) em.createNamedQuery("DeklaracjaVatWierszSumaryczny.findWiersz").setParameter("nazwapozycji", razem_suma_przychodów).getSingleResult();
     }
     
    

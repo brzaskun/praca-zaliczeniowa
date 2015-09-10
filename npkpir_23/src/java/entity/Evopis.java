@@ -5,6 +5,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +24,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "evopis",uniqueConstraints = {@UniqueConstraint(columnNames={"opis"})})
+@Table(name = "evopis",uniqueConstraints = {
+    @UniqueConstraint(columnNames={"opis"})
+})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Evopis.findAll", query = "SELECT e FROM Evopis e"),
@@ -65,23 +68,27 @@ public class Evopis implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (lp != null ? lp.hashCode() : 0);
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.opis);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Evopis)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Evopis other = (Evopis) object;
-        if ((this.lp == null && other.lp != null) || (this.lp != null && !this.lp.equals(other.lp))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Evopis other = (Evopis) obj;
+        if (!Objects.equals(this.opis, other.opis)) {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

@@ -48,7 +48,8 @@ public class DeklaracjaVatSchemaWierszSumView implements Serializable {
     }
 
     public void pobierzschemawiersz() {
-        schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findEwidencjeSchemy(wybranaschema);
+        listawierszy = deklaracjaVatWierszSumarycznyDAO.findAll();
+        schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(wybranaschema);
         List<DeklaracjaVatWierszSumaryczny> uzupelnionewiersze = new ArrayList<>();
         for (DeklaracjaVatSchemaWierszSum p : schemawierszlista) {
             uzupelnionewiersze.add(p.getDeklaracjaVatWierszSumaryczny());

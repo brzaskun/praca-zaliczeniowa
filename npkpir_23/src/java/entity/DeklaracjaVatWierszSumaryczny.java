@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,6 +26,9 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames={"nazwapozycji"})
 })
+@NamedQueries({
+        @NamedQuery(name = "DeklaracjaVatWierszSumaryczny.findWiersz", query = "SELECT k FROM DeklaracjaVatWierszSumaryczny k WHERE k.nazwapozycji = :nazwapozycji")
+})
 public class DeklaracjaVatWierszSumaryczny implements Serializable {
    private static final long serialVersionUID = 1L;
     @Id
@@ -33,6 +38,10 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
     private Integer id;
     @Column(name = "nazwapozycji")
     private String nazwapozycji;
+    @Column(name = "sumanetto")
+    private double sumanetto;
+    @Column(name = "sumavat")
+    private double sumavat;
 
     @Override
     public int hashCode() {
@@ -73,6 +82,24 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
     public void setNazwapozycji(String nazwapozycji) {
         this.nazwapozycji = nazwapozycji;
     }
+
+    public double getSumanetto() {
+        return sumanetto;
+    }
+
+    public void setSumanetto(double sumanetto) {
+        this.sumanetto = sumanetto;
+    }
+
+    public double getSumavat() {
+        return sumavat;
+    }
+
+    public void setSumavat(double sumavat) {
+        this.sumavat = sumavat;
+    }
+    
+    
 
     @Override
     public String toString() {

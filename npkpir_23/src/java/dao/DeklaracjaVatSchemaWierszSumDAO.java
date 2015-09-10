@@ -41,7 +41,7 @@ public class DeklaracjaVatSchemaWierszSumDAO  extends DAO implements Serializabl
         }
     }
 
-    public List<DeklaracjaVatSchemaWierszSum> findEwidencjeSchemy(DeklaracjaVatSchema wybranaschema) {
+    public List<DeklaracjaVatSchemaWierszSum> findWierszeSchemy(DeklaracjaVatSchema wybranaschema) {
         try {
             return sessionFacade.findWierszSumSchemy(wybranaschema);
         } catch (Exception e) { 

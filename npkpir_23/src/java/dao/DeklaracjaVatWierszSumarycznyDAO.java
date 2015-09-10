@@ -31,5 +31,9 @@ public class DeklaracjaVatWierszSumarycznyDAO  extends DAO implements Serializab
     public List findAll() {
         return sessionFacade.findAll(DeklaracjaVatWierszSumaryczny.class);
     }
+
+    public DeklaracjaVatWierszSumaryczny findWiersz(String razem_suma_przychodów) {
+        return sessionFacade.findWierszSumaryczny(razem_suma_przychodów);
+    }
     
 }

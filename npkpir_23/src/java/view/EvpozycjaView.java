@@ -57,6 +57,7 @@ public class EvpozycjaView {
             }
             epozycjaDAO.dodaj(selected);
             lista.add(selected);
+            selected = new Evpozycja();
         } catch (Exception e) { E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka pozycja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -75,10 +76,9 @@ public class EvpozycjaView {
         }
     }
 
-    public void usun() {
-        epozycjaDAO.destroy(selected);
-        lista.remove(selected);
-        RequestContext.getCurrentInstance().update("akordeon:form2");
+    public void usun(Evpozycja evpozycja) {
+        epozycjaDAO.destroy(evpozycja);
+        lista.remove(evpozycja);
     }
 
     public Evpozycja getSelected() {

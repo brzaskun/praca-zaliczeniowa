@@ -68,6 +68,7 @@ public class DeklaracjaVatSchemaView implements Serializable {
     }
     
     public void pobierzschemaewidencja() {
+        ewidencjevat = evewidencjaDAO.findAll();
         schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(wybranaschema);
         List<Evewidencja> uzupelnioneewidencje = new ArrayList<>();
         for (SchemaEwidencja p : schemaewidencjalista) {

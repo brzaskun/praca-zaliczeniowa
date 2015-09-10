@@ -9,7 +9,6 @@
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk1" value="#{vat7DKView.zachowaj eq true ? 'zachowaj dekl.' : 'oblicz vat7'}"  actionListener="#{vat7DKView.oblicz()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
-                <p:commandButton id="przycisk2" value="obliczNowa"  actionListener="#{vat7DKView.obliczNowa()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki." rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
             <h:outputText value="Dane zgodne, można zachować." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.zachowaj}" style="width: 120px" valueChangeListener="#{vat7DKView.odswiezprzycisk}" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                 <p:ajax event="change" partialSubmit="true" update=":form:przyciskivat"/>
@@ -226,7 +225,6 @@
                
             </h:panelGrid>
         </h:form>
-    
 </ui:composition>   
 
 

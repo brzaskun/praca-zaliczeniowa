@@ -36,6 +36,7 @@ public class EvewidencjaView implements  Serializable {
 
     @Inject
     private Evewidencja selected;
+    private Evewidencja wybrany;
     @Inject private EvewidencjaDAO evwidencjaDAO;
     @Inject private EvpozycjaDAO evpozycjaDAO;
 
@@ -67,15 +68,32 @@ public class EvewidencjaView implements  Serializable {
             lista.add(selected);
             selected = new Evewidencja();
             Msg.msg("i", "Dodano nową ewidencję VAT");
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Taka ewidencja już istnieje", "");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
     
+    public void edytuj() {
+        try {
+            evwidencjaDAO.edit(selected);
+            lista = evwidencjaDAO.findAll();
+            selected = new Evewidencja();
+        } catch (Exception e) { 
+            E.e(e);
+            Msg.msg("e", "Błąd edycji, nie zachowano zmian");
+        } 
+    }
+    
     public void zachowajnowenazwy() {
         evwidencjaDAO.editList(lista);
         Msg.msg("Naniesiono zmiany");
+    }
+    
+    public void przygotujdoedycji() {
+        selected = wybrany;
+        Msg.msg("Wybrano wiesz do edycji "+wybrany.getNazwa());
     }
 
     public void edytuj(RowEditEvent ev) {
@@ -120,4 +138,14 @@ public class EvewidencjaView implements  Serializable {
     public void setEvewidencjaDAO(EvewidencjaDAO eewidencjaDAO) {
         this.evwidencjaDAO = eewidencjaDAO;
     }
+
+    public Evewidencja getWybrany() {
+        return wybrany;
+    }
+
+    public void setWybrany(Evewidencja wybrany) {
+        this.wybrany = wybrany;
+    }
+    
+    
 }

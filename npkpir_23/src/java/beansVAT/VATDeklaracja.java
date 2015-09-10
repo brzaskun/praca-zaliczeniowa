@@ -5,6 +5,8 @@
  */
 package beansVAT;
 
+import dao.DeklaracjaVatSchemaWierszSumDAO;
+import dao.DeklaracjaVatWierszSumarycznyDAO;
 import data.Data;
 import deklaracjapit37.DeklaracjaVAT;
 import embeddable.Daneteleadresowe;
@@ -13,6 +15,8 @@ import embeddable.Kwartaly;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Schema;
 import entity.DeklaracjaVatSchema;
+import entity.DeklaracjaVatSchemaWierszSum;
+import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Evewidencja;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
@@ -27,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import waluty.Z;
 
 /**
  *
@@ -89,6 +94,32 @@ public class VATDeklaracja implements Serializable {
         }
     }
     
+    public static void przyporzadkujPozycjeSzczegoloweSumaryczne(List<DeklaracjaVatSchemaWierszSum> schemawierszelista, List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne, PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, Integer nowaWartoscVatZPrzeniesienia) {
+        for (DeklaracjaVatWierszSumaryczny ew : wierszesumaryczne) {
+            try {
+                DeklaracjaVatSchemaWierszSum odnalezionyWierszSchemaEwidencja = szukaniewieszaSchemy(schemawierszelista, ew);
+                String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
+                String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
+                String netto = String.valueOf(ew.getSumanetto());
+                int nettoI = (int) Z.z0(ew.getSumanetto());
+                String vat = String.valueOf(ew.getSumavat());
+                int vatI = (int) Z.z0(ew.getSumavat());
+                ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
+                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                }
+                //to jest uzywane przy korektach
+                if (nowaWartoscVatZPrzeniesienia != null) {
+                    pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
+                    pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
+                }
+            } catch (Exception ex) {
+                E.e(ex);
+                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
+            }
+        }
+    }
+    
     private static void ustawPozycje(PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT, String nrpola, String kwotaString, int kwotaInt) {
         try {
             Class[] paramString = new Class[1];
@@ -110,6 +141,16 @@ public class VATDeklaracja implements Serializable {
         SchemaEwidencja s = null;
         for (SchemaEwidencja p : schemaewidencjalista) {
             if (p.getEvewidencja().equals(evewidencja)) {
+                s = p;
+            }
+        }
+        return s;
+    }
+    
+    private static DeklaracjaVatSchemaWierszSum szukaniewieszaSchemy(List<DeklaracjaVatSchemaWierszSum> schemawierszelista, DeklaracjaVatWierszSumaryczny deklaracjaVatWierszSumaryczny) {
+        DeklaracjaVatSchemaWierszSum s = null;
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszelista) {
+            if (p.getDeklaracjaVatWierszSumaryczny().equals(deklaracjaVatWierszSumaryczny)) {
                 s = p;
             }
         }
@@ -294,5 +335,18 @@ public class VATDeklaracja implements Serializable {
             }
         }
         return pasujaca;
+    }
+
+    public static DeklaracjaVatWierszSumaryczny podsumujewidencje(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO, int przychod0srodki1koszt2) {
+        DeklaracjaVatWierszSumaryczny wierszsumaryczny = deklaracjaVatWierszSumarycznyDAO.findWiersz("Razem (suma przychodów)");
+        if (przychod0srodki1koszt2 == 0) {
+            for (EVatwpisSuma ew : pobraneewidencje) {
+                if (!ew.getEwidencja().getTypewidencji().equals("z")) {
+                    wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
+                    wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                }
+            }
+        }
+        return wierszsumaryczny;
     }
 }
