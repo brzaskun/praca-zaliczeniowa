@@ -131,6 +131,15 @@ public class FakturyPlatnosciView  implements Serializable {
     public void setDatazaplaty(String datazaplaty) {
         this.datazaplaty = datazaplaty;
     }
+
+    public Faktura getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Faktura selected) {
+        this.selected = selected;
+    }
+    
     
     
     

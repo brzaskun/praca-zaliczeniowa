@@ -13,15 +13,16 @@
         <h:form id="formdatazaplaty">
             <p:panelGrid id="fakturadatazaplatygrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="datazaplaty">
-                    <p:inputMask id="datazaplaty" value="#{fakturyPlatnosciView.datazaplaty}" mask="9999-99-99" style="text-align: center;" immediate="true" onkeyup="walidacjadatyzaplaty()">
+                    <p:inputMask id="datazaplaty" value="#{fakturyPlatnosciView.datazaplaty}" mask="9999-99-99" style="text-align: center;" immediate="true" 
+                                 onkeyup="walidacjadatyzaplaty()">
                         <f:validateLength minimum="8"/>
                         <p:ajax event="blur" partialSubmit="true" global="false"/>
                     </p:inputMask>
                     <div style="padding: 15px;">
                     <p:commandButton id="datazaplatybutton" value="ok" type="submit" actionListener="#{fakturyPlatnosciView.naniesplatnoscfaktury}" style="width: 120px; display: none"
                                      onsuccess="PF('czynaniescplatnoscfaktury').hide();document.getElementById('formdatazaplaty:datazaplaty').value='';" 
-                                     onfocus="weryfikujdatazaplaty();" update=":fakturyniezaplacone, :fakturyzaplacone"/>
-                    <p:commandButton id="datazaplatycancelbutton" value="cancel" type="button" onclick="PF('czynaniescplatnoscfaktury').hide();"  style="width: 120px;"/>
+                                     onfocus="weryfikujdatazaplaty('#{fakturyPlatnosciView.selected.datawystawienia}');" update=":fakturyniezaplacone, :fakturyzaplacone"/>
+                    <p:commandButton id="datazaplatycancelbutton" value="anuluj" type="button" onclick="PF('czynaniescplatnoscfaktury').hide();"  style="width: 120px;"/>
                     </div>
                 </p:focus>
             </p:panelGrid>

@@ -57,12 +57,15 @@ var walidacjadatyzaplaty = function () {
     }
 };
 
- var weryfikujdatazaplaty = function () {
-       var dataWyst = document.getElementById("formdatazaplaty:datazaplaty");
+ var weryfikujdatazaplaty = function (dataWyst) {
+       var d1 = new Date(dataWyst);
+       var dataZaplaty = document.getElementById("formdatazaplaty:datazaplaty");
        var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;
-       var testw = dataWyst.value;
-         if (!testw.match(re)){
-             dataWyst.value = "b\u0142ędna data";
+       var testw = dataZaplaty.value;
+       var d2 = new Date(testw);
+       console.log(d1 > d2);
+         if (!testw.match(re) || (d1 > d2)){
+             dataZaplaty.value = "b\u0142ędna data";
              r('formdatazaplaty:datazaplaty').focus();
              r("formdatazaplaty:datazaplatybutton").hide();
              r("formdatazaplaty:datazaplatycancelbutton").show();
