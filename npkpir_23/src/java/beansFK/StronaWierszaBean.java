@@ -85,7 +85,7 @@ public class StronaWierszaBean {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
             StronaWiersza p = it.next();
-            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
                 it.remove();
             }
         }
