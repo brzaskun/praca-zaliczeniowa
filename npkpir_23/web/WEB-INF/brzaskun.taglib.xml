@@ -17,6 +17,19 @@
             <name>style</name>
         </attribute>
     </tag>
+     <tag>
+	<tag-name>outputpl0</tag-name>
+	<source>tags/outputpl0.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
+    </tag>
     <tag>
 	<tag-name>outputplprocent</tag-name>
 	<source>tags/outputplprocent.xhtml</source>

@@ -6,7 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:bcf="http://brzaskun.com/facelets">
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    >
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
                 <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
@@ -20,7 +22,7 @@
               </p:panelGrid>
             <p:growl id="msg" />
             <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}"/>
-            <h:panelGrid columns="1"  style="width: 90%;">
+            <p:panelGrid columns="1"  style="width: 90%;">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
                              emptyMessage="nie pobrano danych" >
                     <f:facet name="header">
@@ -33,13 +35,13 @@
                         <h:outputText value="#{loop.schemaEwidencja.polenetto}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl value="#{loop.EVatwpisSuma.netto}"/>
+                        <bcf:outputpl0 value="#{loop.EVatwpisSuma.netto}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{loop.schemaEwidencja.polevat}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl value="#{loop.EVatwpisSuma.vat}"/>
+                        <bcf:outputpl0 value="#{loop.EVatwpisSuma.vat}"/>
                     </p:column>
                 </p:dataTable>
                 <p:panelGrid style="text-align: center;width: 790px;">
@@ -58,16 +60,15 @@
                             <h:outputText value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumanetto}"/>
+                            <bcf:outputpl0 value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumanetto}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}"/>
+                            <bcf:outputpl0 value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                    
                     <p:dataTable value="#{vat7DKView.schemawierszsumarycznylista}" var="loop" sortBy="#{loop.polenetto}" style="width: 800px;"
-                                 first="1" emptyMessage="">
+                                 first="1" emptyMessage="" id="naliczony">
                     <f:facet name="header">
                         <h:outputText value="rozliczenie podatku naliczonego"/>
                     </f:facet>
@@ -78,16 +79,26 @@
                         <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2 != 2}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2 != 2}"/>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2 != 2}"/>
                     </p:column>
                     <p:column width="30" style="text-align: center;">
                         <h:outputText value="#{loop.polevat}"/>
                     </p:column>
                     <p:column>
-                        <bcf:outputpl value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}"/>
+                        <bcf:outputpl0 value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}" />
                     </p:column>
                 </p:dataTable>
-            </h:panelGrid>
+            </p:panelGrid>
+            <p:panelGrid columns="2"  style="width: 800px;">
+                <h:outputText value="przeniesienie z pop.deklaracji"/>
+                <pe:inputNumber value="#{vat7DKView.przeniesieniezpoprzedniejdeklaracji}" decimalPlaces="0"/>
+                <h:outputText value="zwrot na rachunek w terminie 25 dni"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot25dni}" decimalPlaces="0"/>
+                <h:outputText value="zwrot na rachunek w terminie 60 dni"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot60dni}" decimalPlaces="0"/>
+                <h:outputText value="zwrot na rachunek w terminie 180 dni"/>
+                <pe:inputNumber value="#{vat7DKView.zwrot180dni}" decimalPlaces="0"/>
+            </p:panelGrid>
         </h:form>
 </ui:composition>   
 
