@@ -590,35 +590,35 @@ public class PdfVAT7 extends Pdf implements Serializable {
                 absText(writer, p.getImie() + " " + p.getNazwisko(), 70, 607);
                 absText(writer, p.getPesel(), 368, 607);
 
-                absText(writer, o.getPole20(), 330, 562, "f");
-                absText(writer, o.getPole21(), 330, 537, "f");
-                absText(writer, o.getPole22(), 330, 513, "f");
-                absText(writer, o.getPole23(), 330, 489, "f");
-                absText(writer, o.getPole24(), 330, 465, "f");
-                absText(writer, o.getPole25(), 330, 441, "f");
-                absText(writer, o.getPole26(), 490, 441, "f");
-                absText(writer, o.getPole27(), 330, 417, "f");
-                absText(writer, o.getPole28(), 490, 417, "f");
-                absText(writer, o.getPole29(), 330, 393, "f");
-                absText(writer, o.getPole30(), 490, 393, "f");
-                absText(writer, o.getPole31(), 330, 369, "f");
-                absText(writer, o.getPole32(), 330, 345, "f");
-                absText(writer, o.getPole33(), 330, 321, "f");
-                absText(writer, o.getPole34(), 490, 321, "f");
-                absText(writer, o.getPole35(), 330, 297, "f");
-                absText(writer, o.getPole36(), 490, 297, "f");
-                absText(writer, o.getPole37(), 330, 273, "f");
-                absText(writer, o.getPole37(), 490, 273, "f");
-                absText(writer, o.getPole39(), 330, 249, "f");
-                absText(writer, o.getPole40(), 490, 249, "f");
-                absText(writer, o.getPole41(), 330, 227, "f");
-                absText(writer, o.getPole42(), 490, 227, "f");
-                absText(writer, o.getPole43(), 490, 203, "f");
-                absText(writer, o.getPole44(), 490, 179, "f");
-                absText(writer, o.getPole45(), 330, 156, "f");
-                absText(writer, o.getPole46(), 490, 156, "f");
-                absText(writer, o.getPole47(), 490, 87, "f");
-                absText(writer, o.getPole48(), 490, 63, "f");
+                absText(writer, o.getPole10(), 330, 562, "f");
+                absText(writer, o.getPole11(), 330, 537, "f");
+                absText(writer, o.getPole12(), 330, 513, "f");
+                absText(writer, o.getPole13(), 330, 489, "f");
+                absText(writer, o.getPole14(), 330, 465, "f");
+                absText(writer, o.getPole15(), 330, 441, "f");
+                absText(writer, o.getPole16(), 490, 441, "f");
+                absText(writer, o.getPole17(), 330, 417, "f");
+                absText(writer, o.getPole18(), 490, 417, "f");
+                absText(writer, o.getPole19(), 330, 393, "f");
+                absText(writer, o.getPole20(), 490, 393, "f");
+                absText(writer, o.getPole21(), 330, 369, "f");
+                absText(writer, o.getPole22(), 330, 345, "f");
+                absText(writer, o.getPole23(), 330, 321, "f");
+                absText(writer, o.getPole24(), 490, 321, "f");
+                absText(writer, o.getPole25(), 330, 297, "f");
+                absText(writer, o.getPole26(), 490, 297, "f");
+                absText(writer, o.getPole27(), 330, 273, "f");
+                absText(writer, o.getPole28(), 490, 273, "f");
+                absText(writer, o.getPole29(), 330, 249, "f");
+                absText(writer, o.getPole30(), 490, 249, "f");
+                absText(writer, o.getPole31(), 330, 227, "f");
+                absText(writer, o.getPole32(), 490, 227, "f");
+                absText(writer, o.getPole33(), 490, 203, "f");
+                absText(writer, o.getPole34(), 490, 179, "f");
+                absText(writer, o.getPole35(), 330, 156, "f");
+                absText(writer, o.getPole36(), 490, 156, "f");
+                absText(writer, o.getPole37(), 490, 87, "f");
+                absText(writer, o.getPole38(), 490, 63, "f");
                 absText(writer, "Status: do wysyłki", 490, 790);
 
             }
@@ -686,27 +686,27 @@ public class PdfVAT7 extends Pdf implements Serializable {
             if (l.getWzorschemy().equals("M-14")) {
                 Podatnik p = podatnikDAO.find(d.getPodatnik());
                 PozycjeSzczegoloweVAT o = d.getPozycjeszczegolowe();
-                absText(writer, o.getPole49(), 330, 774, "f");
-                absText(writer, o.getPole50(), 490, 774, "f");
-                absText(writer, o.getPole51(), 330, 750, "f");
-                absText(writer, o.getPole52(), 490, 750, "f");
-                absText(writer, o.getPole53(), 490, 706, "f");
-                absText(writer, o.getPole54(), 490, 682, "f");
-                absText(writer, o.getPole55(), 490, 658, "f");
-                absText(writer, o.getPole56(), 490, 611, "f");
-                absText(writer, o.getPole57(), 490, 587, "f");
-                absText(writer, o.getPole58(), 490, 563, "f");
-                absText(writer, o.getPole59(), 490, 539, "f");
-                absText(writer, o.getPole60(), 490, 519, "f");
-                absText(writer, o.getPole61(), 490, 491, "f");
-                absText(writer, o.getPole62(), 190, 464, "f");
-                absText(writer, o.getPole63(), 330, 464, "f");
-                absText(writer, o.getPole64(), 490, 464, "f");
-                absText(writer, o.getPole65(), 490, 443, "f");
-                if (o.getPoleI62() > 0) {
+                absText(writer, o.getPole39(), 330, 774, "f");
+                absText(writer, o.getPole40(), 490, 774, "f");
+                absText(writer, o.getPole41(), 330, 750, "f");
+                absText(writer, o.getPole42(), 490, 750, "f");
+                absText(writer, o.getPole43(), 490, 706, "f");
+                absText(writer, o.getPole44(), 490, 682, "f");
+                absText(writer, o.getPole45(), 490, 658, "f");
+                absText(writer, o.getPole46(), 490, 611, "f");
+                absText(writer, o.getPole47(), 490, 587, "f");
+                absText(writer, o.getPole48(), 490, 563, "f");
+                absText(writer, o.getPole49(), 490, 539, "f");
+                absText(writer, o.getPole50(), 490, 519, "f");
+                absText(writer, o.getPole51(), 490, 491, "f");
+                absText(writer, o.getPole52(), 190, 464, "f");
+                absText(writer, o.getPole53(), 330, 464, "f");
+                absText(writer, o.getPole54(), 490, 464, "f");
+                absText(writer, o.getPole55(), 490, 443, "f");
+                if (o.getPoleI52() > 0) {
                     absText(writer, "X", 390, 330);
                 }
-                if (o.getPoleI62() > 0 || o.getPoleI63() > 0 || o.getPoleI64() > 0) {
+                if (o.getPoleI52() > 0 || o.getPoleI53() > 0 || o.getPoleI54() > 0) {
                     absText(writer, "X", 148, 330);
                 }
                 absText(writer, p.getImie(), 80, 262);

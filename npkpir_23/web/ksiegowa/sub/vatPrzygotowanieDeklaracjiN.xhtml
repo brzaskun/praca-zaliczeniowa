@@ -9,7 +9,8 @@
     xmlns:bcf="http://brzaskun.com/facelets">
             <h:form id="form">
             <p:panelGrid id="przyciskivat" columns="6" style="border-style: solid; border-color: lightgray;">
-                <p:commandButton id="przycisk2" value="obliczNowa"  actionListener="#{vat7DKView.obliczNowa()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki." rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
+                <p:commandButton id="przycisk2" value="oblicz"  actionListener="#{vat7DKView.obliczNowa()}" update=":form" style="width: 150px" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
+                <p:commandButton id="przycisk3" value="zapisz"  actionListener="#{vat7DKView.zapiszdeklaracje()}" update=":form" style="width: 150px; margin-left: 10px;" title="Najpierw wciśnij oblicz vat7. Potem dopisz ewentualne kwoty z ręki."/>
             <h:outputText value="Dane zgodne, można zachować." rendered="#{zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:selectBooleanCheckbox value="#{vat7DKView.zachowaj}" style="width: 120px" valueChangeListener="#{vat7DKView.odswiezprzycisk}" rendered="#{zamkniecieView.sprawdzMiesiacRok()}">
                 <p:ajax event="change" partialSubmit="true" update=":form:przyciskivat"/>
@@ -21,7 +22,7 @@
             <p:panel header="Dane do bieżącej deklaracji VAT7 miesięcznej. Podatnik: #{vat7DKView.nowadeklaracja.podatnik}"/>
             <h:panelGrid columns="1"  style="width: 90%;">
                 <p:dataTable value="#{vat7DKView.sumaschemewidencjilista}" var="loop" sortBy="#{loop.schemaEwidencja.polenetto}" style="width: 800px;"
-                             >
+                             emptyMessage="nie pobrano danych" >
                     <f:facet name="header">
                         <h:outputText value="rozliczenie podatku należnego"/>
                     </f:facet>
@@ -66,7 +67,7 @@
                 </p:panelGrid>
                     
                     <p:dataTable value="#{vat7DKView.schemawierszsumarycznylista}" var="loop" sortBy="#{loop.polenetto}" style="width: 800px;"
-                                 first="1">
+                                 first="1" emptyMessage="">
                     <f:facet name="header">
                         <h:outputText value="rozliczenie podatku naliczonego"/>
                     </f:facet>

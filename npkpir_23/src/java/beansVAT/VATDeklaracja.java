@@ -5,15 +5,10 @@
  */
 package beansVAT;
 
-import dao.DeklaracjaVatSchemaWierszSumDAO;
-import dao.DeklaracjaVatWierszSumarycznyDAO;
 import data.Data;
-import deklaracjapit37.DeklaracjaVAT;
 import embeddable.Daneteleadresowe;
 import embeddable.EVatwpisSuma;
-import embeddable.Kwartaly;
 import embeddable.PozycjeSzczegoloweVAT;
-import embeddable.Schema;
 import embeddable.SchemaEwidencjaSuma;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -73,24 +68,28 @@ public class VATDeklaracja implements Serializable {
         for (EVatwpisSuma ew : wyciagnieteewidencje) {
             try {
                 SchemaEwidencja odnalezionyWierszSchemaEwidencja = szukaniewieszaSchemy(schemaewidencjalista, ew.getEwidencja());
-                String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
-                String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
-                String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
-                int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
-                String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
-                if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
-                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
-                }
-                //to jest uzywane przy korektach
-                if (nowaWartoscVatZPrzeniesienia != null) {
-                    pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
-                    pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
+                if (odnalezionyWierszSchemaEwidencja != null) {
+                    String nrpolanetto = odnalezionyWierszSchemaEwidencja.getPolenetto();
+                    String nrpolavat = odnalezionyWierszSchemaEwidencja.getPolevat();
+                    String netto = String.valueOf(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN));
+                    int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
+                    String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
+                    int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
+                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
+                        ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
+                    }
+                    //to jest uzywane przy korektach
+                    if (nowaWartoscVatZPrzeniesienia != null) {
+                        pozycjeSzczegoloweVAT.setPoleI47(nowaWartoscVatZPrzeniesienia);
+                        pozycjeSzczegoloweVAT.setPole47(String.valueOf(nowaWartoscVatZPrzeniesienia));
+                    }
+                } else {
+                    System.out.println("Ewidencja nie jest podczepiona pod schemat "+ew.toString());
                 }
             } catch (Exception ex) {
                 E.e(ex);
-                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ex.getMessage());
+                System.out.println("Blad VATDeklaracja przyporzadkujPozycjeSzczegolowe "+ew.toString());
             }
         }
     }
@@ -343,28 +342,28 @@ public class VATDeklaracja implements Serializable {
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (!ew.getEwidencja().getTypewidencji().equals("z")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem (suma przychodów)")) {
-                        wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
-                        wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                        wierszsumaryczny.setSumanetto(Z.zUD(wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD(wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
                 if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
-                        wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
-                        wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                        wierszsumaryczny.setSumanetto(Z.zUD(wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD(wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
-                        wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                        wierszsumaryczny.setSumanetto(Z.zUD(wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD(wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
                  if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
-                        wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
-                        wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                        wierszsumaryczny.setSumanetto(Z.zUD(wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD(wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(wierszsumaryczny.getSumanetto()+ew.getNetto().doubleValue());
-                        wierszsumaryczny.setSumavat(wierszsumaryczny.getSumavat()+ew.getVat().doubleValue());
+                        wierszsumaryczny.setSumanetto(Z.zUD(wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD(wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
             }
@@ -405,5 +404,10 @@ public class VATDeklaracja implements Serializable {
     }
 
   
-   
+   public static void main(String[] args) {
+       double i = 1+0.49499;
+       //double j = Z.zUD(i);
+       System.out.println("i "+i);
+       //System.out.println("j "+j);
+   }
 }

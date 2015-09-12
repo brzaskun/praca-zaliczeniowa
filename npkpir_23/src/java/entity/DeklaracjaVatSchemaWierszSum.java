@@ -88,6 +88,12 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "DeklaracjaVatSchemaWierszSum{" + "deklaracjaVatSchema=" + deklaracjaVatSchema.getNazwaschemy() + ", deklaracjaVatWierszSumaryczny=" + deklaracjaVatWierszSumaryczny.getNazwapozycji() + ", polenetto=" + polenetto + ", polevat=" + polevat + ", funkcja=" + funkcja + ", netto1vat2=" + netto1vat2 + ", czescdeklaracji=" + czescdeklaracji + '}';
+    }
+    
     
     
 

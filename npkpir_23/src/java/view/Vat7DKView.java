@@ -25,7 +25,6 @@ import embeddable.TKodUS;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import entity.DeklaracjaVatSchemaWierszSum;
-import entity.DeklaracjaVatWierszSumaryczny;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.SchemaEwidencja;
@@ -42,38 +41,22 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
-import params.Params;
 
 /**
  *
  * @author Osito
  */
 @ManagedBean
-@RequestScope
+@ViewScoped
 public class Vat7DKView implements Serializable {
 
     private PozycjeSzczegoloweVAT pozycjeSzczegoloweVAT;
-
-    //</editor-fold>
-    public static void main(String args[]) {
-        List< String> list = new ArrayList< String>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-
-        for (Iterator< String> it = list.iterator(); it.hasNext();) {
-            String str = it.next();
-            if (str.equals("B")) {
-                it.remove();
-            }
-        }
-    }
-
     @Inject
     private Deklaracjevat deklaracjakorygowana;
     @Inject
@@ -98,8 +81,6 @@ public class Vat7DKView implements Serializable {
     private SchemaEwidencjaDAO schemaEwidencjaDAO;
     @Inject
     private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
-    @Inject
-    private DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO;
     private int flaga;
     private String rok;
     private String mc;
@@ -115,8 +96,7 @@ public class Vat7DKView implements Serializable {
     private boolean pierwotnazamiastkorekty;
     private List<SchemaEwidencjaSuma> sumaschemewidencjilista;
     private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
-
-
+   
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
         flaga = 0;
@@ -170,7 +150,7 @@ public class Vat7DKView implements Serializable {
         }
         if (flaga != 1) {
             podsumujszczegolowe();
-            uzupelnijPozycje(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
+            uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres);
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
@@ -209,56 +189,73 @@ public class Vat7DKView implements Serializable {
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
         sumaschemewidencjilista = VATDeklaracja.uzupelnijSchemyoKwoty(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
-        VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
-        String kwotaautoryzujaca = kwotaautoryzujcaPobierz();
+        
         System.out.println("Koniec");
         //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
         if (flaga != 1) {
+            DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
+            DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");    
+            DeklaracjaVatSchemaWierszSum naliczony = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
+            DeklaracjaVatSchemaWierszSum dowpłaty = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota podatku podlegająca wpłacie");    
+            DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");    
             try {
                 deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
                 deklaracjawyslana = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
                 if (flaga != 3) {
-                    DeklaracjaVatSchemaWierszSum d = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
-                    DeklaracjaVatSchemaWierszSum e = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
                     flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
                     //pobiera tylko wtedy jak nie ma z reki
                     if (pole47zreki == false) {
                         int kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjawyslana);
-                        d.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
-                        e.getDeklaracjaVatWierszSumaryczny().setSumavat(e.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
+                        przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
+                        naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
                     }
                 } else {
                     RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
                     Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
                 }
-            } catch (Exception e) {
-                E.e(e);
-                pobierz47zustawien();
+            } catch (Exception ex) {
+                E.e(ex);
+                int kwotazprzeniesienia = pobierz47zustawienN();
+                przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
+                naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
                 najpierwszadeklaracja();
             }
+            int nż = należny.getDeklaracjaVatWierszSumaryczny().getSumavat();
+            int nl = naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat();
+            if (nż > nl) {
+                dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat(nż - nl);
+            } else {
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nl-nż);
+            }
         }
+        VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
+        
+    }
+    
+    public void zapiszdeklaracje() {
+        String kwotaautoryzujaca = kwotaautoryzujcaPobierz();
+        String vatokres = sprawdzjakiokresvat();
         if (flaga != 1) {
-            podsumujszczegolowe();
-            uzupelnijPozycje(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
+            //podsumujszczegolowe();
+            uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres);
+            nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
-        if (zachowaj == true) {
-            if (flaga == 2) {
-                deklaracjevatDAO.destroy(deklaracjakorygowana);
-                deklaracjevatDAO.edit(nowadeklaracja);
-                deklaracjakorygowana = new Deklaracjevat();
-                Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
-            } else if (flaga == 1) {
-                Msg.msg("e", podatnik + " Deklaracja nie zachowana", "form:msg");
-            } else {
-                deklaracjevatDAO.dodaj(nowadeklaracja);
-                Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc, "form:msg");
-            }
-            //pobieranie potwierdzenia
-            RequestContext.getCurrentInstance().update("vat7:");
-            zachowaj = false;
+        if (flaga == 2) {
+            deklaracjevatDAO.destroy(deklaracjakorygowana);
+            deklaracjevatDAO.edit(nowadeklaracja);
+            deklaracjakorygowana = new Deklaracjevat();
+            Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
+        } else if (flaga == 1) {
+            Msg.msg("e", podatnik + " Deklaracja nie zachowana", "form:msg");
+        } else {
+            deklaracjevatDAO.dodaj(nowadeklaracja);
+            Msg.msg("i", podatnik + " - zachowano nową deklaracje VAT za " + rok + "-" + mc, "form:msg");
         }
+        //pobieranie potwierdzenia
+        RequestContext.getCurrentInstance().update("vat7:");
+        zachowaj = false;
     }
     
     private void wygenerujwierszesumaryczne(ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
@@ -366,6 +363,26 @@ public class Vat7DKView implements Serializable {
             flaga = 1;
             Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  ", "form:msg");
         }
+    }
+    
+    private int pobierz47zustawienN() {
+        int kwotazprzeniesienia = 0;
+        try {
+            //jak jest z reki to zeby nie bralo z ustawien
+            if (pole47zreki == false) {
+                Podatnik pod = podatnikDAO.find(podatnik);
+                String pole47 = pod.getPole47();
+                Integer poleI47 = Integer.parseInt(pole47);
+                kwotazprzeniesienia = poleI47;
+            }
+            deklaracjawyslana.setIdentyfikator("lolo");
+            deklaracjawyslana.setPodatnik("manolo");
+        } catch (Exception e) {
+            E.e(e);
+            flaga = 1;
+            Msg.msg("e", "Nie wpisano w ustawieniach klienta wartosci pola 47!  ", "form:msg");
+        }
+        return kwotazprzeniesienia;
     }
 
     private Deklaracjevat bylajuzdeklaracjawtymmiesiacu(String rok, String mc) {
@@ -614,7 +631,7 @@ public class Vat7DKView implements Serializable {
         }
     }
 
-    private Vatpoz uzupelnijPozycje(Vatpoz pozycje, String vatokres, String kwotaautoryzujaca) {
+    private Vatpoz uzupelnijPozycjeDeklaracji(Vatpoz pozycje, String vatokres, String kwotaautoryzujaca) {
         pozycje.setPozycjeszczegolowe(pozycjeSzczegoloweVAT);
         pozycje.setPodatnik(podatnik);
         pozycje.setRok(rok);
@@ -641,6 +658,7 @@ public class Vat7DKView implements Serializable {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
         }
+        //to jest wygenerowana dekalracjia w xml
         String wiersz = vat713.getWiersz();
         nowadekl.setDeklaracja(wiersz);
         nowadekl.setRok(rok);

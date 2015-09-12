@@ -6,7 +6,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
 
     <h:form id="formX">
         <p:growl id="msg" autoUpdate="true"/>
@@ -30,15 +31,15 @@
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
                     <h:panelGrid columns="4" columnClasses="twofive-percent, twofive-percent, twofive-percent, twofive-percent">
-                        <h:outputText value="należny (p.46)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
+                        <h:outputText value="razem należny"/><h:outputText value="#{item.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
-                        <h:outputText value="naliczony (p.55)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
+                        <h:outputText value="razem naliczony"/><h:outputText value="#{item.schemawierszsumarycznylista.get(4).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
-                        <h:outputText value="przeniesienie (p.47)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI47}" style="float: right;">
+                        <h:outputText value="z przeniesienia"/><h:outputText value="#{item.schemawierszsumarycznylista.get(1).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
-                        <h:outputText value="do zapłaty (p.58)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI58}" style="float: right;">
+                        <h:outputText value="kwota do zapłaty"/><h:outputText value="#{item.schemawierszsumarycznylista.get(5).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
-                        <h:outputText value="do zwrotu(p.60)"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
+                        <h:outputText value="kwota do zwrotu"/><h:outputText value="#{item.schemawierszsumarycznylista.get(6).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
                         <h:outputText value="na rachunek bankowy 25 dni"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI62}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
@@ -46,8 +47,7 @@
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
                         <h:outputText value="na rachunek bankowy 180 dni"/><h:outputText value="#{loop.pozycjeszczegolowe.poleI64}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
-                        <h:outputText value="kwota autoryzacyjna"/><h:outputText value="#{loop.kwotaautoryzacja}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
+                        <h:outputText value="kwota autoryzacyjna"/><bcf:outputpl value="#{loop.kwotaautoryzacja}"/>
                         <h:outputText value="korekta ręczna" rendered="#{item.vatDeklaracjaKorektaDokWykaz != null}"/><h:outputText value="#{item.vatDeklaracjaKorektaDokWykaz}" style="float: right;">
                             </h:outputText>
                     </h:panelGrid>

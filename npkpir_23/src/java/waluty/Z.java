@@ -19,9 +19,17 @@ public class Z implements Serializable {
         return m;
     }
     
+    //obcina kwoty po przeciku typu 1,49999 = 1
     public static double z0(double l) {
         double m = Math.round(l);
         return m;
+    }
+    
+    //zaokragla kwoty po przeciku do int typu 1,49999 = 2
+     public static int zUD(int l) {
+        double m = Math.round(l * 100);
+        m /= 100;
+        return (int) Math.round(m);
     }
     
     public static void main(String[] args) {

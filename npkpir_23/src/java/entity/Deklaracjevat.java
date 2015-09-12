@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -129,6 +130,9 @@ public class Deklaracjevat implements Serializable {
     private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
     @Column(name = "kwotadoprzeniesienia")
     private int kwotadoprzeniesienia;
+    @Lob
+    @Column(name = "schemawierszsumarycznylista")
+    private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
     
    public Deklaracjevat() {
     }
@@ -335,6 +339,14 @@ public class Deklaracjevat implements Serializable {
 
     public void setKwotadoprzeniesienia(int kwotadoprzeniesienia) {
         this.kwotadoprzeniesienia = kwotadoprzeniesienia;
+    }
+
+    public List<DeklaracjaVatSchemaWierszSum> getSchemawierszsumarycznylista() {
+        return schemawierszsumarycznylista;
+    }
+
+    public void setSchemawierszsumarycznylista(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista) {
+        this.schemawierszsumarycznylista = schemawierszsumarycznylista;
     }
 
     
