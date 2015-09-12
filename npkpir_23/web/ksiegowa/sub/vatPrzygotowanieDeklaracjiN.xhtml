@@ -54,55 +54,38 @@
                     </f:facet>
                     <p:row>
                         <p:column>
-                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(0).nazwapozycji}"/>
+                            <h:outputText value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(0).sumanetto}"/>
+                            <bcf:outputpl value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumanetto}"/>
                         </p:column>
                         <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(0).sumavat}"/>
+                            <bcf:outputpl value="#{vat7DKView.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}"/>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-                <p:panel style="text-align: center;width: 800px;">
+                    
+                    <p:dataTable value="#{vat7DKView.schemawierszsumarycznylista}" var="loop" sortBy="#{loop.polenetto}" style="width: 800px;"
+                                 first="1">
                     <f:facet name="header">
                         <h:outputText value="rozliczenie podatku naliczonego"/>
                     </f:facet>
-                    <p:panelGrid style="width: 790px; margin-left: -15px;">
-                    <f:facet name="header">
-                        <p:row>
-                            <p:column>
-                            </p:column>
-                            <p:column>
-                            </p:column>
-                            <p:column>
-                            </p:column>
-                        </p:row>
-                    </f:facet>
-                    <p:row>
-                        <p:column>
-                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(1).nazwapozycji}"/>
-                        </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(1).sumanetto}"/>
-                        </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(1).sumavat}"/>
-                        </p:column>
-                    </p:row>
-                        <p:row>
-                        <p:column>
-                            <h:outputText value="#{vat7DKView.wierszesumaryczne.get(2).nazwapozycji}"/>
-                        </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(2).sumanetto}"/>
-                        </p:column>
-                        <p:column>
-                            <bcf:outputpl value="#{vat7DKView.wierszesumaryczne.get(2).sumavat}"/>
-                        </p:column>
-                    </p:row>
-                </p:panelGrid>
-                </p:panel>
+                    <p:column width="400">
+                        <h:outputText value="#{loop.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.polenetto}" rendered="#{loop.netto1vat2 != 2}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl value="#{loop.deklaracjaVatWierszSumaryczny.sumanetto}" rendered="#{loop.netto1vat2 != 2}"/>
+                    </p:column>
+                    <p:column width="30" style="text-align: center;">
+                        <h:outputText value="#{loop.polevat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl value="#{loop.deklaracjaVatWierszSumaryczny.sumavat}"/>
+                    </p:column>
+                </p:dataTable>
             </h:panelGrid>
         </h:form>
 </ui:composition>   

@@ -126,8 +126,9 @@ public class Deklaracjevat implements Serializable {
     @Column(name = "wzorschemy")
     private String wzorschemy;
     @OneToOne(cascade = {CascadeType.ALL})
-    
     private VATDeklaracjaKorektaDok vatDeklaracjaKorektaDokWykaz;
+    @Column(name = "kwotadoprzeniesienia")
+    private int kwotadoprzeniesienia;
     
    public Deklaracjevat() {
     }
@@ -328,9 +329,13 @@ public class Deklaracjevat implements Serializable {
         this.vatDeklaracjaKorektaDokWykaz = vatDeklaracjaKorektaDokWykaz;
     }
 
-   
-    
-    
+    public int getKwotadoprzeniesienia() {
+        return kwotadoprzeniesienia;
+    }
+
+    public void setKwotadoprzeniesienia(int kwotadoprzeniesienia) {
+        this.kwotadoprzeniesienia = kwotadoprzeniesienia;
+    }
 
     
     

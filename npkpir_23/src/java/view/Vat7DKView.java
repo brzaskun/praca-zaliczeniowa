@@ -114,7 +114,7 @@ public class Vat7DKView implements Serializable {
     private boolean zachowaj;
     private boolean pierwotnazamiastkorekty;
     private List<SchemaEwidencjaSuma> sumaschemewidencjilista;
-    private List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne;
+    private List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista;
 
 
     public Vat7DKView() {
@@ -198,18 +198,18 @@ public class Vat7DKView implements Serializable {
         if (!vatokres.equals("miesięczne")) {
             mc = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
         }
-        HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
-        ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
-        wierszesumaryczne = wygenerujwierszesumaryczne(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO);
-        pozycjeDeklaracjiVAT.setCelzlozenia("1");
-        //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
         DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
+        HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
+        ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
+        schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
+        wygenerujwierszesumaryczne(pobraneewidencje, schemawierszsumarycznylista);
+        pozycjeDeklaracjiVAT.setCelzlozenia("1");
+        //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
         sumaschemewidencjilista = VATDeklaracja.uzupelnijSchemyoKwoty(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
-        List<DeklaracjaVatSchemaWierszSum> schemawierszlista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
-        VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszlista, wierszesumaryczne, pozycjeSzczegoloweVAT, null);
+        VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
         String kwotaautoryzujaca = kwotaautoryzujcaPobierz();
         System.out.println("Koniec");
         //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
@@ -218,10 +218,14 @@ public class Vat7DKView implements Serializable {
                 deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
                 deklaracjawyslana = bylajuzdeklaracjawpoprzednimmiesiacu(rok,mc);
                 if (flaga != 3) {
+                    DeklaracjaVatSchemaWierszSum d = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
+                    DeklaracjaVatSchemaWierszSum e = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem kwota podatku naliczonego do odliczenia");
                     flaga = zbadajpobranadeklarajce(deklaracjakorygowana);
                     //pobiera tylko wtedy jak nie ma z reki
                     if (pole47zreki == false) {
-                        pobierz47zpoprzedniej(deklaracjawyslana);
+                        int kwotazprzeniesienia = pobierz47zpoprzedniejN(deklaracjawyslana);
+                        d.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotazprzeniesienia);
+                        e.getDeklaracjaVatWierszSumaryczny().setSumavat(e.getDeklaracjaVatWierszSumaryczny().getSumavat()+kwotazprzeniesienia);
                     }
                 } else {
                     RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
@@ -257,13 +261,12 @@ public class Vat7DKView implements Serializable {
         }
     }
     
-    private List<DeklaracjaVatWierszSumaryczny> wygenerujwierszesumaryczne(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatWierszSumarycznyDAO deklaracjaVatWierszSumarycznyDAO) {
-        List<DeklaracjaVatWierszSumaryczny> lista = new ArrayList<>();
-        lista.add(VATDeklaracja.podsumujewidencje(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO,0));
-        lista.add(VATDeklaracja.podsumujewidencje(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO,1));
-        lista.add(VATDeklaracja.podsumujewidencje(pobraneewidencje, deklaracjaVatWierszSumarycznyDAO,2));
-        return lista;
+    private void wygenerujwierszesumaryczne(ArrayList<EVatwpisSuma> pobraneewidencje, List<DeklaracjaVatSchemaWierszSum> schemawierszsumzbazy) {
+        for (DeklaracjaVatSchemaWierszSum p : schemawierszsumzbazy) {
+            VATDeklaracja.podsumujewidencje(pobraneewidencje, p);
+        }
     }
+        
      private String kodUrzaduSkarbowegoPobierz() {
         String kodaUrzaduSkarbowego = null;
         try {
@@ -437,6 +440,18 @@ public class Vat7DKView implements Serializable {
                 Msg.msg("w", "Nie ma żadnej dekalracji, zktórej można by pobrać pole VAT do przeniesienia");
             }
         }
+    }
+    //generalnie sluzy do pobierania pola 47
+    private int pobierz47zpoprzedniejN(Deklaracjevat deklaracja) {
+        int kwotazprzeniesienia = 0;
+        if (flaga != 1) {
+           if (deklaracja != null){
+                kwotazprzeniesienia = deklaracja.getKwotadoprzeniesienia();
+            } else {
+                Msg.msg("w", "Nie ma żadnej dekalracji, zktórej można by pobrać pole VAT do przeniesienia");
+            }
+        }
+        return kwotazprzeniesienia;
     }
 
     private int zbadajpobranadeklarajce(Deklaracjevat badana) {
@@ -795,15 +810,15 @@ public class Vat7DKView implements Serializable {
         this.sumaschemewidencjilista = sumaschemewidencjilista;
     }
 
-    public List<DeklaracjaVatWierszSumaryczny> getWierszesumaryczne() {
-        return wierszesumaryczne;
+    public List<DeklaracjaVatSchemaWierszSum> getSchemawierszsumarycznylista() {
+        return schemawierszsumarycznylista;
     }
 
-    public void setWierszesumaryczne(List<DeklaracjaVatWierszSumaryczny> wierszesumaryczne) {
-        this.wierszesumaryczne = wierszesumaryczne;
+    public void setSchemawierszsumarycznylista(List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista) {
+        this.schemawierszsumarycznylista = schemawierszsumarycznylista;
     }
 
-    
+   
        
 
 }

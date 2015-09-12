@@ -28,7 +28,7 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames={"deklaracjaVatSchema, deklaracjaVatWierszSumaryczny"})
 })
 @NamedQueries({
-    @NamedQuery(name = "DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy", query = "SELECT t FROM DeklaracjaVatSchemaWierszSum t WHERE t.deklaracjaVatSchema = :deklarachaVatSchema")
+    @NamedQuery(name = "DeklaracjaVatSchemaWierszSum.findEwidencjeSchemy", query = "SELECT t FROM DeklaracjaVatSchemaWierszSum t WHERE t.deklaracjaVatSchema = :deklarachaVatSchema ORDER BY t.polenetto")
 })
 public class DeklaracjaVatSchemaWierszSum implements Serializable {
    private static final long serialVersionUID = 1L;
@@ -47,6 +47,8 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
     private String polevat;
     @Column(name = "funkcja")
     private String funkcja;
+    @Column(name = "netto1vat2")
+    private int netto1vat2;
     @Column(name = "czescdeklaracji", length = 1)
     private String czescdeklaracji;
 
@@ -143,6 +145,14 @@ public class DeklaracjaVatSchemaWierszSum implements Serializable {
 
     public void setCzescdeklaracji(String czescdeklaracji) {
         this.czescdeklaracji = czescdeklaracji;
+    }
+
+    public int getNetto1vat2() {
+        return netto1vat2;
+    }
+
+    public void setNetto1vat2(int netto1vat2) {
+        this.netto1vat2 = netto1vat2;
     }
     
     

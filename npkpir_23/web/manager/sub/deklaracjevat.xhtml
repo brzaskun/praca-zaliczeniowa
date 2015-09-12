@@ -196,6 +196,12 @@
                             <f:selectItem itemLabel="G" itemValue="G"/>
                         </p:selectOneMenu>
                     </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="netto1vat2"/>
+                        </f:facet>
+                        <p:inputText value="#{item.netto1vat2}" style="width: 60px;"/>
+                    </p:column>
                 </p:dataTable>
             </h:form>
         </p:tab>
