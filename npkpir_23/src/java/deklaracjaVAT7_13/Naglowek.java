@@ -20,7 +20,7 @@ public class Naglowek {
     public Naglowek() {
     }
     
-    public Naglowek(Vatpoz selected, String vatokres, DeklaracjaVatSchema schema) {
+    public Naglowek(Vatpoz selected, DeklaracjaVatSchema schema) {
         String celZlozenia = selected.getCelzlozenia();
         String rok = selected.getRok();
         String miesiac = selected.getMiesiac();

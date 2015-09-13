@@ -5,13 +5,11 @@
 package deklaracjaVAT7_13;
 
 import embeddable.Parametr;
-import embeddable.Schema;
 import embeddable.Vatpoz;
 import entity.DeklaracjaVatSchema;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.inject.Named;
 import view.ParametrView;
@@ -23,46 +21,22 @@ import view.WpisView;
  */
 @Named
 public class VAT713 implements Serializable{
-     private String wiersz;
-     private String wstep;
-     private Naglowek naglowek;
-     private Podmiot podmiot;
-     private PozycjeSzczegolowe pozycjeSzczegolowe;
-     private KwadracikiNaDole kwadracikiNaDole;
-     private Pouczenie pouczenie;
-     private Oswiadczenie oswiadczenie;
-     private ZalacznikVATZD zalacznikVATZD;
-     private DaneAutoryzujace daneAutoryzujace;
-     @Inject 
-     private Vatpoz selected;
+    private final String wiersz;
 
-    public VAT713() {
-    }
-     
-    public VAT713(Vatpoz selected, WpisView wpisView, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        this.selected = selected;
-        String vatokres = sprawdzjakiokresvat(wpisView);
-        wstep = schema.getWstep();
-        naglowek = new Naglowek(selected, vatokres, schema);
-        podmiot = new Podmiot(selected);
-        pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
-        kwadracikiNaDole = new KwadracikiNaDole(selected, schema);
-        oswiadczenie = new Oswiadczenie();
-        daneAutoryzujace = new DaneAutoryzujace(selected);
-        pouczenie = new Pouczenie(schema.getPouczenie());
-        if (schema.getNazwaschemy().equals("M-15")) {
-            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+daneAutoryzujace.getDaneAutoryzujace();
-        } else {
-            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
-        }
+   
+    public VAT713(Vatpoz selected, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        String wstep = schema.getWstep();
+        Naglowek naglowek = new Naglowek(selected, schema);
+        Podmiot podmiot = new Podmiot(selected);
+        PozycjeSzczegolowe pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
+        KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(selected, schema);
+        String oswiadczenie = schema.getOswiadczenie();
+        DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(selected);
+        Pouczenie pouczenie = new Pouczenie(schema.getPouczenie());
+        wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
     }
 
-    private String sprawdzjakiokresvat(WpisView wpisView) {
-        Integer rok = wpisView.getRokWpisu();
-        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
-        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
-        return ParametrView.zwrocParametr(parametry, rok, mc);
-    }
+   
     
     public String getWiersz() {
         return wiersz;

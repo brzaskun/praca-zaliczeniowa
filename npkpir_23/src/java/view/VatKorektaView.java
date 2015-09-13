@@ -10,6 +10,7 @@ import beansVAT.EwidencjaVATSporzadzanie;
 import beansVAT.VATDeklaracja;
 import comparator.Rodzajedokcomparator;
 import comparator.Vatcomparator;
+import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
 import dao.EvewidencjaDAO;
 import dao.PodatnikDAO;
@@ -19,11 +20,13 @@ import deklaracjaVAT7_13.VAT713;
 import embeddable.EVatViewPola;
 import embeddable.EVatwpisSuma;
 import embeddable.EwidencjaAddwiad;
+import embeddable.Kwartaly;
 import embeddable.Parametr;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.TKodUS;
 import embeddable.VatKorektaDok;
 import embeddable.Vatpoz;
+import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
 import entity.Podatnik;
 import entity.Rodzajedok;
@@ -78,6 +81,8 @@ public class VatKorektaView implements Serializable {
     private RodzajedokDAO rodzajedokDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
     private boolean pokazFormularze;
     private Integer nowaWartoscVatZPrzeniesienia;
     private boolean pole70zreki;
@@ -252,7 +257,14 @@ public class VatKorektaView implements Serializable {
         /**
          * tu stwarzam ten wiersz gdzie faktycznie jest budowany Strig deklaracji
          */
-        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie);
+        String vatokres = sprawdzjakiokresvat();
+        String mckw = wpisView.getMiesiacWpisu();
+        if (!vatokres.equals("miesięczne")) {
+            mckw = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
+        }
+        List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+        DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), mckw, schemyLista);
+        stworzdeklaracje(pozycjeDeklaracjiVAT, deklaracjaVATPoKorekcie, pasujacaSchema);
         int czyjestcosdowysylki = czynieczekajuzcosdowyslania();
         if (czyjestcosdowysylki == 0) {
             deklaracjevatDAO.dodaj(deklaracjaVATPoKorekcie);
@@ -263,7 +275,12 @@ public class VatKorektaView implements Serializable {
             Msg.msg("i", "Zachowano nową deklaracje VAT");
         }
     }
-    
+    private String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        return ParametrView.zwrocParametr(parametry, rok, mc);
+    }
     private int czynieczekajuzcosdowyslania(){
         try{
             Deklaracjevat badana = deklaracjevatDAO.findDeklaracjeDowyslania(deklaracjaVATPoKorekcie.getPodatnik());
@@ -277,10 +294,10 @@ public class VatKorektaView implements Serializable {
         return 0;
     }
     
-    private void stworzdeklaracje(Vatpoz pozycjeDeklaracjiVAT, Deklaracjevat nowadeklaracja) {
+    private void stworzdeklaracje(Vatpoz pozycjeDeklaracjiVAT, Deklaracjevat nowadeklaracja, DeklaracjaVatSchema schema) {
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(pozycjeDeklaracjiVAT, wpisView);
+            vat713 = new VAT713(pozycjeDeklaracjiVAT,schema);
             String wiersz = vat713.getWiersz();
             nowadeklaracja.setDeklaracja(wiersz);
             Msg.msg("Stworzono deklaracje korekte");

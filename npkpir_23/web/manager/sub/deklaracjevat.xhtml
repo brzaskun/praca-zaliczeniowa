@@ -73,7 +73,7 @@
                                     <h:outputText value="#{item.naglowek}"/>
                                 </p:column>
                                 <p:column>
-                                    <h:outputText value=""/>
+                                    <h:outputText value="#{item.oswiadczenie}"/>
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
@@ -98,6 +98,8 @@
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.naglowek}" style="width: 600px;"/>
                     <h:outputText value="pouczenie: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.pouczenie}" style="width: 600px;"/>
+                    <h:outputText value="oświadczenie " />
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.oswiadczenie}" style="width: 600px;"/>
                 </p:panelGrid>
                 <p:commandButton value="dodaj" actionListener="#{deklaracjaVatSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:definowaniepozycji, akordeon:form_deklaracjaVatSchemaView:wykazschem"/>
                 <p:commandButton value="edytuj" actionListener="#{deklaracjaVatSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:definowaniepozycji, akordeon:form_deklaracjaVatSchemaView:wykazschem"/>

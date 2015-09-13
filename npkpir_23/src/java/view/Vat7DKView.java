@@ -724,7 +724,7 @@ public class Vat7DKView implements Serializable {
         Deklaracjevat nowadekl = new Deklaracjevat();
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(pozycje, wpisView, schema);
+            vat713 = new VAT713(pozycje, schema);
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
