@@ -30,32 +30,11 @@ public class PozycjeSzczegolowe {
             String wynik = (String) met.invoke(pozycjelista, (Object[]) null);
             lista.add(wynik);
         }
-       
-        String nazwaschemy = schema.getNazwaschemy();
-        switch (nazwaschemy) {
-            case "M-13":
-            case "K-7":
-                this.schemaM13K7(lista);
-                break;
-            case "M-14":
-            case "M-15":
-            case "K-8":
-                this.schemaM14K8(lista);
-                break;
-        }
-        
-    }
-    
-    private void schemaM13K7(List<String> lista){
-        PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
-        pobierzSzczegolowe(lista, 20);
-    }
-    
-    private void schemaM14K8(List<String> lista){
         PozycjeSzczegolowe = "<PozycjeSzczegolowe>";
         pobierzSzczegolowe(lista, 10);
     }
     
+        
     private void pobierzSzczegolowe(List<String> lista, int poczatek) {
         int j = poczatek;
         for(String p : lista){

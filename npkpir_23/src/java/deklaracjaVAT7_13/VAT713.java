@@ -32,8 +32,8 @@ public class VAT713 implements Serializable{
         KwadracikiNaDole kwadracikiNaDole = new KwadracikiNaDole(selected, schema);
         String oswiadczenie = schema.getOswiadczenie();
         DaneAutoryzujace daneAutoryzujace = new DaneAutoryzujace(selected);
-        Pouczenie pouczenie = new Pouczenie(schema.getPouczenie());
-        wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
+        String pouczenie = schema.getPouczenie();
+        wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie+oswiadczenie+daneAutoryzujace.getDaneAutoryzujace();
     }
 
    
