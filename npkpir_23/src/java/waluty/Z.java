@@ -7,6 +7,7 @@
 package waluty;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  *
@@ -32,10 +33,17 @@ public class Z implements Serializable {
         return (int) Math.round(m);
     }
     
-    public static void main(String[] args) {
-        double kwota = 123.64;
-        double m = Math.round(kwota);
-        m /= 1;
-        System.out.println(m);
+//    public static void main(String[] args) {
+//        double kwota = 123.64;
+//        double m = Math.round(kwota);
+//        m /= 1;
+//        System.out.println(m);
+//    }
+    
+     public static void main(String[] args) {
+         BigDecimal b = new BigDecimal(1000);
+         Integer c = 500;
+         int suma = Z.zUD((int) c +b.intValue());
+         System.out.println("s "+suma);
     }
 }

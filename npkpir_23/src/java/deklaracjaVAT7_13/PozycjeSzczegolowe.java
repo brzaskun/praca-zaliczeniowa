@@ -23,7 +23,7 @@ public class PozycjeSzczegolowe {
         // from Joda to JDK
         List<String> lista = new ArrayList<>();
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
-        for(int i = 20;i<71;i++){
+        for(int i = 10;i<71;i++){
             Class[] noparams = {};	
             Method met = PozycjeSzczegoloweVAT.class.getDeclaredMethod("getPole"+i, noparams);
             String wynik = (String) met.invoke(pozycjelista, (Object[]) null);

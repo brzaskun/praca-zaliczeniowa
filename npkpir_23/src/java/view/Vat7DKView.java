@@ -100,6 +100,7 @@ public class Vat7DKView implements Serializable {
     private Integer zwrot25dni;
     private Integer zwrot60dni;
     private Integer zwrot180dni;
+    private Integer kwotanakaserej;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -234,6 +235,17 @@ public class Vat7DKView implements Serializable {
             } else {
                 nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nl-nż);
             }
+            if (kwotanakaserej != null) {
+                if (nż > nl) {
+                    DeklaracjaVatSchemaWierszSum kasadoodliczenia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do odliczenia");
+                    kasadoodliczenia.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+                    dowpłaty.getDeklaracjaVatWierszSumaryczny().setSumavat((dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) > 0 ? (dowpłaty.getDeklaracjaVatWierszSumaryczny().getSumavat() - kwotanakaserej) : 0);
+                } else {
+                    DeklaracjaVatSchemaWierszSum kasadozwrotu = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota wydatkowana na kasy rej. do zwrotu");
+                    kasadozwrotu.getDeklaracjaVatWierszSumaryczny().setSumavat(kwotanakaserej);
+                    nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat() + kwotanakaserej);
+                }
+            }
             DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do przeniesienia na następny okres rozliczeniowy");
             doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat());
             if (zwrot25dni != null) {
@@ -242,6 +254,20 @@ public class Vat7DKView implements Serializable {
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot25dni);
                 narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot25dni);
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot25dni);
+            }
+            if (zwrot60dni != null) {
+                DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
+                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
+                narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot60dni);
+            }
+            if (zwrot180dni != null) {
+                DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
+                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
+                narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
+                doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
             }
         }
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweSumaryczne(schemawierszsumarycznylista, pozycjeSzczegoloweVAT, null);
@@ -909,6 +935,14 @@ public class Vat7DKView implements Serializable {
 
     public void setZwrot180dni(Integer zwrot180dni) {
         this.zwrot180dni = zwrot180dni;
+    }
+
+    public Integer getKwotanakaserej() {
+        return kwotanakaserej;
+    }
+
+    public void setKwotanakaserej(Integer kwotanakaserej) {
+        this.kwotanakaserej = kwotanakaserej;
     }
 
    

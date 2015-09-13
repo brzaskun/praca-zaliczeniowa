@@ -342,28 +342,28 @@ public class VATDeklaracja implements Serializable {
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (!ew.getEwidencja().getTypewidencji().equals("z")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem (suma przychodów)")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
                 if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
                  if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
             }
@@ -374,22 +374,22 @@ public class VATDeklaracja implements Serializable {
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
                  if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD((int) wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD((int) wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
+                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
                     }
                 }
             }

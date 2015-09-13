@@ -153,7 +153,7 @@
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaWierszSumView.zachowaj()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:dataTable value="#{deklaracjaVatSchemaWierszSumView.schemawierszlista}" var="item" style="width: 960px;"
-                             emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.deklaracjaVatWierszSumaryczny.nazwapozycji}">
+                             emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}">
                     <p:column width="70">
                         <f:facet name="header">
                             <h:outputText value="Nazwa schemy"/>

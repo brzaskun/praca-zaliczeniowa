@@ -39,9 +39,9 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
     @Column(name = "nazwapozycji")
     private String nazwapozycji;
     @Column(name = "sumanetto")
-    private Integer sumanetto;
+    private int sumanetto;
     @Column(name = "sumavat")
-    private Integer sumavat;
+    private int sumavat;
 
     @Override
     public int hashCode() {
@@ -83,22 +83,23 @@ public class DeklaracjaVatWierszSumaryczny implements Serializable {
         this.nazwapozycji = nazwapozycji;
     }
 
-    public Integer getSumanetto() {
+    public int getSumanetto() {
         return sumanetto;
     }
 
-    public void setSumanetto(Integer sumanetto) {
+    public void setSumanetto(int sumanetto) {
         this.sumanetto = sumanetto;
     }
 
-    public Integer getSumavat() {
+    public int getSumavat() {
         return sumavat;
     }
 
-    public void setSumavat(Integer sumavat) {
+    public void setSumavat(int sumavat) {
         this.sumavat = sumavat;
     }
 
+   
   
    
     @Override

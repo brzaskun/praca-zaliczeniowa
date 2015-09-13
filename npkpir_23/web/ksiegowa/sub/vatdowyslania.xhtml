@@ -30,7 +30,18 @@
                         <h:outputText value="pierw./kor."/><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}" style="font-weight: 900;"/>
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
-                    <h:panelGrid columns="4" columnClasses="twofive-percent, twofive-percent, twofive-percent, twofive-percent">
+                    <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
+                        <p:column width="500">
+                            <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <h:outputText value="#{wiersz.polevat}"/>
+                        </p:column>
+                        <p:column>
+                            <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
+                        </p:column>
+                    </p:dataTable>
+<!--                    <h:panelGrid columns="4" columnClasses="twofive-percent, twofive-percent, twofive-percent, twofive-percent" >
                         <h:outputText value="razem należny"/><h:outputText value="#{item.schemawierszsumarycznylista.get(0).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
                             <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText>
                         <h:outputText value="razem naliczony"/><h:outputText value="#{item.schemawierszsumarycznylista.get(4).deklaracjaVatWierszSumaryczny.sumavat}" style="float: right;">
@@ -50,7 +61,7 @@
                         <h:outputText value="kwota autoryzacyjna"/><bcf:outputpl value="#{loop.kwotaautoryzacja}"/>
                         <h:outputText value="korekta ręczna" rendered="#{item.vatDeklaracjaKorektaDokWykaz != null}"/><h:outputText value="#{item.vatDeklaracjaKorektaDokWykaz}" style="float: right;">
                             </h:outputText>
-                    </h:panelGrid>
+                    </h:panelGrid>-->
                 </p:dataGrid>
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
