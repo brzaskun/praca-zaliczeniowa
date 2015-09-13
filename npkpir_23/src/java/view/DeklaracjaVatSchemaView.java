@@ -47,6 +47,11 @@ public class DeklaracjaVatSchemaView implements Serializable {
         ewidencjevat = evewidencjaDAO.findAll();
     }
 
+    public void skopiujschema() {
+        deklaracjaVatSchema = wybranaschema;
+        Msg.msg("Wybrano schemę "+wybranaschema.getNazwaschemy());
+    }
+    
     public void dodajscheme() {
         int czyschemaistnieje = DeklaracjaVatSchemaBean.sprawdzScheme(deklaracjaVatSchema, schemyDeklaracjiVat);
         if (czyschemaistnieje == 1) {
@@ -59,6 +64,12 @@ public class DeklaracjaVatSchemaView implements Serializable {
             deklaracjaVatSchema = new DeklaracjaVatSchema();
             Msg.msg("Dodano schemę");
         }
+    }
+    
+    public void edytujscheme() {
+        deklaracjaVatSchemaDAO.edit(deklaracjaVatSchema);
+        deklaracjaVatSchema = new DeklaracjaVatSchema();
+        Msg.msg("Udana edycja schemy");
     }
     
     public void usun(DeklaracjaVatSchema s) {

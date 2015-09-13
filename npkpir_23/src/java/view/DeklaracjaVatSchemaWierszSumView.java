@@ -11,8 +11,6 @@ import dao.DeklaracjaVatSchemaWierszSumDAO;
 import dao.DeklaracjaVatWierszSumarycznyDAO;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.DeklaracjaVatWierszSumaryczny;
-import entity.Evewidencja;
-import entity.SchemaEwidencja;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +37,7 @@ public class DeklaracjaVatSchemaWierszSumView implements Serializable {
     @Inject
     private DeklaracjaVatSchemaWierszSumDAO deklaracjaVatSchemaWierszSumDAO;
     private List<DeklaracjaVatSchemaWierszSum> schemawierszlista;
+    
    
     @PostConstruct
     private void init() {

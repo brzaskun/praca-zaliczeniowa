@@ -11,8 +11,10 @@
             <h:form id="form_deklaracjaVatSchemaView">
                 <p:growl autoUpdate="true"/>
                 <p:dataTable value="#{deklaracjaVatSchemaView.schemyDeklaracjiVat}" var="item" style="width: 680px;"
-                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem">
+                             emptyMessage="nie ma zdefiniowanych schem" id="wykazschem" rowKey="#{item.id}"
+                             selection="#{deklaracjaVatSchemaView.wybranaschema}" selectionMode="single">
                     <p:ajax event="toggleSelect" global="false"/>
+                    <p:ajax event="rowSelect" global="false" listener="#{deklaracjaVatSchemaView.skopiujschema()}" update="akordeon:wprowadzanieschemy"/>
                     <f:facet name="header">
                         <h:outputText value="lista zdefiniowanych schem"/>
                     </f:facet>
@@ -70,7 +72,7 @@
                     </p:rowExpansion>
                 </p:dataTable>
             </h:form>
-            <h:form>
+            <h:form id="wprowadzanieschemy">
                 <p:panelGrid id="parametrydeklaracjaschema" columns="6" style="padding: 10px;">
                     <h:outputText value="rok od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
@@ -83,11 +85,12 @@
                 </p:panelGrid>
                 <p:panelGrid columns="2" style="padding: 10px;">
                     <h:outputText value="wstęp: " />
-                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.wstep}" style="width: 300px;"/>
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.wstep}" style="width: 600px;"/>
                     <h:outputText value="pouczenie: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.pouczenie}" style="width: 600px;"/>
                 </p:panelGrid>
                 <p:commandButton value="dodaj" actionListener="#{deklaracjaVatSchemaView.dodajscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:definowaniepozycji, akordeon:form_deklaracjaVatSchemaView:wykazschem"/>
+                <p:commandButton value="edytuj" actionListener="#{deklaracjaVatSchemaView.edytujscheme()}" style="width: 120px; margin: 10px;" global="false" update="akordeon:definowaniepozycji, akordeon:form_deklaracjaVatSchemaView:wykazschem"/>
             </h:form>
         </p:tab>
         <p:tab title="Definiowanie pozycji dla ewidencji">
@@ -153,7 +156,8 @@
                 <p:commandButton value="zachowaj" actionListener="#{deklaracjaVatSchemaWierszSumView.zachowaj()}" update="akordeon:definowaniewierszysumarycznych" style="width: 120px; margin: 10px;"
                                  rendered="#{deklaracjaVatSchemaWierszSumView.schemyDeklaracjiVat.size() > 0}"/>
                 <p:dataTable value="#{deklaracjaVatSchemaWierszSumView.schemawierszlista}" var="item" style="width: 960px;"
-                             emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}">
+                             emptyMessage="Nie pobrano wierszy/Nie zdefinowano jeszcze wierszy" sortBy="#{item.polenetto}"
+                             >
                     <p:column width="70">
                         <f:facet name="header">
                             <h:outputText value="Nazwa schemy"/>

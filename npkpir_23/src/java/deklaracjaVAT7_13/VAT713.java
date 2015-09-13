@@ -24,7 +24,7 @@ import view.WpisView;
 @Named
 public class VAT713 implements Serializable{
      private String wiersz;
-     private Wstep wstep;
+     private String wstep;
      private Naglowek naglowek;
      private Podmiot podmiot;
      private PozycjeSzczegolowe pozycjeSzczegolowe;
@@ -42,7 +42,7 @@ public class VAT713 implements Serializable{
     public VAT713(Vatpoz selected, WpisView wpisView, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         this.selected = selected;
         String vatokres = sprawdzjakiokresvat(wpisView);
-        wstep = new Wstep(schema);
+        wstep = schema.getWstep();
         naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
         pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
@@ -51,9 +51,9 @@ public class VAT713 implements Serializable{
         daneAutoryzujace = new DaneAutoryzujace(selected);
         pouczenie = new Pouczenie(schema.getPouczenie());
         if (schema.getNazwaschemy().equals("M-15")) {
-            wiersz = wstep.getWstep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+daneAutoryzujace.getDaneAutoryzujace();
+            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+daneAutoryzujace.getDaneAutoryzujace();
         } else {
-            wiersz = wstep.getWstep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
+            wiersz = wstep+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
         }
     }
 
