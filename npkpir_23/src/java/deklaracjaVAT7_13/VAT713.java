@@ -43,7 +43,7 @@ public class VAT713 implements Serializable{
         this.selected = selected;
         String vatokres = sprawdzjakiokresvat(wpisView);
         wstep = schema.getWstep();
-        naglowek = new Naglowek(selected, vatokres);
+        naglowek = new Naglowek(selected, vatokres, schema);
         podmiot = new Podmiot(selected);
         pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
         kwadracikiNaDole = new KwadracikiNaDole(selected, schema);
