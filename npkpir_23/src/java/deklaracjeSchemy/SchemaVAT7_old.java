@@ -18,7 +18,7 @@ import java.util.List;
  * @author Osito
  */
 
-public class SchemaVAT7 implements Serializable{
+public class SchemaVAT7_old implements Serializable{
     private static final long serialVersionUID = 1L;
     private static final List<Schema> schemalist;
     

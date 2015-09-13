@@ -14,7 +14,6 @@ import dao.EwidencjeVatDAO;
 import dao.PodatnikDAO;
 import dao.SchemaEwidencjaDAO;
 import deklaracjaVAT7_13.VAT713;
-import deklaracjeSchemy.SchemaVAT7;
 import embeddable.EVatwpisSuma;
 import embeddable.Kwartaly;
 import embeddable.Mce;
@@ -101,6 +100,7 @@ public class Vat7DKView implements Serializable {
     private Integer zwrot60dni;
     private Integer zwrot180dni;
     private Integer kwotanakaserej;
+    private DeklaracjaVatSchema pasujacaSchema;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -121,6 +121,8 @@ public class Vat7DKView implements Serializable {
         if (!vatokres.equals("miesięczne")) {
             mc = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
         }
+        List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+        pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
         HashMap<String, EVatwpisSuma> sumaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> wartosci = new ArrayList<>(sumaewidencji.values());
         //tu zduplikowac ewidencje
@@ -156,7 +158,7 @@ public class Vat7DKView implements Serializable {
         if (flaga != 1) {
             podsumujszczegolowe();
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
-            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres,pasujacaSchema);
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if (zachowaj == true) {
@@ -184,7 +186,7 @@ public class Vat7DKView implements Serializable {
             mc = Kwartaly.getMapamcMcwkw().get(wpisView.getMiesiacWpisu());
         }
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
-        DeklaracjaVatSchema pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
+        pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
         HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
@@ -307,7 +309,7 @@ public class Vat7DKView implements Serializable {
         if (flaga != 1) {
             //podsumujszczegolowe();
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
-            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres);
+            nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
@@ -718,11 +720,11 @@ public class Vat7DKView implements Serializable {
         return pozycje;
     }
     
-    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres) {
+    private Deklaracjevat stworzdeklaracje(Vatpoz pozycje, String vatokres, DeklaracjaVatSchema schema) {
         Deklaracjevat nowadekl = new Deklaracjevat();
         VAT713 vat713 = null;
         try {
-            vat713 = new VAT713(pozycje, wpisView);
+            vat713 = new VAT713(pozycje, wpisView, schema);
         } catch (Exception ex) {
             Msg.msg("e", "Błąd podczas generowania deklaracji VAT. Nalezy sprawdzić parametry podatnika.");
             Logger.getLogger(Vat7DKView.class.getName()).log(Level.SEVERE, null, ex);
@@ -748,7 +750,7 @@ public class Vat7DKView implements Serializable {
         nowadekl.setUpo("");
         nowadekl.setStatus("");
         nowadekl.setOpis("");
-        nowadekl.setWzorschemy(SchemaVAT7.odnajdzscheme(vatokres, rok, mc).getNazwaschemy());
+        nowadekl.setWzorschemy(schema.getNazwaschemy());
         return nowadekl;
     }
 

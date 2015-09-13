@@ -15,6 +15,7 @@ class Oswiadczenie {
     public Oswiadczenie() {
         Oswiadczenie = "<Oswiadczenie>Oświadczam, że są mi znane przepisy Kodeksu karnego skarbowego o odpowiedzialności za podanie danych niezgodnych z rzeczywistością.</Oswiadczenie>";
     }
+    
 
     
     public String getOswiadczenie() {

@@ -57,11 +57,16 @@ class Podmiot {
                 +Wojewodztwo+"</etd:Wojewodztwo><etd:Powiat>"+Powiat+"</etd:Powiat><etd:Gmina>"+Gmina+"</etd:Gmina><etd:Ulica>"+Ulica
                 +"</etd:Ulica><etd:NrDomu>"+NrDomu+"</etd:NrDomu><etd:NrLokalu>"+NrLokalu+"</etd:NrLokalu><etd:Miejscowosc>"+Miejscowosc
                 +"</etd:Miejscowosc><etd:KodPocztowy>"+KodPocztowy+"</etd:KodPocztowy><etd:Poczta>"+Poczta+"</etd:Poczta></etd:AdresPol></etd:AdresZamieszkaniaSiedziby></Podmiot1>";
-        } else {
+        } else if (Rok <= 2015 && Miesiac<8){
            Podmiot = "<Podmiot1 rola=\"Podatnik\"> <etd:OsobaFizyczna><etd:NIP>"+NIP
                 +"</etd:NIP><etd:ImiePierwsze>"+ImiePierwsze+"</etd:ImiePierwsze><etd:Nazwisko>"
                 +Nazwisko+"</etd:Nazwisko><etd:DataUrodzenia>"+DataUrodzenia
                 +"</etd:DataUrodzenia></etd:OsobaFizyczna></Podmiot1>"; 
+        } else {
+           Podmiot = "<Podmiot1 rola=\"Podatnik\"> <OsobaFizyczna><NIP>"+NIP
+                +"</NIP><ImiePierwsze>"+ImiePierwsze+"</ImiePierwsze><Nazwisko>"
+                +Nazwisko+"</Nazwisko><DataUrodzenia>"+DataUrodzenia
+                +"</DataUrodzenia></OsobaFizyczna></Podmiot1>"; 
         }
     }
 

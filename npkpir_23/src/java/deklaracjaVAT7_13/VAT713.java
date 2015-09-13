@@ -4,10 +4,10 @@
  */
 package deklaracjaVAT7_13;
 
-import deklaracjeSchemy.SchemaVAT7;
 import embeddable.Parametr;
 import embeddable.Schema;
 import embeddable.Vatpoz;
+import entity.DeklaracjaVatSchema;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -39,11 +39,10 @@ public class VAT713 implements Serializable{
     public VAT713() {
     }
      
-    public VAT713(Vatpoz selected, WpisView wpisView) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public VAT713(Vatpoz selected, WpisView wpisView, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         this.selected = selected;
         String vatokres = sprawdzjakiokresvat(wpisView);
-        Schema schema = SchemaVAT7.odnajdzscheme(vatokres, wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
-        wstep = new Wstep(schema.getWstep());
+        wstep = new Wstep(schema);
         naglowek = new Naglowek(selected, vatokres);
         podmiot = new Podmiot(selected);
         pozycjeSzczegolowe = new PozycjeSzczegolowe(selected, schema);
@@ -51,7 +50,11 @@ public class VAT713 implements Serializable{
         oswiadczenie = new Oswiadczenie();
         daneAutoryzujace = new DaneAutoryzujace(selected);
         pouczenie = new Pouczenie(schema.getPouczenie());
-        wiersz = wstep.getWestep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
+        if (schema.getNazwaschemy().equals("M-15")) {
+            wiersz = wstep.getWstep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+daneAutoryzujace.getDaneAutoryzujace();
+        } else {
+            wiersz = wstep.getWstep()+naglowek.getNaglowek()+podmiot.getPodmiot()+pozycjeSzczegolowe.getPozycjeSzczegolowe()+kwadracikiNaDole.getKwadracikiNaDole()+pouczenie.getPouczenie()+oswiadczenie.getOswiadczenie()+daneAutoryzujace.getDaneAutoryzujace();
+        }
     }
 
     private String sprawdzjakiokresvat(WpisView wpisView) {

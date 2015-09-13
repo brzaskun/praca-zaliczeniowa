@@ -7,6 +7,7 @@ package deklaracjaVAT7_13;
 import embeddable.PozycjeSzczegoloweVAT;
 import embeddable.Schema;
 import embeddable.Vatpoz;
+import entity.DeklaracjaVatSchema;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 public class PozycjeSzczegolowe {
     private static String PozycjeSzczegolowe;
 
-    public PozycjeSzczegolowe(Vatpoz selected, Schema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public PozycjeSzczegolowe(Vatpoz selected, DeklaracjaVatSchema schema) throws NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         // from Joda to JDK
         List<String> lista = new ArrayList<>();
         PozycjeSzczegoloweVAT pozycjelista = selected.getPozycjeszczegolowe();
@@ -37,6 +38,7 @@ public class PozycjeSzczegolowe {
                 this.schemaM13K7(lista);
                 break;
             case "M-14":
+            case "M-15":
             case "K-8":
                 this.schemaM14K8(lista);
                 break;
