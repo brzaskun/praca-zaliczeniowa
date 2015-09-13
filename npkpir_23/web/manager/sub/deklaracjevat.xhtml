@@ -68,6 +68,14 @@
                                     <h:outputText value="#{item.pouczenie}"/>
                                 </p:column>
                             </p:row>
+                            <p:row>
+                                <p:column>
+                                    <h:outputText value="#{item.naglowek}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value=""/>
+                                </p:column>
+                            </p:row>
                         </p:panelGrid>
                     </p:rowExpansion>
                 </p:dataTable>
@@ -86,6 +94,8 @@
                 <p:panelGrid columns="2" style="padding: 10px;">
                     <h:outputText value="wstęp: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.wstep}" style="width: 600px;"/>
+                    <h:outputText value="nagłówek: " />
+                    <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.naglowek}" style="width: 600px;"/>
                     <h:outputText value="pouczenie: " />
                     <p:inputText value="#{deklaracjaVatSchemaView.deklaracjaVatSchema.pouczenie}" style="width: 600px;"/>
                 </p:panelGrid>

@@ -41,6 +41,8 @@ public class DeklaracjaVatSchema implements Serializable {
     private String nazwaschemy;
     @Column(name = "wstep")
     private String wstep;
+    @Column(name = "naglowek")
+    private String naglowek;
     @Column(name = "pouczenie", length = 2048)
     private String pouczenie;
     @Column(name = "mc0kw1")
@@ -131,6 +133,14 @@ public class DeklaracjaVatSchema implements Serializable {
 
     public void setMc0kw1(boolean mc0kw1) {
         this.mc0kw1 = mc0kw1;
+    }
+
+    public String getNaglowek() {
+        return naglowek;
+    }
+
+    public void setNaglowek(String naglowek) {
+        this.naglowek = naglowek;
     }
 
   
