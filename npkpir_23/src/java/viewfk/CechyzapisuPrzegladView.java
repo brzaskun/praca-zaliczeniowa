@@ -162,6 +162,12 @@ public class CechyzapisuPrzegladView implements Serializable{
             this.cechazapisu = cechazapisu;
             this.stronaWiersza = stronaWiersza;
         }
+        
+        public CechaStronaWiersza(Cechazapisu cechazapisu, StronaWiersza stronaWiersza, String popmc) {
+            this.cechazapisu = cechazapisu;
+            stronaWiersza.setKwotaPLN(-stronaWiersza.getKwotaPLN());
+            this.stronaWiersza = stronaWiersza;
+        }
 
         public int getId() {
             return id;

@@ -196,7 +196,36 @@
                     </p:dataTable>
                 </p:rowExpansion>
             </p:dataTable>
-            
+            <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{symulacjaWynikuView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
+                         emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
+                          style="width: 800px; margin-top: 10px;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
+                <f:facet name="header">  
+                    <h:outputText value="Zestawienie zapisów z cechami " />  
+                    <h:outputText value="- wyszukiwanie: " />  
+                    <p:inputText id="globalFilter" onkeyup="PF('tabelacechyzapisow').filter();" style="width:150px" />  
+                </f:facet>
+                <p:column headerText="nazwa cechy" width="80" sortBy="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}">
+                    <h:outputText value="#{wpis.cechazapisu.cechazapisuPK.nazwacechy}"/>
+                </p:column>
+                <p:column headerText="#{mgs.dokument}" width="80">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfkS}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" width="80">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfk.datawystawienia}"/>
+                </p:column>
+                <p:column headerText="#{mgs.miesiąc}" width="40">
+                    <h:outputText value="#{wpis.stronaWiersza.dokfk.miesiac}"/>
+                </p:column>
+                <p:column headerText="wiersz" width="200">
+                    <h:outputText value="#{wpis.stronaWiersza.wiersz.opisWiersza}"/>
+                </p:column>
+                <p:column headerText="#{mgs.konto}" width="70">
+                    <h:outputText value="#{wpis.stronaWiersza.konto.pelnynumer}"/>
+                </p:column>
+                <p:column headerText="#{mgs.kwota}" width="90">
+                    <bcf:outputpl value="#{wpis.stronaWiersza.kwotaPLN}"/>
+                </p:column>
+            </p:dataTable>
             <p:dataTable id="tablicasymulacjasuma" value="#{symulacjaWynikuView.pozycjePodsumowaniaWyniku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjasuma"
