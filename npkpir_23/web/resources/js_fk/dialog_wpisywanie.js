@@ -33,6 +33,25 @@ var zachowajwierszVATRK = function (lp) {
     }
 };
 
+var sprawdzmiesiacDialogWpisywanie = function(mcwpisu) {
+  var mcdok = r("formwpisdokument:data3DialogWpisywanie").val();
+  var mcdok = mcdok.split("-")[1];
+  if (mcwpisu === mcdok) {
+      console.log("lolo");
+  } else {
+      rj("formwpisdokument:miesiac").style.color = "red";
+      var h = r("formwpisdokument:miesiac").height();
+      r("formwpisdokument:miesiac").animate({ height: 30 }, {
+                    duration: 'slow',
+                    easing: 'swing'
+                });
+      r("formwpisdokument:miesiac").animate({ height: h }, {
+                    duration: 'slow',
+                    easing: 'swing'
+                });
+  }
+};
+
 var odtworzwierszVATRK = function(lp) {
     var id = parseInt(lp)-1;
     MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";

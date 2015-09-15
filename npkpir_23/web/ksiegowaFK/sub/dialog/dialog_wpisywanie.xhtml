@@ -140,11 +140,12 @@
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
                                                  >
-                                        <p:ajax global="false" event="blur" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
+                                        <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 50px;">
+                                    <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 50px;"
+                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');">
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:inputText>
                                 </p:column>
