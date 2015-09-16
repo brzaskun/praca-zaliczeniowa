@@ -74,7 +74,7 @@ public class WierszBO implements Serializable{
 
     @Override
     public String toString() {
-        return "WierszBO{" + "podatnik=" + podatnik + ", konto=" + konto + ", opis=" + wierszBOPK.getOpis() + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
+        return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + wierszBOPK.getOpis() + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
     }
 
     
