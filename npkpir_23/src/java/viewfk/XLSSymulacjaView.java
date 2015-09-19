@@ -201,6 +201,10 @@ public class XLSSymulacjaView implements Serializable{
                 l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikpodatkowy*"+nazwaudzialowca+",0)"));
             }
             l.add(new PozycjaObliczenia(j++,"podatek udziałowiec "+k, "round(podstawaopodatkowania"+k+"*0.19,0)"));
+            p = lista.get(i+4);
+            l.add(new PozycjaObliczenia(j++,"zapłacono "+k, p.getWartosc()));
+            p = lista.get(i+5);
+            l.add(new PozycjaObliczenia(j++,"do wpłaty "+k, "round(podatekudziałowiec"+k+"+zapłacono"+k+",0)"));
             k++;
         }
         return l;
@@ -220,12 +224,12 @@ public class XLSSymulacjaView implements Serializable{
             } else {
                 nazleznazamc = "round(wynikfinansowy*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
             }
-            l.add(new PozycjaObliczenia(j++,"należna za mc "+k, nazleznazamc));
+            l.add(new PozycjaObliczenia(j++,"należna od pocz.rok. "+k, nazleznazamc));
             SymulacjaWynikuView.PozycjeSymulacji p1 = lista.get(i+2);
             double wyplaconopopmce = p1.getWartosc();
             l.add(new PozycjaObliczenia(j++,"wypłacono pop mce "+k, wyplaconopopmce));
-            String dowyplaty = "round(należnazamc"+k+"-wypłaconopopmce"+k+",2)";
-            l.add(new PozycjaObliczenia(j++,"do wypłaty "+k, dowyplaty));
+            String dowyplaty = "round(należnaodpocz.rok."+k+"-wypłaconopopmce"+k+",2)";
+            l.add(new PozycjaObliczenia(j++,"do wypłaty za mc"+k, dowyplaty));
             k++;
         }
         return l;
