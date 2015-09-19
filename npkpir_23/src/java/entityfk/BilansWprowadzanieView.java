@@ -292,13 +292,8 @@ public class BilansWprowadzanieView implements Serializable {
         }
         if (flagaOK == 0) {
             List<WierszBO> zachowaneWiersze = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+            kontoDAO.wyzerujBoWnBoMawKontach(wpisView, "bilansowe");
             List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            for (Konto p : listakont) {
-                p.setBoWn(0.0);
-                p.setBoMa(0.0);
-                p.setBlokada(false);
-            }
-            kontoDAO.editList(listakont);
             for (WierszBO p : zachowaneWiersze) {
                 Konto k = listakont.get(listakont.indexOf(p.getKonto()));
                 k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());

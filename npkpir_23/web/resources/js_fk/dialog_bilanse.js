@@ -16,6 +16,7 @@ var selectpustepolebo = function(nrlisty,nrwiersza)  {
     }
 };
 
+//wywalilem to bo spowalnialo przy duzej ilosci kont
 var podswietltesamekonta = function(nrlisty,wiersz) {
      try {
         var nrkonta = wiersz.value.split(" ")[0];

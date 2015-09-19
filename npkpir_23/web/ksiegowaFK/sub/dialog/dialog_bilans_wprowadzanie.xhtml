@@ -26,7 +26,8 @@
 
     </style>
     <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  modal="true" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');"  >
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
+              maximizable="true">
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
