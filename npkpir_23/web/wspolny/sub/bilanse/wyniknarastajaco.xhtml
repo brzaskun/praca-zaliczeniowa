@@ -25,18 +25,24 @@
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" update="@form"/>
+                        <p:ajax event="change" listener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" update="akordeon:formsymulacjanarastajaco"/>
+                        <p:ajax event="change" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" update="akordeon:formsymulacja" global="false"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{symulacjaWynikuNarastajacoView.odswiezsymulacjewynikunar}" style="width: 120px; margin-left: 20px;" 
-                                     oncomplete="r('akordeon:formsymulacjanarastajaco:drukujsymulacjanar').show();"
-                                     update="@form"/>
+                                     oncomplete="r('akordeon:formsymulacjanarastajaco:drukujsymulacjanar').show();pokazprzyciski();"
+                                     update="akordeon:formsymulacjanarastajaco">
+                        <p:ajax event="click" listener="#{symulacjaWynikuView.odswiezsymulacjewynikuanalityczne()}" update="akordeon:formsymulacja" global="false"/>
+                    </p:commandButton>
                 </p:column>
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton id="drukujsymulacjanar" value="#{mgs.drukuj}" actionListener="#{symulacjaWynikuNarastajacoView.drukuj()}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawynikunar('#{WpisView.podatnikWpisu}')"/><!--
                 <p:commandButton value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}')"/>-->
+                 <p:splitButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(0)}" style=" margin-left: 15px; display: none;" global="false" ajax="false">
+                    <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
+            </p:splitButton>
             </p:panelGrid>
             <p:dataTable id="tablicasymulacjasumanar" value="#{symulacjaWynikuNarastajacoView.listamiesiecy}" var="loop" rowKey="#{loop.id}"
                          emptyMessage="#{mgs.niepobranosuma}" selectionMode="single" 
@@ -98,46 +104,76 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
-             <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiace}" var="loop1" rowKey="#{loop1.nazwa}"
+            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 700px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniepodatkupopmc}"/>
                 </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop1.nazwa}"/>
+                <p:column headerText="#{mgs.udziałowiec}" width="140" >
+                    <h:outputText value="#{loop2.udzialowiec}"/>
                 </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop1.wartosc}"/>
+                <p:column headerText="#{mgs.udział}" width="60" >
+                    <bcf:outputplprocent value="#{loop2.udział}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wynikfinansowy}" width="100" >
+                    <bcf:outputpl value="#{loop2.wynikfinansowyudzial}"/>
+                </p:column>
+                <p:column headerText="#{mgs.podstawaopodatkowania}" width="100" >
+                    <bcf:outputpl value="#{loop2.podstawaopodatkowania}"/>
+                </p:column>
+                <p:column headerText="#{mgs.podatekdochodowy}" width="100" >
+                    <bcf:outputpl value="#{loop2.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatku}" var="loop1" rowKey="#{loop1.nazwa}"
+            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniepodatkumc}"/>
                 </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop1.nazwa}"/>
+                 <p:column headerText="#{mgs.udziałowiec}" width="140" >
+                    <h:outputText value="#{loop1.udzialowiec}"/>
                 </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop1.wartosc}"/>
+                <p:column headerText="#{mgs.udział}" width="60" >
+                    <bcf:outputplprocent value="#{loop1.udział}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wynikfinansowy}" width="100" >
+                     <bcf:outputpl value="#{loop1.wynikfinansowyudzial}"/>
+                </p:column>
+                <p:column headerText="#{mgs.podstawaopodatkowania}" width="100" >
+                    <bcf:outputpl value="#{loop1.podstawaopodatkowania}"/>
+                </p:column>
+                <p:column headerText="#{mgs.podatekdochodowy}" width="100" >
+                    <bcf:outputpl value="#{loop1.podatekdochodowy}"/>
+                </p:column>
+                <p:column headerText="#{mgs.zapłacono}" width="100" >
+                    <bcf:outputpl value="#{loop1.zapłacono}"/>
+                </p:column>
+                <p:column headerText="#{mgs.dozapłaty}" width="100" >
+                    <bcf:outputpl value="#{loop1.dozapłaty}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplaty}" var="loop1" rowKey="#{loop1.nazwa}"
+            <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplatyTablica}" var="loop3" rowKey="#{loop3.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 300px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 600px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.kwotadowyplatynar}"/>
                 </f:facet>
-                <p:column headerText="#{mgs.opis}" width="140" >
-                    <h:outputText value="#{loop1.nazwa}"/>
+                 <p:column headerText="#{mgs.udziałowiec}" width="140" >
+                    <h:outputText value="#{loop3.udzialowiec}"/>
                 </p:column>
-                <p:column headerText="#{mgs.kwota}" width="60" >
-                    <bcf:outputpl value="#{loop1.wartosc}"/>
+                <p:column headerText="#{mgs.dowypłatyodpoczrok}" width="100" >
+                     <bcf:outputpl value="#{loop3.wynikfinansowyudzial}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wypłaconopopmce}" width="100" >
+                    <bcf:outputpl value="#{loop3.podstawaopodatkowania}"/>
+                </p:column>
+                <p:column headerText="#{mgs.należnazamc}" width="100" >
+                    <bcf:outputpl value="#{loop3.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
            

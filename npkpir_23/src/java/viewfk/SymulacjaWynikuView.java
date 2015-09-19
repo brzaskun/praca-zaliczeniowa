@@ -103,8 +103,8 @@ public class SymulacjaWynikuView implements Serializable {
         listakontakoszty = przygotowanalistasaldR(kontaklientakoszty, 1);
         pobierzzapisyzcechami();
         obliczsymulacje();
-        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
-        obliczkwotydowyplaty();
+//        pozycjeDoWyplatyNarastajaco = symulacjaWynikuNarastajacoView.danedobiezacejsym();
+//        obliczkwotydowyplaty();
         System.out.println("");
     }
 
@@ -366,7 +366,7 @@ public class SymulacjaWynikuView implements Serializable {
             List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie()+" "+B.b("udział"), udział));
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
                 double dowyplaty = Z.z(udział*wynikfinansowynetto);
                 double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
                 double zamc = Z.z(dowyplaty-zaplacono);
@@ -554,5 +554,79 @@ public class SymulacjaWynikuView implements Serializable {
         double podstawaopodatkowania = Z.z(udzial*wynikfinansowy);
         System.out.println(podstawaopodatkowania);
         System.out.println(Z.z0(podstawaopodatkowania*0.19));
+    }
+
+    public static class PozycjeSymulacjiTabela {
+
+        private String udzialowiec;
+        private double udział;
+        private double wynikfinansowyudzial;
+        private double podstawaopodatkowania;
+        private double podatekdochodowy;
+        private double zapłacono;
+        private double dozapłaty;
+        
+        public PozycjeSymulacjiTabela() {
+        }
+
+        
+        public String getUdzialowiec() {
+            return udzialowiec;
+        }
+
+        public void setUdzialowiec(String udzialowiec) {
+            this.udzialowiec = udzialowiec;
+        }
+
+        public double getWynikfinansowyudzial() {
+            return wynikfinansowyudzial;
+        }
+
+        public void setWynikfinansowyudzial(double wynikfinansowyudzial) {
+            this.wynikfinansowyudzial = wynikfinansowyudzial;
+        }
+
+        public double getUdział() {
+            return udział;
+        }
+
+        public void setUdział(double udział) {
+            this.udział = udział;
+        }
+
+        public double getPodstawaopodatkowania() {
+            return podstawaopodatkowania;
+        }
+
+        public void setPodstawaopodatkowania(double podstawaopodatkowania) {
+            this.podstawaopodatkowania = podstawaopodatkowania;
+        }
+
+        public double getPodatekdochodowy() {
+            return podatekdochodowy;
+        }
+
+        public void setPodatekdochodowy(double podatekdochodowy) {
+            this.podatekdochodowy = podatekdochodowy;
+        }
+
+        public double getZapłacono() {
+            return zapłacono;
+        }
+
+        public void setZapłacono(double zapłacono) {
+            this.zapłacono = zapłacono;
+        }
+
+        public double getDozapłaty() {
+            return dozapłaty;
+        }
+
+        public void setDozapłaty(double dozapłaty) {
+            this.dozapłaty = dozapłaty;
+        }
+        
+        
+        
     }
 }

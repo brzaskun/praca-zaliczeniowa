@@ -38,7 +38,7 @@ import viewfk.SymulacjaWynikuView;
 @Stateless
 public class PdfSymulacjaWynikuNarastajaco {
     
-    public static void drukuj(List<WynikFKRokMc> listamiesiecy, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
+    public static void drukuj(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
         try {
@@ -55,7 +55,7 @@ public class PdfSymulacjaWynikuNarastajaco {
         }
     }
 
-    private static void drukujcd(List<WynikFKRokMc> listamiesiecy, LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
+    private static void drukujcd(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
@@ -114,7 +114,7 @@ public class PdfSymulacjaWynikuNarastajaco {
     }
 
 
-   private static PdfPTable tablica2(LinkedHashSet<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
+   private static PdfPTable tablica2(List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(2);
         table.setWidths(new int[]{4, 1});
         table.setWidthPercentage(50);

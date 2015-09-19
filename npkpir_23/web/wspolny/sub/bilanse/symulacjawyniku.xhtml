@@ -8,7 +8,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:bcf="http://brzaskun.com/facelets">
-    <p:tab  title="#{mgs.symulacjawyniku}" id="symulacjawyniku" >
+    <p:tab  title="#{mgs.przychodyikoszty}" id="symulacjawyniku" >
         <style>
             .gridtablicasyntetyczne .ui-datatable-odd td{
                 height : 25px !important;
@@ -22,9 +22,9 @@
         </style>
         <script>
             var pokazprzyciski = function() {
-                r('akordeon:formsymulacja:xlsbutton').show();
-                r('akordeon:formsymulacja:xlsbutton_button').show();
-                r('akordeon:formsymulacja:xlsbutton_menuButton').show();
+                r('akordeon:formsymulacjanarastajaco:xlsbutton').show();
+                r('akordeon:formsymulacjanarastajaco:xlsbutton_button').show();
+                r('akordeon:formsymulacjanarastajaco:xlsbutton_menuButton').show();
                 r('akordeon:formsymulacja:drukujtab').show();
                 r('akordeon:formsymulacja:drukujszcz').show();
             };
@@ -46,9 +46,6 @@
                 <h:outputText value="#{mgs.przetwarzanie}"/>
                 <p:commandButton id="drukujtab" value="#{mgs.drukujtab}" actionListener="#{symulacjaWynikuView.drukuj(1)}" style="width: 120px; margin-left: 20px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 1)"/>
                 <p:commandButton id="drukujszcz" value="#{mgs.drukujszcz}" actionListener="#{symulacjaWynikuView.drukuj(2)}" style="width: 120px; margin-left: 15px; display: none;" oncomplete="wydruksymulacjawyniku('#{WpisView.podatnikWpisu}', 2)"/>
-                <p:splitButton id="xlsbutton" value="dane w formacie XLS" actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(0)}" style=" margin-left: 15px; display: none;" global="false" ajax="false">
-                    <p:menuitem value="XLS przychody szcz." actionListener="#{xLSSymulacjaView.zachowajSymulacjewXLS(1)}" global="false" ajax="false"/>
-            </p:splitButton>
             </p:panelGrid>
             
 
@@ -240,7 +237,7 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
+<!--            <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuView.pozycjeObliczeniaPodatku}" var="loop" rowKey="#{loop.nazwa}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 10px; width: 300px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
@@ -267,7 +264,7 @@
                 <p:column headerText="#{mgs.kwota}" width="60" >
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
-            </p:dataTable>
+            </p:dataTable>-->
             <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" style="margin-top: 10px; width: 150px; margin-bottom: 400px;" />
         </h:form>
     </p:tab>  

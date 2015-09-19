@@ -24,6 +24,7 @@ import javax.faces.context.FacesContext;
 import msg.Msg;
 import org.apache.poi.ss.usermodel.Workbook;
 import view.WpisView;
+import waluty.Z;
 import xls.PozycjaObliczenia;
 import xls.PozycjaPrzychodKoszt;
 import xls.WriteXLSFile;
@@ -38,10 +39,56 @@ public class XLSSymulacjaView implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{symulacjaWynikuView}")
     private SymulacjaWynikuView symulacjaWynikuView;
+    @ManagedProperty(value = "#{symulacjaWynikuNarastajacoView}")
+    private SymulacjaWynikuNarastajacoView symulacjaWynikuNarastajacoView;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     
     public void zachowajSymulacjewXLS(int modulator) {
+        try {
+            List przychody = null;
+            double przychodypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getPrzychody();
+            double kosztypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getKoszty();
+            if (modulator == 1) {
+                przychody = transferToPozycjaPrzychod(symulacjaWynikuView.getListakontaprzychody(),"p");
+                przychody.add(new PozycjaPrzychodKoszt(0, "", "przychody poprzednie miesiące", "", przychodypopmc));
+            } else {
+                przychody = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontaprzychody(),"p");
+                przychody.add(new PozycjaPrzychodKoszt(0, "", "przychody poprzednie miesiące", "", przychodypopmc));
+            }
+            List koszty = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontakoszty(),"k");
+            koszty.add(new PozycjaPrzychodKoszt(0, "", "koszty poprzednie miesiące", "", kosztypopmc));
+            List wynik = transferToPozycjaObliczeniaWynik(symulacjaWynikuNarastajacoView.getPozycjePodsumowaniaWyniku());
+            List podatek = transferToPozycjaObliczeniaPodatek(symulacjaWynikuNarastajacoView.getPozycjeObliczeniaPodatku());
+            List dywidenda = transferToPozycjaObliczeniaDywidenda(symulacjaWynikuNarastajacoView.getPozycjeDoWyplaty());
+            if (przychody.size()==0 || koszty.size()==0 || wynik.size() == 0) {
+                Msg.msg("e","Wygeneruj najpierw zestawienie");
+                return;
+            }
+            Map<String, List> listy = new HashMap<>();
+            listy.put("p", przychody);
+            listy.put("k", koszty);
+            listy.put("w", wynik);
+            listy.put("o", podatek);
+            listy.put("d", dywidenda);
+            Workbook workbook = WriteXLSFile.zachowajXLS(listy, wpisView);
+            // Prepare response.
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            externalContext.setResponseContentType("application/vnd.ms-excel");
+            String filename = "wynikfin"+wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+".xlsx";
+            externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+            // Write file to response body.
+            workbook.write(externalContext.getResponseOutputStream());
+            // Inform JSF that response is completed and it thus doesn't have to navigate.
+            facesContext.responseComplete();
+        } catch (IOException ex) {
+            Logger.getLogger(XLSSymulacjaView.class.getName()).log(Level.SEVERE, null, ex);
+            
+        }
+    }
+    
+    public void zachowajSymulacjewXLS_old(int modulator) {
         try {
             List przychody = null;
             if (modulator == 1) {
@@ -79,6 +126,7 @@ public class XLSSymulacjaView implements Serializable{
             
         }
     }
+    
 
     private List transferToPozycjaPrzychod (List<SaldoKonto> lista, String p_k) {
         List l = new ArrayList();
@@ -143,7 +191,7 @@ public class XLSSymulacjaView implements Serializable{
         List l = new ArrayList();
         int j = 1;
         int k = 1;
-        for (int i = 0; i < lista.size(); i = i+3) {
+        for (int i = 0; i < lista.size(); i = i+6) {
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++,p.getNazwa(),p.getWartosc()));
@@ -165,7 +213,7 @@ public class XLSSymulacjaView implements Serializable{
         for (int i = 0; i < lista.size(); i = i+4) {
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
-            l.add(new PozycjaObliczenia(j++, nazwaudzialowca,p.getWartosc()));
+            l.add(new PozycjaObliczenia(j++, nazwaudzialowca+k,p.getWartosc()));
             String nazleznazamc;
             if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
                 nazleznazamc = "round(wynikfinansowynetto*"+nazwaudzialowca+",2)-podatekudziałowiec"+k;
@@ -176,7 +224,7 @@ public class XLSSymulacjaView implements Serializable{
             SymulacjaWynikuView.PozycjeSymulacji p1 = lista.get(i+2);
             double wyplaconopopmce = p1.getWartosc();
             l.add(new PozycjaObliczenia(j++,"wypłacono pop mce "+k, wyplaconopopmce));
-            String dowyplaty = "round(wypłaconopopmce"+k+"+należnazamc"+k+",2)";
+            String dowyplaty = "round(należnazamc"+k+"-wypłaconopopmce"+k+",2)";
             l.add(new PozycjaObliczenia(j++,"do wypłaty "+k, dowyplaty));
             k++;
         }
@@ -197,6 +245,14 @@ public class XLSSymulacjaView implements Serializable{
 
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public SymulacjaWynikuNarastajacoView getSymulacjaWynikuNarastajacoView() {
+        return symulacjaWynikuNarastajacoView;
+    }
+
+    public void setSymulacjaWynikuNarastajacoView(SymulacjaWynikuNarastajacoView symulacjaWynikuNarastajacoView) {
+        this.symulacjaWynikuNarastajacoView = symulacjaWynikuNarastajacoView;
     }
     
     

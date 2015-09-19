@@ -81,8 +81,11 @@ public class PdfSymulacjaWyniku {
         document.add(tablica(wpisView, listakontaprzychody, "p", rodzajdruku));
         document.add(tablica(wpisView, listakontakoszty, "k", rodzajdruku));
         document.add(tablica2(listapozycjisymulacji));
-        document.add(tablica3(pozycjeObliczeniaPodatku));
-        document.add(tablica4(pozycjeDoWyplaty, 3));
+        //nie ma tego od momentu jak przebudowalem tabsy i zmienilem kolejnosc wyswietlania
+//        document.add(tablica3(pozycjeObliczeniaPodatku));
+//        if (pozycjeDoWyplaty != null) {
+//            document.add(tablica4(pozycjeDoWyplaty, 3));
+//        }
         document.close();
         Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
