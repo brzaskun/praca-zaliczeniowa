@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="udane">
         <p:dataTable id="dataList" value="#{deklaracjevatView.wyslanenormalne}" var="item" selectionMode="single" rowKey="#{item.id}" rowIndexVar="row">
             <p:column style="width: 3%;">
@@ -41,22 +42,45 @@
                     <h:outputText value="Dane"/>
                 </f:facet>
                 <p:dataTable value="#{item.selected}" var="loop" rowIndexVar="row" >
-                    <p:column headerText="rodzaj deklaracji"><h:outputText value="#{loop.rodzajdeklaracji}"/></p:column>
-                    <p:column headerText="pierw./kor."><h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/></p:column>
-                    <p:column headerText="nazwa urzędu" width="100"><h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/></p:column>
-                    <p:column headerText="należny (p.46)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI46}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="naliczony (p.55)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI55}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="przenies. (p.47)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI47}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zapłaty (p.58)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI58}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="do zwrotu (p.60)"><h:outputText value="#{loop.pozycjeszczegolowe.poleI60}" style="float: right;">
-                            <f:convertNumber minFractionDigits="0" locale="PL"/></h:outputText></p:column>
-                    <p:column headerText="kwota autoryz."><h:outputText value="#{loop.kwotaautoryzacja} zł" style="float: right;">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText></p:column>
+                    <p:column headerText="rodzaj deklaracji">
+                        <h:outputText value="#{loop.rodzajdeklaracji}"/>
+                    </p:column>
+                    <p:column headerText="pierw./kor.">
+                        <h:outputText value="#{loop.celzlozenia eq 1 ? 'pierwotna' : 'korekta'}"/>
+                    </p:column>
+                    <p:column headerText="nazwa urzędu" width="100">
+                        <h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/>
+                    </p:column>
+                    <p:column headerText="należny">
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI46}"/>
+                    </p:column>
+                    <p:column headerText="naliczony">
+                            <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI55}"/>
+                    </p:column>
+                    <p:column headerText="przenies.">
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI47}"/>
+                    </p:column>
+                    <p:column headerText="do zapłaty">
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI58}"/>
+                    </p:column>
+                    <p:column headerText="do zwrotu">
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI60}"/>
+                    </p:column>
+                    <p:column headerText="kwota autoryz.">
+                        <bcf:outputpl value="#{loop.kwotaautoryzacja}"/>
+                    </p:column>
                 </p:dataTable>
+                <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;" emptyMessage="deklaracja sprzed 2015-08">
+                    <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                            <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
+                        </p:column>
+                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                            <h:outputText value="#{wiersz.polevat}"/>
+                        </p:column>
+                        <p:column rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
+                            <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
+                        </p:column>
+                    </p:dataTable>
             </p:column>
 
             <p:column width="80" style="text-align: center;">

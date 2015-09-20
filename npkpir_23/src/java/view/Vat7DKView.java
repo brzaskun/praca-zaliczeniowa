@@ -315,6 +315,7 @@ public class Vat7DKView implements Serializable {
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if (flaga == 2) {
             deklaracjevatDAO.destroy(deklaracjakorygowana);
+            nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             deklaracjevatDAO.edit(nowadeklaracja);
             deklaracjakorygowana = new Deklaracjevat();
             Msg.msg("i", podatnik + " - zachowano korekte niewysłanej deklaracji VAT za " + rok + "-" + mc, "form:msg");
