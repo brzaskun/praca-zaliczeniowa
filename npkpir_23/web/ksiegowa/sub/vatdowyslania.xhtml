@@ -31,13 +31,13 @@
                         <h:outputText value="nazwa urzędu"/><h:outputText value="#{loop.nazwaurzedu}"/>
                     </h:panelGrid>
                     <p:dataTable value="#{item.schemawierszsumarycznylista}" var="wiersz" style="width: 700px;">
-                        <p:column width="500">
+                        <p:column width="500" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.deklaracjaVatWierszSumaryczny.nazwapozycji}"/>
                         </p:column>
-                        <p:column width="50">
+                        <p:column width="50" rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <h:outputText value="#{wiersz.polevat}"/>
                         </p:column>
-                        <p:column>
+                        <p:column rendered="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat ne 0}">
                             <bcf:outputpl0 value="#{wiersz.deklaracjaVatWierszSumaryczny.sumavat}"/>
                         </p:column>
                     </p:dataTable>
