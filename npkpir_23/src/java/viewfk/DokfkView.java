@@ -477,6 +477,11 @@ public class DokfkView implements Serializable {
                     evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
                     RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                     RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
+                } else if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
+                    evatwpis.setVat(Z.z((evatwpis.getNetto() * 0.23) * selected.getRodzajedok().getProcentvat() / 100));
+                    evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
+                    RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
                 }
                 DokFKVATBean.rozliczVatKoszt(evatwpis, wartosciVAT, selected, kliencifkDAO, kontoDAOfk, wpisView, dokDAOfk);
             } else if (selected.getListawierszy().get(0).getStronaWn().getKonto() == null && rodzajdok.getKategoriadokumentu() == 2) {
