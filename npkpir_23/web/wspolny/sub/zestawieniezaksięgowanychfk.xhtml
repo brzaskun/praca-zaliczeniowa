@@ -22,7 +22,7 @@
                     <h:outputText value="#{mgs.miesiąc}: "/>
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" >
+                    <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.miesiacDlaZestawieniaZaksiegowanych}" >
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" />
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
