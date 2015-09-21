@@ -213,36 +213,36 @@ public class SymulacjaWynikuView implements Serializable {
         double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         double wynikspolki = wynikpodatkowy;
-        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
-            double podatek = 0.0;
-            if (podstawaopodatkowania > 0) {
-                podatek = Z.z0(podstawaopodatkowania*0.19);
-            }
-            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
-            wynikspolki = wynikpodatkowy - podatek; 
-            wynikfinansowynetto = wynikspolki - npup + nkup;
-            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
-        } else {
-            wynikfinansowynetto = wynikspolki - npup + nkup;
-            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
-        }
-        pozycjeObliczeniaPodatku = new ArrayList<>();
-        try {
-            int i = 1;
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-            for (PodatnikUdzialy p : udzialy) {
-                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikspolki);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
-                double podatek = Z.z0(podstawaopodatkowania*0.19);
-                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
-                podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
-            }
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
-        }
+//        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+//            double podstawaopodatkowania = Z.z0(wynikpodatkowy);
+//            double podatek = 0.0;
+//            if (podstawaopodatkowania > 0) {
+//                podatek = Z.z0(podstawaopodatkowania*0.19);
+//            }
+//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("pdop"), podatek));
+//            wynikspolki = wynikpodatkowy - podatek; 
+//            wynikfinansowynetto = wynikspolki - npup + nkup;
+//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
+//        } else {
+//            wynikfinansowynetto = wynikspolki - npup + nkup;
+//            pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
+//        }
+//        pozycjeObliczeniaPodatku = new ArrayList<>();
+//        try {
+//            int i = 1;
+//            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+//            for (PodatnikUdzialy p : udzialy) {
+//                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(p.getNazwiskoimie(), udział));
+//                double podstawaopodatkowania = Z.z0(udział*wynikspolki);
+//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
+//                double podatek = Z.z0(podstawaopodatkowania*0.19);
+//                pozycjeObliczeniaPodatku.add(new PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i++), podatek));
+//                podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
+//            }
+//        } catch (Exception e) {  E.e(e);
+//            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+//        }
     }
     
     

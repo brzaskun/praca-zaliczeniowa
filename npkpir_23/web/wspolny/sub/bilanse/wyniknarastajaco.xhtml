@@ -158,7 +158,7 @@
             </p:dataTable>
             <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplatyTablica}" var="loop3" rowKey="#{loop3.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 600px; padding: 10px; margin-bottom: 400px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 600px; padding: 10px; margin-bottom: 20px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.kwotadowyplatynar}"/>
@@ -176,7 +176,8 @@
                     <bcf:outputpl value="#{loop3.podatekdochodowy}"/>
                 </p:column>
             </p:dataTable>
-           
+            <p:commandButton value="zapisz podatki" actionListener="#{symulacjaWynikuNarastajacoView.zapiszpodatki}" update="akordeon:formsymulacjanarastajaco:tablicasymulacjasumanar" global="false"
+                             style="width: 120px;"/>
 
         </h:form>
     </p:tab>  

@@ -84,6 +84,8 @@ public class WynikFKRokMc implements Serializable {
     @JoinColumn(name = "podatnikObj", referencedColumnName = "nip")
     @ManyToOne
     private Podatnik podatnikObj;
+    @Column(name = "udzialowiec")
+    private String udzialowiec;
     @Column(name = "wprowadzil")
     private String wprowadzil;
     @Temporal(TemporalType.TIMESTAMP)
@@ -103,104 +105,113 @@ public class WynikFKRokMc implements Serializable {
     public WynikFKRokMc(Integer id) {
         this.id = id;
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public Integer getId() {
         return id;
     }
-
+    
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public Double getKoszty() {
         return koszty;
     }
-
+    
     public void setKoszty(Double koszty) {
         this.koszty = koszty;
     }
-
+    
     public String getMc() {
         return mc;
     }
-
+    
     public void setMc(String mc) {
         this.mc = mc;
     }
-
+    
+    public String getUdzialowiec() {
+        return udzialowiec;
+    }
+    
+    public void setUdzialowiec(String udzialowiec) {
+        this.udzialowiec = udzialowiec;
+    }
+    
     public Double getNkup() {
         return nkup;
     }
-
+    
     public void setNkup(Double nkup) {
         this.nkup = nkup;
     }
-
+    
     public Double getNpup() {
         return npup;
     }
-
+    
     public void setNpup(Double npup) {
         this.npup = npup;
     }
-
+    
     public Double getPrzychody() {
         return przychody;
     }
-
+    
     public void setPrzychody(Double przychody) {
         this.przychody = przychody;
     }
-
+    
     public String getRok() {
         return rok;
     }
-
+    
     public void setRok(String rok) {
         this.rok = rok;
     }
-
+    
     public Double getWynikfinansowy() {
         return wynikfinansowy;
     }
-
+    
     public void setWynikfinansowy(Double wynikfinansowy) {
         this.wynikfinansowy = wynikfinansowy;
     }
-
+    
     public Double getWynikpodatkowy() {
         return wynikpodatkowy;
     }
-
+    
     public void setWynikpodatkowy(Double wynikpodatkowy) {
         this.wynikpodatkowy = wynikpodatkowy;
     }
-
+    
     public Podatnik getPodatnikObj() {
         return podatnikObj;
     }
-
+    
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
     }
-
+    
     public String getWprowadzil() {
         return wprowadzil;
     }
-
+    
     public void setWprowadzil(String wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
-
+    
     public Date getData() {
         return data;
     }
-
+    
     public void setData(Date data) {
         this.data = data;
     }
     
-
+    
 //    public List<SaldoKonto> getListaprzychody() {
 //        return listaprzychody;
 //    }
@@ -216,23 +227,24 @@ public class WynikFKRokMc implements Serializable {
 //    public void setListakoszty(List<SaldoKonto> listakoszty) {
 //        this.listakoszty = listakoszty;
 //    }
-//    
-
+//
+    
     public Double getPodatek() {
         return podatek;
     }
-
+    
     public void setPodatek(Double podatek) {
         this.podatek = podatek;
     }
-
+    
     public Double getWynikfinansowynetto() {
         return wynikfinansowynetto;
     }
-
+    
     public void setWynikfinansowynetto(Double wynikfinansowynetto) {
         this.wynikfinansowynetto = wynikfinansowynetto;
     }
+//</editor-fold>
 
     @Override
     public int hashCode() {

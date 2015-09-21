@@ -58,6 +58,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private double wynikfinansowy;
     private double wynikfinansowynetto;
     private double wynikfinansowynettoPopMce;
+    private double pdop;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
@@ -177,12 +178,12 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         wynikfinansowynetto = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy);
-            double podatek = 0.0;
+            pdop = 0.0;
             if (podstawaopodatkowania > 0) {
-                podatek = Z.z0(podstawaopodatkowania*0.19);
+                pdop = Z.z0(podstawaopodatkowania*0.19);
             }
-            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), podatek));
-            wynikfinansowynetto = wynikpodatkowy - podatek; 
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
+            wynikfinansowynetto = wynikpodatkowy - pdop; 
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
@@ -358,92 +359,102 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         return tabela;
     }
     
+    public void zapiszpodatki() {
+        for (WynikFKRokMc p : listamiesiecy) {
+            if (p.getMc().equals(wpisView.getMiesiacWpisu())) {
+                p.setPodatek(pdop);
+                wynikFKRokMcDAO.edit(p);
+            }
+        }
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
         return wpisView;
     }
-
+    
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-
+    
     public List<WynikFKRokMc> getListamiesiecy() {
         return listamiesiecy;
     }
-
+    
     public void setListamiesiecy(List<WynikFKRokMc> listamiesiecy) {
         this.listamiesiecy = listamiesiecy;
     }
-
+    
     public WynikFKRokMc getSumamiesiecy() {
         return sumamiesiecy;
     }
-
+    
     public void setSumamiesiecy(WynikFKRokMc sumamiesiecy) {
         this.sumamiesiecy = sumamiesiecy;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjePodsumowaniaWyniku() {
         return pozycjePodsumowaniaWyniku;
     }
-
+    
     public void setPozycjePodsumowaniaWyniku(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku) {
         this.pozycjePodsumowaniaWyniku = pozycjePodsumowaniaWyniku;
     }
-
     
-
+    
+    
     public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjeObliczeniaPodatku() {
         return pozycjeObliczeniaPodatku;
     }
-
+    
     public void setPozycjeObliczeniaPodatku(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku) {
         this.pozycjeObliczeniaPodatku = pozycjeObliczeniaPodatku;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacji> getDozaplaty() {
         return dozaplaty;
     }
-
+    
     public void setDozaplaty(List<SymulacjaWynikuView.PozycjeSymulacji> dozaplaty) {
         this.dozaplaty = dozaplaty;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjeObliczeniaPodatkuPoprzedniemiesiace() {
         return pozycjeObliczeniaPodatkuPoprzedniemiesiace;
     }
-
+    
     public void setPozycjeObliczeniaPodatkuPoprzedniemiesiace(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
         this.pozycjeObliczeniaPodatkuPoprzedniemiesiace = pozycjeObliczeniaPodatkuPoprzedniemiesiace;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjeDoWyplaty() {
         return pozycjeDoWyplaty;
     }
-
+    
     public void setPozycjeDoWyplaty(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty) {
         this.pozycjeDoWyplaty = pozycjeDoWyplaty;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela() {
         return pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela;
     }
-
+    
     public void setPozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela(List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela) {
         this.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela = pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeObliczeniaPodatkuTabela() {
         return pozycjeObliczeniaPodatkuTabela;
     }
-
+    
     public void setPozycjeObliczeniaPodatkuTabela(List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuTabela) {
         this.pozycjeObliczeniaPodatkuTabela = pozycjeObliczeniaPodatkuTabela;
     }
-
+    
     public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeDoWyplatyTablica() {
         return pozycjeDoWyplatyTablica;
     }
-
+    
     public void setPozycjeDoWyplatyTablica(List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeDoWyplatyTablica) {
         this.pozycjeDoWyplatyTablica = pozycjeDoWyplatyTablica;
     }
@@ -451,11 +462,11 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     public WynikFKRokMc getSumapoprzednichmiesiecy() {
         return sumapoprzednichmiesiecy;
     }
-
+    
     public void setSumapoprzednichmiesiecy(WynikFKRokMc sumapoprzednichmiesiecy) {
         this.sumapoprzednichmiesiecy = sumapoprzednichmiesiecy;
     }
-
+//</editor-fold>
     
     
 
