@@ -59,6 +59,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private double wynikfinansowynetto;
     private double wynikfinansowynettoPopMce;
     private double pdop;
+    private double zaplacono;
     @Inject
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
@@ -145,11 +146,13 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         double koszt = 0;
         double npup = 0;
         double nkup = 0;
+        zaplacono = 0.0;
         for (WynikFKRokMc p : listamiesiecypoprzednich) {
             przychod += p.getPrzychody();
             koszt += p.getKoszty();
             npup += p.getNpup();
             nkup += p.getNkup();
+            zaplacono += p.getPodatek();
         }
         w.setPrzychody(Z.z(przychod));
         w.setKoszty(Z.z(koszt));
@@ -183,7 +186,10 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 pdop = Z.z0(podstawaopodatkowania*0.19);
             }
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono"), zaplacono));
             wynikfinansowynetto = wynikpodatkowy - pdop; 
+            pdop = Z.z(pdop-zaplacono) > 0.0 ? Z.z(pdop-zaplacono) : 0.0;
+            pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
         }
         pozycjeObliczeniaPodatku = new ArrayList<>();
@@ -467,7 +473,8 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.sumapoprzednichmiesiecy = sumapoprzednichmiesiecy;
     }
 //</editor-fold>
-    
+
+   
     
 
         
