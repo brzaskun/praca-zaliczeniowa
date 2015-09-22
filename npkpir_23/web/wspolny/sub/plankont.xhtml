@@ -23,6 +23,9 @@
                             <p:column colspan="1" headerText="#{mgs.tłumaczenie}" width="200" rendered="#{!facesContext.viewRoot.locale.language.equals('pl')}"/>
                             <p:column colspan="1" headerText="#{mgs.nazwapełna}" width="300"/>
                             <p:column colspan="1" headerText="#{mgs.nazwaskrócona}" width="200"/>
+                            <p:column colspan="1" headerText="b/w" width="20"/>
+                            <p:column colspan="1" headerText="rozrach." width="50"/>
+                            <p:column colspan="1" headerText="P/K" width="40"/>
                         </p:row>
                     </p:columnGroup>
                     <p:column>
@@ -43,7 +46,15 @@
                      <p:column  style="width: 200px;">
                          <h:outputText value="#{loop.nazwaskrocona}" /> 
                     </p:column>
-                  
+                   <p:column  style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                    <p:column  style="width: 120px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
+                    </p:column>
+                    <p:column style="width: 40px;">
+                        <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
                 </p:dataTable>
             </p:panelGrid>
            

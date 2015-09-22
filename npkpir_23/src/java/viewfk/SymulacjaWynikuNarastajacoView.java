@@ -152,7 +152,9 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             koszt += p.getKoszty();
             npup += p.getNpup();
             nkup += p.getNkup();
-            zaplacono += p.getPodatek();
+            if (p.getPodatek() != null) {
+                zaplacono += p.getPodatek();
+            }
         }
         w.setPrzychody(Z.z(przychod));
         w.setKoszty(Z.z(koszt));
