@@ -1538,6 +1538,10 @@ public class SessionFacade<T> implements Serializable {
     public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("WynikFKRokMc.findPodatnikRok").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
     }
+    
+    public List<WynikFKRokMc> findWynikFKPodatnikRokUdzialowiec(WpisView wpisView) {
+        return em.createNamedQuery("WynikFKRokMc.findPodatnikRokUdzialowiec").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisuSt()).getResultList();
+    }
 
     public Klienci findKlientById(int i) {
         return (Klienci) em.createNamedQuery("Klienci.findById").setParameter("id", i).getSingleResult();
@@ -1644,6 +1648,10 @@ public class SessionFacade<T> implements Serializable {
 
     public DeklaracjaVatWierszSumaryczny findWierszSumaryczny(String razem_suma_przychodów) {
         return (DeklaracjaVatWierszSumaryczny) em.createNamedQuery("DeklaracjaVatWierszSumaryczny.findWiersz").setParameter("nazwapozycji", razem_suma_przychodów).getSingleResult();
+    }
+
+    public WynikFKRokMc findWynikFKRokMcUdzialowiec(WynikFKRokMc wynikFKRokMc) {
+        return (WynikFKRokMc) em.createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).setParameter("udzialowiec", wynikFKRokMc.getUdzialowiec()).getSingleResult();
     }
     
    

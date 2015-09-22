@@ -14,6 +14,7 @@ import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -42,15 +43,14 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private WynikFKRokMc sumamiesiecy;
     private WynikFKRokMc sumapoprzednichmiesiecy;
     private List<SymulacjaWynikuView.PozycjeSymulacji> dozaplaty;
-    private Map<String, Double> podatnikkwota;
     private Map<String, Double> podatnikkwotarazem;
     private List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku;
     private List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku;
-    private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuTabela;
-    private List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace;
-    private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela;
+    private List<WynikFKRokMc> pozycjeObliczeniaPodatkuTabela;
     private List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty;
     private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeDoWyplatyTablica;
+    private Map<String, Double> zaplaconepodatki;
+    private Map<String, Double> wyplaconedywidendy;
     @Inject
     private WynikFKRokMcDAO wynikFKRokMcDAO;
     @ManagedProperty(value = "#{WpisView}")
@@ -79,12 +79,14 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
             WynikFKRokMc r = (WynikFKRokMc) p.next();
-            int mc = Integer.parseInt(r.getMc());
-            if (mc < biezacymc) {
-                listamiesiecy.add(r);
-                listamiesiecypoprzednich.add(r);
-            } else if (mc == biezacymc) {
-                listamiesiecy.add(r);
+            if (r.getUdzialowiec() == null) {
+                int mc = Integer.parseInt(r.getMc());
+                if (mc < biezacymc) {
+                    listamiesiecy.add(r);
+                    listamiesiecypoprzednich.add(r);
+                } else if (mc == biezacymc) {
+                    listamiesiecy.add(r);
+                }
             }
         }
         sumapoprzednichmiesiecy = sumujpoprzedniemiesiace();
@@ -94,30 +96,30 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         obliczkwotydowyplaty();
     }
     
-    public Map<String, Double> danedobiezacejsym() {
-        this.listamiesiecy = new ArrayList<>();
-        this.listamiesiecypoprzednich = new ArrayList<>();
-        this.dozaplaty = new ArrayList<>();
-        List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
-        int biezacymc = Integer.parseInt(wpisView.getMiesiacUprzedni());
-        for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
-            WynikFKRokMc r = (WynikFKRokMc) p.next();
-            int mc = Integer.parseInt(r.getMc());
-            if (mc < biezacymc) {
-                listamiesiecy.add(r);
-                listamiesiecypoprzednich.add(r);
-            } else if (mc == biezacymc) {
-                listamiesiecy.add(r);
-            }
-        }
-        sumapoprzednichmiesiecy = sumujpoprzedniemiesiace();
-        sumamiesiecy = sumujmiesiace();
-        obliczsymulacjepoprzedniemce();
-        obliczsymulacje();
-        Map<String, Double> pozycjeDoWyplatyExport = new HashMap<>();
-        obliczkwotydowyplaty(pozycjeDoWyplatyExport);
-        return pozycjeDoWyplatyExport;
-    }
+//    public Map<String, Double> danedobiezacejsym() {
+//        this.listamiesiecy = new ArrayList<>();
+//        this.listamiesiecypoprzednich = new ArrayList<>();
+//        this.dozaplaty = new ArrayList<>();
+//        List<WynikFKRokMc> listapobrana = wynikFKRokMcDAO.findWynikFKPodatnikRok(wpisView);
+//        int biezacymc = Integer.parseInt(wpisView.getMiesiacUprzedni());
+//        for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
+//            WynikFKRokMc r = (WynikFKRokMc) p.next();
+//            int mc = Integer.parseInt(r.getMc());
+//            if (mc < biezacymc) {
+//                listamiesiecy.add(r);
+//                listamiesiecypoprzednich.add(r);
+//            } else if (mc == biezacymc) {
+//                listamiesiecy.add(r);
+//            }
+//        }
+//        sumapoprzednichmiesiecy = sumujpoprzedniemiesiace();
+//        sumamiesiecy = sumujmiesiace();
+//        obliczsymulacjepoprzedniemce();
+//        obliczsymulacje();
+//        Map<String, Double> pozycjeDoWyplatyExport = new HashMap<>();
+//        obliczkwotydowyplaty(pozycjeDoWyplatyExport);
+//        return pozycjeDoWyplatyExport;
+//    }
     
     private WynikFKRokMc sumujmiesiace() {
         WynikFKRokMc w = new WynikFKRokMc();
@@ -201,15 +203,21 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto);
-                double wynikfinansowyudzial = Z.z0(udział*wynikfinansowy);
+                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto) > 0.0 ? Z.z0(udział*wynikfinansowynetto) : 0.0;
+                double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
+                if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                    wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
+                }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i), podatek));
-                double zaplacono = Z.z0(podatnikkwota.get(p.getNazwiskoimie())) >= 0 ? Z.z0(podatnikkwota.get(p.getNazwiskoimie())) : 0.0;
+                double zaplacono = Z.z0(zaplaconepodatki.get(p.getNazwiskoimie())) >= 0 ? Z.z0(zaplaconepodatki.get(p.getNazwiskoimie())) : 0.0;
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono")+" #"+String.valueOf(i), -zaplacono));
-                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty")+" #"+String.valueOf(i++), Z.z0(podatek-zaplacono)));
+                double dozaplatypodatek = Z.z0(podatek-zaplacono) > 0.0 ? Z.z0(podatek-zaplacono) : 0.0;
+                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty")+" #"+String.valueOf(i++), dozaplatypodatek));
+                double dywidendanetto = wynikfinansowyudzial - dozaplatypodatek > 0.0 ? wynikfinansowyudzial - dozaplatypodatek : 0.0;
+                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dywidendanarastajaco")+" #"+String.valueOf(i++), dywidendanetto));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
             }
             pozycjeObliczeniaPodatkuTabela = przekonwertujdotabeliPodatek(pozycjeObliczeniaPodatku);
@@ -219,32 +227,23 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     }
     
      private void obliczsymulacjepoprzedniemce() {
-        wynikfinansowynettoPopMce = 0.0;
-        double przychody = sumapoprzednichmiesiecy.getPrzychody();
-        double koszty = sumapoprzednichmiesiecy.getKoszty();
-        double wynikfinansowy = Z.z(przychody - koszty);
-        double npup = sumapoprzednichmiesiecy.getNpup();
-        double nkup = sumapoprzednichmiesiecy.getNkup();
-        double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
-        pozycjeObliczeniaPodatkuPoprzedniemiesiace = new ArrayList<>();
-        podatnikkwota = new HashMap<>();
-        try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-            int i = 1;
-            for (PodatnikUdzialy p : udzialy) {
-                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
-                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy);
-                pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #pm"+String.valueOf(i), wynikfinansowyudzial));
-                pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #pm"+String.valueOf(i), podstawaopodatkowania));
-                pozycjeObliczeniaPodatkuPoprzedniemiesiace.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowypopmc")+" #pm"+String.valueOf(i++), Z.z0(podstawaopodatkowania*0.19)));
-                podatnikkwota.put(p.getNazwiskoimie(),Z.z0(podstawaopodatkowania*0.19));
-                wynikfinansowynettoPopMce += Z.z((wynikfinansowyudzial - Z.z0(podstawaopodatkowania*0.19)));
+        zaplaconepodatki = new HashMap<>();
+        wyplaconedywidendy = new HashMap<>();
+        List<WynikFKRokMc> poprzedniemce = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(wpisView);
+        List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+        for (PodatnikUdzialy p : udzialy) {
+            double sumazaplaconegopodatku = 0.0;
+            double sumawyplaconedywidendy = 0.0;
+            for (WynikFKRokMc r : poprzedniemce){
+                if (r.getUdzialowiec().equals(p.getNazwiskoimie())) {
+                    if (Mce.getMiesiacToNumber().get(r.getMc()) < Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
+                        sumazaplaconegopodatku += r.getPodatekdowplaty();
+                        sumawyplaconedywidendy += r.getDywidendadowyplaty();
+                    }
+                }
             }
-            pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela = przekonwertujdotabeli(pozycjeObliczeniaPodatkuPoprzedniemiesiace);
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+            zaplaconepodatki.put(p.getNazwiskoimie(), sumazaplaconegopodatku);
+            wyplaconedywidendy.put(p.getNazwiskoimie(), sumawyplaconedywidendy);
         }
     }
     
@@ -255,12 +254,16 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double dowyplaty = Z.z(udział*wynikfinansowy);
+                double udzialpln = Z.z(udział*wynikfinansowy);
+                if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                    udzialpln = Z.z(udział*wynikfinansowynetto);
+                }
                 double podatek = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok"), Z.z(dowyplaty-podatek)));
-                double dowyplatypopmce = Z.z(udział*wynikfinansowynettoPopMce);
+                double dowyplnarast = Z.z(udzialpln-podatek) > 0.0? Z.z(udzialpln-podatek) : 0.0;
+                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok"), dowyplnarast));
+                double dowyplatypopmce = wyplaconedywidendy.get(p.getNazwiskoimie());
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wypłaconopopmce"), dowyplatypopmce));
-                double dowyplmc = Z.z(dowyplaty-podatek-dowyplatypopmce);
+                double dowyplmc = Z.z(udzialpln-podatek-dowyplatypopmce) > 0.0 ? Z.z(udzialpln-podatek-dowyplatypopmce) : 0.0;
                 pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłaty"), dowyplmc));
             }
             pozycjeDoWyplatyTablica = przekonwertujdotabeliWyplata(pozycjeDoWyplaty);
@@ -269,28 +272,28 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         }
     }
     
-    private void obliczkwotydowyplaty(Map<String, Double> pozycjeDoWyplatyExport) {
-        pozycjeDoWyplaty = new ArrayList<>();
-        try {
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-            for (PodatnikUdzialy p : udzialy) {
-                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double dowyplaty = Z.z(udział*wynikfinansowy);
-                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłaty"), Z.z(dowyplaty-zaplacono)));
-                int nrmca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())-1;
-                if (listamiesiecy.size() >= nrmca) {
-                    pozycjeDoWyplatyExport.put(p.getNazwiskoimie(), Z.z(dowyplaty-zaplacono));
-                }
-            }
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
-        }
-    }
+//    private void obliczkwotydowyplaty(Map<String, Double> pozycjeDoWyplatyExport) {
+//        pozycjeDoWyplaty = new ArrayList<>();
+//        try {
+//            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+//            for (PodatnikUdzialy p : udzialy) {
+//                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
+//                double dowyplaty = Z.z(udział*wynikfinansowy);
+//                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłaty"), Z.z(dowyplaty-zaplacono)));
+//                int nrmca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())-1;
+//                if (listamiesiecy.size() >= nrmca) {
+//                    pozycjeDoWyplatyExport.put(p.getNazwiskoimie(), Z.z(dowyplaty-zaplacono));
+//                }
+//            }
+//        } catch (Exception e) {  E.e(e);
+//            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+//        }
+//    }
     
     public void drukuj() {
-        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
+        PdfSymulacjaWynikuNarastajaco.drukuj(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
     }
     
     public void usun(WynikFKRokMc wynikFKRokMc) {
@@ -345,23 +348,30 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         return tabela;
     }
     
-    private List<SymulacjaWynikuView.PozycjeSymulacjiTabela> przekonwertujdotabeliPodatek(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
-        List<SymulacjaWynikuView.PozycjeSymulacjiTabela> tabela = new ArrayList<>();
+    private List<WynikFKRokMc> przekonwertujdotabeliPodatek(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
+        List<WynikFKRokMc> tabela = new ArrayList<>();
         for (int i = 0; i < pozycjeObliczeniaPodatkuPoprzedniemiesiace.size(); ) {
-            SymulacjaWynikuView.PozycjeSymulacjiTabela s = new SymulacjaWynikuView.PozycjeSymulacjiTabela();
+            WynikFKRokMc s = new WynikFKRokMc();
+            s.setPodatnikObj(wpisView.getPodatnikObiekt());
+            s.setRok(wpisView.getRokWpisuSt());
+            s.setMc(wpisView.getMiesiacWpisu());
+            s.setWprowadzil(wpisView.getWprowadzil().getLogin());
+            s.setData(new Date());
             SymulacjaWynikuView.PozycjeSymulacji pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setUdzialowiec(pobrane.getNazwa().split("#")[0].trim());
-            s.setUdział(pobrane.getWartosc());
+            s.setUdzial(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            s.setWynikfinansowyudzial(pobrane.getWartosc());
+            s.setWynikfinansowy(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            s.setPodstawaopodatkowania(pobrane.getWartosc());
+            s.setWynikpodatkowy(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            s.setPodatekdochodowy(pobrane.getWartosc());
+            s.setPodatek(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            s.setZapłacono(pobrane.getWartosc());
+            s.setPodatekzaplacono(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
-            s.setDozapłaty(pobrane.getWartosc());
+            s.setPodatekdowplaty(pobrane.getWartosc());
+            pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
+            s.setDywidendadowyplaty(pobrane.getWartosc());
             tabela.add(s);
         }
         return tabela;
@@ -372,6 +382,20 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             if (p.getMc().equals(wpisView.getMiesiacWpisu())) {
                 p.setPodatek(pdop);
                 wynikFKRokMcDAO.edit(p);
+            }
+        }
+        for (WynikFKRokMc r : pozycjeObliczeniaPodatkuTabela) {
+            for (SymulacjaWynikuView.PozycjeSymulacjiTabela s : pozycjeDoWyplatyTablica) {
+                if (r.getUdzialowiec().equals(s.getUdzialowiec())) {
+                    r.setDywidendadowyplaty(s.getPodatekdochodowy());
+                }
+                try {
+                    wynikFKRokMcDAO.edit(r);
+                } catch (Exception e) {
+                    WynikFKRokMc znalezione = wynikFKRokMcDAO.findWynikFKPodatnikRokUdzialowiec(r);
+                    wynikFKRokMcDAO.destroy(znalezione);
+                    wynikFKRokMcDAO.edit(r);
+                }
             }
         }
     }
@@ -427,13 +451,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.dozaplaty = dozaplaty;
     }
     
-    public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjeObliczeniaPodatkuPoprzedniemiesiace() {
-        return pozycjeObliczeniaPodatkuPoprzedniemiesiace;
-    }
-    
-    public void setPozycjeObliczeniaPodatkuPoprzedniemiesiace(List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace) {
-        this.pozycjeObliczeniaPodatkuPoprzedniemiesiace = pozycjeObliczeniaPodatkuPoprzedniemiesiace;
-    }
+   
     
     public List<SymulacjaWynikuView.PozycjeSymulacji> getPozycjeDoWyplaty() {
         return pozycjeDoWyplaty;
@@ -443,21 +461,16 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         this.pozycjeDoWyplaty = pozycjeDoWyplaty;
     }
     
-    public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela() {
-        return pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela;
-    }
-    
-    public void setPozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela(List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela) {
-        this.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela = pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela;
-    }
-    
-    public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeObliczeniaPodatkuTabela() {
+   
+    public List<WynikFKRokMc> getPozycjeObliczeniaPodatkuTabela() {
         return pozycjeObliczeniaPodatkuTabela;
     }
-    
-    public void setPozycjeObliczeniaPodatkuTabela(List<SymulacjaWynikuView.PozycjeSymulacjiTabela> pozycjeObliczeniaPodatkuTabela) {
+
+    public void setPozycjeObliczeniaPodatkuTabela(List<WynikFKRokMc> pozycjeObliczeniaPodatkuTabela) {
         this.pozycjeObliczeniaPodatkuTabela = pozycjeObliczeniaPodatkuTabela;
     }
+    
+    
     
     public List<SymulacjaWynikuView.PozycjeSymulacjiTabela> getPozycjeDoWyplatyTablica() {
         return pozycjeDoWyplatyTablica;

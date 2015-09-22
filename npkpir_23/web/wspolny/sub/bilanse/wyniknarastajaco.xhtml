@@ -104,7 +104,7 @@
                     <bcf:outputpl value="#{loop.wartosc}"/>
                 </p:column>
             </p:dataTable>
-            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
+<!--            <p:dataTable id="tablicasymulacjapodatekpopmce" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuPoprzedniemiesiaceTabela}" var="loop2" rowKey="#{loop2.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
                          styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 700px; padding: 10px;" widgetVar="tablicasymulacjapodatekpopmce"
                          >
@@ -126,10 +126,10 @@
                 <p:column headerText="#{mgs.podatekdochodowy}" width="100" >
                     <bcf:outputpl value="#{loop2.podatekdochodowy}"/>
                 </p:column>
-            </p:dataTable>
+            </p:dataTable>-->
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 950px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1050px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniepodatkumc}"/>
@@ -138,23 +138,24 @@
                     <h:outputText value="#{loop1.udzialowiec}"/>
                 </p:column>
                 <p:column headerText="#{mgs.udział}" width="60" >
-                    <bcf:outputplprocent value="#{loop1.udział}"/>
+                    <bcf:outputplprocent value="#{loop1.udzial}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wynikfinansowy}" width="100" >
-                     <bcf:outputpl value="#{loop1.wynikfinansowyudzial}"/>
+                     <bcf:outputpl value="#{loop1.wynikfinansowy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.podstawaopodatkowania}" width="100" >
-                    <bcf:outputpl value="#{loop1.podstawaopodatkowania}"/>
+                    <bcf:outputpl value="#{loop1.wynikpodatkowy}"/>
                 </p:column>
                 <p:column headerText="#{mgs.podatekdochodowy}" width="100" >
-                    <bcf:outputpl value="#{loop1.podatekdochodowy}"/>
+                    <bcf:outputpl value="#{loop1.podatek}"/>
                 </p:column>
                 <p:column headerText="#{mgs.zapłacono}" width="100" >
-                    <bcf:outputpl value="#{loop1.zapłacono}"/>
+                    <bcf:outputpl value="#{loop1.podatekzaplacono}"/>
                 </p:column>
                 <p:column headerText="#{mgs.dozapłaty}" width="100" >
-                    <bcf:outputpl value="#{loop1.dozapłaty}"/>
+                    <bcf:outputpl value="#{loop1.podatekdowplaty}"/>
                 </p:column>
+
             </p:dataTable>
             <p:dataTable id="tablicasymulacjawyplata" value="#{symulacjaWynikuNarastajacoView.pozycjeDoWyplatyTablica}" var="loop3" rowKey="#{loop3.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 

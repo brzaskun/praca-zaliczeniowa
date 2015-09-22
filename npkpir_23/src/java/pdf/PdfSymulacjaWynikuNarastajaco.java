@@ -39,7 +39,7 @@ import viewfk.SymulacjaWynikuView;
 public class PdfSymulacjaWynikuNarastajaco {
     
     public static void drukuj(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) {
         try {
             String nazwapliku = "symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf";
@@ -47,7 +47,7 @@ public class PdfSymulacjaWynikuNarastajaco {
             if (file.isFile()) {
                 file.delete();
             }
-            drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatkuPoprzedniemiesiace, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
+            drukujcd(listamiesiecy, pozycjePodsumowaniaWyniku, pozycjeObliczeniaPodatku, pozycjeDoWyplaty, wpisView);
             Msg.msg("Wydruk zestawienia wyniku narastająco");
         } catch (Exception e) {
             Msg.msg("e", "Błąd - nie wydrukowano zestawienia wyniku narastająco");
@@ -56,7 +56,7 @@ public class PdfSymulacjaWynikuNarastajaco {
     }
 
     private static void drukujcd(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 
-            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatkuPoprzedniemiesiace, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
+            List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeObliczeniaPodatku, 
             List<SymulacjaWynikuView.PozycjeSymulacji> pozycjeDoWyplaty, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
         PdfWriter.getInstance(document, Plik.plikR("symulacjawynikunar-" + wpisView.getPodatnikWpisu() + ".pdf"));
@@ -69,7 +69,7 @@ public class PdfSymulacjaWynikuNarastajaco {
         document.setPageSize(PageSize.A4);
         document.add(tablica(wpisView, listamiesiecy));
         document.add(tablica2(pozycjePodsumowaniaWyniku));
-        document.add(tablica3(pozycjeObliczeniaPodatkuPoprzedniemiesiace, 1));
+        //document.add(tablica3(pozycjeObliczeniaPodatkuPoprzedniemiesiace, 1));
         document.add(tablica3(pozycjeObliczeniaPodatku, 2));
         document.add(tablica4(pozycjeDoWyplaty, 3));
         document.close();

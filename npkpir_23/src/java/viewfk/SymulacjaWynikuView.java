@@ -349,7 +349,8 @@ public class SymulacjaWynikuView implements Serializable {
         try {
             WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
         }
         try {
             wynikFKRokMcDAO.edit(wynikFKRokMc);
@@ -565,10 +566,17 @@ public class SymulacjaWynikuView implements Serializable {
         private double podatekdochodowy;
         private double zapłacono;
         private double dozapłaty;
+        private double dowypłaty;
         
         public PozycjeSymulacjiTabela() {
         }
 
+        @Override
+        public String toString() {
+            return "PozycjeSymulacjiTabela{" + "udzialowiec=" + udzialowiec + ", udzia\u0142=" + udział + ", wynikfinansowyudzial=" + wynikfinansowyudzial + ", podstawaopodatkowania=" + podstawaopodatkowania + ", podatekdochodowy=" + podatekdochodowy + ", zap\u0142acono=" + zapłacono + ", dozap\u0142aty=" + dozapłaty + ", dowyp\u0142aty=" + dowypłaty + '}';
+        }
+
+        
         
         public String getUdzialowiec() {
             return udzialowiec;
@@ -624,6 +632,14 @@ public class SymulacjaWynikuView implements Serializable {
 
         public void setDozapłaty(double dozapłaty) {
             this.dozapłaty = dozapłaty;
+        }
+
+        public double getDowypłaty() {
+            return dowypłaty;
+        }
+
+        public void setDowypłaty(double dowypłaty) {
+            this.dowypłaty = dowypłaty;
         }
         
         

@@ -5,11 +5,9 @@
  */
 package entityfk;
 
-import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,12 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(catalog = "pkpir", schema = "", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"podatnikObj", "rok", "mc"})})
+    @UniqueConstraint(columnNames = {"podatnikObj", "rok", "mc","udzialowiec"})})
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "WynikFKRokMc.findAll", query = "SELECT w FROM WynikFKRokMc w"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMc", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc"),
+    @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMcUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.udzialowiec = :udzialowiec"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRok", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok"),
+    @NamedQuery(name = "WynikFKRokMc.findPodatnikRokUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.udzialowiec IS NOT NULL"),
     @NamedQuery(name = "WynikFKRokMc.findById", query = "SELECT w FROM WynikFKRokMc w WHERE w.id = :id"),
     @NamedQuery(name = "WynikFKRokMc.findByKoszty", query = "SELECT w FROM WynikFKRokMc w WHERE w.koszty = :koszty"),
     @NamedQuery(name = "WynikFKRokMc.findByMc", query = "SELECT w FROM WynikFKRokMc w WHERE w.mc = :mc"),
@@ -91,6 +90,16 @@ public class WynikFKRokMc implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "data")
     private Date data;
+    @Column(name = "udzial")
+    private double udzial;
+    @Column(name = "podatekzaplacono")
+    private double podatekzaplacono;
+    @Column(name = "podatekdowplaty")
+    private double podatekdowplaty;
+    @Column(name = "dywidendawyplacono")
+    private double dywidendawyplacono;
+    @Column(name = "dywidendadowyplaty")
+    private double dywidendadowyplaty;
 //    @Lob()
 //    @Column(name = "listaprzychody")
 //    private List<SaldoKonto> listaprzychody;
@@ -113,6 +122,46 @@ public class WynikFKRokMc implements Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public double getUdzial() {
+        return udzial;
+    }
+
+    public void setUdzial(double udzial) {
+        this.udzial = udzial;
+    }
+
+    public double getPodatekzaplacono() {
+        return podatekzaplacono;
+    }
+
+    public void setPodatekzaplacono(double podatekzaplacono) {
+        this.podatekzaplacono = podatekzaplacono;
+    }
+
+    public double getPodatekdowplaty() {
+        return podatekdowplaty;
+    }
+
+    public void setPodatekdowplaty(double podatekdowplaty) {
+        this.podatekdowplaty = podatekdowplaty;
+    }
+
+    public double getDywidendawyplacono() {
+        return dywidendawyplacono;
+    }
+
+    public void setDywidendawyplacono(double dywidendawyplacono) {
+        this.dywidendawyplacono = dywidendawyplacono;
+    }
+
+    public double getDywidendadowyplaty() {
+        return dywidendadowyplaty;
+    }
+
+    public void setDywidendadowyplaty(double dywidendadowyplaty) {
+        this.dywidendadowyplaty = dywidendadowyplaty;
     }
     
     public Double getKoszty() {
@@ -248,16 +297,13 @@ public class WynikFKRokMc implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 3;
         hash = 13 * hash + Objects.hashCode(this.mc);
         hash = 13 * hash + Objects.hashCode(this.rok);
         hash = 13 * hash + Objects.hashCode(this.podatnikObj);
+        hash = 13 * hash + Objects.hashCode(this.udzialowiec);
         return hash;
     }
-    
-
-
-   
 
     @Override
     public boolean equals(Object obj) {
@@ -277,14 +323,18 @@ public class WynikFKRokMc implements Serializable {
         if (!Objects.equals(this.podatnikObj, other.podatnikObj)) {
             return false;
         }
+        if (!Objects.equals(this.udzialowiec, other.udzialowiec)) {
+            return false;
+        }
         return true;
     }
 
-   
-
     @Override
     public String toString() {
-        return "entityfk.WynikFKRokMc[ id=" + id + " ]";
+        return "WynikFKRokMc{" + "mc=" + mc + ", rok=" + rok + ", wynikfinansowy=" + wynikfinansowy + ", wynikpodatkowy=" + wynikpodatkowy + ", podatek=" + podatek + ", podatnikObj=" + podatnikObj + ", udzialowiec=" + udzialowiec + '}';
     }
+
+
+     
     
 }
