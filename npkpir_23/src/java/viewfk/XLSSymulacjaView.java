@@ -182,7 +182,9 @@ public class XLSSymulacjaView implements Serializable{
         l.add(new PozycjaObliczenia(6,"wynik podatkowy", "wynikfinansowy-npup-nkup"));
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
             l.add(new PozycjaObliczenia(4,"pdop", "round(wynikpodatkowy*0.19,0)"));
-            l.add(new PozycjaObliczenia(4,"wynik finansowy netto", "wynikfinansowy-pdop"));
+            l.add(new PozycjaObliczenia(5,"pdop_zapłacono", lista.get(7).getWartosc()));
+            l.add(new PozycjaObliczenia(5,"pdop_do_zapłaty", "pdop-pdop_zapłacono"));
+            l.add(new PozycjaObliczenia(4,"wynik finansowy netto", "wynikfinansowy-pdop_do_zapłaty"));
         }
         return l;
     }
