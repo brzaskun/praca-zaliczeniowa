@@ -211,13 +211,14 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                     podstawaopodatkowania = Z.z(udział*wynikfinansowynetto) > 0.0 ? Z.z(udział*wynikfinansowynetto) : 0.0;
                 }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
+                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(podstawaopodatkowania-wynikfinansowyudzial)));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i), podatek));
                 double zaplacono = Z.z0(zaplaconepodatki.get(p.getNazwiskoimie())) >= 0 ? Z.z0(zaplaconepodatki.get(p.getNazwiskoimie())) : 0.0;
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono")+" #"+String.valueOf(i), -zaplacono));
                 double dozaplatypodatek = Z.z0(podatek-zaplacono) > 0.0 ? Z.z0(podatek-zaplacono) : 0.0;
-                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty")+" #"+String.valueOf(i++), dozaplatypodatek));
+                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty")+" #"+String.valueOf(i), dozaplatypodatek));
                 double dywidendanetto = wynikfinansowyudzial - dozaplatypodatek > 0.0 ? wynikfinansowyudzial - dozaplatypodatek : 0.0;
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dywidendanarastajaco")+" #"+String.valueOf(i++), dywidendanetto));
                 podatnikkwotarazem.put(p.getNazwiskoimie(),Z.z0(podatek));
@@ -364,6 +365,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             s.setUdzial(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setWynikfinansowy(pobrane.getWartosc());
+            i += 1;
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setWynikpodatkowy(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);

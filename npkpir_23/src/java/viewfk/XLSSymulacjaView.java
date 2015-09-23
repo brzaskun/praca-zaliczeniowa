@@ -193,7 +193,7 @@ public class XLSSymulacjaView implements Serializable{
         List l = new ArrayList();
         int j = 1;
         int k = 1;
-        for (int i = 0; i < lista.size(); i = i+7) {
+        for (int i = 0; i < lista.size(); i = i+8) {
             SymulacjaWynikuView.PozycjeSymulacji p = lista.get(i);
             String nazwaudzialowca = p.getNazwa().replaceAll("\\s+","");
             l.add(new PozycjaObliczenia(j++,p.getNazwa(),p.getWartosc()));
