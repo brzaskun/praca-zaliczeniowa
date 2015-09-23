@@ -57,6 +57,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private WpisView wpisView;
     private double wynikfinansowy;
     private double wynikfinansowynetto;
+    private double wynikpodatkowy;
     private double wynikfinansowynettoPopMce;
     private double pdop;
     private double zaplacono;
@@ -180,7 +181,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("npup"), npup));
         double nkup = sumamiesiecy.getNkup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
-        double wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
+        wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
@@ -191,7 +192,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             }
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pdop"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("zapłacono"), zaplacono));
-            wynikfinansowynetto = wynikpodatkowy - pdop; 
+            wynikfinansowynetto = wynikfinansowy - pdop; 
             pdop = Z.z(pdop-zaplacono) > 0.0 ? Z.z(pdop-zaplacono) : 0.0;
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dozapłaty"), pdop));
             pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowynetto"), wynikfinansowynetto));
@@ -203,10 +204,11 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikfinansowynetto) > 0.0 ? Z.z0(udział*wynikfinansowynetto) : 0.0;
+                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop) > 0.0 ? Z.z0(udział*wynikpodatkowy - udział*pdop) : 0.0;
                 double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
                 if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
                     wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
+                    podstawaopodatkowania = Z.z(udział*wynikfinansowynetto) > 0.0 ? Z.z(udział*wynikfinansowynetto) : 0.0;
                 }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
@@ -381,6 +383,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         for (WynikFKRokMc p : listamiesiecy) {
             if (p.getMc().equals(wpisView.getMiesiacWpisu())) {
                 p.setPodatek(pdop);
+                p.setWynikfinansowynetto(Z.z(p.getWynikfinansowy()-pdop));
                 wynikFKRokMcDAO.edit(p);
             }
         }
@@ -398,6 +401,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 }
             }
         }
+        Msg.msg("Zapisano podatki");
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">

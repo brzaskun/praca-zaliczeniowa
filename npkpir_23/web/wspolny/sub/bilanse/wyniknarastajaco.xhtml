@@ -129,7 +129,7 @@
             </p:dataTable>-->
             <p:dataTable id="tablicasymulacjapodatek" value="#{symulacjaWynikuNarastajacoView.pozycjeObliczeniaPodatkuTabela}" var="loop1" rowKey="#{loop1.udzialowiec}"
                          emptyMessage="#{mgs.nieobliczonopodatku}" selectionMode="single" 
-                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1050px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
+                         styleClass="gridtablicasyntetyczne"  style="margin-top: 5px; width: 1150px; padding: 10px;" widgetVar="tablicasymulacjapodatek"
                          >
                 <f:facet name="header">
                     <h:outputText value="#{mgs.obliczeniepodatkumc}"/>
@@ -142,6 +142,9 @@
                 </p:column>
                 <p:column headerText="#{mgs.wynikfinansowy}" width="100" >
                      <bcf:outputpl value="#{loop1.wynikfinansowy}"/>
+                </p:column>
+                <p:column headerText="#{mgs.nkup}" width="100">
+                    <bcf:outputpl value="#{loop1.wynikpodatkowy - loop1.wynikfinansowy}" />
                 </p:column>
                 <p:column headerText="#{mgs.podstawaopodatkowania}" width="100" >
                     <bcf:outputpl value="#{loop1.wynikpodatkowy}"/>
