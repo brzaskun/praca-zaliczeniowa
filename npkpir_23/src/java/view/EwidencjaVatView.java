@@ -498,7 +498,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void sumujprzesunieteBardziej(List<EVatwpisFK> listaprzesunietychBardziej) {
-         if (listaprzesunietychBardziej.size() > 0) {
+         if (listaprzesunietychBardziej != null && listaprzesunietychBardziej.size() > 0) {
                 double suma = 0.0;
                 for (EVatwpisFK r : listaprzesunietychBardziej) {
                     suma += r.getVat();
@@ -657,8 +657,10 @@ public class EwidencjaVatView implements Serializable {
                                     listatymczasowa.add(p);
                                 }
                             }
-                        } catch (Exception e) { E.e(e); 
-                            System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.toString());
+                        } catch (Exception e) { 
+                            E.e(e);
+                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
                         }
                     }
                     return listatymczasowa;
@@ -677,8 +679,10 @@ public class EwidencjaVatView implements Serializable {
                                     listatymczasowa.add(p);
                                 }
                             }
-                        } catch (Exception e) { E.e(e); 
-                            System.out.println("bledny rok zmodyfikujlisteMcKwFKBardziej kwartalnie mc/rok w "+p.toString());
+                        } catch (Exception e) { 
+                            E.e(e);
+                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
                         }
                     }
                     return listatymczasowa;
