@@ -4,6 +4,7 @@
  */
 package entity;
 
+import embeddable.Mce;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -40,6 +41,10 @@ public class AmodokPK implements Serializable {
         this.rok = rok;
     }
 
+    public String getMcString() {
+        return Mce.getNumberToMiesiac().get(this.mc);
+    }
+    
     public int getMc() {
         return mc;
     }

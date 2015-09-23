@@ -577,11 +577,9 @@ public class STRTabView implements Serializable {
     }
     
     
-        public void ksiegujUmorzenieFK(Amodok amodok) {
-        double kwotaumorzenia = 0.0;
+    public void ksiegujUmorzenieFK(Amodok amodok) {
         if (amodok.getAmodokPK().getMc() != Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
-            Msg.msg("e", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Przerywam księgowanie");
-            return;
+            Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Przerywam księgowanie");
         }
         Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodok.getAmodokPK().getMc()));
         if (znalezionyBiezacy != null) {
@@ -593,7 +591,8 @@ public class STRTabView implements Serializable {
             amodok.setZaksiegowane(true);
             amoDokDAO.edit(amodok);
             Msg.msg("Zaksięgowano dokument AMO");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
         }
     }

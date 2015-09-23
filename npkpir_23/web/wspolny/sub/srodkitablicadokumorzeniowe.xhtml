@@ -12,7 +12,7 @@
     </style>
     <f:event type="preRenderView" listener="#{STRTableView.init()}"/>
     <h:form id="formSTRUmorzenie">
-  <p:outputPanel id="wrapper2" deferred="true">
+  <p:outputPanel id="wrapper2">
       <p:panel id="infosrodki" header="Dokumenty umorzeniowe niezbędne do księgowania pk">
           <p:commandButton id="generujdokumenty"  action="#{STRTableView.generujamodokumenty()}" value="Generuj dokumenty amort" update=":formSTRUmorzenie:dokumsrodkiLista"/>  
           </p:panel>
@@ -22,7 +22,7 @@
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
                     paginator="true" paginatorAlwaysVisible="true" rows="12" selection="#{STRTableView.amodoklistselected}"
                       paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,24,50,100" style="width: 1100px;" rowKey="#{wpis.amodokPK.mc}"
+                      rowsPerPageTemplate="12,24,50,100" style="width: 1100px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
                       rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
           <p:ajax event="filter" global="false"/>
             <f:facet name="header">  
@@ -44,7 +44,7 @@
              <p:column id="Column4" headerText="zaksięgowane odpisy">  
            
                  <p:dataTable var="subwpisX" value="#{wpis.umorzenia}" emptyMessage="Brak środków trwałych do umorzenia">
-                     <p:column id="SubColumn1X" headerText="id"  style="text-align: center;" width="40">  
+                     <p:column id="SubColumn1X" headerText="id"  style="text-align: left;" width="40">  
                         <h:outputText value="#{subwpisX.nrUmorzenia}" />
                     </p:column>
                      <p:column id="SubColumn1aX" headerText="nazwa"  style="text-align: center;" width="150">  
@@ -69,7 +69,8 @@
                     </p:column>
                 </p:dataTable>
             </p:column>
-          <p:column  headerText="zaksięguj" width="80" style="text-align: center;">  
+          <p:column  headerText="zaksięguj" width="80" style="text-align: center;">
+              <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
               <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" rendered="#{wpis.umorzenia.size() gt 0}"/>
             </p:column>
              <p:column id="Column5" headerText="zaksięgowane" filterBy="#{wpis.zaksiegowane}" filterMatchMode="contains" sortBy="#{wpis.zaksiegowane}" width="140">  
