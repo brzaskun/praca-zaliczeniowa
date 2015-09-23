@@ -650,6 +650,7 @@ public class EwidencjaVatView implements Serializable {
                     List<EVatwpisFK> listatymczasowa = new ArrayList<>();
                     int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
                     for (EVatwpisFK p : listadokvat) {
+                        String mcew = p.getMcEw();
                         try {
                             if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
                                 int mc = Mce.getMiesiacToNumber().get(p.getMcEw());

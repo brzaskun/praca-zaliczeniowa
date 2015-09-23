@@ -365,7 +365,8 @@
                                 </h:selectOneMenu>
                             </p:column>
                             <p:column headerText="+mc" style="width: 25px; text-align: center;">
-                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;"> 
+                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" maxlength="2" onblur="sprawdzmcshift(this)">
+                                    <f:validateDoubleRange minimum="-2" maximum="2"/>
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
                                 </p:inputText>
                             </p:column>

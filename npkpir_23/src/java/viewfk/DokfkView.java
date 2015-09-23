@@ -32,6 +32,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.Mce;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -1300,6 +1301,19 @@ public class DokfkView implements Serializable {
                     dokDAOfk.edit(p);
                 } else if (!p.getKontr().equals(klientdlaPK)) {
                     p.setKontr(klientdlaPK);
+                    dokDAOfk.edit(p);
+                }
+            }
+            for (EVatwpisFK ew : p.getEwidencjaVAT()) {
+                if (ew.getMcEw() == null) {
+                    if (ew.getInnyokres() == 0) {
+                        ew.setMcEw(p.getMiesiac());
+                        ew.setRokEw(p.getDokfkPK().getRok());
+                    } else {
+                        String[] nowyokres = Mce.zwiekszmiesiac(p.getDokfkPK().getRok(), p.getMiesiac(), ew.getInnyokres());
+                        ew.setRokEw(nowyokres[0]);
+                        ew.setMcEw(nowyokres[1]);
+                    }
                     dokDAOfk.edit(p);
                 }
             }

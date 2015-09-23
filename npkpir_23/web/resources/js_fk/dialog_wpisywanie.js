@@ -155,6 +155,15 @@ var focusNowyVAT = function (wiersz) {
     setTimeout(aktywujPierwszePoleNowegoWierszaVAT(wiersz), 500);
 };
 
+var sprawdzmcshift = function (pole) {
+    var nrpola = parseInt($(pole).val());
+    if (nrpola < -2 || nrpola > 2) {
+        pole.style.color = "red";
+    } else {
+        pole.style.color = "initial";
+    };
+};
+
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWierszaVAT = function(wiersz){
     var lp = wiersz.name.split(":")[2];
