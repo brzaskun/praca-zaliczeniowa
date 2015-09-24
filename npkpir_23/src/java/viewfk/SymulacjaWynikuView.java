@@ -337,10 +337,10 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
         wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
-        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
-            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
-        }
+//        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+//            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
+//            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
+//        }
         wynikFKRokMc.setWprowadzil(wpisView.getWprowadzil().getLogin());
         wynikFKRokMc.setData(new Date());
         //wywalilem bo ozajmuje za duzo miejsca
