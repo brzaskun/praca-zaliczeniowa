@@ -110,7 +110,7 @@ public class PdfVATsuma {
                     case "z" : sumaVatZakup.add(ew);
                         break;
                     case "sz": sumaVatSprzedaz.add(ew);
-                               sumaVatZakup.add(ew);
+//                               sumaVatZakup.add(ew);
                         break;
                 }
             }
