@@ -229,4 +229,26 @@ public class DokumentFKBean implements Serializable {
         w.setTabelanbp(w.getTabelanbp());
         w.setDataksiegowania(nd.getDatawplywu());
     }
+
+    public static String zwieksznumerojeden(String nrdokumentu) {
+        String[] pozycje = nrdokumentu.split("/");
+        StringBuilder sb = new StringBuilder();
+        if (pozycje != null) {
+            Integer nowynumer = Integer.parseInt(pozycje[0]);
+            nowynumer += 1;
+            sb.append(String.valueOf(nowynumer));
+            sb.append("/");
+            sb.append(pozycje[1]);
+            sb.append("/");
+            sb.append(pozycje[2]);
+            sb.append("/");
+            sb.append(pozycje[3]);
+        }
+        return sb.toString();
+    }
+    
+    public static void main (String[] args) {
+        String nowy = zwieksznumerojeden("1/08/2015/AMO");
+        System.out.println("nowy "+nowy);
+    }
 }

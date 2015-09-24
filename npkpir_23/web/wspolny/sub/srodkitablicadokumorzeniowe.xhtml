@@ -69,7 +69,7 @@
                     </p:column>
                 </p:dataTable>
             </p:column>
-          <p:column  headerText="zaksięguj" width="80" style="text-align: center;">
+          <p:column  headerText="zaksięguj" width="80" style="text-align: center;" rendered="#{subwpisX.kontoumorzenie ne ''}">
               <h:outputText value="mc inny od bieżącego" rendered="#{wpis.amodokPK.mcString ne WpisView.miesiacWpisu}" style="color: red;"/>
               <p:commandButton value="zaksięguj" actionListener="#{STRTableView.ksiegujUmorzenieFK(wpis)}" update=":formSTRUmorzenie" rendered="#{wpis.umorzenia.size() gt 0}"/>
             </p:column>

@@ -578,14 +578,14 @@ public class STRTabView implements Serializable {
     
     
     public void ksiegujUmorzenieFK(Amodok amodok) {
-        if (amodok.getAmodokPK().getMc() != Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu())) {
-            Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Przerywam księgowanie");
-        }
-        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), Mce.getNumberToMiesiac().get(amodok.getAmodokPK().getMc()));
-        if (znalezionyBiezacy != null) {
-            dokDAOfk.destroy(znalezionyBiezacy);
-        }
+        Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), wpisView.getMiesiacWpisu());
         Dokfk dokumentAMO = DokumentFKBean.generujdokument(wpisView, klienciDAO, "AMO", "zaksięgowanie umorzenia ", rodzajedokDAO, tabelanbpDAO, kontoDAOfk, amodok.getUmorzenia(), dokDAOfk);
+        String nrdokumentu = null;
+        if (znalezionyBiezacy != null) {
+            nrdokumentu = znalezionyBiezacy.getNumerwlasnydokfk();
+            dokumentAMO.setNumerwlasnydokfk(DokumentFKBean.zwieksznumerojeden(nrdokumentu));
+            Msg.msg("w", "Wskazanie umorzenie nie dotyczy bieżącego miesiąca. Nie jest to prawidłowe!");
+        }
         try {
             dokDAOfk.dodaj(dokumentAMO);
             amodok.setZaksiegowane(true);
