@@ -6,46 +6,50 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
 
-    <p:dialog id="obroty" header="Orboty na kontach - #{WpisView.podatnikWpisu}" widgetVar="obrotynakoncie"   dynamic="true"
+    <p:dialog id="obroty" header="Obroty na kontach - #{WpisView.podatnikWpisu}" widgetVar="obrotynakoncie"   dynamic="true"
               resizable="false" onShow="ustawdialog('obroty','menuzapisykont',1500,750);$(document.getElementById('formobrotykonta:wyborkontaobroty_input')).select();" onHide="resetujdialog('obroty');"  closeOnEscape="true"  
               >
         <p:layout fullPage="false" style="width: 1450px; height: 700px;">  
             <p:layoutUnit position="north" >
                 <p:panelGrid columns="2" columnClasses="kontaGrid1, kontaGrid2">
-                <h:form id="formobrotykonta">
-                    <h:outputText value="#{mgs.wybierzkonto}: "/>
-                    <p:autoComplete id="wyborkontaobroty" value="#{kontoObrotyFKView.wybranekonto}" completeMethod="#{kontoView.complete}"
-                                    var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
-                                    minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
-                                    converterMessage="Nieudana konwersja Klient"
-                                    styleClass="kontoinput, autoCompleteBig" 
-                                    >
-                        <p:ajax event="query" global="false"/>
-                        <p:ajax event="blur"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
-                                oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
-                    </p:autoComplete>
-                     <h:outputText value=" #{mgs.wybranekonto}:"/>
-                    <h:outputText id="nazwawybranegokonta" value=" #{kontoObrotyFKView.wybranekonto.nazwapelna}" style="font-weight: 900;"/>
-                </h:form>
-                     <h:form id="walutaobrotynakoncie">
-                        <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
-                        <h:selectOneMenu id="wybranawaluta" value="#{kontoObrotyFKView.wybranaWalutaDlaKont}">
-                            <p:ajax event="change" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy" />
-                            <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
-                            <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
-                        </h:selectOneMenu>
+                    <h:form id="formobrotykonta">
+                        <h:outputText value="#{mgs.wybierzkonto}: "/>
+                        <p:autoComplete id="wyborkontaobroty" value="#{kontoObrotyFKView.wybranekonto}" completeMethod="#{kontoView.complete}"
+                                        var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}"
+                                        minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
+                                        converterMessage="Nieudana konwersja Klient"
+                                        styleClass="kontoinput, autoCompleteBig" 
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="blur"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
+                                    oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
+                        </p:autoComplete>
+                        <h:outputText value=" #{mgs.wybranekonto}:"/>
+                        <h:outputText id="nazwawybranegokonta" value=" #{kontoObrotyFKView.wybranekonto.nazwapelna}" style="font-weight: 900;"/>
                     </h:form>
-                    </p:panelGrid>
+
+                    <h:form id="walutaobrotynakoncie">
+                        <p:panelGrid columns="3">
+                            <h:outputText value="#{mgs.walutadokumentu} " style="text-align: right;"/>
+                            <h:selectOneMenu id="wybranawaluta" value="#{kontoObrotyFKView.wybranaWalutaDlaKont}">
+                                <p:ajax event="change" listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy" />
+                                <f:selectItem itemValue="wszystkie" itemLabel="#{mgs.wszystkie}"/>
+                                <f:selectItems value="#{walutyViewFK.symboleWalut}"/>
+                            </h:selectOneMenu>
+                            <p:commandButton value="#{mgs.drukuj}" icon="ui-icon-print" actionListener="#{kontoObrotyFKView.drukujPdfObrotyNaKoncie}"   style="width: 120px; margin-left: 50px;"/>
+                        </p:panelGrid>
+                    </h:form>
+                </p:panelGrid>
             </p:layoutUnit>  
-           
+
             <p:layoutUnit position="west" size="350">
-                 <p:panelGrid columns="2" >
-                <p:commandButton id="rozwinwszobroty" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
-                <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
-            </p:panelGrid>
+                <p:panelGrid columns="2" >
+                    <p:commandButton id="rozwinwszobroty" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
+                    <p:commandButton id="zwinwszobroty" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":formobroty:dataListObroty" style="float: left;" />
+                </p:panelGrid>
                 <h:form id="formobroty">
-                  
-                     <script>
+
+                    <script>
                         /* <![CDATA[ */
                         //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
                         //nie moge wtawic tu tego bo obowiazuje dla wszyskich dialogow, wywolanie zachowania obiektu byloby zduplikowane!!
@@ -59,15 +63,15 @@
 //                        });
                         /* ]]> */
                     </script>
-                     <style>
-                                .grid .ui-widget-content .ui-datatable-odd td{
-                                    height : 30px !important;
-                                    padding: 0px 1px  !important;
-                                }
-                                .grid .ui-widget-content .ui-datatable-even td{
-                                    height : 30px !important;
-                                    padding: 0px 1px  !important;
-                                }
+                    <style>
+                        .grid .ui-widget-content .ui-datatable-odd td{
+                            height : 30px !important;
+                            padding: 0px 1px  !important;
+                        }
+                        .grid .ui-widget-content .ui-datatable-even td{
+                            height : 30px !important;
+                            padding: 0px 1px  !important;
+                        }
                     </style>
                     <p:dataTable id="dataListObroty" value="#{planKontView.wykazkont}" var="loop" selectionMode="single" selection="#{kontoObrotyFKView.wybranekonto}"  
                                  styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" rowKey="#{loop.id}">
@@ -82,10 +86,10 @@
                             <h:outputText value="#{loop1.mapotomkow == true ? '+' : null}" /> 
                         </p:column>
                         <p:column headerText="nr konta" styleClass="#{loop.level eq 2 ? 'druga' : null}" style="width: 100px; height: 30px;">
-                                <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
-                                <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
-                                <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
-                                <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                            <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" style="font-weight: 900;"/> 
+                            <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                            <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                            <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                         </p:column>
                         <p:column headerText="nazwa pełna" >
                             <h:outputText value="#{loop.nazwapelna}" rendered="#{facesContext.viewRoot.locale.language.equals('pl')}"/>
@@ -94,8 +98,8 @@
                     </p:dataTable>
                 </h:form>
             </p:layoutUnit>  
-<!--            <p:layoutUnit position="east" size="200">  
-            </p:layoutUnit>  -->
+            <!--            <p:layoutUnit position="east" size="200">  
+                        </p:layoutUnit>  -->
             <p:layoutUnit position="center" style="min-width: 1100px;">
                 <h:form id="tabelazobrotami">  
                     <p:dataTable id="tabelaobroty" value="#{kontoObrotyFKView.lista}" var="loop" rowKey="#{loop.miesiac}"  style="width: 1100px;"
@@ -110,69 +114,69 @@
                             <h:outputText value="#{loop.miesiac}"/>
                         </p:column>
                         <p:column headerText="kwota Wn" sortBy="#{loop.kwotaWn}">
-                             <h:outputText value="#{loop.kwotaWn}" style="float: right;">
+                            <h:outputText value="#{loop.kwotaWn}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="kwota Ma" sortBy="#{loop.kwotaMa}">
                             <h:outputText value="#{loop.kwotaMa}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="suma Wn" sortBy="#{loop.kwotaWnnarastajaco}">
                             <h:outputText value="#{loop.kwotaWnnarastajaco}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="suma Ma" sortBy="#{loop.kwotaManarastajaco}">
                             <h:outputText value="#{loop.kwotaManarastajaco}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="saldo Wn" sortBy="#{loop.kwotaWnsaldo}">
                             <h:outputText value="#{loop.kwotaWnsaldo}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="saldo Ma" sortBy="#{loop.kwotaMasaldo}">
                             <h:outputText value="#{loop.kwotaMasaldo}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
-<!--                        Kwoty w PLN-->
+                        <!--                        Kwoty w PLN-->
                         <p:column headerText="kwota Wn PLN" sortBy="#{loop.kwotaWnPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
-                             <h:outputText value="#{loop.kwotaWnPLN}" style="float: right;" >
+                            <h:outputText value="#{loop.kwotaWnPLN}" style="float: right;" >
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="kwota Ma PLN" sortBy="#{loop.kwotaMaPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText value="#{loop.kwotaMaPLN}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="suma Wn PLN" sortBy="#{loop.kwotaWnnarastajacoPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText value="#{loop.kwotaWnnarastajacoPLN}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="suma Ma PLN" sortBy="#{loop.kwotaManarastajacoPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText value="#{loop.kwotaManarastajacoPLN}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="saldo Wn PLN" sortBy="#{loop.kwotaWnsaldoPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText value="#{loop.kwotaWnsaldoPLN}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
                         <p:column headerText="saldo Ma PLN" sortBy="#{loop.kwotaMasaldoPLN}" rendered="#{kontoObrotyFKView.wybranaWalutaDlaKont ne 'PLN'}">
                             <h:outputText value="#{loop.kwotaMasaldoPLN}" style="float: right;">
                                 <f:convertNumber minFractionDigits="2" locale="PL"/>
-                             </h:outputText>
+                            </h:outputText>
                         </p:column>
-                       
+
                     </p:dataTable>
-               </h:form>  
+                </h:form>  
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
                 <h:form id="tabelazsumamiobrotow">
