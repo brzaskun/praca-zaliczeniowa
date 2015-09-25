@@ -35,7 +35,7 @@
                                  requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
                     <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}"  styleClass="wpisywanieklienta"
-                                    minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
+                                    minQueryLength="1" maxResults="10" maxlength="40"  forceSelection="false" 
                                     effect="clip" autocomplete="true" queryDelay="100" 
                                     required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
                         <p:ajax event="change" partialSubmit="true" global="false"/>
@@ -67,11 +67,12 @@
                     <h:outputLabel value="znacznik1*" style="font-weight: 700"/>
                     <h:outputLabel value="pesel*" style="font-weight: 700"/>
                     <p:autoComplete id="krajPole" value="#{KlView.selected.krajnazwa}" completeMethod="#{panstwa.complete}"
-                                    var="p" itemLabel="#{p}" itemValue="#{p}" 
+                                    var="p" itemLabel="#{p}" itemValue="#{p}"
                                     minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                     effect="clip" autocomplete="true" queryDelay="100" styleClass="wpisywanieklienta"
                                     style="width: 200px" >
                         <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <p:ajax event="query" global="false"/>
                     </p:autoComplete>
                     <p:inputText id="bankPole" value="#{KlView.selected.kontobank}" maxlength="26" style="width: 200px" />
                     <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >
