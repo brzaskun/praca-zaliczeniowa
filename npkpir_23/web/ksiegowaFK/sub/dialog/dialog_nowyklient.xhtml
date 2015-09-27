@@ -31,8 +31,8 @@
                     <p:inputText id="nipPole" value="#{KlView.selected.nip}" maxlength="20" style="width: 200px">
                         <p:watermark for="nipPole" value="bez -" /> 
                     </p:inputText>
-                    <p:inputMask id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
-                                 requiredMessage="Pole kod pocztowy nie może byc puste" mask="99-999"/>
+                    <p:inputText id="kodPole" value="#{KlView.selected.kodpocztowy}" maxlength="6" style="width: 150px" required="true" 
+                                 requiredMessage="Pole kod pocztowy nie może byc puste" />
                     <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
                                     var="p" itemLabel="#{p}" itemValue="#{p}"  styleClass="wpisywanieklienta"
                                     minQueryLength="1" maxResults="10" maxlength="40"  forceSelection="false" 
