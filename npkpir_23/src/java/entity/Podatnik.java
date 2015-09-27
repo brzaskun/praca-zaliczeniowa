@@ -161,8 +161,6 @@ public class Podatnik implements Serializable {
     @Lob
     @Column(name = "opisypkpir")
     private List opisypkpir;
-    @Column(name = "odliczaczus51")
-    private Boolean odliczaczus51;
     @Lob
     @Column(name = "udzialy")
     private List<Udzialy> udzialy;
@@ -201,6 +199,10 @@ public class Podatnik implements Serializable {
     private boolean podmiotaktywny;
     @Column(name = "wysylkazusmail")
     private boolean wysylkazusmail;
+    @Column(name = "odliczeniezus51")
+    private boolean odliczeniezus51;
+    @Column(name = "odliczeniezus52")
+    private boolean odliczeniezus52;
     @Lob
     @Column(name = "FKpiatki")
     private List<Parametr> FKpiatki;
@@ -230,6 +232,22 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public boolean isOdliczeniezus51() {
+        return odliczeniezus51;
+    }
+
+    public void setOdliczeniezus51(boolean odliczeniezus51) {
+        this.odliczeniezus51 = odliczeniezus51;
+    }
+
+    public boolean isOdliczeniezus52() {
+        return odliczeniezus52;
+    }
+
+    public void setOdliczeniezus52(boolean odliczeniezus52) {
+        this.odliczeniezus52 = odliczeniezus52;
     }
 
     public FormaPrawna getFormaPrawna() {
@@ -509,14 +527,7 @@ public class Podatnik implements Serializable {
         this.opisypkpir = opisypkpir;
     }
     
-    public Boolean getOdliczaczus51() {
-        return odliczaczus51;
-    }
-    
-    public void setOdliczaczus51(Boolean odliczaczus51) {
-        this.odliczaczus51 = odliczaczus51;
-    }
-    
+      
     public List<Udzialy> getUdzialy() {
         return udzialy;
     }

@@ -466,7 +466,7 @@ public class ZestawienieRyczaltView implements Serializable {
                     Zusstawki tmpX = (Zusstawki) it.next();
                     if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisu().toString())
                             && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                        if (selected.getOdliczaczus51() == true) {
+                        if (selected.isOdliczeniezus51() == true) {
                             if (tmpX.getZus51ch() != null) {
                                 biezacyPit.setZus51(BigDecimal.valueOf(tmpX.getZus51ch()));
                             } else {

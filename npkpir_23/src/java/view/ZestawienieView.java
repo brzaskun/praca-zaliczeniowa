@@ -903,7 +903,7 @@ public class ZestawienieView implements Serializable {
                         biezacyPit.setZus52(pobierzZUS52());
                     }
                     sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
-                    if (selected.getOdliczaczus51() == true && pierwszypitwroku == false) {
+                    if (selected.isOdliczeniezus51() == true && pierwszypitwroku == false) {
                         biezacyPit.setZus51(biezacyPit.getZus51().add(sumapoprzednichmcy.getZus51()));
                     }
                     rozliczstrate(wpisView.getPodatnikObiekt());
@@ -1047,7 +1047,7 @@ public class ZestawienieView implements Serializable {
                 List<String> miesiaceWkwartale = Kwartaly.mctoMcewKw(wpisView.getMiesiacWpisu());
                 if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
                         && miesiaceWkwartale.contains(tmpX.getZusstawkiPK().getMiesiac())) {
-                    if (p.getOdliczaczus51() == true) {
+                    if (p.isOdliczeniezus51() == true) {
                         if (tmpX.getZus51ch() != null) {
                             suma51 += tmpX.getZus51ch();
                         } else {
@@ -1058,7 +1058,7 @@ public class ZestawienieView implements Serializable {
             } else {
                 if (tmpX.getZusstawkiPK().getRok().equals(wpisView.getRokWpisuSt())
                         && tmpX.getZusstawkiPK().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
-                    if (p.getOdliczaczus51() == true) {
+                    if (p.isOdliczeniezus51() == true) {
                         if (tmpX.getZus51ch() != null) {
                             suma51 += tmpX.getZus51ch();
                         } else {

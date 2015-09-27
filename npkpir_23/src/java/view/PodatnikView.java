@@ -223,9 +223,9 @@ public class PodatnikView implements Serializable {
         try {
             selected.setWysylkazusmail((Boolean) el.getNewValue());
             podatnikDAO.edit(selected);
-            Msg.msg("i", "Zmieniono", "akordeon:form:msg");
+            Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
-            Msg.msg("e", "Wystąpił błąd - dane niezmienione", "akordeon:form:msg");
+            Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
         }
     }
 

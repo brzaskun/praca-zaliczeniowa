@@ -6,17 +6,22 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <p:tab title="Wysyłka informacji ZUS">
-        <f:ajax render=":akordeon:form3">
+    <p:tab title="Rozliczanie ZUS">
+        <f:ajax render=":akordeon:form10">
             <h:form id="form10" >
-                <h:outputText value="Wysyłka informacji ZUS PIT-4 mailem" style="font-size: 15px"/>
+                <h:outputText value="Rozliczenia ZUS/PIT-4 - wybierz opcje" style="font-size: 15px"/>
                 <p:growl showDetail="true"/>
                 <p:focus for="parametrypodatnika10"/><br/>
-                <h:outputText value="wybierz opcję"/><br/>
-                <p:panelGrid id="parametrypodatnika10" columns="2" >
+                <p:panelGrid id="parametrypodatnika10" columns="2" style="padding: 5px;">
                     <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
-                    <h:outputText value="wysyłać dane do ZUS"/>
+                    <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-51 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="odliczać ZUS-51 w dekalracji PIT5"/>
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-52 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                    </p:selectBooleanCheckbox>
+                    <h:outputText value="odliczać ZUS-52 w dekalracji PIT5"/>
                 </p:panelGrid>
             </h:form>
         </f:ajax>
