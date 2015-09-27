@@ -203,6 +203,8 @@ public class Podatnik implements Serializable {
     private boolean odliczeniezus51;
     @Column(name = "odliczeniezus52")
     private boolean odliczeniezus52;
+    @Column(name = "datamalyzus")
+    private String datamalyzus;
     @Lob
     @Column(name = "FKpiatki")
     private List<Parametr> FKpiatki;
@@ -252,6 +254,14 @@ public class Podatnik implements Serializable {
 
     public FormaPrawna getFormaPrawna() {
         return formaPrawna;
+    }
+
+    public String getDatamalyzus() {
+        return datamalyzus;
+    }
+
+    public void setDatamalyzus(String datamalyzus) {
+        this.datamalyzus = datamalyzus;
     }
 
     public void setFormaPrawna(FormaPrawna formaPrawna) {

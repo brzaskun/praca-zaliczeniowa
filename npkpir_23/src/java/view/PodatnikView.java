@@ -35,6 +35,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -226,6 +228,53 @@ public class PodatnikView implements Serializable {
             Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
+        }
+    }
+    
+     public void zmianaZus51(ValueChangeEvent el) {
+        try {
+            selected.setOdliczeniezus51((Boolean) el.getNewValue());
+            podatnikDAO.edit(selected);
+            Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
+        }
+    }
+     
+     public void zmianaZus52(ValueChangeEvent el) {
+        try {
+            selected.setOdliczeniezus52((Boolean) el.getNewValue());
+            podatnikDAO.edit(selected);
+            Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
+        }
+    }
+     
+    public void zmianaDatamalyzus(ValueChangeEvent el) {
+        try {
+            String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher((String) el.getNewValue());
+            if (m.matches()) {
+                selected.setDatamalyzus((String) el.getNewValue());
+                podatnikDAO.edit(selected);
+                Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
+            } else {
+                Msg.msg("e", "Niprawidłowa data!", "akordeon:form:msg");
+            }
+        } catch (Exception e) { E.e(e); 
+            Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
+        }
+    }
+    
+    public static void main(String[] args) {
+        String pricesString = "2015-04-30";
+        String regex = "^((19|20)\\d\\d)-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(pricesString);
+        while (m.find()) {
+            System.out.println("lolo");
         }
     }
 

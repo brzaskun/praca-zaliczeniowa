@@ -112,6 +112,7 @@ public class Kolmn implements Serializable{
         Pattern p = Pattern.compile("(\\d*.\\d)");
         Matcher m = p.matcher(prices);
         while (m.find()) {
+            System.out.println("lolo");
         }
     }
 

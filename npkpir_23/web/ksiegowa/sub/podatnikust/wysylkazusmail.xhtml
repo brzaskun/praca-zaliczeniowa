@@ -10,18 +10,20 @@
         <f:ajax render=":akordeon:form10">
             <h:form id="form10" >
                 <h:outputText value="Rozliczenia ZUS/PIT-4 - wybierz opcje" style="font-size: 15px"/>
-                <p:growl showDetail="true"/>
+                <p:growl />
                 <p:focus for="parametrypodatnika10"/><br/>
                 <p:panelGrid id="parametrypodatnika10" columns="2" style="padding: 5px;">
                     <p:selectBooleanCheckbox value="#{podatnikView.selected.wysylkazusmail}" label="wysyłać dane o wysokości ZUS i PIT-4"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
                     </p:selectBooleanCheckbox>
                     <h:outputText value="wysyłać dane o składkach ZUS i PIT4 na mail: #{podatnikView.selected.email ne null ? podatnikView.selected.email : 'brak mail'}"/>
-                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-51 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-51 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus51}">
                     </p:selectBooleanCheckbox>
                     <h:outputText value="odliczać ZUS-51 w dekalracji PIT5"/>
-                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus51}" label="odliczać ZUS-52 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaWysylkaZus}">
+                    <p:selectBooleanCheckbox value="#{podatnikView.selected.odliczeniezus52}" label="odliczać ZUS-52 w dekalracji PIT5"  valueChangeListener="#{podatnikView.zmianaZus52}">
                     </p:selectBooleanCheckbox>
                     <h:outputText value="odliczać ZUS-52 w dekalracji PIT5"/>
+                    <p:inputMask value="#{podatnikView.selected.datamalyzus}" mask="9999-99-99" valueChangeListener="#{podatnikView.zmianaDatamalyzus}"/>
+                    <h:outputText value="dzień pierwszego miesiąca, za który podatnik płaci 'mały' ZUS"/>
                 </p:panelGrid>
             </h:form>
         </f:ajax>
