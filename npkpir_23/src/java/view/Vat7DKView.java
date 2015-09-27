@@ -101,6 +101,7 @@ public class Vat7DKView implements Serializable {
     private Integer zwrot180dni;
     private Integer kwotanakaserej;
     private DeklaracjaVatSchema pasujacaSchema;
+    private HashMap<String, EVatwpisSuma> mapaewidencji;
    
     public Vat7DKView() {
         pozycjeSzczegoloweVAT = new PozycjeSzczegoloweVAT();
@@ -187,7 +188,7 @@ public class Vat7DKView implements Serializable {
         }
         List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
         pasujacaSchema = VATDeklaracja.odnajdzscheme(vatokres, rok, mc, schemyLista);
-        HashMap<String, EVatwpisSuma> mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
+        mapaewidencji = ewidencjeVatDAO.find(rok, mc, podatnik).getSumaewidencji();
         ArrayList<EVatwpisSuma> pobraneewidencje = new ArrayList<>(mapaewidencji.values());
         schemawierszsumarycznylista = deklaracjaVatSchemaWierszSumDAO.findWierszeSchemy(pasujacaSchema);
         wygenerujwierszesumaryczne(pobraneewidencje, schemawierszsumarycznylista);
@@ -196,7 +197,6 @@ public class Vat7DKView implements Serializable {
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
         sumaschemewidencjilista = VATDeklaracja.uzupelnijSchemyoKwoty(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
-        
         System.out.println("Koniec");
         //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
         if (flaga != 1) {
@@ -311,6 +311,7 @@ public class Vat7DKView implements Serializable {
             uzupelnijPozycjeDeklaracji(pozycjeDeklaracjiVAT, vatokres, kwotaautoryzujaca);
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
+            nowadeklaracja.setPodsumowanieewidencji(mapaewidencji);
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if (flaga == 2) {

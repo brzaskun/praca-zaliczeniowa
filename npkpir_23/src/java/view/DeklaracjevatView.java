@@ -5,9 +5,12 @@
 package view;
 
 import comparator.Vatcomparator;
+import dao.DeklaracjaVatSchemaDAO;
 import dao.DeklaracjevatDAO;
 import dao.PodatnikDAO;
+import dao.SchemaEwidencjaDAO;
 import dao.WpisDAO;
+import entity.DeklaracjaVatSchema;
 import entity.Deklaracjevat;
 import entity.Wpis;
 import error.E;
@@ -28,6 +31,7 @@ import mail.MailOther;
 import msg.Msg;
 import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
+import pdf.PdfVAT7new;
 
 /**
  *
@@ -50,6 +54,10 @@ public class DeklaracjevatView implements Serializable {
     private WpisDAO wpisDAO;
     @Inject
     private PodatnikDAO podatnikDAO;
+    @Inject
+    private DeklaracjaVatSchemaDAO deklaracjaVatSchemaDAO;
+    @Inject
+    private SchemaEwidencjaDAO schemaEwidencjaDAO;
 
     public DeklaracjevatView() {
         wyslane = new ArrayList<>();
@@ -184,11 +192,25 @@ public class DeklaracjevatView implements Serializable {
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
      
-    public void drukujdeklaracje(Deklaracjevat dkl, int index) {
+    public void drukujdeklaracje(Deklaracjevat dkl, int wiersz) {
         try {
-            PdfVAT7.drukuj(dkl, index, podatnikDAO);
-        } catch (Exception e) { E.e(e); 
-            
+            DeklaracjaVatSchema pasujacaSchema = null;
+            List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+            for (DeklaracjaVatSchema p : schemyLista) {
+                if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
+                    pasujacaSchema = p;
+                    break;
+                }
+            }
+            Integer rok = Integer.parseInt(pasujacaSchema.getRokOd());
+            Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
+            if (rok <= 2015 && mc <= 7) {
+                PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
+            } else {
+                PdfVAT7new.drukujwys(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -46,18 +47,14 @@ public class XLSSymulacjaView implements Serializable{
     
     public void zachowajSymulacjewXLS(int modulator) {
         try {
+            List wynikpopmc = transferToPozycjaPrzychodKosztOdPoczRok();
             List przychody = null;
-            double przychodypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getPrzychody();
-            double kosztypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getKoszty();
             if (modulator == 1) {
                 przychody = transferToPozycjaPrzychod(symulacjaWynikuView.getListakontaprzychody(),"p");
-                przychody.add(new PozycjaPrzychodKoszt(0, "", "przychody poprzednie miesiące", "", przychodypopmc));
             } else {
                 przychody = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontaprzychody(),"p");
-                przychody.add(new PozycjaPrzychodKoszt(0, "", "przychody poprzednie miesiące", "", przychodypopmc));
             }
             List koszty = transferToPozycjaPrzychodKoszt(symulacjaWynikuView.getListakontakoszty(),"k");
-            koszty.add(new PozycjaPrzychodKoszt(0, "", "koszty poprzednie miesiące", "", kosztypopmc));
             List wynik = transferToPozycjaObliczeniaWynik(symulacjaWynikuNarastajacoView.getPozycjePodsumowaniaWyniku());
             List podatek = transferToPozycjaObliczeniaPodatek(symulacjaWynikuNarastajacoView.getPozycjeObliczeniaPodatku());
             List dywidenda = transferToPozycjaObliczeniaDywidenda(symulacjaWynikuNarastajacoView.getPozycjeDoWyplaty());
@@ -66,6 +63,7 @@ public class XLSSymulacjaView implements Serializable{
                 return;
             }
             Map<String, List> listy = new HashMap<>();
+            listy.put("b", wynikpopmc);
             listy.put("p", przychody);
             listy.put("k", koszty);
             listy.put("w", wynik);
@@ -127,6 +125,17 @@ public class XLSSymulacjaView implements Serializable{
         }
     }
     
+    
+    private List transferToPozycjaPrzychodKosztOdPoczRok () {
+        double przychodypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getPrzychody();
+        double kosztypopmc = symulacjaWynikuNarastajacoView.getSumapoprzednichmiesiecy().getKoszty();
+        double wynik = Z.z(przychodypopmc-kosztypopmc);
+        List l = new ArrayList();
+        int i =1;
+        l.add(new PozycjaPrzychodKoszt(i++, "", "przychody poprzednie miesiące", "", przychodypopmc));
+        l.add(new PozycjaPrzychodKoszt(i++, "", "koszty poprzednie miesiące", "", -kosztypopmc));
+        return l;
+    }
 
     private List transferToPozycjaPrzychod (List<SaldoKonto> lista, String p_k) {
         List l = new ArrayList();
@@ -174,17 +183,19 @@ public class XLSSymulacjaView implements Serializable{
     private List transferToPozycjaObliczeniaWynik (List<SymulacjaWynikuView.PozycjeSymulacji> lista) {
         List l = new ArrayList();
         int i = 1;
-        l.add(new PozycjaObliczenia(1,"przychody razem", "+przychody"));
-        l.add(new PozycjaObliczenia(2,"koszty razem", "+koszty"));
-        l.add(new PozycjaObliczenia(3,"wynik finansowy", "przychody-koszty"));
-        l.add(new PozycjaObliczenia(4,"npup", lista.get(3).getWartosc()));
-        l.add(new PozycjaObliczenia(5,"nkup", lista.get(4).getWartosc()));
-        l.add(new PozycjaObliczenia(6,"wynik podatkowy", "wynikfinansowy-npup-nkup"));
+        l.add(new PozycjaObliczenia(1,"przychody za mc", "+przychody"));
+        l.add(new PozycjaObliczenia(2,"koszty za mc", "+koszty"));
+        l.add(new PozycjaObliczenia(3,"wynik za mc", "przychody-koszty"));
+        l.add(new PozycjaObliczenia(4,"wynik pop mce", "+wynikmcepop"));
+        l.add(new PozycjaObliczenia(5,"wynik finansowy", "+wynikmcepop+przychody-koszty"));
+        l.add(new PozycjaObliczenia(6,"npup", lista.get(3).getWartosc()));
+        l.add(new PozycjaObliczenia(7,"nkup", lista.get(4).getWartosc()));
+        l.add(new PozycjaObliczenia(8,"wynik podatkowy", "wynikfinansowy-npup-nkup"));
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
-            l.add(new PozycjaObliczenia(4,"pdop", "round(wynikpodatkowy*0.19,0)"));
-            l.add(new PozycjaObliczenia(5,"pdop_zapłacono", lista.get(7).getWartosc()));
-            l.add(new PozycjaObliczenia(5,"pdop_do_zapłaty", "pdop-pdop_zapłacono"));
-            l.add(new PozycjaObliczenia(4,"wynik finansowy netto", "wynikfinansowy-pdop_do_zapłaty"));
+            l.add(new PozycjaObliczenia(9,"pdop", "round(wynikpodatkowy*0.19,0)"));
+            l.add(new PozycjaObliczenia(10,"pdop_zapłacono", lista.get(7).getWartosc()));
+            l.add(new PozycjaObliczenia(11,"pdop_do_zapłaty", "pdop-pdop_zapłacono"));
+            l.add(new PozycjaObliczenia(12,"wynik finansowy netto", "wynikfinansowy-pdop_do_zapłaty"));
         }
         return l;
     }
@@ -203,9 +214,9 @@ public class XLSSymulacjaView implements Serializable{
                 l.add(new PozycjaObliczenia(j++,"podstawa opodatkowania "+k, "round(wynikpodatkowy*"+nazwaudzialowca+",0)"));
             }
             l.add(new PozycjaObliczenia(j++,"podatek udziałowiec "+k, "round(podstawaopodatkowania"+k+"*0.19,0)"));
-            p = lista.get(i+4);
-            l.add(new PozycjaObliczenia(j++,"zapłacono "+k, p.getWartosc()));
             p = lista.get(i+5);
+            l.add(new PozycjaObliczenia(j++,"zapłacono "+k, p.getWartosc()));
+            p = lista.get(i+6);
             l.add(new PozycjaObliczenia(j++,"do wpłaty "+k, "round(podatekudziałowiec"+k+"+zapłacono"+k+",0)"));
             k++;
         }

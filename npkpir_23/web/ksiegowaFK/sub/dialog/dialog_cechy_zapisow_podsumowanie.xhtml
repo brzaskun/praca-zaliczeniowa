@@ -10,7 +10,7 @@
               resizable="false"  onShow="ustawdialog('dialogcechyzapisowpodsumowanie','menurejestry',1150,700);" closeOnEscape="true" onHide="resetujdialog('dialogcechyzapisowpodsumowanie');" >
         
         <h:form id="formcechyzapisow">
-            <p:panelGrid columns="5" style="margin-left: 2%;" >
+            <p:panelGrid columns="6" style="margin-left: 2%;" >
                 <h:outputText value="m-c" style="margin-right: 10px;"/>
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
@@ -23,8 +23,12 @@
                 </p:column>
                 <h:outputText value="(przetwarzanie trwa około 30 sek.)"/>
                 <p:column>
-                    <p:commandButton id="rukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfCechyZapisowView.drukujzaksiegowanydokument(cechyzapisuPrzegladView.wybraneZapisy)}" styleClass="fkbutton"
+                    <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfCechyZapisowView.drukujzaksiegowanydokument(cechyzapisuPrzegladView.wybraneZapisy)}" styleClass="fkbutton"
                                       style="margin-left: 100px; width: 120px;" />
+                </p:column>
+                <p:column>
+                    <p:commandButton id="dodajceche" value="#{mgs.dodaj}" onclick="PF('dialog_cechy_zapisu_recznie').show();" actionListener="#{cechazapisuView.init()}" styleClass="fkbutton"
+                                     style="margin-left: 100px; width: 120px;" update="formCH"/>
                 </p:column>
             </p:panelGrid>
              <style>

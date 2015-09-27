@@ -61,6 +61,7 @@ public class WriteXLSFile {
     }
     
     public static Workbook zachowajXLS(Map<String, List> listy, WpisView wpisView){
+        List wynikpopmc = listy.get("b");
         List przychody = listy.get("p");
         List koszty = listy.get("k");
         List wynik = listy.get("w");
@@ -68,14 +69,17 @@ public class WriteXLSFile {
         List dywidenda = listy.get("d");
         List headersListPrzychodKoszt = headerprzychodykoszty();
         List headersListWyliczenia = headerswynik();
+        List headerwynikpopmc = headerwynikpopmc();
         // Using XSSF for xlsx format, for xls use HSSF
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Symulacja wyniku");
         insertPrintHeader(sheet, wpisView);
         int rowIndex = 0;
-        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, przychody, "Przychody", 1, "przychody");
+        rowIndex = drawATable(workbook, sheet, rowIndex, headerwynikpopmc, wynikpopmc, "Wynik za m-ce poprzednie", 0, "wynikmcepop");
         sheet.createRow(rowIndex++);
-        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, koszty, "Koszty", 1, "koszty");
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, przychody, "Przychody za mc "+wpisView.getMiesiacWpisu(), 1, "przychody");
+        sheet.createRow(rowIndex++);
+        rowIndex = drawATable(workbook, sheet, rowIndex, headersListPrzychodKoszt, koszty, "Koszty za mc "+wpisView.getMiesiacWpisu(), 1, "koszty");
         sheet.createRow(rowIndex++);
         rowIndex = drawATable(workbook, sheet, rowIndex, headersListWyliczenia, wynik, "Obliczenie wyniku fin. i pod.", 2, "");
         sheet.createRow(rowIndex++);
@@ -293,6 +297,14 @@ public class WriteXLSFile {
         headersListPrzychodKoszt.add("kwota");
         return headersListPrzychodKoszt;
     }
+    public static List headerwynikpopmc() {
+        List headersListPrzychodKoszt = new ArrayList();
+        headersListPrzychodKoszt.add("");
+        headersListPrzychodKoszt.add("");
+        headersListPrzychodKoszt.add("pozycja");
+        headersListPrzychodKoszt.add("kwota");
+        return headersListPrzychodKoszt;
+    }
     public static List headerswynik() {
         List headersListWyliczenia = new ArrayList();
         headersListWyliczenia.add("lp");
@@ -394,13 +406,19 @@ public class WriteXLSFile {
     }
     
     private static int summaryRow(int startindex, int rowIndex, Workbook workbook, Sheet sheet, int typ, String nazwasumy) {
-        if (typ == 1) {
+         if (typ == 0) {
+            String formula = "SUM(D"+startindex+":D"+rowIndex+")";
+            Row row = sheet.createRow(rowIndex++);
+            createCell(workbook, row, (short) 2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Dochód/strata za miesiące poprzednie: ");
+            createFormulaCell(workbook, row, (short) 3, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
+            setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
+         } else if (typ == 1) {
             String formula = "SUM(D"+startindex+":D"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
             createCell(workbook, row, (short) 2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Razem: ");
             createFormulaCell(workbook, row, (short) 3, CellStyle.ALIGN_RIGHT, CellStyle.VERTICAL_CENTER, formula);
             setCellName(workbook, nazwasumy, "D", String.valueOf(rowIndex));
-        } else {
+        } else if (typ == 2){
             String formula = "SUM(C"+startindex+":C"+rowIndex+")";
             Row row = sheet.createRow(rowIndex++);
             createCell(workbook, row, (short) 1, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Razem: ");

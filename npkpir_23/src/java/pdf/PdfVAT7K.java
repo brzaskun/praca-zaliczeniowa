@@ -39,7 +39,7 @@ public class PdfVAT7K {
     private static String vat72kw;
     private static final String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";
 
-    public static void drukujVAT7K(Deklaracjevat dkl, Podatnik p, int index) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujVAT7K(Deklaracjevat dkl, Podatnik p, int wiersz) throws DocumentException, FileNotFoundException, IOException {
         try {
             if (dkl.getWzorschemy().equals("K-7")) {
                 vat71kw = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-7K1-p1.jpg";
@@ -112,7 +112,7 @@ public class PdfVAT7K {
         } catch (Exception e) {
             kombinuj(v.getPodatnik(), "nic");
         }
-        RequestContext.getCurrentInstance().execute("wydrukvat7('" + dkl.getPodatnik() + "', " + index + ");");
+        RequestContext.getCurrentInstance().execute("wydrukvat7('" + dkl.getPodatnik() + "', " + wiersz + ");");
     }
 
     public static void drukujwysVAT7K(Deklaracjevat dkl, Podatnik p) throws DocumentException, FileNotFoundException, IOException {
