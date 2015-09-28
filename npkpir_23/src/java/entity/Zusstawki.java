@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Zusstawki.findAll", query = "SELECT z FROM Zusstawki z"),
+    @NamedQuery(name = "Zusstawki.findZUS", query = "SELECT z FROM Zusstawki z WHERE z.zusstawkiPK.malyzus = :duzy0maly1"),
     @NamedQuery(name = "Zusstawki.findByRok", query = "SELECT z FROM Zusstawki z WHERE z.zusstawkiPK.rok = :rok"),
     @NamedQuery(name = "Zusstawki.findByMiesiac", query = "SELECT z FROM Zusstawki z WHERE z.zusstawkiPK.miesiac = :miesiac"),
     @NamedQuery(name = "Zusstawki.findByZus51", query = "SELECT z FROM Zusstawki z WHERE z.zus51ch = :zus51ch"),
@@ -46,6 +47,7 @@ public class Zusstawki implements Serializable {
     private Double zus53;
     @Column(name = "pit4")
     private Double pit4;
+   
 
     public Zusstawki() {
         zusstawkiPK = new ZusstawkiPK();
@@ -133,7 +135,7 @@ public class Zusstawki implements Serializable {
         this.pit4 = pit4;
     }
 
-    
+       
     
     @Override
     public int hashCode() {

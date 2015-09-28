@@ -19,6 +19,7 @@ import javax.validation.constraints.Size;
 @Named
 @Embeddable
 public class ZusstawkiPK implements Serializable {
+    private static final long serialVersionUID = 3477872500026598397L;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -29,6 +30,8 @@ public class ZusstawkiPK implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "miesiac")
     private String miesiac;
+    @Column(name = "malyzus")
+    private boolean malyzus;
 
     public ZusstawkiPK() {
     }
@@ -56,6 +59,15 @@ public class ZusstawkiPK implements Serializable {
         this.miesiac = miesiac;
     }
 
+    public boolean isMalyzus() {
+        return malyzus;
+    }
+
+    public void setMalyzus(boolean malyzus) {
+        this.malyzus = malyzus;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

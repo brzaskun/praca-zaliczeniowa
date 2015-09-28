@@ -10,14 +10,15 @@
 
     <h:form id="formlista">
         <p:growl id="msgzus" autoUpdate="true"/>
-        <p:panel header="Pełny ZUS. Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
-            <p:dataTable value="#{zUSstawkiView.listapobranychstawek}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
-                         sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
+        <p:panel header="Mały ZUS. Dane wprowadzone dla WSZYSTKICH naszych klientów" style="width: 100%;">
+            <p:dataTable value="#{zUSstawkiView.listapobranychstawekMalyZUS}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12"
+                         sortFunction="#{zUSstawkiView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" 
+                         selection="#{zUSstawkiView.selected}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                          rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" style="width: 800px;"
                          emptyMessage="Nie wprowadzono stawek">
                 <p:ajax event="rowSelect" listener="#{zUSstawkiView.wybranowiadomosc()}"  update=":formzus"/>
                 <f:facet name="header">
-                    <h:outputText value="Lista wprowadzonych stawek - pełny ZUS"/>
+                    <h:outputText value="Lista wprowadzonych stawek - mały ZUS"/>
                 </f:facet>
                 <p:column headerText="rok" sortBy="#{loop.zusstawkiPK.rok}" style="text-align: center">
                     <h:outputText value="#{loop.zusstawkiPK.rok}" style="#{loop.zusstawkiPK.rok eq zUSstawkiView.biezacadata ? 'color: green; font-weight: 900;' : null}; "/>
@@ -51,7 +52,7 @@
                     </h:outputText>
                 </p:column>
                 <p:column style="text-align: center">
-                    <p:commandButton action="#{zUSstawkiView.usunzus(loop)}" value="usun" update="@form" type="submit" />
+                    <p:commandButton action="#{zUSstawkiView.usunzusmaly(loop)}" value="usun" update="@form" type="submit" />
                 </p:column>
             </p:dataTable>
         </p:panel>
@@ -75,8 +76,8 @@
             </p:panelGrid>
         </p:panel>
         <p:panelGrid columns="2" style="width: 40%; text-align: center;">
-            <p:commandButton action="#{zUSstawkiView.edytujzus()}" value="edytuj parametr" update="@form, :formlista"  type="submit" />
-            <p:commandButton action="#{zUSstawkiView.dodajzus()}" value="dodaj parametr" update="@form, :formlista"  type="submit" />
+            <p:commandButton action="#{zUSstawkiView.edytujzusmaly()}" value="edytuj parametr" update="@form, :formlista"  type="submit" />
+            <p:commandButton action="#{zUSstawkiView.dodajzusmaly()}" value="dodaj parametr" update="@form, :formlista"  type="submit" />
         </p:panelGrid>
     </h:form>
 </ui:composition>   

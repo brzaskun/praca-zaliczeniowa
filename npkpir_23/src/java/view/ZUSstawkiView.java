@@ -24,7 +24,8 @@ import org.joda.time.DateTime;
  */
 @ManagedBean
 @ViewScoped
-public class ZUSstawkiView implements Serializable{
+public class ZUSstawkiView implements Serializable {
+
     @Inject
     private ZUSDAO zusDAO;
     @Inject
@@ -32,6 +33,8 @@ public class ZUSstawkiView implements Serializable{
     @Inject
     private Zusstawki wprowadzanie;
     private List<Zusstawki> listapobranychstawek;
+    private List<Zusstawki> listapobranychstawekMalyZUS;
+
     public ZUSstawkiView() {
         listapobranychstawek = new ArrayList<>();
     }
@@ -40,58 +43,106 @@ public class ZUSstawkiView implements Serializable{
     @PostConstruct
     private void init() {
         try {
-            listapobranychstawek = zusDAO.findAll();
-        } catch (Exception e) { E.e(e); 
+            listapobranychstawek = zusDAO.findZUS(false);
+            listapobranychstawekMalyZUS = zusDAO.findZUS(true);
+        } catch (Exception e) {
+            E.e(e);
         }
         biezacadata = String.valueOf(new DateTime().getYear());
     }
-    
-     public void dodajzus(){
-         try{
-            zusDAO.dodaj(wprowadzanie);
-            listapobranychstawek = new ArrayList<>();
-            listapobranychstawek = zusDAO.findAll();
-            wprowadzanie = new Zusstawki();
-            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: "+wprowadzanie.getZusstawkiPK().getMiesiac());
-         } catch (Exception e) { E.e(e); 
-             Msg.msg("e","Niedodatno parametru ZUS. Wpis za rok "+wprowadzanie.getZusstawkiPK().getRok()+" i miesiąc "+wprowadzanie.getZusstawkiPK().getMiesiac()+" już istnieje");
-       }
-        
-     }
-     
-      public void edytujzus(){
-         try{
-         zusDAO.edit(wprowadzanie);
-         listapobranychstawek = new ArrayList<>();
-         listapobranychstawek = zusDAO.findAll();
-         wprowadzanie = new Zusstawki();
-         Msg.msg("Edytowano parametr ZUS do podatnika za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
-       
-         } catch (Exception e) { E.e(e); 
-         Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:"+wprowadzanie.getZusstawkiPK().getMiesiac());
-         }
-        
-     }
 
-     
-      public void usunzus(Zusstawki zusstawki){
+    public void dodajzus() {
+        try {
+            zusDAO.dodaj(wprowadzanie);
+            obsluzZUSduzy();
+            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: " + wprowadzanie.getZusstawkiPK().getMiesiac());
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Niedodatno parametru ZUS. Wpis za rok " + wprowadzanie.getZusstawkiPK().getRok() + " i miesiąc " + wprowadzanie.getZusstawkiPK().getMiesiac() + " już istnieje");
+        }
+
+    }
+
+    public void edytujzus() {
+        try {
+            zusDAO.edit(wprowadzanie);
+            obsluzZUSduzy();
+            Msg.msg("Edytowano parametr ZUS do podatnika za m-c:" + wprowadzanie.getZusstawkiPK().getMiesiac());
+
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:" + wprowadzanie.getZusstawkiPK().getMiesiac());
+        }
+
+    }
+
+    public void dodajzusmaly() {
+        try {
+            wprowadzanie.getZusstawkiPK().setMalyzus(true);
+            zusDAO.dodaj(wprowadzanie);
+            obsluzZUSmaly();
+            Msg.msg("Dodatno parametr ZUS do podatnika za m-c: " + wprowadzanie.getZusstawkiPK().getMiesiac());
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Niedodatno parametru ZUS. Wpis za rok " + wprowadzanie.getZusstawkiPK().getRok() + " i miesiąc " + wprowadzanie.getZusstawkiPK().getMiesiac() + " już istnieje");
+        }
+
+    }
+
+    public void edytujzusmaly() {
+        try {
+            wprowadzanie.getZusstawkiPK().setMalyzus(true);
+            zusDAO.edit(wprowadzanie);
+            obsluzZUSmaly();
+            Msg.msg("Edytowano parametr ZUS do podatnika za m-c:" + wprowadzanie.getZusstawkiPK().getMiesiac());
+
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nieudana edycja parametru ZUS za m-c:" + wprowadzanie.getZusstawkiPK().getMiesiac());
+        }
+
+    }
+
+    public void usunzus(Zusstawki zusstawki) {
         try {
             zusDAO.destroy(zusstawki);
-            listapobranychstawek = new ArrayList<>();
-            listapobranychstawek = zusDAO.findAll();
-            wprowadzanie = new Zusstawki();
-            Msg.msg("Usunieto parametr ZUS do podatnika za m-c: "+zusstawki.getZusstawkiPK().getMiesiac());
-        } catch (Exception e) { E.e(e); 
+            obsluzZUSduzy();
+            Msg.msg("Usunieto parametr ZUS do podatnika za m-c: " + zusstawki.getZusstawkiPK().getMiesiac());
+        } catch (Exception e) {
+            E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
         }
-     }
-      
-      public void wybranowiadomosc() {
+    }
+    
+    public void usunzusmaly(Zusstawki zusstawki) {
+        try {
+            zusDAO.destroy(zusstawki);
+            obsluzZUSmaly();
+            Msg.msg("Usunieto parametr ZUS do podatnika za m-c: " + zusstawki.getZusstawkiPK().getMiesiac());
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd - nie usunięto stawki.");
+        }
+    }
+
+    private void obsluzZUSmaly() {
+        listapobranychstawekMalyZUS = new ArrayList<>();
+        listapobranychstawekMalyZUS = zusDAO.findZUS(true);
+        wprowadzanie = new Zusstawki();
+    }
+
+    private void obsluzZUSduzy() {
+        listapobranychstawek = new ArrayList<>();
+        listapobranychstawek = zusDAO.findZUS(false);
+        wprowadzanie = new Zusstawki();
+    }
+
+    public void wybranowiadomosc() {
         wprowadzanie = serialclone.SerialClone.clone(selected);
         Msg.msg("Wybrano stawki ZUS.");
     }
-    
-    public int sortujZUSstawki(Object obP, Object obW)  {
+
+    public int sortujZUSstawki(Object obP, Object obW) {
         int rokO1 = Integer.parseInt(((ZusstawkiPK) obP).getRok());
         int rokO2 = Integer.parseInt(((ZusstawkiPK) obW).getRok());
         int mcO1 = Integer.parseInt(((ZusstawkiPK) obP).getMiesiac());
@@ -112,7 +163,6 @@ public class ZUSstawkiView implements Serializable{
         return 0;
     }
 
-    
     public ZUSDAO getZusDAO() {
         return zusDAO;
     }
@@ -148,7 +198,13 @@ public class ZUSstawkiView implements Serializable{
     public void setWprowadzanie(Zusstawki wprowadzanie) {
         this.wprowadzanie = wprowadzanie;
     }
-  
-    
-    
+
+    public List<Zusstawki> getListapobranychstawekMalyZUS() {
+        return listapobranychstawekMalyZUS;
+    }
+
+    public void setListapobranychstawekMalyZUS(List<Zusstawki> listapobranychstawekMalyZUS) {
+        this.listapobranychstawekMalyZUS = listapobranychstawekMalyZUS;
+    }
+
 }

@@ -47,6 +47,7 @@ import entity.Wpis;
 import entity.Zamknietemiesiace;
 import entity.Zobowiazanie;
 import entity.Zusmail;
+import entity.Zusstawki;
 import entityfk.Delegacja;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -1652,6 +1653,10 @@ public class SessionFacade<T> implements Serializable {
 
     public WynikFKRokMc findWynikFKRokMcUdzialowiec(WynikFKRokMc wynikFKRokMc) {
         return (WynikFKRokMc) em.createNamedQuery("WynikFKRokMc.findPodatnikRokMcUdzialowiec").setParameter("podatnik", wynikFKRokMc.getPodatnikObj()).setParameter("rok", wynikFKRokMc.getRok()).setParameter("mc", wynikFKRokMc.getMc()).setParameter("udzialowiec", wynikFKRokMc.getUdzialowiec()).getSingleResult();
+    }
+
+    public List<Zusstawki> findZUS(boolean duzy0maly1) {
+        return em.createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList();
     }
     
    

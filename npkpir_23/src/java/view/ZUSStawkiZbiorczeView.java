@@ -10,6 +10,7 @@ import comparator.Podatnikcomparator;
 import comparator.Zusstawkicomparator;
 import dao.PodatnikDAO;
 import dao.ZUSDAO;
+import data.Data;
 import embeddable.Mce;
 import entity.Podatnik;
 import entity.Zusstawki;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
@@ -47,6 +49,8 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     private String biezacyRok;
     private boolean dodaj0edtuj1;
     private boolean pokazButtonUsun;
+    @ManagedProperty(value="#{WpisView}")
+    private WpisView wpisView;
 
     public ZUSStawkiZbiorczeView() {
         listapodatnikow = new ArrayList<>();
@@ -161,7 +165,20 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
       
     public void pobierzzusZbiorcze() {
         List<Zusstawki> tmp = new ArrayList<>();
-        tmp.addAll(zusDAO.findAll());
+        String data = wpisView.getPodatnikObiekt().getDatamalyzus();
+        String rok = null;
+        String mc = null;
+        boolean czymalyzus = false;
+        if (data != null) {
+            rok = data.split("-")[0];
+            mc = data.split("-")[1];
+            czymalyzus = sprawdzmalyzus(rok,mc, obrabianeparametryzus.getZusstawkiPK().getRok(), obrabianeparametryzus.getZusstawkiPK().getMiesiac());
+        }
+        if (czymalyzus == true) {
+            tmp.addAll(zusDAO.findZUS(true));
+        } else {
+            tmp.addAll(zusDAO.findZUS(false));
+        }
         Iterator it = tmp.iterator();
         while (it.hasNext()) {
             Zusstawki tmpX = (Zusstawki) it.next();
@@ -324,8 +341,28 @@ public class ZUSStawkiZbiorczeView  implements Serializable{
     public void setPokazButtonUsun(boolean pokazButtonUsun) {
         this.pokazButtonUsun = pokazButtonUsun;
     }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    private boolean sprawdzmalyzus(String rok, String mc, String rokwprowadzany, String mcwprowadzany) {
+        boolean malyzus = false;
+        String[] zwiekszonemcd = Mce.zwiekszmiesiac(rok, mc, 24);
+        int data = Data.compare(zwiekszonemcd[0], zwiekszonemcd[1], rokwprowadzany, mcwprowadzany);
+        if (data > -1) {
+            malyzus = true;
+        }
+        return malyzus;
+    }
     
-    
+//    public static void main(String[] args) {
+//        sprawdzmalyzus("2013", "09");
+//    }
    
     
     

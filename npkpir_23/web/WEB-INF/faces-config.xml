@@ -270,6 +270,10 @@
             <to-view-id>/manager/managerZUSstawki.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>zusstawkimaly</from-outcome>
+            <to-view-id>/manager/managerZUSstawkimaly.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>aktywacja</from-outcome>
             <to-view-id>/manager/managerAktywacjaPodatnik.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

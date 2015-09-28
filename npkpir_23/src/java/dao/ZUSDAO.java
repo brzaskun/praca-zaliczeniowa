@@ -33,4 +33,13 @@ public class ZUSDAO extends DAO implements Serializable {
             return null;
         }
    }
+    
+    public  List<Zusstawki> findZUS(boolean duzy0maly1){
+        try {
+            return zusstawkiFacade.findZUS(duzy0maly1);
+        } catch (Exception e) { 
+            E.e(e); 
+            return null;
+        }
+   }
 }

@@ -183,13 +183,21 @@ public class Mce implements Serializable{
     public static String[] zwiekszmiesiac(String rok, String miesiac, int oilezwiekszyc) {
         String[] nowedane = new String[2];
         int mcInt = miesiacToNumber.get(miesiac)+oilezwiekszyc;
-        if (mcInt < 12) {
+        if (mcInt <= 12) {
             nowedane[0] = rok;
             nowedane[1] = numberToMiesiac.get(mcInt);
-        } else {
+        } else if (mcInt <= 24) {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(++rokInt);
             nowedane[1] = numberToMiesiac.get(mcInt-12);
+        } else if (mcInt <= 36) {
+            int rokInt = Integer.parseInt(rok)+2;
+            nowedane[0] = String.valueOf(rokInt);
+            nowedane[1] = numberToMiesiac.get(mcInt-24);
+        } else if (mcInt <= 48) {
+            int rokInt = Integer.parseInt(rok)+3;
+            nowedane[0] = String.valueOf(rokInt);
+            nowedane[1] = numberToMiesiac.get(mcInt-36);
         }
         return nowedane;
     }
@@ -286,36 +294,45 @@ public class Mce implements Serializable{
     public Mce() {
     }
     
-    public static void main (String[] args) {
-        int mcod = 05;
-        int rokod = 2013;
-        int mcakt = 01;
-        int rokakt = 2015;
-        int iloscmcy = 0;
-        if (rokod > rokakt) {
-            //return -1;
-        }
-        int rokgraniczny = rokakt;
-        if (rokod < rokgraniczny) {
-            iloscmcy += mcakt;
-            rokgraniczny -= 1;
-            while (rokod < rokgraniczny) {
-                iloscmcy += 12;
-                rokgraniczny--;
-            }
-            if (rokod == rokgraniczny) {
-                iloscmcy += 12 - mcod;
-                //return iloscmcy;
-            }
-        } else if (rokod == rokakt) {
-            if (mcod < rokakt) {
-                iloscmcy += 12 - mcod;
-                //return iloscmcy;
-            } else {
-                //return -1;
-            }
-        }
-        //return -1;
+//    public static void main (String[] args) {
+//        int mcod = 05;
+//        int rokod = 2013;
+//        int mcakt = 01;
+//        int rokakt = 2015;
+//        int iloscmcy = 0;
+//        if (rokod > rokakt) {
+//            //return -1;
+//        }
+//        int rokgraniczny = rokakt;
+//        if (rokod < rokgraniczny) {
+//            iloscmcy += mcakt;
+//            rokgraniczny -= 1;
+//            while (rokod < rokgraniczny) {
+//                iloscmcy += 12;
+//                rokgraniczny--;
+//            }
+//            if (rokod == rokgraniczny) {
+//                iloscmcy += 12 - mcod;
+//                //return iloscmcy;
+//            }
+//        } else if (rokod == rokakt) {
+//            if (mcod < rokakt) {
+//                iloscmcy += 12 - mcod;
+//                //return iloscmcy;
+//            } else {
+//                //return -1;
+//            }
+//        }
+//        //return -1;
+//    }
+    
+    public static void main(String[] args) {
+        String rok = "2015";
+        String mc = "01";
+        int oile = 24;
+        String[] t = zwiekszmiesiac(rok, mc, oile);
+        System.out.println("rok "+t[0]);
+        System.out.println("mc "+t[1]);
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
