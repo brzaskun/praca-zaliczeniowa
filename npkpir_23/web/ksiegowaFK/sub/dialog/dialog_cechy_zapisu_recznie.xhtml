@@ -10,7 +10,7 @@
               onShow="ustawdialogCenter('dialog_cechy_zapisu_recznie','dialogcechyzapisowpodsumowanie',500,500);" focus=":formCH" modal="true" appendTo="@(body)"
               closeOnEscape="true">
         <h:form id="formCH" >
-            <p:selectOneListbox value="#{cechazapisuView.pobranecechy}"
+            
             <p:dataTable id="dataList" value="#{cechazapisuView.pobranecechy}" var="item" emptyMessage="nie zdefiniowano jeszcze zadnej cechy" style="height: 300px;"
                          paginator="true" rows="7" paginatorPosition="top" rowKey="#{item.cechazapisuPK.nazwacechy}">
                 <p:column>
