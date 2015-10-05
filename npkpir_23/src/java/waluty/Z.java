@@ -32,6 +32,13 @@ public class Z implements Serializable {
         m /= 100;
         return (int) Math.round(m);
     }
+     
+    
+     public static int zUD(double l) {
+        double m = Math.round(l * 100);
+        m /= 100;
+        return (int) Math.round(m);
+    }
     
 //    public static void main(String[] args) {
 //        double kwota = 123.64;

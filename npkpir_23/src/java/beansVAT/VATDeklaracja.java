@@ -339,34 +339,38 @@ public class VATDeklaracja implements Serializable {
 
     public static void podsumujewidencje(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
         DeklaracjaVatWierszSumaryczny wierszsumaryczny = p.getDeklaracjaVatWierszSumaryczny();
+        int n = 0;
+        int v = 0;
             for (EVatwpisSuma ew : pobraneewidencje) {
                 if (!ew.getEwidencja().getTypewidencji().equals("z")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem (suma przychodów)")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        n += Z.zUD(ew.getNetto().doubleValue());
+                        v += Z.zUD(ew.getVat().doubleValue());
                     }
                 }
                 if (ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie środków trwałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        n += Z.zUD(ew.getNetto().doubleValue());
+                        v += Z.zUD(ew.getVat().doubleValue());
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        n += Z.zUD(ew.getNetto().doubleValue());
+                        v += Z.zUD(ew.getVat().doubleValue());
                     }
                 }
                  if (ew.getEwidencja().getTypewidencji().equals("z") && !ew.getEwidencja().getNazwa().equals("środki trwałe")) {
                     if (wierszsumaryczny.getNazwapozycji().equals("Nabycie towarów i usług pozostałych")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        n += Z.zUD(ew.getNetto().doubleValue());
+                        v += Z.zUD(ew.getVat().doubleValue());
                     }
                     if (wierszsumaryczny.getNazwapozycji().equals("Razem kwota podatku naliczonego do odliczenia")) {
-                        wierszsumaryczny.setSumanetto(Z.zUD( wierszsumaryczny.getSumanetto()+ew.getNetto().intValue()));
-                        wierszsumaryczny.setSumavat(Z.zUD( wierszsumaryczny.getSumavat()+ew.getVat().intValue()));
+                        n += Z.zUD(ew.getNetto().doubleValue());
+                        v += Z.zUD(ew.getVat().doubleValue());
                     }
                 }
             }
+            wierszsumaryczny.setSumanetto(n);
+            wierszsumaryczny.setSumavat(v);
     }
     
     public static void podsumujewidencjeKoszty(ArrayList<EVatwpisSuma> pobraneewidencje, DeklaracjaVatSchemaWierszSum p) {
