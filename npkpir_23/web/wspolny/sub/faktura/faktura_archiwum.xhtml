@@ -17,13 +17,37 @@
                 <p:separator/>
                 <p:menuitem value="Zaksięguj ponownie" update=":form1:messages" actionListener="#{fakturaView.zaksieguj()}" icon="ui-icon-locked" />
             </p:contextMenu>
-             <p:panelGrid id="panelsum1"  columns="6">
-                <h:outputText value="suma netto: "/>
-                <bcf:outputpl value="#{fakturaView.podsumowaniewybranychnetto}" style="text-align: right; font-weight: 800;"/>
-                <h:outputText value="suma vat: "/>
-                <bcf:outputpl value="#{fakturaView.podsumowaniewybranychvat}" style="text-align: right; font-weight: 800;"/>
-                <h:outputText value="suma brutto: "/>
-                <bcf:outputpl value="#{fakturaView.podsumowaniewybranychbrutto}" style="text-align: right; font-weight: 800;"/>
+             <p:panelGrid id="panelsum1">
+                <f:facet name="header">
+                    <p:row>
+                    <p:column>
+                        <h:outputText value="ilość"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma netto"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma brutto"/>
+                    </p:column>
+                        </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
             <p:panel header="">
                 <p:commandButton value="drukuj zestawienie" actionListener="#{fakturaView.drukujfakturysporzadzone}" style="width: 150px; margin-left: 30px;"/>
@@ -45,21 +69,23 @@
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
-                <p:column headerText="nr kolejny" width="80" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="nr kolejny" width="90" sortBy="#{wpis.fakturaPK.numerkolejny}" filterBy="#{wpis.fakturaPK.numerkolejny}" filterMatchMode="contains" filterStyle="display : none;">
                     <h:outputText value="#{wpis.fakturaPK.numerkolejny}" />
                 </p:column>
-                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" filterMatchMode="contains" filterStyle="display : none;">
+                <p:column headerText="#{mgs.kontrahent}" sortBy="#{wpis.kontrahent.npelna}" filterBy="#{wpis.kontrahent.npelna}" 
+                          filterMatchMode="contains" filterStyle="display : none;" width="120">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="300">
+                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250"
+                          style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 
-                          filterMatchMode="contains" filterStyle="display : none;" width="70">
+                          filterMatchMode="contains" filterStyle="display : none;" width="60">
                     <h:outputText value="#{wpis.datawystawienia}"/>
                 </p:column>
                 <p:column headerText="termin płatności" sortBy="#{wpis.terminzaplaty}" filterBy="#{wpis.terminzaplaty}" 
-                          filterMatchMode="contains" filterStyle="display : none;" width="70">
+                          filterMatchMode="contains" filterStyle="display : none;" width="60">
                     <h:outputText value="#{wpis.terminzaplaty}"/>
                 </p:column>
                 <p:column headerText="#{mgs.netto}"  sortBy="#{wpis.netto}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
@@ -68,10 +94,12 @@
                 <p:column headerText="brutto"  sortBy="#{wpis.brutto}" filterBy="#{wpis.brutto}" filterMatchMode="contains" filterStyle="display : none;"  width="70">
                     <bcf:outputpl value="#{wpis.brutto}"/>
                 </p:column>
-                <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="50">
+                <p:column headerText="wysł." sortBy="#{wpis.wyslana}" filterBy="#{wpis.wyslana ? 'tak' : 'nie'}"
+                          filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;"  width="30">
                     <h:outputText value="#{wpis.wyslana ? 'tak' : 'nie'}"/>
                 </p:column>
-                <p:column headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="50">
+                <p:column headerText="zaks." sortBy="#{wpis.zaksiegowana}" filterBy="#{zaksiegowana ? 'tak' : 'nie'}"
+                          filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="30">
                     <h:outputText value="#{wpis.zaksiegowana ? 'tak' : 'nie'}"/>
                 </p:column>
                 <p:column headerText="typ" sortBy="#{wpis.rodzajdokumentu}" filterBy="#{wpis.rodzajdokumentu}" filterMatchMode="contains" filterStyle="display : none;" style="text-align: center;" width="70">
@@ -84,7 +112,7 @@
                 <p:column  headerText="PDF" style="text-align: center;"  width="40">
                     <p:commandButton  update=":form1:messages" actionListener="#{pdfFaktura.drukuj(wpis, row, WpisView)}" icon="ui-icon-print" />
                 </p:column>
-                <p:column  headerText="korekta" style="text-align: center;"  width="40">
+                <p:column  headerText="korekta" style="text-align: center;"  width="45">
                     <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedokorekty(wpis)}" 
                                       icon="ui-icon-pencil" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>

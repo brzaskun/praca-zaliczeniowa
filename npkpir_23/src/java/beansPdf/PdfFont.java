@@ -8,9 +8,11 @@ package beansPdf;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -169,6 +171,24 @@ public class PdfFont {
             return numberString;
         } catch (Exception e) {
             return "";
+        }
+    }
+    
+    //wykrywanie fontow z systemu
+    public static void main(String[] args) {
+        try {
+            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/Calibri.ttf", "my_font");
+            Font myBoldFont = FontFactory.getFont("my_font");
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 5);
+            String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+            for (int i = 0; i < fonts.length; i++) {
+                System.out.println(fonts[i]);
+            }
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

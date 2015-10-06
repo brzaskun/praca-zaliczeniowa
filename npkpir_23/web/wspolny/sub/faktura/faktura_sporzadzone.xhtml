@@ -22,13 +22,37 @@
                 <p:menuitem value="Oznacz jako zaksiegowaną" update=":form1:messages, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formsporzadzone:dokumentyLista" icon="ui-icon-mail-closed" actionListener="#{fakturaView.oznaczonejakozaksiegowane()}" />
                 <p:menuitem value="Wymuś usunięcie" update=":akordeon:formsporzadzone:dokumentyLista,  :akordeon:formzestawienie:dokumentyZestawienie" actionListener="#{fakturaView.wymusdestroysporzadzone()}" icon="ui-icon-trash" />
             </p:contextMenu>
-            <p:panelGrid id="panelsum"  columns="6">
-                <h:outputText value="suma netto: "/>
-                <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}" style="text-align: right; font-weight: 800;"/>
-                <h:outputText value="suma vat: "/>
-                <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}" style="text-align: right; font-weight: 800;"/>
-                <h:outputText value="suma brutto: "/>
-                <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}" style="text-align: right; font-weight: 800;"/>
+            <p:panelGrid id="panelsum">
+                <f:facet name="header">
+                    <p:row>
+                    <p:column>
+                        <h:outputText value="ilość"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma netto"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma brutto"/>
+                    </p:column>
+                        </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
             </p:panelGrid>
             <p:panel header="dołącz krótką wiadomość do wysyłanego maila">
                 <h:inputText value="#{fakturaView.wiadomoscdodatkowa}" style="width: 800px;"/>
@@ -58,7 +82,8 @@
                           style="line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.kontrahent.npelna}"/>
                 </p:column>
-                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250" style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
+                <p:column headerText="#{mgs.opis}" filterBy="#{wpis.nazwa}" filterMatchMode="contains" filterStyle="display : none;" width="250" 
+                          style="font-size: smaller; line-break: loose;word-break: break-all;word-wrap: break-word !important;">
                     <h:outputText value="#{wpis.nazwa ne null ? wpis.nazwa : wpis.pozycjenafakturze.get(0).nazwa}"/>
                 </p:column>
                 <p:column headerText="data wyst." sortBy="#{wpis.datawystawienia}" filterBy="#{wpis.datawystawienia}" 

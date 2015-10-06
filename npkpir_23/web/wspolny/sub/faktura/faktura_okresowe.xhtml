@@ -97,8 +97,12 @@
                 <p:column headerText="12" width="20">  
                     <h:outputText value="#{wpis.m12}" styleClass="#{wpis.m12 gt 0 ? 'wiecejfaktur' : 'zerofaktur'}"/>
                 </p:column>
-                <p:column style="text-align: center;" width="40">
+                <p:column headerText="drukuj" style="text-align: center;" width="40">
                     <p:commandButton update=":form1:messages" actionListener="#{pdfFaktura.drukujokresowa(wpis, row, WpisView)}" icon="ui-icon-print" />
+                </p:column>
+                <p:column  headerText="edytuj" style="text-align: center;"  width="40">
+                    <p:commandButton  update=":akordeon:formstworz, :akordeon" actionListener="#{fakturaView.skierujfakturedoedycji(wpis.dokument)}" 
+                                      icon="ui-icon-script" oncomplete="aktywujpolewyboruklientanafakturze();" />
                 </p:column>
                 <p:rowExpansion>
                      <p:panelGrid  columns="2"  style="width:300px">

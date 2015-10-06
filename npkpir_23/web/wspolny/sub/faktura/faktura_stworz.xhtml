@@ -13,6 +13,10 @@
             .kwotarozrachunku .pe-inputNumber{
                 width: 80px !important;
             }
+            
+            .wpisywaniekontrfk .ui-autocomplete-input {
+                width: 230px;
+            }
         </style>
         <h:form id="formprzygotuj">
             <p:outputPanel style="padding: 5px;">
@@ -146,7 +150,7 @@
                                             var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                             minQueryLength="3" maxResults="10" cache="true" converterMessage="Nieudana konwersja Klient"
                                             autocomplete="true" widgetVar="tworzenieklientapolenazwy" binding="#{fakturaView.kontrahentstworz}"
-                                            requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10"   
+                                            requiredMessage="Nie wybrany odbiorca faktury" queryDelay="10" styleClass="wpisywaniekontrfk" 
                                             >
                                 <p:ajax event="blur" listener="#{fakturaView.wgenerujnumerfaktury}" partialSubmit="true" oncomplete="sprawdzczybrakklientafaktura();"  global="false"/>
                                 <p:ajax event="query"  global="false"/>

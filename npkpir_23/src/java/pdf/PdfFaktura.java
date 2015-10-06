@@ -307,7 +307,7 @@ public class PdfFaktura extends Pdf implements Serializable {
 
 public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {
         Document document = new Document();
-        String nazwapliku = "C:/testowa.pdf";
+        String nazwapliku = "testowa.pdf";
         PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -391,7 +391,7 @@ public static void main(String[] args) throws DocumentException, FileNotFoundExc
         //table.writeSelectedRows(0, table.getRows().size(), 20, 700, writer.getDirectContent());
         document.close();
         writer.close();
-        PdfReader reader = new PdfReader(nazwapliku);
+        PdfReader reader = new PdfReader("C:\\Users\\Osito\\Documents\\NetBeansProjects\\npkpir_23\\build\\web\\wydruki\\testowa.pdf");
         PdfReaderContentParser parser = new PdfReaderContentParser(reader);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream("c:/tparser.pdf"));
         TextMarginFinder finder;

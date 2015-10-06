@@ -133,6 +133,7 @@ public class FakturaView implements Serializable {
     private Double podsumowaniewybranychbrutto;
     private Double podsumowaniewybranychnetto;
     private Double podsumowaniewybranychvat;
+    private int iloscwybranych;
     //do usuuwania faktur zaksiegowanych
     private double waloryzajca;
     private double kwotaprzedwaloryzacja;
@@ -190,7 +191,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = false;
         fakturakorekta = false;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 740px;");
+        dataTablepozycjenafakturze.setStyle("width: 800px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura");
@@ -203,7 +204,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = false;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("max-width: 1470px;");
+        dataTablepozycjenafakturze.setStyle("width: 1100px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setRodzajdokumentu("faktura xxl");
@@ -216,8 +217,8 @@ public class FakturaView implements Serializable {
         fakturaxxl = false;
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 740px;");
-        dataTablepozycjenafakturzekorekta.setStyle("width: 740px;");
+        dataTablepozycjenafakturze.setStyle("width: 800px;");
+        dataTablepozycjenafakturzekorekta.setStyle("width: 800px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
         selected.setPozycjepokorekcie(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -231,7 +232,7 @@ public class FakturaView implements Serializable {
         fakturaxxl = true;
         fakturakorekta = true;
         inicjalizacjaczesciwspolne();
-        dataTablepozycjenafakturze.setStyle("width: 1470px;");
+        dataTablepozycjenafakturze.setStyle("width: 1100px;");
         dataTablepozycjenafakturzekorekta.setStyle("width: 1470px;");
         Podatnik podatnikobiekt = wpisView.getPodatnikObiekt();
         selected.setPozycjenafakturze(FakturaBean.inicjacjapozycji(podatnikobiekt));
@@ -1136,6 +1137,7 @@ public class FakturaView implements Serializable {
         podsumowaniewybranychnetto = 0.0;
         podsumowaniewybranychvat = 0.0;
         if (gosciwybral.size() > 0) {
+            iloscwybranych = gosciwybral.size();
             for (Faktura p : gosciwybral) {
                 if (p.getPozycjepokorekcie() == null) {
                     podsumowaniewybranychnetto += p.getNetto();
@@ -1535,6 +1537,14 @@ public class FakturaView implements Serializable {
 
     public void setFakturyokresoweFiltered(List<Fakturywystokresowe> fakturyokresoweFiltered) {
         this.fakturyokresoweFiltered = fakturyokresoweFiltered;
+    }
+
+    public int getIloscwybranych() {
+        return iloscwybranych;
+    }
+
+    public void setIloscwybranych(int iloscwybranych) {
+        this.iloscwybranych = iloscwybranych;
     }
 
 
