@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "WynikFKRokMc.findAll", query = "SELECT w FROM WynikFKRokMc w"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMc", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc"),
+    @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMcFirma", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.udzialowiec = 'firma'"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokMcUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.mc = :mc AND w.udzialowiec = :udzialowiec"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRok", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok"),
     @NamedQuery(name = "WynikFKRokMc.findPodatnikRokUdzialowiec", query = "SELECT w FROM WynikFKRokMc w WHERE w.podatnikObj = :podatnik AND w.rok = :rok AND w.udzialowiec IS NOT NULL"),

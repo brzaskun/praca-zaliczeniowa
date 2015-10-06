@@ -265,7 +265,8 @@
                     <bcf:outputpl value="#{loop1.wartosc}"/>
                 </p:column>
             </p:dataTable>-->
-            <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}" style="margin-top: 10px; width: 150px; margin-bottom: 400px;" />
+            <p:commandButton value="#{mgs.zaksiegujrozliczenie}" actionListener="#{symulacjaWynikuView.zaksiegujwynik}"
+                             style="margin-top: 10px; width: 150px; margin-bottom: 400px;" update="akordeon:formsymulacjanarastajaco"/>
         </h:form>
     </p:tab>  
 </ui:composition>   

@@ -31,6 +31,10 @@ public class WynikFKRokMcDAO extends DAO implements Serializable {
     public WynikFKRokMc findWynikFKRokMc(WynikFKRokMc wynikFKRokMc) {
         return sessionFacade.findWynikFKRokMc(wynikFKRokMc);
     }
+    
+    public WynikFKRokMc findWynikFKRokMcFirma(WynikFKRokMc wynikFKRokMc) {
+        return sessionFacade.findWynikFKRokMcFirma(wynikFKRokMc);
+    }
 
     public List<WynikFKRokMc> findWynikFKPodatnikRok(WpisView wpisView) {
         return sessionFacade.findWynikFKPodatnikRok(wpisView);

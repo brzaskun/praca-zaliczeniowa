@@ -337,6 +337,7 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
         wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
         wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
+        wynikFKRokMc.setUdzialowiec("firma");
 //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
 //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
 //            wynikFKRokMc.setWynikfinansowynetto(pozycje.get(7).getWartosc());
@@ -347,13 +348,14 @@ public class SymulacjaWynikuView implements Serializable {
 //        wynikFKRokMc.setListaprzychody(listakontaprzychody);
 //        wynikFKRokMc.setListakoszty(listakontakoszty);
         try {
-            WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMc(wynikFKRokMc);
+            WynikFKRokMc pobrany = wynikFKRokMcDAO.findWynikFKRokMcFirma(wynikFKRokMc);
             wynikFKRokMcDAO.destroy(pobrany);
         } catch (Exception e) {  
             E.e(e);
         }
         try {
-            wynikFKRokMcDAO.edit(wynikFKRokMc);
+            wynikFKRokMcDAO.dodaj(wynikFKRokMc);
+            symulacjaWynikuNarastajacoView.init();
             Msg.msg("Zachowano wynik");
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Wystąpił błąd. Nie zachowano wyniku.");

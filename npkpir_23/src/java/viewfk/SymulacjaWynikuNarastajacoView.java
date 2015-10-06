@@ -80,7 +80,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         int biezacymc = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (Iterator<WynikFKRokMc> p = listapobrana.iterator(); p.hasNext(); ) {
             WynikFKRokMc r = (WynikFKRokMc) p.next();
-            if (r.getUdzialowiec() == null) {
+            if (r.getUdzialowiec() == null || r.getUdzialowiec().equals("firma")) {
                 int mc = Integer.parseInt(r.getMc());
                 if (mc < biezacymc) {
                     listamiesiecy.add(r);
