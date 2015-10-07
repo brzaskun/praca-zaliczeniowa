@@ -387,23 +387,27 @@ public class MailOther implements Serializable{
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
             FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf");
-            mbp2.setDataHandler(new DataHandler(fds));
-            mbp2.setFileName(fds.getName());
+            if (fds.getFile().exists()) {
+                mbp2.setDataHandler(new DataHandler(fds));
+                mbp2.setFileName(fds.getName());
 
-            // create the Multipart and add its parts to it
-            Multipart mp = new MimeMultipart();
-            mp.addBodyPart(mbp1);
-            mp.addBodyPart(mbp2);
+                // create the Multipart and add its parts to it
+                Multipart mp = new MimeMultipart();
+                mp.addBodyPart(mbp1);
+                mp.addBodyPart(mbp2);
 
-            // add the Multipart to the message
-            message.setContent(mp);
-            Transport.send(message);
-              try {
-                    File file = Plik.plik("vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf", true);
-                    file.delete();
-                 } catch (Exception ef) {
-                     Msg.msg("e", "Nieudane usunięcie pliku");
-                 }
+                // add the Multipart to the message
+                message.setContent(mp);
+                Transport.send(message);
+                  try {
+                        File file = Plik.plik("vat-" + nazwaewidencji + "-" + wpisView.getPodatnikWpisu() + ".pdf", true);
+                        file.delete();
+                     } catch (Exception ef) {
+                         Msg.msg("e", "Nieudane usunięcie pliku");
+                     }
+            } else {
+                Msg.msg("e", "Nieudane pobranie ewidencji do wysyłki pliku");
+            }
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
