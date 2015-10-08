@@ -12,6 +12,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.RodzajedokPK;
+import entity.SrodekTrw;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
@@ -236,6 +237,26 @@ public class testobjects {
        n.add(B.b("nazwapełna"));
        n.add(B.b("nazwaskrócona"));
        n.add(B.b("tłumaczenie"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+     public static List[] getSrodkiTRWlista(List<SrodekTrw> wiersze) {
+       List n = new ArrayList();
+       n.add("nr kol.");
+       n.add("data zakupu środka");
+       n.add("data przekazania");
+       n.add("nazwa środka trwałego");
+       n.add("KŚT");
+       n.add("nr. faktury");
+       n.add("cena zak.netto");
+       n.add("kwota vat");
+       n.add("umorzenie począt.");
+       n.add("roczna staw. odpisu");
+       n.add("odpis za rok");
+       n.add("odpis miesięczny");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

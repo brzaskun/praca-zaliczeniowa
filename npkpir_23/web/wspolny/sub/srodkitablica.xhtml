@@ -10,6 +10,7 @@
     <p:outputPanel id="wrapper" deferred="true">
         <h:form id="formbuttonsrodki">
             <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
+            <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>
         </h:form>
         <h:form id="formSTR">
             <p:growl id="mess_add" autoUpdate="true"/>
@@ -48,7 +49,6 @@
                     </p:column>
                     <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="70"
                              style="text-align: center;">  
-
                         <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>

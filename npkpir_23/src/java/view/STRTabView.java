@@ -6,6 +6,7 @@ package view;
 
 import beansFK.DokumentFKBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
+import com.itextpdf.text.DocumentException;
 import comparator.SrodekTrwcomparator;
 import dao.AmoDokDAO;
 import dao.KlienciDAO;
@@ -25,6 +26,7 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entityfk.Dokfk;
 import error.E;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,6 +34,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -40,6 +44,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PDFSTRtabela;
+import waluty.Z;
 
 /**
  *
@@ -594,6 +600,38 @@ public class STRTabView implements Serializable {
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
+        }
+    }
+    
+    public void drukowanietabeli() {
+        try {
+            double netto = 0.0;
+            double vat = 0.0;
+            double umorzeniepocz = 0.0;
+            double odpisrocz = 0.0;
+            double odpismc = 0.0;
+            for (SrodekTrw p : posiadane) {
+                netto += p.getNetto();
+                vat += p.getVat();
+                umorzeniepocz += p.getUmorzeniepoczatkowe();
+                odpisrocz += p.getOdpisrok();
+                odpismc += p.getOdpismc();
+            }
+            SrodekTrw suma = new SrodekTrw();
+            suma.setNrsrodka(999999);
+            suma.setNetto(Z.z(netto));
+            suma.setVat(Z.z(vat));
+            suma.setUmorzeniepoczatkowe(Z.z(umorzeniepocz));
+            suma.setOdpisrok(Z.z(odpisrocz));
+            suma.setOdpismc(Z.z(odpismc));
+            posiadane.add(suma);
+            PDFSTRtabela.drukujSTRtabela(wpisView, posiadane);
+        } catch (DocumentException ex) {
+            Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
+            Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
+            Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
