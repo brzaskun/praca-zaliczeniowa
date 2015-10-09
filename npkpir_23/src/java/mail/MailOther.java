@@ -51,9 +51,9 @@ public class MailOther implements Serializable{
              // create the second message part
              MimeBodyPart mbp2 = new MimeBodyPart();
              // attach the file to the message
-             File file = Plik.plik("pkpir" + wpisView.getPodatnikWpisu() + ".pdf", true);
+             File file = Plik.plik("pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf", true);
              if (file.isFile()) {
-                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu() + ".pdf");
+                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
 

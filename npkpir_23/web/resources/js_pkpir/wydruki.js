@@ -12,7 +12,14 @@ var wydrukinwestycja = function(kto){
 
 var wydrukzbiorcze = function(kto){
     window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("akordeon:form:pkpirwysylka").style.display='inline';
+    document.getElementById("akordeon:formwysylka:zestawieniewysylka").style.display='inline';
+};
+
+var wydrukzbiorczeryczalt = function(kto){
+    window.open('../wydruki/pkpir'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    try {
+        document.getElementById("akordeon:form:zestawieniewysylka").style.display='inline';
+    } catch (e) {}
 };
 
 var wydrukstr = function(kto){

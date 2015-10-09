@@ -188,7 +188,7 @@ public class PdfZestRok{
     }
     
     public static void drukujRyczalt(WpisView wpisView, List<ZestawienieRyczalt> pobranetransakcje) throws DocumentException, FileNotFoundException, IOException {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"ryczalt";
+        String nazwa = "pkpir" + wpisView.getPodatnikWpisu().trim();
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();
@@ -202,8 +202,10 @@ public class PdfZestRok{
             dodajOpisWstepny(document, "Zestawienie przychodów ewidencjonowanych firmy: "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getZestawienieRyczalt(pobranetransakcje),97,0);
             finalizacjaDokumentu(document);
-            String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
+            //String f = "pokazwydruk('"+nazwa+"');";
+            //RequestContext.getCurrentInstance().execute(f);
+            RequestContext.getCurrentInstance().execute("wydrukzbiorczeryczalt('"+wpisView.getPodatnikWpisu().trim()+"');");
+            Msg.msg("i", "Wydrukowano zestawienie obrotów ryczałt", "form:messages");
         } else {
             Msg.msg("w", "Nie wybrano Zestawienia Ryczałtu do wydruku");
         }
