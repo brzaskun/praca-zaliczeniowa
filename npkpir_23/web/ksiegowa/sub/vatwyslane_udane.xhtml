@@ -52,19 +52,19 @@
                         <h:outputText value="#{loop.nazwaurzedu} - #{item.kodurzedu}"/>
                     </p:column>
                     <p:column headerText="należny">
-                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI46}"/>
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI46}" rendered="#{item.schemawierszsumarycznylista eq null}"/>
                     </p:column>
                     <p:column headerText="naliczony">
-                            <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI55}"/>
+                            <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI55}" rendered="#{item.schemawierszsumarycznylista eq null}"/>
                     </p:column>
                     <p:column headerText="przenies.">
-                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI47}"/>
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI47}" rendered="#{item.schemawierszsumarycznylista eq null}"/>
                     </p:column>
                     <p:column headerText="do zapłaty">
-                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI58}"/>
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI58}" rendered="#{item.schemawierszsumarycznylista eq null}"/>
                     </p:column>
                     <p:column headerText="do zwrotu">
-                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI60}"/>
+                        <bcf:outputpl value="#{loop.pozycjeszczegolowe.poleI60}" rendered="#{item.schemawierszsumarycznylista eq null}"/>
                     </p:column>
                     <p:column headerText="kwota autoryz.">
                         <bcf:outputpl value="#{loop.kwotaautoryzacja}"/>

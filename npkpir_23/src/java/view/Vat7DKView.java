@@ -312,6 +312,8 @@ public class Vat7DKView implements Serializable {
             nowadeklaracja = stworzdeklaracje(pozycjeDeklaracjiVAT, vatokres, pasujacaSchema);
             nowadeklaracja.setSchemawierszsumarycznylista(schemawierszsumarycznylista);
             nowadeklaracja.setPodsumowanieewidencji(mapaewidencji);
+            DeklaracjaVatSchemaWierszSum doprzeniesienia = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Nadwyżka podatku naliczonego nad należnym");
+            nowadeklaracja.setKwotadoprzeniesienia(doprzeniesienia.getDeklaracjaVatWierszSumaryczny().getSumavat());
         }
         //jezeli zachowaj bedzie true dopiero wrzuci deklaracje do kategorii do wyslania
         if (flaga == 2) {
