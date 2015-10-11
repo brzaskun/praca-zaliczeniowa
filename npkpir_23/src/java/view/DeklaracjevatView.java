@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import mail.MailOther;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import pdf.PdfVAT7;
 import pdf.PdfVAT7new;
@@ -155,11 +156,51 @@ public class DeklaracjevatView implements Serializable {
         }
     }
     
-    public void drukujprzygotowanedowysylki(Deklaracjevat d) {
+    public void drukujprzygotowanedowysylki(Deklaracjevat dkl) {
         try {
-            PdfVAT7.drukujwys(podatnikDAO, d);
-        } catch (Exception e) { E.e(e); 
-            
+            DeklaracjaVatSchema pasujacaSchema = null;
+            List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+            for (DeklaracjaVatSchema p : schemyLista) {
+                if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
+                    pasujacaSchema = p;
+                    break;
+                }
+            }
+            Integer rok = Integer.parseInt(pasujacaSchema.getRokOd());
+            Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
+            if (rok <= 2015 && mc <= 7) {
+                PdfVAT7.drukujwys(podatnikDAO, dkl);
+                String f = "wydrukvat7wysylka('"+dkl.getPodatnik()+"');";
+                RequestContext.getCurrentInstance().execute(f);
+            } else {
+                PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
+    public void drukujdeklaracje(Deklaracjevat dkl, int wiersz) {
+        try {
+            DeklaracjaVatSchema pasujacaSchema = null;
+            List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
+            for (DeklaracjaVatSchema p : schemyLista) {
+                if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
+                    pasujacaSchema = p;
+                    break;
+                }
+            }
+            Integer rok = Integer.parseInt(pasujacaSchema.getRokOd());
+            Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
+            if (rok <= 2015 && mc <= 7) {
+                PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
+            } else {
+                PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
+                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
+                RequestContext.getCurrentInstance().execute(f);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     
@@ -192,27 +233,7 @@ public class DeklaracjevatView implements Serializable {
         //FacesContext.getCurrentInstance().getExternalContext().redirect(strona);
     }
      
-    public void drukujdeklaracje(Deklaracjevat dkl, int wiersz) {
-        try {
-            DeklaracjaVatSchema pasujacaSchema = null;
-            List<DeklaracjaVatSchema> schemyLista = deklaracjaVatSchemaDAO.findAll();
-            for (DeklaracjaVatSchema p : schemyLista) {
-                if (p.getNazwaschemy().equals(dkl.getWzorschemy())) {
-                    pasujacaSchema = p;
-                    break;
-                }
-            }
-            Integer rok = Integer.parseInt(pasujacaSchema.getRokOd());
-            Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
-            if (rok <= 2015 && mc <= 7) {
-                PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
-            } else {
-                PdfVAT7new.drukujwys(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO);
-            }
-        } catch (Exception e) { 
-            E.e(e); 
-        }
-    }
+    
     
     public List<Deklaracjevat> getWyslane() {
         return wyslane;

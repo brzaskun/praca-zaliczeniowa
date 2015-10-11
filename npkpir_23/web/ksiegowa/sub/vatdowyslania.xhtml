@@ -66,7 +66,7 @@
             </p:column>
             <p:column id="previewColumn" headerText="operacje" width="110" style="text-align: center;">
                 <p:panelGrid columns="1">
-                    <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujprzygotowanedowysylki(item)}" style="width: 80px;" oncomplete="wydrukvat7wysylka('#{item.podatnik}');"/>
+                    <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujprzygotowanedowysylki(item)}" style="width: 80px;"/>
                     <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(-1) }" update=":formX" style="width: 80px; display: none;"  />
                 </p:panelGrid>
             </p:column>

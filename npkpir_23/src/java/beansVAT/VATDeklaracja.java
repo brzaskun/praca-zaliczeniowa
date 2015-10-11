@@ -399,7 +399,7 @@ public class VATDeklaracja implements Serializable {
             }
     }
 
-    public static List<SchemaEwidencjaSuma> uzupelnijSchemyoKwoty(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje) {
+    public static List<SchemaEwidencjaSuma> wyluskajiPrzyporzadkujSprzedaz(List<SchemaEwidencja> schemaewidencjalista, ArrayList<EVatwpisSuma> pobraneewidencje) {
         List<SchemaEwidencjaSuma> lista = new ArrayList<>();
         for (Iterator<SchemaEwidencja> it = schemaewidencjalista.iterator(); it.hasNext();) {
             SchemaEwidencja p = it.next();

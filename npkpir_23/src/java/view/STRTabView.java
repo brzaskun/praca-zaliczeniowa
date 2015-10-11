@@ -44,7 +44,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import pdf.PDFSTRtabela;
+import pdf.PdfSTRtabela;
 import waluty.Z;
 
 /**
@@ -625,7 +625,7 @@ public class STRTabView implements Serializable {
             suma.setOdpisrok(Z.z(odpisrocz));
             suma.setOdpismc(Z.z(odpismc));
             posiadane.add(suma);
-            PDFSTRtabela.drukujSTRtabela(wpisView, posiadane);
+            PdfSTRtabela.drukujSTRtabela(wpisView, posiadane);
         } catch (DocumentException ex) {
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
             Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);

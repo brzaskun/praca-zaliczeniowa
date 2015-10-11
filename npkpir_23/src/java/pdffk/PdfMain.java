@@ -23,13 +23,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.KontoKwotacomparator;
-import comparator.Kontocomparator;
+import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
+import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Faktura;
 import entity.Podatnik;
 import entity.SrodekTrw;
-import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import entityfk.PozycjaBilans;
@@ -40,16 +40,12 @@ import entityfk.Transakcja;
 import entityfk.WierszBO;
 import error.E;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
@@ -404,6 +400,16 @@ public class PdfMain {
                 for (int i = 2; i < size; i++) {
                     col[i] = 2;
                 }
+                return col;
+            case "embeddable.SchemaEwidencjaSuma":
+            case "entity.DeklaracjaVatSchemaWierszSum":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 6;
+                col[2] = 1;
+                col[3] = 2;
+                col[4] = 1;
+                col[5] = 2;
                 return col;
             case "entity.SrodekTrw":
                 col = new int[size];
@@ -882,6 +888,34 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka()))+"%", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
+                }
+            }
+            if (nazwaklasy.equals("entity.DeklaracjaVatSchemaWierszSum")) {
+                DeklaracjaVatSchemaWierszSum p = (DeklaracjaVatSchemaWierszSum) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getDeklaracjaVatWierszSumaryczny().getNazwapozycji(), "left", 8));
+                if (p.getDeklaracjaVatWierszSumaryczny().getSumanetto() > 0.0) {
+                    table.addCell(ustawfrazeAlign(p.getPolenetto(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumanetto())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                }
+                table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumavat())), "right", 8));
+            }
+            if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
+                SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getEvewidencja().getPole(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolenetto(), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getNetto())), "right", 8));
+                if (p.getEVatwpisSuma().getVat().doubleValue() > 0.0) {
+                    table.addCell(ustawfrazeAlign(p.getSchemaEwidencja().getPolevat(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getEVatwpisSuma().getVat())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
                 }
             }
             if (nazwaklasy.equals("testobjects.WierszCecha")) {

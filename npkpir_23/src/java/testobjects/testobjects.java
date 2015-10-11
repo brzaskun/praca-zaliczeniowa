@@ -5,8 +5,10 @@
  */
 package testobjects;
 
+import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.TreeNodeExtended;
+import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
@@ -237,6 +239,34 @@ public class testobjects {
        n.add(B.b("nazwapełna"));
        n.add(B.b("nazwaskrócona"));
        n.add(B.b("tłumaczenie"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+     public static List[] getSchemaEwidencjaSuma(List<SchemaEwidencjaSuma> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nazwa wiersza");
+       n.add("nr pola netto");
+       n.add("kwota netto");
+       n.add("nr pola vat");
+       n.add("kwota vat");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+     
+     public static List[] getDeklaracjaVatSchemaWierszSum(List<DeklaracjaVatSchemaWierszSum> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("nazwa wiersza");
+       n.add("nr pola netto");
+       n.add("kwota netto");
+       n.add("nr pola vat");
+       n.add("kwota vat");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

@@ -195,7 +195,7 @@ public class Vat7DKView implements Serializable {
         pozycjeDeklaracjiVAT.setCelzlozenia("1");
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
-        sumaschemewidencjilista = VATDeklaracja.uzupelnijSchemyoKwoty(schemaewidencjalista, pobraneewidencje);
+        sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         System.out.println("Koniec");
         //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia

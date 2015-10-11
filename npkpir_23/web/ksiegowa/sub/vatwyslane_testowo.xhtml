@@ -79,7 +79,7 @@
                 <f:facet name="header">
                     <h:outputText value="#{mgs.drukuj}"/>
                 </f:facet>
-                <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item, row)}" style="width: 80px;" onclick="wydrukvat7('#{item.podatnik}');"
+                <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujdeklaracje(item,row)}" style="width: 80px;" onclick="wydrukvat7('#{item.podatnik}');"
                                  rendered="#{!(item.status eq '')}"  />
             </p:column>
 
