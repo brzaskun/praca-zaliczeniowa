@@ -944,6 +944,7 @@ public class FakturaView implements Serializable {
             nowa.setWygenerowanaautomatycznie(true);
             nowa.setIdfakturaokresowa(p.getId());
             nowa.setWyslana(false);
+            nowa.setDatazaplaty(null);
             nowa.setZaksiegowana(false);
             nowa.setZatwierdzona(false);
             nowa.setAutor(wpisView.getWprowadzil().getLogin());
