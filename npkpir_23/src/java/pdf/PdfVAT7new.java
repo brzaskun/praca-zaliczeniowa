@@ -53,31 +53,32 @@ public class PdfVAT7new {
 
     public static void drukujNowaVAT7(PodatnikDAO podatnikDAO, Deklaracjevat d, DeklaracjaVatSchema pasujacaSchema, SchemaEwidencjaDAO schemaEwidencjaDAO, WpisView wpisView) {
         List<SchemaEwidencja> schemaewidencjalista = schemaEwidencjaDAO.findEwidencjeSchemy(pasujacaSchema);
-        ArrayList<EVatwpisSuma> sumaewidencji = new ArrayList<>();
-        sumaewidencji.addAll(d.getPodsumowanieewidencji().values());
-        List<SchemaEwidencjaSuma> schematewidencjesprzedazy = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, sumaewidencji);
+        List<SchemaEwidencjaSuma> schematewidencjesprzedazy = null;
+        if (d.getPodsumowanieewidencji() != null) {
+            ArrayList<EVatwpisSuma> sumaewidencji = new ArrayList<>();
+            sumaewidencji.addAll(d.getPodsumowanieewidencji().values());
+            schematewidencjesprzedazy = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, sumaewidencji);
+        }
         List<DeklaracjaVatSchemaWierszSum> schemawierszsumarycznylista = d.getSchemawierszsumarycznylista();
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"vat7";
         File file = new File(nazwa);
         if (file.isFile()) {
             file.delete();
         }
-        if (schematewidencjesprzedazy != null && schematewidencjesprzedazy.size() > 0) {
-            Uz uz = wpisView.getWprowadzil();
-            Document document = PdfMain.inicjacjaA4Portrait();
-            PdfWriter writer = inicjacjaWritera(document, nazwa);
-            naglowekStopkaP(writer);
-            otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        Uz uz = wpisView.getWprowadzil();
+        Document document = PdfMain.inicjacjaA4Portrait();
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        if (schematewidencjesprzedazy != null) {
             dodajTabele(document, testobjects.getSchemaEwidencjaSuma(schematewidencjesprzedazy),97,0);
-            dodajTabele(document, testobjects.getDeklaracjaVatSchemaWierszSum(schemawierszsumarycznylista),97,0);
-            uzupelnijDlaVAT7(document, d, wpisView);
-            finalizacjaDokumentu(document);
-            String f = "pokazwydruk('"+nazwa+"');";
-            RequestContext.getCurrentInstance().execute(f);
-        } else {
-            Msg.msg("w", "Nie wybrano deklaracji VAT do wydruku");
         }
+        dodajTabele(document, testobjects.getDeklaracjaVatSchemaWierszSum(schemawierszsumarycznylista),97,0);
+        uzupelnijDlaVAT7(document, d, wpisView);
+        finalizacjaDokumentu(document);
+        String f = "pokazwydruk('"+nazwa+"');";
+        RequestContext.getCurrentInstance().execute(f);
         System.out.println("test");
     }
 
