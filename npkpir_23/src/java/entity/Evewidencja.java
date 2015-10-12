@@ -58,6 +58,7 @@ public class Evewidencja implements Serializable {
     private String transakcja;
     @Column(name = "tylkoNetto")
     private boolean tylkoNetto;
+    //s,z,sz
     @Column(name = "typewidencji")
     private String typewidencji;
     @Column(name = "de")

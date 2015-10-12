@@ -92,6 +92,7 @@ public class PdfVAT7new {
                 } else {
                     document.add(new Paragraph(new Phrase("Deklaracja korygująca", ft[1])));
                 }
+                document.add(new Paragraph(new Phrase("Wersja deklaracji: "+d.getWzorschemy(), ft[1])));
                 document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getSelected().getNazwaurzedu(), ft[1])));
                 document.add(new Paragraph(new Phrase("Kwota autoryzacyjna: "+d.getSelected().getKwotaautoryzacja(), ft[1])));
             } catch (DocumentException ex) {
@@ -108,6 +109,7 @@ public class PdfVAT7new {
                 } else {
                     document.add(new Paragraph(new Phrase("Deklaracja korygująca", ft[1])));
                 }
+                document.add(new Paragraph(new Phrase("Wersja deklaracji: "+d.getWzorschemy(), ft[1])));
                 document.add(new Paragraph(new Phrase("Sporządzający: "+d.getSporzadzil(), ft[1])));
                 document.add(new Paragraph(new Phrase("Status: "+d.getStatus(), ft[1])));
                 document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getSelected().getNazwaurzedu(), ft[1])));

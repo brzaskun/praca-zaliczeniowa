@@ -75,8 +75,10 @@ public class VATDeklaracja implements Serializable {
                     int nettoI = Integer.parseInt(ew.getNetto().setScale(0, RoundingMode.HALF_EVEN).toString());
                     String vat = String.valueOf(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
                     int vatI = Integer.parseInt(ew.getVat().setScale(0, RoundingMode.HALF_EVEN).toString());
-                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
-                    if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
+                    if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI > 0.0) {
+                        ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                    }
+                    if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && vatI > 0.0) {
                         ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                     }
                     //to jest uzywane przy korektach
@@ -104,8 +106,10 @@ public class VATDeklaracja implements Serializable {
                 int nettoI = (int) Z.z0(ws.getSumanetto());
                 String vat = String.valueOf(ws.getSumavat());
                 int vatI = (int) Z.z0(ws.getSumavat());
-                ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
-                if ((nrpolavat != null) && (!nrpolavat.isEmpty())) {
+                if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI > 0.0) {
+                    ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
+                }
+                if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && vatI > 0.0) {
                     ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                 }
                 //to jest uzywane przy korektach

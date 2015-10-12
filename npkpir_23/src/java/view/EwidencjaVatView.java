@@ -402,7 +402,7 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private void duplikujEVatViewPola(EVatViewPola wiersz) {
-         if (wiersz.getNazwaewidencji().getNazwa().equals("import usług") || wiersz.getNazwaewidencji().getNazwa().equals("rejestr WNT") || wiersz.getNazwaewidencji().getNazwa().equals("odwrotne obciążenie")) {
+         if (wiersz.getNazwaewidencji().getTypewidencji().equals("sz")) {
                 EVatViewPola duplikat = new EVatViewPola(wiersz);
                 //wpisuje pola zakupu
                 duplikat.setNazwaewidencji(ewidencjazakupu);
