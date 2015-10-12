@@ -87,6 +87,13 @@ public class PdfVAT7new {
             try {
                 document.add(new Chunk());
                 document.add(new Paragraph(new Phrase("Deklaracja przygotowana do wysłania", ft[1])));
+                if (d.getSelected().getCelzlozenia().equals("1")) {
+                    document.add(new Paragraph(new Phrase("Deklaracja pierwotna", ft[1])));
+                } else {
+                    document.add(new Paragraph(new Phrase("Deklaracja korygująca", ft[1])));
+                }
+                document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getSelected().getNazwaurzedu(), ft[1])));
+                document.add(new Paragraph(new Phrase("Kwota autoryzacyjna: "+d.getSelected().getKwotaautoryzacja(), ft[1])));
             } catch (DocumentException ex) {
                 Logger.getLogger(PdfVAT7new.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -96,9 +103,15 @@ public class PdfVAT7new {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 String data = sdf.format(d.getDatazlozenia());
                 document.add(new Paragraph(new Phrase("Deklaracja wysłana dnia: "+data, ft[1])));
+                if (d.getSelected().getCelzlozenia().equals("1")) {
+                    document.add(new Paragraph(new Phrase("Deklaracja pierwotna", ft[1])));
+                } else {
+                    document.add(new Paragraph(new Phrase("Deklaracja korygująca", ft[1])));
+                }
                 document.add(new Paragraph(new Phrase("Sporządzający: "+d.getSporzadzil(), ft[1])));
                 document.add(new Paragraph(new Phrase("Status: "+d.getStatus(), ft[1])));
-                document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getKodurzedu(), ft[1])));
+                document.add(new Paragraph(new Phrase("Urząd Skarbowy: "+d.getSelected().getNazwaurzedu(), ft[1])));
+                document.add(new Paragraph(new Phrase("Kwota autoryzacyjna: "+d.getSelected().getKwotaautoryzacja(), ft[1])));
                 document.add(new Paragraph(new Phrase("Identyfikator: "+d.getIdentyfikator(), ft[1])));
                 if (d.getDataupo() != null) {
                     data = sdf.format(d.getDataupo());
