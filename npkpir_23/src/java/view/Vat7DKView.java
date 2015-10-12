@@ -135,7 +135,7 @@ public class Vat7DKView implements Serializable {
         //tutaj przeklejamy z ewidencji vat do odpowiednich pol deklaracji
         VATDeklaracja.przyporzadkujPozycjeSzczegolowe(wartosci, pozycjeSzczegoloweVAT, null);
         String kwotaautoryzujaca = kwotaautoryzujcaPobierz();
-        //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
+        czynieczekajuzcosdowyslania(mc);
         if (flaga != 1) {
             try {
                 deklaracjakorygowana = bylajuzdeklaracjawtymmiesiacu(rok,mc);
@@ -198,7 +198,7 @@ public class Vat7DKView implements Serializable {
         sumaschemewidencjilista = VATDeklaracja.wyluskajiPrzyporzadkujSprzedaz(schemaewidencjalista, pobraneewidencje);
         VATDeklaracja.przyporzadkujPozycjeSzczegoloweNowe(schemaewidencjalista, pobraneewidencje, pozycjeSzczegoloweVAT, null);
         System.out.println("Koniec");
-        //czynieczekajuzcosdowyslania(mc); to chyba jest niepotrzebe w zbadajpoprzednie dekalracje jest uwzgledniony wybadek jak jest poprzednia
+        czynieczekajuzcosdowyslania(mc);
         if (flaga != 1) {
             DeklaracjaVatSchemaWierszSum przeniesienie = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota nadwyżki z poprzedniej deklaracji");
             DeklaracjaVatSchemaWierszSum należny = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Razem (suma przychodów)");    
