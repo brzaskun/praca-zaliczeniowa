@@ -466,12 +466,16 @@ public class Vat7DKView implements Serializable {
         List<Deklaracjevat> deklaracjezTegoSamegoMca = deklaracjevatDAO.findDeklaracjewszystkie(rok, mc, wpisView.getPodatnikWpisu());
         //eliminowanie testowych
         ListIterator<Deklaracjevat> it = deklaracjezTegoSamegoMca.listIterator();
+        boolean znalazlemtestowe = false;
         while (it.hasNext()) {
             Deklaracjevat tmp = it.next();
             if (tmp.isTestowa() == true) {
+                znalazlemtestowe = true;
                 it.remove();
-                Msg.msg("i", "Dobrym zwyczajem jest usuwać deklaracje testowe przed sporządzeniem tej do wysłania.");
             }
+        }
+        if (znalazlemtestowe) {
+            Msg.msg("i", "Dobrym zwyczajem jest usuwać deklaracje testowe przed sporządzeniem tej do wysłania.");
         }
         if (deklaracjezTegoSamegoMca != null && deklaracjezTegoSamegoMca.size() > 0) {
             pobrana = deklaracjezTegoSamegoMca.get(deklaracjezTegoSamegoMca.size() - 1);
@@ -510,11 +514,10 @@ public class Vat7DKView implements Serializable {
         try {
             Deklaracjevat badana = deklaracjevatDAO.findDeklaracjeDowyslania(wpisView.getPodatnikWpisu());
             if (badana == null) {
-                flaga = 1;
-                Msg.msg("e", "Nie ma wcześniejszej deklaracji do pobrania.", "form:msg");
-            } else if (badana.getStatus().isEmpty() && !badana.getMiesiac().equals(mc)) {
-                flaga = 1;
-                Msg.msg("e", "Wcześniej sporządzona deklaracja nie jest wyslana. Przerywam sporządzanie tej deklaracji!", "form:msg");
+                Msg.msg("i", "Rozpoczynam obliczanie nowej deklaracji", "form:msg");
+            } else {
+                deklaracjakorygowana = badana;
+                flaga = 2;
             }
         } catch (Exception e) {
             E.e(e);

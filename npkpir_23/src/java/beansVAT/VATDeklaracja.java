@@ -106,10 +106,10 @@ public class VATDeklaracja implements Serializable {
                 int nettoI = (int) Z.z0(ws.getSumanetto());
                 String vat = String.valueOf(ws.getSumavat());
                 int vatI = (int) Z.z0(ws.getSumavat());
-                if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && nettoI > 0.0) {
+                if ((nrpolanetto != null) && (!nrpolanetto.isEmpty()) && ew.getNetto1vat2() != 2) {
                     ustawPozycje(pozycjeSzczegoloweVAT, nrpolanetto, netto, nettoI);
                 }
-                if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && vatI > 0.0) {
+                if ((nrpolavat != null) && (!nrpolavat.isEmpty()) && ew.getNetto1vat2() != 1) {
                     ustawPozycje(pozycjeSzczegoloweVAT, nrpolavat, vat, vatI);
                 }
                 //to jest uzywane przy korektach

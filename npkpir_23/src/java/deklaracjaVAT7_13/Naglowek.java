@@ -31,7 +31,7 @@ public class Naglowek {
         if (schema.isMc0kw1() == false) {
             Naglowek = ng+"<CelZlozenia poz=\"P_7\">"+celZlozenia+"</CelZlozenia><Rok>"+rok+"</Rok><Miesiac>"+miesiac+"</Miesiac><KodUrzedu>"+kodUrzedu+"</KodUrzedu></Naglowek>";
         } else {
-            Naglowek = ng+"<CelZlozenia poz=\"P_7\">"+celZlozenia+"</CelZlozenia><Rok>"+rok+"</Rok><Miesiac>"+kwartal+"</Miesiac><KodUrzedu>"+kodUrzedu+"</KodUrzedu></Naglowek>";
+            Naglowek = ng+"<CelZlozenia poz=\"P_7\">"+celZlozenia+"</CelZlozenia><Rok>"+rok+"</Rok><Kwartal>"+kwartal+"</Kwartal><KodUrzedu>"+kodUrzedu+"</KodUrzedu></Naglowek>";
         }
     }
    

@@ -41,6 +41,7 @@ public class KwadracikiNaDole {
                 this.schemaM14K8(pozycjelista, today);
                 break;
             case "M-15":
+            case "K-9":
                 this.schemaM15(pozycjelista, today);
                 break;
         }
@@ -80,6 +81,8 @@ public class KwadracikiNaDole {
         kwadracikiNaDole = kwadracikiNaDole.concat("<P_72>"+today+"</P_72>");
         kwadracikiNaDole = kwadracikiNaDole.concat("</PozycjeSzczegolowe>");
     }
+    
+    
     
     public String getKwadracikiNaDole() {
         return kwadracikiNaDole;
