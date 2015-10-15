@@ -11,6 +11,7 @@ import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -38,6 +39,37 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findPodatnik(Podatnik podatnik) {
         return sessionFacade.findEVatwpisFKByPodatnik(podatnik);
+    }
+    
+    public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String mcod, String mcdo) {
+        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnik(podatnik);
+        if (input != null && !input.isEmpty()) {
+            int dg = Integer.parseInt(mcod)-1;
+            int gg = Integer.parseInt(mcdo)+1;
+            for (EVatwpisFK p : input) {
+                int p_mc = Integer.parseInt(p.getMcEw());
+                if (p_mc > dg && p_mc < gg) {
+                    l.add(p);
+                }
+            }
+        }
+        return l;
+    }
+    
+    public List<EVatwpisFK> findPodatnikMcPo(Podatnik podatnik, String mcod, String mcdo) {
+        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnik(podatnik);
+        if (input != null && !input.isEmpty()) {
+            int gg = Integer.parseInt(mcdo)+1;
+            for (EVatwpisFK p : input) {
+                int p_mc = Integer.parseInt(p.getMcEw());
+                if (p_mc >= gg) {
+                    l.add(p);
+                }
+            }
+        }
+        return l;
     }
     
     public EVatwpisFK znajdzEVatwpisFKPoWierszu(Wiersz wiersz) {

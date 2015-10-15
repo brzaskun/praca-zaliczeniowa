@@ -184,16 +184,15 @@ public class EwidencjaVatView implements Serializable {
         try {
             ewidencjazakupu = evewidencjaDAO.znajdzponazwie("zakup");
             zerujListy();
-            List<EVatwpisFK> listadokvat = pobierzEVatRokFK();
             String vatokres = sprawdzjakiokresvat();
             System.out.println("vat okres: "+vatokres);
-            List<EVatwpisFK> listaprzetworzona = zmodyfikujlisteMcKwFK(listadokvat, vatokres);
+            List<EVatwpisFK> listaprzetworzona = pobierzEVatRokFK(vatokres);
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
-            transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
-            sumujprzesuniete();
-            List<EVatwpisFK> przesunieteBardziejKoszt = zmodyfikujlisteMcKwFKBardziej(listadokvat, vatokres, 1);
-            listaprzesunietychBardziej = przesunieteBardziejKoszt;
-            sumujprzesunieteBardziej(przesunieteBardziejKoszt);
+            listadokvatprzetworzona = transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
+            listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+            sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
+            listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+            sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
             stworzenieEwidencjiCzescWspolna(vatokres);
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -327,10 +326,57 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private List<EVatwpisFK> pobierzEVatRokFK() {
+    private List<EVatwpisFK> pobierzEVatRokFK(String vatokres) {
         try {
-            return eVatwpisFKDAO.findPodatnik(wpisView.getPodatnikObiekt());
-            //sortowanie dokumentów
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne": 
+                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
+                default:
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+            }
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    private List<EVatwpisFK> pobierzEVatRokFKNastepnyOkres(String vatokres) {
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne":
+                    String[] n = Mce.zwiekszmiesiac(wpisView);
+                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), n[1], n[1]);
+                default:
+                    Integer[] k = Kwartaly.zwiekszkwartal(wpisView);
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(k[1]);
+                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+            }
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    private List<EVatwpisFK> pobierzEVatRokFKNastepnyOkresBardziej(String vatokres) {
+        try {
+            switch (vatokres) {
+                case "blad":
+                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+                case "miesięczne":
+                    String[] n = Mce.zwiekszmiesiac(wpisView);
+                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), n[1], n[1]);
+                default:
+                    Integer[] k = Kwartaly.zwiekszkwartal(wpisView);
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(k[1]);
+                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+            }
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -425,9 +471,8 @@ public class EwidencjaVatView implements Serializable {
 //            }
     }
 
-    private void transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
-        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-        List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+    private List transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
+        List<EVatViewPola> przetransferowane = new ArrayList<>();
         int k = 1;
         for (EVatwpisFK ewidwiersz : listaprzetworzona) {
             if (ewidwiersz.getVat() != 0 || ewidwiersz.getNetto() != 0) {
@@ -459,53 +504,24 @@ public class EwidencjaVatView implements Serializable {
                 eVatViewPole.setVat(ewidwiersz.getVat());
                 eVatViewPole.setOpizw(ewidwiersz.getEstawka());
                 eVatViewPole.setInnymc(ewidwiersz.getDokfk().getMiesiac());
-                listadokvatprzetworzona.add(eVatViewPole);
+                przetransferowane.add(eVatViewPole);
                 duplikujEVatViewPola(eVatViewPole);
             }
-            //kosztyprzesuniete
-            if (!ewidwiersz.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
-                switch (vatokres) {
-                    case "blad":
-                        Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                        throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                    case "miesięczne":
-                        if (wpisView.getMiesiacWpisu().equals(ewidwiersz.getMcEw())) {
-                            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
-                               listaprzesunietychKoszty.add(ewidwiersz);
-                            }
-                        }
-                        break;
-                    default:
-                        if (!miesiacewkwartale.contains(ewidwiersz.getMcEw())) {
-                            if (!ewidwiersz.getDokfk().getMiesiac().equals(ewidwiersz.getMcEw()) && ewidwiersz.getDokfk().getRodzajedok().getKategoriadokumentu()==1) {
-                                listaprzesunietychKoszty.add(ewidwiersz);
-                            }
-                        }
-                        break;
-                }
+        }
+        return przetransferowane;
+    }
+    
+    private double sumujprzesuniete(List<EVatwpisFK> l ) {
+        double suma = 0.0;
+        if (l.size() > 0) {
+            for (EVatwpisFK r : l) {
+                suma += r.getVat();
             }
         }
+        return Z.z(suma);
     }
     
-    private void sumujprzesuniete() {
-         if (listaprzesunietychKoszty.size() > 0) {
-                double suma = 0.0;
-                for (EVatwpisFK r : listaprzesunietychKoszty) {
-                    suma += r.getVat();
-                }
-                sumaprzesunietych = Z.z(suma);
-            }
-    }
     
-    private void sumujprzesunieteBardziej(List<EVatwpisFK> listaprzesunietychBardziej) {
-         if (listaprzesunietychBardziej != null && listaprzesunietychBardziej.size() > 0) {
-                double suma = 0.0;
-                for (EVatwpisFK r : listaprzesunietychBardziej) {
-                    suma += r.getVat();
-                }
-                sumaprzesunietychBardziej = Z.z(suma);
-            }
-    }
 
     private void dodajsumyDoEwidencji() {
         Set<String> klucze = sumaewidencji.keySet();
@@ -594,107 +610,117 @@ public class EwidencjaVatView implements Serializable {
         }
     }
 
-    private List<EVatwpisFK> zmodyfikujlisteMcKwFK(List<EVatwpisFK> listadokvat, String vatokres) throws Exception {
-        try {
-            switch (vatokres) {
-                case "blad":
-                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                case "miesięczne": {
-                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
-                    for (EVatwpisFK p : listadokvat) {
-                        //if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
-                        try {
-                            if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
-                                listatymczasowa.add(p);
-                            }
-                        } catch (Exception e) { E.e(e); 
-                            System.out.println("bledny zmodyfikujlisteMcKwFK  miesiecznie mc/rok w "+p.toString());
-                        }
-                    }
-                    return listatymczasowa;
-                }
-                default: {
-                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
-                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    for (EVatwpisFK p : listadokvat) {
-                        try {
-                            if (p.getRokEw().equals(wpisView.getRokWpisuSt())) {
-                                if (p.getMcEw().equals(miesiacewkwartale.get(0)) || p.getMcEw().equals(miesiacewkwartale.get(1)) || p.getMcEw().equals(miesiacewkwartale.get(2))) {
-                                    listatymczasowa.add(p);
-                                }
-                            }
-                        } catch (Exception e) { E.e(e); 
-                            System.out.println("bledny zmodyfikujlisteMcKwFK kwartalnie mc/rok w "+p.toString());
-                        }
-                           
-                    }
-                    return listatymczasowa;
-                }
-            }
-        } catch (Exception e) { E.e(e); 
-            System.out.println("Blada nietypowy plik VatView zmodyfikujliste "+e.toString());
-            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
-            return null;
-        }
-    }
+//    private List<EVatwpisFK> zmodyfikujlisteMcKwFK(List<EVatwpisFK> listadokvat, String vatokres) throws Exception {
+//         try {
+//            switch (vatokres) {
+//                case "blad":
+//                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+//                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+//                case "miesięczne": {
+//                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+//                    for (EVatwpisFK p : listadokvat) {
+//                        //if(p.getVatM().equals(wpisView.getMiesiacWpisu())&&p.getUsunpozornie()==false){
+//                        try {
+//                            if (p.getRokEw().equals(wpisView.getRokWpisuSt()) && p.getMcEw().equals(wpisView.getMiesiacWpisu())) {
+//                                listatymczasowa.add(p);
+//                            }
+//                            if (wpisView.getMiesiacWpisu().equals(p.getMcEw()) && !p.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
+//                                if (!p.getDokfk().getMiesiac().equals(p.getMcEw()) && p.getDokfk().getRodzajedok().getKategoriadokumentu() == 1) {
+//                                    listaprzesunietychKoszty.add(p);
+//                                }
+//                            }
+//                        } catch (Exception e) { E.e(e); 
+//                            System.out.println("bledny zmodyfikujlisteMcKwFK  miesiecznie mc/rok w "+p.toString());
+//                        }
+//                    }
+//                    return listatymczasowa;
+//                }
+//                default: {
+//                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+//                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+//                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+//                    for (EVatwpisFK p : listadokvat) {
+//                        try {
+//                            if (p.getRokEw().equals(wpisView.getRokWpisuSt())) {
+//                                if (p.getMcEw().equals(miesiacewkwartale.get(0)) || p.getMcEw().equals(miesiacewkwartale.get(1)) || p.getMcEw().equals(miesiacewkwartale.get(2))) {
+//                                    listatymczasowa.add(p);
+//                                }
+//                            }
+//                            if (!miesiacewkwartale.contains(p.getMcEw()) && !p.getDokfk().getDokfkPK().getSeriadokfk().equals("VAT")) {
+//                                if (!p.getDokfk().getMiesiac().equals(p.getMcEw()) && p.getDokfk().getRodzajedok().getKategoriadokumentu() == 1) {
+//                                    listaprzesunietychKoszty.add(p);
+//                                }
+//                            }
+//                        } catch (Exception e) { E.e(e); 
+//                            System.out.println("bledny zmodyfikujlisteMcKwFK kwartalnie mc/rok w "+p.toString());
+//                        }
+//                           
+//                    }
+//                    return listatymczasowa;
+//                }
+//            }
+//        } catch (Exception e) { E.e(e); 
+//            System.out.println("Blada nietypowy plik VatView zmodyfikujliste "+e.toString());
+//            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+//            return null;
+//        }
+//    }
     
-    private List<EVatwpisFK> zmodyfikujlisteMcKwFKBardziej(List<EVatwpisFK> listadokvat, String vatokres, int rodzajdok) throws Exception {
-        try {
-            switch (vatokres) {
-                case "blad":
-                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
-                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
-                case "miesięczne": {
-                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
-                    int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
-                    for (EVatwpisFK p : listadokvat) {
-                        String mcew = p.getMcEw();
-                        try {
-                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
-                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
-                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
-                                    listatymczasowa.add(p);
-                                }
-                            }
-                        } catch (Exception e) { 
-                            E.e(e);
-                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
-                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
-                        }
-                    }
-                    return listatymczasowa;
-                }
-                default: {
-                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
-                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    String ostatnimc = miesiacewkwartale.get(miesiacewkwartale.size()-1);
-                    int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
-                    for (EVatwpisFK p : listadokvat) {
-                        try {
-                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
-                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
-                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
-                                    listatymczasowa.add(p);
-                                }
-                            }
-                        } catch (Exception e) { 
-                            E.e(e);
-                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
-                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
-                        }
-                    }
-                    return listatymczasowa;
-                }
-            }
-        } catch (Exception e) { E.e(e); 
-            System.out.println("Blad EwidencjaVATView zmodyfikujlisteMcKwFKBardziej");
-            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
-            return null;
-        }
-    }
+//    private List<EVatwpisFK> zmodyfikujlisteMcKwFKBardziej(List<EVatwpisFK> listadokvat, String vatokres, int rodzajdok) throws Exception {
+//        try {
+//            switch (vatokres) {
+//                case "blad":
+//                    Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
+//                    throw new Exception("Nie ma ustawionego parametru vat za dany okres");
+//                case "miesięczne": {
+//                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+//                    int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+//                    for (EVatwpisFK p : listadokvat) {
+//                        String mcew = p.getMcEw();
+//                        try {
+//                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
+//                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
+//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+//                                    listatymczasowa.add(p);
+//                                }
+//                            }
+//                        } catch (Exception e) { 
+//                            E.e(e);
+//                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+//                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+//                        }
+//                    }
+//                    return listatymczasowa;
+//                }
+//                default: {
+//                    List<EVatwpisFK> listatymczasowa = new ArrayList<>();
+//                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+//                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+//                    String ostatnimc = miesiacewkwartale.get(miesiacewkwartale.size()-1);
+//                    int granicaDolna = Mce.getMiesiacToNumber().get(ostatnimc);
+//                    for (EVatwpisFK p : listadokvat) {
+//                        try {
+//                            if (p.getDokfk().getRodzajedok().getKategoriadokumentu()==rodzajdok && !p.getDokfk().getMiesiac().equals(p.getMcEw())) {
+//                                int mc = Mce.getMiesiacToNumber().get(p.getMcEw());
+//                                if (mc > granicaDolna || Integer.parseInt(p.getDokfk().getDokfkPK().getRok()) > wpisView.getRokWpisu()) {
+//                                    listatymczasowa.add(p);
+//                                }
+//                            }
+//                        } catch (Exception e) { 
+//                            E.e(e);
+//                            Msg.msg("e", "Wstąpił błąd nie ujęto dokumentu "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+//                            System.out.println("bledny zmodyfikujlisteMcKwFKBardziej miesiecznie mc/rok w "+p.getDokfk()+" mc ewidencji "+p.getMcEw());
+//                        }
+//                    }
+//                    return listatymczasowa;
+//                }
+//            }
+//        } catch (Exception e) { E.e(e); 
+//            System.out.println("Blad EwidencjaVATView zmodyfikujlisteMcKwFKBardziej");
+//            Msg.msg("e", "Blada nietypowy plik VatView zmodyfikujliste ");
+//            return null;
+//        }
+//    }
 
     public void sumujwybrane() {
         suma1 = 0.0;

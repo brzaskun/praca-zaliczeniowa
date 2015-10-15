@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import view.WpisView;
 
 /**
  *
@@ -103,6 +104,19 @@ public class Kwartaly implements Serializable{
         return mapakwnr.get(Integer.parseInt(kwartal));
     }
     
+    public static Integer[] zwiekszkwartal(WpisView wpisView) {
+        Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+        Integer[] nowedane = new Integer[2];
+        if (kwartal < 4) {
+            nowedane[0] = wpisView.getRokWpisu();
+            nowedane[1] = kwartal+1;
+        } else {
+            int rokInt = wpisView.getRokWpisu();
+            nowedane[0] = ++rokInt;
+            nowedane[1] = 1;
+        }
+        return nowedane;
+    }
         
     public static List<String> getKwList() {
         return kwList;

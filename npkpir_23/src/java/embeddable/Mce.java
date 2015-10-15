@@ -180,6 +180,20 @@ public class Mce implements Serializable{
         return nowedane;
     }
     
+    public static String[] zwiekszmiesiac(WpisView wpisView) {
+        String[] nowedane = new String[2];
+        int mcInt = miesiacToNumber.get(wpisView.getMiesiacWpisu());
+        if (mcInt < 12) {
+            nowedane[0] = wpisView.getRokWpisuSt();
+            nowedane[1] = numberToMiesiac.get(++mcInt);
+        } else {
+            int rokInt = wpisView.getRokWpisu();
+            nowedane[0] = String.valueOf(++rokInt);
+            nowedane[1] = "01";
+        }
+        return nowedane;
+    }
+    
     public static String[] zwiekszmiesiac(String rok, String miesiac, int oilezwiekszyc) {
         String[] nowedane = new String[2];
         int mcInt = miesiacToNumber.get(miesiac)+oilezwiekszyc;
