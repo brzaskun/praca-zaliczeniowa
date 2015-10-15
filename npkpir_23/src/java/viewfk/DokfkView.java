@@ -32,7 +32,9 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
+import embeddable.Kwartaly;
 import embeddable.Mce;
+import embeddable.Parametr;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -2277,6 +2279,60 @@ public class DokfkView implements Serializable {
         } else {
             pokazzapisywzlotowkach = true;
         }
+    }
+    
+    public void zmienmiesiac(int innyokres) {
+        StronaWiersza p = null;
+        Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView);
+        Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView);
+        String vatokres = sprawdzjakiokresvat();
+        if (!vatokres.equals("miesięczne")) {
+            Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(selected.getMiesiac())));
+            List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
+            String[] nowymc = Mce.zwiekszmiesiac(wpisView.getRokWpisuSt(), selected.getMiesiac(), innyokres);
+            if (miesiacewkwartale.contains(nowymc[1])) {
+                innyokres = 0;
+            }
+        }
+        for (Wiersz r : selected.getListawierszy()) {
+            if (innyokres != 0) {
+                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-3")) {
+                    r.getStronaWn().setKonto(k221_4);
+                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-3")) {
+                    r.getStronaMa().setKonto(k221_4);
+                }
+            } else {
+                if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-4")) {
+                    r.getStronaWn().setKonto(k221_3);
+                } else if (r.getStronaMa() != null && r.getStronaMa().getKonto().getPelnynumer().equals("221-4")) {
+                    r.getStronaMa().setKonto(k221_3);
+                }
+            }
+        }
+    }
+    
+    public String sprawdzjakiokresvat() {
+        Integer rok = wpisView.getRokWpisu();
+        Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
+        Integer sumaszukana = rok + mc;
+        List<Parametr> parametry = wpisView.getPodatnikObiekt().getVatokres();
+        //odszukaj date w parametrze - kandydat na metode statyczna
+        for (Parametr p : parametry) {
+            if (p.getRokDo() != null && !"".equals(p.getRokDo())) {
+                int wynikPo = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                int wynikPrzed = Data.compare(rok, mc, Integer.parseInt(p.getRokDo()), Integer.parseInt(p.getMcDo()));
+                if (wynikPo > 0 && wynikPrzed < 0) {
+                    return p.getParametr();
+                }
+            } else {
+                int wynik = Data.compare(rok, mc, Integer.parseInt(p.getRokOd()), Integer.parseInt(p.getMcOd()));
+                if (wynik >= 0) {
+                    return p.getParametr();
+                }
+            }
+        }
+        Msg.msg("e", "Problem z funkcja sprawdzajaca okres rozliczeniowy VAT VatView-269");
+        return "blad";
     }
 
     public void dodajcechedodokumentu(Cechazapisu c) {

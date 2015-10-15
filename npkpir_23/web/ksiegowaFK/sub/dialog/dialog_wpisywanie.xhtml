@@ -365,9 +365,11 @@
                                 </h:selectOneMenu>
                             </p:column>
                             <p:column headerText="+mc" style="width: 25px; text-align: center;">
-                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" maxlength="2" onblur="sprawdzmcshift(this)">
-                                    <f:validateDoubleRange minimum="-2" maximum="2"/>
+                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" maxlength="2" onblur="sprawdzmcshift(this)"
+                                             >
+                                    <f:validateDoubleRange minimum="-3" maximum="3"/>
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" update="formwpisdokument:dataList"/>
                                 </p:inputText>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;">

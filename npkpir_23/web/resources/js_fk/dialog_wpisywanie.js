@@ -157,12 +157,14 @@ var focusNowyVAT = function (wiersz) {
 
 var sprawdzmcshift = function (pole) {
     var nrpola = parseInt($(pole).val());
-    if (nrpola < -2 || nrpola > 2) {
+    if (nrpola < -3 || nrpola > 3) {
         pole.style.color = "red";
     } else {
         pole.style.color = "initial";
     };
 };
+
+
 
 //aktywuje nowy wiersz
 var aktywujPierwszePoleNowegoWierszaVAT = function(wiersz){

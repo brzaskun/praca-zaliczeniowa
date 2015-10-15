@@ -551,7 +551,7 @@ public class EwidencjaVatView implements Serializable {
         return "/guest/ksiegowaVATzest.xhtml?faces-redirect=true";
     }
 
-    private String sprawdzjakiokresvat() {
+    public String sprawdzjakiokresvat() {
         Integer rok = wpisView.getRokWpisu();
         Integer mc = Integer.parseInt(wpisView.getMiesiacWpisu());
         Integer sumaszukana = rok + mc;
