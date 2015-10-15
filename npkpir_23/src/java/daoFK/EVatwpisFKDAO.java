@@ -57,14 +57,19 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return l;
     }
     
-    public List<EVatwpisFK> findPodatnikMcPo(Podatnik podatnik, String mcod, String mcdo) {
+    public List<EVatwpisFK> findPodatnikMcPo(Podatnik podatnik, Integer rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = new ArrayList<>();
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnik(podatnik);
         if (input != null && !input.isEmpty()) {
             int gg = Integer.parseInt(mcdo)+1;
+            if (gg == 13) {
+                gg = 1;
+                rok = rok+1;
+            }
             for (EVatwpisFK p : input) {
                 int p_mc = Integer.parseInt(p.getMcEw());
-                if (p_mc >= gg) {
+                int p_rok = Integer.parseInt(p.getRokEw());
+                if (p_mc >= gg && p_rok >= rok) {
                     l.add(p);
                 }
             }
