@@ -433,22 +433,22 @@ public final class DokView implements Serializable {
     public void updatenetto(EwidencjaAddwiad e) {
         String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
         int lp = e.getLp();
-        String stawkavat = ewidencjaAddwiad.get(lp).getOpis().replaceAll("[^\\d]", "");
+        String stawkavat = e.getOpis().replaceAll("[^\\d]", "");
         try {
             double stawkaint = Double.parseDouble(stawkavat) / 100;
-            ewidencjaAddwiad.get(lp).setVat(e.getNetto() * stawkaint);
+            e.setVat(e.getNetto() * stawkaint);
         } catch (Exception ex) {
             Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
-            String opis = ewidencjaAddwiad.get(lp).getOpis();
+            String opis = e.getOpis();
             if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
-                ewidencjaAddwiad.get(0).setVat(0.0);
+                e.setVat(0.0);
             } else if (r.getProcentvat() != 0.0) {
-                ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
+                e.setVat((e.getNetto() * 0.23) / 2);
             } else {
-                ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                e.setVat(e.getNetto() * 0.23);
             }
         }
-        ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
+        e.setBrutto(e.getNetto() + e.getVat());
         sumbruttoAddwiad();
         String update = "dodWiad:tablicavat:" + lp + ":vat";
         RequestContext.getCurrentInstance().update(update);
