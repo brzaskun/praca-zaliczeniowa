@@ -221,6 +221,11 @@ public class EVatViewPola implements Serializable{
         this.duplikat = duplikat;
     }
 
+    @Override
+    public String toString() {
+        return "EVatViewPola{" + "dataSprz=" + dataSprz + ", nrWlDk=" + nrWlDk + ", nrKolejny=" + nrKolejny + ", kontr=" + kontr + ", opis=" + opis + ", netto=" + netto + ", vat=" + vat + ", innymc=" + innymc + ", nazwaewidencji=" + nazwaewidencji + ", nrpolanetto=" + nrpolanetto + ", nrpolavat=" + nrpolavat + ", duplikat=" + duplikat + '}';
+    }
+
     
    
 

@@ -440,35 +440,26 @@ public class EwidencjaVatView implements Serializable {
                         wiersz.setOpizw(ewidwiersz.getEstawka());
                         wiersz.setProcentvat(rodzajProcent.get(ewidwiersz.getDok().getTypdokumentu()));
                         listadokvatprzetworzona.add(wiersz);
-                        duplikujEVatViewPola(wiersz);
+                        if (wiersz.getNazwaewidencji().getTypewidencji().equals("sz")) {
+                            listadokvatprzetworzona.add(duplikujEVatViewPola(wiersz));
+                        }
                     }
                 }
             }
         }
     }
     
-    private void duplikujEVatViewPola(EVatViewPola wiersz) {
-         if (wiersz.getNazwaewidencji().getTypewidencji().equals("sz")) {
-                EVatViewPola duplikat = new EVatViewPola(wiersz);
-                //wpisuje pola zakupu
-                duplikat.setNazwaewidencji(ewidencjazakupu);
-                duplikat.setNrpolanetto("51");
-                duplikat.setNrpolavat("52");
-                duplikat.setDuplikat(true);
-                if (duplikat.getProcentvat() != 0) {
-                    duplikat.setVat(Z.z(duplikat.getVat()*(duplikat.getProcentvat()/100)));
-                }
-                listadokvatprzetworzona.add(duplikat);
-            }
-            //nie ma ewidencji o takicj polach jak to dziala?
-//            if (wiersz.getNazwaewidencji().getNazwa().equals("import usług")) {
-//                EVatViewPola duplikat = new EVatViewPola(wiersz);
-//                //wpisuje pola zakupu
-//                duplikat.setNazwaewidencji(ewidencjazakupu);
-//                duplikat.setNrpolanetto("39");
-//                duplikat.setNrpolavat("40");
-//                listadokvatprzetworzona.add(duplikat);
-//            }
+    private EVatViewPola duplikujEVatViewPola(EVatViewPola wiersz) {
+        EVatViewPola duplikat = new EVatViewPola(wiersz);
+        //wpisuje pola zakupu
+        duplikat.setNazwaewidencji(ewidencjazakupu);
+        duplikat.setNrpolanetto("51");
+        duplikat.setNrpolavat("52");
+        duplikat.setDuplikat(true);
+        if (duplikat.getProcentvat() != 0) {
+            duplikat.setVat(Z.z(duplikat.getVat() * (duplikat.getProcentvat() / 100)));
+        }
+        return duplikat;
     }
 
     private List transferujEVatwpisFKDoEVatViewPola(List<EVatwpisFK> listaprzetworzona, String vatokres) throws Exception {
@@ -505,7 +496,9 @@ public class EwidencjaVatView implements Serializable {
                 eVatViewPole.setOpizw(ewidwiersz.getEstawka());
                 eVatViewPole.setInnymc(ewidwiersz.getDokfk().getMiesiac());
                 przetransferowane.add(eVatViewPole);
-                duplikujEVatViewPola(eVatViewPole);
+                if (eVatViewPole.getNazwaewidencji().getTypewidencji().equals("sz")) {
+                    przetransferowane.add(duplikujEVatViewPola(eVatViewPole));
+                }
             }
         }
         return przetransferowane;
