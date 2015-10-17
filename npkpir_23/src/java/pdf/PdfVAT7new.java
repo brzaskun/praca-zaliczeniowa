@@ -70,7 +70,11 @@ public class PdfVAT7new {
         PdfWriter writer = inicjacjaWritera(document, nazwa);
         naglowekStopkaP(writer);
         otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        if (d.getWzorschemy().contains("M")) {
+            dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), d.getMiesiac(), d.getRok());
+        } else {
+            dodajOpisWstepny(document, "Deklaracja VAT firma: "+wpisView.getPodatnikWpisu(), d.getNrkwartalu(), d.getRok());
+        }
         if (schematewidencjesprzedazy != null) {
             dodajTabele(document, testobjects.getSchemaEwidencjaSuma(schematewidencjesprzedazy),97,0);
         }
