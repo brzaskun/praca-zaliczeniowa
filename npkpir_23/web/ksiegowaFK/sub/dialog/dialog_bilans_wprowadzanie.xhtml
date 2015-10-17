@@ -31,7 +31,8 @@
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
                 <p:tab title="0">
-                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item0" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
+                    <p:dataTable value="#{bilansWprowadzanieView.lista0}" var="item0" style="overflow-y: scroll; height: 400px;" 
+                                 styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab0" rowKey="#{item0.hashCode()}" selection="#{bilansWprowadzanieView.lista0s}" 
                                  >
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>

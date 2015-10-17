@@ -691,17 +691,20 @@ public final class DokView implements Serializable {
             }
             //Usuwa puste kolumy w przypadku bycia takiej po skopiowaniu poprzednio zaksiegowanego dokumentu
             Iterator it = selDokument.getListakwot1().iterator();
+            double kwotapkpir = 0.0;
             while (it.hasNext()) {
                 KwotaKolumna1 p = (KwotaKolumna1) it.next();
                 if (p.getNetto() == 0.0) {
                     it.remove();
+                } else {
+                    kwotapkpir += p.getNetto();
                 }
             }
             selDokument.setRodzTrans(transakcjiRodzaj);
             selDokument.setOpis(selDokument.getOpis().toLowerCase());
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
             Rodzajedok r = rodzajedokDAO.find(selDokument.getTypdokumentu(), podatnikWDokumencie);
-            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt")) {
+            if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotapkpir != 0.0) {
                 KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(kwotavat, "poz. koszty");
                 selDokument.getListakwot1().add(kwotaKolumna);
             }

@@ -43,19 +43,11 @@ import view.WpisView;
 public class PdfVatUE {
 
 
-    public static void drukujewidencje(VatuepodatnikDAO vatuepodatnikDAO, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujewidencje(List<VatUe> lista, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
         try {
             List<Parametr> param = podatnik.getVatokres();
             //problem kwartalu
-            Vatuepodatnik pobranyVatue;
-            try {
-                pobranyVatue = vatuepodatnikDAO.find(wpisView.getRokWpisu().toString(), wpisView.getMiesiacWpisu(), wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
-                List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                pobranyVatue = vatuepodatnikDAO.find(wpisView.getRokWpisu().toString(), miesiacewkwartale.get(2), wpisView.getPodatnikWpisu());
-            }
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
             writer.setInitialLeading(16);
@@ -81,14 +73,14 @@ public class PdfVatUE {
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
             int lp = 1;
-            for (VatUe p : pobranyVatue.getKlienciwdtwnt()) {
+            for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
                 if (!p.getTransakcja().equals("podsumowanie")) {
                     table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
                     table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
                     table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
                     table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
-                    table.addCell(ustawfraze("za okres: " + pobranyVatue.getVatuepodatnikPK().getRok() + "/" + pobranyVatue.getVatuepodatnikPK().getSymbolokresu(), 1, 0));
+                    table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisuSt() + "/" + wpisView.getMiesiacWpisu(), 1, 0));
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
                     table.addCell(ustawfraze("Kod kraju", 0, 1));

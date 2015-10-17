@@ -8,10 +8,7 @@ import comparator.Dokfkcomparator;
 import dao.DeklaracjevatDAO;
 import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
-import embeddable.Kwartaly;
 import embeddable.VatUe;
-import entity.Deklaracjevat;
-import entity.Dok;
 import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
@@ -20,11 +17,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -53,6 +47,7 @@ public class VatUeFKView implements Serializable {
     private VatuepodatnikDAO vatuepodatnikDAO;
     @Inject
     private DeklaracjevatDAO deklaracjevatDAO;
+    private double sumawybranych;
 
     public VatUeFKView() {
         klienciWDTWNT = new ArrayList<>();
@@ -141,6 +136,13 @@ public class VatUeFKView implements Serializable {
         }
         return klienty;
     }
+    
+    public void podsumuj() {
+        sumawybranych = 0.0;
+        for (VatUe p : listawybranych) {
+            sumawybranych += p.getNetto();
+        }
+    }
 
 //    private List<Dok> zmodyfikujliste(List<Dok> listadokvat, String vatokres) throws Exception {
 //        // zeby byl unikalny zestaw klientow
@@ -224,7 +226,11 @@ public class VatUeFKView implements Serializable {
 
     public void drukujewidencjeUEfk() {
       try {
-          PdfVatUE.drukujewidencje(vatuepodatnikDAO, wpisView);
+          if (listawybranych != null && !listawybranych.isEmpty()) {
+              PdfVatUE.drukujewidencje(listawybranych, wpisView);
+          } else {
+              PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView);
+          }
       }  catch (Exception e) { E.e(e); 
           
       }
@@ -261,6 +267,14 @@ public class VatUeFKView implements Serializable {
 
     public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
         this.danezdeklaracji = danezdeklaracji;
+    }
+
+    public double getSumawybranych() {
+        return sumawybranych;
+    }
+
+    public void setSumawybranych(double sumawybranych) {
+        this.sumawybranych = sumawybranych;
     }
 
  
