@@ -7,6 +7,8 @@ package view;
 import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansDok.VAT;
+import beansFK.DokFKWalutyBean;
+import beansFK.TabelaNBPBean;
 import beansFaktura.FakturaBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import comparator.Rodzajedokcomparator;
@@ -23,6 +25,8 @@ import dao.SrodkikstDAO;
 import dao.StornoDokDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import daoFK.TabelanbpDAO;
+import daoFK.WalutyDAOfk;
 import data.Data;
 import embeddable.EwidencjaAddwiad;
 import embeddable.Mce;
@@ -43,6 +47,9 @@ import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
 import entity.Wpis;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
+import entityfk.Wiersz;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -70,10 +77,12 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import msg.Msg;
+import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import params.Params;
 
@@ -118,6 +127,8 @@ public final class DokView implements Serializable {
     private StornoDokDAO stornoDokDAO;
     @Inject
     private InwestycjeDAO inwestycjeDAO;
+    @Inject
+    private TabelanbpDAO tabelanbpDAO;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -169,12 +180,18 @@ public final class DokView implements Serializable {
     private Evewidencja nazwaEwidencjiwPoprzednimDok;
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    private String symbolwalutydowiersza;
+    private List<Waluty> wprowadzonesymbolewalut;
+    @Inject
+    private WalutyDAOfk walutyDAOfk;
+    private String symbolWalutyNettoVat;
 
     public DokView() {
         setWysDokument(null);
         wpisView = new WpisView();
         ewidencjaAddwiad = new ArrayList<>();
         liczbawierszy = 1;
+        this.wprowadzonesymbolewalut = new ArrayList<>();
     }
 
     public void dodajwierszpkpir() {
@@ -203,7 +220,9 @@ public final class DokView implements Serializable {
     private void init() {
         rodzajedokKlienta = new ArrayList<>();
         Podatnik podX = wpisView.getPodatnikObiekt();
+        symbolWalutyNettoVat = " zł";
         try {
+            wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(podX);
             Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
             rodzajedokKlienta.addAll(rodzajedokumentow);
@@ -1425,6 +1444,54 @@ public final class DokView implements Serializable {
             }
         }
     }
+     public void pobierzkursNBP(ValueChangeEvent el) {
+        symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
+        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
+        String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
+        if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
+            Msg.msg("w", "Prosze przewalutowywać do PLN");
+        } else {
+            if (!nazwawaluty.equals("PLN")) {
+                String datadokumentu = selDokument.getDataWyst();
+                DateTime dzienposzukiwany = new DateTime(datadokumentu);
+                selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
+//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                } else {
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+//                }
+                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+            } else {
+                //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
+//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                } else {
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+//                }
+                Tabelanbp tabelanbpPLN = null;
+                try {
+                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
+                    if (tabelanbpPLN == null) {
+                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
+                        tabelanbpDAO.dodaj(tabelanbpPLN);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                selDokument.setTabelanbp(tabelanbpPLN);
+                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+            }
+            RequestContext.getCurrentInstance().update("dodWiad");
+            //RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
+        }
+     }
+
 
     public Klienci getSelectedKlient() {
         return selectedKlient;
@@ -1581,6 +1648,14 @@ public final class DokView implements Serializable {
         this.sTRView = sTRView;
     }
 
+    public String getSymbolwalutydowiersza() {
+        return symbolwalutydowiersza;
+    }
+
+    public void setSymbolwalutydowiersza(String symbolwalutydowiersza) {
+        this.symbolwalutydowiersza = symbolwalutydowiersza;
+    }
+
     public List<String> getKolumny() {
         return kolumny;
     }
@@ -1620,6 +1695,31 @@ public final class DokView implements Serializable {
     public void setsTRTableView(STRTabView sTRTableView) {
         this.sTRTableView = sTRTableView;
     }
+
+    public List<Waluty> getWprowadzonesymbolewalut() {
+        return wprowadzonesymbolewalut;
+    }
+
+    public void setWprowadzonesymbolewalut(List<Waluty> wprowadzonesymbolewalut) {
+        this.wprowadzonesymbolewalut = wprowadzonesymbolewalut;
+    }
+
+    public WalutyDAOfk getWalutyDAOfk() {
+        return walutyDAOfk;
+    }
+
+    public void setWalutyDAOfk(WalutyDAOfk walutyDAOfk) {
+        this.walutyDAOfk = walutyDAOfk;
+    }
+
+    public String getSymbolWalutyNettoVat() {
+        return symbolWalutyNettoVat;
+    }
+
+    public void setSymbolWalutyNettoVat(String symbolWalutyNettoVat) {
+        this.symbolWalutyNettoVat = symbolWalutyNettoVat;
+    }
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
 //   public DokTabView getDokTabView() {

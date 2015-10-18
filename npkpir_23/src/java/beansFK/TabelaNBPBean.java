@@ -43,6 +43,28 @@ public class TabelaNBPBean {
         return tabelanbppobrana;
     }
     
+    public static Tabelanbp pobierzTabeleNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty) {
+        boolean znaleziono = false;
+        int zabezpieczenie = 0;
+        Tabelanbp tabelanbppobrana = null;
+        while (!znaleziono && (zabezpieczenie < 365)) {
+            dzienposzukiwany = dzienposzukiwany.minusDays(1);
+            String doprzekazania = dzienposzukiwany.toString("yyyy-MM-dd");
+            List<Tabelanbp> pobrane = tabelanbpDAO.findByDateWalutaLista(doprzekazania, nazwawaluty);
+            if (pobrane != null && pobrane.size() > 0) {
+                for (Tabelanbp r : pobrane) {
+                    if (r.getNrtabeli().contains("NBP")) {
+                        znaleziono = true;
+                        tabelanbppobrana = r;
+                        break;
+                    }
+                }
+            }
+            zabezpieczenie++;
+        }
+        return tabelanbppobrana;
+    }
+    
     public static List<Tabelanbp> pobierzTabeleNieNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty) {
         boolean znaleziono = false;
         int zabezpieczenie = 0;

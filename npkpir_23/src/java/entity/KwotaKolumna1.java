@@ -32,6 +32,7 @@ public class KwotaKolumna1 implements Serializable{
     @Column(name = "id")
     private long id;
     private Double netto;
+    private Double nettowaluta;
     private Double vat;
     private Double brutto;
     private String nazwakolumny;
@@ -140,6 +141,15 @@ public class KwotaKolumna1 implements Serializable{
         this.dok = dok;
     }
 
+    public Double getNettowaluta() {
+        return nettowaluta;
+    }
+
+    public void setNettowaluta(Double nettowaluta) {
+        this.nettowaluta = nettowaluta;
+    }
+
+    
     
     
 }

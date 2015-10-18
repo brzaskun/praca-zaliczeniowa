@@ -5,6 +5,8 @@
 package entity;
 
 import embeddable.Stornodoch;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -191,6 +193,12 @@ public class Dok implements Serializable {
     @Size(max = 50)
     @Column(name = "symbolinwestycji")
     private String symbolinwestycji;
+    @JoinColumn(name = "walutadokumentu", referencedColumnName = "idwaluty")
+    @ManyToOne
+    private Waluty walutadokumentu;
+    @JoinColumn(name = "tabelanbp", referencedColumnName = "idtabelanbp")
+    @ManyToOne
+    private Tabelanbp tabelanbp;
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
@@ -488,6 +496,24 @@ public class Dok implements Serializable {
     public void setRozrachunki1(ArrayList<Rozrachunek1> rozrachunki1) {
         this.rozrachunki1 = rozrachunki1;
     }
+
+    public Waluty getWalutadokumentu() {
+        return walutadokumentu;
+    }
+
+    public void setWalutadokumentu(Waluty walutadokumentu) {
+        this.walutadokumentu = walutadokumentu;
+    }
+
+    public Tabelanbp getTabelanbp() {
+        return tabelanbp;
+    }
+
+    public void setTabelanbp(Tabelanbp tabelanbp) {
+        this.tabelanbp = tabelanbp;
+    }
+    
+    
 
     @Override
     public int hashCode() {

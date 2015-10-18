@@ -1895,8 +1895,8 @@ public class DokfkView implements Serializable {
 //
     public void pobierzkursNBP(ValueChangeEvent el) {
         tabelenbp = new ArrayList<>();
-        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
         symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
+        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
         if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
@@ -1904,6 +1904,7 @@ public class DokfkView implements Serializable {
             if (!nazwawaluty.equals("PLN")) {
                 String datadokumentu = selected.getDataoperacji();
                 DateTime dzienposzukiwany = new DateTime(datadokumentu);
+                //tu sie dodaje tabele do dokumentu :)
                 tabelenbp.add(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty, selected));
                 tabelenbp.addAll(TabelaNBPBean.pobierzTabeleNieNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
                 if (rodzajBiezacegoDokumentu != 0) {
@@ -1916,7 +1917,7 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
                     //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                    wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty).getSymbolwaluty();
                 }
                 if (zapisz0edytuj1 == false) {
                     symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
@@ -1932,7 +1933,7 @@ public class DokfkView implements Serializable {
                 } else {
                     selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
                     //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-                    Waluty wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty);
+                    wybranawaluta = walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty).getSymbolwaluty();
                 }
                 Tabelanbp tabelanbpPLN = null;
                 try {

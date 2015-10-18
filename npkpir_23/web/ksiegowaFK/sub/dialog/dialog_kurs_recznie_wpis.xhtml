@@ -10,15 +10,19 @@
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,550);" closeOnEscape="true" 
               onHide="resetujdialog('dialogkursrecznie');" >
         <h:form id="formkursrecznie">
-            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 700px;">
-                <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
+            <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 720px;">
+                <p:column headerText="nr tabeli" width="120" style="text-align: center; height: 25px;">
                     <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
                 </p:column>
                 <p:column headerText="symbol waluty" width="100" style="text-align: center;">
-                    <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv">
+                    <h:selectOneMenu value="#{wpis.waluta}" converter="WalutyConv"
+                                     onfocus="$(this).removeClass('ui-state-default');
+                                                                 $(this).addClass('ui-state-focus');"
+                                  onblur="$(this).removeClass('ui-state-focus');
+                                                                 $(this).addClass('ui-state-default');">
                         <f:selectItems value="#{walutyViewFK.walutywuzyciu}" var="item" itemLabel="#{item.symbolwaluty}"/>
                     </h:selectOneMenu>
                 </p:column>
