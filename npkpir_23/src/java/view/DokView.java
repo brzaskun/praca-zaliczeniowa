@@ -7,6 +7,7 @@ package view;
 import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansDok.VAT;
+import beansFK.DokFKBean;
 import beansFK.DokFKWalutyBean;
 import beansFK.TabelaNBPBean;
 import beansFaktura.FakturaBean;
@@ -267,6 +268,7 @@ public final class DokView implements Serializable {
         this.typdokumentu = "ZZ";
         Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         selDokument.setKontr1(klient);
+        DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         //ukrocmiesiace();
 
     }
@@ -1487,8 +1489,7 @@ public final class DokView implements Serializable {
                 selDokument.setTabelanbp(tabelanbpPLN);
                 symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
             }
-            RequestContext.getCurrentInstance().update("dodWiad");
-            //RequestContext.getCurrentInstance().execute("r('formwpisdokument:tablicavat:0:netto_input').select();");
+            RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
         }
      }
 

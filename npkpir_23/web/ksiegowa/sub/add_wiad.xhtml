@@ -61,37 +61,38 @@
                                                                  $(this).addClass('ui-state-default');"
                                   style="height: 21px;"
                                   >
+                    <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP"/>
                     <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                 </h:selectOneMenu>
                 </p:panelGrid>
             <p:panelGrid id="panelTabelaNBP" style="float: right;">
-                                <f:facet name="header">
-                                    <p:row >
-                                        <p:column>
-                                            <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? '1'  : 'z dnia'}" />
-                                        </p:column>
-                                        <p:column>
-                                            <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? '1'  : 'tabela NBP'}"/>
-                                        </p:column>
-                                        <p:column>
-                                            <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? '1'  : 'kurs średni'}" />
-                                        </p:column>
-                                    </p:row>
-                                </f:facet>
-                                <p:row >
-                                    <p:column>
-                                        <h:outputText id="w11" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? '2'  : DokumentView.selDokument.tabelanbp.datatabeli}"/>
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText id="w12" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? '2'  : DokumentView.selDokument.tabelanbp.nrtabeli}"
-                                                      />
-                                    </p:column>
-                                    <p:column>
-                                        <h:outputText id="w13" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? '2'  : DokumentView.selDokument.tabelanbp.kurssredni}" 
-                                                      />
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
+                    <f:facet name="header">
+                        <p:row >
+                            <p:column>
+                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" />
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row >
+                        <p:column>
+                            <h:outputText id="w11" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.datatabeli}"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="w12" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.nrtabeli}"
+                                          />
+                        </p:column>
+                        <p:column>
+                            <h:outputText id="w13" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.kurssredni}" 
+                                          />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
             
             <p:panelGrid id="polawprowadzania" columns="4" style="width: 500px;">
                 <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>

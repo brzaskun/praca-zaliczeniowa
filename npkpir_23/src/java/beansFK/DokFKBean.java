@@ -9,6 +9,7 @@ import daoFK.DokDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
+import entity.Dok;
 import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -51,6 +52,21 @@ public class DokFKBean {
         for (Wiersz p : wiersze) {
             p.setTabelanbp(tabelanbpPLN);
         }
+    }
+    
+    public static void dodajWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dok selected) {
+        selected.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty("PLN"));
+        Tabelanbp tabelanbpPLN = null;
+        try {
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        } catch (Exception e) {
+            E.e(e);
+        }
+        if (tabelanbpPLN == null) {
+            tabelanbpDAO.dodaj(new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01"));
+            tabelanbpPLN = tabelanbpDAO.findByTabelaPLN();
+        }
+        selected.setTabelanbp(tabelanbpPLN);
     }
 
     public static Rodzajedok odnajdzZZ(List<Rodzajedok> rodzajedokKlienta) {
