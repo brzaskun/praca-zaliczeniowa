@@ -86,6 +86,7 @@ import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import params.Params;
+import waluty.Z;
 
 /**
  *
@@ -366,6 +367,10 @@ public final class DokView implements Serializable {
             List opisewidencji = new ArrayList<>();
             opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
             double sumanetto = sumujnetto();
+            Tabelanbp t = selDokument.getTabelanbp();
+            if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
+                sumanetto = Z.z(sumanetto*t.getKurssredni());
+            }
             ewidencjaAddwiad = new ArrayList<>();
             int k = 0;
             for (Object p : opisewidencji) {
@@ -1497,6 +1502,24 @@ public final class DokView implements Serializable {
         }
      }
 
+     public void skopiujwartosc(int lp) {
+         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
+         wiersz.setNettowaluta(wiersz.getNetto());
+         String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir1";
+         RequestContext.getCurrentInstance().update(s);
+     }
+     
+      public void przewalutuj(int lp) {
+         KwotaKolumna1 wiersz = selDokument.getListakwot1().get(lp);
+         Tabelanbp t = selDokument.getTabelanbp();
+         if (t != null) {
+            double d = wiersz.getNettowaluta();
+            wiersz.setNetto(d*t.getKurssredni());
+            symbolWalutyNettoVat = " zł";
+            String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir";
+            RequestContext.getCurrentInstance().update(s);
+         }
+     }
 
     public Klienci getSelectedKlient() {
         return selectedKlient;

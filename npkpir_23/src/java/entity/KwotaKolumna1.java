@@ -43,11 +43,13 @@ public class KwotaKolumna1 implements Serializable{
 
     public KwotaKolumna1() {
         this.netto = 0.0;
+        this.nettowaluta = 0.0;
         this.nazwakolumny = "";
     }
 
     public KwotaKolumna1(double kwota, String nazwakolumny) {
         this.netto = kwota;
+        this.nettowaluta = 0.0;
         this.nazwakolumny = nazwakolumny;
     }
 

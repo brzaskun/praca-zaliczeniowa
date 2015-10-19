@@ -27,7 +27,10 @@
             font-weight: 900;
             background: #e4e3e3;
         }
-        
+        .wiersznetto .ui-inputfield{
+            width: 100px;
+            float: left;
+        }
         
         
     </style>
@@ -61,7 +64,7 @@
                                                                  $(this).addClass('ui-state-default');"
                                   style="height: 21px;"
                                   >
-                    <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP"/>
+                    <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:tabelapkpir"/>
                     <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                 </h:selectOneMenu>
                 </p:panelGrid>
@@ -130,7 +133,7 @@
                     <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" partialSubmit="true" global="false"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();" global="false"/>
                 </h:selectOneMenu>
-                <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury">
+                <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
                     <f:validateLength minimum="1" maximum="50"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                 </p:inputText>
@@ -147,16 +150,26 @@
             <p:commandButton id="dodajopis" value="ok" actionListener="#{Opis.dodajOpis}" style="display: none;"/>
             <!--        <span id="log"></span>-->
                               <!-- kolumny podatkowej ksiegi przychodow i rozchodow-->
-            <p:panelGrid columns="2" style="width: 90%;" columnClasses="forty-percent, sixty-percent">
-              <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" >
-                    <p:column headerText="kwota faktury netto" style="text-align: right;" width="120">
+            <p:panelGrid columns="2" style="width: 95%;" columnClasses="forty-percent, sixty-percent">
+              <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
+                           rowIndexVar="index">
+                    <p:column headerText="kwota netto"  width="105">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
-                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; width: 120px; height: 19px;" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
                             <p:ajax event="blur" listener="#{DokumentView.dokumentProstySchowajEwidencje}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
+                            <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>
+                  <p:column headerText="kwota w walucie"  width="105" rendered="#{DokumentView.selDokument.tabelanbp.waluta.symbolwaluty ne 'PLN'}">
+                        <pe:inputNumber id="kwotaPkpir1" value="#{row.nettowaluta}" symbol=" #{DokumentView.selDokument.tabelanbp.waluta.skrotsymbolu}" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
+                                        styleClass="wiersznetto" readOnly="true">
+                            <p:ajax event="focus" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"/>
+                        </pe:inputNumber>
+                   </p:column>
                   <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
                       <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                          onfocus="$(this).addClass('ui-state-focus');"
