@@ -308,7 +308,7 @@ public class DokFKVATBean {
                         if (kontovat != null) {
                             wierszpierwszy.getStronaWn().setKonto(kontovat);
                         } else {
-                            Konto k = kontoDAOfk.findKonto("221", wpisView);
+                            Konto k = kontoDAOfk.findKonto("221-3", wpisView);
                             wierszpierwszy.getStronaWn().setKonto(k);
                         }
                     } else {
@@ -407,14 +407,22 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-3", wpisView);
                         wiersz2_3.getStronaWn().setKonto(k);
+                    }
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
+                        Konto k = kontoDAOfk.findKonto("221-1", wpisView);
+                        wiersz2_3.getStronaMa().setKonto(k);
                     }
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat");
                 } else {
                     Konto k = kontoDAOfk.findKonto("404-2", wpisView);
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
                     wiersz2_3.getStronaWn().setKonto(k);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
+                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView);
+                        wiersz2_3.getStronaMa().setKonto(k1);
+                    }
                 }
                 selected.getListawierszy().add(wiersz2_3);
     }
@@ -446,14 +454,22 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-3", wpisView);
                         wiersz2_3.getStronaWn().setKonto(k);
+                    }
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
+                        Konto k = kontoDAOfk.findKonto("221-1", wpisView);
+                        wiersz2_3.getStronaMa().setKonto(k);
                     }
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat");
                 } else {
                     Konto k = kontoDAOfk.findKonto("404-2", wpisView);
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
                     wiersz2_3.getStronaWn().setKonto(k);
+                    if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
+                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView);
+                        wiersz2_3.getStronaMa().setKonto(k1);
+                    }
                 }
                 selected.getListawierszy().add(wiersz2_3);
     }

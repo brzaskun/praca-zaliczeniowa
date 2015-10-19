@@ -1529,8 +1529,9 @@ public class DokfkView implements Serializable {
     //************************
     //zaznacza po otwaricu rozrachunkow biezaca strone wiersza jako nowa transakcje oraz usuwa po odhaczeniu ze to nowa transakcja
     public void zaznaczOdznaczJakoNowaTransakcja(ValueChangeEvent el) {
-        boolean zaznaczonoNowaTransakcje = (boolean) el.getNewValue();
-        if (zaznaczonoNowaTransakcje == true) {
+        boolean oldvalue = (boolean) el.getOldValue();
+        boolean newvalue = (boolean) el.getNewValue();
+        if (newvalue == true) {
             aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(1);
             aktualnyWierszDlaRozrachunkow.setNowatransakcja(true);
             //trzy poniższe wiersze umożliwiają zrobienie z rozliczajacego nowej transakcji po korekcie kwot
@@ -1555,6 +1556,10 @@ public class DokfkView implements Serializable {
             selected.setZablokujzmianewaluty(true);
         } else {
             selected.setZablokujzmianewaluty(false);
+        }
+        if (oldvalue == true && newvalue == false) {
+            String f = "PF('rozrachunki').hide();";
+            RequestContext.getCurrentInstance().execute(f);
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelwalutowy");
         RequestContext.getCurrentInstance().update("wpisywaniefooter");
