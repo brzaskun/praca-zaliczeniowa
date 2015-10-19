@@ -204,14 +204,19 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             for (PodatnikUdzialy p : udzialy) {
                 double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop) > 0.0 ? Z.z0(udział*wynikpodatkowy - udział*pdop) : 0.0;
+                double roznicadlankup = Z.z(udział*wynikpodatkowy - udział*pdop);
+                double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop);
                 double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
                 if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
                     wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
-                    podstawaopodatkowania = Z.z(udział*wynikfinansowynetto) > 0.0 ? Z.z(udział*wynikfinansowynetto) : 0.0;
+                    podstawaopodatkowania = Z.z(udział*wynikfinansowynetto);
                 }
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikfinansowy")+" #"+String.valueOf(i), wynikfinansowyudzial));
-                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(podstawaopodatkowania-wynikfinansowyudzial)));
+                pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup")+" #"+String.valueOf(i), Z.z(roznicadlankup-wynikfinansowyudzial)));
+                System.out.println("roznicadlankup "+roznicadlankup);
+                System.out.println("podstawa "+podstawaopodatkowania);
+                System.out.println("wynikfinsudzial "+wynikfinansowyudzial);
+                podstawaopodatkowania = podstawaopodatkowania < 0.0 ? 0.0 : Z.z0(podstawaopodatkowania);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podstawaopodatkowania")+" #"+String.valueOf(i), podstawaopodatkowania));
                 double podatek = Z.z0(podstawaopodatkowania*0.19);
                 pozycjeObliczeniaPodatku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("podatekdochodowy")+" #"+String.valueOf(i), podatek));
@@ -365,8 +370,12 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             s.setUdzial(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setWynikfinansowy(pobrane.getWartosc());
-            i += 1;
+            //i += 1;
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
+            System.out.println("nazwa "+pobrane.getNazwa());
+            s.setNkup(pobrane.getWartosc());
+            pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
+            System.out.println("nazwa "+pobrane.getNazwa());
             s.setWynikpodatkowy(pobrane.getWartosc());
             pobrane = pozycjeObliczeniaPodatkuPoprzedniemiesiace.get(i++);
             s.setPodatek(pobrane.getWartosc());
