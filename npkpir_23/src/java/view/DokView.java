@@ -1447,49 +1447,53 @@ public final class DokView implements Serializable {
         }
     }
      public void pobierzkursNBP(ValueChangeEvent el) {
-        symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
-        String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
-        String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
-        if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
-            Msg.msg("w", "Prosze przewalutowywać do PLN");
-        } else {
-            if (!nazwawaluty.equals("PLN")) {
-                String datadokumentu = selDokument.getDataWyst();
-                DateTime dzienposzukiwany = new DateTime(datadokumentu);
-                selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
-//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
-//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-//                } else {
-//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-//                }
-                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+        try {
+            symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
+            String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
+            String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
+            if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
+                Msg.msg("w", "Prosze przewalutowywać do PLN");
             } else {
-                //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
-//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-//                } else {
-//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-//                }
-                Tabelanbp tabelanbpPLN = null;
-                try {
-                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
-                    if (tabelanbpPLN == null) {
-                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
-                        tabelanbpDAO.dodaj(tabelanbpPLN);
+                if (!nazwawaluty.equals("PLN")) {
+                    String datadokumentu = selDokument.getDataWyst();
+                    DateTime dzienposzukiwany = new DateTime(datadokumentu);
+                    selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+    //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
+    //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+    //                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+    //                } else {
+    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+    //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+    //                }
+                    symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+                } else {
+                    //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
+    //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+    //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+    //                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+    //                } else {
+    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+    //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+    //                }
+                    Tabelanbp tabelanbpPLN = null;
+                    try {
+                        tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
+                        if (tabelanbpPLN == null) {
+                            tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
+                            tabelanbpDAO.dodaj(tabelanbpPLN);
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
                     }
-                } catch (Exception e) {
-                    E.e(e);
+                    selDokument.setTabelanbp(tabelanbpPLN);
+                    symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
                 }
-                selDokument.setTabelanbp(tabelanbpPLN);
-                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+                RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
             }
-            RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
+        } catch (Exception e) {
+            
         }
      }
 
