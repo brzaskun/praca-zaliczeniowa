@@ -333,11 +333,11 @@ public class EwidencjaVatView implements Serializable {
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne": 
-                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
+                    return eVatwpisFKDAO.findPodatnikMc(wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    return eVatwpisFKDAO.findPodatnikMc(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
             return null;
@@ -351,11 +351,9 @@ public class EwidencjaVatView implements Serializable {
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne":
-                    String[] n = Mce.zwiekszmiesiac(wpisView);
-                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), n[1], n[1]);
+                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
-                    Integer[] k = Kwartaly.zwiekszkwartal(wpisView);
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(k[1]);
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(Kwartaly.getMapanrkw().get(wpisView.getMiesiacWpisu()));
                     return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
@@ -370,12 +368,10 @@ public class EwidencjaVatView implements Serializable {
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne":
-                    String[] n = Mce.zwiekszmiesiac(wpisView);
-                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), Integer.parseInt(n[0]), n[1], n[1]);
+                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
-                    Integer[] k = Kwartaly.zwiekszkwartal(wpisView);
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(k[1]);
-                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), k[0], miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(Kwartaly.getMapanrkw().get(wpisView.getMiesiacWpisu()));
+                    return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
             return null;
