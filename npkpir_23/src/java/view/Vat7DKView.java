@@ -259,16 +259,16 @@ public class Vat7DKView implements Serializable {
             }
             if (zwrot60dni != null) {
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                DeklaracjaVatSchemaWierszSum narachunek60dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 60 dni");
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
-                narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
+                narachunek60dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot60dni);
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot60dni);
             }
             if (zwrot180dni != null) {
                 DeklaracjaVatSchemaWierszSum narachunek = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"Kwota do zwrotu na rachunek bankowy");
-                DeklaracjaVatSchemaWierszSum narachunek25dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 25 dni");
+                DeklaracjaVatSchemaWierszSum narachunek180dni = VATDeklaracja.pobierzschemawiersz(schemawierszsumarycznylista,"do zwrotu w terminie 180 dni");
                 narachunek.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
-                narachunek25dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
+                narachunek180dni.getDeklaracjaVatWierszSumaryczny().setSumavat(zwrot180dni);
                 doprzeniesienia.getDeklaracjaVatWierszSumaryczny().setSumavat(nadwyzkanaliczonego.getDeklaracjaVatWierszSumaryczny().getSumavat()-zwrot180dni);
             }
         }
