@@ -807,6 +807,17 @@ public final class DokView implements Serializable {
             selDokument.setVatR(wpisView.getRokWpisuSt());
             Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             selDokument.setKontr1(klient);
+            Tabelanbp tabelanbpPLN = null;
+            try {
+                tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
+                if (tabelanbpPLN == null) {
+                    tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
+                    tabelanbpDAO.dodaj(tabelanbpPLN);
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
+            selDokument.setTabelanbp(tabelanbpPLN);
             selectedSTR = new SrodekTrw();
             if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
                 selDokument.setDokumentProsty(true);
