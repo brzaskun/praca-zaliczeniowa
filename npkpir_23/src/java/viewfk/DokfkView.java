@@ -1296,6 +1296,7 @@ public class DokfkView implements Serializable {
         List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
+        List<Dokfk> listabrakivat = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
                 if (p.getKontr() == null) {
@@ -1304,6 +1305,20 @@ public class DokfkView implements Serializable {
                 } else if (!p.getKontr().equals(klientdlaPK)) {
                     p.setKontr(klientdlaPK);
                     dokDAOfk.edit(p);
+                }
+            }
+            String  kontown = null;
+            String kontoma = null;
+            if (p.getListawierszy().size()>1) {
+                for (Wiersz w : p.getListawierszy()) {
+                    StronaWiersza swwn = w.getStronaWn();
+                    if (swwn != null && (swwn.getKonto().getPelnynumer().equals("221-3") || swwn.getKonto().getPelnynumer().equals("221-4"))) {
+                        kontown = swwn.getKonto().getPelnynumer();
+                    }
+                    StronaWiersza swma = w.getStronaMa();
+                    if (swma != null && (swma.getKonto().getPelnynumer().equals("221-1") || swma.getKonto().getPelnynumer().equals("221-2"))) {
+                        kontoma = swma.getKonto().getPelnynumer();
+                    }
                 }
             }
             for (EVatwpisFK ew : p.getEwidencjaVAT()) {
@@ -1317,6 +1332,31 @@ public class DokfkView implements Serializable {
                         ew.setMcEw(nowyokres[1]);
                     }
                     dokDAOfk.edit(p);
+                } else {
+                    if (p.getListawierszy().size() > 1 && (p.getRodzajedok().getKategoriadokumentu() == 1 || p.getRodzajedok().getKategoriadokumentu() == 2)) {
+                        if (ew.getInnyokres() == 0) {
+                            System.out.println("dok " + p.getDokfkSN());
+                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-1")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-3") && !kontoma.equals("221-1")) {
+                                listabrakivat.add(p);
+                            }
+                        } else {
+                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-4")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-2")) {
+                                listabrakivat.add(p);
+                            }
+                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-4") && !kontoma.equals("221-2")) {
+                                listabrakivat.add(p);
+                            }
+                        }
+                    }
                 }
             }
             double sumawn = 0.0;
@@ -1429,6 +1469,14 @@ public class DokfkView implements Serializable {
         b = new StringBuilder();
         b.append(main);
         for (Dokfk p : listabrakiPozycji) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
+        b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : listabrakivat) {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
