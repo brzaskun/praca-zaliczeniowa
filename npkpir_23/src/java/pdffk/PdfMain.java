@@ -360,12 +360,14 @@ public class PdfMain {
         try {
             List naglowki = tabela[0];
             List wiersze = tabela[1];
-            String nazwaklasy = wiersze.get(0).getClass().getName();
-            int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
-            PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
-            ustawnaglowki(table, naglowki);
-            ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
-            document.add(table);
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                ustawnaglowki(table, naglowki);
+                ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+                document.add(table);
+            }
         } catch (DocumentException ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
@@ -376,12 +378,16 @@ public class PdfMain {
         try {
             List naglowki = tabela[0];
             List wiersze = tabela[1];
-            String nazwaklasy = wiersze.get(0).getClass().getName();
-            int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
-            PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
-            ustawnaglowki(table, naglowki);
-            ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
-            return table;
+            if (wiersze != null && wiersze.size() > 0) {
+                String nazwaklasy = wiersze.get(0).getClass().getName();
+                int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
+                PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
+                ustawnaglowki(table, naglowki);
+                ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
+                return table;
+            } else {
+                return null;
+            }
         } catch (Exception ex) {
             System.out.println("Problem z wstepnym przygotowaniem tabeli PDFMain dodajTabele");
             E.e(ex);
@@ -956,9 +962,11 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 7));
                 if(modyfikator==1) {
                     PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1);
-                    PdfPCell r = new PdfPCell(subtable);
-                    r.setColspan(10);
-                    table.addCell(r);
+                    if (subtable != null) {
+                        PdfPCell r = new PdfPCell(subtable);
+                        r.setColspan(10);
+                        table.addCell(r);
+                    }
                 }
             }
             if (nazwaklasy.equals("entityfk.Konto")) {

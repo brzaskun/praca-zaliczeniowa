@@ -5,6 +5,7 @@
 package mail;
 
 import entity.Klienci;
+import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
@@ -67,21 +68,22 @@ public class MailSetUp implements Serializable{
         try {
             message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
         try {
-            message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         } catch (MessagingException ex) {
-            Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
+            E.e(ex);
         }
-        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")){
-        try {
-            message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
-        } catch (Exception e){
-            Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
-        }
+        if (!wpisView.getWprowadzil().getUprawnienia().equals("Guest")) {
+            try {
+                message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
+            }
         }
         return message;
     }
@@ -121,6 +123,7 @@ public class MailSetUp implements Serializable{
         try {
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wpisView.getWprowadzil().getEmail()));
         } catch (Exception e){
+            E.e(e);
             Msg.msg("e", "Nie masz ma wprowadzonego adresu mail. Wysyłka nieudana");
         }
         }
