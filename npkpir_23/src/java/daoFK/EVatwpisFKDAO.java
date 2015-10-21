@@ -10,6 +10,7 @@ import dao.DAO;
 import entity.Podatnik;
 import entityfk.EVatwpisFK;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +49,14 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
             int dg = Integer.parseInt(mcod)-1;
             int gg = Integer.parseInt(mcdo)+1;
             for (EVatwpisFK p : input) {
-                int p_mc = Integer.parseInt(p.getMcEw());
-                if (p_mc > dg && p_mc < gg) {
-                    l.add(p);
+                try {
+                    System.out.println("ew "+p);
+                    int p_mc = Integer.parseInt(p.getMcEw());
+                    if (p_mc > dg && p_mc < gg) {
+                        l.add(p);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
                 }
             }
         }
@@ -64,12 +70,16 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
             int dg = Integer.parseInt(mcod)-1;
             int gg = Integer.parseInt(mcdo)+1;
             for (EVatwpisFK p : input) {
-                int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
-                if (mcdok <= dg && p.getVat() != 0.0) {
-                    int p_mc = Integer.parseInt(p.getMcEw());
-                    if (p_mc > dg && p_mc < gg) {
-                        l.add(p);
+                try {
+                    int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
+                    if (mcdok <= dg && p.getVat() != 0.0) {
+                        int p_mc = Integer.parseInt(p.getMcEw());
+                        if (p_mc > dg && p_mc < gg) {
+                            l.add(p);
+                        }
                     }
+                } catch (Exception e) {
+                    E.e(e);
                 }
             }
         }

@@ -353,10 +353,12 @@ public class EwidencjaVatView implements Serializable {
                 case "miesięczne":
                     return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(Kwartaly.getMapanrkw().get(wpisView.getMiesiacWpisu()));
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             return null;
         }
     }
@@ -370,7 +372,8 @@ public class EwidencjaVatView implements Serializable {
                 case "miesięczne":
                     return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
-                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(Kwartaly.getMapanrkw().get(wpisView.getMiesiacWpisu()));
+                    Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
+                    List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
                     return eVatwpisFKDAO.findPodatnikMcPo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisu(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { E.e(e); 
