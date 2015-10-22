@@ -387,6 +387,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
             s.setDywidendadowyplaty(pobrane.getWartosc());
             tabela.add(s);
         }
+        
         return tabela;
     }
     
