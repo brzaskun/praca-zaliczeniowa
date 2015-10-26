@@ -209,7 +209,7 @@ public class VatUeView implements Serializable {
 
     public void drukujewidencjeUE() {
       try {
-          PdfVatUE.drukujewidencje(vatuepodatnikDAO, wpisView);
+          PdfVatUE.drukujewidencje(klienciWDTWNT, wpisView);
       }  catch (Exception e) { E.e(e); 
           
       }

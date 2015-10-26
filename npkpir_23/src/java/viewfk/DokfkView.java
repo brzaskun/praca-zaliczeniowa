@@ -997,8 +997,6 @@ public class DokfkView implements Serializable {
                     selected.getDokfkPK().setRok(rok);
                     String mc = data.split("-")[1];
                     selected.setVatM(mc);
-                    RequestContext.getCurrentInstance().update("formwpisdokument:rokVAT");
-                    RequestContext.getCurrentInstance().update("formwpisdokument:miesiacVAT");
                 }
             }
         }
@@ -1297,6 +1295,7 @@ public class DokfkView implements Serializable {
         List<Dokfk> listabraki = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
         List<Dokfk> listabrakivat = new ArrayList<>();
+        List<Dokfk> listapustaewidencja = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
                 if (p.getKontr() == null) {
@@ -1319,6 +1318,21 @@ public class DokfkView implements Serializable {
                     if (swma != null && (swma.getKonto().getPelnynumer().equals("221-1") || swma.getKonto().getPelnynumer().equals("221-2"))) {
                         kontoma = swma.getKonto().getPelnynumer();
                     }
+                }
+            }
+            double netto = 0.0;
+            double vat = 0.0;
+            for (EVatwpisFK ew : p.getEwidencjaVAT()) {
+                netto += ew.getNetto();
+                vat += ew.getNetto();
+            }
+            netto = Z.z(netto);
+            vat = Z.z(vat);
+            if (netto == 0.0 && vat == 0.0 && p.getEwidencjaVAT().size() > 0) {
+                listapustaewidencja.add(p);
+                if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 1) {
+                    p.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                    dokDAOfk.edit(p);
                 }
             }
             for (EVatwpisFK ew : p.getEwidencjaVAT()) {
@@ -1440,7 +1454,9 @@ public class DokfkView implements Serializable {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        if (listabrakiKontaAnalityczne.size() > 0) {
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
         main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
@@ -1448,8 +1464,10 @@ public class DokfkView implements Serializable {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        dokDAOfk.editList(listaRozniceWnMa);
-        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        if (listaRozniceWnMa.size() > 0) {
+            dokDAOfk.editList(listaRozniceWnMa);
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
         main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
@@ -1463,8 +1481,10 @@ public class DokfkView implements Serializable {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        dokDAOfk.editList(listabraki);
-        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        if (listabraki.size() > 0) {
+            dokDAOfk.editList(listabraki);
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
         main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
@@ -1472,7 +1492,9 @@ public class DokfkView implements Serializable {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        if (listabrakiPozycji.size() > 0) {
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
         main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
         b = new StringBuilder();
         b.append(main);
@@ -1480,8 +1502,19 @@ public class DokfkView implements Serializable {
             b.append(p.getDokfkPK().toString2());
             b.append(", ");
         }
-        Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
-        System.out.println("Ilosc roznych dokumentow " + listabraki.size());
+        if (listabrakivat.size() > 0) {
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
+        main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
+        b = new StringBuilder();
+        b.append(main);
+        for (Dokfk p : listapustaewidencja) {
+            b.append(p.getDokfkPK().toString2());
+            b.append(", ");
+        }
+        if (listapustaewidencja.size() > 0) {
+            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+        }
         init();
     }
 
@@ -3121,6 +3154,16 @@ public class DokfkView implements Serializable {
             dataModel.setWrappedData(selected.getListawierszy().toArray());
         }
         return dataModel;
+    }
+    
+    public void sprawdzmiesiacWpisywanie() {
+        if (selected.getMiesiac() != null) {
+            String mc = selected.getMiesiac();
+            int dl = mc.length();
+            if (dl == 1) {
+                selected.setMiesiac("0"+mc);
+            }
+        }
     }
 
 }

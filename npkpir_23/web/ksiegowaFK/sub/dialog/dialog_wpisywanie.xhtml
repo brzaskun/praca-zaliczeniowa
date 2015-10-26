@@ -151,7 +151,8 @@
                                 </p:column>
                                 <p:column>
                                     <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 40px;">
-                                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
                                     </p:inputText>
                                 </p:column>
                             </p:row>
