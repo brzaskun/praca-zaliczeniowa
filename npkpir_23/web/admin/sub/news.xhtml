@@ -40,7 +40,7 @@
                     <p:inputText id="detail" value="#{growlBean.detail}" required="true" size="120"/>
                 </h:panelGrid>
                 <p:commandButton value="Send" actionListener="#{growlBean.send}" />
-                <p:socket onMessage="handleMessage" channel="/notify" />
+                
             </p:panel>
         </h:form>
 </ui:composition>   
