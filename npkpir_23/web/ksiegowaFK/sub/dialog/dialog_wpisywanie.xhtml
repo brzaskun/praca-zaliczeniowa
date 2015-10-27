@@ -143,14 +143,16 @@
                                         <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                                     </p:inputText>
                                 </p:column>
-                                <p:column>
-                                    <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="width: 50px;"
-                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');">
+                                <p:column style="text-align: center">
+                                    <p:inputText id="rok" value="#{dokfkView.selected.dokfkPK.rok}" style="text-align: center; width: 40px;"
+                                                 onblur="sprawdzmiesiacDialogWpisywanie('#{WpisView.miesiacWpisu}');"
+                                                 maxlength="4" size="5">
                                         <p:ajax event="change" partialSubmit="true" global="false"/>
                                     </p:inputText>
                                 </p:column>
-                                <p:column>
-                                    <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="width: 40px;">
+                                <p:column style="text-align: center">
+                                    <p:inputText id="miesiac" value="#{dokfkView.selected.miesiac}" style="text-align: center; width: 30px;"
+                                                 maxlength="2" size="3">
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
                                     </p:inputText>
@@ -197,9 +199,9 @@
                                                 update=":parametrydel"/>
                                     </p:inputText>
                                 </p:column>
-                                <p:column>
+                                <p:column style="width: 40px; text-align: center;">
                                     <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
-                                                  style="margin-left: 5px; color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
+                                                  style="color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                                 </p:column>
                             </p:row>
                         </p:panelGrid>
@@ -245,7 +247,7 @@
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" size="30" style="height: 19px;">
+                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" style="height: 19px; width: 230px;">
                                         <p:ajax event="blur" partialSubmit="true" global="false" oncomplete="stworzdelegacje();" update=":formwpisdokument:dataList"/>
                                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                     </p:inputText>

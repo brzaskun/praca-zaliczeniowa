@@ -441,6 +441,8 @@ public class DokfkView implements Serializable {
                 }
                 RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
             }
+        } else {
+            this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
         }
     }
 
