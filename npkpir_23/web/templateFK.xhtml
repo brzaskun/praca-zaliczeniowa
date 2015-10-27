@@ -39,6 +39,12 @@
             <h:outputScript library="js_fk" name="dialog_bilanse.js"/>
             <h:outputScript library="js_fk" name="dialog_wpis_srodkitrwale.js"/>
             <h:outputScript library="js_pkpir" name="faktura.js"/>
+            <script type="text/javascript">
+                function handleMessage(facesmessage) {
+                    facesmessage.severity = 'info';
+                    PF('messageslogout').show([facesmessage]);
+                }
+            </script>
         </h:head>
         <!-- Ostrzezenie dla uzytkownikow korzystajacych z IE 7 -->
         <!--[if lte IE 7]>
@@ -59,7 +65,8 @@
             // ]]> 
             </script>-->
         <h:body>
-            <p:growl id="messageslogout" showDetail="true" sticky="true" />  
+            
+            <p:growl id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>  
             <p:idleMonitor timeout="600000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
                 <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->

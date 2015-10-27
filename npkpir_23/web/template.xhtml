@@ -29,6 +29,12 @@
             <h:outputScript library="js_pkpir" name="faktura.js"/>
             <h:outputScript library="js_pkpir" name="tablewalking.js"/>
             <h:outputScript library="js_pkpir" name="wydruki.js"/>
+            <script type="text/javascript">
+                function handleMessage(facesmessage) {
+                    facesmessage.severity = 'info';
+                    PF('messageslogout').show([facesmessage]);
+                }
+            </script>
         </h:head>
             <!-- Ostrzezenie dla uzytkownikow korzystajacych z IE 7 -->
             <!--[if lte IE 7]>
@@ -42,9 +48,11 @@
              </div>
         <![endif]-->
             <h:body>
+                <p:growl id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>  
                 <p:idleMonitor timeout="600000">  
-                    <p:ajax event="idle" listener="#{logowanie.logout()}" />  
-                </p:idleMonitor>  
+                    <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
+                    <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
+                </p:idleMonitor>   
                 <ui:insert class="bodi" name="body"> 
                 </ui:insert>
 

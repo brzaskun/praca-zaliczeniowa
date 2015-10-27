@@ -30,4 +30,17 @@
             </p:column>
         </p:dataTable>
     </p:panel>
+     <h:form>
+            <p:panel header="Growl">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="summary" value="Summary: " />
+                    <p:inputText id="summary" value="#{growlBean.summary}" required="true" size="120"/>
+
+                    <p:outputLabel for="detail" value="Detail: " />
+                    <p:inputText id="detail" value="#{growlBean.detail}" required="true" size="120"/>
+                </h:panelGrid>
+                <p:commandButton value="Send" actionListener="#{growlBean.send}" />
+                <p:socket onMessage="handleMessage" channel="/notify" />
+            </p:panel>
+        </h:form>
 </ui:composition>   
