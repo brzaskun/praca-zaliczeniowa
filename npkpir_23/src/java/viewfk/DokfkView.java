@@ -3163,6 +3163,10 @@ public class DokfkView implements Serializable {
             if (dl == 1) {
                 selected.setMiesiac("0"+mc);
             }
+            int mcint = Integer.parseInt(mc);
+            if ( mcint > 13 || mcint < 1) {
+                selected.setMiesiac(wpisView.getMiesiacWpisu());
+            }
         }
     }
 

@@ -301,47 +301,34 @@
                             </p:rowExpansion>
                         </p:dataTable>
                     </p:outputPanel>
-                    <p:outputPanel style="margin-top: 10px; width: 750px;">
+                    <p:outputPanel style="margin-top: 10px; width: 690px;">
                         <h:outputText value="suma faktur kosztowych z innego okresu rozliczeniowego "/>
                         <bcf:outputpl id="sumaprzesunietych" value="#{ewidencjaVatView.sumaprzesunietych}" />
                         <h:outputText value="liczba dok.: "/>
                         <h:outputText value="#{ewidencjaVatView.listaprzesunietychKoszty.size()}"/>
-                        <p:dataTable value="#{ewidencjaVatView.listaprzesunietychKoszty}" var="loopik"  paginator="true" rows="2" paginatorPosition="top">
-                                    <p:ajax event="page" global="false"/>
-                                    <p:column headerText="#{mgs.dokument}" width="70">
-                                        <h:outputText value="#{loopik.dokfk.dokfkLP}"/>
-                                    </p:column>
-                                    <p:column headerText="#{mgs.data}" width="80">
-                                        <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
-                                    </p:column>
-                                    <p:column headerText="#{mgs.nr}" width="100">
-                                        <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
-                                    </p:column>
-                                    <p:column headerText="#{mgs.kontrahent}">
-                                        <h:outputText value="#{loopik.wiersz.geteVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.geteVatwpisFK.klient.npelna}"/>
-                                    </p:column>
-                                    <p:column headerText="wiersz">
-                                        <h:outputText value="#{loopik.wiersz.opisWiersza eq null ? loopik.dokfk.opisdokfk : loopik.wiersz.opisWiersza}"/>
-                                    </p:column>
-                                    <p:column headerText="#{mgs.kwota}" width="60">
-                                        <bcf:outputpl value="#{loopik.vat}"/>
-                                    </p:column>
-                         </p:dataTable>
+                        
                     </p:outputPanel>
-                    <p:outputPanel style="margin-top: 10px; width: 750px;">
+                    <p:outputPanel style="margin-top: 10px; width: 690px;">
                         <h:outputText value="suma faktur kosztowych z następnych okresów rozliczeniowych "/>
                         <bcf:outputpl id="sumaprzesunietychbardziej" value="#{ewidencjaVatView.sumaprzesunietychBardziej}" />
                         <h:outputText value="liczba dok.: "/>
                         <h:outputText value="#{ewidencjaVatView.listaprzesunietychBardziej.size()}"/>
-                         <p:dataTable value="#{ewidencjaVatView.listaprzesunietychBardziej}" var="loopik"  paginator="true" rows="2" paginatorPosition="top">
+                    </p:outputPanel>
+                    <p:outputPanel style="margin-top: 10px; width: 690px;">
+                        <h:outputText value="razem m-ce następne "/>
+                        <bcf:outputpl value="#{ewidencjaVatView.sumaprzesunietychBardziej + ewidencjaVatView.sumaprzesunietych}"/>
+                    </p:outputPanel>
+                </p:tab>
+                <p:tab title="koszty nast.mc">
+                    <p:dataTable value="#{ewidencjaVatView.listaprzesunietychKoszty}" var="loopik"  paginator="true" rows="20" paginatorPosition="top">
                                     <p:ajax event="page" global="false"/>
-                                    <p:column headerText="#{mgs.dokument}" width="70">
+                                    <p:column headerText="#{mgs.dokument}" width="90">
                                         <h:outputText value="#{loopik.dokfk.dokfkLP}"/>
                                     </p:column>
-                                    <p:column headerText="#{mgs.data}" width="80">
+                                    <p:column headerText="#{mgs.data}" width="75">
                                         <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                                     </p:column>
-                                    <p:column headerText="#{mgs.nr}" width="100">
+                                    <p:column headerText="#{mgs.nr}" width="120">
                                         <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
                                     </p:column>
                                     <p:column headerText="#{mgs.kontrahent}">
@@ -354,7 +341,29 @@
                                         <bcf:outputpl value="#{loopik.vat}"/>
                                     </p:column>
                          </p:dataTable>
-                    </p:outputPanel>
+                </p:tab>
+                <p:tab title="koszty późn.mce">
+                     <p:dataTable value="#{ewidencjaVatView.listaprzesunietychBardziej}" var="loopik"  paginator="true" rows="20" paginatorPosition="top">
+                                    <p:ajax event="page" global="false"/>
+                                    <p:column headerText="#{mgs.dokument}" width="90">
+                                        <h:outputText value="#{loopik.dokfk.dokfkLP}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.data}" width="75">
+                                        <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.nr}" width="120">
+                                        <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.kontrahent}">
+                                        <h:outputText value="#{loopik.wiersz.geteVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.geteVatwpisFK.klient.npelna}"/>
+                                    </p:column>
+                                    <p:column headerText="wiersz">
+                                        <h:outputText value="#{loopik.wiersz.opisWiersza eq null ? loopik.dokfk.opisdokfk : loopik.wiersz.opisWiersza}"/>
+                                    </p:column>
+                                    <p:column headerText="#{mgs.kwota}" width="60">
+                                        <bcf:outputpl value="#{loopik.vat}"/>
+                                    </p:column>
+                         </p:dataTable>
                 </p:tab>
             </p:tabView>
         </h:form>
