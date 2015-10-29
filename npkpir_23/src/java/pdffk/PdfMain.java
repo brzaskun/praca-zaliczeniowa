@@ -374,7 +374,7 @@ public class PdfMain {
         }
     }
     
-     public static PdfPTable dodajSubTabele(List[] tabela, int perc, int modyfikator) {
+     public static PdfPTable dodajSubTabele(List[] tabela, int perc, int modyfikator, int size) {
         try {
             List naglowki = tabela[0];
             List wiersze = tabela[1];
@@ -382,7 +382,7 @@ public class PdfMain {
                 String nazwaklasy = wiersze.get(0).getClass().getName();
                 int[] col = obliczKolumny(naglowki.size(), nazwaklasy, modyfikator);
                 PdfPTable table = przygotujtabele(naglowki.size(),col, perc);
-                ustawnaglowki(table, naglowki);
+                ustawnaglowki(table, naglowki, size);
                 ustawwiersze(table,wiersze, nazwaklasy, modyfikator);
                 return table;
             } else {
@@ -406,6 +406,12 @@ public class PdfMain {
                 for (int i = 2; i < size; i++) {
                     col[i] = 2;
                 }
+                return col;
+            case "embeddablefk.KontoKwota":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 6;
+                col[2] = 3;
                 return col;
             case "embeddable.SchemaEwidencjaSuma":
             case "entity.DeklaracjaVatSchemaWierszSum":
@@ -741,6 +747,13 @@ public class PdfMain {
         table.setHeaderRows(1);
     }
     
+     private static void ustawnaglowki(PdfPTable table, List naglowki, int size) {
+        for (int i = 0; i < naglowki.size(); i++) {
+            table.addCell(ustawfrazeAlign((String) naglowki.get(i), "center", size));
+        }
+        table.setHeaderRows(1);
+    }
+    
 
     private static void ustawwiersze(PdfPTable table, List wiersze, String nazwaklasy, int modyfikator) {
         Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
@@ -770,7 +783,7 @@ public class PdfMain {
                     }
                 }
                 PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
-                int levelPlus = p.getLevel()+1;
+                int levelPlus = p.getLevel() + 1;
                 if (p.getLevel() != 0) {
                     for (int j = 0; j < p.getLevel(); j++) {
                         table.addCell(ustawfrazeAlign("", "l", 7));
@@ -808,63 +821,86 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("entityfk.PozycjaBilans")) {
-                    if (maxlevel == 0) {
-                        for (Iterator<PozycjaBilans> itX = wiersze.iterator(); itX.hasNext();) {
-                            PozycjaBilans s = (PozycjaBilans) itX.next();
-                            if (s.getLevel() > maxlevel) {
-                                maxlevel = s.getLevel();
-                            }
+                if (maxlevel == 0) {
+                    for (Iterator<PozycjaBilans> itX = wiersze.iterator(); itX.hasNext();) {
+                        PozycjaBilans s = (PozycjaBilans) itX.next();
+                        if (s.getLevel() > maxlevel) {
+                            maxlevel = s.getLevel();
                         }
                     }
-                    PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
-                    StringBuilder pozycja = new StringBuilder("   ");
-                    if (p.getLevel() != 0) {
-                        for (int j = 0; j < p.getLevel(); j++) {
-                            pozycja.append("  ");
-                        }
+                }
+                PozycjaRZiSBilans p = (PozycjaRZiSBilans) it.next();
+                StringBuilder pozycja = new StringBuilder("   ");
+                if (p.getLevel() != 0) {
+                    for (int j = 0; j < p.getLevel(); j++) {
+                        pozycja.append("  ");
                     }
-                    pozycja.append(p.getPozycjaSymbol());
-                    table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 7));
+                }
+                pozycja.append(p.getPozycjaSymbol());
+                table.addCell(ustawfrazeAlign(pozycja.toString(), "left", 7));
+                if (p.getLevel() == 0) {
+                    if (l.equals("pl")) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 9));
+                    }
+                } else if (p.getLevel() == 1) {
+                    if (l.equals("pl")) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
+                    }
+                } else {
+                    if (l.equals("pl")) {
+                        table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
+                    }
+                }
+                if (p.getKwota() != 0.0) {
                     if (p.getLevel() == 0) {
-                        if (l.equals("pl")) {
-                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 9));
-                        } else {
-                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 9));
-                        }
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
                     } else if (p.getLevel() == 1) {
-                        if (l.equals("pl")) {
-                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 8));
-                        } else {
-                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
-                        }
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                     } else {
-                        if (l.equals("pl")) {    
-                            table.addCell(ustawfrazeAlign(p.getNazwa(), "left", 7));
-                        } else {
-                            table.addCell(ustawfrazeAlign(p.getDe(), "left", 7));
-                        }
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
                     }
-                    if (p.getKwota() != 0.0) {
-                        if (p.getLevel() == 0) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 9));
-                        } else if (p.getLevel() == 1) {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                        } else {
-                            table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
-                        }
-                    } else {
-                        table.addCell(ustawfrazeAlign("", "right", 7));
-                    }
+                } else {
+                    table.addCell(ustawfrazeAlign("", "right", 7));
+                }
+                if (modyfikator != 0) {
                     if (modyfikator != 0) {
-                        String konta = "";
-                        if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
-                            Collections.sort(p.getPrzyporzadkowanekonta(), new KontoKwotacomparator());
-                            for (KontoKwota u : p.getPrzyporzadkowanekonta()) {
-                                konta = konta+u.getKonto().getPelnynumer()+": "+Z.z(u.getKwota())+"; ";
+                    if (p.getPrzyporzadkowanekonta() != null && p.getPrzyporzadkowanekonta().size() > 0) {
+                        List<KontoKwota> k = p.getPrzyporzadkowanekonta();
+                        for (Iterator<KontoKwota> itr = k.iterator(); itr.hasNext();) {
+                            KontoKwota k1 = itr.next();
+                            if (Z.z(k1.getKwota()) == 0.0) {
+                                itr.remove();
                             }
                         }
+                        if (k.size() > 0) {
+                            PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaBilansKonta(k), 95, 1, 7);
+                            if (subtable != null) {
+                                PdfPCell r = new PdfPCell(subtable);
+                                table.addCell(r);
+                            }
+                        } else {
+                            String konta = "";
+                            table.addCell(ustawfrazeAlign(konta, "just", 7));
+                        }
+                    } else {
+                        String konta = "";
                         table.addCell(ustawfrazeAlign(konta, "just", 7));
                     }
+                }
+//                        String konta = "";
+//                            Collections.sort(p.getPrzyporzadkowanekonta(), new KontoKwotacomparator());
+//                            for (KontoKwota u : p.getPrzyporzadkowanekonta()) {
+//                                konta = konta+u.getKonto().getPelnynumer()+": "+Z.z(u.getKwota())+"; ";
+//                            }
+//                        }
+//                        table.addCell(ustawfrazeAlign(konta, "just", 7));
+                }
             }
             if (nazwaklasy.equals("entity.SrodekTrw")) {
                 SrodekTrw p = (SrodekTrw) it.next();
@@ -936,6 +972,12 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
+            if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
+                KontoKwota p = (KontoKwota) it.next();
+                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getKonto().getNazwapelna(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 7));
+            }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
                 WierszDokfk p = (WierszDokfk) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
@@ -961,7 +1003,7 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getRozliczono())), "right", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPozostalo())), "right", 7));
                 if(modyfikator==1) {
-                    PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1);
+                    PdfPTable subtable = dodajSubTabele(testobjects.testobjects.getTabelaTransakcje(p.getPlatnosci()),95,1, 9);
                     if (subtable != null) {
                         PdfPCell r = new PdfPCell(subtable);
                         r.setColspan(10);

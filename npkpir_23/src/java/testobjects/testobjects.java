@@ -7,6 +7,7 @@ package testobjects;
 
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
+import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Faktura;
@@ -208,6 +209,17 @@ public class testobjects {
        n.add(B.b("wiersz"));
        n.add(B.b("nrdokrozl"));
        n.add(B.b("opis"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+     
+     public static List[] getTabelaBilansKonta(List<KontoKwota> wiersze) {
+       List n = new ArrayList();
+       n.add(B.b("numerkonta"));
+       n.add(B.b("nazwapełna"));
+       n.add(B.b("kwota"));
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
