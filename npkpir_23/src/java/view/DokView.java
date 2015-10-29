@@ -827,7 +827,6 @@ public final class DokView implements Serializable {
             setRenderujwysz(false);
             setPokazEST(false);
             RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
-            RequestContext.getCurrentInstance().update("form:dokumentyLista");
         } else {
             selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();

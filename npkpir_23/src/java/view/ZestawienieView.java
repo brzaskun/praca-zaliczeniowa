@@ -860,7 +860,6 @@ public class ZestawienieView implements Serializable {
             if (pierwszypitwrokuzaznacz == false) {
                 if (sprawdzczyjestpitwpoprzednimmiesiacu() != 0) {
                     wybranyudzialowiec = "wybierz osobe";
-                    RequestContext.getCurrentInstance().update("formpit:");
                     return;
                 }
             }
@@ -937,7 +936,6 @@ public class ZestawienieView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
                     Msg.msg("e", "Brak wprowadzonej skali opodatkowania dla wszystkich podatników na obecny rok. Przerywam wyliczanie PIT-u");
                     return;
                 }
@@ -983,7 +981,6 @@ public class ZestawienieView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
                     return;
                 }
                 if (podatek.signum() == 1) {
@@ -1021,7 +1018,6 @@ public class ZestawienieView implements Serializable {
                     biezacyPit.setTerminwplaty(data.getZobowiazaniePK().getRok() + "-" + data.getZobowiazaniePK().getMc() + "-" + data.getPitday());
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
                 } catch (Exception e) {
                     E.e(e);
                     Msg.msg("e", "Brak wprowadzonych terminów płatności podatków w danym okresie rozliczeniowym! Nie można przeliczyć PIT-u");
@@ -1029,7 +1025,6 @@ public class ZestawienieView implements Serializable {
                     wybranyudzialowiec = "wybierz osobe";
                     pierwszypitwroku = false;
                     pierwszypitwrokuzaznacz = false;
-                    RequestContext.getCurrentInstance().update("formpit:");
                 }
 
             }

@@ -265,7 +265,6 @@ public class PdfFaktura extends Pdf implements Serializable {
                 document.close();
             }
              if (przeznaczenie.equals("druk")) {
-                    Msg.msg("i", "Wydrukowano Fakture", "form:messages");
                     String funkcja = "wydrukfaktura('" + String.valueOf(nrfakt) + "firma"+  wpisView.getPodatnikWpisu() + "');";
                     RequestContext.getCurrentInstance().execute(funkcja);
                 }

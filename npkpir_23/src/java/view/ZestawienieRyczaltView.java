@@ -521,9 +521,7 @@ public class ZestawienieRyczaltView implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 biezacyPit = new Ryczpoz();
                 wybranyudzialowiec = "wybierz osobe";
-                RequestContext.getCurrentInstance().update("formpit1:");
             }
-            RequestContext.getCurrentInstance().update("formpit1:");
         }
     }
 
