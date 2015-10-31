@@ -19,13 +19,19 @@ import org.primefaces.push.EventBusFactory;
 @RequestScoped
 public class GrowlBean {
 
-    private final static String CHANNEL = "/notify";
+    private final static String CHANNEL_1 = "/notify";
+    private final static String CHANNEL_2 = "/ksiegowa";
     private String text, summary, detail;
     //getters-setters
 
-    public void send() {
+    public void send_ch1() {
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL, new FacesMessage(summary, detail));
+        eventBus.publish(CHANNEL_1, new FacesMessage(summary, detail));
+    }
+    
+    public void send_ch2() {
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish(CHANNEL_2, new FacesMessage(summary, detail));
     }
 
     public String getText() {

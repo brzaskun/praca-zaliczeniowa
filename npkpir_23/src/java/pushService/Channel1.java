@@ -15,7 +15,7 @@ import org.primefaces.push.impl.JSONEncoder;
  * @author Osito
  */
 @PushEndpoint("/notify")
-public class NotifyResource {
+public class Channel1 {
 
     @OnMessage(encoders = {JSONEncoder.class})
     public FacesMessage onMessage(FacesMessage message) {

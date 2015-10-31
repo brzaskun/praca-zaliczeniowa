@@ -218,6 +218,7 @@ public class DokfkView implements Serializable {
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
             if (klientdlaPK == null) {
                 klientdlaPK = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
             }

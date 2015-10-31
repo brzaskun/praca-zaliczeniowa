@@ -14,56 +14,74 @@
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body>
+            <div id="fb-root"></div>
             <script>
-                navigator.sayswho= (function(){
-                var ua= navigator.userAgent, tem,
-                M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-                if(/trident/i.test(M[1])){
-                    tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
-                    return 'IE '+(tem[1] || '');
-                }
-                if(M[1]=== 'Chrome'){
-                    tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
-                    if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
-                }
-                M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
-                if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
-                return info =  M.join(' ');
-                
-            })();
-             $(document).ready(function() {
-                if (navigator.sayswho.indexOf('Chrome')===-1) {
-                    if (navigator.language === 'pl') {
-                        alert("Ten program działa poprawnie jedynie w przeglądarce Chrome!");
-                    } else if (navigator.language === 'de') {
-                        alert("Die Software funktioniert nur unter Chrome Browser!");
-                    } else if (navigator.language.indexOf('en-') > -1) {
-                        alert("This Software works only with Chrome Browser!");
-                    }
-                }
-            })
-                
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = '//connect.facebook.net/pl_PL/sdk.js#xfbml=1&amp;version=v2.5';
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
             </script>
-                <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top" style="border: none;">  
-                    <p style="text-align: center;"><h:outputText value="#{mgs.witamy}" style="color: activecaption; font-size:24px; " /></p>  
-                </p:notificationBar> 
-                <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none" >
-                    <div style="height: 100px;  margin-left: auto; margin-right: auto;">
-                        <p:messages id="logowanie"  autoUpdate="true"/>
-                    </div>
+            <script>
+                navigator.sayswho = (function () {
+                    var ua = navigator.userAgent, tem,
+                            M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                    if (/trident/i.test(M[1])) {
+                        tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+                        return 'IE ' + (tem[1] || '');
+                    }
+                    if (M[1] === 'Chrome') {
+                        tem = ua.match(/\b(OPR|Edge)\/(\d+)/);
+                        if (tem != null)
+                            return tem.slice(1).join(' ').replace('OPR', 'Opera');
+                    }
+                    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+                    if ((tem = ua.match(/version\/(\d+)/i)) != null)
+                        M.splice(1, 1, tem[1]);
+                    return info = M.join(' ');
 
-                    <p:panelGrid columns="3" style="text-align: center; margin-top: 7%; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
-                        <p:column >
-                            <h:link outcome="pomoclogowanie" value="#{mgs.pomoc}"/>
-                        </p:column>
-                        <p:column>
-                            <h:link outcome="zapomnialem" value="#{mgs['zapomialem.hasla']}"/>
-                        </p:column>
-                        <p:column>
-                            <h:link outcome="rejestruj" value="#{mgs.rejestracja}"/>
-                        </p:column>
-                    </p:panelGrid>
-                </p:panel>
+                })();
+                $(document).ready(function () {
+                    if (navigator.sayswho.indexOf('Chrome') === -1) {
+                        if (navigator.language === 'pl') {
+                            alert("Ten program działa poprawnie jedynie w przeglądarce Chrome!");
+                        } else if (navigator.language === 'de') {
+                            alert("Die Software funktioniert nur unter Chrome Browser!");
+                        } else if (navigator.language.indexOf('en-') > -1) {
+                            alert("This Software works only with Chrome Browser!");
+                        }
+                    }
+                })
+
+
+            </script>
+            <!--                <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top" style="border: none;">  
+                                <p style="text-align: center;"><h:outputText value="#{mgs.witamy}" style="color: activecaption; font-size:24px; " /></p>  
+                            </p:notificationBar> -->
+            <p:panel style="text-align: center; min-height: 150px;">
+                <div class="fb-page" data-href="https://www.facebook.com/BiuroRachunkowe.Szczecin/?ref=hl" data-width="500" data-height="70" 
+                     data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"
+                     style="text-align: center;"></div>
+            </p:panel>
+            <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none" >
+                <p:growl id="logowanie"  autoUpdate="true"/>
+
+                <p:panelGrid columns="3" style="text-align: center; margin-top: 7%; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                    <p:column >
+                        <h:link outcome="pomoclogowanie" value="#{mgs.pomoc}"/>
+                    </p:column>
+                    <p:column>
+                        <h:link outcome="zapomnialem" value="#{mgs['zapomialem.hasla']}"/>
+                    </p:column>
+                    <p:column>
+                        <h:link outcome="rejestruj" value="#{mgs.rejestracja}"/>
+                    </p:column>
+                </p:panelGrid>
+            </p:panel>
             <h:form id="formlog1">
                 <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="">
                     <p:focus id="focus" context="logowaniepanel"/>
@@ -103,6 +121,7 @@
                     </h:outputFormat>
                 </p:panel>
             </h:form>
+
             <!--eefe-->
         </h:body>
     </f:view>

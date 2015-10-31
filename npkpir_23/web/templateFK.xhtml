@@ -68,6 +68,7 @@
             
             <p:growl id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>
             <p:socket onMessage="handleMessage" channel="/notify" />
+            <p:socket onMessage="handleMessage" channel="/ksiegowa" />
             <p:idleMonitor timeout="600000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
                 <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
