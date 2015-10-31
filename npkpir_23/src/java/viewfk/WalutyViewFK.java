@@ -146,6 +146,12 @@ public class WalutyViewFK implements Serializable {
         tabelanbpDAO.destroy(tabelanbp);
         wprowadzonekursyRok.remove(tabelanbp);
     }
+    
+    public void handleSave (Waluty w) {
+        if (w != null) {
+            walutyDAOfk.edit(w);
+        }
+    }
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     

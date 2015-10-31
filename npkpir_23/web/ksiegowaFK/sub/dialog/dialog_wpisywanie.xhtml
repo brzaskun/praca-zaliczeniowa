@@ -131,6 +131,7 @@
                                     <p:inputText id="data2DialogWpisywanie" value="#{dokfkView.selected.datadokumentu}" 
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data2DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
                                                  >
                                         <p:ajax global="false" event="blur" partialSubmit="true"/>
                                     </p:inputText>
@@ -139,6 +140,7 @@
                                     <p:inputText id="data3DialogWpisywanie" value="#{dokfkView.selected.dataoperacji}" 
                                                  onblur="ustawDateFK(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu}, 'data3DialogWpisywanie', #{dokfkView.zapisz0edytuj1});"
                                                  title="wpisz numer dnia, lub miesiąc i dzień"  styleClass="dataInput"
+                                                 onfocus="zaznaczpoledaty(this)"
                                                  >
                                         <p:ajax global="false" event="blur" partialSubmit="true" listener="#{dokfkView.wygenerujokreswpisudokumentu}" />
                                     </p:inputText>
@@ -247,7 +249,8 @@
                                     </p:autoComplete>
                                 </p:column>
                                 <p:column>
-                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" style="height: 19px; width: 230px;">
+                                    <p:inputText id="opisdokumentu" value="#{dokfkView.selected.opisdokfk}" style="height: 19px; width: 230px;"
+                                                 autocomplete="true">
                                         <p:ajax event="blur" partialSubmit="true" global="false" oncomplete="stworzdelegacje();" update=":formwpisdokument:dataList"/>
                                         <p:ajax event="change" partialSubmit="true" global="false" listener="#{dokfkView.skopiujopisdopierwszegowiersza()}" update=":formwpisdokument:dataList"/>
                                     </p:inputText>

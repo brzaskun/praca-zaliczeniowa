@@ -771,3 +771,10 @@ var czydodacdelegacjeShow = function (){
 var zerujwiadomosc = function() {
      rj("formwpisdokument:komunikatywpisdok").innerText = "";
 };
+
+var zaznaczpoledaty = function(pole) {
+    var trescpola = $(pole).val();
+    if (trescpola === "błędna data") {
+        $(pole).select();
+    }
+};
