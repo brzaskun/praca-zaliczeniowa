@@ -30,7 +30,7 @@
                     <h:outputText value="miesiąc: "/>
                 </p:column>
                 <p:column>
-                    <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.miesiacDlaZestawieniaZaksiegowanych}" style="width: 20px;">
+                    <p:selectOneMenu id="miesiacWpisu" value="#{dokfkView.miesiacDlaZestawieniaZaksiegowanych}" style="width: 60px;">
                         <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList" />
                         <f:selectItem itemLabel="#{mgs.CR}" itemValue="CR"/>
                         <f:selectItems value="#{Mce.mceList}"/>
@@ -102,7 +102,7 @@
                 <p:ajax event="filter" global="false"/>
                 <p:ajax event="rowSelectCheckbox"  global="false"/>
                 <p:ajax event="rowUnselectCheckbox" global="false"/>
-                <p:ajax event="toggleSelect" global="false"/>
+                <p:ajax event="toggleSelect" global="false" />
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
@@ -135,9 +135,6 @@
                 </p:column>
                 <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
-                </p:column>
-                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="50" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
-                    <h:outputText value="#{item.vatM}"/>
                 </p:column>
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}"/>

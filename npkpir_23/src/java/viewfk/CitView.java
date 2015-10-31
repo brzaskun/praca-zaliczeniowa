@@ -128,6 +128,7 @@ public class CitView implements Serializable {
         wynikprzedkorektami = razemprzychody - razemkoszty;
     }
 
+   
     public List<CitBiezacyPozycja> getListaPrzychody() {
         return listaPrzychody;
     }

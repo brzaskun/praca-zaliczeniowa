@@ -18,7 +18,7 @@
                 <h:outputText value="nr kolejny delegacji "/>
                 <p:inputText id="nazwamiejsca" value="#{delegacjeView.selected.opisdlugi}" style="width: 180px;"/>
                 <h:outputText value="opis delegacji (kto, gdzie, kiedy)"/>
-                <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 180px;"/>
+                <p:inputText id="nazwamiejscas" value="#{delegacjeView.selected.opiskrotki}" style="width: 300px;"/>
             </p:panelGrid>
             <p:commandButton value="dodaj" actionListener="#{delegacjeView.dodaj(false)}" style="margin: 2%; width: 120px;" 
                              update=":delegacje, :delegacjelista" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>

@@ -33,7 +33,7 @@
                 <p:autoComplete id="miejscowoscPole" value="#{KlView.selected.miejscowosc}" completeMethod="#{miasta.complete}"
                                 var="p" itemLabel="#{p}" itemValue="#{p}" 
                                 minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
-                                effect="clip" autocomplete="true" queryDelay="100" 
+                                effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
                                 required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px">
                     <p:ajax event="query" global="false"/>
                     <p:ajax event="change" partialSubmit="true" global="false"/>
