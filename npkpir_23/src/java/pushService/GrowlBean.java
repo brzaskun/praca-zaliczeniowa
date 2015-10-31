@@ -21,7 +21,8 @@ public class GrowlBean {
 
     private final static String CHANNEL_1 = "/notify";
     private final static String CHANNEL_2 = "/ksiegowa";
-    private String text, summary, detail;
+    private String summary, detail;
+    private String summary1, detail1;
     //getters-setters
 
     public void send_ch1() {
@@ -31,17 +32,10 @@ public class GrowlBean {
     
     public void send_ch2() {
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL_2, new FacesMessage(summary, detail));
+        eventBus.publish(CHANNEL_2, new FacesMessage(summary1, detail1));
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
+    
     public String getSummary() {
         return summary;
     }
@@ -57,6 +51,23 @@ public class GrowlBean {
     public void setDetail(String detail) {
         this.detail = detail;
     }
+
+    public String getSummary1() {
+        return summary1;
+    }
+
+    public void setSummary1(String summary1) {
+        this.summary1 = summary1;
+    }
+
+    public String getDetail1() {
+        return detail1;
+    }
+
+    public void setDetail1(String detail1) {
+        this.detail1 = detail1;
+    }
+    
     
     
 }

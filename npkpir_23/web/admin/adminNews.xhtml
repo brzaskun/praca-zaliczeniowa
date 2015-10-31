@@ -20,7 +20,32 @@
                                 <ui:include src="sub/menu_wiad.xhtml"/>   <!-- menu contextowe i pole wiadomosci growl-->
                                 <ui:include src="sub/news.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                             </h:form><!--
--->                        
+-->                          <h:form>
+            <p:panel header="Wszyscy">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="summary" value="Summary: " />
+                    <p:inputText id="summary" value="#{growlBean.summary}" required="true" size="120"/>
+
+                    <p:outputLabel for="detail" value="Detail: " />
+                    <p:inputText id="detail" value="#{growlBean.detail}" size="120"/>
+                </h:panelGrid>
+                <p:commandButton value="Send" actionListener="#{growlBean.send_ch1}" />
+                
+            </p:panel>
+        </h:form>
+    <h:form>
+            <p:panel header="Księgowa">
+                <h:panelGrid columns="2">
+                    <p:outputLabel for="summary1" value="Summary: " />
+                    <p:inputText id="summary1" value="#{growlBean.summary1}" required="true" size="120"/>
+
+                    <p:outputLabel for="detail1" value="Detail: " />
+                    <p:inputText id="detail1" value="#{growlBean.detail1}" size="120"/>
+                </h:panelGrid>
+                <p:commandButton value="Send" actionListener="#{growlBean.send_ch2}" />
+                
+            </p:panel>
+        </h:form>
                         </p:layoutUnit>
                                  <ui:include src="sub/layout/east.xhtml"/>  <!--  panel wschodni-->
                     </p:layout>
