@@ -24,8 +24,10 @@
             <p:panel header="Wszyscy">
                 <h:panelGrid columns="2">
                     <p:outputLabel for="summary" value="Summary: " />
-                    <p:inputText id="summary" value="#{growlBean.summary}" required="true" size="120"/>
-
+                    <p:selectOneMenu id="summary" value="#{growlBean.summary}" required="true" 
+                                     editable="true">
+                        <f:selectItem itemLabel="Uwaga. Za 3 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 15-20 min." itemValue="Uwaga. Za 3 min nastapi restart systemu i program bedzie niedostepny przez najblizsze 15-20 min."/>
+                    </p:selectOneMenu>
                     <p:outputLabel for="detail" value="Detail: " />
                     <p:inputText id="detail" value="#{growlBean.detail}" size="120"/>
                 </h:panelGrid>

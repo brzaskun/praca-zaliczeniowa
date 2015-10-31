@@ -31,8 +31,12 @@
             <h:outputScript library="js_pkpir" name="wydruki.js"/>
             <script type="text/javascript">
                 function handleMessage(facesmessage) {
-                    facesmessage.severity = 'info';
-                    PF('messageslogout').show([facesmessage]);
+                    try {
+                        facesmessage.severity = 'info';
+                        PF('messageslogout').show([facesmessage]);
+                    } catch (e) {
+                        
+                    }
                 }
             </script>
         </h:head>
