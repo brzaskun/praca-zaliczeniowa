@@ -17,6 +17,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
+import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
@@ -51,8 +52,10 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -66,6 +69,7 @@ import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
+import org.jboss.weld.util.collections.ArraySet;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
@@ -187,6 +191,7 @@ public class DokfkView implements Serializable {
     private Tabelanbp wybranaTabelanbp;
     private String wierszedytowany;
     private List dokumentypodatnika;
+    private List dokumentypodatnikazestawienie;
     private double saldoBO;
     private int jest1niema0_konto;
     private String komunikatywpisdok;
@@ -1544,6 +1549,7 @@ public class DokfkView implements Serializable {
     public void odswiezzaksiegowaneInit() {
         miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne();
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
     }
@@ -1577,6 +1583,7 @@ public class DokfkView implements Serializable {
                 }
             }
         }
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne();
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
@@ -2484,23 +2491,23 @@ public class DokfkView implements Serializable {
         }
     }
 
-    public void uzupelnijdokumentyodkontrahenta() {
-        try {
-            for (Dokfk p : wykazZaksiegowanychDokumentow) {
-                if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2 && p.getKontr() == null) {
-                    Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                    if (k == null) {
-                        k = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
-                    }
-                    p.setKontr(k);
-                    dokDAOfk.edit(p);
-                }
-            }
-        } catch (Exception e) {
-            E.e(e);
-
-        }
-    }
+//    public void uzupelnijdokumentyodkontrahenta() {
+//        try {
+//            for (Dokfk p : wykazZaksiegowanychDokumentow) {
+//                if (p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2 && p.getKontr() == null) {
+//                    Klienci k = klienciDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+//                    if (k == null) {
+//                        k = new Klienci("222222222222222222222", "BRAK FIRMY JAKO KONTRAHENTA!!!");
+//                    }
+//                    p.setKontr(k);
+//                    dokDAOfk.edit(p);
+//                }
+//            }
+//        } catch (Exception e) {
+//            E.e(e);
+//
+//        }
+//    }
 
     public void oznaczewidencjevat() {
         List<EVatwpisFK> lista = eVatwpisFKDAO.findAll();
@@ -3142,6 +3149,14 @@ public class DokfkView implements Serializable {
         this.lpwierszaRK = lpwierszaRK;
     }
 
+    public List getDokumentypodatnikazestawienie() {
+        return dokumentypodatnikazestawienie;
+    }
+
+    public void setDokumentypodatnikazestawienie(List dokumentypodatnikazestawienie) {
+        this.dokumentypodatnikazestawienie = dokumentypodatnikazestawienie;
+    }
+
     public int getRodzaj() {
         return rodzaj;
     }
@@ -3171,6 +3186,16 @@ public class DokfkView implements Serializable {
                 selected.setMiesiac(wpisView.getMiesiacWpisu());
             }
         }
+    }
+
+    private List znajdzrodzajedokaktualne() {
+        Set<Rodzajedok> lista = new HashSet<>();
+        for (Dokfk p : wykazZaksiegowanychDokumentow) {
+            lista.add(p.getRodzajedok());
+        }
+        List<Rodzajedok> t = new ArrayList<>(lista);
+        Collections.sort(t, new Rodzajedokcomparator());
+        return t;
     }
 
 }

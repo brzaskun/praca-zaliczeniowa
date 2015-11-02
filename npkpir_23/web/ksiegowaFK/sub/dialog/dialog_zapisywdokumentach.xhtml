@@ -33,7 +33,7 @@
             <p:contextMenu id="contextmenuwpis" for="zestawieniezapisownakontach:dataList">
                 <p:menuitem value="Pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
             </p:contextMenu>
-            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1190px; height: 640px; overflow-y: scroll;" 
+            <p:dataTable id="dataList" value="#{wierszeView.wiersze}" var="loop" rowIndexVar="row" style="width: 1220px; height: 640px; overflow-y: scroll;" 
                          widgetVar="dokwpisTable" emptyMessage="Nie pobrano wierszy" styleClass="tabelawierszy"
                          rowKey="#{loop.idwiersza}" editable="true" selection="#{dokfkView.wiersz}" selectionMode="single" sortBy="#{loop.dokfk.datadokumentu}">
                 <p:ajax global="false" event="rowSelect" listener="#{dokfkView.znajdzDokumentOznaczWierszDoPodswietlenia()}" 
@@ -49,7 +49,7 @@
                     <h:outputText value="#{loop.stronaMa.konto.zwyklerozrachszczegolne eq 'rozrachunkowe' ? (loop.stronaMa.typStronaWiersza eq 0 ? 'Ma' : null) : null}"/>
                 </p:column>
                  <p:column headerText="data dokum" width="50">
-                     <h:outputText value="#{loop.dokfk.datadokumentu}"/>
+                     <h:outputText value="#{loop.dokfk.datadokumentu}" style="#{loop.dokfk.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
                 </p:column>
                 <p:column headerText="id dokumentu" width="90" sortBy="#{loop.dokfk.dokfkLP}" filterBy="#{loop.dokfk.dokfkLP}">
                      <h:outputText value="#{loop.dokfk.dokfkLP}"/>

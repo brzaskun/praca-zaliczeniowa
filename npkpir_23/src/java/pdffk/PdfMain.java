@@ -22,7 +22,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import comparator.KontoKwotacomparator;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
@@ -42,7 +41,6 @@ import error.E;
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -502,9 +500,9 @@ public class PdfMain {
                 col5[1] = 2;
                 col5[2] = 2;
                 col5[3] = 2;
-                col5[4] = 4;
+                col5[4] = 5;
                 col5[5] = 2;
-                col5[6] = 3;
+                col5[6] = 4;
                 col5[7] = 2;
                 col5[8] = 1;
                 return col5;
@@ -980,7 +978,7 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("testobjects.WierszDokfk")) {
                 WierszDokfk p = (WierszDokfk) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7, 32f));
                 table.addCell(ustawfrazeAlign(p.getDatadok(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getIddok(), "center", 7));
