@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:bcf="http://brzaskun.com/facelets">
     <style>
         .dataInput {
             width: 75px !important;
@@ -75,7 +76,8 @@
                             /* ]]> */
                         </script>-->
     <h:outputScript library="js_fk" name="dialog_ewidencjavatRK.js"/>
-    <p:dialog id="dialogpierwszy" header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu} #{planKontView.infozebrakslownikowych}" 
+    <p:dialog id="dialogpierwszy" 
+              header="Dane wprowadzanego dokumentu. Podatnik: #{WpisView.podatnikWpisu} #{planKontView.infozebrakslownikowych}" 
               widgetVar="wpisywanie" modal="true" appendTo="@(body)" 
               resizable="false" onShow="wpisywanieOnShow(1160,610);" closable="true" onHide="wpisywanieOnHide();pokazeditbutton()"
                focus=":formwpisdokument:data2DialogWpisywanie"
@@ -536,9 +538,8 @@
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
                         <p:column style="text-align: right;" width="100">
-                            <h:outputText id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;">
-                                <f:convertNumber minFractionDigits="2" locale="PL"/>
-                            </h:outputText>
+                            <h:outputText value="wartość dokumentu: "/>
+                            <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
                         <p:column>
                             <h:outputText value="dokument o takim numerze już istnieje" rendered="#{(dokfkView.zapisz0edytuj1 == false) and (dokfkView.wlaczZapiszButon == false)}" style="color: red;"/>

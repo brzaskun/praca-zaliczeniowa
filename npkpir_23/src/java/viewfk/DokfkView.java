@@ -1549,7 +1549,7 @@ public class DokfkView implements Serializable {
     public void odswiezzaksiegowaneInit() {
         miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne();
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
     }
@@ -1583,7 +1583,7 @@ public class DokfkView implements Serializable {
                 }
             }
         }
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne();
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(dokDAOfk.findDokfkPodatnikRokMc(wpisView));
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
@@ -3188,7 +3188,7 @@ public class DokfkView implements Serializable {
         }
     }
 
-    private List znajdzrodzajedokaktualne() {
+    private List znajdzrodzajedokaktualne(List<Dokfk> wykazZaksiegowanychDokumentow) {
         Set<Rodzajedok> lista = new HashSet<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
             lista.add(p.getRodzajedok());

@@ -45,9 +45,9 @@
                         onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
                         onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');" 
                         style="width: 200px; height: 25px; margin-left: 100px;" rendered="#{facesContext.viewRoot.locale.language eq 'de'}">
-                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow:dataList"/>
+                    <p:ajax event="change" listener="#{dokfkView.odswiezzaksiegowane}" update=":zestawieniedokumentow"/>
                     <f:selectItem itemLabel="#{mgs.wszystkie}" itemValue="wszystkie"/>
-                    <f:selectItems value="#{dokfkView.dokumentypodatnika}" var="item" itemLabel="#{item.skrot} - #{item.de}" itemValue="#{item.skrot}"/>
+                    <f:selectItems value="#{dokfkView.dokumentypodatnikazestawienie}" var="item" itemLabel="#{item.skrot} - #{item.de}" itemValue="#{item.skrot}"/>
                 </h:selectOneMenu>
                 <p:column>
                     <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentow, dokfkView.selectedlist)}" styleClass="fkbutton"
