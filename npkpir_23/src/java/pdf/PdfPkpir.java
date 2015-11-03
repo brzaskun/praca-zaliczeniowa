@@ -40,7 +40,7 @@ public class PdfPkpir {
 
     public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
-        String nazwapliku = "pkpir" + wpisView.getPodatnikWpisu() + ".pdf";
+        String nazwapliku = "pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
         int liczydlo = 1;
         PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -150,7 +150,7 @@ public class PdfPkpir {
         pdf.add(table);
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
-        RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu()+"');");
+        RequestContext.getCurrentInstance().execute("wydrukpkpir('"+wpisView.getPodatnikWpisu().trim()+"');");
         Msg.msg("i", "Wydrukowano księgę", "form:messages");
         
         

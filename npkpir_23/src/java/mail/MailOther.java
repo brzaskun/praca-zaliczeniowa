@@ -71,7 +71,7 @@ public class MailOther implements Serializable{
                 Msg.msg("e", "Wystąpił błąd - brak wydrukowanej pkpir do załączenia");
              }
          } catch (MessagingException e) {
-             Msg.msg("e", "Klient nie ma wprowadzonego adresu mail. Wysyłka nieudana");
+             Msg.msg("e", "Błąd podczas wysyłki pkpir. Wysyłka nieudana");
          }
      }
     
