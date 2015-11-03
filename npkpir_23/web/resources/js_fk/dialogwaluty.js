@@ -1,3 +1,4 @@
+"use strict";
 var walutypokaz = function () {
     $(document.getElementById('wpiswalut:dataTablewpisywaniewalut')).show();
     $(document.getElementById('wpiswalut:dataTablewpisywaniewalut:0:symbol')).select();

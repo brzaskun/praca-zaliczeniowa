@@ -1,3 +1,5 @@
+"use strict";
+
 function ustawDate(rok,mc){
     var dataWyst = document.getElementById("dodWiad:dataPole");
     var wart = dataWyst.value;

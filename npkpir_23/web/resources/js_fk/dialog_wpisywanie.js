@@ -1,3 +1,4 @@
+"use strict";
 
 var zachowajwiersz = function (lpwiersza, wnlubma, typwiersza) {
     try {

@@ -1,4 +1,6 @@
-    var pokazwierszedok = function() {
+"use strict";
+
+var pokazwierszedok = function() {
         PF('wiersze').show();
 };
 

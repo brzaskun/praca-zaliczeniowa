@@ -1,3 +1,4 @@
+"use strict";
 
 var rozrachunkiOnShow = function () {
     ustawdialog('dialogdrugi', 'menudokumenty');

@@ -1,4 +1,4 @@
-    "use strict";
+"use strict";
     
 var zachowajnumerwiersza = function(zmienna ,numer, tabela) {
         MYAPP.zmienna = zmienna;
