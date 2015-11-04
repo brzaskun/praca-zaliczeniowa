@@ -69,6 +69,11 @@ public class DokKsiega implements Serializable {
         this.setEwidencjaVAT1(tmp.getEwidencjaVAT1());
         this.setDokumentProsty(tmp.isDokumentProsty());
     }
+
+    @Override
+    public String toString() {
+        return "DokKsiega{" + "idDok=" + idDok + ", typdokumentu=" + typdokumentu + ", nrWpkpir=" + nrWpkpir + ", nrWlDk=" + nrWlDk + ", kontr=" + kontr + ", podatnik=" + podatnik + ", dataWyst=" + dataWyst + ", opis=" + opis + '}';
+    }
     
     
 

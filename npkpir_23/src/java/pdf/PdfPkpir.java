@@ -38,7 +38,7 @@ import view.WpisView;
 @Stateless
 public class PdfPkpir {
 
-    public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
+    public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {
         Document pdf = new Document(PageSize.A4_LANDSCAPE.rotate(), -20, -20, 20, 10);
         String nazwapliku = "pkpir" + wpisView.getPodatnikWpisu().trim() + ".pdf";
         PdfWriter writer = PdfWriter.getInstance(pdf, Plik.plikR(nazwapliku));
@@ -66,7 +66,7 @@ public class PdfPkpir {
         table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
         table.addCell(ustawfraze("wydruk podatkowej księgi przychodów i rozchodów", 4, 0));
         table.addCell(ustawfraze("firma: " + wpisView.getPodatnikWpisu(), 5, 0));
-        table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 3, 0));
+        table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + mc, 3, 0));
         table.addCell(ustawfraze("lp", 0, 2));
         table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
         table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));

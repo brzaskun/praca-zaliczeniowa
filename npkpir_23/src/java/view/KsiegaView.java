@@ -23,7 +23,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -50,26 +52,46 @@ public class KsiegaView implements Serializable {
     private WpisView wpisView;
     private DokKsiega selDokument;
     @Inject
+    private DokKsiega podsumowanie;
+    @Inject
     private SumypkpirDAO sumypkpirDAO;
     @Inject
     private DokDAO dokDAO;
     @Inject 
     private WpisDAO wpisDAO;
+    private Map<String, List<DokKsiega>> ksiegimiesieczne;
 
     public KsiegaView() {
         lista = new ArrayList<>();
+        ksiegimiesieczne = new HashMap<>();
     }
 
     @PostConstruct
     private void init() {
+        generujksiege(wpisView.getMiesiacWpisu());
+        zachowajsumy();
+        podsumowaniepopmc();
+    }
+    
+    public void generujksiegirok() {
+        int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
+        for (int i = 1; i <= mcint; i++) {
+            lista = new ArrayList<>();
+            String mc = Mce.getNumberToMiesiac().get(i);
+            generujksiege(mc);
+            ksiegimiesieczne.put(mc, lista);
+        }
+        System.out.println("wygenerowano");
+    }
+    
+    private void generujksiege(String mc) {
         Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         Podatnik pod = wpisView.getPodatnikObiekt();
         int numerkolejny = KsiegaBean.pobierznumerrecznie(pod,rok,mc);
         //dlatego jest caly rok bo nadajemy numery za kazdym razem
         List<Dok> dokumentyzaMc = KsiegaBean.pobierzdokumenty(dokDAO, podatnik, rok, mc, numerkolejny);
-        DokKsiega podsumowanie = KsiegaBean.ustawpodsumowanie();
+        podsumowanie = KsiegaBean.ustawpodsumowanie();
         for (Dok tmp : dokumentyzaMc) {
             DokKsiega dk = new DokKsiega(tmp);
             List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
@@ -80,9 +102,12 @@ public class KsiegaView implements Serializable {
             lista.add(dk);
         }
         lista.add(podsumowanie);
+    }
+    
+        
+    private void zachowajsumy() {
         Sumypkpir sumyzachowac = KsiegaBean.zachowajsumypkpir(wpisView, podsumowanie);
         sumypkpirDAO.edit(sumyzachowac);
-        podsumowaniepopmc();
     }
 
     private void podsumowaniepopmc() {
@@ -145,7 +170,7 @@ public class KsiegaView implements Serializable {
     
     public void drukujPKPIR() {
         try {
-            PdfPkpir.drukujksiege(lista, wpisView);
+            PdfPkpir.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
         } catch (Exception e) { E.e(e); 
             
         }
