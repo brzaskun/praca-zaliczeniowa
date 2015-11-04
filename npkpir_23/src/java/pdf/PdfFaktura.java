@@ -208,10 +208,12 @@ public class PdfFaktura extends Pdf implements Serializable {
                     if (selected.isFakturaxxl()){
                         document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));
+                        document.add(Chunk.NEWLINE );
                         document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                     } else {
                         document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                         document.add(new Paragraph(""));
+                        document.add(Chunk.NEWLINE );
                         document.add(PdfFP.dolaczpozycjedofaktury2normalkorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
                     }
                 } else {
