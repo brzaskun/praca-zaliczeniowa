@@ -14,6 +14,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.ColumnText;
@@ -188,7 +189,7 @@ public class PdfFaktura extends Pdf implements Serializable {
             int wierszewtabelach = PdfFP.obliczwierszewtabelach(selected);
             boolean dlugiwiersz = selected.getPozycjenafakturze().get(0).getNazwa().length() > 100;
             boolean jestkorekta = selected.getPozycjepokorekcie() != null;
-            if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta)) {
+            if ((wierszewtabelach > 12 && jestkorekta == false) || (dlugiwiersz && jestkorekta) || (wierszewtabelach > 7 && jestkorekta)) {
                 Document document = new Document();
                 String nazwapliku = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/fakturaNr0" + String.valueOf(nrfakt) + "firma"+ wpisView.getPodatnikWpisu() + ".pdf";
                 PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(nazwapliku));
@@ -204,10 +205,15 @@ public class PdfFaktura extends Pdf implements Serializable {
                     document.add(logo);
                 }
                 if (selected.getPozycjepokorekcie() != null) {
-                    document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
-                    document.add(Chunk.NEWLINE );
-                    document.add(Chunk.NEWLINE );
-                    document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                    if (selected.isFakturaxxl()){
+                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(new Paragraph(""));
+                        document.add(PdfFP.dolaczpozycjedofakturydlugacz2korekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                    } else {
+                        document.add(PdfFP.dolaczpozycjedofaktury2normal(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                        document.add(new Paragraph(""));
+                        document.add(PdfFP.dolaczpozycjedofaktury2normalkorekta(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));
+                    }
                 } else {
                     if (selected.isFakturaxxl()){
                         document.add(PdfFP.dolaczpozycjedofakturydlugacz2(fakturaelementygraficzneDAO, writer, selected, wymiaryGora, skladnikifaktury, wpisView, document, elementydod, fakturaXXLKolumnaDAO));

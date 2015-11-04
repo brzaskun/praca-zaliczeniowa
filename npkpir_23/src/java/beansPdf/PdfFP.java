@@ -431,6 +431,21 @@ public class PdfFP {
         return null;
     }
     
+    public static PdfPTable dolaczpozycjedofaktury2normalkorekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
+        Pozycjenafakturze pobrane = new Pozycjenafakturze();
+        for (Pozycjenafakturze p : skladnikifaktury) {
+            switch (p.getPozycjenafakturzePK().getNazwa()) {
+                case "akordeon:formwzor:towary":
+                    //Dane do tablicy z wierszami
+                    pobrane = zwrocpozycje(skladnikifaktury, "towary");
+                        return  wygenerujtablice(true, selected.getPozycjepokorekcie(), selected);
+                default:
+                    break;
+            }
+        }
+        return null;
+    }
+    
     public static PdfPTable dolaczpozycjedofakturydlugacz2korekta(FakturaelementygraficzneDAO fakturaelementygraficzneDAO, PdfWriter writer, Faktura selected, Map<String, Integer> wymiary, List<Pozycjenafakturze> skladnikifaktury, WpisView wpisView, Document document, List<Fakturadodelementy> elementydod, FakturaXXLKolumnaDAO fakturaXXLKolumnaDAO) throws DocumentException, IOException {
         Pozycjenafakturze pobrane = new Pozycjenafakturze();
         for (Pozycjenafakturze p : skladnikifaktury) {
@@ -921,7 +936,7 @@ public class PdfFP {
     }
     
     private static void wierszroznicy(Faktura selected, PdfPTable table) throws DocumentException, IOException {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
@@ -951,7 +966,7 @@ public class PdfFP {
     }
     
     private static void wierszroznicyxxl(Faktura selected, PdfPTable table, int wielkoscXXL) throws DocumentException, IOException {
-        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
         formatter.setGroupingUsed(true);
@@ -963,17 +978,15 @@ public class PdfFP {
         table.addCell(ustawfraze("w tym wg stawek vat", 2+wielkoscXXL, 0));
         List<EVatwpis> ewidencja = selected.getEwidencjavat();
         List<EVatwpis> ewidencjapk = selected.getEwidencjavatpk();
-        int ilerow = 0;
         if (ewidencja != null) {
             for (int i = 0; i < ewidencja.size(); i++) {
-                if (ilerow > 0) {
-                    table.addCell(ustawfraze(" ", 11, 0));
+                if (i > 0) {
+                    table.addCell(ustawfraze(" ", 2+wielkoscXXL, 0));
                 }
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(ewidencjapk.get(i).getNetto()-ewidencja.get(i).getNetto())), "right", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf((int) Double.parseDouble(ewidencja.get(i).getEstawka())) + "%", "center", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(ewidencjapk.get(i).getVat()-ewidencja.get(i).getVat())), "right", 7));
                 table.addCell(ustawfrazeAlign(String.valueOf(formatter.format((ewidencjapk.get(i).getNetto() + ewidencjapk.get(i).getVat())-(ewidencja.get(i).getNetto() + ewidencja.get(i).getVat()))), "right", 7));
-                ilerow++;
             }
         }
     }
