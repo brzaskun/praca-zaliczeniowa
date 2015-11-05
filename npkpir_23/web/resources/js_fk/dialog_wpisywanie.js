@@ -62,7 +62,6 @@ var odtworzwierszVATRK = function(lp) {
         r(MYAPP.lpwiersza).focus();
         r(MYAPP.lpwiersza).select();
         r(MYAPP.lpwiersza).keyup();
-        document.activeElement = rj(MYAPP.lpwiersza);
         delete MYAPP.lpwiersza;
     }
 };
