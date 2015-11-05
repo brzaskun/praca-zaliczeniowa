@@ -158,7 +158,7 @@
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
-                            <p:ajax event="blur" listener="#{DokumentView.dokumentProstySchowajEwidencje}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
+                            <p:ajax event="blur" listener="#{DokumentView.dokumentEwidencjaVAT}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>
@@ -181,7 +181,7 @@
                 <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
                     <p:column headerText="dok. prosty" style="text-align: center;" width="60">
                         <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" >
-                            <p:ajax event="click" partialSubmit="true" listener="#{DokumentView.dokumentProstySchowajEwidencje()}" global="false"/>
+                            <p:ajax event="click" partialSubmit="true" listener="#{DokumentView.dokumentEwidencjaVAT()}" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="rozliczony" style="text-align: center;" width="60">

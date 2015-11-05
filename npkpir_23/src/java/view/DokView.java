@@ -642,7 +642,7 @@ public final class DokView implements Serializable {
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
-    public void dokumentProstySchowajEwidencje() {
+    public void dokumentEwidencjaVAT() {
         String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
         if (toJestdokumentProsty.equals("on")) {
             sumbrutto = 0.0;

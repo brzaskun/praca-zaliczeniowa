@@ -35,15 +35,19 @@ public class DokFKVATBean {
     
     public static Double pobierzstawke(EVatwpisFK evatwpis) {
         String stawkavat = null;
+        double kwotavat = 0.0;
         try {
-            stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
-            return Double.parseDouble(stawkavat) / 100;
+            if (evatwpis.getDokfk().getRodzajedok().getRodzajtransakcji().equals(("sprzedaz"))) {
+                stawkavat = evatwpis.getEwidencja().getNazwa().replaceAll("[^\\d]", "");
+                kwotavat = Double.parseDouble(stawkavat) / 100;
+            } else {
+                kwotavat = 0.23;
+            }
         } catch (Exception e) {
             E.e(e);
-            stawkavat = "23";
-            return Double.parseDouble(stawkavat) / 100;
+            kwotavat = 0.23;
         }
-        
+        return kwotavat;
     }
     
     public static void ustawvat(EVatwpisFK evatwpis,  Dokfk selected) {
