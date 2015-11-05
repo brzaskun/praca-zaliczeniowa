@@ -88,7 +88,9 @@ public class KsiegaView implements Serializable {
     public void drukujPKPIRrok() {
         try {
             generujksiegirok();
-            PdfPkpir.drukujksiegeRok(ksiegimiesieczne, wpisView);
+            if (ksiegimiesieczne.isEmpty() == false) {
+                PdfPkpir.drukujksiegeRok(ksiegimiesieczne, wpisView);
+            }
         } catch (Exception e) { 
             E.e(e); 
         }
