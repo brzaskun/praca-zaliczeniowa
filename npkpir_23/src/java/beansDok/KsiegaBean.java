@@ -33,7 +33,7 @@ import view.WpisView;
 public class KsiegaBean {
 
     public static int pobierznumerrecznie(Podatnik pod, Integer rok, String mc) {
-        int numerkolejny = 0;
+        int numerkolejny = 1;
         if (pod.getNumerpkpir() != null) {
             try {
                 //zmienia numer gdy srodek roku

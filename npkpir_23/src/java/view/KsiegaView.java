@@ -79,9 +79,19 @@ public class KsiegaView implements Serializable {
             lista = new ArrayList<>();
             String mc = Mce.getNumberToMiesiac().get(i);
             generujksiege(mc);
+            podsumowaniepopmc();
             ksiegimiesieczne.put(mc, lista);
         }
         System.out.println("wygenerowano");
+    }
+    
+    public void drukujPKPIRrok() {
+        try {
+            generujksiegirok();
+            PdfPkpir.drukujksiegeRok(ksiegimiesieczne, wpisView);
+        } catch (Exception e) { 
+            E.e(e); 
+        }
     }
     
     private void generujksiege(String mc) {
@@ -171,8 +181,8 @@ public class KsiegaView implements Serializable {
     public void drukujPKPIR() {
         try {
             PdfPkpir.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
-        } catch (Exception e) { E.e(e); 
-            
+        } catch (Exception e) { 
+            E.e(e); 
         }
     }
     
