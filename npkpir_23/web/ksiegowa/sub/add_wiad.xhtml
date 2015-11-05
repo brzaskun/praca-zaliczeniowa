@@ -373,19 +373,19 @@
                 <h:outputLabel value="v rok" style="font-weight: 700"/>
                 <h:outputLabel value="uwagi" style="font-weight: 700"/>
                 <h:outputLabel value=""/>
-                <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}"
+                <h:selectOneMenu id="vatm" value="#{DokumentView.selDokument.vatM}" style="width: 50px;"
                                  styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');"
                                  onblur="$(this).removeClass('ui-state-focus');">
                     <f:selectItems value="#{Mce.mceList}"/>
                 </h:selectOneMenu>
-                <h:selectOneMenu id="rokm" value="#{DokumentView.selDokument.vatR}"
+                <h:selectOneMenu id="rokm" value="#{DokumentView.selDokument.vatR}" style="width: 80px;"
                                  styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                  onfocus="$(this).addClass('ui-state-focus');"
                                  onblur="$(this).removeClass('ui-state-focus');">
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </h:selectOneMenu>
-                <p:inputText value="#{DokumentView.selDokument.uwagi}" />
+                <p:inputText value="#{DokumentView.selDokument.uwagi}" style="width: 200px;"/>
                 <p:commandButton id="wprowadzenieNowego" accesskey="w" actionListener="#{DokumentView.dodaj(1)}" value="Dodaj" 
                                  update=":dodWiad, :zobWiad:ostatniUzytkownik" style="width: 150px;">
                     <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>

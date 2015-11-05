@@ -8,7 +8,6 @@ import beansDok.Kolmn;
 import beansDok.ListaEwidencjiVat;
 import beansDok.VAT;
 import beansFK.DokFKBean;
-import beansFK.DokFKWalutyBean;
 import beansFK.TabelaNBPBean;
 import beansFaktura.FakturaBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
@@ -47,10 +46,8 @@ import entity.Rozrachunek1;
 import entity.SrodekTrw;
 import entity.Srodkikst;
 import entity.StornoDok;
-import entity.Wpis;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
-import entityfk.Wiersz;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
@@ -817,6 +814,7 @@ public final class DokView implements Serializable {
             } catch (Exception e) {
                 E.e(e);
             }
+            DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
             selDokument.setTabelanbp(tabelanbpPLN);
             selectedSTR = new SrodekTrw();
             if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
