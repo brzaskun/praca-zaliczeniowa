@@ -17,7 +17,7 @@ import javax.persistence.Embeddable;
  * @author Osito
  */
 @Named
-@Embeddable
+
 public class DokKsiega implements Serializable {
     private static final long serialVersionUID = 1L;
     

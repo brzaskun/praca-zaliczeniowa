@@ -6,6 +6,7 @@ package language;
 
 import java.io.Serializable;
 import java.util.Locale;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,14 @@ import javax.faces.event.ActionEvent;
 @SessionScoped
 public class LocaleChanger implements Serializable{
     
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale locale;
+
+    @PostConstruct
+    private void init() {
+        //locale = new Locale("pl");
+        locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+    }
+
     
     //mozna zaaplikowac do zmiany jezyka - piesn przyszlosci
     public String polishAction(ActionEvent e){

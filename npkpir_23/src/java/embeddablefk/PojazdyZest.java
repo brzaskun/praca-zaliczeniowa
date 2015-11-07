@@ -17,7 +17,7 @@ import javax.persistence.Embeddable;
  *
  * @author Osito
  */
-@Embeddable
+
 public class PojazdyZest  implements Serializable{
     private static final long serialVersionUID = 1L;
     

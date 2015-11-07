@@ -6,13 +6,11 @@
 
 package embeddablefk;
 
-import embeddable.Mce;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.annotation.PostConstruct;
 import javax.persistence.Embeddable;
 
 /**

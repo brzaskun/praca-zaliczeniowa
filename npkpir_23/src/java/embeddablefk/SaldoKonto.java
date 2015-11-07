@@ -12,13 +12,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Embeddable;
 
 /**
  *
  * @author Osito
  */
-@Embeddable
+
 public class SaldoKonto implements Serializable {
     private static final long serialVersionUID = 1L;
     private int id;

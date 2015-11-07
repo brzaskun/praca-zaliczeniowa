@@ -11,13 +11,13 @@ import entityfk.StronaWiersza;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Embeddable;
+
 
 /**
  *
  * @author Osito
  */
-@Embeddable
+
 public class DelegacjaZest implements Serializable{
     private static final long serialVersionUID = 1L;
     
