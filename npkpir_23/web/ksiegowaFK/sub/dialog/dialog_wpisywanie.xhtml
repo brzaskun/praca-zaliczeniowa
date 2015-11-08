@@ -409,7 +409,8 @@
                         </p:column>
                         <p:column headerText="opis transakcji" width="130" style="text-align: center;">
                             <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
-                                         onblur="skopiujopis(#{loop.idporzadkowy});" 
+                                         onblur="skopiujopis(#{loop.idporzadkowy});odswietlznalezionywierszz(this);" 
+                                         onfocus="podswietlznalezionywierszz(this);"
                                          styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}">
                                 <!--                                     onkeypress="wywolajdok('{planKontJSView.opiskonta}', '{planKontJSView.pelnynumerkonta}', '{loop.idporzadkowy}');" -->
                                 <p:ajax global="false" event="focus" onstart="zachowajwierszVATRK(#{index+1})" listener="#{dokfkView.setLpwierszaRK(index+1)}"/>

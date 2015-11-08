@@ -28,7 +28,6 @@ var zachowajwierszVATRK = function (lp) {
         MYAPP.lpwiersza = "formwpisdokument:dataList:"+id+":opis";
         $(document.getElementById("wpisywaniefooter:wierszid")).val(lp);
         $(document.getElementById("wpisywaniefooter:lpwierszaRK")).val(lp);
-        podswietlznalezionywierszz(id);
     } catch (blad) {
         //alert("Blad w dialgowprowadzanie.js zachowaj wiersz "+blad);
     }
@@ -581,40 +580,47 @@ var podswietlznalezionywierszzbrakiem = function(nrwiersza) {
     r(nr5).css( "color", "red" );
 };
 
-var podswietlznalezionywierszz = function(nrwiersza) {
-    var liczbawierszy = r("formwpisdokument:dataList_data").children("tr").length;
-    for (var i = 0; i < liczbawierszy; i++) {
-        if (i === nrwiersza) {
-            try {
-                var nr1 = "formwpisdokument:dataList:"+i+":opis";
-                var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
-                var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
-                var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
-                var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
-                var nr6 = "formwpisdokument:dataList:"+i+":dataWiersza";
-                r(nr1).css( "color", "green" );
-                r(nr2).css( "color", "green" );
-                r(nr3).css( "color", "green" );
-                r(nr4).css( "color", "green" );
-                r(nr5).css( "color", "green" );
-                r(nr6).css( "color", "green" );
-            } catch (e) {}
-        } else {
-            try {
-                var nr1 = "formwpisdokument:dataList:"+i+":opis";
-                var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
-                var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
-                var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
-                var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
-                var nr6 = "formwpisdokument:dataList:"+i+":dataWiersza";
-                r(nr1).css( "color", "black" );
-                r(nr2).css( "color", "black" );
-                r(nr3).css( "color", "black" );
-                r(nr4).css( "color", "black" );
-                r(nr5).css( "color", "black" );
-                r(nr6).css( "color", "black" );
-            } catch (e) {}
-        }
+var podswietlznalezionywierszz = function(wiersz) {
+    var i = parseInt(wiersz.name.split(":")[2]);
+    var nr1 = "formwpisdokument:dataList:"+i+":opis";
+    var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
+    var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
+    var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
+    var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
+    var nr6 = "formwpisdokument:dataList:"+i+":dataWiersza";
+    var nr7 = "formwpisdokument:dataList:"+i+":saldo";
+    try {
+        r(nr1).css( "color", "blue" );
+        r(nr2).css( "color", "blue" );
+        r(nr3).css( "color", "blue" );
+        r(nr4).css( "color", "blue" );
+        r(nr5).css( "color", "blue" );
+        r(nr6).css( "color", "blue" );
+        r(nr7).css( "color", "blue" );
+    } catch (ex) {
+        
+    }
+};
+
+var odswietlznalezionywierszz = function(wiersz) {
+    var i = parseInt(wiersz.name.split(":")[2]);
+    var nr1 = "formwpisdokument:dataList:"+i+":opis";
+    var nr2 = "formwpisdokument:dataList:"+i+":wn_input";
+    var nr3 = "formwpisdokument:dataList:"+i+":kontown_input";
+    var nr4 = "formwpisdokument:dataList:"+i+":ma_input";
+    var nr5 = "formwpisdokument:dataList:"+i+":kontoma_input";
+    var nr6 = "formwpisdokument:dataList:"+i+":dataWiersza";
+    var nr7 = "formwpisdokument:dataList:"+i+":saldo";
+    try {
+        r(nr1).css( "color", "initial" );
+        r(nr2).css( "color", "initial" );
+        r(nr3).css( "color", "initial" );
+        r(nr4).css( "color", "initial" );
+        r(nr5).css( "color", "initial" );
+        r(nr6).css( "color", "initial" );
+        r(nr7).css( "color", "initial" );
+    } catch (ex) {
+        
     }
 };
 
