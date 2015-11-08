@@ -58,6 +58,12 @@ var TabKeyDown;
                             }
                         }
                     }
+                } else if (isArrowkey(event)) {
+                    if (event.keyCode === 40) {
+                        goDown(wiersze,wierszlp);
+                    } else if (event.keyCode === 38) {
+                        goUp(wiersze,wierszlp);
+                    }
                 }
             }
         } else if (rozrachunki > -1) {
@@ -94,9 +100,31 @@ var TabKeyDown;
         //on adds a handler to the object.  In this case it is the document itself
         $(document).on("keydown", TabKeyDown);
     }
-
+    
+    function goDown(wiersze,wierszlp) {
+        var nowywiersz = wiersze[wierszlp];
+        var tdspan = $(nowywiersz).children()[1];
+        var pole = $(tdspan).find(':input');
+        $(pole).focus();
+    }
+    
+    function goUp(wiersze,wierszlp) {
+        var nowaliczba = +wierszlp !== 1 ? +wierszlp-2 : 0;
+        var nowywiersz = wiersze[nowaliczba];
+        var tdspan = $(nowywiersz).children()[1];
+        var pole = $(tdspan).find(':input');
+        $(pole).focus();
+    }
+    
     function isTabKey(event) {
         if (!event.altKey && !event.ctrlKey && !event.metaKey && event.keyCode === 13) {
+            return true;
+        }
+        return false;
+    }
+    
+    function isArrowkey(event) {
+        if (!event.altKey && !event.ctrlKey && !event.metaKey && (event.keyCode === 38 || event.keyCode === 40)) {
             return true;
         }
         return false;

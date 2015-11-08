@@ -235,6 +235,16 @@ public class Logowanie implements Serializable {
         p.append(uzytkownik);
         p.append("_");
         p.append(haslo);
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Cookie[] cookies = request.getCookies();
+        for (Cookie r : cookies) {
+            if (r.getName().equals("gabiurms")) {
+                r.setValue(null);
+                r.setMaxAge(0);
+                r.setPath("/");
+                response.addCookie(r);
+            }
+        }
         Cookie cookie = new Cookie("gabiurms",p.toString());
         cookie.setPath("/");
         cookie.setMaxAge(60*60*8); //1 hour

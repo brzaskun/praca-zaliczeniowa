@@ -191,8 +191,9 @@
                                         <p:ajax global="false" event="change" listener="#{dokfkView.przygotujDokumentWpisywanie()}" update=":formwpisdokument:panelwalutowy, :formwpisdokument:panelzkwotamidok"/>
                                     </h:selectOneMenu>
                                 </p:column>
-                                <p:column>
-                                    <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 40px; font-weight: 900; margin-left: 15%;" disabled="true">
+                                <p:column style="text-align: center;">
+                                    <p:inputText id="numer" value="#{dokfkView.selected.dokfkPK.nrkolejnywserii}" style="width: 40px; font-weight: 900; text-align: center;"
+                                                 disabled="true">
                                     </p:inputText>
                                 </p:column>
                                 <p:column>
@@ -228,7 +229,7 @@
                                     <p:autoComplete id="acForce" value="#{dokfkView.selected.kontr}" completeMethod="#{klienciConverterView.completeKL}" widgetVar="poleklientawpisywaniefk"
                                                     var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                                     minQueryLength="3" maxResults="12" maxlength="10" converterMessage="Nieudana konwersja Klient"
-                                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" 
+                                                    forceSelection="true" queryDelay="10" styleClass="wpisywaniekontrfk" autocomplete="true"
                                                     rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu != 5 and dokfkView.selected.rodzajedok.kategoriadokumentu != 0 ? true : false}" style="width: 250px;">
                                         <p:ajax event="query" global="false"/>
                                         <p:ajax event="blur" listener="#{kliencifkView.pobieraniekontaFKWpis}" global="false" update=":formwpisdokument:panelwalutowy"/>
