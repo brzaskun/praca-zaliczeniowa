@@ -51,12 +51,23 @@ var zachowajobiekt = function(obiekt, event) {
             MYAPP.tabeladata = "form:dataList_data";
             MYAPP.tabela = "form:dataList";
             MYAPP.zmienna = "zmiennazapisy";
+            MYAPP.top = 240;
+            MYAPP.bottom = 650;
             MYAPP.wyliczaj = true;
         } else if (MYAPP.sourceid === "formobroty:dataListObroty_data"){
             MYAPP.tabeladata = "formobroty:dataListObroty_data";
             MYAPP.tabela = "formobroty:dataListObroty";
             MYAPP.zmienna = "zmiennaobroty";
+            MYAPP.top = 240;
+            MYAPP.bottom = 650;
             MYAPP.wyliczaj = true;
+        } else if (MYAPP.sourceid === "zestawieniedokumentow:dataList_data"){
+            MYAPP.tabeladata = "zestawieniedokumentow:dataList_data";
+            MYAPP.tabela = "zestawieniedokumentow:dataList";
+            MYAPP.zmienna = "zmiennadokumenty";
+            MYAPP.top = 140;
+            MYAPP.bottom = 500;
+            MYAPP.wyliczaj = false;
         }
         console.log(sourceid);
     } catch (ex) {
@@ -138,8 +149,8 @@ var wrocwiersz = function() {
 var isScrolledIntoView = function(elem) {
     try {
         //tak daleko zeby dotrzec do kontenera
-        var docViewTop = 240;
-        var docViewBottom = 700;
+        var docViewTop = MYAPP.top;
+        var docViewBottom = MYAPP.bottom;
         var viewableheight = elem.scrollHeight;
         var elemTop = $(elem).offset().top;
         var elemBottom = elemTop + $(elem).height();
@@ -154,7 +165,7 @@ var isScrolledIntoView = function(elem) {
         }
         return przesuniecie;
     } catch (ex) {
-         alert("Blad w chodzeniepokonahc.js isScrolledIntoView " + ex.toString());
+         alert("Blad w chodzeniepokontach.js isScrolledIntoView " + ex.toString());
     }
     return 0;
 };

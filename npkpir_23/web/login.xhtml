@@ -7,6 +7,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:bcf="http://brzaskun.com/facelets">
     <f:view locale="#{localeChanger.locale}">
+        <f:event type="postAddToView" listener="#{logowanie.sprawdzciasteczka}"/>
         <h:head>
             <meta http-equiv="Accept-Encoding" content="gzip"/>
             <h:outputStylesheet id="template" name="css/style.css"/>
@@ -59,6 +60,7 @@
 
 
             </script>
+            
             <!--                <p:notificationBar position="top" effect="slide" widgetVar="bar" styleClass="top" style="border: none;">  
                                 <p style="text-align: center;"><h:outputText value="#{mgs.witamy}" style="color: activecaption; font-size:24px; " /></p>  
                             </p:notificationBar> -->
@@ -88,22 +90,29 @@
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
-                                     autocomplete="true" onkeydown="PF('bar').show()">
-                            <p:ajax event="blur" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false" />
+                                     autocomplete="true" >
+                            <p:ajax event="change" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  oncomplete="r('formlog1:haslo').focus();"/>
                         </h:inputText>
                         <h:outputText value="#{mgs.haslo}"/>
-                        <h:inputSecret value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" />
+                        <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
                     </p:panelGrid>
                     <br/>
-                    <p:panelGrid id="logowaniebutton" columns="1" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
-                        <p:commandButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false" style="width: 150px;" 
-                                         icon="fa fa-user" rendered="#{logowanie.liczniklogowan gt 0}"/>
+                    <p:panelGrid id="logowaniebutton" columns="3" style="margin-left: auto; margin-right: auto; width: 350px; text-align: center; border: none !important;">
+                        <style>
+                            .loginbutton  button:first-child {
+                                width: 150px;
+                            };
+                        </style>
+                        <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                                       rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
+                            <p:menuitem value="zapamietaj mnie" action="#{logowanie.savelogin()}" ajax="false"/>
+                        </p:splitButton>
                         <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>
                     <!--                        <p:commandButton value="#{mgs.wyloguj}" action="{Logowanie.logout()}" update=":formlog1:logowanie" ajax="false"/>-->
                 </p:panel>
             </h:form>
-            <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >
+                   <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none; text-align: right;" >
                 <h:form>
                     <p:commandButton styleClass="languagebutton" value="pl" actionListener="#{localeChanger.polishAction}" type="submit" update="@all"/>
                     <p:commandButton styleClass="languagebutton" value="en" actionListener="#{localeChanger.englishAction}" type="submit" update="@all"/>

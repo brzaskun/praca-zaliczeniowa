@@ -117,18 +117,17 @@ public class WpisView implements Serializable {
     }
     
     private final Wpis pobierzWpis() {
-        HttpServletRequest request;
-        request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        Wpis wpis = null;
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         try {
             String wprowadzilX = principal.getName();
             wprowadzil = uzDAO.findUzByLogin(wprowadzilX);
-            Wpis wpis = wpisDAO.find(wprowadzilX);
-            return wpis;
+            wpis = wpisDAO.find(wprowadzilX);
         } catch (Exception e) {
             E.e(e); 
-            return null;
         } 
+        return wpis;
     }
     
     private void obsluzMce(Wpis wpis) {

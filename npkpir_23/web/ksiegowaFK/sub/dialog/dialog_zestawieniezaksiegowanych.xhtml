@@ -16,12 +16,12 @@
     </style>
 
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
-              dynamic="true" 
+              dynamic="true" maximizable="true"
               resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
-
+        <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
         <h:form id="zestawieniedokumentow">
             <p:growl id="wiadomoscsprawdzenie" life="6000"/>
             <p:panelGrid style="margin-left: 2%;" >
@@ -73,6 +73,13 @@
                 /* <![CDATA[ */
                 //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
                 $(document).on("click", '.gridZaksiegowane tr', function(e) {
+                    try {
+                        zachowajobiekt(this, e);
+                    } catch (ex) {
+                        alert('error dialog zapisynakoncie' + ex.toString());
+                    }
+                });
+                $(document).on("click", '.gridZaksiegowane tr', function(e) {
                     var pierwszywiersz = $("#zestawieniedokumentow\\:dataList_data").children("tr");
                     var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
                     try {
@@ -94,7 +101,7 @@
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
-                         selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}"
+                         selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
                          style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
                          >

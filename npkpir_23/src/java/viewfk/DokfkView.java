@@ -71,6 +71,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.jboss.weld.util.collections.ArraySet;
 import org.joda.time.DateTime;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
@@ -198,6 +199,7 @@ public class DokfkView implements Serializable {
     private Integer lpwierszaRK;
     private Klienci klientdlaPK;
     private String miesiacDlaZestawieniaZaksiegowanych;
+    private DataTable dataTablezaksiegowane;
 
 
     public DokfkView() {
@@ -3198,4 +3200,18 @@ public class DokfkView implements Serializable {
         return t;
     }
 
+    public void powiekszliste() {
+        dataTablezaksiegowane.setStyle("height: 800px;");
+    }
+    
+    public DataTable getDataTablezaksiegowane() {
+        return dataTablezaksiegowane;
+    }
+
+    public void setDataTablezaksiegowane(DataTable dataTablezaksiegowane) {
+        this.dataTablezaksiegowane = dataTablezaksiegowane;
+    }
+
+    
+    
 }
