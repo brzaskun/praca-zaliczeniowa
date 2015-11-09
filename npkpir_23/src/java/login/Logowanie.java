@@ -217,16 +217,20 @@ public class Logowanie implements Serializable {
     }
     
     public void sprawdzciasteczka() {
-        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
-        for (Cookie p : cookies) {
-            if (p.getName().equals("gabiurms")) {
-                String[] o = p.getValue().split("_");
-                uzytkownik = o[0];
-                haslo = o[1];
+        try {
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Cookie[] cookies = request.getCookies();
+            for (Cookie p : cookies) {
+                if (p.getName().equals("gabiurms")) {
+                    String[] o = p.getValue().split("_");
+                    uzytkownik = o[0];
+                    haslo = o[1];
+                }
             }
+            RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
+        } catch (Exception e){
+            E.e(e);
         }
-        RequestContext.getCurrentInstance().update("formlog1:logowaniepanel");
     }
 
     public String savelogin() {
