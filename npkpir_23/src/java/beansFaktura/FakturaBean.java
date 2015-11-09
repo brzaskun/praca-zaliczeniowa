@@ -43,10 +43,14 @@ import waluty.Z;
 public class FakturaBean {
 
     public static String uzyjwzorcagenerujnumerDok(String wzorzec, String skrot, WpisView wpisView, DokDAO dokDAO) {
+        String wygenerowanynumer = "";
         String separator = znajdzseparator(wzorzec);
         Dok ostatnidokument = dokDAO.find(skrot, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
-        return generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 0);
+        if (ostatnidokument != null) {
+            String[] elementypoprzedniafakt = elementydokumentu(ostatnidokument, separator);
+            wygenerowanynumer = generowanie(wzorzec, separator, elementypoprzedniafakt, wpisView, 0);
+        }
+        return wygenerowanynumer;
     }
     
     public static String uzyjwzorcagenerujnumerFaktura(String wzorzec, WpisView wpisView, FakturaDAO faktDAO) {

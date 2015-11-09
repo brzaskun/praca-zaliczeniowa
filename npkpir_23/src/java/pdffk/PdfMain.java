@@ -453,8 +453,12 @@ public class PdfMain {
                 int[] col2 = new int[size];
                 col2[0] = 1;
                 col2[1] = 5;
-                for (int i = 2; i < size; i++) {
-                    col2[i] = 3;
+                col2[2] = 2;
+                col2[3] = 3;
+                col2[4] = 2;
+                col2[5] = 3;
+                if (size > 6) {
+                    col2[6] = 2;
                 }
                 return col2;
             case "testobjects.WierszWNTWDT":
@@ -1118,7 +1122,7 @@ public class PdfMain {
             if (nazwaklasy.equals("testobjects.WierszKonta")) {
                 if (modyfikator == 0) {
                     WierszKonta p = (WierszKonta) it.next();
-                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 25f));
                     table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
                         if (p.getKwotaWn() != 0.0) {
                             table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwotaWn())), "right", 8));

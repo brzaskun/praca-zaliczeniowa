@@ -597,10 +597,12 @@ public final class DokView implements Serializable {
                 }
             }
             String wzorzec = rodzajdok.getWzorzec();
-            try {
-                nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
-            } catch (Exception e) {
-                nowynumer = wzorzec;
+            if (!wzorzec.equals("")) {
+                try {
+                    nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
+                } catch (Exception e) {
+                    nowynumer = wzorzec;
+                }
             }
             renderujwyszukiwarke(rodzajdok);
             renderujtabele(rodzajdok);
@@ -779,8 +781,6 @@ public final class DokView implements Serializable {
                 wysDokument = new Dok();
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 1;
-                Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                selDokument.setKontr1(klient);
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
                 Msg.msg("i", "Nowy dokument zachowany" + selDokument);
                 /**
@@ -1447,7 +1447,6 @@ public final class DokView implements Serializable {
                                 break;
                             }
                         }
-
                     }
                     RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
                     RequestContext.getCurrentInstance().update("dodWiad:opis");

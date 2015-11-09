@@ -471,8 +471,12 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public Dok findDokTPR(String typdokumentu, String pod, String rok) {
+        Dok d = null;
         List<Dok> lista = em.createNamedQuery("Dok.findByTPR").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("typdokumentu", typdokumentu).getResultList();
-        return lista.get(lista.size() - 1);
+        if (lista != null && lista.size() > 0) {
+            d = lista.get(lista.size() - 1);
+        }
+        return d;
     }
 
     public List<Dok> findDokBK(String pod, String rok, String mc) {
