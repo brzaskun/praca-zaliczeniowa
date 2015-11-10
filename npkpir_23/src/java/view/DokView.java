@@ -184,6 +184,7 @@ public final class DokView implements Serializable {
     @Inject
     private WalutyDAOfk walutyDAOfk;
     private String symbolWalutyNettoVat;
+    private Klienci biezacyklientdodok;
 
     public DokView() {
         setWysDokument(null);
@@ -220,6 +221,7 @@ public final class DokView implements Serializable {
         rodzajedokKlienta = new ArrayList<>();
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
+        biezacyklientdodok  = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(podX);
@@ -231,8 +233,6 @@ public final class DokView implements Serializable {
                 selDokument.setDokumentProsty(true);
                 ukryjEwiencjeVAT = true;
             }
-            RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2");
         } catch (Exception e) {
             E.e(e);
             String pod = "GRZELCZYK";
@@ -257,6 +257,7 @@ public final class DokView implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+        selDokument.setKontr1(wstawKlientaDoNowegoDok());
         try {
             selDokument.setVatM(wpisView.getMiesiacWpisu());
             selDokument.setVatR(wpisView.getRokWpisuSt());
@@ -267,6 +268,7 @@ public final class DokView implements Serializable {
         Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
         selDokument.setKontr1(klient);
         DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
+        RequestContext.getCurrentInstance().update("dodWiad");
         //ukrocmiesiace();
 
     }
@@ -778,7 +780,6 @@ public final class DokView implements Serializable {
                 } catch (Exception e) {
                     E.e(e);
                 }
-                wysDokument = new Dok();
                 wysDokument = ostatnidokumentDAO.pobierz(selDokument.getWprowadzil());
                 liczbawierszy = 1;
                 RequestContext.getCurrentInstance().update("zobWiad:ostatniUzytkownik");
@@ -802,29 +803,15 @@ public final class DokView implements Serializable {
             selDokument = new Dok();
             selDokument.setVatM(wpisView.getMiesiacWpisu());
             selDokument.setVatR(wpisView.getRokWpisuSt());
-            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            selDokument.setKontr1(klient);
-            Tabelanbp tabelanbpPLN = null;
-            try {
-                tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
-                if (tabelanbpPLN == null) {
-                    tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
-                    tabelanbpDAO.dodaj(tabelanbpPLN);
-                }
-            } catch (Exception e) {
-                E.e(e);
-            }
+            selDokument.setKontr1(wstawKlientaDoNowegoDok());
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
-            selDokument.setTabelanbp(tabelanbpPLN);
             selectedSTR = new SrodekTrw();
             if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
                 selDokument.setDokumentProsty(true);
             }
-            RequestContext.getCurrentInstance().update("dodWiad:panelwyszukiwarki");
             ewidencjaAddwiad.clear();
             setRenderujwysz(false);
             setPokazEST(false);
-            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
         } else {
             selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();
@@ -832,6 +819,16 @@ public final class DokView implements Serializable {
             setRenderujwysz(false);
             setPokazEST(false);
         }
+    }
+    
+    private Klienci wstawKlientaDoNowegoDok() {
+        Klienci nowyklient = null;
+        if (wysDokument != null) {
+            nowyklient = wysDokument.getKontr1();
+        } else {
+            nowyklient = biezacyklientdodok;
+        }
+        return nowyklient;
     }
 
     private void dodajSrodekTrwaly() {
