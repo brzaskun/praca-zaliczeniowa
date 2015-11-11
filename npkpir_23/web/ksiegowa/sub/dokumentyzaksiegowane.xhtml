@@ -230,7 +230,7 @@
                                     var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
                                     minQueryLength="2" maxResults="10" maxlength="40"
                                     effect="clip" autocomplete="true"  required="true" requiredMessage="Brak opisu transakcji - uzupełnij" queryDelay="1" style="width: 200px;">
-                        <p:ajax event="change" partialSubmit="true" global="false"/>
+                        <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                     </p:autoComplete>
 
                 </p:panelGrid>

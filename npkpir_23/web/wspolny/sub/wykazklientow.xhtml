@@ -36,7 +36,7 @@
                                 effect="clip" autocomplete="true" queryDelay="100" autoHighlight="true" 
                                 required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px">
                     <p:ajax event="query" global="false"/>
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                 </p:autoComplete>
                 
                 <h:outputLabel value="ulica" style="font-weight: 700"/>
@@ -74,7 +74,7 @@
                                 minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                 effect="clip" autocomplete="true" queryDelay="100" 
                                 style="width: 200px" >
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                 </p:autoComplete>
                 <p:inputText id="bankPole" value="#{KlView.selected.kontobank}" maxlength="26" style="width: 200px" />
                 <p:inputText id="emailPole" value="#{KlView.selected.email}" style="width: 200px" >

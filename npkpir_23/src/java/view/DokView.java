@@ -221,12 +221,10 @@ public final class DokView implements Serializable {
         rodzajedokKlienta = new ArrayList<>();
         Podatnik podX = wpisView.getPodatnikObiekt();
         symbolWalutyNettoVat = " zł";
-        biezacyklientdodok  = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+        biezacyklientdodok  = klDAO.findKlientByNip(podX.getNip());
         try {
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
-            List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(podX);
-            Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
-            rodzajedokKlienta.addAll(rodzajedokumentow);
+            rodzajedokKlienta.addAll(pobierzrodzajedok());
             String opodatkowanie = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
             nieVatowiec = opodatkowanie.contains("bez VAT");
             if (nieVatowiec) {
@@ -265,12 +263,20 @@ public final class DokView implements Serializable {
             E.e(e);
         }
         this.typdokumentu = "ZZ";
-        Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+        Klienci klient = klDAO.findKlientByNip(podX.getNip());
         selDokument.setKontr1(klient);
+        typdokumentu = "ZZ";
+        podepnijEwidencjeVat();
         DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
         RequestContext.getCurrentInstance().update("dodWiad");
         //ukrocmiesiace();
 
+    }
+    
+    private List<Rodzajedok> pobierzrodzajedok() {
+        List<Rodzajedok> rodzajedokumentow = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        Collections.sort(rodzajedokumentow, new Rodzajedokcomparator());
+        return rodzajedokumentow;
     }
 
     //edytuje ostatni dokument celem wykorzystania przy wpisie
@@ -299,9 +305,7 @@ public final class DokView implements Serializable {
         } catch (Exception egf) {
             pkpirLista = new HtmlSelectOneMenu();
         }
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans");
-        podepnijListecd(skrot);
+        podepnijListecd(typdokumentu);
     }
 
     /**
@@ -353,10 +357,10 @@ public final class DokView implements Serializable {
     }
 
     public void podepnijEwidencjeVat() {
-        String skrotRT = (String) Params.params("dodWiad:rodzajTrans");
+        ukryjEwiencjeVAT = false;
         String transakcjiRodzaj = "";
         for (Rodzajedok temp : rodzajedokKlienta) {
-            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(skrotRT)) {
+            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
                 transakcjiRodzaj = temp.getRodzajtransakcji();
                 break;
             }
@@ -384,7 +388,7 @@ public final class DokView implements Serializable {
             }
             //obliczam 23% dla pierwszego
             ewidencjaAddwiad.get(0).setNetto(sumanetto);
-            Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
+            Rodzajedok r = rodzajedokDAO.find(typdokumentu, wpisView.getPodatnikObiekt());
             if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
                 ewidencjaAddwiad.get(0).setVat(0.0);
             } else if (r.getProcentvat() != 0.0) {
@@ -440,8 +444,6 @@ public final class DokView implements Serializable {
                 sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
             }
             nazwaEwidencjiwPoprzednimDok = new Evewidencja();
-            RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
         }
     }
 
@@ -479,7 +481,7 @@ public final class DokView implements Serializable {
         RequestContext.getCurrentInstance().update(update);
         update = "dodWiad:tablicavat:" + lp + ":brutto";
         RequestContext.getCurrentInstance().update(update);
-        update = "dodWiad:tabelapkpir2:0:sumbrutto";
+        update = "dodWiad:sumbrutto";
         RequestContext.getCurrentInstance().update(update);
         String activate = "document.getElementById('dodWiad:tablicavat:" + lp + ":vat_input').select();";
         RequestContext.getCurrentInstance().execute(activate);
@@ -520,7 +522,7 @@ public final class DokView implements Serializable {
                 RequestContext.getCurrentInstance().update(update);
                 update = "dodWiad:tablicavat:" + lp + ":brutto";
                 RequestContext.getCurrentInstance().update(update);
-                update = "dodWiad:tabelapkpir2:0:sumbrutto";
+                update = "dodWiad:sumbrutto";
                 RequestContext.getCurrentInstance().update(update);
             } else {
                 ewidencjaAddwiad.get(lp).setBrutto(e.getNetto() + e.getVat());
@@ -533,7 +535,7 @@ public final class DokView implements Serializable {
                 }
                 String update = "dodWiad:tablicavat:" + lp + ":brutto";
                 RequestContext.getCurrentInstance().update(update);
-                update = "dodWiad:tabelapkpir2:0:sumbrutto";
+                update = "dodWiad:sumbrutto";
                 RequestContext.getCurrentInstance().update(update);
             }
         } catch (Exception ex) {
@@ -553,19 +555,11 @@ public final class DokView implements Serializable {
         selDokument.setNrWlDk(wprowadzonynumer);
     }
 
-    public void wybranydokument() {
-        String typdokum = (String) Params.params("dodWiad:rodzajTrans");
-        for (Rodzajedok p : rodzajedokKlienta) {
-            if (p.getRodzajedokPK().getSkrotNazwyDok().equals(typdokum)) {
-                Msg.msg("i", p.getNazwa());
-                break;
-            }
-        }
-        if (typdokum.equals("OT") || typdokum.equals("OTS") || typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
-            if (selDokument.getKontr() == null) {
-                Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-                selDokument.setKontr1(klient);
-            }
+    public void wybranydokument(ValueChangeEvent e) {
+        String typdokum = typdokumentu;
+        if (typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
+            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+            selDokument.setKontr1(klient);
         }
         RequestContext.getCurrentInstance().update("dodWiad:acForce");
     }
@@ -578,7 +572,6 @@ public final class DokView implements Serializable {
             selDokument.setNrWlDk("");
         }
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        String skrot = params.get("dodWiad:rodzajTrans");
         String wprowadzonynumer = "";
         if (params.get("dodWiad:numerwlasny") != null) {
             wprowadzonynumer = params.get("dodWiad:numerwlasny");
@@ -586,14 +579,10 @@ public final class DokView implements Serializable {
         if (!wprowadzonynumer.isEmpty()) {
         } else {
             String nowynumer = "";
-            Podatnik podX = wpisView.getPodatnikObiekt();
-            String podatnikString = wpisView.getPodatnikWpisu();
-            Integer rok = wpisView.getRokWpisu();
-            String mc = wpisView.getMiesiacWpisu();
             List<Rodzajedok> listaD = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             Rodzajedok rodzajdok = new Rodzajedok();
             for (Rodzajedok p : listaD) {
-                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(skrot)) {
+                if (p.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
                     rodzajdok = p;
                     break;
                 }
@@ -601,7 +590,7 @@ public final class DokView implements Serializable {
             String wzorzec = rodzajdok.getWzorzec();
             if (!wzorzec.equals("")) {
                 try {
-                    nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, skrot, wpisView, dokDAO);
+                    nowynumer = FakturaBean.uzyjwzorcagenerujnumerDok(wzorzec, typdokumentu, wpisView, dokDAO);
                 } catch (Exception e) {
                     nowynumer = wzorzec;
                 }
@@ -643,24 +632,20 @@ public final class DokView implements Serializable {
     /**
      * NE zmienia wlasciwosci pol wprowadzajacych dane kontrahenta
      */
-    public void dokumentEwidencjaVAT() {
-        String toJestdokumentProsty = (String) Params.params("dodWiad:tabelapkpir2:0:dokumentprosty");
-        if (toJestdokumentProsty.equals("on")) {
+    public void dokumentEwidencjaVAT(ValueChangeEvent e) {
+        Boolean toJestdokumentProsty = (Boolean) e.getNewValue();
+        if (toJestdokumentProsty) {
             sumbrutto = 0.0;
             sumujnetto();
             selDokument.setEwidencjaVAT1(null);
-            ewidencjaAddwiad.clear();
+            ewidencjaAddwiad = new ArrayList<>();
             ukryjEwiencjeVAT = true;
-            RequestContext.getCurrentInstance().update("dodWiad:tabelapkpir2:0:sumbrutto");
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
         } else {
             podepnijEwidencjeVat();
-            ukryjEwiencjeVAT = false;
-            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
         }
     }
-
-    /**
+    
+       /**
      * Dodawanie dokumentu wprowadzonego w formularzu na stronie add_wiad.html
      */
     public void dodaj(int rodzajdodawania) {
@@ -808,8 +793,10 @@ public final class DokView implements Serializable {
             selectedSTR = new SrodekTrw();
             if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
                 selDokument.setDokumentProsty(true);
+            } else {
+                podepnijEwidencjeVat();
             }
-            ewidencjaAddwiad.clear();
+            selDokument.setOpis(wysDokument.getOpis());
             setRenderujwysz(false);
             setPokazEST(false);
         } else {
@@ -1428,10 +1415,12 @@ public final class DokView implements Serializable {
         selectedKlient.setNip(wygenerowanynip);
     }
 
-    public void pobierzdaneZpoprzedniegoDokumentu() {
-        if (!selDokument.getKontr1().getNip().equals(wpisView.getPodatnikObiekt().getNip())) {
+    public void pobierzdaneZpoprzedniegoDokumentu(ValueChangeEvent e1) {
+        Klienci klient = (Klienci) e1.getNewValue();
+        String klientnip = klient.getNip();
+        if (!klientnip.equals(wpisView.getPodatnikObiekt().getNip())) {
             try {
-                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), selDokument.getKontr(), wpisView.getRokWpisuSt());
+                Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokWpisuSt());
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
                     typdokumentu = poprzedniDokument.getTypdokumentu();
@@ -1445,9 +1434,6 @@ public final class DokView implements Serializable {
                             }
                         }
                     }
-                    RequestContext.getCurrentInstance().update("dodWiad:rodzajTrans");
-                    RequestContext.getCurrentInstance().update("dodWiad:opis");
-                    RequestContext.getCurrentInstance().execute("$(document.getElementById('dodWiad:numerwlasny')).select();");
                 }
             } catch (Exception e) {
                 E.e(e);

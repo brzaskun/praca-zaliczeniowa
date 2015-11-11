@@ -21,7 +21,7 @@
                                         styleClass="kontoinput, autoCompleteBig" 
                                         >
                             <p:ajax event="query" global="false"/>
-                            <p:ajax event="blur"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
+                            <p:ajax event="itemSelect" partialSubmit="true"  listener="#{kontoObrotyFKView.pobierzZapisyNaKoncie}" update=":formobroty:dataListObroty, :tabelazobrotami:tabelaobroty, :tabelazsumamiobrotow:sumy, :formobrotykonta:nazwawybranegokonta" 
                                     oncomplete="zaznacznoda('formobroty:dataListObroty_data','formobroty:dataListObroty','formobrotykonta:wyborkontaobroty_input');"/>
                         </p:autoComplete>
                         <h:outputText value=" #{mgs.wybranekonto}:"/>

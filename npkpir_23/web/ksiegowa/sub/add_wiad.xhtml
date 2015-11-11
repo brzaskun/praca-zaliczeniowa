@@ -39,7 +39,7 @@
                 <p:commandButton id="dodkol" value="dodajkolumne" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
                 <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
-                 style="width: 1100px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
+                 style="width: 1000px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania1"/>
             <p:panelGrid id="polawprowadzania1" columns="4" style="width: 400px;">
@@ -97,7 +97,7 @@
                     </p:row>
                 </p:panelGrid>
             
-            <p:panelGrid id="polawprowadzania" columns="4" style="width: 500px;">
+            <p:panelGrid id="polawprowadzania" columns="4" style="width: 450px;">
                 <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>
                 <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
                 <h:outputLabel value="nr własny" style="font-weight: 700;"/>
@@ -106,9 +106,10 @@
                                 var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                 minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
                                 widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
-                                required="true" requiredMessage="Pole klienta nie może być puste" onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
-                    <f:ajax event="blur" execute="@this"/>
-                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" />
+                                valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}"
+                                required="true" requiredMessage="Pole klienta nie może być puste" 
+                                onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
+                    <p:ajax event="itemSelect" partialSubmit="true" update="dodWiad:rodzajTrans,dodWiad:opis" oncomplete="r('dodWiad:numerwlasny').select();" />
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400">  
                             <f:facet name="header">  
@@ -123,18 +124,17 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" required="true"  valueChangeListener="#{DokumentView.wybranydokument}"
+                <h:selectOneMenu id="rodzajTrans" value="#{DokumentView.typdokumentu}" valueChangeListener="#{DokumentView.wybranydokument}"
                                  style="width: 180px; word-break: break-all; height: 25px;" 
                                  styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                 onfocus="$(this).addClass('ui-state-focus');"
-                                 onblur="$(this).removeClass('ui-state-focus');">
+                                 onfocus="$(this).removeClass('ui-state-default');$(this).addClass('ui-state-focus');"
+                                 onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                     <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop.rodzajedokPK.skrotNazwyDok}"/>
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
-                    <p:ajax event="blur" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" partialSubmit="true" global="false"/>
-                    <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.wygenerujnumerkolejny()}" update=":dodWiad:numerwlasny" oncomplete="aktywujopis();" global="false"/>
+                    <f:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny}" update=":dodWiad:numerwlasny" />
                 </h:selectOneMenu>
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
-                    <f:validateLength minimum="1" maximum="50"/>
+                    <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                 </p:inputText>
 
@@ -142,7 +142,7 @@
                                 var="p" itemLabel="#{p}" itemValue="#{p}"  title="wpisz opis faktury"
                                 minQueryLength="2" maxResults="10" maxlength="40"
                                 effect="clip" autocomplete="true"  queryDelay="1" style="width: 200px;">
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                 </p:autoComplete>
 
             </p:panelGrid>
@@ -158,7 +158,8 @@
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
-                            <p:ajax event="blur" listener="#{DokumentView.dokumentEwidencjaVAT}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"/>
+                            <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"
+                                    update="dodWiad:panelewidencjivat"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>
@@ -178,30 +179,57 @@
                         </h:selectOneMenu><br/>
                     </p:column>
                 </p:dataTable>
-                <p:dataTable id="tabelapkpir2" value="#{DokumentView.selDokument}" var="item" >
+                 <p:panelGrid id="tabelapkpir2" >
+                    <f:facet name="header">
+                        <p:row >
+                            <p:column>
+                                <h:outputText value="dok. prosty" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="rozliczony" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="termin płatności" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="wartość dokumentu" />
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="inwestycja" />
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                        <p:row >
+                            
+                        </p:row>
+                
+                     <p:row>
                     <p:column headerText="dok. prosty" style="text-align: center;" width="60">
-                        <h:selectBooleanCheckbox id="dokumentprosty" value="#{item.dokumentProsty}" >
-                            <p:ajax event="click" partialSubmit="true" listener="#{DokumentView.dokumentEwidencjaVAT()}" global="false"/>
+                        <h:selectBooleanCheckbox id="dokumentprosty" value="#{DokumentView.selDokument.dokumentProsty}" 
+                                                 valueChangeListener="#{DokumentView.dokumentEwidencjaVAT}">
+                            <p:ajax event="change" partialSubmit="true" global="false" update="dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="rozliczony" style="text-align: center;" width="60">
-                        <h:selectBooleanCheckbox id="rozliczony" value="#{item.rozliczony}" onchange="przekazdate()"  >
+                        <h:selectBooleanCheckbox id="rozliczony" value="#{DokumentView.selDokument.rozliczony}" onchange="przekazdate()"  >
                             <p:ajax event="click" partialSubmit="true" global="false"/>
                         </h:selectBooleanCheckbox>
                     </p:column>
-                    <p:column headerText="termin płatności">
-                        <p:inputText id="dataTPole" value="#{item.terminPlatnosci}" maxlength="10"  required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
+                         <p:column headerText="termin płatności" width="100">
+                             <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10"  style="width: 90px;"
+                                     required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
                         </p:inputText>
                     </p:column>
                     <p:column headerText="wartość dokumentu">
                         <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="inwestycja">
-                        <h:selectOneMenu id="inwestycja" value="#{item.symbolinwestycji}" style="display: none;">
+                        <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="display: none;">
                             <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
                         </h:selectOneMenu>
                     </p:column>
-                </p:dataTable>
+                         </p:row>
+                 </p:panelGrid>
             </p:panelGrid>
 <!--            sprzedawanie srodkow trwalych-->
             <p:contextMenu for="panelewidencji">

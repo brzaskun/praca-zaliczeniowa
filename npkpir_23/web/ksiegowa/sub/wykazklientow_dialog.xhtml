@@ -35,7 +35,7 @@
                                 minQueryLength="1" maxResults="10" maxlength="20"  forceSelection="false" 
                                 effect="clip" autocomplete="true" queryDelay="100" 
                                 required="true" requiredMessage="Pole miejscowosc nie może byc puste" style="width: 200px" >
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                     <p:ajax event="select" partialSubmit="true" global="false"/>
                 </p:autoComplete>
                 
@@ -72,7 +72,7 @@
                                 minQueryLength="1" maxResults="10" maxlength="25"  forceSelection="true" 
                                 effect="clip" autocomplete="true" queryDelay="100" 
                                 style="width: 200px" >
-                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                    <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
                 </p:autoComplete>
                 <p:inputText id="bankPole" value="#{DokumentView.selectedKlient.kontobank}" maxlength="26" style="width: 200px" />
                 <p:inputText id="emailPole" value="#{DokumentView.selectedKlient.email}" style="width: 200px" >
