@@ -39,9 +39,10 @@
                 <p:commandButton id="dodkol" value="dodajkolumne" actionListener="#{DokumentView.dodajwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
                 <p:commandButton id="usunkol" value="usunkolumne" actionListener="#{DokumentView.usunwierszpkpir()}" update=":dodWiad:tabelapkpir" oncomplete="aktywujnetto()" accesskey="p" style="display: none;"/>
             <p:panel menuTitle="Wprowadzanie dokumentów klient" header="Wprowadzanie dokumentów klient: #{WpisView.podatnikWpisu} okres: #{WpisView.rokWpisu}/#{WpisView.miesiacWpisu}" 
-                 style="width: 1000px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
+                 style="width: 900px; box-shadow: 10px 10px 5px #888; padding: 2%; margin-top: -2%; min-height: 450px;" id="wprowadzanie">
             <p:growl id="mess_add" autoUpdate="true"/>
             <p:focus for="polawprowadzania1"/>
+            <p:panelGrid  columns="2">
             <p:panelGrid id="polawprowadzania1" columns="4" style="width: 400px;">
                 <h:outputLabel value="data wystawienia" style="font-weight: 700"/>
                 <h:outputLabel value="data powst.ob." style="font-weight: 700"/>
@@ -64,27 +65,27 @@
                                                                  $(this).addClass('ui-state-default');"
                                   style="height: 21px;"
                                   >
-                    <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:tabelapkpir"/>
+                    <p:ajax event="change" partialSubmit="true" update="dodWiad:panelTabelaNBP, dodWiad:dokumentprosty"/>
                     <f:selectItems value="#{DokumentView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                 </h:selectOneMenu>
                 </p:panelGrid>
-            <p:panelGrid id="panelTabelaNBP" style="float: right;">
+                <p:panelGrid id="panelTabelaNBP" style="width: 270px;">
                     <f:facet name="header">
                         <p:row >
-                            <p:column>
-                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" />
+                            <p:column width="110">
+                                <h:outputText id="w02" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'z dnia'}" style="width: 110px;"/>
                             </p:column>
-                            <p:column>
-                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}"/>
+                            <p:column width="90">
+                                <h:outputText id="w01" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'tabela NBP'}" style="width: 90px;"/>
                             </p:column>
-                            <p:column>
-                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" />
+                            <p:column width="90">
+                                <h:outputText id="w03" value="#{DokumentView.selDokument.walutadokumentu eq 'PLN' ? ''  : 'kurs średni'}" style="width: 90px;"/>
                             </p:column>
                         </p:row>
                     </f:facet>
                     <p:row >
                         <p:column>
-                            <h:outputText id="w11" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.datatabeli}"/>
+                            <h:outputText id="w11" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.datatabeli}" style="width: 110px;"/>
                         </p:column>
                         <p:column>
                             <h:outputText id="w12" value="#{DokumentView.selDokument.walutadokumentu.symbolwaluty eq 'PLN' ? ''  : DokumentView.selDokument.tabelanbp.nrtabeli}"
@@ -96,7 +97,7 @@
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-            
+            </p:panelGrid>
             <p:panelGrid id="polawprowadzania" columns="4" style="width: 450px;">
                 <h:outputLabel value="kontrahent ( + -> skopiuj)" style="font-weight: 700"/>
                 <h:outputLabel value="rodzaj dok" style="font-weight: 700"/>
@@ -159,7 +160,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" > 
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"
-                                    update="dodWiad:panelewidencjivat"/>
+                                    update="dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>
@@ -168,7 +169,8 @@
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" readOnly="true">
-                            <p:ajax event="focus" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"/>
+                            <p:ajax event="blur" listener="#{DokumentView.przewalutuj(index)}" global="false" partialSubmit="true"
+                                    update="dodWiad:sumbrutto"/>
                         </pe:inputNumber>
                    </p:column>
                   <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
@@ -218,6 +220,7 @@
                          <p:column headerText="termin płatności" width="100">
                              <p:inputText id="dataTPole" value="#{DokumentView.selDokument.terminPlatnosci}" maxlength="10"  style="width: 90px;"
                                      required="true" requiredMessage="Brakuje terminu platnosci" title="wpisz pełny termin płatności">
+                                 <p:ajax event="change" partialSubmit="true" global="false"/>
                         </p:inputText>
                     </p:column>
                     <p:column headerText="wartość dokumentu">

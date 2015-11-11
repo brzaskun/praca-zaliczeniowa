@@ -357,93 +357,98 @@ public final class DokView implements Serializable {
     }
 
     public void podepnijEwidencjeVat() {
-        ukryjEwiencjeVAT = false;
-        String transakcjiRodzaj = "";
-        for (Rodzajedok temp : rodzajedokKlienta) {
-            if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
-                transakcjiRodzaj = temp.getRodzajtransakcji();
-                break;
+        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+            ukryjEwiencjeVAT = true;
+            sumujnetto();
+        } else {
+            ukryjEwiencjeVAT = false;
+            String transakcjiRodzaj = "";
+            for (Rodzajedok temp : rodzajedokKlienta) {
+                if (temp.getRodzajedokPK().getSkrotNazwyDok().equals(typdokumentu)) {
+                    transakcjiRodzaj = temp.getRodzajtransakcji();
+                    break;
+                }
             }
-        }
-        if (nieVatowiec == false) {
-            /*wyswietlamy ewidencje VAT*/
-            List opisewidencji = new ArrayList<>();
-            opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
-            double sumanetto = sumujnetto();
-            Tabelanbp t = selDokument.getTabelanbp();
-            if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
-                sumanetto = Z.z(sumanetto*t.getKurssredni());
-            }
-            ewidencjaAddwiad = new ArrayList<>();
-            int k = 0;
-            for (Object p : opisewidencji) {
-                EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
-                ewidencjaAddwiad.setLp(k++);
-                ewidencjaAddwiad.setOpis((String) p);
-                ewidencjaAddwiad.setNetto(0.0);
-                ewidencjaAddwiad.setVat(0.0);
-                ewidencjaAddwiad.setBrutto(0.0);
-                ewidencjaAddwiad.setOpzw("op");
-                this.ewidencjaAddwiad.add(ewidencjaAddwiad);
-            }
-            //obliczam 23% dla pierwszego
-            ewidencjaAddwiad.get(0).setNetto(sumanetto);
-            Rodzajedok r = rodzajedokDAO.find(typdokumentu, wpisView.getPodatnikObiekt());
-            if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
-                ewidencjaAddwiad.get(0).setVat(0.0);
-            } else if (r.getProcentvat() != 0.0) {
-                ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
-                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
-                sumbrutto = ewidencjaAddwiad.get(0).getNetto() + (ewidencjaAddwiad.get(0).getNetto() * 0.23);
-            } else if (transakcjiRodzaj.equals("sprzedaz")) {
-                try {
-                    String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
-                    switch (ne) {
-                        case "sprzedaż 23%":
-                            ewidencjaAddwiad.get(0).setNetto(sumanetto);
-                            ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
-                            ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                            sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
-                            break;
-                        case "sprzedaż 8%":
-                            ewidencjaAddwiad.get(0).setNetto(0.0);
-                            ewidencjaAddwiad.get(1).setNetto(sumanetto);
-                            ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
-                            ewidencjaAddwiad.get(1).setBrutto(ewidencjaAddwiad.get(1).getNetto() + ewidencjaAddwiad.get(1).getVat());
-                            sumbrutto = ewidencjaAddwiad.get(1).getBrutto();
-                            break;
-                        case "sprzedaż 5%":
-                            ewidencjaAddwiad.get(0).setNetto(0.0);
-                            ewidencjaAddwiad.get(2).setNetto(sumanetto);
-                            ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
-                            ewidencjaAddwiad.get(2).setBrutto(ewidencjaAddwiad.get(2).getNetto() + ewidencjaAddwiad.get(2).getVat());
-                            sumbrutto = ewidencjaAddwiad.get(2).getBrutto();
-                            break;
-                        case "sprzedaż 0%":
-                            ewidencjaAddwiad.get(0).setNetto(0.0);
-                            ewidencjaAddwiad.get(3).setNetto(sumanetto);
-                            ewidencjaAddwiad.get(3).setVat(0.0);
-                            sumbrutto = ewidencjaAddwiad.get(3).getBrutto();
-                            break;
-                        case "sprzedaż zw":
-                            ewidencjaAddwiad.get(0).setNetto(0.0);
-                            ewidencjaAddwiad.get(4).setNetto(sumanetto);
-                            ewidencjaAddwiad.get(4).setVat(0.0);
-                            sumbrutto = ewidencjaAddwiad.get(4).getBrutto();
-                            break;
+            if (nieVatowiec == false) {
+                /*wyswietlamy ewidencje VAT*/
+                List opisewidencji = new ArrayList<>();
+                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
+                double sumanetto = sumujnetto();
+                Tabelanbp t = selDokument.getTabelanbp();
+                if (t != null && !t.getWaluta().getSymbolwaluty().equals("PLN")) {
+                    sumanetto = Z.z(sumanetto*t.getKurssredni());
+                }
+                ewidencjaAddwiad = new ArrayList<>();
+                int k = 0;
+                for (Object p : opisewidencji) {
+                    EwidencjaAddwiad ewidencjaAddwiad = new EwidencjaAddwiad();
+                    ewidencjaAddwiad.setLp(k++);
+                    ewidencjaAddwiad.setOpis((String) p);
+                    ewidencjaAddwiad.setNetto(0.0);
+                    ewidencjaAddwiad.setVat(0.0);
+                    ewidencjaAddwiad.setBrutto(0.0);
+                    ewidencjaAddwiad.setOpzw("op");
+                    this.ewidencjaAddwiad.add(ewidencjaAddwiad);
+                }
+                //obliczam 23% dla pierwszego
+                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                Rodzajedok r = rodzajedokDAO.find(typdokumentu, wpisView.getPodatnikObiekt());
+                if (transakcjiRodzaj.equals("WDT") || transakcjiRodzaj.equals("usługi poza ter.") || transakcjiRodzaj.equals("eksport towarów")) {
+                    ewidencjaAddwiad.get(0).setVat(0.0);
+                } else if (r.getProcentvat() != 0.0) {
+                    ewidencjaAddwiad.get(0).setVat((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2);
+                    ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ((ewidencjaAddwiad.get(0).getNetto() * 0.23) / 2));
+                    sumbrutto = ewidencjaAddwiad.get(0).getNetto() + (ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                } else if (transakcjiRodzaj.equals("sprzedaz")) {
+                    try {
+                        String ne = nazwaEwidencjiwPoprzednimDok.getNazwa();
+                        switch (ne) {
+                            case "sprzedaż 23%":
+                                ewidencjaAddwiad.get(0).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                                break;
+                            case "sprzedaż 8%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(1).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(1).setVat(ewidencjaAddwiad.get(1).getNetto() * 0.08);
+                                ewidencjaAddwiad.get(1).setBrutto(ewidencjaAddwiad.get(1).getNetto() + ewidencjaAddwiad.get(1).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(1).getBrutto();
+                                break;
+                            case "sprzedaż 5%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(2).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(2).setVat(ewidencjaAddwiad.get(2).getNetto() * 0.05);
+                                ewidencjaAddwiad.get(2).setBrutto(ewidencjaAddwiad.get(2).getNetto() + ewidencjaAddwiad.get(2).getVat());
+                                sumbrutto = ewidencjaAddwiad.get(2).getBrutto();
+                                break;
+                            case "sprzedaż 0%":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(3).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(3).setVat(0.0);
+                                sumbrutto = ewidencjaAddwiad.get(3).getBrutto();
+                                break;
+                            case "sprzedaż zw":
+                                ewidencjaAddwiad.get(0).setNetto(0.0);
+                                ewidencjaAddwiad.get(4).setNetto(sumanetto);
+                                ewidencjaAddwiad.get(4).setVat(0.0);
+                                sumbrutto = ewidencjaAddwiad.get(4).getBrutto();
+                                break;
+                        }
+                    } catch (Exception e) {
+                        E.e(e);
+                        ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
+                        ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
+                        sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                     }
-                } catch (Exception e) {
-                    E.e(e);
+                } else {
                     ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
                     ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
                     sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
                 }
-            } else {
-                ewidencjaAddwiad.get(0).setVat(ewidencjaAddwiad.get(0).getNetto() * 0.23);
-                ewidencjaAddwiad.get(0).setBrutto(ewidencjaAddwiad.get(0).getNetto() + ewidencjaAddwiad.get(0).getVat());
-                sumbrutto = ewidencjaAddwiad.get(0).getBrutto();
+                nazwaEwidencjiwPoprzednimDok = new Evewidencja();
             }
-            nazwaEwidencjiwPoprzednimDok = new Evewidencja();
         }
     }
 
@@ -1446,47 +1451,48 @@ public final class DokView implements Serializable {
             symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
             String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
             String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
-            if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
-                Msg.msg("w", "Prosze przewalutowywać do PLN");
+            if (!nazwawaluty.equals("PLN")) {
+                String datadokumentu = selDokument.getDataWyst();
+                DateTime dzienposzukiwany = new DateTime(datadokumentu);
+                selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
+//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
+//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                } else {
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+//                }
+                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+                ukryjEwiencjeVAT = true;
+                selDokument.setDokumentProsty(true);
             } else {
-                if (!nazwawaluty.equals("PLN")) {
-                    String datadokumentu = selDokument.getDataWyst();
-                    DateTime dzienposzukiwany = new DateTime(datadokumentu);
-                    selDokument.setTabelanbp(TabelaNBPBean.pobierzTabeleNBP(dzienposzukiwany, tabelanbpDAO, nazwawaluty));
-    //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota()) {
-    //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-    //                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-    //                } else {
-    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-    //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-    //                }
-                    symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
-                } else {
-                    //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
-    //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
-    //                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
-    //                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
-    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-    //                } else {
-    //                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
-    //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
-    //                }
-                    Tabelanbp tabelanbpPLN = null;
-                    try {
-                        tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
-                        if (tabelanbpPLN == null) {
-                            tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
-                            tabelanbpDAO.dodaj(tabelanbpPLN);
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
+                //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
+//                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
+//                    DokFKWalutyBean.przewalutujzapisy(staranazwa, nazwawaluty, selected, walutyDAOfk);
+//                    RequestContext.getCurrentInstance().update("formwpisdokument:dataList");
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                } else {
+//                    selDokument.setWalutadokumentu(walutyDAOfk.findWalutaBySymbolWaluty(nazwawaluty));
+//                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
+//                }
+                Tabelanbp tabelanbpPLN = null;
+                try {
+                    tabelanbpPLN = tabelanbpDAO.findByDateWaluta("2012-01-01", "PLN");
+                    if (tabelanbpPLN == null) {
+                        tabelanbpPLN = new Tabelanbp("000/A/NBP/0000", walutyDAOfk.findWalutaBySymbolWaluty("PLN"), "2012-01-01");
+                        tabelanbpDAO.dodaj(tabelanbpPLN);
                     }
-                    selDokument.setTabelanbp(tabelanbpPLN);
-                    symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+                } catch (Exception e) {
+                    E.e(e);
                 }
-                RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
+                selDokument.setTabelanbp(tabelanbpPLN);
+                symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
+                ukryjEwiencjeVAT = false;
+                selDokument.setDokumentProsty(false);
             }
+            RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
+            RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
         } catch (Exception e) {
             
         }
@@ -1506,9 +1512,11 @@ public final class DokView implements Serializable {
             double d = wiersz.getNettowaluta();
             wiersz.setNetto(d*t.getKurssredni());
             symbolWalutyNettoVat = " zł";
+            sumujnetto();
             String s = "dodWiad:tabelapkpir:"+lp+":kwotaPkpir";
             RequestContext.getCurrentInstance().update(s);
          }
+         
      }
 
     public Klienci getSelectedKlient() {
