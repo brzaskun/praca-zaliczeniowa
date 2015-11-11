@@ -131,7 +131,7 @@
                                  onblur="$(this).removeClass('ui-state-focus');$(this).addClass('ui-state-default');">
                     <f:selectItems value="#{DokumentView.rodzajedokKlienta}" var="loop" itemLabel="#{loop.rodzajedokPK.skrotNazwyDok} - #{loop.nazwa}" itemValue="#{loop.rodzajedokPK.skrotNazwyDok}"/>
                     <p:ajax event="keyup" listener="#{DokumentView.pobierzwprowadzonynumer()}" global="false"/>
-                    <f:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny}" update=":dodWiad:numerwlasny" />
+                    <f:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny}" />
                 </h:selectOneMenu>
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
                     <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
