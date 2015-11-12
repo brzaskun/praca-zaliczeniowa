@@ -612,7 +612,17 @@ public class DokFKVATBean {
         double nettoEwidVat = ewidencjaVatRK.getNetto();
         double vatEwidVat = ewidencjaVatRK.getVat();
         Wiersz wierszpierwszy = ewidencjaVatRK.getWiersz();
-        Konto kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+        Konto kontoRozrachunkowe = null;
+        if (selected.getRodzajedok().getRodzajedokPK().getSkrotNazwyDok().equals("DEL")) {
+            try {
+                kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(selected.getNumerwlasnydokfk(), wpisView);
+            } catch (Exception e) {
+                
+            }
+        }
+        if (kontoRozrachunkowe == null) {
+            kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
+        }
         if (kontoRozrachunkowe != null) {
             //nie chodzi ze jest pierwszy, tylko ze jest zainicjalizowany
             if (wierszpierwszy != null) {

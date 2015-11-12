@@ -199,7 +199,7 @@
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
                                         <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
-                                        <p:ajax event="change" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
+                                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
                                                 update=":parametrydel"/>
                                     </p:inputText>
                                 </p:column>
