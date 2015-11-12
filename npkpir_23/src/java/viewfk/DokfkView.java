@@ -221,7 +221,7 @@ public class DokfkView implements Serializable {
             //resetujDokument(); //to jest chyba niepotrzebne bo ta funkcja jest wywolywana jak otwieram okienko wpisu i potem po kazdym zachowaniu
             //obsluzcechydokumentu();
             stworzlisteewidencjiRK();
-            RequestContext.getCurrentInstance().update("ewidencjavatRK");
+            //RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
