@@ -27,6 +27,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import waluty.Z;
 
 /**
  *
@@ -50,6 +51,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcWalutaWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieNT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '1'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '1'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWszystkieR", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.nowatransakcja = '0'"),
+    @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.wiersz.tabelanbp.waluta.symbolwaluty = :wybranaWalutaDlaKonta AND t.nowatransakcja = '0'"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcWalutyWszystkie", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.miesiac = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza != 9"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikKontoRokMcVAT", query = "SELECT t FROM StronaWiersza t WHERE t.konto = :konto AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.vatM = :mc AND t.wiersz.dokfk.podatnikObj = :podatnikObj"),
@@ -291,6 +294,16 @@ public class StronaWiersza implements Serializable{
         }
         return this.pozostalo;
     }
+    
+     public double getPozostaloPLN() {
+         double kwotaprzeliczenia = 0.0;
+         if (this.getWiersz().getTabelanbp() != null) {
+                kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredni());
+         } else if (this.getKursBO() != 0.0) {
+             kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
+         }
+         return kwotaprzeliczenia;
+     }
     
     public String getNazwaWaluty() {
         if (this.getWiersz().getTabelanbp() != null) {

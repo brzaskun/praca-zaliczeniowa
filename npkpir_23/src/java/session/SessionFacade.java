@@ -1279,6 +1279,14 @@ public class SessionFacade<T> implements Serializable {
     public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieNT(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieNT").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
     }
+    
+    public List<StronaWiersza> findStronaByPodatnikKontoRokWszystkieR(Podatnik podatnik, Konto konto, String rok) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWszystkieR").setParameter("podatnikObj", podatnik).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+    }
+
+    public List<StronaWiersza> findStronaByPodatnikKontoRokWalutyWszystkieR(Podatnik podatnik, String wybranaWalutaDlaKonta, Konto konto, String rok) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikKontoRokWalutyWszystkieR").setParameter("podatnikObj", podatnik).setParameter("wybranaWalutaDlaKonta", wybranaWalutaDlaKonta).setParameter("konto", konto).setParameter("rok", rok).getResultList();
+    }
 
     public List<StronaWiersza> findStronaByPodatnikRokWalutaWynik(Podatnik podatnik, String rok, String skrotWaluty) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWalutaWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("symbolwaluty", skrotWaluty).getResultList();

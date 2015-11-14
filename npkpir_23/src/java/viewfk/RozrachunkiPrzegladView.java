@@ -6,18 +6,15 @@
 
 package viewfk;
 
-import comparator.Kontocomparator;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.TransakcjaDAO;
+import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
-import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -27,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import pdffk.PDFRozrachunki;
@@ -44,25 +42,30 @@ public class RozrachunkiPrzegladView implements Serializable{
     private List<Konto> listaKontRozrachunkowych;
     //private List<RozrachunkiTransakcje> listaRozrachunkow;
     private List<StronaWiersza> stronyWiersza;
+    private List<StronaWiersza> stronyWierszawybrane;
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private Konto wybranekonto;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
-    @Inject private TransakcjaDAO transakcjaDAO;
     private TreeNodeExtended<Konto> root;
-    private int levelBiezacy = 0;
-    private int levelMaksymalny = 0;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{kontoZapisFKView}")
+    private KontoZapisFKView kontoZapisFKView;
     private String wybranaWalutaDlaKont;
+    private String wybranyRodzajTransakcji;
     private String coWyswietlacRozrachunkiPrzeglad;
+    private double sumawaluta;
+    private double sumapl;
 
     public RozrachunkiPrzegladView() {
         listaKontRozrachunkowych = new ArrayList<>();
         //listaRozrachunkow = new ArrayList<>();
         stronyWiersza = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";
+        coWyswietlacRozrachunkiPrzeglad = "nowe";
+        wybranyRodzajTransakcji = "transakcje";
     }
     
     @PostConstruct
@@ -72,7 +75,6 @@ public class RozrachunkiPrzegladView implements Serializable{
         if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {
             wybranekonto = listaKontRozrachunkowych.get(0);
             root = rootInit(listaKontRozrachunkowych);
-            //rozwinwszystkie(root);
         }
     }
 
@@ -99,57 +101,107 @@ public class RozrachunkiPrzegladView implements Serializable{
         }
         return r;
     }
-    //zostawilem bo duzo zmiennych malo linijek
-    private int ustalLevel(TreeNodeExtended<Konto> r) {
-        int level = 0;
-        levelMaksymalny = r.ustaldepthDT(listaKontRozrachunkowych);
-        return level;
-    }
-    
-    public void rozwinwszystkie(TreeNodeExtended<Konto> r) {
-        if (r.getChildCount() > 0) {
-            levelBiezacy = ustalLevel(r);
-            r.expandAll();
-        }
-    }
-    
-    public void zwinwszystkie(TreeNodeExtended<Konto> r) {
-        r.foldAll();
-        levelBiezacy = 0;
+   
+     public void rozrachunkimiesiace() {
+         wpisView.wpisAktualizuj();
+         pobierzZapisyZmianaWaluty();
     }
     
     public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
         stronyWiersza = new ArrayList<>();
         TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
         wybranekonto = (Konto) node.getData();
-        if (wybranaWalutaDlaKont.equals("wszystkie")) {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+        if (wybranyRodzajTransakcji.equals("transakcje")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         } else {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         }
-        filtrrozrachunkow();
+        wykonczrozachunki();
     }
     
     public void pobierzZapisyZmianaWaluty() {
-        if (wybranaWalutaDlaKont.equals("wszystkie")) {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+        if (wybranyRodzajTransakcji.equals("transakcje")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         } else {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         }
-        filtrrozrachunkow();
+        wykonczrozachunki();
     }
     
-    public void pobierzZapisyZmianaZakresu() {
-        if (wybranaWalutaDlaKont.equals("wszystkie")) {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+    public void pobierzZapisyZmianaTransakcji() {
+        if (wybranyRodzajTransakcji.equals("transakcje")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         } else {
-            stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
         }
-       filtrrozrachunkow();
+        wykonczrozachunki();
+     }
+    
+    public void pobierzZapisyZmianaZakresu() {
+        if (wybranyRodzajTransakcji.equals("transakcje")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieNT(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
+        } else {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieR(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
+            } else {
+                stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWalutaWszystkieR(wpisView.getPodatnikObiekt(), wybranaWalutaDlaKont, wybranekonto, wpisView.getRokWpisuSt());
+            }
+        }
+       wykonczrozachunki();
+    }
+    
+    private void wykonczrozachunki() {
+        filtrrozrachunkow();
+        kontoZapisFKView.pobierzZapisyNaKoncieNode(wybranekonto);
+        kontoZapisFKView.setWybranekonto(wybranekonto);
+        RequestContext.getCurrentInstance().update("paseknorth");
+        RequestContext.getCurrentInstance().update("tabelazzapisami");
+        RequestContext.getCurrentInstance().update("form:dataList");
+        RequestContext.getCurrentInstance().update("form:kontenertabeli");
+        RequestContext.getCurrentInstance().update("tabelazsumami");
+        sumawaluta = 0.0;
+        sumapl = 0.0;
     }
     
     private void filtrrozrachunkow() {
         if (coWyswietlacRozrachunkiPrzeglad != null) {
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        for (Iterator<StronaWiersza> it = stronyWiersza.iterator(); it.hasNext();) {
+            StronaWiersza pr = it.next();
+            int mc = Mce.getMiesiacToNumber().get(pr.getWiersz().getDokfk().getMiesiac());
+            if (mc < granicaDolna || mc > granicaGorna) {
+                it.remove();
+            }
+        }
         for (Iterator<StronaWiersza> p = stronyWiersza.iterator(); p.hasNext();) {
              switch (coWyswietlacRozrachunkiPrzeglad) {
                  case "rozliczone":
@@ -200,12 +252,29 @@ public class RozrachunkiPrzegladView implements Serializable{
          return results;
      }
     
+    public void sumujwybrane() {
+        sumawaluta = 0.0;
+        sumapl = 0.0;
+        if (stronyWierszawybrane != null && stronyWierszawybrane.size() > 0) {
+            for (StronaWiersza p : stronyWierszawybrane) {
+                if (p.getPozostalo() > 0.0) {
+                    sumawaluta += p.getPozostalo();
+                }
+                if (p.getPozostaloPLN() > 0.0) {
+                    sumapl += p.getPozostaloPLN();
+                }
+            }
+        }
+    }
+    
     public void drukuj() {
         PDFRozrachunki.drukujRozrachunki(stronyWiersza, wpisView);
     }
     
     public void pobierzZapisyNaKoncieNodeUnselect(NodeUnselectEvent event) {
         stronyWiersza.clear();
+        sumapl = 0.0;
+        sumawaluta = 0.0;
     }
     
     public WpisView getWpisView() {
@@ -273,6 +342,47 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void setCoWyswietlacRozrachunkiPrzeglad(String coWyswietlacRozrachunkiPrzeglad) {
         this.coWyswietlacRozrachunkiPrzeglad = coWyswietlacRozrachunkiPrzeglad;
     }
+
+    public double getSumawaluta() {
+        return sumawaluta;
+    }
+
+    public void setSumawaluta(double sumawaluta) {
+        this.sumawaluta = sumawaluta;
+    }
+
+    public double getSumapl() {
+        return sumapl;
+    }
+
+    public void setSumapl(double sumapl) {
+        this.sumapl = sumapl;
+    }
+
+    public List<StronaWiersza> getStronyWierszawybrane() {
+        return stronyWierszawybrane;
+    }
+
+    public void setStronyWierszawybrane(List<StronaWiersza> stronyWierszawybrane) {
+        this.stronyWierszawybrane = stronyWierszawybrane;
+    }
+
+    public KontoZapisFKView getKontoZapisFKView() {
+        return kontoZapisFKView;
+    }
+
+    public void setKontoZapisFKView(KontoZapisFKView kontoZapisFKView) {
+        this.kontoZapisFKView = kontoZapisFKView;
+    }
+
+    public String getWybranyRodzajTransakcji() {
+        return wybranyRodzajTransakcji;
+    }
+
+    public void setWybranyRodzajTransakcji(String wybranyRodzajTransakcji) {
+        this.wybranyRodzajTransakcji = wybranyRodzajTransakcji;
+    }
+    
     
     
     

@@ -438,10 +438,6 @@
             <to-view-id>/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
-            <from-outcome>menurozrachunkiFK</from-outcome>
-            <to-view-id>/ksiegowaFK/ksiegowaFKRozrachunki.xhtml?faces-redirect=true</to-view-id>
-        </navigation-case>
-          <navigation-case>
             <from-outcome>menuustawieniaFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaFKUstawienia.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

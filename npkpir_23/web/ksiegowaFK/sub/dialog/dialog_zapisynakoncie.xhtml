@@ -9,11 +9,11 @@
 
     <p:dialog id="zapisy" header="Zapisy na kontach firma - #{WpisView.podatnikWpisu}" widgetVar="zapisynakoncie"  dynamic="true"
               resizable="false" onShow="ustawdialog('zapisy','menuzapisykont',1600,780);$(document.getElementById('formwpiskonta:wyborkonta_input')).select();"
-              onHide="resetujdialog('zapisy');"  closeOnEscape="true" 
+              onHide="resetujdialog('zapisy');"  closeOnEscape="true" minimizable="true"
               >
         <p:layout fullPage="false" style="height: 720px;width: 1300px;" >  
             <p:layoutUnit position="north">
-                <p:panelGrid columns="3" columnClasses="kontaGrid1, kontaGrid2">
+                <p:panelGrid columns="3" id="paseknorth" columnClasses="kontaGrid1, kontaGrid2">
                     <h:form id="formwpiskonta">
                         <h:outputText value="#{mgs.wybierzkonto}: "/>
                         <p:autoComplete id="wyborkonta" value="#{kontoZapisFKView.wybranekonto}" completeMethod="#{kontoView.complete}"
@@ -117,7 +117,7 @@
                                      styleClass="grid" style="width: 100%; height: 520px; overflow-y: scroll;" 
                                      sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop1}" >
                             <p:ajax event="rowSelect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
-                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode}" />
+                                    listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNode(kontoZapisFKView.wybranekonto)}" />
                             <p:ajax event="rowUnselect" global="false" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
                                     listener="#{kontoZapisFKView.pobierzZapisyNaKoncieNodeUnselect}" />
                             <p:column width="0.1">
