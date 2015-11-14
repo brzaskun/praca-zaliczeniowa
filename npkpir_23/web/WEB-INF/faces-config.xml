@@ -149,6 +149,10 @@
             <from-outcome>pismoadminFK</from-outcome>
             <to-view-id>/ksiegowaFK/ksiegowaPismoadminFK.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>zestawieniaFK</from-outcome>
+            <to-view-id>/ksiegowaFK/ksiegowaZestawieniaFK.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>inwestycje</from-outcome>
             <to-view-id>/wspolny/wspolnyInwestycje.xhtml?faces-redirect=true</to-view-id>

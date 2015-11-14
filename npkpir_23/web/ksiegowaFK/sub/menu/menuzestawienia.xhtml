@@ -1,0 +1,27 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <p:tabView id="menuzestawienia" orientation="left" style=" height: 500px;width: 600px;box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
+                <p:tab title="#{mgs.zestawienia}">
+                    <h:form id="dialog1menu2">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Zapisy na kontach w m-cu" onclick="PF('zapisynakontachwmcu').show();"></p:menuitem>
+                            <p:menuitem value="Salda syntetyczne" onclick="PF('saldakontsyntetycznych').show();"></p:menuitem>
+                            <p:menuitem value="Salda analityczne" onclick="PF('saldakontanalitycznych').show();"></p:menuitem>
+                            <p:menuitem value="Salda analityczne narastajaco" onclick="PF('saldakontanalitycznychnarastajaco').show();"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>
+                <p:tab title="miejsca pow. kosz.">
+                    <h:form id="dialog1menu3">
+                        <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="Zestawienie miesięczne" onclick="PF('zapisymiejscakosztowwmcu').show();"></p:menuitem>
+                        </p:menu>
+                    </h:form>
+                </p:tab>  
+            </p:tabView>
+</ui:composition>
