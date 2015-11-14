@@ -19,6 +19,7 @@ import comparator.DokfkLPcomparator;
 import comparator.Dokfkcomparator;
 import comparator.Rodzajedokcomparator;
 import comparator.Transakcjacomparator;
+import comparator.TransakcjacomparatorKwota;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
@@ -1866,7 +1867,7 @@ public class DokfkView implements Serializable {
                 stronyWierszazBazy = DokFKTransakcjeBean.pobierzStronaWierszazBazy(wybranastronawiersza, stronawiersza, stronaWierszaDAO, transakcjaDAO);
                 transakcje = (DokFKTransakcjeBean.stworznowetransakcjezeZapisanychStronWierszy(stronyWierszazDokumentu, stronyWierszazBazy, wybranastronawiersza, wpisView.getPodatnikWpisu()));
                 DokFKTransakcjeBean.naniesKwotyZTransakcjiwPowietrzu(wybranastronawiersza, transakcje, selected.getListawierszy(), stronawiersza);
-                Collections.sort(transakcje, new Transakcjacomparator());
+                Collections.sort(transakcje, new TransakcjacomparatorKwota());
                 //trzeba zablokować mozliwosc zmiaktualnyWierszDlaRozrachunkowany nowej transakcji jak sa juz rozliczenia!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 String funkcja;
                 //jezeli w pobranych transakcjach sa juz rozliczenia to trzeba zablokowac mozliwosc zaznaczania nowej transakcji
