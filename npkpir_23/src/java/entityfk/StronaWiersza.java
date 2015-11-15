@@ -6,8 +6,10 @@
 
 package entityfk;
 
+import embeddable.Mce;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
@@ -27,6 +29,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import view.WpisView;
 import waluty.Z;
 
 /**
@@ -266,6 +269,46 @@ public class StronaWiersza implements Serializable{
         }
         return this.rozliczono;
     }
+    
+    public double getRozliczono(WpisView wpisView) {
+        this.rozliczono = 0.0;
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        if (this.nowatransakcja) {
+            for (Iterator<Transakcja> it = this.platnosci.iterator(); it.hasNext();) {
+                Transakcja pr = it.next();
+                int mc = Mce.getMiesiacToNumber().get(pr.getDatarozrachunku().split("-")[1]);
+                if (mc < granicaDolna || mc > granicaGorna) {
+                    it.remove();
+                }
+            }
+            for (Transakcja p : this.platnosci) {
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
+            }
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
+        } else {
+            for (Iterator<Transakcja> it = this.nowetransakcje.iterator(); it.hasNext();) {
+                Transakcja pr = it.next();
+                int mc = Mce.getMiesiacToNumber().get(pr.getDatarozrachunku().split("-")[1]);
+                if (mc < granicaDolna || mc > granicaGorna) {
+                    it.remove();
+                }
+            }
+            for (Transakcja p : this.nowetransakcje) {
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
+            }
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
+        }
+        return this.rozliczono;
+    }
 
     public void setRozliczono(double rozliczono) {
         this.rozliczono = rozliczono;
@@ -283,6 +326,46 @@ public class StronaWiersza implements Serializable{
             }
             this.pozostalo = this.getKwotaR() - this.rozliczono;
         } else {
+            for (Transakcja p : this.nowetransakcje) {
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
+            }
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
+        }
+        return this.pozostalo;
+    }
+    
+    public double getPozostalo(WpisView wpisView) {
+        this.rozliczono = 0.0;
+        int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+        int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+        if (this.nowatransakcja) {
+            for (Iterator<Transakcja> it = this.platnosci.iterator(); it.hasNext();) {
+                Transakcja pr = it.next();
+                int mc = Mce.getMiesiacToNumber().get(pr.getDatarozrachunku().split("-")[1]);
+                if (mc < granicaDolna || mc > granicaGorna) {
+                    it.remove();
+                }
+            }
+            for (Transakcja p : this.platnosci) {
+                if (p.getKwotawwalucierachunku() > 0) {
+                    this.rozliczono += p.getKwotawwalucierachunku();
+                } else {
+                    this.rozliczono += p.getKwotatransakcji();
+                }
+            }
+            this.pozostalo = this.getKwotaR() - this.rozliczono;
+        } else {
+            for (Iterator<Transakcja> it = this.nowetransakcje.iterator(); it.hasNext();) {
+                Transakcja pr = it.next();
+                int mc = Mce.getMiesiacToNumber().get(pr.getDatarozrachunku().split("-")[1]);
+                if (mc < granicaDolna || mc > granicaGorna) {
+                    it.remove();
+                }
+            }
             for (Transakcja p : this.nowetransakcje) {
                 if (p.getKwotawwalucierachunku() > 0) {
                     this.rozliczono += p.getKwotawwalucierachunku();

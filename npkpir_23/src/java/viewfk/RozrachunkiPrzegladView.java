@@ -13,6 +13,7 @@ import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.Transakcja;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,6 +47,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     @Inject private KontoDAOfk kontoDAOfk;
     @Inject private StronaWierszaDAO stronaWierszaDAO;
     @Inject private Konto wybranekonto;
+    @Inject private TransakcjaDAO transakcjaDAO;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
     private TreeNodeExtended<Konto> root;
     @Inject private TreeNodeExtended<Konto> wybranekontoNode;
@@ -178,6 +180,7 @@ public class RozrachunkiPrzegladView implements Serializable{
        wykonczrozachunki();
     }
     
+        
     private void wykonczrozachunki() {
         filtrrozrachunkow();
         kontoZapisFKView.pobierzZapisyNaKoncieNode(wybranekonto);
@@ -189,6 +192,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         RequestContext.getCurrentInstance().update("tabelazsumami");
         sumawaluta = 0.0;
         sumapl = 0.0;
+        sumujwszystkie();
     }
     
     private void filtrrozrachunkow() {
@@ -228,6 +232,75 @@ public class RozrachunkiPrzegladView implements Serializable{
         }
     }
     
+    public void weryfikujtransakcje() {
+        if (stronyWiersza != null && stronyWiersza.size() > 0) {
+            if (wybranyRodzajTransakcji.equals("transakcje")) {
+                for (StronaWiersza p : stronyWiersza) {
+                    List<Transakcja> transakcje = pobierztransakcje(p, false);
+                    if (!transakcje.isEmpty()) {
+                        naprawtransakcje(p, transakcje);
+                    }
+                }
+            } else {
+                for (StronaWiersza p : stronyWiersza) {
+                    List<Transakcja> transakcje = pobierztransakcje(p, true);
+                    if (!transakcje.isEmpty()) {
+                        naprawrozliczenia(p, transakcje);
+                    }
+                }
+            }
+            pobierzZapisyZmianaWaluty();
+        }
+        
+    }
+
+    private List<Transakcja> pobierztransakcje(StronaWiersza w, boolean trans0rozlicz1) {
+        List<Transakcja> p = new ArrayList<>();
+        if (trans0rozlicz1) {
+            p = transakcjaDAO.findByRozliczajacy(w);
+        } else {
+            p = transakcjaDAO.findByNowaTransakcja(w);
+        }
+        return p;
+    }
+    
+    private void naprawtransakcje(StronaWiersza p, List<Transakcja> transakcje) {
+        boolean edytuj = false;
+        for (Transakcja t : transakcje) {
+            if (!p.getPlatnosci().contains(t)) {
+                p.getPlatnosci().add(t);
+                edytuj = true;
+                StronaWiersza rozliczajacy = t.getRozliczajacy();
+                if (!rozliczajacy.getNowetransakcje().contains(t)){
+                    rozliczajacy.getNowetransakcje().add(t);
+                    stronaWierszaDAO.edit(rozliczajacy);
+                }
+            }
+        }
+        if (edytuj) {
+            stronaWierszaDAO.edit(p);
+        }
+    }
+    
+    private void naprawrozliczenia(StronaWiersza p, List<Transakcja> transakcje) {
+        boolean edytuj = false;
+        for (Transakcja t : transakcje) {
+            if (!p.getNowetransakcje().contains(t)) {
+                p.getNowetransakcje().add(t);
+                edytuj = true;
+                StronaWiersza nowatransakcja = t.getNowaTransakcja();
+                if (!nowatransakcja.getPlatnosci().contains(t)) {
+                    nowatransakcja.getPlatnosci().add(t);
+                    stronaWierszaDAO.edit(nowatransakcja);
+                }
+            }
+        }
+        if (edytuj) {
+            stronaWierszaDAO.edit(p);
+        }
+    }
+    
+    
     public List<Konto> complete(String query) {  
          List<Konto> results = new ArrayList<>();
          try{
@@ -251,6 +324,22 @@ public class RozrachunkiPrzegladView implements Serializable{
          }
          return results;
      }
+    
+    public void sumujwszystkie() {
+        sumawaluta = 0.0;
+        sumapl = 0.0;
+        if (stronyWiersza != null && stronyWiersza.size() > 0) {
+            for (StronaWiersza p : stronyWiersza) {
+                if (p.getPozostalo() > 0.0) {
+                    sumawaluta += p.getPozostalo();
+                }
+                if (p.getPozostaloPLN() > 0.0) {
+                    sumapl += p.getPozostaloPLN();
+                }
+            }
+        }
+    }
+    
     
     public void sumujwybrane() {
         sumawaluta = 0.0;
@@ -382,6 +471,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     public void setWybranyRodzajTransakcji(String wybranyRodzajTransakcji) {
         this.wybranyRodzajTransakcji = wybranyRodzajTransakcji;
     }
+
     
     
     

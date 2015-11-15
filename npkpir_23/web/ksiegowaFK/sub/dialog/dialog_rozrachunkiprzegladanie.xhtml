@@ -211,7 +211,7 @@
                 </h:form>  
             </p:layoutUnit>  
             <p:layoutUnit position="south">  
-                <p:panelGrid id="sumy" columns="3" style="width: 1300px;">
+                <p:panelGrid id="sumy" columns="4" style="width: 1350px;">
                     <h:form >
                         <p:selectOneMenu label="stan" value="#{rozrachunkiPrzegladView.coWyswietlacRozrachunkiPrzeglad}" style="width: 200px; float: left; margin-left: 30px;" >
                             <p:ajax event="change" listener="#{rozrachunkiPrzegladView.pobierzZapisyZmianaZakresu}" update=":tabelanowerozrachunki:tabela" partialSubmit="true"/>
@@ -256,6 +256,9 @@
                             <bcf:outputpl value="#{rozrachunkiPrzegladView.sumapl}" rendered="#{rozrachunkiPrzegladView.sumapl ne 0.0}"
                                           style="font-weight: 700;"/>
                         </p:panelGrid>
+                    </h:form>
+                    <h:form>
+                        <p:commandButton value="sprawdz" style="float: right; width: 100px;" actionListener="#{rozrachunkiPrzegladView.weryfikujtransakcje}" update="tabelanowerozrachunki,sumy"/>
                     </h:form>
                 </p:panelGrid>
             </p:layoutUnit>  
