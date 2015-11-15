@@ -110,6 +110,14 @@ public class Pitpoz implements Serializable {
     public Pitpoz() {
     }
 
+    public Pitpoz(String zus) {
+        this.zus51 = BigDecimal.ZERO;
+        this.zus52 = BigDecimal.ZERO;
+        this.nalzalodpoczrok = BigDecimal.ZERO;
+    }
+    
+    
+
     public Pitpoz(Integer id) {
         this.id = id;
     }

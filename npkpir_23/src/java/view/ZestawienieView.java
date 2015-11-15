@@ -988,10 +988,12 @@ public class ZestawienieView implements Serializable {
                 } else {
                     biezacyPit.setPodatek(BigDecimal.ZERO);
                 }
-                if (biezacyPit.getZus52() != null) {
-                    biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
-                } else if (biezacyPit.getZus52() == null) {
-                    biezacyPit.setZus52(sumapoprzednichmcy.getZus52());
+                if (zus52zreki == false) {
+                    if (biezacyPit.getZus52() != null) {
+                        biezacyPit.setZus52(biezacyPit.getZus52().add(sumapoprzednichmcy.getZus52()));
+                    } else if (biezacyPit.getZus52() == null) {
+                        biezacyPit.setZus52(sumapoprzednichmcy.getZus52());
+                    }
                 }
                 BigDecimal tmpX = podatek.subtract(biezacyPit.getZus52());
                 tmpX = tmpX.setScale(0, RoundingMode.HALF_EVEN);
@@ -1228,25 +1230,20 @@ public class ZestawienieView implements Serializable {
     }
 
     public Pitpoz skumulujpity(String mcDo, String udzialowiec) {
-        Pitpoz tmp = new Pitpoz();
-        tmp.setZus51(BigDecimal.ZERO);
-        tmp.setZus52(BigDecimal.ZERO);
-        tmp.setNalzalodpoczrok(BigDecimal.ZERO);
+        Pitpoz tmp = new Pitpoz("zus");
         try {
             Collection c = pitDAO.findPitPod(wpisView.getRokWpisu().toString(), wpisView.getPodatnikWpisu());
-            Iterator it;
-            it = c.iterator();
-
+            Iterator it = c.iterator();
+            int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
+            if (wpisView.isMc0kw1()) {
+                poprzednimc = poprzednimc - 3;
+            } else {
+                poprzednimc = poprzednimc - 1;
+            }
+            String starymcS = Mce.getNumberToMiesiac().get(poprzednimc);
             while (it.hasNext()) {
                 Pitpoz tmpX = (Pitpoz) it.next();
                 int miesiacPituPobranego = Integer.parseInt(tmpX.getPkpirM());
-                int poprzednimc = Mce.getMiesiacToNumber().get(mcDo);
-                if (wpisView.isMc0kw1()) {
-                    poprzednimc = poprzednimc - 3;
-                } else {
-                    poprzednimc = poprzednimc - 1;
-                }
-                String starymcS = Mce.getNumberToMiesiac().get(poprzednimc);
                 if (miesiacPituPobranego <= poprzednimc && tmpX.getUdzialowiec().equals(udzialowiec)) {
                     if (tmpX.getNaleznazal().signum() == 1) {
                         tmp.setNalzalodpoczrok(tmp.getNalzalodpoczrok().add(tmpX.getNaleznazal()));
@@ -1263,18 +1260,13 @@ public class ZestawienieView implements Serializable {
                     } else {
                         tmp.setZus52(BigDecimal.ZERO);
                     }
-
                 }
-
             }
-
-            return tmp;
         } catch (Exception e) {
             E.e(e);
-
+        } finally {
             return tmp;
         }
-
     }
 
     private BigDecimal obliczprzychod() {
