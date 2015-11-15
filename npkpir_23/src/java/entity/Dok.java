@@ -513,6 +513,13 @@ public class Dok implements Serializable {
         this.tabelanbp = tabelanbp;
     }
     
+    public Double getNettoWaluta() {
+        double suma = 0.0;
+        for (KwotaKolumna1 p : this.listakwot1) {
+            suma += p.getNettowaluta();
+        }
+        return suma;
+    }
     
 
     @Override

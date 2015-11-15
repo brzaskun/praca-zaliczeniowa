@@ -186,8 +186,12 @@ public class ObrotyView implements Serializable{
         podsumowaniewybranych = 0.0;
         podsumowaniewybranychnetto = 0.0;
         for(Dok p : goscwybral){
-            podsumowaniewybranych += p.getBrutto();
-             podsumowaniewybranychnetto += p.getNetto();
+            try {
+                podsumowaniewybranych += p.getBrutto();
+            } catch (Exception e) {
+                podsumowaniewybranych += p.getNetto();
+            }
+            podsumowaniewybranychnetto += p.getNetto();
         }
     }
    

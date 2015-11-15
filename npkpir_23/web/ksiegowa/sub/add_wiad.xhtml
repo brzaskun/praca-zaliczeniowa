@@ -135,7 +135,7 @@
                     <f:ajax event="blur" listener="#{DokumentView.wygenerujnumerkolejny}" />
                 </h:selectOneMenu>
                 <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
-                    <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false"/>
+                    <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}"  update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis();"/>
                     <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                 </p:inputText>
 

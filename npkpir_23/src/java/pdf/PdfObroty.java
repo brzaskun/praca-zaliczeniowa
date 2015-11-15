@@ -4,6 +4,7 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujLiczba;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
@@ -61,8 +62,8 @@ public class PdfObroty  {
         }
         Font font = new Font(helvetica, 8);
         pdf.setPageSize(PageSize.A4);
-        PdfPTable table = new PdfPTable(9);
-        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2});
+        PdfPTable table = new PdfPTable(11);
+        table.setWidths(new int[]{1, 2, 4, 2, 2, 2, 2, 2, 2,2,3});
         PdfPCell cell = new PdfPCell();
         table.addCell(ustawfrazeAlign("nr kolejny", "center",8));
         table.addCell(ustawfrazeAlign("data wystawienia", "center",8));
@@ -73,10 +74,13 @@ public class PdfObroty  {
         table.addCell(ustawfrazeAlign("opis", "center",8));
         table.addCell(ustawfrazeAlign("netto", "center",8));
         table.addCell(ustawfrazeAlign("brutto", "center",8));
+        table.addCell(ustawfrazeAlign("netto wal.", "center",8));
+        table.addCell(ustawfrazeAlign("tabela", "center",8));
         table.setHeaderRows(1);
 
-        List<Dok> wykaz = obliczsume(goscwybral);
-        for (Dok rs : wykaz) {
+        Object[] suma = obliczsume(goscwybral);
+        goscwybral.add((Dok) suma[0]);
+        for (Dok rs : goscwybral) {
             if (rs.getNrWpkpir() != 0) {
                 table.addCell(ustawfrazeAlign(String.valueOf(rs.getNrWpkpir()), "center",8));
             } else {
@@ -90,6 +94,18 @@ public class PdfObroty  {
             table.addCell(ustawfrazeAlign(rs.getOpis(), "left",8));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",8));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getBrutto()), "right",8));
+            if (rs.getNrWpkpir() != 0) {
+                if (rs.getTabelanbp() == null || rs.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+                    table.addCell(ustawfrazeAlign("", "right",8));
+                    table.addCell(ustawfrazeAlign("", "right",8));
+                } else if (!rs.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")){
+                    table.addCell(ustawfrazeAlign(formatujLiczba(rs.getNettoWaluta()), "right",8));
+                    table.addCell(ustawfrazeAlign(rs.getTabelanbp().getNrtabeli()+"/"+rs.getTabelanbp().getWaluta().getSymbolwaluty(), "right",8));
+                }
+            } else {
+                table.addCell(ustawfrazeAlign(formatujLiczba((Double) suma[1]), "right",8));
+                table.addCell(ustawfrazeAlign("", "right",8));
+            }
         }
         pdf.setPageSize(PageSize.A4_LANDSCAPE.rotate());
         pdf.add(new Chunk());
@@ -104,12 +120,15 @@ public class PdfObroty  {
         Msg.msg("i", "Wydrukowano obroty", "form:messages");
     }
 
-    private static List<Dok> obliczsume(List<Dok> wykaz) {
+    private static Object[] obliczsume(List<Dok> wykaz) {
+        Object[] tab = new Object[2];
         Double nettosuma = 0.0;
         Double bruttosuma = 0.0;
+        Double waluta = 0.0;
         for(Dok p : wykaz){
             nettosuma += p.getNetto();
             bruttosuma += p.getBrutto();
+            waluta += p.getNettoWaluta();
         }
         Dok suma = new Dok();
         suma.setNrWpkpir(0);
@@ -119,7 +138,8 @@ public class PdfObroty  {
         suma.setOpis("podsumowanie");
         suma.setNetto(nettosuma);
         suma.setBrutto(bruttosuma);
-        wykaz.add(suma);
-        return wykaz;
+        tab[0] = suma;
+        tab[1] = waluta;
+        return tab;
     }
 }
