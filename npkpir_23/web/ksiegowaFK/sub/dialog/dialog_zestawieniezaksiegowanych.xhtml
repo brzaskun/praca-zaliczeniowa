@@ -56,6 +56,12 @@
                                       style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
                 </p:column>
                 <p:column>
+                    <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
+                                     actionListener="#{dokfkView.resetujDokument}"
+                                     oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanych').hide();"
+                                     style="margin-left: 20px; width: 120px;" />
+                </p:column>
+                <p:column>
                     <p:commandButton id="sprawdz" value="sprawdź" actionListener="#{dokfkView.sprawdzWnMawDokfk}" style="width: 120px; margin-left: 250px;" 
                                      update=":zestawieniedokumentow:dataList" rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"
                                     />
@@ -102,7 +108,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}"
+                         style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -111,6 +117,10 @@
                 <p:ajax event="rowUnselectCheckbox" global="false"/>
                 <p:ajax event="toggleSelect" global="false" />
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
+                <p:column style="width: 10px; height: 45px; text-align: center;" >
+                    <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}"/>
+                    <h:outputText value="bez VAT" rendered="#{item.ewidencjaVAT.size() eq 0}"/>
+                </p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
                 </p:column>
@@ -120,7 +130,8 @@
 <!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
                     <h:outputText value="#{item.dokfkLP}"/>
                 </p:column>-->
-                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" filterBy="#{item.dokfkSN}">
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" sortFunction="#{dokfkView.sortujzaksiegowane}"
+                          filterBy="#{item.dokfkSN}">
                     <h:outputText value="#{item.dokfkSN}"/>
                 </p:column>
                 <p:column headerText="nip" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
@@ -159,6 +170,37 @@
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="ui-icon-trash" 
                                      oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;" update=":potwierdzeniazestawieniedok"/>
                 </p:column>
+                <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
+                        <p:dataTable var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                            <p:column id="SubColumn1" headerText="ewidencja" width="250">  
+                                <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
+                                              rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="#{mgs.netto}">  
+                                <h:outputText value="#{subwpis.netto}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="#{mgs.VAT}">  
+                                <h:outputText value="#{subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2a" headerText="brutto">  
+                                <h:outputText value="#{subwpis.netto + subwpis.vat}" style="float: right;" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="op/zw">  
+                                <h:outputText value="#{subwpis.estawka}" rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}"/>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="okres vat" width="50">  
+                                <h:outputText value="#{subwpis.mcEw}/#{subwpis.rokEw}" style="float: right;" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
             </p:dataTable>
         </h:form>
     </p:dialog>

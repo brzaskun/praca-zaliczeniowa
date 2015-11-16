@@ -655,6 +655,7 @@ public class DokfkView implements Serializable {
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
+                    selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                 }
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;
@@ -934,7 +935,7 @@ public class DokfkView implements Serializable {
     public void skopiujopisdopierwszegowiersza() {
         try {
             Wiersz w = selected.getListawierszy().get(0);
-            if (w.getOpisWiersza() == null) {
+            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
                 w.setOpisWiersza(selected.getOpisdokfk());
             }
         } catch (Exception e) {
@@ -963,6 +964,10 @@ public class DokfkView implements Serializable {
         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
         if (poprzedniDokument != null && selected.getOpisdokfk() == null) {
             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            Wiersz w = selected.getListawierszy().get(0);
+            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                w.setOpisWiersza(selected.getOpisdokfk());
+            }
         }
     }
 
@@ -970,6 +975,10 @@ public class DokfkView implements Serializable {
         Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
         if (poprzedniDokument != null) {
             selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+            Wiersz w = selected.getListawierszy().get(0);
+            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                w.setOpisWiersza(selected.getOpisdokfk());
+            }
         }
     }
 
@@ -1308,7 +1317,7 @@ public class DokfkView implements Serializable {
         List<Dokfk> listabrakivat = new ArrayList<>();
         List<Dokfk> listapustaewidencja = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
-            if ((p.getRodzajedok().getKategoriadokumentu() != 1 && p.getRodzajedok().getKategoriadokumentu() != 2) && klientdlaPK != null) {
+            if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                 if (p.getKontr() == null) {
                     p.setKontr(klientdlaPK);
                     dokDAOfk.edit(p);
@@ -1458,6 +1467,7 @@ public class DokfkView implements Serializable {
                 listabrakiPozycji.add(p);
             }
         }
+        boolean czysto = true;
         String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
         b.append(main);
@@ -1466,6 +1476,7 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
+            czysto = false;
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
         main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
@@ -1476,6 +1487,7 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listaRozniceWnMa.size() > 0) {
+            czysto = false;
             dokDAOfk.editList(listaRozniceWnMa);
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
@@ -1493,6 +1505,7 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listabraki.size() > 0) {
+            czysto = false;
             dokDAOfk.editList(listabraki);
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
@@ -1504,6 +1517,7 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listabrakiPozycji.size() > 0) {
+            czysto = false;
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
         main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
@@ -1514,6 +1528,7 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listabrakivat.size() > 0) {
+            czysto = false;
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
         main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
@@ -1524,9 +1539,13 @@ public class DokfkView implements Serializable {
             b.append(", ");
         }
         if (listapustaewidencja.size() > 0) {
+            czysto = false;
             Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
         }
         init();
+        if (czysto) {
+            Msg.msg("i", "Nie stwierdzono błędów w dokumentach z listy", "zestawieniedokumentow:wiadomoscsprawdzenie");
+        }
     }
 
     public void sprawdzsalda(String wybranakategoriadok) {
@@ -3213,6 +3232,28 @@ public class DokfkView implements Serializable {
         this.dataTablezaksiegowane = dataTablezaksiegowane;
     }
 
-    
-    
+    public int sortujzaksiegowane(Object obP, Object obW)  {
+        int ret = 0;
+        String dok1 = ((String) obP).split("/")[0];
+        String dok2 = ((String) obW).split("/")[0];
+        ret = dok1.compareTo(dok2);
+        if (ret == 0) {
+            ret = porownajdalej((String) obP,(String) obW);
+        }
+        return ret;
+    }
+
+    private int porownajdalej(String obP, String obW) {
+        int ret = 0;
+        Integer dok1 = Integer.parseInt(obP.split("/")[1]);
+        Integer dok2 = Integer.parseInt(obW.split("/")[1]);
+        if (dok1 < dok2) {
+            ret = -1;
+        } else if (dok1 > dok2) {
+            ret = 1;
+        }
+        return ret;
+    }
+
+   
 }

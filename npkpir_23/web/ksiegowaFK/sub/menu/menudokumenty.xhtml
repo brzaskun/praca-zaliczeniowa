@@ -23,19 +23,12 @@
         </h:form>
     </f:view>
     <p:tabView id="menudokumenty" orientation="left" style=" height: 500px;width: 600px; box-shadow: 10px 10px 5px #888888; margin-left: 15px; margin-top: 15px;">  
-        <p:tab title="wpisywanie">
-            <h:form id="dialog1menu1">
-                <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="dokument księgowy" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
-                </p:menu>
-            </h:form>
-        </p:tab>  
-        <p:tab title="przeglądanie">
+        <p:tab title="dokumenty">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-
-                    <p:menuitem value="Dokumenty" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
-                    <p:menuitem value="Wiersze" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
+                    <p:menuitem value="Wpisywanie" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
+                    <p:menuitem value="Przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
+                    <p:menuitem value="Wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
                     <p:menuitem value="#{mgs.zestawienia}"  outcome="guestbilansFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
                     <p:menuitem value="WierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
                     <p:menuitem value="WierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
