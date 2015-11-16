@@ -30,9 +30,9 @@
             <name>style</name>
         </attribute>
     </tag>
-     <tag>
-	<tag-name>outputpl</tag-name>
-	<source>tags/outputpl.xhtml</source>
+    <tag>
+	<tag-name>outputplprocent</tag-name>
+	<source>tags/outputplprocent.xhtml</source>
         <attribute>
             <name>value</name>
         </attribute>

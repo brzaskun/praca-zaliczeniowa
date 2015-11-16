@@ -57,7 +57,7 @@
                 </p:row>
             </p:panelGrid>
             <p:dataTable id="tabelacechyzapisow" var="wpis" value="#{cechyzapisuPrzegladView.zapisyZCecha}" editable="true" rowKey="#{wpis.id}"
-                         selection="#{cechyzapisuPrzegladView.wybraneZapisy}" 
+                         selection="#{cechyzapisuPrzegladView.wybraneZapisy}" scrollable="true" scrollRows="20" scrollHeight="500"
                          emptyMessage="Nie ma cech zapisów w danym miesiącu rozliczeniowym" styleClass="gridtablicasyntetyczne"
                           style="width: 1100px;"  widgetVar="tabelacechyzapisow" rowIndexVar="index">
                 <f:facet name="header">  
