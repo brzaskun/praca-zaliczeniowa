@@ -111,8 +111,10 @@
                 <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.netto}"  style="width: 60px;">  
                     <bcf:outputpl value="#{wpis.netto}"/>
                     <br/>
-                    <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                    <c:if test="#{wpis.tabelanbp ne null}">
+                      <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
+                      <h:outputText value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                    </c:if>
                     
                 </p:column>
 

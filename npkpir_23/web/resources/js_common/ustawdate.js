@@ -23,7 +23,7 @@ function ustawDate(rok,mc){
      } else {
          var dataplatnosc = document.getElementById("dodWiad:dataTPole");
          var datasprzedazy = document.getElementById("dodWiad:dataSPole");
-         var rozliczony = document.getElementById("dodWiad:tabelapkpir2:0:rozliczony");
+         var rozliczony = document.getElementById("dodWiad:rozliczony");
          dataplatnosc.value = dataWyst.value;
          datasprzedazy.value = dataWyst.value;
          $(rozliczony).attr('checked', true);

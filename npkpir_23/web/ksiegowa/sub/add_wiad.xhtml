@@ -175,7 +175,7 @@
                    </p:column>
                   <p:column headerText="kolumna pkpir" style="text-align: center;" width="170">
                       <h:selectOneMenu id="kolumnaPkpir" value="#{row.nazwakolumny}" style="width: 170px; text-align: center;" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
-                                         onfocus="$(this).addClass('ui-state-focus');"
+                                        onfocus="$(this).addClass('ui-state-focus');"
                                         onblur="$(this).removeClass('ui-state-focus');">
                             <f:selectItems value="#{DokumentView.kolumny}"/>
                         </h:selectOneMenu><br/>
@@ -227,7 +227,9 @@
                         <pe:inputNumber id="sumbrutto" value="#{DokumentView.sumbrutto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                     </p:column>
                     <p:column headerText="inwestycja">
-                        <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="display: none;">
+                        <h:selectOneMenu id="inwestycja" value="#{DokumentView.selDokument.symbolinwestycji}" style="display: none; width: 200px;"
+                                         onfocus="$(this).addClass('ui-state-focus');"
+                                        onblur="$(this).removeClass('ui-state-focus');">
                             <f:selectItems value="#{inwestycjeView.inwestycjesymbole}"/>
                         </h:selectOneMenu>
                     </p:column>

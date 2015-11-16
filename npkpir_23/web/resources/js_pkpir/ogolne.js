@@ -79,30 +79,34 @@ var dolaczwyliczenieKopiowanie = function() {
 var aktywujopis = function() {
     var dokument = $('#dodWiad\\:rodzajTrans').val();
     if (dokument === 'IN') {
-        $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').show();
-//        $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('mouseover', function() {
-//        alert($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val());
+        r('dodWiad:inwestycja').show();
+//        $("#dodWiad:inwestycja").bind('mouseover', function() {
+//        alert($('#dodWiad:inwestycja').val());
 //            });
-        $("#dodWiad\\:tabelapkpir2\\:0\\:inwestycja").bind('blur', function() {
+        r("dodWiad:inwestycja").bind('blur', function() {
 
-            if ($('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').val() === "wybierz") {
-                $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').focus();
+            if (r('dodWiad:inwestycja').val() === "wybierz") {
+                r('dodWiad:inwestycja').focus();
             }
         });
     } else {
-        $('#dodWiad\\:tabelapkpir2\\:0\\:inwestycja').hide();
+        r('dodWiad:inwestycja').hide();
     }
     //zaznacza pola checkboxow w dla dokumentow prostych
     switch (dokument) {
         case 'LP':
         case 'PK':
         case 'ZUS':
-            r('dodWiad:tabelapkpir2:0:dokumentprosty').attr('checked', true);
-            r('dodWiad:panelewidencjivat').hide();
+            if (r('dodWiad:dokumentprosty').is(':checked') === false) {
+                r('dodWiad:dokumentprosty').trigger("click");
+                r('dodWiad:panelewidencjivat').hide();
+            }
             break;
         default:
-            r('dodWiad:tabelapkpir2:0:dokumentprosty').attr('checked', false);
-            r('dodWiad:panelewidencjivat').show();
+            if (r('dodWiad:dokumentprosty').is(':checked') === true) {
+                r('dodWiad:dokumentprosty').trigger("click");
+                r('dodWiad:panelewidencjivat').show();
+            }
     }
 
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu

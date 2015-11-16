@@ -360,6 +360,11 @@ public final class DokView implements Serializable {
         if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
+            ewidencjaAddwiad = new ArrayList<>();
+        } else if (selDokument.isDokumentProsty()) {
+            ukryjEwiencjeVAT = true;
+            sumujnetto();
+            ewidencjaAddwiad = new ArrayList<>();
         } else {
             ukryjEwiencjeVAT = false;
             String transakcjiRodzaj = "";
