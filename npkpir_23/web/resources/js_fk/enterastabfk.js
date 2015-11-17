@@ -19,6 +19,7 @@ var TabKeyDown;
             var czyZawieraMa = taregetId.indexOf("kontoma");
             var enterdefault = taregetId.indexOf("enterdefault");
             var rozrachunki = taregetId.indexOf("rozrachunki");
+            var opis = taregetId.indexOf("opis");
             var typwiersza = MYAPP.typwiersza;
             var wierszlp = parseInt($target.attr("name").split(":")[2])+1;
         } catch (e1) {
@@ -58,7 +59,7 @@ var TabKeyDown;
                             }
                         }
                     }
-                } else if (isArrowkey(event)) {
+                } else if (isArrowkey(event) && opis > -1) {
                     if (event.keyCode === 40) {
                         goDown(wiersze,wierszlp);
                     } else if (event.keyCode === 38) {
