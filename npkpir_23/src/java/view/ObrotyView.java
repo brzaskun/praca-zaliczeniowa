@@ -13,10 +13,14 @@ import entity.Wpis;
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -54,6 +58,8 @@ public class ObrotyView implements Serializable{
     @Inject private WpisDAO wpisDAO;
     private Double podsumowaniewybranych;
     private Double podsumowaniewybranychnetto;
+    private List<String> dokumentypodatnika;
+    private List<String> kontrahentypodatnika;
 
     public ObrotyView() {
         //lista porzechowujaca przefiltrowane widoki
@@ -66,18 +72,22 @@ public class ObrotyView implements Serializable{
         Principal principal;
         if (obiektDOKmrjsfSelX == null) {
             if (request.isUserInRole("Guest")) {
-                initG();
+                initGuest();
             } else {
                 init();
             }
+            dokumentypodatnika = new ArrayList<>();
+            kontrahentypodatnika = new ArrayList<>();
         }
     }
     
-    public String init() {
+    public void init() {
         //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = new ArrayList<>();
         //dokumenty podatnika z roku
         obiektDOKjsfSelRok = new ArrayList<>();
+        dokumentypodatnika = new ArrayList<>();
+        kontrahentypodatnika = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
@@ -89,29 +99,32 @@ public class ObrotyView implements Serializable{
                 for(int i = mOdI; i <= mDoI; i++){
                     zakres.add(Mce.getNumberToMiesiac().get(i));
                 }
+                Set<String> dokumentyl = new HashSet<>();
+                Set<String> kontrahenty = new HashSet<>();
                 for (Dok tmpx : obiektDOKjsfSelRok){
-                    Iterator it;
-                    it = zakres.iterator();
-                    while(it.hasNext()){
-                        String miesiaczakres = (String) it.next();
-                        if (tmpx.getPkpirM().equals(miesiaczakres)) {
-                           
-                            obiektDOKmrjsfSelX.add(tmpx);
-                        }
+                    if (zakres.contains(tmpx.getPkpirM())) {
+                        obiektDOKmrjsfSelX.add(tmpx);
+                        dokumentyl.add(tmpx.getTypdokumentu());
+                        kontrahenty.add(tmpx.getKontr().getNpelna());
                     }
                 }
-                 //sortowanie dokumentów
-                    Collections.sort(obiektDOKmrjsfSelX, new Dokcomparator());
-                //
-                    int nrkol =1;
-                    for(Dok p :obiektDOKmrjsfSelX){
-                         p.setNrWpkpir(nrkol++);
-                    }
-            } 
-          return "/ksiegowa/ksiegowaKontrahenci.xhtml?faces-redirect=true";
+                Collections.sort(obiektDOKmrjsfSelX, new Dokcomparator());
+                int nrkol =1;
+                for(Dok p :obiektDOKmrjsfSelX){
+                    p.setNrWpkpir(nrkol++);
+                }
+                dokumentypodatnika.addAll(dokumentyl);
+                Collections.sort(dokumentypodatnika);
+                Collator collator = Collator.getInstance(new Locale("pl", "PL"));
+                collator.setStrength(Collator.PRIMARY);
+                kontrahentypodatnika.addAll(kontrahenty);
+                Collections.sort(kontrahentypodatnika, collator);
+            }
      }
     
-     public String initG() {
+    
+    
+     public String initGuest() {
         //dokumenty podatnika za okres od-do
         obiektDOKmrjsfSelX = new ArrayList<>();
         //dokumenty podatnika z roku
@@ -127,15 +140,9 @@ public class ObrotyView implements Serializable{
                 for(int i = mOdI; i <= mDoI; i++){
                     zakres.add(Mce.getNumberToMiesiac().get(i));
                 }
-                for (Dok tmpx : obiektDOKjsfSelRok){
-                    Iterator it;
-                    it = zakres.iterator();
-                    while(it.hasNext()){
-                        String miesiaczakres = (String) it.next();
-                        if (tmpx.getPkpirM().equals(miesiaczakres)) {
-                           
-                            obiektDOKmrjsfSelX.add(tmpx);
-                        }
+               for (Dok tmpx : obiektDOKjsfSelRok){
+                    if (zakres.contains(tmpx.getPkpirM())) {
+                        obiektDOKmrjsfSelX.add(tmpx);
                     }
                 }
                  //sortowanie dokumentów
@@ -258,6 +265,22 @@ public class ObrotyView implements Serializable{
 
     public void setDokumentyFiltered(List<Dok> dokumentyFiltered) {
         this.dokumentyFiltered = dokumentyFiltered;
+    }
+
+    public List<String> getDokumentypodatnika() {
+        return dokumentypodatnika;
+    }
+
+    public void setDokumentypodatnika(List<String> dokumentypodatnika) {
+        this.dokumentypodatnika = dokumentypodatnika;
+    }
+
+    public List<String> getKontrahentypodatnika() {
+        return kontrahentypodatnika;
+    }
+
+    public void setKontrahentypodatnika(List<String> kontrahentypodatnika) {
+        this.kontrahentypodatnika = kontrahentypodatnika;
     }
 
    
