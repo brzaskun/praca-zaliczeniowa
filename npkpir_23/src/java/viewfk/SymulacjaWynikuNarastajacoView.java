@@ -181,7 +181,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("npup"), npup));
         double nkup = sumamiesiecy.getNkup();
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("nkup"), nkup));
-        wynikpodatkowy = Z.z(wynikfinansowy + npup - nkup);
+        wynikpodatkowy = Z.z(wynikfinansowy + npup + nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
         if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
