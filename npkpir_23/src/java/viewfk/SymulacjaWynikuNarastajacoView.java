@@ -184,7 +184,13 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
         wynikpodatkowy = Z.z(wynikfinansowy + npup + nkup);
         pozycjePodsumowaniaWyniku.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         wynikfinansowynetto = wynikpodatkowy;
-        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+        boolean formaprawna = true;
+        if (wpisView.getPodatnikObiekt().getFormaPrawna() == null) {
+            formaprawna = true;
+        } else if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_KOMANDYTOWA)) {
+            formaprawna = false;
+        }
+        if (formaprawna) {
             double podstawaopodatkowania = Z.z0(wynikpodatkowy);
             pdop = 0.0;
             if (podstawaopodatkowania > 0) {
@@ -207,7 +213,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
                 double roznicadlankup = Z.z(udział*wynikpodatkowy - udział*pdop);
                 double podstawaopodatkowania = Z.z0(udział*wynikpodatkowy - udział*pdop);
                 double wynikfinansowyudzial = Z.z(udział*wynikfinansowy);
-                if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
+                if (formaprawna) {
                     wynikfinansowyudzial = Z.z(udział*wynikfinansowynetto);
                     podstawaopodatkowania = Z.z(udział*wynikfinansowynetto);
                 }

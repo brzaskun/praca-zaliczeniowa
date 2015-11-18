@@ -63,7 +63,7 @@ public class DokFKVATBean {
                 evatwpis.setNetto(Z.z(evatwpis.getNetto()*kurs));
             }
         }
-        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP")) {
+        if (rodzajdok.contains("WDT") || rodzajdok.contains("UPTK") || rodzajdok.contains("EXP") || rodzajdok.contains("sprzedaż zw")) {
             evatwpis.setVat(0.0);
         } else {
             evatwpis.setVat(Z.z(evatwpis.getNetto() * stawkavat));

@@ -421,37 +421,39 @@ public class DokfkView implements Serializable {
 
 //////////////////////EWIDENCJE VAT  
     public void podepnijEwidencjeVat(int rodzaj) {
-        boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
-        if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5 && !nievatowiec) {
-            if (selected.iswTrakcieEdycji() == false) {
-                if (rodzaj == 0) {
-                    this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+        if (zapisz0edytuj1 == false) {
+            boolean nievatowiec = wpisView.getRodzajopodatkowania().contains("bez VAT");
+            if (rodzajBiezacegoDokumentu != 0 && rodzajBiezacegoDokumentu != 5 && !nievatowiec) {
+                if (selected.iswTrakcieEdycji() == false) {
+                    if (rodzaj == 0) {
+                        this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
+                    }
+                    symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
+                    /*wyswietlamy ewidencje VAT*/
+                    List<String> opisewidencji = new ArrayList<>();
+                    opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
+                    int k = 0;
+                    if (rodzaj == 1) {
+                        k = this.selected.getEwidencjaVAT().size();
+                    }
+                    for (String p : opisewidencji) {
+                        EVatwpisFK eVatwpisFK = new EVatwpisFK();
+                        eVatwpisFK.setLp(k++);
+                        eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
+                        eVatwpisFK.setNetto(0.0);
+                        eVatwpisFK.setVat(0.0);
+                        eVatwpisFK.setDokfk(selected);
+                        eVatwpisFK.setEstawka("op");
+                        eVatwpisFK.setMcEw(selected.getVatM());
+                        eVatwpisFK.setRokEw(selected.getVatR());
+                        eVatwpisFK.setInnyokres(0);
+                        this.selected.getEwidencjaVAT().add(eVatwpisFK);
+                    }
+                    RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
                 }
-                symbolWalutyNettoVat = " " + selected.getTabelanbp().getWaluta().getSkrotsymbolu();
-                /*wyswietlamy ewidencje VAT*/
-                List<String> opisewidencji = new ArrayList<>();
-                opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(selected.getRodzajedok().getRodzajtransakcji()));
-                int k = 0;
-                if (rodzaj == 1) {
-                    k = this.selected.getEwidencjaVAT().size();
-                }
-                for (String p : opisewidencji) {
-                    EVatwpisFK eVatwpisFK = new EVatwpisFK();
-                    eVatwpisFK.setLp(k++);
-                    eVatwpisFK.setEwidencja(evewidencjaDAO.znajdzponazwie(p));
-                    eVatwpisFK.setNetto(0.0);
-                    eVatwpisFK.setVat(0.0);
-                    eVatwpisFK.setDokfk(selected);
-                    eVatwpisFK.setEstawka("op");
-                    eVatwpisFK.setMcEw(selected.getVatM());
-                    eVatwpisFK.setRokEw(selected.getVatR());
-                    eVatwpisFK.setInnyokres(0);
-                    this.selected.getEwidencjaVAT().add(eVatwpisFK);
-                }
-                RequestContext.getCurrentInstance().update("formwpisdokument:panelzewidencjavat");
+            } else {
+                this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
             }
-        } else {
-            this.selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
         }
     }
 
@@ -1317,7 +1319,7 @@ public class DokfkView implements Serializable {
         List<Dokfk> listabrakivat = new ArrayList<>();
         List<Dokfk> listapustaewidencja = new ArrayList<>();
         for (Dokfk p : wykazZaksiegowanychDokumentow) {
-            if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
+            if ((p.getRodzajedok().getKategoriadokumentu() == 0 || p.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                 if (p.getKontr() == null) {
                     p.setKontr(klientdlaPK);
                     dokDAOfk.edit(p);

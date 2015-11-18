@@ -477,7 +477,7 @@ public final class DokView implements Serializable {
         } catch (Exception ex) {
             Rodzajedok r = rodzajedokDAO.find(skrotRT, wpisView.getPodatnikObiekt());
             String opis = e.getOpis();
-            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP")) {
+            if (opis.contains("WDT") || opis.contains("UPTK") || opis.contains("EXP") || opis.contains("sprzedaż zw")) {
                 e.setVat(0.0);
             } else if (r.getProcentvat() != 0.0) {
                 e.setVat((e.getNetto() * 0.23) / 2);
