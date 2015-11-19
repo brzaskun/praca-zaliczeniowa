@@ -69,10 +69,12 @@ public class SymulacjaWynikuView implements Serializable {
     private double sumaprzychody;
     private List<SaldoKonto>wybranekoszty;
     private double sumakoszty;
-    private double razemzapisycechakoszt;
-    private double korektazapisycechakoszt;
-    private double razemzapisycechaprzychod;
-    private double korektazapisycechaprzychod;
+    private double nkup;
+    private double kupmn_mc;
+    private double kupmn_mc_pop;
+    private double npup;
+    private double pmn_mc;
+    private double pmn_mc_pop;
     private List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha;
     private Map<String, Double> podatnikkwotarazem;
     private double wynikfinansowy;
@@ -206,11 +208,13 @@ public class SymulacjaWynikuView implements Serializable {
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("kosztyrazem"), koszty));
         wynikfinansowy = Z.z(przychody - koszty);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikfinansowy"), wynikfinansowy));
-        double npup = Z.z(razemzapisycechaprzychod);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"), npup));
-        double nkup = Z.z(razemzapisycechakoszt);
-        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), nkup));
-        double wynikpodatkowy = Z.z(wynikfinansowy + npup + nkup);
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("nkup"), Z.z(nkup)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("kupmn", Z.z(kupmn_mc)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("kupmn pop mce", Z.z(kupmn_mc_pop)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("npup"),Z.z(npup)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn",Z.z(pmn_mc)));
+        pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji("pmn pop mce",Z.z(pmn_mc_pop)));
+        double wynikpodatkowy = Z.z(wynikfinansowy + nkup + kupmn_mc + kupmn_mc_pop + npup + pmn_mc + pmn_mc_pop);
         pozycjePodsumowaniaWyniku.add(new PozycjeSymulacji(B.b("wynikpodatkowy"), wynikpodatkowy));
         double wynikspolki = wynikpodatkowy;
 //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
@@ -279,50 +283,48 @@ public class SymulacjaWynikuView implements Serializable {
                 }
         }
         //sumuje
-        double sumankup = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP", wpisView.getMiesiacWpisu());
+        nkup = CechazapisuBean.sumujcecha(zapisycechakoszt, "NKUP", wpisView.getMiesiacWpisu());
         zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "KUPMN", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechakoszt) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
                 }
         }
-        double sumankupmn = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacWpisu());
-        double sumakupmnPoprzedniMc = 0.0;
+        kupmn_mc = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacWpisu());
+        kupmn_mc_pop = 0.0;
         if (!wpisView.getMiesiacWpisu().equals("01")) {
             zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "KUPMN", wpisView.getMiesiacUprzedni());
-            sumakupmnPoprzedniMc = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacUprzedni());
+            kupmn_mc_pop = -CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacUprzedni());
             for (StronaWiersza stw : zapisycechakoszt) {
                 for (Cechazapisu s : stw.getCechazapisuLista()) {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
                 }
             }
         }
-        razemzapisycechakoszt = Z.z(sumankup + sumankupmn + sumakupmnPoprzedniMc);
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
                 }
         }
-        double sumanpup = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
+        npup = CechazapisuBean.sumujcecha(zapisycechaprzychod, "NPUP", wpisView.getMiesiacWpisu());
         zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw));
                 }
         }
-        double sumapmn = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
-        double sumapmnPoprzedniMc = 0.0;
+        pmn_mc = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
+        pmn_mc_pop = 0.0;
         if (!wpisView.getMiesiacWpisu().equals("01")) {
             zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
-            sumapmnPoprzedniMc = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
+            pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
             for (StronaWiersza stw : zapisycechaprzychod) {
                 for (Cechazapisu s : stw.getCechazapisuLista()) {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
                 }
             }
         }
-        razemzapisycechaprzychod = Z.z(sumanpup + sumapmn - sumapmnPoprzedniMc);
     }
     
     public void zaksiegujwynik () {
@@ -334,9 +336,9 @@ public class SymulacjaWynikuView implements Serializable {
         wynikFKRokMc.setPrzychody(pozycje.get(0).getWartosc());
         wynikFKRokMc.setKoszty(pozycje.get(1).getWartosc());
         wynikFKRokMc.setWynikfinansowy(pozycje.get(2).getWartosc());
-        wynikFKRokMc.setNpup(pozycje.get(3).getWartosc());
-        wynikFKRokMc.setNkup(pozycje.get(4).getWartosc());
-        wynikFKRokMc.setWynikpodatkowy(pozycje.get(5).getWartosc());
+        wynikFKRokMc.setNkup(pozycje.get(3).getWartosc()+pozycje.get(4).getWartosc()+pozycje.get(5).getWartosc());
+        wynikFKRokMc.setNpup(pozycje.get(6).getWartosc()+pozycje.get(7).getWartosc()+pozycje.get(8).getWartosc());
+        wynikFKRokMc.setWynikpodatkowy(pozycje.get(9).getWartosc());
         wynikFKRokMc.setUdzialowiec("firma");
 //        if (wpisView.getPodatnikObiekt().getFormaPrawna().equals(FormaPrawna.SPOLKA_Z_O_O)) {
 //            wynikFKRokMc.setPodatek(pozycje.get(6).getWartosc());
@@ -362,39 +364,39 @@ public class SymulacjaWynikuView implements Serializable {
         }
     }
     
-    private void obliczkwotydowyplaty() {
-        pozycjeDoWyplaty = new ArrayList<>();
-        try {
-            int i = 1;
-            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
-            for (PodatnikUdzialy p : udzialy) {
-                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
-                double dowyplaty = Z.z(udział*wynikfinansowynetto);
-                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
-                double zamc = Z.z(dowyplaty-zaplacono);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("należnazamc")+" #"+String.valueOf(i), zamc));
-                double wyplaconopopmce = 0.0;
-                if (pozycjeDoWyplatyNarastajaco != null && pozycjeDoWyplatyNarastajaco.size() > 0) {
-                wyplaconopopmce = pozycjeDoWyplatyNarastajaco.get(p.getNazwiskoimie());
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wypłaconopopmce")+" #"+String.valueOf(i), Z.z(wyplaconopopmce)));
-                double roznica = Z.z(wyplaconopopmce+zamc);
-                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok")+" #"+String.valueOf(i), roznica));
-                } else {
-                    if (wpisView.getMiesiacWpisu().equals("01")) {
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pierwszymc")+" #"+String.valueOf(i), 0.0));
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wroku")+" #"+String.valueOf(i), 0.0));
-                    } else {
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niezachowanopop.mcy")+" #"+String.valueOf(i), 0.0));
-                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niemożnaobliczyć")+" #"+String.valueOf(i), 0.0));
-                    }
-                }
-                i++;
-            }
-        } catch (Exception e) {  E.e(e);
-            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
-        }
-    }
+//    private void obliczkwotydowyplaty() {
+//        pozycjeDoWyplaty = new ArrayList<>();
+//        try {
+//            int i = 1;
+//            List<PodatnikUdzialy> udzialy = podatnikUdzialyDAO.findUdzialyPodatnik(wpisView);
+//            for (PodatnikUdzialy p : udzialy) {
+//                double udział = Z.z(Double.parseDouble(p.getUdzial())/100);
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(p.getNazwiskoimie(), udział));
+//                double dowyplaty = Z.z(udział*wynikfinansowynetto);
+//                double zaplacono = Z.z(podatnikkwotarazem.get(p.getNazwiskoimie()));
+//                double zamc = Z.z(dowyplaty-zaplacono);
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("należnazamc")+" #"+String.valueOf(i), zamc));
+//                double wyplaconopopmce = 0.0;
+//                if (pozycjeDoWyplatyNarastajaco != null && pozycjeDoWyplatyNarastajaco.size() > 0) {
+//                wyplaconopopmce = pozycjeDoWyplatyNarastajaco.get(p.getNazwiskoimie());
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wypłaconopopmce")+" #"+String.valueOf(i), Z.z(wyplaconopopmce)));
+//                double roznica = Z.z(wyplaconopopmce+zamc);
+//                pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("dowypłatyodpocz.rok")+" #"+String.valueOf(i), roznica));
+//                } else {
+//                    if (wpisView.getMiesiacWpisu().equals("01")) {
+//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("pierwszymc")+" #"+String.valueOf(i), 0.0));
+//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("wroku")+" #"+String.valueOf(i), 0.0));
+//                    } else {
+//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niezachowanopop.mcy")+" #"+String.valueOf(i), 0.0));
+//                        pozycjeDoWyplaty.add(new SymulacjaWynikuView.PozycjeSymulacji(B.b("niemożnaobliczyć")+" #"+String.valueOf(i), 0.0));
+//                    }
+//                }
+//                i++;
+//            }
+//        } catch (Exception e) {  E.e(e);
+//            Msg.msg("e", "Nie określono udziałów w ustawieniach podatnika. Nie można obliczyć podatku");
+//        }
+//    }
     //<editor-fold defaultstate="collapsed" desc="comment">
 
     public List<SaldoKonto> getWybraneprzychody() {

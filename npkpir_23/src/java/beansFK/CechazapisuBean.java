@@ -68,7 +68,7 @@ public class CechazapisuBean {
         double suma = 0;
         for (StronaWiersza p : zapisycechakoszt) {
             if (p.getDokfk().getMiesiac().equals(mc)) {
-                if (nazwacechy.equals("NKUP") || nazwacechy.equals("PMN")) {
+                if (nazwacechy.equals("NKUP") || nazwacechy.equals("KUPMN")) {
                     if (p.getWnma().equals("Wn")) {
                         suma += p.getKwotaPLN();
                     } else {
@@ -76,9 +76,9 @@ public class CechazapisuBean {
                     }
                 } else {
                     if (p.getWnma().equals("Wn")) {
-                        suma += p.getKwotaPLN();
-                    } else {
                         suma -= p.getKwotaPLN();
+                    } else {
+                        suma += p.getKwotaPLN();
                     }
                 }
             }
