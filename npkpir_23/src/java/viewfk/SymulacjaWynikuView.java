@@ -297,7 +297,7 @@ public class SymulacjaWynikuView implements Serializable {
                 }
             }
         }
-        razemzapisycechakoszt = Z.z(sumankup - sumankupmn + sumakupmnPoprzedniMc);
+        razemzapisycechakoszt = Z.z(sumankup + sumankupmn + sumakupmnPoprzedniMc);
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {

@@ -564,15 +564,16 @@ public final class DokView implements Serializable {
         String wprowadzonynumer = params.get("dodWiad:numerwlasny");
         selDokument.setNrWlDk(wprowadzonynumer);
     }
-
-    public void wybranydokument(ValueChangeEvent e) {
-        String typdokum = typdokumentu;
-        if (typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
-            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
-            selDokument.setKontr1(klient);
-        }
-        RequestContext.getCurrentInstance().update("dodWiad:acForce");
-    }
+// powoduje zamieszanie bo przy zmianie rodzaju dokumentu niszczy celowo ustawionego wlasciwego kontrahenta, taki nadmiar kontroli
+//    public void wybranydokument(ValueChangeEvent e) {
+//        String typdokum = (String) e.getNewValue();
+//        typdokumentu = typdokum;
+//        if (typdokum.equals("AMO") || typdokum.equals("PK") || typdokum.equals("LP") || typdokum.equals("ZUS")) {
+//            Klienci klient = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
+//            selDokument.setKontr1(klient);
+//        }
+//        RequestContext.getCurrentInstance().update("dodWiad:acForce");
+//    }
 
     public void wygenerujnumerkolejny() {
         String zawartosc = "";
@@ -1447,7 +1448,6 @@ public final class DokView implements Serializable {
                 }
             } catch (Exception e) {
                 E.e(e);
-
             }
         }
     }
