@@ -937,9 +937,7 @@ public class DokfkView implements Serializable {
     public void skopiujopisdopierwszegowiersza() {
         try {
             Wiersz w = selected.getListawierszy().get(0);
-            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-                w.setOpisWiersza(selected.getOpisdokfk());
-            }
+            w.setOpisWiersza(selected.getOpisdokfk());
         } catch (Exception e) {
             E.e(e);
         }
