@@ -408,10 +408,12 @@
          <navigation-case>
             <from-outcome>failure</from-outcome>
             <to-view-id>/login.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
          <navigation-case>
             <from-outcome>pomoclogowanie</from-outcome>
             <to-view-id>/pomoclogowanie.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
          <navigation-case>
             <from-outcome>zapomnialemhasla</from-outcome>
@@ -424,22 +426,27 @@
         <navigation-case>
             <from-outcome>Administrator</from-outcome>
             <to-view-id>/admin/adminIndex.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Manager</from-outcome>
             <to-view-id>/manager/managerIndex.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Bookkeeper</from-outcome>
             <to-view-id>/index.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>BookkeeperFK</from-outcome>
             <to-view-id>/indexFK.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Multiuser</from-outcome>
             <to-view-id>/indexMulti.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>menudokumentyFK</from-outcome>
@@ -452,14 +459,17 @@
          <navigation-case>
             <from-outcome>Noobie</from-outcome>
             <to-view-id>/noobie/noobie.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>Guest</from-outcome>
             <to-view-id>/guest/guestIndex.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>GuestFK</from-outcome>
             <to-view-id>/guestFK/guestFKIndex.xhtml</to-view-id>
+            <redirect></redirect>
         </navigation-case>
         <navigation-case>
             <from-outcome>gfkFaktura</from-outcome>
