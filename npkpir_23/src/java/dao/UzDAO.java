@@ -31,8 +31,8 @@ public class UzDAO extends DAO implements Serializable{
          return uzFacade.findUzNP(login);
      }
     
-    public List<Uz> findMultiuser() {
-        return uzFacade.findMultiuser();
+    public List<Uz> findByUprawnienia(String uprawnienia) {
+        return uzFacade.findByUprawnienia(uprawnienia);
     }
    
     public  List<Uz> findAll(){

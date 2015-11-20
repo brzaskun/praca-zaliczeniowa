@@ -9,13 +9,18 @@
 
     <h:form id="westIndex">
         <p:focus id="focus" context="panelwyboru"/>
-        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 400px; margin: auto; margin-top: 3%; text-align: center;">
+        <p:panel id="panelwyboru" menuTitle="Dane" header="Parametry" style="width: 600px; margin: auto; margin-top: 3%; text-align: center;">
             <f:facet name="header">
                 <h:outputText value="W celu rozpoczęcia przeglądania zestawień i dokumentów proszę wybrac rok i miesiąc" style="display: block; text-align: center"/>
             </f:facet>
             <p:graphicImage url="/resources/images/ksiegi.jpg"/>
             <p></p>
-            <p:panelGrid columns="3" style="text-align: center; margin: auto;">
+            <p:panelGrid columns="4">
+                <p:column >
+                    <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 280px;">
+                        <f:selectItems value="#{multiuserView.listawyboru}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                    </p:selectOneMenu>
+                </p:column>
                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 100px;">
                     <f:selectItems value="#{Roki.rokiList}"/>
                 </p:selectOneMenu>

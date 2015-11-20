@@ -44,11 +44,13 @@ public class MultiuserView   implements Serializable{
     private MultiuserSettingsDAO multiuserSettingsDAO;
 
     public MultiuserView() {
+        listamutliuserow = new ArrayList<>();
     }
     
     @PostConstruct
     private void init() {
-        listamutliuserow = uzDAO.findMultiuser();
+        listamutliuserow.addAll(uzDAO.findByUprawnienia("Multiuser"));
+        listamutliuserow.addAll(uzDAO.findByUprawnienia("GuestFaktura"));
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
         String name = principal.getName();

@@ -1488,8 +1488,8 @@ public class SessionFacade<T> implements Serializable {
         return (long) em.createNamedQuery("Delegacja.countByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("rok", wpisView.getRokWpisu()).setParameter("krajowa0zagraniczna1", krajowa0zagraniczna1).getSingleResult();
     }
 
-    public List<Uz> findMultiuser() {
-        return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", "Multiuser").getResultList();
+    public List<Uz> findByUprawnienia(String uprawnienia) {
+        return em.createNamedQuery("Uz.findByUprawnienia").setParameter("uprawnienia", uprawnienia).getResultList();
     }
 
     public List<MultiuserSettings> findMutliuserSettingsByUz(Uz user) {

@@ -41,6 +41,10 @@ import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import view.WpisView;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static pdf.PdfVAT7.absText;
+import static pdf.PdfVAT7.absText;
 
 /**
  *
