@@ -357,11 +357,12 @@ public final class DokView implements Serializable {
     }
 
     public void podepnijEwidencjeVat() {
-        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
-            ukryjEwiencjeVAT = true;
-            sumujnetto();
-            ewidencjaAddwiad = new ArrayList<>();
-        } else if (selDokument.isDokumentProsty()) {
+//        if (selDokument.getTabelanbp() != null && !selDokument.getTabelanbp().getWaluta().getSymbolwaluty().equals("PLN")) {
+//            ukryjEwiencjeVAT = true;
+//            sumujnetto();
+//            ewidencjaAddwiad = new ArrayList<>();
+//        } else 
+        if (selDokument.isDokumentProsty()) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
             ewidencjaAddwiad = new ArrayList<>();
