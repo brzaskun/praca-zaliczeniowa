@@ -62,7 +62,7 @@ public class Vat7ORDZUView extends Vat7DKView implements Serializable{
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Wystapil błąd. NIe udało się załączyć załącznika.","formX:msg");
         }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml?faces-redirect=true");
     }
 
     public String getTrescwyjasnienia() {

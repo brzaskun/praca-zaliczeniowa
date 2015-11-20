@@ -1192,11 +1192,11 @@ public final class DokView implements Serializable {
             E.e(e);
             ostatnidokumentDAO.edit(temp);
         }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml?faces-redirect=true<");
     }
 
     public void przekierowanieWpis() throws IOException {
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaIndex.xhtml?faces-redirect=true<");
     }
 
     private void aktualizujInwestycje(Dok dok) {

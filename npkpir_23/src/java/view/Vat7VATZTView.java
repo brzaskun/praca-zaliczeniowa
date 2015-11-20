@@ -62,7 +62,7 @@ public class Vat7VATZTView extends Vat7DKView implements Serializable{
         } catch (Exception e) { E.e(e); 
             Msg.msg("e","Wystapil błąd. Nie udało się załączyć VAT-ZT.","formX:msg");
         }
-        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml");
+        FacesContext.getCurrentInstance().getExternalContext().redirect("ksiegowaVatdowysylki.xhtml?faces-redirect=true");
     }
 
     public String getInformacja() {
