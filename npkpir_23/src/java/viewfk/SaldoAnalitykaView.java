@@ -14,6 +14,7 @@ import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
+import embeddablefk.Sprawozdanie_0;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import error.E;
@@ -52,6 +53,7 @@ public class SaldoAnalitykaView implements Serializable {
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private String wybranyRodzajKonta;
+    private List<Sprawozdanie_0> grupa0;
 
     public SaldoAnalitykaView() {
         sumaSaldoKonto = new ArrayList<>();
@@ -261,5 +263,23 @@ public class SaldoAnalitykaView implements Serializable {
              return 0;
          }
      }
+     
+     public List<Sprawozdanie_0> kontagrupy_0() {
+        List<Sprawozdanie_0> l = new ArrayList<>();
+        for (SaldoKonto p : listaSaldoKonto) {
+            
+        }
+        return l;
+     }
+
+    public List<Sprawozdanie_0> getGrupa0() {
+        return grupa0;
+    }
+
+    public void setGrupa0(List<Sprawozdanie_0> grupa0) {
+        this.grupa0 = grupa0;
+    }
     
+     
+     
 }

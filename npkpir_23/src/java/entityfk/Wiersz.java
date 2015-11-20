@@ -399,4 +399,19 @@ public class Wiersz implements Serializable {
         return this.getDokfk().getDokfkPK().toString2();
     }
     
+    public boolean jest0niejest1(WierszBO w) {
+        boolean jest0niejest1 = true;
+        if (this.getStronaWn() != null) {
+            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getStronaWn().getKwota() == w.getKwotaWn()) {
+                jest0niejest1 = false;
+            }
+        }
+        if (this.getStronaMa() != null) {
+            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getStronaMa().getKwota() == w.getKwotaMa()) {
+                jest0niejest1 = false;
+            }
+        }
+        return jest0niejest1;
+    }
+
 }

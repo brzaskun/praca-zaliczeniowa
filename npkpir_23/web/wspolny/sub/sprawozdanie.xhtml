@@ -5,9 +5,24 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pe="http://primefaces.org/ui/extensions"
-    >
+        
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:form id="form_sprawozdanie">
-        <h:outputText value="lolo"/>
+        <f:event type="preRenderView" listener="#{saldoAnalitykaView.init()}"/>
+        <p:panelGrid columns="1">
+            <p:panel header="majątek firmy"></p:panel>
+            <p:dataTable value="#{saldoAnalitykaView.listaSaldoKonto}" var="item" nativeElements="true">
+                <f:facet name="header">
+                    <h:outputText value="środki trwałe w firmie wg cen zakupu, dokonane umorzenia i wartość netto w wypadku sprzedaży"/>
+                </f:facet>
+                <p:column headerText="nazwa grupy środków trw.">
+                    <h:outputText value="#{item.konto.nazwapelna} #{item.konto.nazwapelna}" rendered="#{item.konto.pelnynumer.startsWith('0')}"/>
+                </p:column> 
+                <p:column headerText="numer">
+                    <h:outputText value="#{item.konto.pelnynumer}" rendered="#{item.konto.pelnynumer.startsWith('0')}"/>
+                </p:column> 
+            </p:dataTable>
+        </p:panelGrid>
     </h:form>
     
 </ui:composition>

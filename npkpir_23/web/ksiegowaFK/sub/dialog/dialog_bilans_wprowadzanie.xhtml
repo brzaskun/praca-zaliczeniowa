@@ -84,7 +84,8 @@
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0" onfocus="selectpustepolebo(0,#{bilansWprowadzanieView.lista0.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(0, item0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(0, item0)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -198,7 +199,8 @@
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1" onfocus="selectpustepolebo(1,#{bilansWprowadzanieView.lista1.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -313,7 +315,8 @@
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2" onfocus="selectpustepolebo(2,#{bilansWprowadzanieView.lista2.size()})"/>
                             <p:spacer width="20"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -382,7 +385,8 @@
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3" onfocus="selectpustepolebo(3,#{bilansWprowadzanieView.lista3.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -451,7 +455,8 @@
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6" onfocus="selectpustepolebo(6,#{bilansWprowadzanieView.lista6.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -518,9 +523,11 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8" onfocus="selectpustepolebo(8,#{bilansWprowadzanieView.lista8.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8" onfocus="selectpustepolebo(8,#{bilansWprowadzanieView.lista8.size()})"/>
                             <p:spacer width="25"/>
-                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8"/>
+                            <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" 
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8, formbilanswprowadzanie:sumyibutton"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -572,8 +579,9 @@
                     </p:commandButton>
 <!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>-->
-                    <p:commandButton value="generuj dokument BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
-                    </p:commandButton>
+                    <p:commandButton value="generuj dokument BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" rendered="#{!bilansWprowadzanieView.isteniejeDokBO}"/>
+                    <p:commandButton value="edytuj dokument BO" actionListener="#{bilansWprowadzanieView.edytowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" rendered="#{bilansWprowadzanieView.isteniejeDokBO and bilansWprowadzanieView.isteniejaWierszeBOdoUsuniecia eq false}"/>
+                    <p:commandButton value="usuń wiersze BO" actionListener="#{bilansWprowadzanieView.usuwaniewierszyzDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum, formbilanswprowadzanie:sumyibutton" rendered="#{bilansWprowadzanieView.isteniejeDokBO and bilansWprowadzanieView.isteniejaWierszeBOdoUsuniecia}"/>
                 </p:column>
                 <p:column>
                     <p:panelGrid id="kwotysum" columns="6" style="margin-top: 10px;margin-left: 10px;">
