@@ -1469,8 +1469,8 @@ public final class DokView implements Serializable {
 //                    //wpisuje kurs bez przeliczania, to jest dla nowego dokumentu jak sie zmieni walute na euro
 //                }
                 symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
-                ukryjEwiencjeVAT = true;
-                selDokument.setDokumentProsty(true);
+                //ukryjEwiencjeVAT = true;
+                //selDokument.setDokumentProsty(true);
             } else {
                 //najpierw trzeba przewalutowac ze starym kursem, a potem wlepis polska tabele
 //                if (staranazwa != null && selDokument.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
@@ -1493,8 +1493,8 @@ public final class DokView implements Serializable {
                 }
                 selDokument.setTabelanbp(tabelanbpPLN);
                 symbolWalutyNettoVat = " " + selDokument.getTabelanbp().getWaluta().getSkrotsymbolu();
-                ukryjEwiencjeVAT = false;
-                selDokument.setDokumentProsty(false);
+                //ukryjEwiencjeVAT = false;
+                //selDokument.setDokumentProsty(false);
             }
             RequestContext.getCurrentInstance().update("dodWiad:panelewidencjivat");
             RequestContext.getCurrentInstance().execute("r('dodWiad:acForce').select();");
