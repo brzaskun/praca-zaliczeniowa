@@ -34,6 +34,11 @@
                     <h:outputText value="Rok - Miesiac"/>
                 </f:facet>
                 <h:outputText value="#{item.rok} - #{item.miesiac}"/>
+                <br/>
+                <h:outputText value="wysłana dnia: "/>
+                <h:outputText value="#{item.datazlozenia}">
+                    <f:convertDateTime locale="pl" />
+                </h:outputText>
             </p:column>
             <p:column width="40">
                 <f:facet name="header">
