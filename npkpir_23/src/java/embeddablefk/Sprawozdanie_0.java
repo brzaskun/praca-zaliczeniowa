@@ -14,7 +14,9 @@ import entityfk.Konto;
 public class Sprawozdanie_0 {
     private int lp;
     private Konto konto;
-    private String opis;
+    private double brutto;
+    private double umorzenie;
+    private double netto;
 
     public int getLp() {
         return lp;
@@ -24,7 +26,6 @@ public class Sprawozdanie_0 {
         this.lp = lp;
     }
 
-    
     public Konto getKonto() {
         return konto;
     }
@@ -33,13 +34,31 @@ public class Sprawozdanie_0 {
         this.konto = konto;
     }
 
-    public String getOpis() {
-        return opis;
+    public double getBrutto() {
+        return brutto;
     }
 
-    public void setOpis(String opis) {
-        this.opis = opis;
+    public void setBrutto(double brutto) {
+        this.brutto = brutto;
     }
+
+    public double getUmorzenie() {
+        return umorzenie;
+    }
+
+    public void setUmorzenie(double umorzenie) {
+        this.umorzenie = umorzenie;
+    }
+
+    public double getNetto() {
+        return netto;
+    }
+
+    public void setNetto(double netto) {
+        this.netto = netto;
+    }
+
+ 
     
     
     

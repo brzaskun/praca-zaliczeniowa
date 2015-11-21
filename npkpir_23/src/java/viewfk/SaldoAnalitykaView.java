@@ -148,7 +148,13 @@ public class SaldoAnalitykaView implements Serializable {
     public List<SaldoKonto> getListaSaldoKonto() {
         return listaSaldoKonto;
     }
+    public List<Sprawozdanie_0> getGrupa0() {
+        return grupa0;
+    }
 
+    public void setGrupa0(List<Sprawozdanie_0> grupa0) {
+        this.grupa0 = grupa0;
+    }
     public List<SaldoKonto> getListaSaldoKontofilter() {
         return listaSaldoKontofilter;
     }
@@ -270,16 +276,37 @@ public class SaldoAnalitykaView implements Serializable {
             
         }
         return l;
-     }
-
-    public List<Sprawozdanie_0> getGrupa0() {
-        return grupa0;
     }
-
-    public void setGrupa0(List<Sprawozdanie_0> grupa0) {
-        this.grupa0 = grupa0;
+     
+    public void sprawozdanie() {
+        przygotuj_0();
     }
     
+    
+    private void przygotuj_0() {
+        List<SaldoKonto> pobranekonta = pobierzkonta(listaSaldoKonto,"0",0);
+        //grupa0 = generujgrupe0(pobranekonta);
+        System.out.println("konta");
+    }
+
+    
+
+    private List<SaldoKonto> pobierzkonta(List<SaldoKonto> listaSaldoKonto, String string, int i) {
+        List<SaldoKonto> l = new ArrayList<>();
+        for (SaldoKonto p : listaSaldoKonto) {
+            if (p.getKonto().getPelnynumer().startsWith(string)) {
+                l.add(p);
+            } else if (Integer.parseInt(p.getKonto().getPelnynumer()) > i) {
+                break;
+            }
+        }
+        return l;
+    }
+
+//    private List<Sprawozdanie_0> generujgrupe0(List<SaldoKonto> pobranekonta) {
+//        
+//    }
+//    
      
      
 }

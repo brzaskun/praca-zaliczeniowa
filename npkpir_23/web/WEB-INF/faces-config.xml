@@ -114,6 +114,10 @@
             <to-view-id>/guestFK/guestFKTablica.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
         <navigation-case>
+            <from-outcome>gfkGuestSprawozdanie</from-outcome>
+            <to-view-id>/guestFK/guestFKSprawozdanie.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>ksiegowa</from-outcome>
             <to-view-id>/ksiegowa/ksiegowaIndex.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>

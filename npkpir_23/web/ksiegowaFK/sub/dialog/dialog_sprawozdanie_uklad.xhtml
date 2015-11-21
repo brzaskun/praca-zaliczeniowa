@@ -4,24 +4,19 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
-    >
-    <p:dialog id="dialogrzisprojektwzorcowy" header="Projekt Rachunku Zysków i Strat - Wzorcowy" widgetVar="dialogrzisprojektwzorcowy" 
-              resizable="false" onShow="ustawdialog('dialogrzisprojektwzorcowy','menuustawienia', 1000, 750);" closeOnEscape="true" onHide="resetujdialog('dialogrzisprojektwzorcowy');"  >
-        <h:form id="formprojektwzorcowy">
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace">
+
+    <p:dialog id="dialog_sprawozdanie_uklad" header="Definiowanie układu sprawozdania" widgetVar="dialog_sprawozdanie_uklad" resizable="false" modal="false" appendTo="@(body)"
+              onShow="ustawdialog('dialog_sprawozdanie_uklad','menuustawienia',1100,600);"  onHide="resetujdialog('dialog_sprawozdanie_uklad');" >
+        <h:form id="form_dialog_sprawozdanie_uklad" >
             <p:contextMenu for="formprojektwzorcowy:dataList" style="width: 200px;">
                 <p:menuitem value="Nowa syntetyczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczne').show();"/>
-                <p:menuitem value="Nowa syntetyczna z formułą" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektsyntetyczneformula').show();"/>
                 <p:menuitem value="Nowa analityczna" icon="ui-icon-circle-plus" global="false" update=":formprojektwzorcowy" onclick="PF('rzisprojektanalityczne').show();"/>
                 <p:separator/>
                 <p:menuitem value="Edytuj nazwę" icon="ui-icon-circle-plus" actionListener="#{pozycjaBRWzorcowyView.skopiujnazwe('r')}" update=":formdialog_zmiananazwypozycji_wzor" onsuccess="PF('dialog_zmiananazwypozycji_wzor').show();"/>
                 <p:menuitem value="Usuń" actionListener="#{pozycjaBRWzorcowyView.usunpozycje}" global="false" icon="ui-icon-trash" update=":formprojektwzorcowy"/>
             </p:contextMenu>
-            <p:panelGrid columns="4" >
-                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="rozwin" value="rozwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.rozwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="zwinwsz" value="zwiń wszystkie" global="false" actionListener="#{pozycjaBRWzorcowyView.zwinwszystkie(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-                <p:commandButton id="zwinw" value="zwiń poziom" global="false" actionListener="#{pozycjaBRWzorcowyView.zwin(pozycjaBRWzorcowyView.rootProjektRZiS)}" update=":formprojektwzorcowy:dataList" style="float: left;" />
-            </p:panelGrid>
+
             <p:panelGrid columns="3" style="width: 920px;">
                 <p:treeTable id="dataList" value="#{pozycjaBRWzorcowyView.rootProjektRZiS}" var="loop" selectionMode="single" selection="#{pozycjaBRWzorcowyView.wybranynodekonta}" 
                              styleClass="tablicaplankont" style="height: 650px; margin-top: 0%; width: 650px; margin-bottom: 50px; overflow-y: scroll;"
@@ -52,5 +47,4 @@
             </p:panelGrid>
         </h:form>
     </p:dialog>
-</ui:composition>
-
+</ui:composition>  

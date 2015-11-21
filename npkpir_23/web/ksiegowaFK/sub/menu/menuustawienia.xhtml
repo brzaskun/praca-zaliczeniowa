@@ -25,7 +25,7 @@
                 <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px; height: 450px;">
                     <p:menuitem value="Wzorcowy plan kont" onclick="PF('dialogplankontwzorcowy').show();" 
                                 global="false"></p:menuitem>
-                    <p:menuitem value="Nazwy kont - internacjonalizacja " onclick="PF('dialog_plankont_wzorcowy_nazwy').show();" actionListener="#{planKontInterView.init()}" update=":form_dialog_plankont_wzorcowy_nazwy" global="false"></p:menuitem>
+                    <p:menuitem value="Nazwy kont - internacjonalizacja" onclick="PF('dialog_plankont_wzorcowy_nazwy').show();" actionListener="#{planKontInterView.init()}" update=":form_dialog_plankont_wzorcowy_nazwy" global="false"></p:menuitem>
                     <p:menuitem value="Kopiuj plan kont wzorcowy" onclick="PF('dialog_plankont_kopiuj_wzorcowy').show();" global="false"
                                 rendered="#{facesContext.externalContext.remoteUser eq '4'}"></p:menuitem>
                 </p:menu>
@@ -60,8 +60,16 @@
                 </p:menu>  
             </h:form>
         </p:tab>
-         <p:tab title="Rodzaje dokumentów">
+        <p:tab title="Sprawozdanie">
             <h:form id="dialog1menu6">
+                <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
+                    <p:menuitem value="Układ sprawozdania" onclick="PF('dialog_sprawozdanie_uklad').show();"></p:menuitem>
+                    <p:menuitem value="Definiowanie układu sprawozdania" onclick="PF('dialog_sprawozdanie_projekt_wzorcowy').show();"></p:menuitem>
+                </p:menu>  
+            </h:form>
+        </p:tab>
+         <p:tab title="Rodzaje dokumentów">
+            <h:form id="dialog1menu7">
                 <p:menu id="d1m4" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                     <p:menuitem value="Edycja nazw dokumentów podatnika" onclick="PF('dialog_dokfk_nazwy').show();"></p:menuitem>
                 </p:menu>  
