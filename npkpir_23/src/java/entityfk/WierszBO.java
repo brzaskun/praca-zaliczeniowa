@@ -65,11 +65,14 @@ public class WierszBO implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.wierszBOPK);
+        int hash = 3;
+        hash = 53 * hash + Objects.hashCode(this.wierszBOPK);
+        hash = 53 * hash + Objects.hashCode(this.podatnik);
+        hash = 53 * hash + Objects.hashCode(this.konto);
         return hash;
     }
 
+   
     
 
     @Override
@@ -77,10 +80,11 @@ public class WierszBO implements Serializable{
         return "WierszBO{" + ", konto=" + konto.getPelnynumer() + ", opis=" + wierszBOPK.getOpis() + ", kwotaWn=" + kwotaWn + ", kwotaMa=" + kwotaMa + '}';
     }
 
-    
-
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
@@ -91,8 +95,18 @@ public class WierszBO implements Serializable{
         if (!Objects.equals(this.wierszBOPK, other.wierszBOPK)) {
             return false;
         }
+        if (!Objects.equals(this.podatnik, other.podatnik)) {
+            return false;
+        }
+        if (!Objects.equals(this.konto, other.konto)) {
+            return false;
+        }
         return true;
     }
+
+    
+
+   
     
     
     

@@ -26,30 +26,30 @@
         <p:tab title="dokumenty">
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                    <p:menuitem value="Wpisywanie" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
-                    <p:menuitem value="Przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
-                    <p:menuitem value="Wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
+                    <p:menuitem value="wpisywanie" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
+                    <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
+                    <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
                     <p:menuitem value="#{mgs.zestawienia}"  outcome="guestbilansFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
-                    <p:menuitem value="WierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
-                    <p:menuitem value="WierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
+                    <p:menuitem value="wierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
+                    <p:menuitem value="wierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
                 </p:menu>  
             </h:form>
         </p:tab>  
         <p:tab title="numeracja">
             <h:form>
                 <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
-                    <p:menuitem value="Reset bieżącej numeracji" oncomplete="PF('dialog_przenumerujDokumentyFK').show();" ></p:menuitem>
+                    <p:menuitem value="reset bieżącej numeracji" oncomplete="PF('dialog_przenumerujDokumentyFK').show();" ></p:menuitem>
                 </p:menu>
             </h:form>      
         </p:tab>
         <p:tab title="import faktur">
             <h:form id="dialog1menu4">
                 <p:menu id="d1m3" styleClass="d1m" style="width: 400px; text-align: center; height: 150px;">
-                    <p:menuitem value="Dokumenty importowane" oncomplete="PF('zestawieniezaksiegowanychimport').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
+                    <p:menuitem value="dokumenty importowane" oncomplete="PF('zestawieniezaksiegowanychimport').show();" actionListener="#{dokfkView.odswiezzaksiegowaneimport}" ></p:menuitem>
                 </p:menu>
             </h:form>
             <h:form>
-                <p:commandButton value="Interpaper importuj" actionListener="#{interpaperImportView.importujdok()}" />
+                <p:commandButton value="interpaper importuj" actionListener="#{interpaperImportView.importujdok()}" />
             </h:form>      
         </p:tab>
     </p:tabView>

@@ -579,18 +579,19 @@
                     </p:commandButton>
 <!--                    <p:commandButton value="księguj rozrachunki" actionListener="#{bilansWprowadzanieView.ksiegujrozrachunki()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>-->
-                    <p:commandButton value="generuj dokument BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" rendered="#{!bilansWprowadzanieView.isteniejeDokBO}"/>
-                    <p:commandButton value="edytuj dokument BO" actionListener="#{bilansWprowadzanieView.edytowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" rendered="#{bilansWprowadzanieView.isteniejeDokBO and bilansWprowadzanieView.isteniejaWierszeBOdoUsuniecia eq false}"/>
+                    <p:commandButton value="generuj dokument BO" actionListener="#{bilansWprowadzanieView.generowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum, formbilanswprowadzanie:sumyibutton" rendered="#{!bilansWprowadzanieView.isteniejeDokBO}"/>
+                    <p:commandButton value="edytuj dokument BO" actionListener="#{bilansWprowadzanieView.edytowanieDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum, formbilanswprowadzanie:sumyibutton" rendered="#{bilansWprowadzanieView.isteniejeDokBO and bilansWprowadzanieView.isteniejaWierszeBOdoUsuniecia eq false}"/>
                     <p:commandButton value="usuń wiersze BO" actionListener="#{bilansWprowadzanieView.usuwaniewierszyzDokumentuBO()}" style="width: 120px; margin-left: 10px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum, formbilanswprowadzanie:sumyibutton" rendered="#{bilansWprowadzanieView.isteniejeDokBO and bilansWprowadzanieView.isteniejaWierszeBOdoUsuniecia}"/>
                 </p:column>
                 <p:column>
-                    <p:panelGrid id="kwotysum" columns="6" style="margin-top: 10px;margin-left: 10px;">
+                    <p:panelGrid id="kwotysum" columns="7" style="margin-top: 10px;margin-left: 10px;">
                         <h:outputText value="razem - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.stronaWn}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.stronaMa}" rendered="true" style="font-weight: 900;"/>
                         <h:outputText value=" różnica: " style="margin-left: 10px;"/>
                         <bcf:outputpl value="#{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa}" rendered="true" 
                                       style="margin-left: 10px; color: #{bilansWprowadzanieView.stronaWn - bilansWprowadzanieView.stronaMa != 0 ? 'red' : 'black'};">
                         </bcf:outputpl>
+                        <h:outputText value="Wprowadzenie dwóch i więcej zapisów na tym samym koncie wymaga podania różnych opisów!" style="margin-left: 10px;"/>
                     </p:panelGrid>
                 </p:column>
             </p:panelGrid>

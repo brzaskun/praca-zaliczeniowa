@@ -290,11 +290,7 @@ public class BilansWprowadzanieView implements Serializable {
                                 }
                                 wierszBODAO.edit(p);
                             } catch (Exception e) {
-                                if (e.getStackTrace() != null) {
-                                    E.e(e);
-                                } else {
-                                    System.out.println("Blad "+e.toString());
-                                }
+                                E.e(e);
                             }
                         }
                     }
@@ -488,13 +484,17 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     public void generowanieDokumentuBO() {
+        zapiszBilansBOdoBazy();
         int nrkolejny = oblicznumerkolejny();
         if (nrkolejny > 1) {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
-        Dokfk dokumentvat = stworznowydokument(nrkolejny);
+        Dokfk dok = stworznowydokument(nrkolejny);
         try {
-            dokDAOfk.dodaj(dokumentvat);
+            dokDAOfk.dodaj(dok);
+            isteniejeDokBO = true;
+            dokumentBO = dok;
+            wierszedousuniecia = new ArrayList<>();
             Msg.msg("Zaksięgowano dokument BO");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu BO");
@@ -502,9 +502,13 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void edytowanieDokumentuBO() {
+        zapiszBilansBOdoBazy();
+        dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
         edytujwiersze(dokumentBO);
         try {
             dokDAOfk.edit(dokumentBO);
+            dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
+            wierszedousuniecia = new ArrayList<>();
             Msg.msg("Naniesiono zmiany w dokumencie BO");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie zmieniono dokumentu BO");
@@ -512,10 +516,13 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void usuwaniewierszyzDokumentuBO() {
+        zapiszBilansBOdoBazy();
+        dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
         usunwiersze(dokumentBO);
         try {
-            dokDAOfk.edit(dokumentBO);
+            dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
             isteniejaWierszeBOdoUsuniecia = false;
+            wierszedousuniecia = new ArrayList<>();
             Msg.msg("Usunięto wiersze w dokumencie BO");
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd - nie usunięto wierszy w dokumencie BO");
@@ -687,7 +694,13 @@ public class BilansWprowadzanieView implements Serializable {
                     wiersze.remove(w);
                 }
             }
-            dokDAOfk.edit(nd);
+            if (wiersze.isEmpty()) {
+               dokDAOfk.destroy(nd);
+               isteniejeDokBO = false;
+               dokumentBO = null;
+            } else {
+                dokDAOfk.edit(nd);
+            }
             
         }
     }
