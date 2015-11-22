@@ -23,6 +23,9 @@
             <p:tab id="zestawieniestr" title="posiadane">
                 <p:contextMenu for="srodkiLista" style="width: 220px;">
                 <p:menuitem value="Wycofaj środek z ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
+                <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodek()}" icon="ui-icon-print" />
+                <p:menuitem value="Sprzedaż środka trwałego" update=":formSTR:akordeon" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
+                            rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>
             </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="10"
@@ -71,7 +74,8 @@
                         </h:outputText>
                     </p:column>
                     <p:column id="vatwarColumn" headerText="#{mgs.VAT}" filterBy="#{wpis.vat}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.vat}" width="60">  
-                        <h:outputText value="#{wpis.vat}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                        <h:outputText value="#{wpis.vat}"  rendered="#{wpis.vat ne 0.0}"
+                                      style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -82,7 +86,8 @@
                         </h:outputText>
                     </p:column>
                     <p:column id="nkupColumn" headerText="niest. k.u.p." filterBy="#{wpis.niepodlegaamortyzacji}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.niepodlegaamortyzacji}" width="60">  
-                        <h:outputText value="#{wpis.niepodlegaamortyzacji}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
+                        <h:outputText value="#{wpis.niepodlegaamortyzacji}"  rendered="#{wpis.niepodlegaamortyzacji ne 0.0}"
+                                      style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100; float: right;' : 'float: right;'}">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
@@ -129,6 +134,7 @@
             <p:tab id="zestawieniestrs" title="sprzedane">
                 <p:contextMenu for="srodkiListas" style="width: 220px;">
                     <p:menuitem value="Przywróć środek do ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
                 </p:contextMenu>
                 <p:dataTable  var="wpis" value="#{STRTableView.sprzedane}" id="srodkiListas" editable="true" 
                               paginator="true" paginatorAlwaysVisible="true" rows="6"

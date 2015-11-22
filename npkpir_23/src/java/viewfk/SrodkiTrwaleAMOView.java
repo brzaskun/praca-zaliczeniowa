@@ -32,6 +32,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -153,7 +154,11 @@ public class SrodkiTrwaleAMOView implements Serializable {
             try {
                 dokDAOfk.dodaj(dokumentamo);
                 Msg.msg("Zaksięgowano dokument AMO");
-            } catch (Exception e) {  E.e(e);
+            } catch (EJBException e) {
+                E.e(e);
+                Msg.msg("e", "Zaksięgowano już dokument AMO za dany okres");
+            } catch (Exception e) { 
+                E.e(e);
                 Msg.msg("e", "Wystąpił błąd - nie zaksięgowano dokumentu AMO");
             }
         } else {

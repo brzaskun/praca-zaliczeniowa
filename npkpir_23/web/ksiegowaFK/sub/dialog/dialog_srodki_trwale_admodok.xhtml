@@ -98,8 +98,8 @@
             </p:panelGrid>
             <p:outputPanel style="margin-top: 10px">
                 <p:commandButton value="zaksięguj AMO" style="width: 120px; margin-bottom: 10px;" actionListener="#{srodkiTrwaleAMOView.generowanieDokumentuAMO()}" 
-                                 rendered="#{srodkiTrwaleAMOView.roznicasald eq STRTableView.posiadanesumanetto}"/>
-                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie można zaksięgować dokumentu amortyzacyjnego" rendered="#{srodkiTrwaleAMOView.roznicasald ne STRTableView.posiadanesumanetto}"/>
+                                 />
+                <h:outputText value="Kwoty na kontach różnią się od kwot w ewidencji. Nie należy księgować dokumentu amortyzacyjnego!" />
             </p:outputPanel>
         </h:form>
     </p:dialog>

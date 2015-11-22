@@ -18,7 +18,10 @@
                 <p:menuitem icon="fa fa-wrench" value="ustawienia" outcome="menuustawieniaFK"/>
                 <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK"/>
                 <p:menuitem icon="fa fa-columns" value="deklaracje" />
-                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK"/>
+                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK">
+                    <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
+                    <f:actionListener binding="#{STRTableView.init()}"/>
+                </p:menuitem>
                 <p:menuitem icon="fa fa-clock-o" value="rmk" outcome="rmkFK"/>
                 <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestzestFK"/>
                 <p:menuitem value=" | "/>

@@ -45,6 +45,7 @@ import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PdfSTRtabela;
+import pdf.PdfSrodekTrwKarta;
 import waluty.Z;
 
 /**
@@ -169,6 +170,7 @@ public class STRTabView implements Serializable {
             } catch (Exception e) { E.e(e); 
             }
         }
+        RequestContext.getCurrentInstance().update("formSTR:akordeon");
     }
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
@@ -632,6 +634,30 @@ public class STRTabView implements Serializable {
         } catch (IOException ex) {
             Msg.msg("e", "Nieudane drukowanie wykazu posiadanych środków trwałych");
             Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void drukujsrodek() {
+        if (wybranysrodektrwalyPosiadane != null) {
+            try {
+                PdfSrodekTrwKarta.drukujSTRkartasrodka(wpisView, wybranysrodektrwalyPosiadane);
+            } catch (DocumentException ex) {
+                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    public void drukujsrodeksprzedaz() {
+        if (wybranysrodektrwalySprzedane != null) {
+            try {
+                PdfSrodekTrwKarta.drukujSTRkartasrodka(wpisView, wybranysrodektrwalySprzedane);
+            } catch (DocumentException ex) {
+                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(STRTabView.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 

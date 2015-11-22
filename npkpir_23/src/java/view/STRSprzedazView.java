@@ -5,6 +5,7 @@
  */
 package view;
 
+import dao.STRDAO;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import error.E;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import msg.Msg;
 
@@ -31,7 +33,10 @@ public class STRSprzedazView extends STRTabView implements Serializable {
     private List<SrodekTrw> grupausun;
     private String data;
     private String nrwlasny;
+    @ManagedProperty(value = "#{STRTableView}")
     private STRTabView sTRTabView;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
     
    
     
@@ -46,20 +51,55 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         nrwlasny = nr;
     }
    
-    public void sprzedajsrodki(){
+    public void sprzedajsrodki() {
         ListIterator it;
         it = grupausun.listIterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             SrodekTrw sprzedawanySrodekTrw = (SrodekTrw) it.next();
-            sprzedawanySrodekTrw.setZlikwidowany(9);
+            int rok = Integer.parseInt(data.substring(0,4));
+            int mc = Integer.parseInt(data.substring(5,7));
+            obsluztransakcje(sprzedawanySrodekTrw,rok,mc);
+            try {
+                sTRDAO.edit(sprzedawanySrodekTrw);
+                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa(), "dodWiad:mess_add");
+            }
+        }
+    }
+
+    public void sprzedazsrodkaFK() {
+        SrodekTrw sprzedawanySrodekTrw = sTRTabView.getWybranysrodektrwalyPosiadane();
+        if (sprzedawanySrodekTrw != null) {
+            obsluztransakcje(sprzedawanySrodekTrw, wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
+            try {
+                sTRDAO.edit(sprzedawanySrodekTrw);
+                Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystapił błąd - nie naniesiono sprzedaży: " + sprzedawanySrodekTrw.getNazwa(), "dodWiad:mess_add");
+            }
+        }
+    }
+    
+    
+    private void obsluztransakcje(SrodekTrw sprzedawanySrodekTrw, int rok, int mc) {
+        sprzedajsrodek(sprzedawanySrodekTrw, rok, mc);
+        String datazakupu = sprzedawanySrodekTrw.getDatazak();
+        int rokzakupu = Integer.parseInt(datazakupu.substring(0,4));
+        int mczakupu = Integer.parseInt(datazakupu.substring(5,7));
+        //wypadek gdy jest zakup i sprzedaz w jednym mcu
+        if (rok == rokzakupu && mc == mczakupu) {
+            sprzedajtensammc(sprzedawanySrodekTrw, rokzakupu, mczakupu);
+        }
+    }
+    
+    private void sprzedajsrodek(SrodekTrw sprzedawanySrodekTrw, int rok, int mc) {
+        sprzedawanySrodekTrw.setZlikwidowany(9);
             sprzedawanySrodekTrw.setStyl("color: blue; font-style:  italic;");
             sprzedawanySrodekTrw.setDatasprzedazy(data);
             sprzedawanySrodekTrw.setNrwldokumentu(nrwlasny);
-            int rok = Integer.parseInt(data.substring(0,4));
-            int mc = Integer.parseInt(data.substring(5,7));
-            String datazakupu = sprzedawanySrodekTrw.getDatazak();
-            int rokzakupu = Integer.parseInt(datazakupu.substring(0,4));
-            int mczakupu = Integer.parseInt(datazakupu.substring(5,7));
             Double suma = 0.0;
             Double umorzeniesprzedaz = 0.0;
             for(Umorzenie x : sprzedawanySrodekTrw.getUmorzWyk()){
@@ -75,26 +115,17 @@ public class STRSprzedazView extends STRTabView implements Serializable {
                     x.setKwota(BigDecimal.ZERO);
                 }
             }
-            //wypadek gdy jest zakup i sprzedaz w jednym mcu
-            if (rok == rokzakupu && mc == mczakupu) {
-                Umorzenie y = new Umorzenie();
-                y.setKwota(new BigDecimal(sprzedawanySrodekTrw.getNetto()));
-                y.setRokUmorzenia(rokzakupu);
-                y.setMcUmorzenia(mczakupu);
-                y.setNazwaSrodka(sprzedawanySrodekTrw.getNazwa());
-                y.setNrUmorzenia(1);
-                sprzedawanySrodekTrw.setUmorzWyk(new ArrayList<Umorzenie>());
-                sprzedawanySrodekTrw.getUmorzWyk().add(y);
-            }
-
-            try{
-                sTRDAO.edit(sprzedawanySrodekTrw);
-                Msg.msg("i","Naniesiono sprzedaż: "+sprzedawanySrodekTrw.getNazwa()+". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!","dodWiad:mess_add");
-            } catch (Exception e) { E.e(e); 
-                Msg.msg("e","Wystapił błąd - nie naniesiono sprzedaży: "+sprzedawanySrodekTrw.getNazwa(),"dodWiad:mess_add");
-        }
-      }
-
+    }
+    
+    private void sprzedajtensammc(SrodekTrw sprzedawanySrodekTrw,int rokzakupu, int mczakupu) {
+        Umorzenie y = new Umorzenie();
+        y.setKwota(new BigDecimal(sprzedawanySrodekTrw.getNetto()));
+        y.setRokUmorzenia(rokzakupu);
+        y.setMcUmorzenia(mczakupu);
+        y.setNazwaSrodka(sprzedawanySrodekTrw.getNazwa());
+        y.setNrUmorzenia(1);
+        sprzedawanySrodekTrw.setUmorzWyk(new ArrayList<Umorzenie>());
+        sprzedawanySrodekTrw.getUmorzWyk().add(y);
     }
     
      public void kupsrodki(){
@@ -140,6 +171,15 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         this.sTRTabView = sTRTabView;
     }
 
-        
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+   
+    
   
 }

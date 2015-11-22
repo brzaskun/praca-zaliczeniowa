@@ -6,6 +6,7 @@
 package testobjects;
 
 import embeddable.SchemaEwidencjaSuma;
+import embeddable.Umorzenie;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
@@ -279,6 +280,18 @@ public class testobjects {
        n.add("kwota netto");
        n.add("nr pola vat");
        n.add("kwota vat");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+     
+     public static List[] getSrodekUmorzenie(List<Umorzenie> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("rok");
+       n.add("mc");
+       n.add("kwota");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

@@ -23,6 +23,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.SchemaEwidencjaSuma;
+import embeddable.Umorzenie;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -44,6 +45,8 @@ import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
@@ -187,6 +190,32 @@ public class PdfMain {
         } catch (DocumentException ex) {
             System.out.println("Problem z dodaniem daty PDFMain dodajDate");
             E.e(ex);
+        }
+    }
+    
+    public static void dodajpagraf(Document document, String tresc, String lrcj, int rozmiar) {
+        try {
+            Paragraph par = new Paragraph(new Phrase(tresc, ft[rozmiar]));
+            switch (lrcj) {
+                case "l":
+                    par.setAlignment(Element.ALIGN_LEFT);
+                    break;
+                case "r":
+                    par.setAlignment(Element.ALIGN_RIGHT);
+                    break;
+                case "c":
+                    par.setAlignment(Element.ALIGN_CENTER);
+                    break;
+                case "j":
+                    par.setAlignment(Element.ALIGN_JUSTIFIED);
+                    break;
+                default:
+                    par.setAlignment(Element.ALIGN_LEFT);
+                    break;
+            }
+            document.add(par);
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -410,6 +439,13 @@ public class PdfMain {
                 col[0] = 2;
                 col[1] = 6;
                 col[2] = 3;
+                return col;
+            case "embeddable.Umorzenie":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 2;
+                col[2] = 2;
+                col[3] = 3;
                 return col;
             case "embeddable.SchemaEwidencjaSuma":
             case "entity.DeklaracjaVatSchemaWierszSum":
@@ -651,7 +687,15 @@ public class PdfMain {
         }
     }
     
-    private static NumberFormat getCurrencyFormater() {
+    public static NumberFormat getPercentFormater() {
+        NumberFormat formatter = NumberFormat.getPercentInstance(new Locale("pl","PL"));
+        formatter.setMaximumFractionDigits(2);
+        formatter.setMinimumFractionDigits(2);
+        formatter.setGroupingUsed(true);
+        return formatter;
+    }
+    
+    public static NumberFormat getCurrencyFormater() {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -659,7 +703,7 @@ public class PdfMain {
         return formatter;
     }
     
-    private static NumberFormat getNumberFormater() {
+    public static NumberFormat getNumberFormater() {
         NumberFormat formatter = NumberFormat.getNumberInstance();
         formatter.setMaximumFractionDigits(2);
         formatter.setMinimumFractionDigits(2);
@@ -927,8 +971,16 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKst(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getNrwldokzak(), "left", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getUmorzeniepoczatkowe())), "right", 8));
+                    if (p.getVat() == 0.0) {
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getVat())), "right", 8));
+                    }
+                    if (p.getUmorzeniepoczatkowe() == 0.0) {
+                        table.addCell(ustawfrazeAlign("", "left", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getUmorzeniepoczatkowe())), "right", 8));
+                    }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getStawka()))+"%", "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpisrok())), "right", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getOdpismc())), "right", 8));
@@ -947,6 +999,13 @@ public class PdfMain {
                 }
                 table.addCell(ustawfrazeAlign(p.getPolevat(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getDeklaracjaVatWierszSumaryczny().getSumavat())), "right", 8));
+            }
+             if (nazwaklasy.equals("embeddable.Umorzenie")) {
+                Umorzenie p = (Umorzenie) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getMcUmorzenia(), "left", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
                 SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();

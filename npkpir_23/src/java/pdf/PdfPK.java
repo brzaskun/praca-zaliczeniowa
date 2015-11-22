@@ -4,8 +4,6 @@
  */
 package pdf;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
@@ -27,7 +25,6 @@ import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Uz;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -37,13 +34,9 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import msg.Msg;
-import static pdf.PdfVAT7.absText;
-import static pdf.PdfVAT7.absText;
 import plik.Plik;
 import view.WpisView;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static pdf.PdfVAT7.absText;
 import static pdf.PdfVAT7.absText;
 
 /**
