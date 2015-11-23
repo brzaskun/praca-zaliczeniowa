@@ -171,6 +171,8 @@ public class KontoZapisFKView implements Serializable{
     public void zapisykontmiesiace() {
          wpisView.wpisAktualizuj();
          pobierzZapisyZmianaWaluty();
+         sumazapisow();
+         sumazapisowpln();
     }
     
     
