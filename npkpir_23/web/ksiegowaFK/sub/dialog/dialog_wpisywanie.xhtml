@@ -403,8 +403,12 @@
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
                         <!--                             paginator="true" rows="10" paginatorPosition="top">-->
+                        <p:ajax event="rowToggle" global="false" />
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center" >
                             <h:outputText value="#{loop.idporzadkowy}"/>
+                        </p:column>
+                        <p:column style="width: 7px;">
+                            <p:rowToggler rendered="#{loop.dokfk.getVATRK(loop) ne null}"/>
                         </p:column>
                         <p:column headerText="opis transakcji" width="130" style="text-align: center;">
                             <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
@@ -531,6 +535,19 @@
                         <p:column  width="3">
                             <h:outputText id="maNowaTransakcja" value="#{loop.typWiersza}" style="font-size: 0.5; color: white;" />
                         </p:column>
+                        <p:rowExpansion>
+                            <p:dataTable value="#{loop.dokfk.getVATRK(loop)}" var="loopik" style="width: 45%;">
+                                <p:column  width="250">
+                                        <h:outputText value="#{loopik.klient}"/>
+                                    </p:column>
+                                <p:column >
+                                        <bcf:outputpl value="#{loopik.netto}"/>
+                                    </p:column>
+                                <p:column >
+                                        <bcf:outputpl value="#{loopik.vat}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:rowExpansion>
                     </p:dataTable>
                     <p:panelGrid style="text-align: left; margin-left: 10px;">
                         <h:outputText id="komunikatywpisdok" value="#{dokfkView.komunikatywpisdok}" style="color: red;"/>
@@ -585,6 +602,8 @@
                
                 <p:commandButton id="kwotywpl" value="zmiana waluty" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
                                  actionListener="#{dokfkView.zmienwalutezapisow()}" update=":formwpisdokument:dataList"/>
+                <p:commandButton id="pokazvat" value="pokaż vat" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" global="false"
+                                 onclick="jQuery('.ui-row-toggler').click()" />
                 <p:commandButton id="zakmnijwpis" value="rezygnuj" styleClass="fkbutton" style="width: 130px; float: right;" type="button" 
                                  global="false" actionListener="#{dokfkView.rezygnujzedycji()}"
                                  onclick="zamykanieDialogow();" rendered="#{!dokfkView.zablokujprzyciskrezygnuj}"/>

@@ -558,6 +558,18 @@ public class Dokfk implements Serializable {
         s.append(this.dokfkPK.getRok());
         return s.toString();
     }
+    
+    public EVatwpisFK getVATRK(Wiersz w) {
+        EVatwpisFK ew = null;
+        for (EVatwpisFK p : this.getEwidencjaVAT()) {
+            if (p.getWiersz() == w) {
+                ew = p;
+                break;
+            }
+        }
+        return ew;
+    }
+
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad

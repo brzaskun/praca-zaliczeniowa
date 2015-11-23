@@ -1835,7 +1835,8 @@ public class DokfkView implements Serializable {
             System.out.println("Blad aktualny wiersz ma dziwny numer DokfkView wybranoRachunekPlatnoscCD");
         }
     }
-
+    
+   
     public void oznaczJakoPlatnosc() {
         aktualnyWierszDlaRozrachunkow.setTypStronaWiersza(2);
         selected.setZablokujzmianewaluty(true);
