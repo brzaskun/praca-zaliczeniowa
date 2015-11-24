@@ -325,7 +325,7 @@ public class MailOther implements Serializable{
       
       
     
-    public static void vat7(int row, WpisView wpisView) {
+    public static void vat7(int row, WpisView wpisView, int stara0nowa1) {
         try {
             MimeMessage message = MailSetUp.logintoMail(wpisView);
             message.setSubject("Wydruk dekalracji VAT-7","UTF-8");
@@ -342,12 +342,11 @@ public class MailOther implements Serializable{
             // create the second message part
             MimeBodyPart mbp2 = new MimeBodyPart();
             // attach the file to the message
-            if (Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true).isFile()) {
+            if (stara0nowa1 == 0 && Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true).isFile()) {
                 FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/vat7-13" + wpisView.getPodatnikWpisu() + ".pdf");
                 mbp2.setDataHandler(new DataHandler(fds));
                 mbp2.setFileName(fds.getName());
-                
-                // create the Multipart and add its parts to it
+                 // create the Multipart and add its parts to it
                 Multipart mp = new MimeMultipart();
                 mp.addBodyPart(mbp1);
                 mp.addBodyPart(mbp2);
@@ -359,10 +358,25 @@ public class MailOther implements Serializable{
                 File f  = Plik.plik("vat7-13" + wpisView.getPodatnikWpisu() + ".pdf", true);
                 f.delete();
                 RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
+            } else if (stara0nowa1 == 1 && Plik.plik(wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf", true).isFile()) {
+                FileDataSource fds = new FileDataSource("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/wydruki/" + wpisView.getPodatnikObiekt().getNip()+"vat7" + ".pdf");
+                mbp2.setDataHandler(new DataHandler(fds));
+                mbp2.setFileName(fds.getName());
+                  // create the Multipart and add its parts to it
+                Multipart mp = new MimeMultipart();
+                mp.addBodyPart(mbp1);
+                mp.addBodyPart(mbp2);
+                
+                // add the Multipart to the message
+                message.setContent(mp);
+                Transport.send(message);
+                Msg.msg("i", "Wyslano maila z deklaracją VAT-7 do klienta "+klient+". Na adres mail: "+pod.getEmail());
+                File f  = Plik.plik("vat7" + wpisView.getPodatnikWpisu() + ".pdf", true);
+                f.delete();
+                RequestContext.getCurrentInstance().execute("schowajmailbutton("+row+");");
             } else {
                 Msg.msg("e", "Brak wygenerowanej wcześniej deklaracji VAT. Nie wysłano maila do klienta. Kliknij najpierw na przycisk Pdf właściwej deklaracji VAT.");
             }
-             
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

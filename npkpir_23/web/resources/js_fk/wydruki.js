@@ -47,8 +47,10 @@ var wydrukvatue = function(kto){
 var schowajmailbutton = function (index) {
     if (index === -1) {
         $(document.getElementById("formX:dokumentyLista:0:mailbutton")).attr('display','none');
+        $(document.getElementById("formX:dokumentyLista:0:mailbuttonN")).attr('display','none');
     } else {
         $(document.getElementById("formX:akordeon:dataList:"+index+":mailbutton")).attr('display','none');
+        $(document.getElementById("formX:akordeon:dataList:"+index+":mailbuttonN")).attr('display','none');
     }
  };
  

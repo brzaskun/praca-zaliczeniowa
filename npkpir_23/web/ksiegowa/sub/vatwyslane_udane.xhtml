@@ -98,7 +98,10 @@
                 <f:facet name="header">
                     <h:outputText value="mail"/>
                 </f:facet>
-                <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(row)}" update=":formX, :formX:msg" style="width: 80px; display: none;"  />
+                <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(row)}"
+                                 update=":formX, :formX:msg" style="width: 80px; display: none;"  />
+                <p:commandButton id="mailbuttonN" value="MailN" actionListener="#{deklaracjevatView.mailvat7N(row)}"
+                                 update=":formX, :formX:msg" style="width: 80px; display: none;"  />
             </p:column>
             
                 <p:rowExpansion>

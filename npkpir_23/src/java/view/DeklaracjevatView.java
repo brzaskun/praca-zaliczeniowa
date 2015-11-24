@@ -150,7 +150,15 @@ public class DeklaracjevatView implements Serializable {
 
     public void mailvat7(int row) {
         try {
-            MailOther.vat7(row, wpisView);
+            MailOther.vat7(row, wpisView, 0);
+        } catch (Exception e) { E.e(e); 
+            
+        }
+    }
+    
+    public void mailvat7N(int row) {
+        try {
+            MailOther.vat7(row, wpisView, 1);
         } catch (Exception e) { E.e(e); 
             
         }
@@ -174,6 +182,8 @@ public class DeklaracjevatView implements Serializable {
                 RequestContext.getCurrentInstance().execute(f);
             } else {
                 PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
+                String f = "wydrukvat7wysylkaN('"+dkl.getPodatnik()+"');";
+                RequestContext.getCurrentInstance().execute(f);
             }
         } catch (Exception e) { 
             E.e(e); 
@@ -194,9 +204,11 @@ public class DeklaracjevatView implements Serializable {
             Integer mc = Integer.parseInt(pasujacaSchema.getMcOd());
             if (rok <= 2015 && mc <= 7) {
                 PdfVAT7.drukuj(dkl, wiersz, podatnikDAO);
+                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
+                RequestContext.getCurrentInstance().execute(f);
             } else {
                 PdfVAT7new.drukujNowaVAT7(podatnikDAO, dkl, pasujacaSchema, schemaEwidencjaDAO, wpisView);
-                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbutton').style.display='inline';";
+                String f = "document.getElementById('formX:akordeon:dataList:"+wiersz+":mailbuttonN').style.display='inline';";
                 RequestContext.getCurrentInstance().execute(f);
             }
         } catch (Exception e) { 

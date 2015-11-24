@@ -68,6 +68,7 @@
                 <p:panelGrid columns="1">
                     <p:commandButton value="Pdf" actionListener="#{deklaracjevatView.drukujprzygotowanedowysylki(item)}" style="width: 80px;"/>
                     <p:commandButton id="mailbutton" value="Mail" actionListener="#{deklaracjevatView.mailvat7(-1) }" update=":formX" style="width: 80px; display: none;"  />
+                    <p:commandButton id="mailbuttonN" value="Mail" actionListener="#{deklaracjevatView.mailvat7N(-1) }" update=":formX" style="width: 80px; display: none;"  />
                 </p:panelGrid>
             </p:column>
             <p:column id="deleteColumn" headerText="usuń" width="110" style="text-align: center;">

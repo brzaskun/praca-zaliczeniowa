@@ -35,10 +35,17 @@ var wydrukvat7 = function(kto, index){
     } catch (ex) {}
 };
 
-var wydrukvat7wysylka = function(kto){
+var wydrukvat7wysylkaN = function(kto){
     try {
         window.open('../wydruki/VAT7Comb'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
         document.getElementById("formX:dokumentyLista:0:mailbutton").style.display='inline';
+    } catch (e){
+    }
+};
+
+var wydrukvat7wysylkaN = function(kto){
+    try {
+        document.getElementById("formX:dokumentyLista:0:mailbuttonN").style.display='inline';
     } catch (e){
     }
 };
@@ -50,8 +57,10 @@ var wydrukvatue = function(kto){
 var schowajmailbutton = function (index) {
     if (index === -1) {
         $(document.getElementById("formX:dokumentyLista:0:mailbutton")).attr('display','none');
+        $(document.getElementById("formX:dokumentyLista:0:mailbuttonN")).attr('display','none');
     } else {
         $(document.getElementById("formX:akordeon:dataList:"+index+":mailbutton")).attr('display','none');
+        $(document.getElementById("formX:akordeon:dataList:"+index+":mailbuttonN")).attr('display','none');
     }
  };
 
