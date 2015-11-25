@@ -13,23 +13,34 @@ var calc = function() {
         var tresc = r(wpis).val();
         if (zawierapole(tresc)) {
             operacja(tresc);
-            aktualizuj_wynik(MYAPP.kalkulator);
+            aktualizuj_wynik(MYAPP.kalkulator_suma);
         }
     };
     var operacja = function(tresc) {
-        if (isNaN(MYAPP.kalkulator)) {
-            MYAPP.kalkulator = 0.0;
+        if (isNaN(MYAPP.kalkulator_suma)) {
+            MYAPP.kalkulator_suma = 0.0;
         }
         var kwota = pobierzkwote(tresc);
         var znak = pobierzznak(tresc);
-        if (znak === "+") {
-            MYAPP.kalkulator += kwota;
-        } else if (znak === "-") {
-            MYAPP.kalkulator -= kwota;
-        } else if (znak === "*") {
-            MYAPP.kalkulator *= kwota;
-        } else if (znak === "/") {
-            MYAPP.kalkulator /= kwota;
+        if (isNaN(MYAPP.kalkulator_schowek)) {
+            MYAPP.kalkulator_biezaca = kwota;
+            MYAPP.kalkulator_schowek = kwota;
+            MYAPP.kalkulator_znak = znak;
+            MYAPP.kalkulator_znak_schowek = znak;
+        } else {
+            MYAPP.kalkulator_biezaca = MYAPP.kalkulator_schowek;
+            MYAPP.kalkulator_schowek = kwota;
+            MYAPP.kalkulator_znak = MYAPP.kalkulator_znak_schowek;
+            MYAPP.kalkulator_znak_schowek = znak;
+        }
+        if (MYAPP.kalkulator_znak === "+") {
+            MYAPP.kalkulator_suma += MYAPP.kalkulator_schowek;
+        } else if (MYAPP.kalkulator_znak === "-") {
+            MYAPP.kalkulator_suma -= MYAPP.kalkulator_schowek;
+        } else if (MYAPP.kalkulator_znak === "*") {
+            MYAPP.kalkulator_suma *= MYAPP.kalkulator_schowek;
+        } else if (MYAPP.kalkulator_znak === "/") {
+            MYAPP.kalkulator_suma /= MYAPP.kalkulator_schowek;
         }
     }
     var zawierapole = function(tresc) {
@@ -62,7 +73,7 @@ var calc = function() {
         if (_.include(tresc,"=")) {
             jestznak = true;
             czyscinput();
-            MYAPP.kalkulator = 0.0;
+            MYAPP.kalkulator_suma = 0.0;
         }
         return jestznak;
     }
@@ -90,7 +101,7 @@ var calc = function() {
 var kalkulator_reset = function() {
     r('formdialog_kalkulator:kalkulator_wpis').val('');
     r('formdialog_kalkulator:kalkulator_ekran').text('');
-    MYAPP.kalkulator = 0.0;
+    MYAPP.kalkulator_suma = 0.0;
 };
 
 
