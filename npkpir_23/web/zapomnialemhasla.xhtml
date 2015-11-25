@@ -19,28 +19,24 @@
 
         <h:body style="background-color: #FFFFFF">
             
-            <h:form id="formlog1">
-                <p:ajaxStatus>
-                    <f:facet name="start"><p:graphicImage url="/resources/images/ajax-loader.gif"/></f:facet>
-                    <f:facet name="success"><h:outputText value="" /></f:facet>
-                    <f:facet name="error">Wystąpił nieoczekiewany błąd. Dane nie zostały utracone. Przejdź do strony logowania i zaloguj się ponownie </f:facet>
-                </p:ajaxStatus>
-                <p:panel style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  7%;  width: 600px; border-style: none" >
+            <h:form id="formlog0">
+                <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
                     <div style="height: 100px;">
                         <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
-                    <p:panelGrid columns="3" style="text-align: center; margin-left: auto; margin-right: auto; width: 600px; border-style: hidden !important;">
-                        <p:column>
-                            <h:link outcome="pomoclogowanie" value="pomoc" />
-                        </p:column>
-                        <p:column>
-                            <h:link outcome="failure" value="powrót do logowania"/>
-                        </p:column>
-                        <p:column>
-                            <h:link outcome="rejestruj" value="zarejestruj się"/>
-                        </p:column>
-                    </p:panelGrid>
-                </p:panel>
+                   <p:column >
+                        <p:commandButton value="#{mgs.zaloguj}" action="failure" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
+                    </p:column>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="formlog1">
+                <bcf:ajaxs/>
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto;  width: 450px">
                         <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
                     <p:focus id="focus" context="logowaniepanel"/>

@@ -23,16 +23,16 @@
                      <div style="height: 100px;">
                     <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
-                    <p:panelGrid columns="3" style="text-align: center; margin: 7% 0% 0% 0%; width: 600px; border-style: hidden !important;">
-                        <p:column>
-                            <h:link outcome="failure" value="powrót do logowania"/>
+                    <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                        <p:column style="text-align: center; margin-left: auto; margin-right: auto;">
+                            <p:commandButton value="#{mgs.zaloguj}" action="failure" style="width: 140px;"/>
                         </p:column>
-                        <p:column>
-                            <h:link outcome="zapomnialemhasla" value="zapomnialem hasla"/>
-                        </p:column>
-                        <p:column>
-                            <h:link outcome="rejestruj" value="zarejestruj się"/>
-                        </p:column>
+                       <p:column>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
+                    </p:column>
                     </p:panelGrid>
                 </p:panel>
                 <p:panel style="margin-left: auto; margin-right: auto; width: 450px; margin-top: 2%;">

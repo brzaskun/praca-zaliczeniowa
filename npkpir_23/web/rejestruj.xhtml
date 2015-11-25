@@ -27,7 +27,7 @@
                 </p:panel>
                     <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto; margin-top:  1%; width: 362px; border-style: hidden !important;">
                         <p:column style="text-align: center; margin-left: auto; margin-right: auto;">
-                            <h:link outcome="failure" value="#{mgs.powrótdologowania}"/>
+                            <p:commandButton value="#{mgs.powrótdologowania}" action="failure" style="width: 180px;"/>
                         </p:column>
 
                     </p:panelGrid>
@@ -73,7 +73,7 @@
                             <h:outputText value="#{mgs.haslo}"/>
                             <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
                                         promptLabel="#{mgs.wprowadzhaslo}" weakLabel="#{mgs.słabe}"  validatorMessage="#{mgs.hasloskladasie}"
-                                        goodLabel="#{mgs.akceptowalne}" strongLabel="#{mgs.mocne}" required="true" requiredMessage="#{mgs.wpiszhaslo}!" autocomplete="true"> 
+                                        goodLabel="#{mgs.akceptowalne}" strongLabel="#{mgs.mocne}" required="true" requiredMessage="#{mgs.wprowadzhaslo}!" autocomplete="true"> 
                                 <f:validateLength minimum="6"/>
                                 <p:ajax event="blur" partialSubmit="true" global="false"/>
                             </p:password>

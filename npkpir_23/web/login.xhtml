@@ -56,7 +56,7 @@
                         if (navigator.language === 'pl') {
                             alert("Ten program działa poprawnie jedynie w przeglądarce Chrome!");
                         } else if (navigator.language === 'de') {
-                            alert("Die Software funktioniert nur unter Chrome Browser!");
+                            alert("Diese Software funktioniert nur unter Chrome Browser!");
                         } else if (navigator.language.indexOf('en-') > -1) {
                             alert("This Software works only with Chrome Browser!");
                         }
@@ -74,20 +74,21 @@
                      data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-show-posts="true"
                      style="text-align: center;"></div>
             </p:panel>
-            <p:panel style="margin-left: auto; margin-right: auto; width: 400px; border: none" >
+            <p:panel style="margin-left: auto; margin-right: auto; width: 600px; border: none" >
                 <p:growl id="logowanie"  autoUpdate="true"/>
-
-                <p:panelGrid columns="3" style="text-align: center; margin-top: 7%; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
+                <h:form>
+                <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
                     <p:column >
-                        <h:link outcome="pomoclogowanie" value="#{mgs.pomoc}"/>
+                        <p:commandButton value="#{mgs.pomoc}" action="pomoclogowanie" style="width: 140px;"/>
                     </p:column>
                     <p:column>
-                        <h:link outcome="zapomnialem" value="#{mgs['zapomialem.hasla']}"/>
+                        <p:commandButton value="#{mgs['zapomialem.hasla']}" action="zapomnialem" style="width: 140px;"/>
                     </p:column>
                     <p:column>
-                        <h:link outcome="rejestruj" value="#{mgs.rejestracja}"/>
+                        <p:commandButton value="#{mgs.rejestracja}" action="rejestruj" style="width: 140px;"/>
                     </p:column>
                 </p:panelGrid>
+                    </h:form>
             </p:panel>
             <h:form id="formlog1">
                 <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="">
