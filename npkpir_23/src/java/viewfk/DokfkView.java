@@ -201,6 +201,8 @@ public class DokfkView implements Serializable {
     private Klienci klientdlaPK;
     private String miesiacDlaZestawieniaZaksiegowanych;
     private DataTable dataTablezaksiegowane;
+    private String kalkulator_ekran;
+    private String kalkulator_wpis;
 
 
     public DokfkView() {
@@ -3256,5 +3258,8 @@ public class DokfkView implements Serializable {
         return ret;
     }
 
+    
+
+    
    
 }
