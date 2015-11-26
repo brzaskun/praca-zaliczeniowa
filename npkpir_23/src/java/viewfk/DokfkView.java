@@ -659,7 +659,6 @@ public class DokfkView implements Serializable {
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
-                    selected.setEwidencjaVAT(new ArrayList<EVatwpisFK>());
                 }
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;
