@@ -443,7 +443,7 @@
                         </p:column>
                         <p:column headerText="#{mgs.kwota}"  style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                             <pe:inputNumber id="wn" value="#{loop.stronaWn.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
-                                            rendered="#{loop.stronaWn != null}"
+                                            rendered="#{loop.stronaWn != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}"
                                             readonly="#{loop.stronaWn.typStronaWiersza != 0}"
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaWn}">
@@ -484,7 +484,7 @@
                         </p:column>
                         <p:column headerText="#{mgs.kwota}" style="text-align: center;" width="50" rendered="#{dokfkView.pokazzapisywzlotowkach == false}">
                             <pe:inputNumber id="ma" value="#{loop.stronaMa.kwota}" style="text-align: right; margin-left: auto; margin-right: auto; width: 80px;" 
-                                            rendered="#{loop.stronaMa != null}"
+                                            rendered="#{loop.stronaMa != null}" onfocus="kalkulator_pobierzwiersz(this);"
                                             symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="kasa"
                                             readonly="#{loop.stronaMa.typStronaWiersza != 0}" 
                                             valueChangeListener="#{dokfkView.zdarzeniaOnBlurStronaKwotaMa}">

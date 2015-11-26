@@ -9,7 +9,7 @@
     padding: 0px !important;
 }
 
-//jest problem przy wpisywanych tabelach
+/*jest problem przy wpisywanych tabelach*/
 /*.ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
     padding: 0px !important;
 }*/
@@ -111,7 +111,6 @@ body {
 }
 
 #zestawienieroczne.td {
-    
     border-width: 0px !important;
     padding: 1px 0px !important;
 }

@@ -9,21 +9,21 @@
 
     <p:dialog id="dialog_kalkulator" header="kalkulator" widgetVar="dialog_kalkulator" 
               appendTo="@(body)"
-              resizable="false" onShow="ustawdialogCenter('dialog_kalkulator','dialogpierwszy', 195, 220);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');"  >
+              resizable="false" onShow="ustawdialogCenter('dialog_kalkulator','dialogpierwszy', 195, 230);" closeOnEscape="true" onHide="resetujdialog('dialog_kalkulator');"  >
         <h:form id="formdialog_kalkulator">
             <p:panelGrid  columns="1" style="height: 100px; width: 170px;">
                 <h:outputText id="kalkulator_ekran" style="width: 170px; word-break: break-all; line-break: loose;"/>
             </p:panelGrid>
-            <p:outputPanel style="padding: 5px;">
-                <p:inputText id="kalkulator_wpis" onkeyup="calc();" autocomplete="false"/>
+            <p:outputPanel style="padding: 5px; ">
+                <h:inputText id="kalkulator_wpis" onkeyup="calc();" autocomplete="false" style="width: 160px;"/>
             </p:outputPanel>
             <p:panelGrid columns="2">
-                <p:commandButton id="kasuj" value="kasuj" styleClass="fkbutton" style="width: 78px;" global="false" type="submit" 
+                <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" style="width: 78px;" global="false" type="button"
+                                 onclick="kalkulator_close();" />
+                <p:commandButton id="kasuj" value="kasuj" styleClass="fkbutton" style="width: 78px; margin-left: 10px;" global="false" type="button" 
                                  onclick="kalkulator_reset();"/>
-                <p:commandButton id="kopiuj" value="kopiuj" styleClass="fkbutton" style="width: 78px; margin-left: 10px;" global="false" type="button"
-                                 onclick="PF('dialog_kalkulator').hide" />
             </p:panelGrid>
-            <p:outputPanel style="padding: 5px;">
+            <p:outputPanel style="padding: 5px; border-style: ridge !important;">
                 <h:outputText value="wynik"/>
                 <h:outputText id="wynik" style="float: right;">
                     <f:convertNumber minFractionDigits="2" locale="PL"/>
