@@ -24,14 +24,23 @@ import entity.Podatnik;
 import entity.Uz;
 import entityfk.Dokfk;
 import entityfk.Vatuepodatnik;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.List;
 import javax.ejb.Stateless;
+import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajTabele;
+import static pdffk.PdfMain.finalizacjaDokumentu;
+import static pdffk.PdfMain.inicjacjaA4Portrait;
+import static pdffk.PdfMain.inicjacjaWritera;
+import static pdffk.PdfMain.naglowekStopkaP;
+import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import view.WpisView;
 
@@ -353,4 +362,42 @@ public class PdfVatUE {
     //        document.close();
     //    }
     //</editor-fold>
+
+    public static void drukujewidencjeTabela(List<VatUe> listawybranych, WpisView wpisView) {
+        String nazwa = wpisView.getPodatnikObiekt().getNip()+"vateutabela";
+        File file = Plik.plik(nazwa, true);
+        if (file.isFile()) {
+            file.delete();
+        }
+        Document document = inicjacjaA4Portrait();
+        PdfWriter writer = inicjacjaWritera(document, nazwa);
+        naglowekStopkaP(writer);
+        otwarcieDokumentu(document, nazwa);
+        dodajOpisWstepny(document, String.format("Ewidencja dokument\u00f3w VAT-UE %s", wpisView.getPodatnikWpisu()), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        czyjestpodsumowanie(listawybranych);
+        dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100,0);
+        finalizacjaDokumentu(document);
+        String f = "pokazwydruk('"+nazwa+"');";
+        RequestContext.getCurrentInstance().execute(f);
+    }
+
+    private static void czyjestpodsumowanie(List<VatUe> listawybranych) {
+        boolean czyjest = false;
+        double suma = 0.0;
+        for (VatUe p : listawybranych) {
+            if (p.getTransakcja().equals("podsumowanie")) {
+                czyjest = true;
+            } else {
+                suma += p.getNetto();
+            }
+        }
+        if (czyjest == false) {
+            VatUe v = new VatUe();
+            v.setTransakcja("podsumowanie");
+            v.setNetto(suma);
+            listawybranych.add(v);
+        }
+    }
+    
+    
 }

@@ -6,6 +6,7 @@
 package pdffk;
 
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -24,6 +25,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.Umorzenie;
+import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
@@ -668,6 +670,16 @@ public class PdfMain {
                 col14[7] = 3;
                 col14[8] = 3;
                 return col14;
+            case "embeddable.VatUe":
+                col14 = new int[size];
+                col14[0] = 1;
+                col14[1] = 3;
+                col14[2] = 2;
+                col14[3] = 4;
+                col14[4] = 5;
+                col14[5] = 3;
+                col14[6] = 2;
+                return col14;
         }
         return null;
     }
@@ -1006,6 +1018,30 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getMcUmorzenia(), "left", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+            }
+            if (nazwaklasy.equals("embeddable.VatUe")) {
+                VatUe p = (VatUe) it.next();
+                if (p.getTransakcja().equals("podsumowanie")) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                    if (p.getKontrahent().getKrajkod() != null) {
+                        table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 8));
+                    }
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNetto())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLiczbadok()), "center", 8));
+                }
             }
             if (nazwaklasy.equals("embeddable.SchemaEwidencjaSuma")) {
                 SchemaEwidencjaSuma p = (SchemaEwidencjaSuma) it.next();

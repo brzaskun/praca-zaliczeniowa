@@ -10,6 +10,7 @@ import daoFK.DokDAOfk;
 import daoFK.VatuepodatnikDAO;
 import embeddable.VatUe;
 import entityfk.Dokfk;
+import entityfk.EVatwpisFK;
 import entityfk.Vatuepodatnik;
 import entityfk.VatuepodatnikPK;
 import error.E;
@@ -127,7 +128,7 @@ public class VatUeFKView implements Serializable {
     private Set<VatUe> kontrahenci(List<Dokfk> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
         for (Dokfk p : listadokumentow) {
-            if (p.getVatM().equals(wpisView.getMiesiacWpisu()) && (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK"))) {
+            if (dobrymiesiac(p) && (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK"))) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
                 VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawierafk(new ArrayList<Dokfk>());
@@ -136,7 +137,20 @@ public class VatUeFKView implements Serializable {
         }
         return klienty;
     }
-    
+    private boolean dobrymiesiac(Dokfk p) {
+        boolean dobry = false;
+        if (p.getEwidencjaVAT() != null) {
+            String mc = null;
+            for (EVatwpisFK r : p.getEwidencjaVAT()) {
+                mc = r.getMcEw();
+            }
+            if (mc.equals(wpisView.getMiesiacWpisu())) {
+                dobry = true;
+                System.out.println("dobry mc "+p.getDokfkSN());
+            }
+        }
+        return dobry;
+    }
     public void podsumuj() {
         sumawybranych = 0.0;
         for (VatUe p : listawybranych) {
@@ -236,6 +250,18 @@ public class VatUeFKView implements Serializable {
       }
     } 
    
+    public void drukujewidencjeUEfkTabela() {
+      try {
+          if (listawybranych != null && !listawybranych.isEmpty()) {
+              PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView);
+          } else {
+              PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView);
+          }
+      }  catch (Exception e) { E.e(e); 
+          
+      }
+    } 
+   
 
     public WpisView getWpisView() {
         return wpisView;
@@ -276,6 +302,8 @@ public class VatUeFKView implements Serializable {
     public void setSumawybranych(double sumawybranych) {
         this.sumawybranych = sumawybranych;
     }
+
+    
 
  
 

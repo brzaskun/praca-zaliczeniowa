@@ -99,10 +99,11 @@
                     </p:tabView>
                 </p:tab>
                 <p:tab title="VAT UE">
-                    <p:panelGrid id="panelue" columns="3">
+                    <p:panelGrid id="panelue" columns="4">
                         <h:outputText value="suma wybranych"/>
                         <bcf:outputpl value="#{vatUeFKView.sumawybranych}"/>
                         <p:commandButton value="#{mgs.drukuj}" style="margin-left: 3%; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfk()}"/>
+                        <p:commandButton value="#{mgs.drukujtab}" style="margin-left: 10px; margin-bottom: 1%; width: 120px;" actionListener="#{vatUeFKView.drukujewidencjeUEfkTabela()}"/>
                     </p:panelGrid>
                     <h:form id="formVATUE">
                         <p:outputPanel id="wrapper"> 
@@ -151,14 +152,17 @@
                                 </p:column>
                                 <p:rowExpansion>
                                     <p:column id="ewidencjavat" headerText="dokumenty podsumowane" width="300" resizable="true" >  
-                                        <p:dataTable var="subwpis" value="#{wpis.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 90%;">
-                                            <p:column id="SubColumn0" headerText="waluta" style="text-align: center;">  
+                                        <p:dataTable var="subwpis" value="#{wpis.zawierafk}" emptyMessage="brak dokumentów"  resizableColumns="true" style="width: 95%;">
+                                            <p:column id="SubColumn0" headerText="waluta" style="text-align: center;" width="40">  
                                                 <h:outputText value="#{subwpis.walutadokumentu.symbolwaluty}" />
                                             </p:column>
-                                            <p:column id="SubColumn1" headerText="data wyst">  
+                                            <p:column id="SubColumn1" headerText="data wyst" width="70">  
                                                 <h:outputText value="#{subwpis.datadokumentu}" />
                                             </p:column>
-                                            <p:column id="SubColumn1b" headerText="nr własny">  
+                                            <p:column headerText="symbol" width="100">  
+                                                <h:outputText value="#{subwpis.dokfkSN}" />
+                                            </p:column>
+                                            <p:column id="SubColumn1b" headerText="nr własny" width="120">  
                                                 <h:outputText value="#{subwpis.numerwlasnydokfk}" />
                                             </p:column>
                                             <p:column id="SubColumn1c" headerText="#{mgs.opis}" width="250">  

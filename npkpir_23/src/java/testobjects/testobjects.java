@@ -7,6 +7,7 @@ package testobjects;
 
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.Umorzenie;
+import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
@@ -252,6 +253,20 @@ public class testobjects {
        n.add(B.b("nazwapełna"));
        n.add(B.b("nazwaskrócona"));
        n.add(B.b("tłumaczenie"));
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    public static List[] getEwidencjaVATUE(List<VatUe> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("transakcja");
+       n.add("kod kraju");
+       n.add("NIP");
+       n.add("kontrahent");
+       n.add("netto");
+       n.add("ilość dok");
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;
