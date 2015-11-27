@@ -74,13 +74,16 @@ public class KsiegaView implements Serializable {
     }
     
     public void generujksiegirok() {
+        ksiegimiesieczne = new HashMap<>();
         int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
         for (int i = 1; i <= mcint; i++) {
             lista = new ArrayList<>();
             String mc = Mce.getNumberToMiesiac().get(i);
             generujksiege(mc);
             podsumowaniepopmc();
-            ksiegimiesieczne.put(mc, lista);
+            if (lista.size() > 3) {
+                ksiegimiesieczne.put(mc, lista);
+            }
         }
         System.out.println("wygenerowano");
     }
