@@ -80,9 +80,11 @@ public class PdfPkpir {
         Collections.sort(mce);
         for (String p : mce) {
             PdfPTable table = generujTabele(wpisView,p);
-            dodajwiersze(ksiegimiesieczne.get(p), table);
-            pdf.add(table);
-            pdf.newPage();
+            if (ksiegimiesieczne.get(p).size()>3) {
+                dodajwiersze(ksiegimiesieczne.get(p), table);
+                pdf.add(table);
+                pdf.newPage();
+            }
         }
         pdf.addAuthor("Biuro Rachunkowe Taxman");
         pdf.close();
