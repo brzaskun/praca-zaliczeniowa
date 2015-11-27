@@ -67,9 +67,9 @@ public class FakturywystokresoweDAO  extends DAO implements Serializable {
             return null;
         }
     }
-     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc) {
+     public List<Fakturywystokresowe> findOkresoweOstatnie(String podatnik, String mc, String rok) {
         try {
-            return fakturywystokresoweFacade.findOkresoweOstatnie(podatnik, mc);
+            return fakturywystokresoweFacade.findOkresoweOstatnie(podatnik, mc, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }

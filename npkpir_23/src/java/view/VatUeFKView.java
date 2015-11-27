@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -61,24 +62,22 @@ public class VatUeFKView implements Serializable {
         Integer rok = wpisView.getRokWpisu();
         String podatnik = wpisView.getPodatnikWpisu();
         try {
-            listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRokMc(wpisView));
+            listadokumentow.addAll(dokDAOfk.findDokfkPodatnikRok(wpisView));
             //sortowanie dokumentów
-            Collections.sort(listadokumentow, new Dokfkcomparator());
-            //
             int numerkolejny = 1;
-            for (Dokfk p : listadokumentow) {
-                p.setLp(numerkolejny++);
+            for (Iterator<Dokfk> it = listadokumentow.iterator(); it.hasNext();) {
+                Dokfk p = it.next();
+                if (dobrymiesiac(p)) {
+                    p.setLp(numerkolejny++);
+                } else {
+                    it.remove();
+                }
             }
         } catch (Exception e) { E.e(e); 
         }
         //jest miesiecznie wiec nie ma co wybierac
-//        String m = wpisView.getMiesiacWpisu();
-//        Integer m1 = Integer.parseInt(m);
-//        try {
-//            dokvatmc.addAll(zmodyfikujliste(listadokumentow, "miesięczne"));
-//        } catch (Exception ex) {
-//            Logger.getLogger(VatUeFKView.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+
+        Collections.sort(listadokumentow, new Dokfkcomparator());
         //a teraz podsumuj klientów
         klienciWDTWNT.addAll(kontrahenci(listadokumentow));
         double sumanettovatue = 0.0;
@@ -89,12 +88,12 @@ public class VatUeFKView implements Serializable {
                     s.setNetto(netto + s.getNetto());
                     s.setLiczbadok(s.getLiczbadok() + 1);
                     s.getZawierafk().add(p);
-                    sumanettovatue += (double) Math.round(netto);
+                    sumanettovatue += netto;
                     break;
                 }
             }
         }
-        VatUe rzadpodsumowanie = new VatUe("podsumowanie", null, sumanettovatue, 0, null);
+        VatUe rzadpodsumowanie = new VatUe("podsumowanie", null, (double) Math.round(sumanettovatue), 0, null);
         klienciWDTWNT.add(rzadpodsumowanie);
         zachowajwbazie(String.valueOf(rok), wpisView.getMiesiacWpisu(), podatnik);
 //        try {
@@ -128,7 +127,7 @@ public class VatUeFKView implements Serializable {
     private Set<VatUe> kontrahenci(List<Dokfk> listadokumentow) {
         Set<VatUe> klienty = new HashSet<>();
         for (Dokfk p : listadokumentow) {
-            if (dobrymiesiac(p) && (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK"))) {
+            if (p.getRodzajedok().getSkrot().equals("WNT") || p.getRodzajedok().getSkrot().equals("WDT")  || p.getRodzajedok().getSkrot().equals("UPTK")) {
                 //wyszukujemy dokumenty WNT i WDT dodajemu do sumy
                 VatUe veu = new VatUe(p.getRodzajedok().getSkrot(), p.getKontr(), 0.0, 0);
                 veu.setZawierafk(new ArrayList<Dokfk>());
@@ -139,7 +138,7 @@ public class VatUeFKView implements Serializable {
     }
     private boolean dobrymiesiac(Dokfk p) {
         boolean dobry = false;
-        if (p.getEwidencjaVAT() != null) {
+        if (p.getEwidencjaVAT() != null && !p.getEwidencjaVAT().isEmpty()) {
             String mc = null;
             for (EVatwpisFK r : p.getEwidencjaVAT()) {
                 mc = r.getMcEw();

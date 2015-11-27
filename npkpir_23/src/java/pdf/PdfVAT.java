@@ -20,6 +20,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import comparator.EVatViewPolaWartoscNettocomparator;
 import comparator.EVatViewPolaWartosccomparator;
 import comparator.EVatViewPolacomparator;
 import dao.EwidencjeVatDAO;
@@ -115,7 +116,7 @@ public class PdfVAT {
                     table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                     
                     table.addCell(ustawfraze("lp", 0, 2));
-                    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+                    table.addCell(ustawfraze("Data zdarzenia goswp.", 0, 2));
                     table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
                     table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
                     table.addCell(ustawfraze("Nr własny dok.", 0, 2));
@@ -162,8 +163,19 @@ public class PdfVAT {
                     int size = ew.size();
                     EVatViewPola polesuma = ew.get(size - 1);
                     ew.remove(polesuma);
+                     boolean sortujponetto = false;
+                    if (size > 0) {
+                        EVatViewPola wp = ew.get(0);
+                        if (wp.getNazwaewidencji().getTransakcja().equals("usługi poza ter.")) {
+                            sortujponetto = true;
+                        }
+                    }
                     if (wartosc==true) {
-                        Collections.sort(ew, new EVatViewPolaWartosccomparator());
+                        if (sortujponetto) {
+                            Collections.sort(ew, new EVatViewPolaWartoscNettocomparator());
+                        } else {
+                            Collections.sort(ew, new EVatViewPolaWartosccomparator());
+                        }
                     } else {
                         Collections.sort(ew, new EVatViewPolacomparator());
                     }
@@ -254,7 +266,7 @@ public class PdfVAT {
                     table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
                     
                     table.addCell(ustawfraze("lp", 0, 2));
-                    table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+                    table.addCell(ustawfraze("Data zdarzenia goswp.", 0, 2));
                     table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
                     table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
                     table.addCell(ustawfraze("Nr własny dok.", 0, 2));
@@ -300,8 +312,19 @@ public class PdfVAT {
                     int size = wybranewierszeewidencji.size();
                     EVatViewPola polesuma = wybranewierszeewidencji.get(size - 1);
                     wybranewierszeewidencji.remove(polesuma);
+                    boolean sortujponetto = false;
+                    if (size > 0) {
+                        EVatViewPola wp = wybranewierszeewidencji.get(0);
+                        if (wp.getNazwaewidencji().getTransakcja().equals("usługi poza ter.")) {
+                            sortujponetto = true;
+                        }
+                    }
                     if (wartosc==true) {
-                        Collections.sort(wybranewierszeewidencji, new EVatViewPolaWartosccomparator());
+                        if (sortujponetto) {
+                            Collections.sort(wybranewierszeewidencji, new EVatViewPolaWartoscNettocomparator());
+                        } else {
+                            Collections.sort(wybranewierszeewidencji, new EVatViewPolaWartosccomparator());
+                        }
                     } else {
                         Collections.sort(wybranewierszeewidencji, new EVatViewPolacomparator());
                     }
@@ -452,7 +475,7 @@ public class PdfVAT {
             table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisu() + "/" + wpisView.getMiesiacWpisu(), 2, 0));
 
             table.addCell(ustawfraze("lp", 0, 2));
-            table.addCell(ustawfraze("Data zdarzenia gosp.", 0, 2));
+            table.addCell(ustawfraze("Data zdarzenia goswp.", 0, 2));
             table.addCell(ustawfraze("Data wystawienia faktury", 0, 2));
             table.addCell(ustawfraze("Nr dowodu księgowego", 0, 2));
             table.addCell(ustawfraze("Nr własny dok.", 0, 2));

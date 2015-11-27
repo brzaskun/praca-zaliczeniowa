@@ -14,12 +14,12 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class EVatViewPolaWartosccomparator implements Comparator<EVatViewPola> {
+public class EVatViewPolaWartoscNettocomparator implements Comparator<EVatViewPola> {
 
     @Override
     public int compare(EVatViewPola o1, EVatViewPola o2) {
-        double datao1 = o1.getVat();
-        double datao2 = o2.getVat();
+        double datao1 = o1.getNetto();
+        double datao2 = o2.getNetto();
         return datao1 < datao2 ? -1 : datao1 == datao2 ? 0 : 1;
     }
     

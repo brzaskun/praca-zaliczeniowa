@@ -22,6 +22,7 @@ import mail.MailAdmin;
 import msg.Msg;
 import org.joda.time.DateTime;
 import org.primefaces.context.RequestContext;
+import view.WpisView;
 
 /**
  *
@@ -51,15 +52,16 @@ public class AdminMailView implements Serializable {
             DateTime dt = new DateTime();  // current time
             int month = dt.getMonthOfYear();
             String mc = Mce.getNumberToMiesiac().get(month);
-            List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+            String rok = String.valueOf(dt.getYear());
+            List<Fakturywystokresowe> wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             if (wykazfaktur == null) {
                 mc = Mce.getNumberToMiesiac().get(month-1);
-                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             }
             if (wykazfaktur.isEmpty()) {
                 month = dt.getMonthOfYear();
                 mc = Mce.getNumberToMiesiac().get(--month);
-                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc);
+                wykazfaktur = fakturywystokresoweDAO.findOkresoweOstatnie("GRZELCZYK", mc, rok);
             }
             for (Fakturywystokresowe p : wykazfaktur) {
                 klientList.add(p.getDokument().getKontrahent());
