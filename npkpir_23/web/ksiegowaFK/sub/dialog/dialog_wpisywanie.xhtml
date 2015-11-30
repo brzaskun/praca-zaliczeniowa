@@ -403,13 +403,13 @@
                                  rowIndexVar="index" selection="#{dokfkView.wybranyWiersz}" selectionMode="single" rowKey="#{loop.hashCode()}" 
                                  widgetVar="tablicawierszydokwpisu" rowStyleClass="#{loop.czworka ne null ? 'wierszpiatkowy' : null}" scrollable="true" scrollHeight="280" >
                         <!--                             paginator="true" rows="10" paginatorPosition="top">-->
-                        <p:ajax event="rowToggle" global="false" />
+<!--                        <p:ajax event="rowToggle" global="false" />-->
                         <p:column headerText="#{mgs.numerkolejny}" width="10" style="text-align: center" >
                             <h:outputText value="#{loop.idporzadkowy}"/>
                         </p:column>
-                        <p:column style="width: 7px;">
+<!--                        <p:column style="width: 7px;">
                             <p:rowToggler rendered="#{loop.dokfk.getVATRK(loop) ne null}"/>
-                        </p:column>
+                        </p:column>-->
                         <p:column headerText="opis transakcji" width="130" style="text-align: center;">
                             <p:inputText id="opis" value="#{loop.opisWiersza}" style="width: 220px; height: 19px;" 
                                          onblur="skopiujopis(#{loop.idporzadkowy});" 

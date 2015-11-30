@@ -154,6 +154,9 @@
                 <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="40" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}"/>
+                </p:column>
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}"/>
                 </p:column>
