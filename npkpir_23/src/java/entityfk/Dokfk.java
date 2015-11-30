@@ -730,6 +730,8 @@ public class Dokfk implements Serializable {
                 String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
                 p.setRokEw(nowyokres[0]);
                 p.setMcEw(nowyokres[1]);
+                this.setVatR(nowyokres[0]);
+                this.setVatM(nowyokres[1]);
             }
         }
     }

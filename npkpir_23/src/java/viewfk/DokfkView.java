@@ -635,7 +635,6 @@ public class DokfkView implements Serializable {
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
-        } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
@@ -655,7 +654,7 @@ public class DokfkView implements Serializable {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
-                selected.oznaczewidencjeVAT();
+                selected.oznaczewidencjeVAT();//nanosi zmiany okresu vat
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
@@ -1365,31 +1364,39 @@ public class DokfkView implements Serializable {
                         String[] nowyokres = Mce.zwiekszmiesiac(p.getDokfkPK().getRok(), p.getMiesiac(), ew.getInnyokres());
                         ew.setRokEw(nowyokres[0]);
                         ew.setMcEw(nowyokres[1]);
+                        p.setVatR(nowyokres[0]);
+                        p.setVatM(nowyokres[1]);
                     }
                     dokDAOfk.edit(p);
-                } else {
-                    if (p.getListawierszy().size() > 1 && (p.getRodzajedok().getKategoriadokumentu() == 1 || p.getRodzajedok().getKategoriadokumentu() == 2)) {
-                        if (ew.getInnyokres() == 0) {
-                            System.out.println("dok " + p.getDokfkSN());
-                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
-                                listabrakivat.add(p);
-                            }
-                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-1")) {
-                                listabrakivat.add(p);
-                            }
-                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-3") && !kontoma.equals("221-1")) {
-                                listabrakivat.add(p);
-                            }
-                        } else {
-                            if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-4")) {
-                                listabrakivat.add(p);
-                            }
-                            if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-2")) {
-                                listabrakivat.add(p);
-                            }
-                            if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-4") && !kontoma.equals("221-2")) {
-                                listabrakivat.add(p);
-                            }
+                } else if (ew.getMcEw() != null && ew.getInnyokres() != 0 && p.getMiesiac().equals(p.getVatM())) {
+                    String[] nowyokres = Mce.zwiekszmiesiac(p.getDokfkPK().getRok(), p.getMiesiac(), ew.getInnyokres());
+                    ew.setRokEw(nowyokres[0]);
+                    ew.setMcEw(nowyokres[1]);
+                    p.setVatR(nowyokres[0]);
+                    p.setVatM(nowyokres[1]);
+                    dokDAOfk.edit(p);
+                }
+                if (p.getListawierszy().size() > 1 && (p.getRodzajedok().getKategoriadokumentu() == 1 || p.getRodzajedok().getKategoriadokumentu() == 2)) {
+                    if (ew.getInnyokres() == 0) {
+                        System.out.println("dok " + p.getDokfkSN());
+                        if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-3")) {
+                            listabrakivat.add(p);
+                        }
+                        if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-1")) {
+                            listabrakivat.add(p);
+                        }
+                        if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-3") && !kontoma.equals("221-1")) {
+                            listabrakivat.add(p);
+                        }
+                    } else {
+                        if (ew.getEwidencja().getTypewidencji().equals("z") && kontown != null && !kontown.equals("221-4")) {
+                            listabrakivat.add(p);
+                        }
+                        if (ew.getEwidencja().getTypewidencji().equals("s") && kontoma != null && !kontoma.equals("221-2")) {
+                            listabrakivat.add(p);
+                        }
+                        if (ew.getEwidencja().getTypewidencji().equals("sz") && kontown != null && kontoma != null && !kontown.equals("221-4") && !kontoma.equals("221-2")) {
+                            listabrakivat.add(p);
                         }
                     }
                 }

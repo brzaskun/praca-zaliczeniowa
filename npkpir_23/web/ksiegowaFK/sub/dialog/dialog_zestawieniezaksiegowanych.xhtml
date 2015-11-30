@@ -107,7 +107,7 @@
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1250px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1260px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -155,7 +155,7 @@
                     <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
                 </p:column>
                 <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="40" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
-                    <h:outputText value="#{item.vatM}"/>
+                    <h:outputText value="#{item.vatM}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}"/>
                 </p:column>
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}"/>
