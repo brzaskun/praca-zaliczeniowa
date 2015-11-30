@@ -34,6 +34,7 @@ import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import static pdf.PdfVAT7.absText;
+import pdffk.PdfMain;
 import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentu;
@@ -81,15 +82,12 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
+            PdfMain.dodajOpisWstepny(document, "wydruk - zestawienie dokumentów do deklaracji VAT-UE. Firma: " + podatnik.getNazwapelna(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
                 if (!p.getTransakcja().equals("podsumowanie")) {
                     table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
-                    table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 2, 0));
-                    table.addCell(ustawfraze("wydruk - zestawienie dokumentów do deklaracji VAT-UE", 2, 0));
-                    table.addCell(ustawfraze("firma: " + podatnik.getNazwapelna(), 2, 0));
-                    table.addCell(ustawfraze("za okres: " + wpisView.getRokWpisuSt() + "/" + wpisView.getMiesiacWpisu(), 1, 0));
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
                     table.addCell(ustawfraze("Kod kraju", 0, 1));
@@ -97,14 +95,7 @@ public class PdfVatUE {
                     table.addCell(ustawfraze("Kontrahent", 0, 1));
                     table.addCell(ustawfraze("netto", 0, 1));
                     table.addCell(ustawfraze("ilość dok.", 0, 1));
-                    table.addCell(ustawfrazeAlign("1", "center", 6));
-                    table.addCell(ustawfrazeAlign("2", "center", 6));
-                    table.addCell(ustawfrazeAlign("3", "center", 6));
-                    table.addCell(ustawfrazeAlign("4", "center", 6));
-                    table.addCell(ustawfrazeAlign("5", "center", 6));
-                    table.addCell(ustawfrazeAlign("6", "center", 6));
-                    table.addCell(ustawfrazeAlign("7", "center", 6));
-                    table.setHeaderRows(3);
+                    table.setHeaderRows(1);
                     table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
@@ -139,35 +130,21 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{1, 2, 2, 4, 2, 2});
-            table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
-            table.addCell(ustawfraze("nr kol", 0, 1));
-            table.addCell(ustawfraze("data wystawienia", 0, 1));
+            table.setWidths(new int[]{2, 2, 2, 6, 3, 2});
+            table.addCell(ustawfraze("symbol", 0, 1));
+            table.addCell(ustawfraze("data wyst.", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("netto", 0, 1));
             table.addCell(ustawfraze("okres VAT", 0, 1));
-            table.addCell(ustawfrazeAlign("1", "center", 6));
-            table.addCell(ustawfrazeAlign("2", "center", 6));
-            table.addCell(ustawfrazeAlign("3", "center", 6));
-            table.addCell(ustawfrazeAlign("4", "center", 6));
-            table.addCell(ustawfrazeAlign("5", "center", 6));
-            table.addCell(ustawfrazeAlign("6", "center", 6));
-            table.addCell(ustawfrazeAlign("1", "center", 6));
-            table.addCell(ustawfrazeAlign("2", "center", 6));
-            table.addCell(ustawfrazeAlign("3", "center", 6));
-            table.addCell(ustawfrazeAlign("4", "center", 6));
-            table.addCell(ustawfrazeAlign("5", "center", 6));
-            table.addCell(ustawfrazeAlign("6", "center", 6));
-            table.setHeaderRows(3);
-            table.setFooterRows(1);
+            table.setHeaderRows(1);
             for (Dok p : zawiera) {
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOpis(), "center", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
-                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getTypdokumentu(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 7));
+                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 7));
             }
         } catch (Exception e) {
         }
@@ -181,36 +158,22 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{1, 2, 2, 4, 2, 2});
-            table.addCell(ustawfraze("wykaz dokumentów przyporządkowanych do danego kontrahenta", 6, 0));
-            table.addCell(ustawfraze("nr kol", 0, 1));
-            table.addCell(ustawfraze("data wystawienia", 0, 1));
+            table.setWidths(new int[]{2, 2, 2, 6, 3, 2});
+            table.addCell(ustawfraze("symbol", 0, 1));
+            table.addCell(ustawfraze("data wyst.", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));
             table.addCell(ustawfraze("opis", 0, 1));
             table.addCell(ustawfraze("netto", 0, 1));
             table.addCell(ustawfraze("okres VAT", 0, 1));
-            table.addCell(ustawfrazeAlign("1", "center", 6));
-            table.addCell(ustawfrazeAlign("2", "center", 6));
-            table.addCell(ustawfrazeAlign("3", "center", 6));
-            table.addCell(ustawfrazeAlign("4", "center", 6));
-            table.addCell(ustawfrazeAlign("5", "center", 6));
-            table.addCell(ustawfrazeAlign("6", "center", 6));
-            table.addCell(ustawfrazeAlign("1", "center", 6));
-            table.addCell(ustawfrazeAlign("2", "center", 6));
-            table.addCell(ustawfrazeAlign("3", "center", 6));
-            table.addCell(ustawfrazeAlign("4", "center", 6));
-            table.addCell(ustawfrazeAlign("5", "center", 6));
-            table.addCell(ustawfrazeAlign("6", "center", 6));
-            table.setHeaderRows(3);
-            table.setFooterRows(1);
+            table.setHeaderRows(1);
             int i = 1;
             for (Dokfk p : zawiera) {
-                table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOpisdokfk(), "center", 8));
-                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartoscdokumentu())), "right", 8));
-                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getDokfkLP(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 7));
+                table.addCell(ustawfrazeAlign(p.getOpisdokfk(), "left", 7));
+                table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getWartoscdokumentu())), "right", 7));
+                table.addCell(ustawfrazeAlign((p.getVatR() + "/" + p.getVatM()), "center", 7));
             }
         } catch (Exception e) {
         }
