@@ -24,7 +24,9 @@ public class VatUe implements Serializable{
     private String transakcja;
     private Klienci kontrahent;
     private Double netto;
+    private double nettowaluta;
     private int liczbadok;
+    private String nazwawaluty;
     @Lob
     private List<Dok> zawiera;
     @Lob
@@ -100,6 +102,23 @@ public class VatUe implements Serializable{
         this.zawierafk = zawierafk;
     }
 
+    public double getNettowaluta() {
+        return nettowaluta;
+    }
+
+    public void setNettowaluta(double nettowaluta) {
+        this.nettowaluta = nettowaluta;
+    }
+
+    public String getNazwawaluty() {
+        return nazwawaluty;
+    }
+
+    public void setNazwawaluty(String nazwawaluty) {
+        this.nazwawaluty = nazwawaluty;
+    }
+
+    
     
     @Override
     public int hashCode() {

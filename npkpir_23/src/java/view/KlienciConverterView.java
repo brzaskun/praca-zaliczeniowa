@@ -11,6 +11,8 @@ import entity.Klienci;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -32,18 +34,29 @@ public class KlienciConverterView implements Serializable{
         List<Klienci> results = new ArrayList<>();
         if (query.length() > 3) {
             List<Klienci> listaKlientow = klienciDAO.findAll();
-            try {
-                String q = query.substring(0, 1);
-                int i = Integer.parseInt(q);
+            Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
+            Matcher m = pattern.matcher(query.toUpperCase());
+            boolean czynipzagraniczny = m.matches();
+            if (czynipzagraniczny) {
                 for (Klienci p : listaKlientow) {
                     if (p.getNip().startsWith(query)) {
-                        results.add(p);
+                            results.add(p);
                     }
                 }
-            } catch (NumberFormatException e) {
-                for (Klienci p : listaKlientow) {
-                    if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
-                        results.add(p);
+            } else {
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    for (Klienci p : listaKlientow) {
+                        if (p.getNip().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Klienci p : listaKlientow) {
+                        if (p.getNpelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
                     }
                 }
             }

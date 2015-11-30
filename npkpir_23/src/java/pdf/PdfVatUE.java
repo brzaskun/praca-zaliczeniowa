@@ -86,7 +86,7 @@ public class PdfVatUE {
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
-                if (!p.getTransakcja().equals("podsumowanie")) {
+                if (!p.getTransakcja().equals("podsum.")) {
                     table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
@@ -348,7 +348,7 @@ public class PdfVatUE {
         boolean czyjest = false;
         double suma = 0.0;
         for (VatUe p : listawybranych) {
-            if (p.getTransakcja().equals("podsumowanie")) {
+            if (p.getTransakcja().equals("podsum.")) {
                 czyjest = true;
             } else {
                 suma += p.getNetto();
