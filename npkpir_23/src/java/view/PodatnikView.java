@@ -174,7 +174,7 @@ public class PodatnikView implements Serializable {
         try {
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
-            selectedDod = null;
+            selectedDod = new Podatnik();
             Msg.msg("i", "Dodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd. Niedodano nowego podatnika-firmę: " + selectedDod.getNazwapelna());
