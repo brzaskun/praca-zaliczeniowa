@@ -100,7 +100,9 @@ public class PismoAdminView implements Serializable{
              int wynik = sprawdzduplikat();
              if (wynik == 0) {
                  pismoadminDAO.dodaj(pismoadmin);
-                 listapism.add(pismoadmin);
+                 listapism.clear();
+                 listapism.addAll(pismoadminDAO.findAll());
+                 pismoadmin = new Pismoadmin();
                  Msg.msg("i", "Udało się dodać infomację dla Admina");
              }
          } catch (Exception e) { E.e(e); 

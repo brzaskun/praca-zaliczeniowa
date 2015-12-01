@@ -12,6 +12,7 @@ import entityfk.MiejsceKosztow;
 import enumy.FormaPrawna;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,11 +20,15 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -213,6 +218,12 @@ public class Podatnik implements Serializable {
     @Column(name = "formaprawna")
     @Enumerated(EnumType.STRING)
     private FormaPrawna formaPrawna;
+    @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
+    @ManyToOne
+    private Uz wprowadzil;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "datawprowadzenia")
+    private Date datawprowadzenia;
     
     public Podatnik() {
         this.podmiotaktywny = true;
@@ -234,6 +245,22 @@ public class Podatnik implements Serializable {
 
     public void setSchematnumeracji(String schematnumeracji) {
         this.schematnumeracji = schematnumeracji;
+    }
+
+    public Uz getWprowadzil() {
+        return wprowadzil;
+    }
+
+    public void setWprowadzil(Uz wprowadzil) {
+        this.wprowadzil = wprowadzil;
+    }
+
+    public Date getDatawprowadzenia() {
+        return datawprowadzenia;
+    }
+
+    public void setDatawprowadzenia(Date datawprowadzenia) {
+        this.datawprowadzenia = datawprowadzenia;
     }
 
     public boolean isOdliczeniezus51() {

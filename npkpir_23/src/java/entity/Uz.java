@@ -198,5 +198,9 @@ public class Uz implements Serializable {
         return "Uz{" + "login=" + login + ", imie=" + imie + ", nazw=" + nazw + ", email=" + email + ", uprawnienia=" + uprawnienia + ", firma=" + firma + '}';
     }
 
+    public String toStringLIN() {
+        return "login " + login + ", " + imie + " " + nazw + ", uprawnienia " + uprawnienia;
+    }
+    
    
 }

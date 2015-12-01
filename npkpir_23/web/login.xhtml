@@ -96,8 +96,9 @@
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
                         <h:outputText value="#{mgs.login}"/>
                         <h:inputText value="#{logowanie.uzytkownik}" accesskey="s" required="true" style="width: 150px;" requiredMessage="Wpisz login!" 
-                                     autocomplete="true" >
-                            <p:ajax event="change" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  oncomplete="r('formlog1:haslo').focus();"/>
+                                      >
+                            <p:ajax event="change" listener="#{logowanie.ustawLocale(logowanie.uzytkownik)}" partialSubmit="true" global="false"  
+                                    oncomplete="r('formlog1:haslo').focus();"/>
                         </h:inputText>
                         <h:outputText value="#{mgs.haslo}"/>
                         <h:inputSecret id="haslo" value="#{logowanie.haslo}" required="true" style="width: 150px;" requiredMessage="Wpisz hasło!" autocomplete="true" redisplay="true"/>
@@ -112,6 +113,7 @@
                         <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
                                        rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
                             <p:menuitem value="zapamietaj mnie" action="#{logowanie.savelogin()}" ajax="false"/>
+                            <p:menuitem value="zapomnij mnie" action="#{logowanie.zapomnijmnie()}" ajax="false"/>
                         </p:splitButton>
                         <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>

@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -200,7 +201,7 @@ public class PodatnikView implements Serializable {
     public void edytuj() {
         try {
             sformatuj(selected);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
@@ -214,7 +215,7 @@ public class PodatnikView implements Serializable {
         try {
             sformatuj(selected);
             selected.setFirmafk(true);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd - dane niezedytowane", "akordeon:form:msg");
@@ -224,7 +225,7 @@ public class PodatnikView implements Serializable {
     public void zmianaWysylkaZus(ValueChangeEvent el) {
         try {
             selected.setWysylkazusmail((Boolean) el.getNewValue());
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
@@ -234,7 +235,7 @@ public class PodatnikView implements Serializable {
      public void zmianaZus51(ValueChangeEvent el) {
         try {
             selected.setOdliczeniezus51((Boolean) el.getNewValue());
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
@@ -244,7 +245,7 @@ public class PodatnikView implements Serializable {
      public void zmianaZus52(ValueChangeEvent el) {
         try {
             selected.setOdliczeniezus52((Boolean) el.getNewValue());
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 
             Msg.msg("e", "Wystąpił błąd nie zmieniono parametrów rozliczania ZUS", "akordeon:form:msg");
@@ -258,7 +259,7 @@ public class PodatnikView implements Serializable {
             Matcher m = p.matcher((String) el.getNewValue());
             if (m.matches()) {
                 selected.setDatamalyzus((String) el.getNewValue());
-                podatnikDAO.edit(selected);
+                zachowajZmiany(selected);
                 Msg.msg("i", "Zmieniono parametry rozliczania ZUS", "akordeon:form:msg");
             } else {
                 Msg.msg("e", "Niprawidłowa data!", "akordeon:form:msg");
@@ -425,7 +426,7 @@ public class PodatnikView implements Serializable {
         parametr.setRokDo(parametr.getRokOd());
         lista.add(parametr);
         selected.setZawieszeniedzialalnosci(lista);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
         parametr = new Parametr();
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr zawieszenie działalności do podatnika.", selected.getNazwapelna());
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -436,7 +437,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getZawieszeniedzialalnosci());
         tmp.remove(tmp.size() - 1);
         selected.setZawieszeniedzialalnosci(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     private int sprawdzrok(Parametr nowe, List<Parametr> stare) {
@@ -493,7 +494,7 @@ public class PodatnikView implements Serializable {
         if (sprawdzvat(parametr, lista) == 0) {
             lista.add(parametr);
             selected.setVatokres(lista);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr VAT metoda do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -534,7 +535,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getVatokres());
         tmp.remove(tmp.size() - 1);
         selected.setVatokres(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     public void dodajzus() {
@@ -548,7 +549,7 @@ public class PodatnikView implements Serializable {
             sprawdzzus(tmp);
             tmp.add(zusstawki);
             selected.setZusparametr(tmp);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr ZUS do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) { E.e(e); 
@@ -582,7 +583,7 @@ public class PodatnikView implements Serializable {
                 tmp.remove(zusstawki);
                 tmp.add(serialclone.SerialClone.clone(zusstawki));
                 selected.setZusparametr(tmp);
-                podatnikDAO.edit(selected);
+                zachowajZmiany(selected);
                 zusstawki =  new Zusstawki();
                 Msg.msg("Udana edycja stawek ZUS");
             } else {
@@ -598,7 +599,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getZusparametr());
         tmp.remove(loop);
         selected.setZusparametr(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
         FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Usunięto parametr ZUS do podatnika.", selected.getNazwapelna());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
@@ -650,7 +651,7 @@ public class PodatnikView implements Serializable {
         if (sprawdzrok(parametr, lista) == 0) {
             lista.add(parametr);
             selected.setRemanent(lista);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             parametr = new Parametr();
             Msg.msg("Dodatno parametr remanent do podatnika: "+selected.getNazwapelna());
         } else {
@@ -663,7 +664,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getRemanent());
         tmp.remove(tmp.size() - 1);
         selected.setRemanent(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     public void dodajkwoteautoryzujaca() {
@@ -680,7 +681,7 @@ public class PodatnikView implements Serializable {
             assert tmp.contains(",") : "Nie usuwa dobrze przecinka z kwota autoryzujaca!";
             lista.add(parametr);
             selected.setKwotaautoryzujaca(lista);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno parametr kwota autoryzująca do podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -695,7 +696,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getKwotaautoryzujaca());
         tmp.remove(tmp.size() - 1);
         selected.setKwotaautoryzujaca(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     public void dodajnrpkpir() {
@@ -712,7 +713,7 @@ public class PodatnikView implements Serializable {
             assert tmp.contains(",") : "Nie usuwa dobrze przecinka z npkpir!";
             lista.add(parametr);
             selected.setNumerpkpir(lista);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             parametr = new Parametr();
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno numer początkowy w pkpir dla podatnika.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -727,7 +728,7 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getNumerpkpir());
         tmp.remove(tmp.size() - 1);
         selected.setNumerpkpir(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
     
      public void dodajFKpiatki() {
@@ -740,7 +741,7 @@ public class PodatnikView implements Serializable {
         if (sprawdzrok(parametr, lista) == 0) {
             lista.add(parametr);
             selected.setFKpiatki(lista);
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             parametr = new Parametr();
             Msg.msg("Dodano ustawienie piątek");
         } else {
@@ -753,12 +754,12 @@ public class PodatnikView implements Serializable {
         tmp.addAll(selected.getFKpiatki());
         tmp.remove(tmp.size() - 1);
         selected.setFKpiatki(tmp);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     public void dodajpole47() {
         try {
-            podatnikDAO.edit(selected);
+            zachowajZmiany(selected);
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Dodatno udziały.", selected.getNazwapelna());
             FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e) { E.e(e); 
@@ -769,7 +770,7 @@ public class PodatnikView implements Serializable {
 
     public void usunpole47() {
         selected.setPole47(null);
-        podatnikDAO.edit(selected);
+        zachowajZmiany(selected);
     }
 
     public void dodajUdzialy() {
@@ -952,7 +953,7 @@ public class PodatnikView implements Serializable {
             }
             stratyzlatub.add(tmps);
             selectedStrata.setStratyzlatub1(stratyzlatub);
-            podatnikDAO.edit(selectedStrata);
+            zachowajZmiany(selectedStrata);
             stratarok = "";
             stratakwota = "";
             strata50 = "";
@@ -970,7 +971,7 @@ public class PodatnikView implements Serializable {
             stratyzlatub = selectedStrata.getStratyzlatub1();
             stratyzlatub.size();
             stratyzlatub.remove(loop);
-            podatnikDAO.edit(selectedStrata);
+            zachowajZmiany(selectedStrata);
             Msg.msg("i", "Usunieto stratę za rok " + loop.getRok(), "akordeon:form2:messages");
             RequestContext.getCurrentInstance().update("akordeon:form1");
         } catch (Exception e) { E.e(e); 
@@ -1036,7 +1037,7 @@ public class PodatnikView implements Serializable {
                 double biezace = Double.parseDouble(r.getSumabiezace());
                 r.setZostalo(String.valueOf(Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0));
             }
-            podatnikDAO.edit(selectedStrata);
+            zachowajZmiany(selectedStrata);
             return;
         } else {
             Msg.msg("i", "Poprzedni rok zakończył się zyskiem. Nie ma czego dopisać do listy.");
@@ -1100,7 +1101,7 @@ public class PodatnikView implements Serializable {
             double biezace = Double.parseDouble(r.getSumabiezace());
             r.setZostalo(String.valueOf(Math.round((kwota - uprzednio - biezace) * 100.0) / 100.0));
         }
-        podatnikDAO.edit(selectedStrata);
+        zachowajZmiany(selectedStrata);
         Msg.msg("i", "Ukończyłem rozliczanie strat");
     }
 
@@ -1184,6 +1185,12 @@ public class PodatnikView implements Serializable {
             Msg.msg("e", "Nie wybrano dokumentu");
         }
 
+    }
+    
+    private void zachowajZmiany(Podatnik p) {
+        p.setWprowadzil(wpisView.getWprowadzil());
+        p.setDatawprowadzenia(new Date());
+        podatnikDAO.edit(selected);
     }
     
     
@@ -1509,7 +1516,7 @@ public class PodatnikView implements Serializable {
                     }
                 }
             p.setUdzialy(null);
-            podatnikDAO.edit(p);
+            zachowajZmiany(p);
             }
         }
     }
