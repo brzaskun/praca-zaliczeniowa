@@ -635,6 +635,7 @@ public class DokfkView implements Serializable {
         if (selected.getNumerwlasnydokfk() == null || selected.getNumerwlasnydokfk().isEmpty()) {
             komunikatywpisdok = "Brak numeru własnego dokumentu. Nie można zapisać dokumentu.";
             RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
+        } else if (ObslugaWiersza.sprawdzSumyWierszy(selected)) {
             if (selected.getRodzajedok().getKategoriadokumentu() == 0) {
                 int index = selected.getListawierszy().size() - 1;
                 rozliczsaldoWBRK(index);
