@@ -35,7 +35,7 @@
                     <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
                         <h:outputText value="login"/>
                         <h:inputText value="#{UzView.login}" required="true" requiredMessage="Wpisz login!" autocomplete="true"/>
-                        <h:outputText value="hasło"/>
+                        <h:outputText value="nowe hasło"/>
                         <h:inputSecret id="haslo" value="#{UzView.firstPassword}" required="true" requiredMessage="Wpisz hasło!" autocomplete="true">
                             <f:validateLength minimum="6"/>
                         </h:inputSecret>
@@ -45,7 +45,7 @@
                         </h:inputSecret>
                     </p:panelGrid>
                     <br/>
-                    <p:commandButton value="Zrejestruj" action="#{UzView.dodajnowe()}" ajax="false"/>
+                    <p:commandButton value="Potwierdź" action="#{UzView.dodajnowe()}" ajax="false"/>
                 </p:panel>
             </h:form>
     </h:body>

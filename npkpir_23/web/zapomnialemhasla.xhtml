@@ -21,7 +21,7 @@
             
             <h:form id="formlog0">
                 <p:panelGrid columns="3" style="margin-top: 5px; margin-left: auto; margin-right: auto; width: 400px; border-style: hidden !important;">
-                    <div style="height: 100px;">
+                    <div style="height: 200px;">
                         <p:messages id="logowanie"  autoUpdate="true"/>
                     </div>
                    <p:column >
@@ -36,7 +36,6 @@
                 </p:panelGrid>
             </h:form>
             <h:form id="formlog1">
-                <bcf:ajaxs/>
                 <p:panel style="text-align: center; margin-left: auto; margin-right: auto;  width: 450px">
                         <h:outputLabel value="Prosze wpisać w pole poniżej swój login uzytkownika. Nowe hasło zostanie wysłane na adres mailowy podany przy rejestracji"/>
                     <p:focus id="focus" context="logowaniepanel"/>
@@ -46,7 +45,7 @@
                     </p:panelGrid>
                     <br/>
                     <p:panelGrid columns="1" style="text-align: center; margin-left: auto; margin-right: auto;">
-                        <p:commandButton value="Resetuj" action="#{resetHasla.reset()}" update=":formlog1:logowanie" ajax="false" style="width: 120px;"/>
+                        <p:commandButton value="Resetuj" actionListener="#{resetHasla.reset}" update=":formlog0:logowanie" style="width: 120px;"/>
                     </p:panelGrid>
                 </p:panel>
             </h:form>
