@@ -12,14 +12,14 @@
         <h:form id="formtransakcjawybor">
             <p:panelGrid id="transakcjawyborgrid" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;" >
                 <p:focus for="transakcjawybormenu">
-                    <h:selectOneMenu id="transakcjawybormenu" value="#{dokfkView.rachunekCzyPlatnosc}" style="width: 120px;"
+                    <h:selectOneMenu id="transakcjawybormenu" value="#{dokfkView.rachunekCzyPlatnosc}" style="width: 140px;"
                                      styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
                                      onfocus="$(this).addClass('ui-state-focus');"
                                      onblur="$(this).removeClass('ui-state-focus');">
                         <f:selectItem itemLabel="płatność" itemValue="płatność"/>
                         <f:selectItem itemLabel="rachunek" itemValue="rachunek"/>
                     </h:selectOneMenu>
-                    <p:commandButton value="ok" type="submit" oncomplete="pokazwybortransakcjidialog();PF('transakcjawybor').hide();"
+                    <p:commandButton value="ok" type="submit" oncomplete="pokazwybortransakcjidialog();PF('transakcjawybor').hide();" style="width: 80px; margin-left: 10px;"
                                      actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" update=":parametry, :formwpisdokument:dataList"/>
                 </p:focus>
             </p:panelGrid>
