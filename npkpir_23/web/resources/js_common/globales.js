@@ -23,6 +23,35 @@ var zrobFloat = function (kwota){
  var rj = function (pole) {
      return document.getElementById(pole);
  };
+ /**
+ * Oblicza numer wiersza w tabeli
+ * @param {Object} obiekt
+ * @param {String} nazwa obiektu
+ * @return {Number} numer wiersza
+ */
+ var lp = function (objekt) {
+    var zwrot = null;
+    if (typeof objekt === "object") {
+        var nazwapola = objekt.id;
+        zwrot = wydlub(nazwapola);
+    }
+    if (typeof objekt === "string") {
+        zwrot = wydlub(objekt);
+    }
+    if (isNaN(zwrot)) {
+        zwrot = null;
+    }
+    return zwrot;
+ };
+ 
+ var wydlub = function (wyrazenie) {
+    var zwrot = null;
+    try {
+        zwrot = wyrazenie.match(/\d+/)[0];
+    } catch (e) {
+    }
+    return zwrot;
+};
  
  var usunspacje = function (polezespacja) {
     try {

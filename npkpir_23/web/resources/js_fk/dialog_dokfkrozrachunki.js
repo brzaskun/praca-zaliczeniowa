@@ -4,6 +4,7 @@ var rozrachunkiOnShow = function () {
     ustawdialog('dialogdrugi', 'menudokumenty');
     var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());
     MYAPP.limit = limit;
+    MYAPP.podswietlone = new Array();
     doklejsumowaniewprowadzonych();
     $(document.getElementById("wpisywaniefooter:wnlubma")).val(null);
     $(document.getElementById("wpisywaniefooter:wierszid")).val(null);
@@ -159,6 +160,7 @@ var znadzpasujacepolerozrachunku2 = function (kwota) {
 //wykonuje czynnosci podczas zamykania dialogu z rozrachunkami
 var rozrachunkiOnHide = function () {
     resetujdialog('dialogdrugi');
+    delete MYAPP.podswietlone;
     try {
         powrotdopolaPoNaniesieniuRozrachunkow();
     } catch (e) {
@@ -178,7 +180,7 @@ var doklejsumowaniewprowadzonych = function () {
             r("rozrachunki:zapiszrozrachunekButton").show();
             $(this).css("color", "black");
             $(this).css("font-weight", "normal");
-            var numerwiersza = ($(this).attr('id').split(":"))[2];
+            var numerwiersza = lp(this);
             var wszystkiewiersze = $("#rozrachunki\\:dataList").find(".kwotarozrachunku");
             var iloscpozycji = wszystkiewiersze.length;
             if (wprowadzonowpole === "") {
@@ -261,25 +263,19 @@ var doklejsumowaniewprowadzonych = function () {
             $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
             $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna - wprowadzono));
             MYAPP.limit = (kwotapierwotna - wprowadzono).round(2);
-            for (var i = 0; i < iloscpozycji; i = i + 2) {
-                if (MYAPP.limit < 0) {
-                    $(wszystkiewiersze[i]).css("font-weight", "900");
-                    $(wszystkiewiersze[i]).css("color", "red");
-                    $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");
-                    $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "red");
-                    r("rozrachunki:zapiszrozrachunekButton").hide();
-                } else {
-                    $(wszystkiewiersze[i]).css("font-weight", "600");
-                    $(wszystkiewiersze[i]).css("color", "black");
-                    $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "600");
-                    $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
-                    //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
-                    if (_jednak_nie_odslaniaj === false) {
-                        r("rozrachunki:zapiszrozrachunekButton").show();
-                    }
+            if (MYAPP.limit < 0) {
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "red");
+                r("rozrachunki:zapiszrozrachunekButton").hide();
+            } else {
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "600");
+                $(document.getElementById(wierszTransakcjaRozliczajaca)).css("color", "black");
+                //inaczej odslania button zapisu nawet jak kwota wprowadzona jest wieksza od tej po prawej
+                if (_jednak_nie_odslaniaj === false) {
+                    r("rozrachunki:zapiszrozrachunekButton").show();
                 }
             }
-            if (MYAPP.limit === 0.0 && event.keyCode === 13) {
+            if (MYAPP.limit === 0.0) {
                 r("rozrachunki:zapiszrozrachunekButton").focus();
                 r("rozrachunki:zapiszrozrachunekButton").select();
             }
@@ -527,5 +523,6 @@ var zablokujwierszereadonly = function () {
     }
 
 };
+
 
 

@@ -36,7 +36,7 @@
 
         <h:form id="rozrachunki"  >
             <div style="height: 640px;" >
-                <p:panelGrid id="paneledycji" columns="8" style="width: 1200px;" >
+                <p:panelGrid id="paneledycji" columns="8" style="width: 1200px; height: 70px;" >
                     <h:outputText value="nr dokumentu: "/>
                     <h:outputText value="#{dokfkView.aktualnyWierszDlaRozrachunkow.dokfkS}" 
                                   style="font-weight: bold;"/>
@@ -83,13 +83,15 @@
                 <p:panel rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.typStronaWiersza != 0}" >
                     <p:dataTable id="dataList" value="#{dokfkView.biezacetransakcje}" var="loop" rowIndexVar="row" style="width: 1200px; padding: 10px; " 
                                  emptyMessage="Nie ma transakcji rozliczających zapisy na tym koncie" styleClass="rozrachunkidatalist" widgetVar="rozrachunkiKsiega"
-                                 scrollRows="22" scrollable="true" scrollHeight="400" 
+                                 scrollRows="22" scrollable="true" scrollHeight="450" 
                                  >
+                        <p:ajax event="sort" oncomplete="doklejsumowaniewprowadzonych();" global="false"/>
+                        <p:ajax event="filter" oncomplete="doklejsumowaniewprowadzonych();"  global="false"/>
                         <f:facet name="header">
                             <h:outputText value="Zestawienie rozliczających/rozliczanych dokumentów - wyszukiwanie "/>
                             <!--                                <p:inputText id="globalFilter" onkeyup="PF('rozrachunkiKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  -->
                         </f:facet>
-                        <p:ajax event="filter" global="false"/>
+                        
                         <p:column headerText="kwota rozlicz. - bieżący dok." width="70" >
                             <pe:inputNumber id="kwotarozliczenia" value="#{loop.kwotatransakcji}" symbolPosition="s" decimalSeparator="." thousandSeparator=" " style="text-align: right; margin-left: 5px; width: 60px;"
                                             decimalPlaces="2" minValue="-10000000" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" styleClass="kwotarozrachunku">
@@ -99,7 +101,7 @@
                                 <f:convertNumber minFractionDigits="2" locale="PL" />
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" 
+                        <p:column headerText="nr własny dokumentu" width="90" filterBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" filterMatchMode="contains"
                                   sortBy="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}">
                             <h:outputText id="nrwlasnydokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.numerwlasnydokfk}" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
                             <h:outputText id="nrwlasnydokMa" value="#{loop.rozliczajacy.wiersz.dokfk.numerwlasnydokfk}" rendered="#{dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}" style="width: 80px;"/>
@@ -122,7 +124,7 @@
                             <h:outputText id="opiswierszaBO" value="#{loop.nowaTransakcja.opisBO.length() > 40 ? loop.nowaTransakcja.opisBO.substring(0,39) : loop.nowaTransakcja.opisBO}"  
                                           style="font-size: x-small; width: 130px;" rendered="#{loop.nowaTransakcja.wiersz eq null}"/>
                         </p:column>
-                        <p:column headerText="symbol" width="40" style="text-align: center;"  styleClass="symbolrozrachunku"
+                        <p:column headerText="symbol" width="40" style="text-align: left;"  styleClass="symbolrozrachunku"
                                   filterBy="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}">
                             <h:outputText id="symboldokWn" value="#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.seriadokfk}/#{loop.nowaTransakcja.wiersz.dokfk.dokfkPK.nrkolejnywserii}"
                                           style="width: 60px;" rendered="#{!dokfkView.aktualnyWierszDlaRozrachunkow.nowatransakcja}"/>
