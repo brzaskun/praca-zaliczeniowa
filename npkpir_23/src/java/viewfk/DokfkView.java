@@ -218,6 +218,8 @@ public class DokfkView implements Serializable {
         this.dokumentypodatnika = new ArrayList<>();
     }
 
+    
+    //to zostaje bo tu i tak nie pobiera dokumentow
     @PostConstruct
     private void init() {
         try {

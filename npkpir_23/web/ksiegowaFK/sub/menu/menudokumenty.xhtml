@@ -27,8 +27,10 @@
             <h:form id="dialog1menu2">
                 <p:menu id="d1m2" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
                     <p:menuitem value="wpisywanie" oncomplete="PF('wpisywanie').show();" actionListener="#{dokfkView.resetujDokument}" global="false"></p:menuitem>
-                    <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
-                    <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" global="false"></p:menuitem>
+                    <p:menuitem value="przeglądanie zakięgowanych" oncomplete="PF('zestawieniezaksiegowanych').show();" 
+                                actionListener="#{dokfkView.odswiezzaksiegowaneInit}" update=":zestawieniedokumentow:dataList"></p:menuitem>
+                    <p:menuitem value="wiersze w dokumentach" onclick="PF('zapisywdokumentach').show();" 
+                                actionListener="#{wierszeView.init}" update=":zestawieniezapisownakontach, :zestawieniezapisownakontach_footer" global="false"></p:menuitem>
                     <p:menuitem value="#{mgs.zestawienia}"  outcome="guestbilansFK" icon="ui-icon-circle-arrow-e" oncomplete="$('#akordeon\\:symulacjawyniku').click();"/>
                     <p:menuitem value="wierszeWDT" onclick="PF('zapisywdokumentachWDT').show();" global="false"></p:menuitem>
                     <p:menuitem value="wierszeWNT" onclick="PF('zapisywdokumentachWNT').show();" global="false"></p:menuitem>
