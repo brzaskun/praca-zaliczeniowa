@@ -14,6 +14,7 @@ import entity.Klienci;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
 import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
@@ -24,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 import waluty.Z;
 
@@ -285,6 +287,21 @@ public class DokFKBean {
         return kwota;
     }
 
-    
+
+    public static void obsluzWstawKontoWBRK(StronaWiersza wybranastronawiersza, Konto kontorozrachunkowe, int lpWierszaWpisywanie) {
+        String wn = "formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontown";
+        String ma = "formwpisdokument:dataList:" + lpWierszaWpisywanie + ":kontoma";
+        Wiersz w = wybranastronawiersza.getWiersz();
+        if (w.getTypWiersza() == 0) {
+            if (kontorozrachunkowe != null && wybranastronawiersza.getDrugaStrona() != null) {
+                wybranastronawiersza.getDrugaStrona().setKonto(kontorozrachunkowe);
+                if (wybranastronawiersza.isWn()) {
+                    RequestContext.getCurrentInstance().update(ma);
+                } else {
+                    RequestContext.getCurrentInstance().update(wn);
+                }
+            }
+        }
+    }
 
 }

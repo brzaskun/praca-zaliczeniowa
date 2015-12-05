@@ -106,40 +106,30 @@ public class DokFKTransakcjeBean implements Serializable{
     
     public static List<StronaWiersza> pobierzStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
         List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
-        for (Wiersz p : wiersze) {
-            if (wnma.equals("Wn")) {
-                if (p.getTypWiersza()==2 || p.getTypWiersza()==0) {
+        if (wnma.equals("Wn")) {
+            for (Wiersz p : wiersze) {
+                StronaWiersza r = null;
+                if (p.getTypWiersza() == 2 || p.getTypWiersza() == 0) {
                     if (p.getStronaMa().getKonto() != null) {
-                        listaNowychRozrachunkowDokument.add(p.getStronaMa());
+                        r = p.getStronaMa();
                     }
+                } else if (p.getTypWiersza() == 1 && p.getStronaWn().getKwota() < 0) {
+                    r = p.getStronaWn();
                 }
-                if (p.getTypWiersza()==1 && p.getStronaWn().getKwota() < 0) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
-                }
-            } else if (wnma.equals("Ma")){
-                if (p.getTypWiersza()==1 || p.getTypWiersza()==0) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
-                }
-                if (p.getTypWiersza()==2 && p.getStronaMa().getKwota() < 0) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaMa());
+                if (r != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1 && r.getPozostalo() !=0.0) {
+                    listaNowychRozrachunkowDokument.add(r);
                 }
             }
-        }
-        if (!listaNowychRozrachunkowDokument.isEmpty()) {
-            Iterator it = listaNowychRozrachunkowDokument.iterator();
-            while (it.hasNext()) {
-                StronaWiersza r = (StronaWiersza) it.next();
-                try {
-                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
-                        it.remove();
-                    }
-                } catch (Exception ff) {
+        } else if (wnma.equals("Ma")) {
+            for (Wiersz p : wiersze) {
+                StronaWiersza r = null;
+                if (p.getTypWiersza() == 1 || p.getTypWiersza() == 0) {
+                    r = p.getStronaWn();
+                } else if (p.getTypWiersza() == 2 && p.getStronaMa().getKwota() < 0) {
+                    r = p.getStronaMa();
                 }
-                try {
-                   if (r.getPozostalo()==0.0) {
-                       it.remove();
-                   }
-                } catch (Exception ff1) {
+                if (r != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1 && r.getPozostalo() !=0.0) {
+                    listaNowychRozrachunkowDokument.add(r);
                 }
             }
         }
@@ -147,37 +137,30 @@ public class DokFKTransakcjeBean implements Serializable{
         //pobrano wiersze - a teraz z nich robie rozrachunki
     }
     
-    public static List<StronaWiersza> pobierzZapisaneWBazieStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
-        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
-        for (Wiersz p : wiersze) {
-            if (wnma.equals("Wn")) {
-                if (p.getIdwiersza() != null && p.getStronaMa().getKonto() != null) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaMa());
-                }
-            } else if (wnma.equals("Ma")){
-                if (p.getIdwiersza() != null) {
-                    listaNowychRozrachunkowDokument.add(p.getStronaWn());
-                }
-            }
-        }
-        if (!listaNowychRozrachunkowDokument.isEmpty()) {
-            Iterator it = listaNowychRozrachunkowDokument.iterator();
-            while (it.hasNext()) {
-                StronaWiersza r = (StronaWiersza) it.next();
-                if (r.getId()== null) {
-                    it.remove();
-                } 
-                try {
-                    if (!r.getKonto().getPelnynumer().equals(nrkonta) || r.getTypStronaWiersza() != 1) {
-                        it.remove();
-                    }
-                } catch (Exception ff) {
-                }
-            }
-        }
-        return listaNowychRozrachunkowDokument;
-        //pobrano wiersze - a teraz z nich robie rozrachunki
-    }
+//    public static List<StronaWiersza> pobierzZapisaneWBazieStronaWierszazDokumentu(String nrkonta, String wnma, String waluta,List<Wiersz> wiersze) {
+//        List<StronaWiersza> listaNowychRozrachunkowDokument = new ArrayList<>();
+//        if (wnma.equals("Wn")) {
+//            for (Wiersz p : wiersze) {
+//                if (p.getIdwiersza() != null && p.getStronaMa().getKonto() != null) {
+//                    StronaWiersza r = p.getStronaMa();
+//                    if (r.getId() != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1) {
+//                        listaNowychRozrachunkowDokument.add(r);
+//                    }
+//                }
+//            }
+//        } else if (wnma.equals("Ma")) {
+//            for (Wiersz p : wiersze) {
+//                if (p.getIdwiersza() != null) {
+//                    StronaWiersza r = p.getStronaWn();
+//                    if (r.getId() != null && r.getKonto().getPelnynumer().equals(nrkonta) && r.getTypStronaWiersza() == 1) {
+//                        listaNowychRozrachunkowDokument.add(r);
+//                    }
+//                }
+//            }
+//        }
+//        return listaNowychRozrachunkowDokument;
+//        //pobrano wiersze - a teraz z nich robie rozrachunki
+//    }
     
     public static List<Transakcja> stworznowetransakcjezeZapisanychStronWierszy(List<StronaWiersza> pobranezDokumentu, List<StronaWiersza> inneStronaWierszazBazy, StronaWiersza aktualnywierszdorozrachunkow, String podatnik) {
         //sprawdzam, czy transakcje z bazy nie sa d okumnecie, a poniewaz te w dokumencie sa bardziej aktualne to usuwamy duplikaty z bazy

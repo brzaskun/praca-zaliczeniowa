@@ -477,6 +477,10 @@ public class ObslugaWiersza {
         int lpmacierzystego = wiersz.getLpmacierzystego() > 0 ? wiersz.getLpmacierzystego() : wiersz.getIdporzadkowy();
         Wiersz wierszNowy = WierszFaktory(selected, typwiersza, roznica, lpmacierzystego);
         if (przenumeruj == false) {
+            if (selected.getRodzajedok().getKontorozrachunkowe() != null && selected.getRodzajedok().getKategoriadokumentu() == 0) {
+                wierszNowy.getStronaWn().setKonto(selected.getRodzajedok().getKontorozrachunkowe());
+                wierszNowy.getStronaMa().setKonto(selected.getRodzajedok().getKontorozrachunkowe());
+            }
             selected.getListawierszy().add(wierszNowy);
         } else {
             ObslugaWiersza.dodajiPrzenumerujWiersze(selected, wierszNowy, lpmacierzystego);

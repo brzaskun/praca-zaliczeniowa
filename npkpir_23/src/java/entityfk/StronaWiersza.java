@@ -557,6 +557,18 @@ public class StronaWiersza implements Serializable{
         return symbol;
     }
     
+    public StronaWiersza getDrugaStrona() {
+        Wiersz w = this.getWiersz();
+        if (this.wnma.equals("Wn")) {
+            return w.getStronaMa();
+        } else {
+            return w.getStronaWn();
+        }
+    }
+    
+    public boolean isWn() {
+        return this.wnma.equals("Wn");
+    }
     
     
     
