@@ -81,8 +81,8 @@ public class KontoZapisFKView implements Serializable{
         listasum.add(l);
     }
     
-    @PostConstruct
-    private void init() {
+
+    public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         zapisyRok = pobierzzapisy();
         if (wykazkont != null) {
@@ -119,6 +119,37 @@ public class KontoZapisFKView implements Serializable{
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
         Konto konto = null;
+        try {
+            wybranekontadosumowania = new ArrayList<>();
+            wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
+            kontozapisy = new ArrayList<>();
+            List<Konto> kontapotomnetmp = new ArrayList<>();
+            List<Konto> kontapotomneListaOstateczna = new ArrayList<>();
+            kontapotomnetmp.add(wybranekonto);
+            pobierzKontaPotomne(kontapotomnetmp, kontapotomneListaOstateczna, wykazkont);
+            int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
+            int granicaGorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacDo());
+            for (StronaWiersza r : zapisyRok) {
+                if (kontapotomneListaOstateczna.contains(r.getKonto())) {
+                    int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
+                    if (mc >= granicaDolna && mc <=granicaGorna) {
+                        kontozapisy.add(r);
+                    }
+                }
+            }
+            sumazapisow();
+            sumazapisowpln();
+            //wybranekontoNode = (TreeNodeExtended<Konto>) odnajdzNode(wybranekonto);
+            System.out.println("odnalazlem pobierzZapisyNaKoncieNode() KontoZapisFKView");
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void pobierzZapisyNaKoncieNodeRozrachunki(Konto wybraneKontoNode) {
+        if (wykazkont == null) {
+            init();
+        }
         try {
             wybranekontadosumowania = new ArrayList<>();
             wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);

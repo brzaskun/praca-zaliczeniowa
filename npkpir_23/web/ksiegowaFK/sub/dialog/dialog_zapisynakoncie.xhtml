@@ -180,7 +180,7 @@
                             <h:outputText value="#{loop.dokfk.kontr.npelna}"/>
                         </p:column>
                         <p:column headerText="#{mgs.opis}" width="100" sortBy="#{loop.wiersz.opisWiersza}">
-                            <h:outputText value="#{loop.wiersz.opisWiersza}"/>
+                            <h:outputText value="#{loop.wiersz.opisWiersza}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                         </p:column>
                         <p:column headerText="kurs" width="30" sortBy="#{loop.wiersz.tabelanbp.kurssredni}" rendered="#{kontoZapisFKView.wybranaWalutaDlaKont != 'PLN'}">
                             <h:outputText value="#{loop.wiersz.tabelanbp.kurssredni}" rendered="#{loop.wiersz.tabelanbp.kurssredni > 0.0}" style="float: right;">

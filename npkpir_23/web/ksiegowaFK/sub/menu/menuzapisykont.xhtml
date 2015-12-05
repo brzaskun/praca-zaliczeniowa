@@ -9,15 +9,18 @@
                 <p:tab title="konta indywidualne">
                     <h:form id="dialog1menu1">
                         <p:menu id="d1m1" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                            <p:menuitem value="Obroty konta" onclick="PF('obrotynakoncie').show();"></p:menuitem>
-                            <p:menuitem value="Zapisy na koncie" onclick="PF('zapisynakoncie').show();" ></p:menuitem>
+                            <p:menuitem value="Obroty konta" onclick="PF('obrotynakoncie').show();"
+                                        actionListener="#{kontoObrotyFKView.init}" update="@(form)"></p:menuitem>
+                            <p:menuitem value="Zapisy na koncie" onclick="PF('zapisynakoncie').show();" 
+                                        actionListener="#{kontoZapisFKView.init}" update="@(form)"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>
                 <p:tab title="rozrachunki">
                     <h:form id="dialog1menu11">
                         <p:menu id="d1m11" styleClass="d1m" style="width: 400px; text-align: center; height: 450px;">
-                             <p:menuitem value="Rozrachunki wg kont" onclick="PF('rozrachunkiPrzeglad').show();"></p:menuitem>
+                             <p:menuitem value="Rozrachunki wg kont" onclick="PF('rozrachunkiPrzeglad').show();"
+                                         actionListener="#{rozrachunkiPrzegladView.init}" update="@(form)"></p:menuitem>
                         </p:menu>
                     </h:form>
                 </p:tab>  

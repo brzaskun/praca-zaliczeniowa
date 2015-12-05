@@ -38,6 +38,11 @@ var zachowajnumerwiersza = function(zmienna ,numer, tabela) {
             MYAPP.tabela = "formtablicaanalityczne:tablicasaldaanalityczne";
             MYAPP.zmienna = "zmiennatablicaanalityczne";
             MYAPP.wyliczaj = false;
+        } else if (MYAPP.sourceid === "form1:dataList_data") {
+            MYAPP.tabeladata = "form1:dataList_data";
+            MYAPP.tabela = "form1:dataList";
+            MYAPP.zmienna = "zmiennarozrachunki";
+            MYAPP.wyliczaj = false;
         }
 };
 

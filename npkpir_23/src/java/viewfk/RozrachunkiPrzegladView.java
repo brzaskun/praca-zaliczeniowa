@@ -40,7 +40,7 @@ import view.WpisView;
 public class RozrachunkiPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     
-    private List<Konto> listaKontRozrachunkowych;
+    private List<Konto> wykazkont;
     //private List<RozrachunkiTransakcje> listaRozrachunkow;
     private List<StronaWiersza> stronyWiersza;
     private List<StronaWiersza> stronyWierszawybrane;
@@ -49,8 +49,6 @@ public class RozrachunkiPrzegladView implements Serializable{
     @Inject private Konto wybranekonto;
     @Inject private TransakcjaDAO transakcjaDAO;
     //@Inject private RozrachunekfkDAO rozrachunekfkDAO;
-    private TreeNodeExtended<Konto> root;
-    @Inject private TreeNodeExtended<Konto> wybranekontoNode;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{kontoZapisFKView}")
@@ -62,7 +60,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     private double sumapl;
 
     public RozrachunkiPrzegladView() {
-        listaKontRozrachunkowych = new ArrayList<>();
+        wykazkont = new ArrayList<>();
         //listaRozrachunkow = new ArrayList<>();
         stronyWiersza = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";
@@ -70,31 +68,21 @@ public class RozrachunkiPrzegladView implements Serializable{
         wybranyRodzajTransakcji = "transakcje";
     }
     
-    @PostConstruct
-    private void init() {
-        listaKontRozrachunkowych.addAll(kontoDAOfk.findKontaRozrachunkoweWszystkie(wpisView));
-        zweryfikujobecnosczapisow();
-        if (listaKontRozrachunkowych != null && listaKontRozrachunkowych.isEmpty()==false) {
-            wybranekonto = listaKontRozrachunkowych.get(0);
-            root = rootInit(listaKontRozrachunkowych);
+    
+    public void init() {
+        wykazkont = new ArrayList<>();
+        //listaRozrachunkow = new ArrayList<>();
+        stronyWiersza = new ArrayList<>();
+        wybranaWalutaDlaKont = "wszystkie";
+        coWyswietlacRozrachunkiPrzeglad = "nowe";
+        wybranyRodzajTransakcji = "transakcje";
+        wykazkont = stronaWierszaDAO.findKontoByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        if (wykazkont != null && wykazkont.isEmpty()==false) {
+            wybranekonto = wykazkont.get(0);
         }
     }
 
-    private void zweryfikujobecnosczapisow() {
-        List<StronaWiersza> wierszezzapisami = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        Set<Konto> zawartekontawzapisach = new HashSet<>();
-        for (StronaWiersza p : wierszezzapisami) {
-            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                zawartekontawzapisach.add(p.getKonto());
-            }
-        }
-        for (Iterator<Konto> it = listaKontRozrachunkowych.iterator(); it.hasNext(); ) {
-                Konto p = it.next();
-                if (p.isMapotomkow() == false && !zawartekontawzapisach.contains(p)) {
-                    it.remove();
-                }
-        }
-    }
+   
     
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
@@ -109,10 +97,9 @@ public class RozrachunkiPrzegladView implements Serializable{
          pobierzZapisyZmianaWaluty();
     }
     
-    public void pobierzZapisyNaKoncieNode(NodeSelectEvent event) {
+    public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
         stronyWiersza = new ArrayList<>();
-        TreeNodeExtended<Konto> node = (TreeNodeExtended<Konto>) event.getTreeNode();
-        wybranekonto = (Konto) node.getData();
+        wybranekonto = serialclone.SerialClone.clone(wybraneKontoNode);
         if (wybranyRodzajTransakcji.equals("transakcje")) {
             if (wybranaWalutaDlaKont.equals("wszystkie")) {
                 stronyWiersza = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkieNT(wpisView.getPodatnikObiekt(), wybranekonto, wpisView.getRokWpisuSt());
@@ -183,7 +170,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         
     private void wykonczrozachunki() {
         filtrrozrachunkow();
-        kontoZapisFKView.pobierzZapisyNaKoncieNode(wybranekonto);
+        kontoZapisFKView.pobierzZapisyNaKoncieNodeRozrachunki(wybranekonto);
         kontoZapisFKView.setWybranekonto(wybranekonto);
         RequestContext.getCurrentInstance().update("paseknorth");
         RequestContext.getCurrentInstance().update("tabelazzapisami");
@@ -306,7 +293,7 @@ public class RozrachunkiPrzegladView implements Serializable{
          try{
              String q = query.substring(0,1);
              int i = Integer.parseInt(q);
-             for(Konto p : listaKontRozrachunkowych) {
+             for(Konto p : wykazkont) {
                  if(query.length()==4&&!query.contains("-")){
                      //wstawia - do ciagu konta
                      query = query.substring(0,3)+"-"+query.substring(3,4);
@@ -316,7 +303,7 @@ public class RozrachunkiPrzegladView implements Serializable{
                  }
              }
          } catch (Exception e){
-             for(Konto p : listaKontRozrachunkowych) {
+             for(Konto p : wykazkont) {
                  if(p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
                      results.add(p);
                  }
@@ -374,12 +361,12 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.wpisView = wpisView;
     }
     
-    public List<Konto> getListaKontRozrachunkowych() {
-        return listaKontRozrachunkowych;
+    public List<Konto> getWykazkont() {
+        return wykazkont;
     }
 
-    public void setListaKontRozrachunkowych(List<Konto> listaKontRozrachunkowych) {
-        this.listaKontRozrachunkowych = listaKontRozrachunkowych;
+    public void setWykazkont(List<Konto> wykazkont) {
+        this.wykazkont = wykazkont;
     }
 
     public List<StronaWiersza> getStronyWiersza() {
@@ -390,23 +377,6 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.stronyWiersza = stronyWiersza;
     }
 
-    
-
-    public TreeNodeExtended<Konto> getRoot() {
-        return root;
-    }
-
-    public void setRoot(TreeNodeExtended<Konto> root) {
-        this.root = root;
-    }
-
-    public TreeNodeExtended<Konto> getWybranekontoNode() {
-        return wybranekontoNode;
-    }
-
-    public void setWybranekontoNode(TreeNodeExtended<Konto> wybranekontoNode) {
-        this.wybranekontoNode = wybranekontoNode;
-    }
 
     public Konto getWybranekonto() {
         return wybranekonto;
@@ -472,8 +442,7 @@ public class RozrachunkiPrzegladView implements Serializable{
         this.wybranyRodzajTransakcji = wybranyRodzajTransakcji;
     }
 
-    
-    
+   
     
     
     
