@@ -11,6 +11,7 @@ import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import entityfk.Konto;
+import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
@@ -489,6 +490,19 @@ public class KontoZapisFKView implements Serializable{
             RequestContext.getCurrentInstance().execute(wydruk);
         } catch (Exception e) {  E.e(e);
 
+        }
+    }
+    
+    public void usunPozycjeRozliczone() {
+        try {
+            for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
+                if (it.next().getPozostalo() == 0.0) {
+                    it.remove();
+                }
+            }
+            sumazapisowtotal();
+        } catch (Exception e) {  
+            E.e(e);
         }
     }
     
