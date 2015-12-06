@@ -496,7 +496,8 @@ public class KontoZapisFKView implements Serializable{
     public void usunPozycjeRozliczone() {
         try {
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
-                if (it.next().getPozostalo() == 0.0) {
+                StronaWiersza sw = it.next();
+                if (Z.z(sw.getPozostalo()) == 0.0) {
                     it.remove();
                 }
             }
