@@ -525,6 +525,8 @@ var pokazwybortransakcjidialog = function() {
         if (czywidzialne === "true"){
             PF('transakcjawybor').hide();
             setTimeout(PF('rozrachunki').show(), 1000);
+        } else {
+            setTimeout(PF('rozrachunki').show(), 1000);
         }
     } else if (typkonta === "1") {
         PF('transakcjawybor').hide();
