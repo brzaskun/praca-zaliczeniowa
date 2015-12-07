@@ -255,6 +255,7 @@ var doklejsumowaniewprowadzonych = function () {
             }
             //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
             var wprowadzono = 0;
+            //TU JEST SUMOWANIE
             for (var i = 0; i < iloscpozycji; i = i + 1) {
                 var wiersz = "rozrachunki:dataList:" + i + ":kwotarozliczenia_hinput";
                 wprowadzono += zrobFloat(r(wiersz).val());
@@ -262,6 +263,7 @@ var doklejsumowaniewprowadzonych = function () {
             var kwotapierwotna = zrobFloat($(document.getElementById('rozrachunki:dorozliczenia')).text());
             $(document.getElementById("rozrachunki:juzrozliczono")).text(zamien_na_waluta(wprowadzono));
             $(document.getElementById("rozrachunki:pozostalodorozliczenia")).text(zamien_na_waluta(kwotapierwotna - wprowadzono));
+            //
             MYAPP.limit = (kwotapierwotna - wprowadzono).round(2);
             if (MYAPP.limit < 0) {
                 $(document.getElementById(wierszTransakcjaRozliczajaca)).css("font-weight", "900");

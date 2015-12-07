@@ -472,7 +472,7 @@
                                             styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
                                                     usunspacje(this);
-                                                    pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});
+                                                    pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry, :wpisywaniefooter"/>
@@ -511,7 +511,7 @@
                                             styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                     usunspacje(this);
-                                                    pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy});
+                                                    pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
                                                     focusNowyWiersz();" 
                                             >
                                 <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry, :wpisywaniefooter"/>
@@ -595,7 +595,10 @@
                 <p:commandButton id="buttonusun" value="#{mgs.usun}" actionListener="#{dokfkView.usunWierszWDokumencie}" global="false"
                                  styleClass="fkbutton" style="width: 130px;" accesskey="u" update=":formwpisdokument" oncomplete="focusNaOstatnimWierszu();"/>
                 <p:commandButton id="uruchomrozrachunki" value="#{mgs.rozrachunki}" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
-                                 oncomplete="setTimeout(pokazwybortransakcji(), 1000);" accesskey="r" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
+                                 oncomplete="uruchomrozrachunki();" accesskey="r" update=":formcheckbox, :rozrachunki, :transakcjawybor"/>
+                <p:remoteCommand name="wybranoRachunekPlatnoscCD" actionListener="#{dokfkView.wybranoRachunekPlatnoscCD()}" 
+                                 update=":parametry, :formwpisdokument:dataList" 
+                                 oncomplete="pokazwybortransakcjidialog();"/>
                 <p:commandButton id="cechadokumentu" value="CechyD(v)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 
                                  onclick="PF('dialogCechyDokumentu').show();" accesskey="v" />
                 <p:commandButton id="cechazapisu" value="CechyZ(c)" styleClass="fkbutton" style="width: 130px; margin-left: 10px;" 

@@ -534,8 +534,10 @@ var pokazwybortransakcjidialog = function() {
     }
 };
 
-var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza) {
+var pobierznumergrupywierszy = function(lpmacierzystego, lpwiersza, typStronaWiersza) {
     try {
+        MYAPP.typStronaWiersza = typStronaWiersza;
+        console.log("typStronaWiersza "+typStronaWiersza);
         var dotychczasowagrupa;
         var nrgr = (lpmacierzystego === 0 ? lpwiersza : lpmacierzystego);
         if (MYAPP.hasOwnProperty("nrgrupywierszy")) {
@@ -782,5 +784,14 @@ var zaznaczpoledaty = function(pole) {
     var trescpola = $(pole).val();
     if (trescpola === "błędna data") {
         $(pole).select();
+    }
+};
+
+var uruchomrozrachunki = function() {
+    if (MYAPP.typStronaWiersza === 0) {
+        setTimeout(pokazwybortransakcji(), 1000);
+    } else {
+        console.log("sa rozliczenia");
+        wybranoRachunekPlatnoscCD();
     }
 };
