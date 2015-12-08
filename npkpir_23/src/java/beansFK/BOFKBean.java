@@ -24,6 +24,19 @@ import view.WpisView;
 @Named
 @Stateless
 public class BOFKBean {
+    
+    public static List<StronaWiersza> pobierzZapisyBO(WierszBODAO wierszBODAO, WpisView wpisView) {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (WierszBO p : wierszeBO) {
+            if (p.getKwotaWnPLN() > 0) {
+                zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
+            } else {
+                zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
+            }
+        }
+        return zapisy;
+    }
 
     public static List<StronaWiersza> pobierzZapisyBO(Konto konto, WierszBODAO wierszBODAO, WpisView wpisView) {
         List<StronaWiersza> zapisy = new ArrayList<>();

@@ -53,7 +53,8 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-       listaSaldoKonto = przygotowanalistasald(kontaklienta);
+       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
+       listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO);
     }
     
     public void odswiezsaldoanalityczne() {
@@ -61,7 +62,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
          init();
     }
     
-     private List<SaldoKontoNarastajaco> przygotowanalistasald(List<Konto> kontaklienta) {
+     private List<SaldoKontoNarastajaco> przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKontoNarastajaco> przygotowanalista = new ArrayList<>();
         int licznik = 0;
@@ -69,7 +70,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             SaldoKontoNarastajaco saldoKontoNarastajaco = new SaldoKontoNarastajaco();
             saldoKontoNarastajaco.setId(licznik++);
             saldoKontoNarastajaco.setKonto(p);
-            naniesBOnaKonto(saldoKontoNarastajaco, p);
+            naniesBOnaKonto(saldoKontoNarastajaco, p, zapisyBO);
             naniesZapisyNaKonto(saldoKontoNarastajaco, p, zapisyRok);
             saldoKontoNarastajaco.sumujBOZapisy();
             saldoKontoNarastajaco.wyliczSaldo();
@@ -105,13 +106,14 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
      }
 //</editor-fold>
 
-    private void naniesBOnaKonto(SaldoKontoNarastajaco saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
-        for (StronaWiersza r : zapisyBO) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
+    private void naniesBOnaKonto(SaldoKontoNarastajaco saldoKonto, Konto p, List<StronaWiersza> zapisyBO) {
+         for (StronaWiersza r : zapisyBO) {
+            if (r.getKonto().equals(p)) {
+                if (r.getWnma().equals("Wn")) {
+                    saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
+                } else {
+                    saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
+                }
             }
         }
     }

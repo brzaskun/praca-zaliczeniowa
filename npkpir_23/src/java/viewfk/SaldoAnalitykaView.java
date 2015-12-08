@@ -63,6 +63,7 @@ public class SaldoAnalitykaView implements Serializable {
     
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
        if (wybranyRodzajKonta != null) {
         if (wybranyRodzajKonta.equals("bilansowe")) {
             for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
@@ -78,7 +79,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
        }
-       listaSaldoKonto = przygotowanalistasald(kontaklienta);
+       listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO);
     }
     
     public void odswiezsaldoanalityczne() {
@@ -86,7 +87,7 @@ public class SaldoAnalitykaView implements Serializable {
          init();
     }
     
-     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
+     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
@@ -96,7 +97,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
-            naniesBOnaKonto(saldoKonto, p);
+            naniesBOnaKonto(saldoKonto, p, zapisyBO);
             naniesZapisyNaKonto(saldoKonto, p , zapisyRok, wierszenieuzupelnione);
             saldoKonto.sumujBOZapisy();
             saldoKonto.wyliczSaldo();
@@ -176,13 +177,14 @@ public class SaldoAnalitykaView implements Serializable {
      }
 //</editor-fold>
 
-    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p) {
-        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(p, wierszBODAO, wpisView);
+    private void naniesBOnaKonto(SaldoKonto saldoKonto, Konto p, List<StronaWiersza> zapisyBO) {
         for (StronaWiersza r : zapisyBO) {
-            if (r.getWnma().equals("Wn")) {
-                saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
-            } else {
-                saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
+            if (r.getKonto().equals(p)) {
+                if (r.getWnma().equals("Wn")) {
+                    saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
+                } else {
+                    saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
+                }
             }
         }
     }
