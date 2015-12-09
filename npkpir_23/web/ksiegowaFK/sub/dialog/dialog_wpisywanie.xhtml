@@ -176,7 +176,7 @@
                                         <h:outputText value="numer własny"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? 'konto' : null}" style="margin-left: 5px;"/>
+                                        <h:outputText id="przypkontotxt" value="#{dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? 'konto' : null}" style="margin-left: 5px;"/>
                                     </p:column>
                                 </p:row>
                             </f:facet>
@@ -204,7 +204,7 @@
                                     </p:inputText>
                                 </p:column>
                                 <p:column style="width: 40px; text-align: center;">
-                                    <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
+                                    <h:outputText id="przypkonto" value="#{dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? (dokfkView.selected.rodzajedok.kontorozrachunkowe ne null ? dokfkView.selected.rodzajedok.kontorozrachunkowe.pelnynumer : 'b/k') : null }" 
                                                   style="color: #{dokfkView.selected.rodzajedok.kontorozrachunkowe eq null ? 'red' : 'black'}"/>
                                 </p:column>
                             </p:row>

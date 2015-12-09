@@ -9,7 +9,9 @@ package embeddablefk;
 import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.Embeddable;
 
@@ -24,18 +26,42 @@ public class SaldoKontoNarastajaco implements Serializable {
     private Konto konto;
     private double boWn;
     private double boMa;
-    private List<Obrotymca> obrotymiesiecy;
+    private Map<String, Obrotymca> obrotymiesiecy;
     private double obrotyBoWn;
     private double obrotyBoMa;
     private double saldoWn;
     private double saldoMa;
 
     public SaldoKontoNarastajaco() {
-        this.obrotymiesiecy = new ArrayList<>();
+        this.obrotymiesiecy = new HashMap<>();
+        this.obrotymiesiecy.put("01", new Obrotymca("styczeń"));
+        this.obrotymiesiecy.put("02", new Obrotymca("luty"));
+        this.obrotymiesiecy.put("03", new Obrotymca("marzec"));
+        this.obrotymiesiecy.put("04", new Obrotymca("kwiecień"));
+        this.obrotymiesiecy.put("05", new Obrotymca("maj"));
+        this.obrotymiesiecy.put("06", new Obrotymca("czerwiec"));
+        this.obrotymiesiecy.put("07", new Obrotymca("lipiec"));
+        this.obrotymiesiecy.put("08", new Obrotymca("sierpień"));
+        this.obrotymiesiecy.put("09", new Obrotymca("wrzesień"));
+        this.obrotymiesiecy.put("10", new Obrotymca("październik"));
+        this.obrotymiesiecy.put("11", new Obrotymca("listopad"));
+        this.obrotymiesiecy.put("12", new Obrotymca("grudzień"));
     }
     
     public SaldoKontoNarastajaco (Konto konto, double saldoWn, double saldoMa) {
-        this.obrotymiesiecy = new ArrayList<>();
+        this.obrotymiesiecy = new HashMap<>();
+        this.obrotymiesiecy.put("01", new Obrotymca("styczeń"));
+        this.obrotymiesiecy.put("02", new Obrotymca("luty"));
+        this.obrotymiesiecy.put("03", new Obrotymca("marzec"));
+        this.obrotymiesiecy.put("04", new Obrotymca("kwiecień"));
+        this.obrotymiesiecy.put("05", new Obrotymca("maj"));
+        this.obrotymiesiecy.put("06", new Obrotymca("czerwiec"));
+        this.obrotymiesiecy.put("07", new Obrotymca("lipiec"));
+        this.obrotymiesiecy.put("08", new Obrotymca("sierpień"));
+        this.obrotymiesiecy.put("09", new Obrotymca("wrzesień"));
+        this.obrotymiesiecy.put("10", new Obrotymca("październik"));
+        this.obrotymiesiecy.put("11", new Obrotymca("listopad"));
+        this.obrotymiesiecy.put("12", new Obrotymca("grudzień"));
         this.konto = konto;
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
@@ -135,14 +161,15 @@ public class SaldoKontoNarastajaco implements Serializable {
         this.saldoMa = saldoMa;
     }
 
-    public List<Obrotymca> getObrotymiesiecy() {
+    public Map<String, Obrotymca> getObrotymiesiecy() {
         return obrotymiesiecy;
     }
 
-    public void setObrotymiesiecy(List<Obrotymca> obrotymiesiecy) {
+    public void setObrotymiesiecy(Map<String, Obrotymca> obrotymiesiecy) {
         this.obrotymiesiecy = obrotymiesiecy;
     }
-    
+
+   
 
  
     public void wyliczSaldo() {
@@ -151,7 +178,8 @@ public class SaldoKontoNarastajaco implements Serializable {
     }
 
     public void sumujBOZapisy() {
-        List<Obrotymca> l = this.obrotymiesiecy;
+        List<Obrotymca> l = new ArrayList<>();
+        l.addAll(this.obrotymiesiecy.values());
         double obrotyWn = 0.0;
         double obrotyMa = 0.0;
         for (Obrotymca p : l) {
@@ -161,6 +189,8 @@ public class SaldoKontoNarastajaco implements Serializable {
         this.obrotyBoWn = this.boWn + obrotyWn;
         this.obrotyBoMa = this.boMa + obrotyMa;
     }
+    
+    
 
     public static class Obrotymca implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -199,6 +229,11 @@ public class SaldoKontoNarastajaco implements Serializable {
 
         public void setObrotyMa(double obrotyMa) {
             this.obrotyMa = obrotyMa;
+        }
+
+        @Override
+        public String toString() {
+            return "Obrotymca{" + "nazwamca=" + nazwamca + ", obrotyWn=" + obrotyWn + ", obrotyMa=" + obrotyMa + '}';
         }
         
         

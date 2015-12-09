@@ -128,6 +128,7 @@ public class PodatnikView implements Serializable {
     @Inject
     private PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie;
     private List<FormaPrawna> formyprawne;
+    private boolean wszystkiekonta;
     
 
     public PodatnikView() {
@@ -1198,6 +1199,13 @@ public class PodatnikView implements Serializable {
         return formyprawne;
     }
 
+    public void pokazWszystkieKontadoWyboru(ValueChangeEvent e) {
+        wszystkiekonta = (Boolean) e.getNewValue();
+        if (wszystkiekonta == true) {
+            listaKontRozrachunkowych = kontoDAOfk.findKontaRozrachunkowe(wpisView);
+        }
+    }
+    
     //<editor-fold defaultstate="collapsed" desc="comment">
     //     public void skopiujstraty() {
 //         List<Podatnik> podatnicy = podatnikDAO.findAll();
@@ -1490,6 +1498,14 @@ public class PodatnikView implements Serializable {
 
     public void setWybranyPodatnikOpodatkowanie(PodatnikOpodatkowanieD wybranyPodatnikOpodatkowanie) {
         this.wybranyPodatnikOpodatkowanie = wybranyPodatnikOpodatkowanie;
+    }
+
+    public boolean isWszystkiekonta() {
+        return wszystkiekonta;
+    }
+
+    public void setWszystkiekonta(boolean wszystkiekonta) {
+        this.wszystkiekonta = wszystkiekonta;
     }
 
     public void setPodatnikUdzialy(List<PodatnikUdzialy> podatnikUdzialy) {

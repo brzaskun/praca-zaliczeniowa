@@ -103,7 +103,7 @@
                     <h:outputText value=" pokaż szt: " />
                     <h:selectBooleanCheckbox value="#{podatnikView.selectedDokKsi.pokazszt}" />
                 </p:panelGrid>
-                <p:panelGrid id="parametryDokKsi1" columns="3" rendered="#{WpisView.ksiegirachunkowe}">
+                <p:panelGrid id="parametryDokKsi1" columns="4" rendered="#{WpisView.ksiegirachunkowe}">
 
                     <p:column headerText="konto rozrach." style="text-align: center;" >
                         <p:selectOneMenu value="#{podatnikView.selectedDokKsi.kontorozrachunkowe}" style="width: 250px;" converter="KontoConv"  rendered="#{podatnikView.selectedDokKsi.kategoriadokumentu == 0}">
@@ -127,9 +127,15 @@
                             <f:selectItems value="#{podatnikView.listakontoRZiS}" var="item" itemLabel="#{item.pelnynumer} #{item.nazwapelna}" itemValue="#{item}"/>
                         </p:selectOneMenu>
                     </p:column>
+                    <p:column>
+                        <h:outputLabel value="wszystkie konta" style="margin-left: 20px;"/>
+                        <p:selectBooleanCheckbox value="#{podatnikView.wszystkiekonta}" valueChangeListener="#{podatnikView.pokazWszystkieKontadoWyboru}" style="margin-left: 5px;">
+                            <p:ajax event="change" partialSubmit="true" global="false" update="akordeon:form7:parametryDokKsi1"/>
+                        </p:selectBooleanCheckbox>
+                    </p:column>
                 </p:panelGrid>
             
-            <p:panelGrid columns="2" style="column-width: 350px; width: 700px">
+            <p:panelGrid columns="2" style="column-width: 350px; width: 300px; padding: 10px;">
                 <p:commandButton actionListener="#{podatnikView.dodajDokKsi()}" value="dodaj dokument" update=":akordeon:form6, :akordeon:form7" />
                 <p:commandButton actionListener="#{podatnikView.editdok()}" value="edytuj dokument" update=":akordeon:form6, :akordeon:form7" />
             </p:panelGrid>

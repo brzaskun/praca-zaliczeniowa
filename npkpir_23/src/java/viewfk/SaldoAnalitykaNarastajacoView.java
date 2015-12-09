@@ -7,24 +7,25 @@
 package viewfk;
 
 import beansFK.BOFKBean;
-import beansFK.KontaFKBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
+import embeddablefk.SaldoKonto;
 import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import pdf.PdfKonta;
 import pdf.PdfKontaNarastajaco;
 import view.WpisView;
 import waluty.Z;
@@ -52,9 +53,10 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     }
     
     public void init() {
+       listaSaldoKonto = new ArrayList<>();
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
-       listaSaldoKonto = przygotowanalistasald(kontaklienta, zapisyBO);
+       przygotowanalistasald(kontaklienta, zapisyBO);
     }
     
     public void odswiezsaldoanalityczne() {
@@ -62,21 +64,32 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
          init();
     }
     
-     private List<SaldoKontoNarastajaco> przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
+     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
-        List<SaldoKontoNarastajaco> przygotowanalista = new ArrayList<>();
+        Map<String,SaldoKontoNarastajaco> przygotowanalista = new HashMap<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
-            SaldoKontoNarastajaco saldoKontoNarastajaco = new SaldoKontoNarastajaco();
-            saldoKontoNarastajaco.setId(licznik++);
-            saldoKontoNarastajaco.setKonto(p);
-            naniesBOnaKonto(saldoKontoNarastajaco, p, zapisyBO);
-            naniesZapisyNaKonto(saldoKontoNarastajaco, p, zapisyRok);
+            if (p.getPelnynumer().equals("809")) {
+                System.out.println("stop");
+            }
+            SaldoKontoNarastajaco saldoKonto = new SaldoKontoNarastajaco();
+            saldoKonto.setId(licznik++);
+            saldoKonto.setKonto(p);
+            przygotowanalista.put(p.getPelnynumer(),saldoKonto);
+        }
+        naniesBOnaKonto(przygotowanalista, zapisyBO);
+        naniesZapisyNaKonto(przygotowanalista, zapisyRok);
+        for (SaldoKontoNarastajaco saldoKontoNarastajaco : przygotowanalista.values()) {
             saldoKontoNarastajaco.sumujBOZapisy();
             saldoKontoNarastajaco.wyliczSaldo();
-            dodajdolisty(saldoKontoNarastajaco, przygotowanalista);
         }
-        return przygotowanalista;
+        listaSaldoKonto.addAll(przygotowanalista.values());
+        for (Iterator<SaldoKontoNarastajaco> it = listaSaldoKonto.iterator(); it.hasNext();)  {
+            SaldoKontoNarastajaco skn = it.next();
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                it.remove();
+            }
+        }
     }
      
     
@@ -106,67 +119,58 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
      }
 //</editor-fold>
 
-    private void naniesBOnaKonto(SaldoKontoNarastajaco saldoKonto, Konto p, List<StronaWiersza> zapisyBO) {
-         for (StronaWiersza r : zapisyBO) {
-            if (r.getKonto().equals(p)) {
+    private void naniesBOnaKonto(Map<String,SaldoKontoNarastajaco> przygotowanalista, List<StronaWiersza> zapisyBO) {
+        for (StronaWiersza r : zapisyBO) {
+            SaldoKontoNarastajaco p = przygotowanalista.get(r.getKonto().getPelnynumer());
+            if (p != null) {
                 if (r.getWnma().equals("Wn")) {
-                    saldoKonto.setBoWn(Z.z(saldoKonto.getBoWn() + r.getKwotaPLN()));
+                    p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
                 } else {
-                    saldoKonto.setBoMa(Z.z(saldoKonto.getBoMa() + r.getKwotaPLN()));
+                    p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
                 }
             }
         }
     }
 
-    private void naniesZapisyNaKonto(SaldoKontoNarastajaco saldoKonto, Konto p, List<StronaWiersza> zapisyRok) {
+    private void naniesZapisyNaKonto(Map<String,SaldoKontoNarastajaco> przygotowanalista, List<StronaWiersza> zapisyRok) {
         for (Iterator<StronaWiersza> it = zapisyRok.iterator(); it.hasNext();) {
             StronaWiersza st = (StronaWiersza) it.next();
             if (st.getDokfk().getDokfkPK().getSeriadokfk().equals("BO")) {
                 it.remove();
             }
         }
+        List<String> listamcy = new ArrayList<>();
         for (String m : Mce.getMceListS()) {
             if (m.equals(wpisView.getMiesiacNastepny()) && !wpisView.getMiesiacWpisu().equals("12")) {
-                break;
+               break;
             } else {
-                if (zapisyRok != null && zapisyRok.size() > 0) {
-                    double obrotyWn = 0.0;
-                    double obrotyMa = 0.0;
-                    for (StronaWiersza r : zapisyRok) {
-                        if (r.getKonto().equals(p) && r.getWiersz().getDokfk().getMiesiac().equals(m)){
-                            if (r.getWnma().equals("Wn")) {
-                                obrotyWn += Z.z(r.getKwotaPLN());
-                            } else {
-                                obrotyMa += Z.z(r.getKwotaPLN());
-                            }
+                listamcy.add(m);
+            }
+        }  
+        if (zapisyRok != null && zapisyRok.size() > 0) {
+            for (StronaWiersza r : zapisyRok) {
+                SaldoKontoNarastajaco p = przygotowanalista.get(r.getKonto().getPelnynumer());
+                if (r.getKonto().getPelnynumer().equals("403-9-21")) {
+                    System.out.println("d");
+                }
+                String mc = r.getWiersz().getDokfk().getMiesiac();
+                if (listamcy.contains(mc)) {
+                    try {
+                        SaldoKontoNarastajaco.Obrotymca o = p.getObrotymiesiecy().get(mc);
+                        if (r.getWnma().equals("Wn")) {
+                            o.setObrotyWn(o.getObrotyWn() + Z.z(r.getKwotaPLN()));
+                        } else {
+                            o.setObrotyMa(o.getObrotyMa() + Z.z(r.getKwotaPLN()));
                         }
+                    } catch (Exception e) {
+                        E.e(e);
                     }
-                    SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
-                    o.setNazwamca(m);
-                    o.setObrotyWn(Z.z(obrotyWn));
-                    o.setObrotyMa(Z.z(obrotyMa));
-                    saldoKonto.getObrotymiesiecy().add(o);
-                } else {
-                    SaldoKontoNarastajaco.Obrotymca o = new SaldoKontoNarastajaco.Obrotymca();
-                    o.setNazwamca(m);
-                    o.setObrotyWn(0.0);
-                    o.setObrotyMa(0.0);
-                    saldoKonto.getObrotymiesiecy().add(o);
                 }
             }
         }
     }
 
-    private void dodajdolisty(SaldoKontoNarastajaco saldoKonto, List<SaldoKontoNarastajaco> przygotowanalista) {
-        if (saldoKonto.getObrotyBoWn() != 0.0 || saldoKonto.getBoWn() != 0.0) {
-            przygotowanalista.add(saldoKonto);
-            return;
-        }
-        if (saldoKonto.getObrotyBoMa() != 0.0 || saldoKonto.getBoMa() != 0.0) {
-            przygotowanalista.add(saldoKonto);
-            return;
-        }
-    }
+
 
     private List<StronaWiersza> pobierzzapisy() {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
