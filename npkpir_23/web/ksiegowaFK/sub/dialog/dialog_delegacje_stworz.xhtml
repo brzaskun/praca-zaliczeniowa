@@ -31,7 +31,7 @@
                     <f:selectItem itemLabel="zagraniczna" itemValue="true"/>
                 </h:selectOneMenu>
             </p:panelGrid>
-            <p:commandButton value="dodaj" actionListener="#{delegacjeView.stworz(delegacjeView.selected.krajowa0zagraniczna1)}" global="false"
+            <p:commandButton value="dodaj" actionListener="#{delegacjeView.stworz(delegacjeView.selected.krajowa0zagraniczna1, dokfkView.selected)}" global="false"
                              style="margin-left: 45px; margin-top: 10px; width: 120px;" oncomplete="PF('dialog_delegacje_stworz').hide();$('#formwpisdokument\\:opisdokumentu').select();"
                              update=":form_dialog_delegacje_stworz, :parametrydel" rendered="#{delegacjeView.zapisz0edytuj1 == false}"/>
             <p:commandButton value="anuluj" style="margin-left: 40px; margin-top: 10px; width: 120px;" global="false"  oncomplete="blokujdelegacje();" 

@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -85,10 +86,11 @@ public class DelegacjeView  implements Serializable{
         }
     }
     
-    public void stworz(boolean krajowa0zagraniczna1) {
+    public void stworz(boolean krajowa0zagraniczna1, Dokfk dokfk) {
         dodaj(krajowa0zagraniczna1);
         planKontCompleteView.init();
         jest1niema0 = 1;
+        pobierzkontodladelegacji(dokfk);
     }
     
     public void zerujjest1niema0() {
@@ -171,7 +173,32 @@ public class DelegacjeView  implements Serializable{
     public void sprawdzIstnienieDelegacji(Dokfk dokfk) {
         if (dokfk.getRodzajedok().getSkrot().equals("DEL")) {
             jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
-            System.out.println("delegacja: "+jest1niema0);
+            System.out.println("delegacja: " + jest1niema0);
+            Konto kontoRozrachunkowe = null;
+            try {
+                kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(dokfk.getNumerwlasnydokfk(), wpisView);
+            } catch (Exception e) {
+
+            }
+            if (kontoRozrachunkowe != null) {
+                dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
+                RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
+            }
+        }
+    }
+    
+      public void pobierzkontodladelegacji(Dokfk dokfk) {
+        if (dokfk.getRodzajedok().getSkrot().equals("DEL")) {
+            Konto kontoRozrachunkowe = null;
+            try {
+                kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(dokfk.getNumerwlasnydokfk(), wpisView);
+            } catch (Exception e) {
+
+            }
+            if (kontoRozrachunkowe != null) {
+                dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
+                RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
+            }
         }
     }
     
