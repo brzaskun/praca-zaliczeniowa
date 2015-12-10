@@ -117,6 +117,12 @@ public class SaldoAnalitykaView implements Serializable {
             Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+t.getDokfkS());
         }
         listaSaldoKonto.addAll(przygotowanalista.values());
+        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();)  {
+            SaldoKonto skn = it.next();
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                it.remove();
+            }
+        }
     }
      
     public void sumujwybranekonta() {
