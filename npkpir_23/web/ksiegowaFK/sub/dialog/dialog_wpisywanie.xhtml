@@ -352,7 +352,7 @@
                                     <p:ajax global="false" event="keyup" onstart="obsluzewidencjavatsprzedaz();"/>
                                 </pe:inputNumber>
                             </p:column>
-                            <p:column headerText="#{mgs.VAT}" width="80">
+                            <p:column headerText="#{mgs.VAT} #{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? dokfkView.selected.rodzajedok.stawkavat : null}#{dokfkView.selected.rodzajedok.stawkavat ne 0.0 ? '%' : null}" width="80">
                                 <pe:inputNumber id="vat" value="#{item.vat}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                                 symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                     <p:ajax global="false" event="change" listener="#{dokfkView.updatevat(item,'formwpisdokument')}" partialSubmit="true"/>
