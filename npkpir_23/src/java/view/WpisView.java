@@ -6,14 +6,20 @@ package view;
 
 import dao.PodatnikDAO;
 import dao.PodatnikOpodatkowanieDDAO;
+import dao.StronaWierszaDAO;
 import dao.UzDAO;
 import dao.WpisDAO;
+import daoFK.DokDAOfk;
+import daoFK.KontoDAOfk;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Roki;
 import entity.Podatnik;
 import entity.Uz;
 import entity.Wpis;
+import entityfk.Dokfk;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
 import error.E;
 import java.io.Serializable;
 import java.security.Principal;
@@ -66,6 +72,12 @@ public class WpisView implements Serializable {
     private PodatnikDAO podatnikDAO;
     @Inject
     private PodatnikOpodatkowanieDDAO podatnikOpodatkowanieDDAO;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @Inject
+    private DokDAOfk dokDAOfk;
+    @Inject
+    private StronaWierszaDAO stronaWierszaDAO;
 
 
     @PostConstruct
@@ -293,6 +305,12 @@ public class WpisView implements Serializable {
         } else {
             return "/guest/guestPodatki.xhtml?faces-redirect=true";
         }
+    }
+    
+    public void pobierz() {
+         List<Konto> a = kontoDAOfk.findWszystkieKontaPodatnika(this.getPodatnikWpisu(), this.getRokWpisuSt());
+         List<Dokfk> b = dokDAOfk.findDokfkPodatnikRok(this);
+         List<StronaWiersza> c = stronaWierszaDAO.findStronaByPodatnikRok(this.getPodatnikObiekt(), this.getRokWpisuSt());
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">

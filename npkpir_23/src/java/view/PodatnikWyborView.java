@@ -43,6 +43,7 @@ public class PodatnikWyborView implements Serializable {
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
     }
 
+   
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Podatnik> getListaPodatnikowNoFK() {
