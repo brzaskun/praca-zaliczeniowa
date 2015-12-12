@@ -93,7 +93,7 @@ public class SaldoKontoNarastajaco implements Serializable {
 
     @Override
     public String toString() {
-        return "SaldoKonto{" + "konto=" + konto + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + '}';
+        return "SaldoKontoNarastająco{" + "konto=" + konto + ", obrotyBoWn=" + obrotyBoWn + ", obrotyBoMa=" + obrotyBoMa + ", saldoWn=" + saldoWn + ", saldoMa=" + saldoMa + '}';
     }
 
     public int getId() {

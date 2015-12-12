@@ -14,7 +14,6 @@
                     <h:outputText value="#{wpis.symbolwaluty}" />
                 </p:column>
                 <p:column headerText="nazwa waluty" width="150">
-                    
                     <p:inplace editor="true" effect="slide" effectSpeed="fast" saveLabel="zachowaj" cancelLabel="rezygnuj">
                         <p:ajax event="save" listener="#{walutyViewFK.handleSave(wpis)}" />
                         <f:facet name="output">

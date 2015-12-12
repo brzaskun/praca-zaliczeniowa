@@ -166,7 +166,8 @@
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
-                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" accesskey="q" styleClass="fkbutton" 
+                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
+                                     accesskey="q" styleClass="fkbutton" 
                                      update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
                                      rendered="#{!item.wTrakcieEdycji}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>

@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -218,6 +219,9 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
     private String syntetycznenumer;
     @Column(name = "de")
     private String de;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "kontokategoria",referencedColumnName = "id")
+    private Kontokategoria kontokategoria;
     
 //    @OneToMany(mappedBy = "konto")
 //    private List<StronaWiersza> stronaWiersza;
@@ -465,6 +469,14 @@ public class Konto extends ToBeATreeNodeObject implements Serializable {
 
     public void setBoMa(double boMa) {
         this.boMa = boMa;
+    }
+
+    public Kontokategoria getKontokategoria() {
+        return kontokategoria;
+    }
+
+    public void setKontokategoria(Kontokategoria kontokategoria) {
+        this.kontokategoria = kontokategoria;
     }
 
    

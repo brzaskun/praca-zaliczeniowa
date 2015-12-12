@@ -212,6 +212,11 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                 </p:column>
+                 <p:column headerText="#{mgs.obrotyMa} 12" width="80" rendered="#{saldoAnalitykaNarastajacoView.czywyswietlic('12')}">
+                    <h:outputText value="#{loop.obrotymiesiecy.get('12').obrotyMa != 0.0 ? loop.obrotymiesiecy.get('12').obrotyMa : null}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
                 <p:column headerText="#{mgs.obrotyBOWn}" width="80" >
                     <h:outputText value="#{loop.obrotyBoWn != 0.0 ? loop.obrotyBoWn : null}" style="float: right;">
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
