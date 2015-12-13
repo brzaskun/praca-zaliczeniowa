@@ -51,6 +51,29 @@ public class PdfFont {
         }
     }
     
+    public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp, float fixedHeigth){
+        try {
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, 8);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            if (rowsp > 0) {
+                cell.setRowspan(rowsp);
+            } else {
+                cell.setColspan(colsp);
+            }
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            cell.setFixedHeight(fixedHeigth);
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public static PdfPCell ustawfrazeSpanFont(String fraza, int colsp, int rowsp, int fontsize) throws DocumentException, IOException {
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
         Font font = new Font(helvetica, fontsize);

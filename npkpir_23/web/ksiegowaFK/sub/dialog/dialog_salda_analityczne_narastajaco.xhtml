@@ -44,7 +44,7 @@
               onHide="resetujdialog('saldakontanalitycznychnarastajaco');"  closeOnEscape="true" 
               >
         <h:form id="formanalitykanar">
-            <p:panelGrid columns="5" style="margin-left: 2%;" >
+            <p:panelGrid columns="10" style="margin-left: 2%;" >
                  <p:column>
                     <h:outputText value="dane na koniec m-ca: "/>
                 </p:column>
@@ -57,12 +57,26 @@
                 <p:column>
                     <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="@form"/>
                 </p:column>
+                 <p:selectOneMenu id="rodzajkont" value="#{saldoAnalitykaNarastajacoView.wybranyRodzajKonta}"  style="margin-left: 20px;">
+                        <p:ajax event="change" listener="#{saldoAnalitykaNarastajacoView.odswiezsaldoanalityczne}" update="tablicasaldaanalitycznenarastajaco"/>
+                        <f:selectItem itemLabel="wszystkie" itemValue="wszystkie"/>
+                        <f:selectItem itemLabel="bilansowe" itemValue="bilansowe"/>
+                        <f:selectItem itemLabel="wynikowe" itemValue="wynikowe"/>
+                    </p:selectOneMenu>
                <p:column>
-                    <p:commandButton value="#{mgs.drukujtab} 01-06" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 1)}" style="width: 120px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="#{mgs.drukujtab} 01-06" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 1)}" style="width: 140px; margin-left: 20px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{mgs.drukujtab} 07-12" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 2)}" style="width: 120px; margin-left: 10px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
+                    <p:commandButton value="#{mgs.drukujtab} 07-12" actionListener="#{saldoAnalitykaNarastajacoView.drukuj(1, 2)}" style="width: 140px; margin-left: 10px;" oncomplete="wydrukkonta('#{WpisView.podatnikWpisu}')"/>
                 </p:column>
+                <h:outputText value="drukuj kategorie" style="margin-left: 10xp;"/>
+                <p:selectBooleanCheckbox value="#{saldoAnalitykaNarastajacoView.drukujkategorie}">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
+                <h:outputText value="salda niezerowe" style="margin-left: 10xp;"/>
+                <p:selectBooleanCheckbox value="#{saldoAnalitykaNarastajacoView.saldaniezerowe}">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
 
 

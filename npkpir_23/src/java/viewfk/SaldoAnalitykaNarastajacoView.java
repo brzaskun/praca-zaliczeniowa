@@ -48,6 +48,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    private String wybranyRodzajKonta;
+    private boolean drukujkategorie;
+    private boolean saldaniezerowe;
 
     public SaldoAnalitykaNarastajacoView() {
     }
@@ -55,6 +58,19 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     public void init() {
        listaSaldoKonto = new ArrayList<>();
        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        if (wybranyRodzajKonta.equals("bilansowe")) {
+            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                    it.remove();
+                }
+            }
+        } else if (wybranyRodzajKonta.equals("wynikowe")){
+            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                    it.remove();
+                }
+            }
+        }
        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
        przygotowanalistasald(kontaklienta, zapisyBO);
     }
@@ -102,6 +118,14 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
         this.listaSaldoKontoSelected = listaSaldoKontoSelected;
     }
 
+    public String getWybranyRodzajKonta() {
+        return wybranyRodzajKonta;
+    }
+
+    public void setWybranyRodzajKonta(String wybranyRodzajKonta) {
+        this.wybranyRodzajKonta = wybranyRodzajKonta;
+    }
+
     public List<SaldoKontoNarastajaco> getListaSaldoKonto() {
         return listaSaldoKonto;
     }
@@ -109,6 +133,22 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
      public void setListaSaldoKonto(List<SaldoKontoNarastajaco> listaSaldoKonto) {
          this.listaSaldoKonto = listaSaldoKonto;
      }
+
+    public boolean isDrukujkategorie() {
+        return drukujkategorie;
+    }
+
+    public void setDrukujkategorie(boolean drukujkategorie) {
+        this.drukujkategorie = drukujkategorie;
+    }
+
+    public boolean isSaldaniezerowe() {
+        return saldaniezerowe;
+    }
+
+    public void setSaldaniezerowe(boolean saldaniezerowe) {
+        this.saldaniezerowe = saldaniezerowe;
+    }
      
      public WpisView getWpisView() {
          return wpisView;
@@ -189,9 +229,9 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     
     public void drukuj(int i, int polowaroku) {
         if (listaSaldoKontoSelected==null) {
-            PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0, polowaroku);
+            PdfKontaNarastajaco.drukuj(listaSaldoKonto, wpisView, i, 0, polowaroku, drukujkategorie, saldaniezerowe);
         } else {
-            PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0, polowaroku);
+            PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0, polowaroku, drukujkategorie, saldaniezerowe);
         }
     }
 }
