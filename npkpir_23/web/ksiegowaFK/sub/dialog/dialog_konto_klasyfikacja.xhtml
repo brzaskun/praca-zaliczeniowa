@@ -67,7 +67,7 @@
             <p:panelGrid columns="2" style="padding: 20xp;">
                 <h:outputText value="symbol"/>
                 <p:inputText value="#{kontokategoriaView.selectedDod.symbol}" maxlength="3">
-                    <p:ajax event="keyup" listener="#{kontokategoriaView.sprawdzduplikat}" global="false" partialSubmit="true" update="form_wprowadzanie_kategorii"/>
+                    <p:ajax event="blur" listener="#{kontokategoriaView.sprawdzduplikat}" global="false" partialSubmit="true" update="form_wprowadzanie_kategorii"/>
                 </p:inputText>
                 <h:outputText value="opis pełny"/>
                 <p:inputText value="#{kontokategoriaView.selectedDod.opispelny}" style="width: 500px;"/>

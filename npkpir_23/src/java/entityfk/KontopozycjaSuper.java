@@ -32,11 +32,17 @@ public class KontopozycjaSuper implements Serializable {
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaWn")
     protected String pozycjaWn;
+    //0 aktywa
+    //1 pasywa
+    //99 rzis
     @Column(length = 10, name = "stronaWn")
     protected String stronaWn;
     @Size(max = 255)
     @Column(length = 255, name = "pozycjaMa")
     protected String pozycjaMa;
+    //0 aktywa
+    //1 pasywa
+    //99 rzis
     @Column(length = 10, name = "stronaMa")
     protected String stronaMa;
     @Column(name = "syntetykaanalityka")
