@@ -10,14 +10,15 @@
 
     </style>
 
-    <p:dialog id="dialog_konto_klasyfikacja_przyporzadkowanie" header="Plan kont firmy #{WpisView.podatnikWpisu} przyporządkowanie klasyfikacji" widgetVar="dialog_konto_klasyfikacja_przyporzadkowanie" fitViewport="true"
-              resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja_przyporzadkowanie','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja_przyporzadkowanie');"  >
-        <h:form id="form_dialog_konto_klasyfikacja_przyporzadkowanie">
-            <p:panelGrid columns="1">
-                  <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{kontokategoriaPrzypView.zachowajkontaWzorzec()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
+    <p:dialog id="dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" header="Plan kont firmy #{WpisView.podatnikWpisu} przyporządkowanie klasyfikacji" widgetVar="dialog_konto_klasyfikacja_przyporzadkowanie_podatnik" fitViewport="true"
+              resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik','menuustawienia', 1250, 750);" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja_przyporzadkowanie_podatnik');"  >
+        <h:form id="form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik">
+            <p:panelGrid columns="2">
+                  <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{kontokategoriaPrzypView.zachowajkonta()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
+                  <p:commandButton id="importuj" value="importuj" actionListener="#{kontokategoriaPrzypView.importujkategorie()}" update="form_dialog_konto_klasyfikacja_przyporzadkowanie_podatnik:dataListwzorcowy" global="false" style="float: left; margin-left: 20px;width: 120px;" />
             </p:panelGrid>
             <p:panelGrid columns="2" >
-                <p:dataTable id="dataListwzorcowy" value="#{kontokategoriaPrzypView.wykazkontwzor}" var="loop"  selectionMode="single"
+                <p:dataTable id="dataListwzorcowy" value="#{kontokategoriaPrzypView.wykazkont}" var="loop"  selectionMode="single"
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
                              styleClass="tablicaplankont"
                              style="width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"

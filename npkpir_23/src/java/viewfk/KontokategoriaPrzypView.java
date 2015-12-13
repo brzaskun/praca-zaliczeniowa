@@ -62,6 +62,33 @@ public class KontokategoriaPrzypView  implements Serializable {
         }
     }
     
+    public void zachowajkonta() {
+        try {
+            kontoDAOfk.editList(wykazkont);
+            Msg.msg("Zachowano zmiany w przyporządkowaniu");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie zachowano zmian");
+        }
+    }
+    
+    public void importujkategorie() {
+        try {
+            for (Konto p : wykazkontwzor) {
+                for (Konto r : wykazkont) {
+                    if (r.getPelnynumer().equals(p.getPelnynumer())) {
+                        r.setKontokategoria(p.getKontokategoria());
+                    }
+                }
+            }
+            kontoDAOfk.editList(wykazkont);
+            Msg.msg("Zaimportowano kategorie");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie zaimportowani kategorii");
+        }
+    }
+    
     public void zachowaj() {
         if (lista != null) {
             try {
