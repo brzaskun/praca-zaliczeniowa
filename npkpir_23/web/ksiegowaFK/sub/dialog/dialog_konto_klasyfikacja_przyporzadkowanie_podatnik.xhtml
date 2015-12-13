@@ -25,11 +25,11 @@
                              sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:ajax event="rowSelect"  global="false" listener="#{planKontView.selrowwzorcowy()}"/>
-                    <p:columnGroup type="header">
+                   <p:columnGroup type="header">
                         <p:row>
-                            <p:column colspan="1" headerText="numer" width="40" />
-                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
-                            <p:column colspan="1" headerText="kategoria" width="200"/>
+                            <p:column colspan="1" headerText="numer" width="30" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="170"/>
+                            <p:column colspan="1" headerText="kategoria" width="500"/>
                             <p:column colspan="1" headerText="b/w" width="20"/>
                             <p:column colspan="1" headerText="rozrach." width="40"/>
                             <p:column colspan="1" headerText="potom." width="30"/>
@@ -37,17 +37,18 @@
                             <p:column colspan="1" headerText="P/K" width="30"/>
                         </p:row>
                     </p:columnGroup>
-                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" >
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" style="text-align: center;">
                         <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
                         <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
                     </p:column>
-                   <p:column  style="width: 200px;">
+                    <p:column  width="170">
                         <h:outputText value="#{loop.nazwapelna}" /> 
                     </p:column>
-                    <p:column  style="width: 200px;">
-                        <p:selectOneMenu value="#{loop.kontokategoria}" converter="KontokategoriaConv">
+                    <p:column  width="300">
+                        <p:selectOneMenu value="#{loop.kontokategoria}" converter="KontokategoriaConv" style="width: 600px;">
+                            <f:selectItem itemLabel="wybierz kategorie" />
                             <f:selectItems value="#{kontokategoriaView.lista}" itemLabel="#{item.opispelny}" itemValue="#{item}" var="item"/>
                         </p:selectOneMenu>
                     </p:column>

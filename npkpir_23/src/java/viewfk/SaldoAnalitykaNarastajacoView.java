@@ -7,6 +7,7 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import com.itextpdf.text.Element;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
@@ -234,4 +235,6 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
             PdfKontaNarastajaco.drukuj(listaSaldoKontoSelected, wpisView, i, 0, polowaroku, drukujkategorie, saldaniezerowe);
         }
     }
+    
+    
 }

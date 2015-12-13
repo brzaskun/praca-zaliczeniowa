@@ -12,6 +12,7 @@ import entityfk.Kontokategoria;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -54,7 +55,11 @@ public class KontokategoriaPrzypView  implements Serializable {
     
     public void zachowajkontaWzorzec() {
         try {
+            List<Konto> wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnika("Wzorcowy", wpisView.getRokWpisuSt());
+            usunzerowe(wszystkiekonta);
             kontoDAOfk.editList(wykazkontwzor);
+            nanieskategorie(wykazkontwzor, wszystkiekonta);
+            kontoDAOfk.editList(wszystkiekonta);
             Msg.msg("Zachowano zmiany w przyporządkowaniu");
         } catch (Exception e) {
             E.e(e);
@@ -62,13 +67,36 @@ public class KontokategoriaPrzypView  implements Serializable {
         }
     }
     
+    
     public void zachowajkonta() {
         try {
+            List<Konto> wszystkiekonta = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            usunzerowe(wszystkiekonta);
             kontoDAOfk.editList(wykazkont);
+            nanieskategorie(wykazkont, wszystkiekonta);
+            kontoDAOfk.editList(wszystkiekonta);
             Msg.msg("Zachowano zmiany w przyporządkowaniu");
         } catch (Exception e) {
             E.e(e);
             Msg.msg("e", "Wystąpił błąd. Nie zachowano zmian");
+        }
+    }
+    
+    private void usunzerowe(List<Konto> wszystkiekonta) {
+        for (Iterator<Konto> it = wszystkiekonta.iterator(); it.hasNext();) {
+            if (it.next().getLevel() == 0) {
+                it.remove();
+            }
+        }
+    }
+    
+    private void nanieskategorie(List<Konto> kontazero, List<Konto> wszystkiekonta) {
+        for (Konto p : kontazero) {
+            for (Konto r : wszystkiekonta) {
+                if (r.getSyntetycznenumer().equals(p.getPelnynumer()) && p.getKontokategoria() != null) {
+                    r.setKontokategoria(p.getKontokategoria());
+                }
+            }
         }
     }
     
@@ -191,6 +219,10 @@ public class KontokategoriaPrzypView  implements Serializable {
     public void setWykazkontwzor(List<Konto> wykazkontwzor) {
         this.wykazkontwzor = wykazkontwzor;
     }
+
+   
+
+   
     
     
  

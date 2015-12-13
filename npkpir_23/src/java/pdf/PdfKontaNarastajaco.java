@@ -7,17 +7,18 @@ package pdf;
 
 
 
-import static beansPdf.PdfFont.formatujLiczba;
-import static beansPdf.PdfFont.ustawfraze;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeSpanFont;
+import beansPdf.PdfFont;
+import static beansPdf.PdfFont.*;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.PdfCell;
 import embeddable.Mce;
 import embeddablefk.SaldoKontoNarastajaco;
 import java.io.File;
@@ -119,7 +120,7 @@ public class PdfKontaNarastajaco {
     }
     
     private static void tabelawiersze(PdfPTable table, SaldoKontoNarastajaco rs, boolean ppr0dpr1, boolean drukujkategorie,int granica, int i) {
-        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 22f));
+        table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8, 28f));
         table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 8));
         table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));
         table.addCell(ustawfrazeAlign(rs.getBoWn()!= 0 ? formatujLiczba(rs.getBoWn()) : "", "right", 8));
@@ -131,8 +132,7 @@ public class PdfKontaNarastajaco {
         }
         if (drukujkategorie == true) {
             String opis = rs.getKonto().getKontokategoria() != null ? rs.getKonto().getKontokategoria().getOpispelny() : "";
-            PdfPCell c = ustawfraze(opis, 2, 0);
-            c.setHorizontalAlignment(Element.ALIGN_LEFT);
+            PdfPCell c = ustawfrazeAF(opis, 2, 0, Element.ALIGN_LEFT, 6);
             table.addCell(c);
         } else {
             table.addCell(ustawfrazeAlign(Z.z(rs.getObrotyBoWn()) != 0.0 ? formatujLiczba(rs.getObrotyBoWn()) : "", "right", 8));

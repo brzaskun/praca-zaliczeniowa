@@ -12,6 +12,7 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
+import entity.Deklaracjevat;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
@@ -20,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.metamodel.SingularAttribute;
 
 /**
  *
@@ -41,6 +43,28 @@ public class PdfFont {
             }
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public static PdfPCell ustawfrazeAF(String fraza, int colsp, int rowsp, int uluz, int font_size) {
+        try {
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, font_size);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            if (rowsp > 0) {
+                cell.setRowspan(rowsp);
+            } else {
+                cell.setColspan(colsp);
+            }
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setHorizontalAlignment(uluz);
             return cell;
         } catch (DocumentException ex) {
             Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
