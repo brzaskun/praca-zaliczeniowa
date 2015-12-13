@@ -70,9 +70,9 @@
                     <p:ajax event="keyup" listener="#{kontokategoriaView.sprawdzduplikat}" global="false" partialSubmit="true" update="form_wprowadzanie_kategorii"/>
                 </p:inputText>
                 <h:outputText value="opis pełny"/>
-                <p:inputText value="#{kontokategoriaView.selectedDod.opispelny}" style="width: 300px;"/>
+                <p:inputText value="#{kontokategoriaView.selectedDod.opispelny}" style="width: 500px;"/>
                 <h:outputText value="opis skrócony"/>
-                <p:inputText value="#{kontokategoriaView.selectedDod.opisskrocony}" style="width: 150px;"/>
+                <p:inputText value="#{kontokategoriaView.selectedDod.opisskrocony}" style="width: 350px;"/>
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:commandButton value="dodaj" actionListener="#{kontokategoriaView.dodaj()}" update="form_dialog_konto_klasyfikacja" global="false"
