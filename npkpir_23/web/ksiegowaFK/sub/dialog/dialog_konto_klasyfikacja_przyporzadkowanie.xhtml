@@ -1,0 +1,72 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+
+    xmlns:bcf="http://brzaskun.com/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <style>
+
+    </style>
+
+    <p:dialog id="dialog_konto_klasyfikacja_przyporzadkowanie" header="Plan kont firmy #{WpisView.podatnikWpisu} przyporządkowanie klasyfikacji" widgetVar="dialog_konto_klasyfikacja_przyporzadkowanie" fitViewport="true"
+              resizable="false" onShow="ustawdialog('dialog_konto_klasyfikacja_przyporzadkowanie','menuustawienia', 1250, 750);ustalmaxlevel('form:dataList_data');" closeOnEscape="true" onHide="resetujdialog('dialog_konto_klasyfikacja_przyporzadkowanie');"  >
+        <h:form id="form_dialog_konto_klasyfikacja_przyporzadkowanie">
+            <p:panelGrid columns="1">
+                  <p:commandButton id="zachowaj" value="zachowaj" actionListener="#{kontokategoriaPrzypView.zachowajkontaWzorzec()}"  global="false" style="float: left; margin-left: 20px;width: 120px;" />
+            </p:panelGrid>
+            <p:panelGrid columns="2" >
+                <p:dataTable id="dataListwzorcowy" value="#{kontokategoriaPrzypView.wykazkontwzor}" var="loop"  selectionMode="single"
+                             rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
+                             styleClass="tablicaplankont"
+                             style="width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
+                             sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
+                             >
+                    <p:ajax event="rowSelect" update=":formX, :dodawaniekontaanalitycznego, :dialogedycjanazwkontawzorcowy, :formedycjanazwwzorcowy" global="false" listener="#{planKontView.selrowwzorcowy()}"/>
+                    <p:columnGroup type="header">
+                        <p:row>
+                            <p:column colspan="1" headerText="numer" width="40" />
+                            <p:column colspan="1" headerText="nazwa pełna" width="300"/>
+                            <p:column colspan="1" headerText="kategoria" width="200"/>
+                            <p:column colspan="1" headerText="b/w" width="20"/>
+                            <p:column colspan="1" headerText="rozrach." width="40"/>
+                            <p:column colspan="1" headerText="potom." width="30"/>
+                            <p:column colspan="1" headerText="słow" width="30"/>
+                            <p:column colspan="1" headerText="P/K" width="30"/>
+                        </p:row>
+                    </p:columnGroup>
+                    <p:column styleClass="#{loop.level eq 2 ? 'druga' : null}" >
+                        <h:outputText value="#{loop.nrkonta}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '0' ? true : false)}" /> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '1' ? true : false)}" style="margin-left: 10px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '2' ? true : false)}" style="margin-left: 20px;"/> 
+                        <h:outputText value="#{loop.pelnynumer}" rendered="#{loop.nrkonta eq '0' ? false : (loop.level eq '3' ? true : false)}" style="margin-left: 30px;"/> 
+                    </p:column>
+                   <p:column  style="width: 200px;">
+                        <h:outputText value="#{loop.nazwapelna}" /> 
+                    </p:column>
+                    <p:column  style="width: 200px;">
+                        <p:selectOneMenu value="#{loop.kontokategoria}" converter="KontokategoriaConv">
+                            <f:selectItems value="#{kontokategoriaView.lista}" itemLabel="#{item.opispelny}" itemValue="#{item}" var="item"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column  style="width: 20px; text-align: center;">
+                        <h:outputText value="#{loop.bilansowewynikowe eq 'bilansowe' ? 'B' : 'R'}" /> 
+                    </p:column>
+                    <p:column  style="width: 120px; text-align: center;">
+                        <h:outputText value="#{loop.zwyklerozrachszczegolne.length() gt 4 ? loop.zwyklerozrachszczegolne.substring(0,4) : loop.zwyklerozrachszczegolne}" style="text-align: center;"/>
+                    </p:column>
+                    <p:column  style="width: 40px; text-align: center;">
+                        <h:outputText value="#{loop.mapotomkow}" /> 
+                    </p:column>
+                    <p:column style="width: 50px;">
+                        <h:outputText value="#{loop.slownikowe eq 'true' ? 'słownik' : null}" /> 
+                    </p:column>
+                    <p:column style="width: 40px;">
+                        <h:outputText value="#{loop.przychod0koszt1 eq true ? 'K' : 'P'}" rendered="#{loop.bilansowewynikowe eq 'wynikowe'}"/> 
+                    </p:column>
+                </p:dataTable>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+</ui:composition>

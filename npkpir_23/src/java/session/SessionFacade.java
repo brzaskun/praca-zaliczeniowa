@@ -1543,6 +1543,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Konto> findKontazLevelu(WpisView wpisView, int i) {
         return em.createNamedQuery("Konto.findByLevelPodatnik").setParameter("level", i).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
+    
+    public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
+        return em.createNamedQuery("Konto.findByLevelWzorcowy").setParameter("level", i).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    }
 
     public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
         return em.createNamedQuery("Konto.findByLevelRok").setParameter("level", i).setParameter("rok", 2015).getResultList();

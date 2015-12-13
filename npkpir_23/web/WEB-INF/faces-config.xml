@@ -601,6 +601,12 @@
             converter.KontoConv  
         </converter-class> 
     </converter>
+    <converter>
+        <converter-id>KontokategoriaConv</converter-id>  
+        <converter-class>  
+            converter.KontokategoriaConv 
+        </converter-class> 
+    </converter>
      <converter>
         <converter-id>UzConv</converter-id>  
         <converter-class>  

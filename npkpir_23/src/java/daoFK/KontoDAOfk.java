@@ -544,6 +544,10 @@ public class KontoDAOfk extends DAO implements Serializable{
         return kontoFacade.findKontazLevelu(wpisView, i);
     }
     
+     public List<Konto> findKontazLeveluWzorcowy(WpisView wpisView, int i) {
+        return kontoFacade.findKontazLeveluWzorcowy(wpisView, i);
+    }
+    
     public List<Konto> findKontazLeveluRok(WpisView wpisView, int i) {
         return kontoFacade.findKontazLeveluRok(wpisView, i);
     }

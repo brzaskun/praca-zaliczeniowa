@@ -5,7 +5,9 @@
  */
 package viewfk;
 
+import daoFK.KontoDAOfk;
 import daoFK.KontokategoriaDAOfk;
+import entityfk.Konto;
 import entityfk.Kontokategoria;
 import error.E;
 import java.io.Serializable;
@@ -13,9 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import msg.Msg;
+import view.WpisView;
 
 /**
  *
@@ -23,25 +27,41 @@ import msg.Msg;
  */
 @ManagedBean
 @ViewScoped
-public class KontokategoriaView  implements Serializable {
+public class KontokategoriaPrzypView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Kontokategoria> lista;
+    private List<Konto> wykazkont;
+    private List<Konto> wykazkontwzor;
     @Inject
     private Kontokategoria selectedDod;
     @Inject
     private KontokategoriaDAOfk kontokategoriaDAOfk;
+    @Inject
+    private KontoDAOfk kontoDAOfk;
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
 
-    public KontokategoriaView() {
-        this.lista = new ArrayList<>();
+    public KontokategoriaPrzypView() {
     }
     
     @PostConstruct
     private void init() {
         this.lista = kontokategoriaDAOfk.findAll();
+        this.wykazkont = kontoDAOfk.findKontazLevelu(wpisView, 0);
+        this.wykazkontwzor = kontoDAOfk.findKontazLeveluWzorcowy(wpisView,0);
     }
     
-        
+    public void zachowajkontaWzorzec() {
+        try {
+            kontoDAOfk.editList(wykazkontwzor);
+            Msg.msg("Zachowano zmiany w przyporządkowaniu");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e", "Wystąpił błąd. Nie zachowano zmian");
+        }
+    }
+    
     public void zachowaj() {
         if (lista != null) {
             try {
@@ -119,6 +139,30 @@ public class KontokategoriaView  implements Serializable {
 
     public void setSelectedDod(Kontokategoria selectedDod) {
         this.selectedDod = selectedDod;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public List<Konto> getWykazkont() {
+        return wykazkont;
+    }
+
+    public void setWykazkont(List<Konto> wykazkont) {
+        this.wykazkont = wykazkont;
+    }
+
+    public List<Konto> getWykazkontwzor() {
+        return wykazkontwzor;
+    }
+
+    public void setWykazkontwzor(List<Konto> wykazkontwzor) {
+        this.wykazkontwzor = wykazkontwzor;
     }
     
     
