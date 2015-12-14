@@ -13,33 +13,33 @@
     </style>
     <f:event type="preRenderView" listener="#{srodkiTrwaleAMOView.init()}"/>
     <f:event type="preRenderView" listener="#{STRTableView.init()}"/>
-        <h:form id="formbuttonsrodki">
-            <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
+        <h:form id="formbuttonwnip">
+            <p:commandButton id="buttonsrodki" value="dodaj wnip" onclick="PF('dialog_srodki_dodaj').show();"/>
             <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>
         </h:form>
-        <h:form id="formSTR">
+        <h:form id="formWnip">
             <p:growl id="mess_add" autoUpdate="true"/>
         <p:panel id="infosrodki" header="informacje">
-            <h:outputText value="liczba środków ogółem: #{STRTableView.iloscsrodkow}"/> <br/>
-            <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok}"/>
+            <h:outputText value="liczba wnip ogółem: #{STRTableView.iloscsrodkow_wnip}"/> <br/>
+            <h:outputText value="zakupione w bieżącym roku: #{STRTableView.zakupionewbiezacyrok_wnip}"/>
         </p:panel>
 
-        <p:tabView id="akordeon">
+        <p:tabView id="akordeon_wnip">
             <p:tab id="zestawieniestr" title="posiadane">
-                <p:contextMenu for="srodkiLista" style="width: 220px;">
-                <p:menuitem value="Wycofaj środek z ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
-                <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodek()}" icon="ui-icon-print" />
-                <p:menuitem value="Sprzedaż środka trwałego" update=":formSTR:akordeon" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
+                <p:contextMenu for="wnipLista" style="width: 220px;">
+                <p:menuitem value="Wycofaj wnip z ewidencji" update=":formWnip:akordeon_wnip" actionListener="#{STRTableView.wycofajsrodek()}" icon="ui-icon-trash" />
+                <p:menuitem value="Drukuj wnip z ewidencji" actionListener="#{STRTableView.drukujsrodek()}" icon="ui-icon-print" />
+                <p:menuitem value="Sprzedaż wnip" update=":formWnip:akordeon_wnip" actionListener="#{sTRSprzedazView.sprzedazsrodkaFK()}" icon="ui-icon-cart" 
                             rendered="#{facesContext.externalContext.isUserInRole('BookkeeperFK')}"/>
             </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{STRTableView.posiadane}" id="srodkiLista" editable="true" 
+                <p:dataTable  var="wpis" value="#{STRTableView.posiadane_wnip}" id="wnipLista" editable="true" 
                               scrollable="true" scrollHeight="390" scrollRows="15"
-                             widgetVar="srodkiLista1" style="max-width: 1400px;"
+                             widgetVar="wnipLista1" style="max-width: 1400px;"
                               rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
 
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja srodkow trwalych - " />
-                        <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('srodkiLista1').filter()" style="width: 200px;"/>
+                        <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('wnipLista1').filter()" style="width: 200px;"/>
                     </f:facet>
 
                     <p:column id="idColumn" headerText="nr kol." width="20" style="text-align: center;">  
@@ -136,11 +136,11 @@
                 </p:dataTable>
             </p:tab>
             <p:tab id="zestawieniestrs" title="sprzedane">
-                <p:contextMenu for="srodkiListas" style="width: 220px;">
-                    <p:menuitem value="Przywróć środek do ewidencji" update=":formSTR:akordeon" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
-                    <p:menuitem value="Drukuj środek z ewidencji" actionListener="#{STRTableView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
+                <p:contextMenu for="wnipListas" style="width: 220px;">
+                    <p:menuitem value="Przywróć wnip do ewidencji" update=":formWnip:akordeon_wnip" actionListener="#{STRTableView.przywrocsrodki()}" icon="ui-icon-arrowreturnthick-1-w" />
+                    <p:menuitem value="Drukuj wnip z ewidencji" actionListener="#{STRTableView.drukujsrodeksprzedaz()}" icon="ui-icon-print" />
                 </p:contextMenu>
-                <p:dataTable  var="wpis" value="#{STRTableView.sprzedane}" id="srodkiListas" editable="true" 
+                <p:dataTable  var="wpis" value="#{STRTableView.sprzedane_wnip}" id="wnipListas" editable="true" 
                               scrollable="true" scrollHeight="390"
                                style="max-width: 1200px;"
                               rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalySprzedane}" selectionMode="single"> 
@@ -221,7 +221,7 @@
                 </p:dataTable>
             </p:tab>
             <p:tab id="zestawieniestr1" title="plan umorzeń">
-                <p:dataTable  var="wpis" value="#{STRTableView.srodkiTrwale}" id="srodkiLista1" editable="true" 
+                <p:dataTable  var="wpis" value="#{STRTableView.srodkiTrwale}" id="wnipLista1" editable="true" 
                               scrollable="true" scrollHeight="390"
                               style="max-width: 1220px;"
                               rowKey="#{wpis.id}" selectionMode="single"> 

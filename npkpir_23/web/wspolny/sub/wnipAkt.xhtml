@@ -5,13 +5,13 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
-    <p:growl id="mess_add" />
+
     <p:commandButton  value="Zachowaj w pdf" actionListener="#{sesjaView.dodajwydruk()}" action="#{STREwidencja.drukewidencjaSTR()}" onsuccess="wydrukstr('#{WpisView.podatnikWpisu}');">
         </p:commandButton>  
-    <p:commandButton id="ewwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;">
+    <p:commandButton id="ewwysylka_wnip" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show()" style="display: none;">
         </p:commandButton>
     <p:separator/>
-    <p:dataTable  var="wpis" value="#{STREwidencja.strtabela}" id="dokumsrodkiListaRok" editable="true" 
+    <p:dataTable  var="wpis" value="#{STREwidencja.wniptabela}" id="dokumwnipListaRok" editable="true" 
                       scrollable="true" scrollHeight="530" scrollRows="15"
                       emptyMessage="W firmie nie ma środków trwałych" sortOrder="descending"> 
          

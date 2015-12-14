@@ -43,8 +43,10 @@ public class STREwidencja implements Serializable {
     private List<SrodekTrw> listaSrodkiTrwale;
     //wyposazenie
     private List<SrodekTrw> listaWyposazenia;
+    private List<SrodekTrw> listaWnip;
     //srodki trwale wykaz rok biezacy
     private List<STRtabela> strtabela;
+    private List<STRtabela> wniptabela;
     /**
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
@@ -55,7 +57,9 @@ public class STREwidencja implements Serializable {
     public STREwidencja() {
         listaSrodkiTrwale = new ArrayList<>();
         listaWyposazenia = new ArrayList<>();
+        listaWnip = new ArrayList<>();
         strtabela = new ArrayList<>();
+        wniptabela = new ArrayList<>();
     }
   
 
@@ -90,6 +94,10 @@ public class STREwidencja implements Serializable {
                         przegladanySrodek.setNrsrodka(i++);
                         listaWyposazenia.add(przegladanySrodek);
 
+                    } else if (przegladanySrodek.getTyp() != null && przegladanySrodek.getTyp().equals("wnip")) {
+                        przegladanySrodek.setNrsrodka(i++);
+                        listaWnip.add(przegladanySrodek);
+
                     } else {
                         przegladanySrodek.setNrsrodka(j++);
                         if (przegladanySrodek.getDatazak().substring(0, 4).equals(rokdzisiejszyS)) {
@@ -103,38 +111,20 @@ public class STREwidencja implements Serializable {
         }
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(listaSrodkiTrwale);
+        stworzpozycjeSrodka(lista, rokdzisiejszyI);
+        podsumowanieewidencji();
+    }
+
+    
+    private void stworzpozycjeSrodka(List<SrodekTrw> lista, int rokdzisiejszyI) {
         int i = 1;
         for (SrodekTrw str : lista) {
-            STRtabela strdocelowy = new STRtabela();
-            strdocelowy.setId(i);
-            strdocelowy.setNazwa(str.getNazwa());
-            strdocelowy.setKst(str.getKst());
-            strdocelowy.setOdpisrok(0.0);
-            strdocelowy.setSymbol(str.getSymbol());
-            strdocelowy.setDatazak(str.getDatazak());
-            strdocelowy.setDataprzek(str.getDataprzek());
-            strdocelowy.setDatawy("");
-            strdocelowy.setNetto(str.getNetto());
-            strdocelowy.setPodatnik(str.getPodatnik());
-            strdocelowy.setStyczen(0.0);
-            strdocelowy.setLuty(0.0);
-            strdocelowy.setMarzec(0.0);
-            strdocelowy.setKwiecien(0.0);
-            strdocelowy.setMaj(0.0);
-            strdocelowy.setCzerwiec(0.0);
-            strdocelowy.setLipiec(0.0);
-            strdocelowy.setSierpien(0.0);
-            strdocelowy.setWrzesien(0.0);
-            strdocelowy.setPazdziernik(0.0);
-            strdocelowy.setListopad(0.0);
-            strdocelowy.setGrudzien(0.0);
-            List<Double> miesiace = new ArrayList<>();
+            STRtabela strdocelowy = new STRtabela(i, str);
             try {
-                Iterator itX;
-                itX = str.getUmorzWyk().iterator();
+                Iterator<Umorzenie> itX = str.getUmorzWyk().iterator();
                 BigDecimal umorzenianarastajaco = new BigDecimal(0);
                 while (itX.hasNext()) {
-                    Umorzenie um = (Umorzenie) itX.next();
+                    Umorzenie um = itX.next();
                     if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
                         Integer mc = um.getMcUmorzenia();
                         switch (mc) {
@@ -202,6 +192,9 @@ public class STREwidencja implements Serializable {
             i++;
         }
         Collections.sort(strtabela, new SrodekTrwcomparatorData());
+    }
+    
+    private void podsumowanieewidencji() {
         STRtabela podsumowanie = new STRtabela();
         podsumowanie.setId(0);
         podsumowanie.setNazwa("");
@@ -214,18 +207,6 @@ public class STREwidencja implements Serializable {
         podsumowanie.setNetto(0.0);
         podsumowanie.setOdpisrok(0.0);
         podsumowanie.setUmorzeniaDo(BigDecimal.ZERO);
-        podsumowanie.setStyczen(0.0);
-        podsumowanie.setLuty(0.0);
-        podsumowanie.setMarzec(0.0);
-        podsumowanie.setKwiecien(0.0);
-        podsumowanie.setMaj(0.0);
-        podsumowanie.setCzerwiec(0.0);
-        podsumowanie.setLipiec(0.0);
-        podsumowanie.setSierpien(0.0);
-        podsumowanie.setWrzesien(0.0);
-        podsumowanie.setPazdziernik(0.0);
-        podsumowanie.setListopad(0.0);
-        podsumowanie.setGrudzien(0.0);
         for (STRtabela p : strtabela) {
             podsumowanie.setNetto(podsumowanie.getNetto() + p.getNetto());
             podsumowanie.setOdpisrok(podsumowanie.getOdpisrok() + p.getOdpisrok());
@@ -246,7 +227,7 @@ public class STREwidencja implements Serializable {
         }
         strtabela.add(podsumowanie);
     }
-
+    
     public void mailewidencjaSTR() {
         try {
             MailOther.ewidencjaSTR(wpisView);
@@ -317,6 +298,14 @@ public class STREwidencja implements Serializable {
 
     public void setWest(String west) {
         this.west = west;
+    }
+
+    public List<STRtabela> getWniptabela() {
+        return wniptabela;
+    }
+
+    public void setWniptabela(List<STRtabela> wniptabela) {
+        this.wniptabela = wniptabela;
     }
     
 }

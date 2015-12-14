@@ -44,31 +44,47 @@
 -->            <p:panel id="nowypanelsrodki" >
                 <p:dataTable id="tabelasrodkitrwaleOT" value="#{srodkiTrwaleView.selectedSTR}" var="loop"> 
                     <p:column headerText="nazwa środka" style="text-align: center;" width="120">
-                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}"/>
+                        <p:inputText id="nazwasrodka" value="#{loop.nazwa}" style="width: 120px;">
+                            <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <p:column headerText="data przyjecia" width="65" style="text-align: center;">
                         <p:inputText id="dataprz" value="#{loop.dataprzek}"  placeholder="rrrr-mm-dd" size="10"
-                                      onblur="weryfikujsporzadzfakture(this);" style="text-align: center;"/>
+                                      onblur="weryfikujsporzadzfakture(this);" style="text-align: center;">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <p:column headerText="symbol KST" width="50" style="text-align: center;">
-                        <p:inputText value="#{loop.kst}" style="text-align: center;" size="3"/>
+                        <p:inputText value="#{loop.kst}" style="text-align: center;" size="3">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <p:column headerText="stawka amort" width="50" style="text-align: center;">
-                        <p:inputText value="#{loop.stawka}" style="text-align: center;" size="3"/>
+                        <p:inputText value="#{loop.stawka}" style="text-align: center;" size="3">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </p:inputText>
                     </p:column>
                     <p:column headerText="cena zakupu" style="text-align: center;">
                          <pe:inputNumber value="#{loop.netto}" symbol=" zł" required="true" 
-                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
+                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="pod.VAT" style="text-align: center;">
                         <pe:inputNumber value="#{loop.vat}" symbol=" zł" required="true" 
-                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto"/> 
+                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-100000" maxlength="8" styleClass="wiersznetto">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="dotychczasowe umorzenie" style="text-align: center;">
-                         <pe:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                         <pe:inputNumber value="#{loop.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="nie podlega umorzeniu" style="text-align: center;">
-                         <pe:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                         <pe:inputNumber value="#{loop.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                        </pe:inputNumber>
                     </p:column>
                     <p:column headerText="środek trw/wyposazenie" style="text-align: center;">
                         <h:selectOneMenu value="#{loop.typ}"
@@ -78,8 +94,10 @@
                                          onfocus="$(this).removeClass('ui-state-default');
                                                  $(this).addClass('ui-state-focus');"
                                          >
+                                <p:ajax event="blur" partialSubmit="true" global="false"/>
                             <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
-                            <f:selectItem itemLabel="wnip" itemValue="wyposazenie"/>
+                            <f:selectItem itemLabel="wnip" itemValue="wnip"/>
+                            <f:selectItem itemLabel="wyposażenie" itemValue="wyposazenie"/>
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>

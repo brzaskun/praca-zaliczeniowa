@@ -87,8 +87,11 @@ public class STRTabView implements Serializable {
     private List<SrodekTrw> srodkiTrwale;
     private List<SrodekTrw> filteredValues;
     private List<SrodekTrw> posiadane;
+    private List<SrodekTrw> posiadane_wnip;
     private double posiadanesumanetto;
+    private double posiadanesumanetto_wnip;
     private List<SrodekTrw> sprzedane;
+    private List<SrodekTrw> sprzedane_wnip;
     //tablica obiektów danego klienta z określonego roku i miesiąca
     protected List<SrodekTrw> srodkiZakupRokBiezacy;
     //wyposazenie
@@ -105,7 +108,9 @@ public class STRTabView implements Serializable {
      * Dane informacyjne gora strony srodkitablica.xhtml
      */
     private int iloscsrodkow;
+    private int iloscsrodkow_wnip;
     private int zakupionewbiezacyrok;
+    private int zakupionewbiezacyrok_wnip;
 
     public STRTabView() {
         ustawTabele();
@@ -117,7 +122,9 @@ public class STRTabView implements Serializable {
         srodkiZakupRokBiezacy = new ArrayList<>();
         wyposazenie = new ArrayList<>();
         posiadane = new ArrayList<>();
+        posiadane_wnip = new ArrayList<>();
         sprzedane = new ArrayList<>();
+        sprzedane_wnip = new ArrayList<>();
         amodoklist = new ArrayList<>();
     }
 
@@ -126,6 +133,7 @@ public class STRTabView implements Serializable {
         ustawTabele();
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
+        zakupionewbiezacyrok_wnip = 0;
         if (wpisView.getPodatnikWpisu() != null) {
             List<SrodekTrw> srodkizBazy = new ArrayList<>();
             try {
@@ -143,6 +151,18 @@ public class STRTabView implements Serializable {
                             srodek.setNrsrodka(i++);
                             wyposazenie.add(srodek);
 
+                        } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip"))  {
+                            srodek.setNrsrodka(j++);
+                            if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                                zakupionewbiezacyrok_wnip++;
+                            }
+                            srodkiTrwale.add(srodek);
+                            if (srodek.getZlikwidowany() == 0) {
+                                posiadane_wnip.add(srodek);
+                                posiadanesumanetto_wnip += srodek.getNetto();
+                            } else {
+                                sprzedane_wnip.add(srodek);
+                            }
                         } else {
                             srodek.setNrsrodka(j++);
                             if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
@@ -667,6 +687,46 @@ public class STRTabView implements Serializable {
 
     public void setListaWyposazenia(List<SrodekTrw> listaWyposazenia) {
         this.listaWyposazenia = listaWyposazenia;
+    }
+
+    public List<SrodekTrw> getPosiadane_wnip() {
+        return posiadane_wnip;
+    }
+
+    public void setPosiadane_wnip(List<SrodekTrw> posiadane_wnip) {
+        this.posiadane_wnip = posiadane_wnip;
+    }
+
+    public double getPosiadanesumanetto_wnip() {
+        return posiadanesumanetto_wnip;
+    }
+
+    public void setPosiadanesumanetto_wnip(double posiadanesumanetto_wnip) {
+        this.posiadanesumanetto_wnip = posiadanesumanetto_wnip;
+    }
+
+    public List<SrodekTrw> getSprzedane_wnip() {
+        return sprzedane_wnip;
+    }
+
+    public void setSprzedane_wnip(List<SrodekTrw> sprzedane_wnip) {
+        this.sprzedane_wnip = sprzedane_wnip;
+    }
+
+    public int getIloscsrodkow_wnip() {
+        return iloscsrodkow_wnip;
+    }
+
+    public void setIloscsrodkow_wnip(int iloscsrodkow_wnip) {
+        this.iloscsrodkow_wnip = iloscsrodkow_wnip;
+    }
+
+    public int getZakupionewbiezacyrok_wnip() {
+        return zakupionewbiezacyrok_wnip;
+    }
+
+    public void setZakupionewbiezacyrok_wnip(int zakupionewbiezacyrok_wnip) {
+        this.zakupionewbiezacyrok_wnip = zakupionewbiezacyrok_wnip;
     }
 
     

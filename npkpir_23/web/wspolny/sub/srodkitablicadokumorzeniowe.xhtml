@@ -20,9 +20,9 @@
            <p:menuitem value="O(d)znacz jako zaksięgowane" actionListener="#{STRTableView.oznaczjakozaksiegowane()}" update=":formSTRUmorzenie:dokumsrodkiLista" icon="ui-icon-locked" />
             </p:contextMenu>
       <p:dataTable  var="wpis" value="#{STRTableView.amodoklist}" id="dokumsrodkiLista"
-                    paginator="true" paginatorAlwaysVisible="true" rows="12" selection="#{STRTableView.amodoklistselected}"
-                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,24,50,100" style="width: 1100px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
+                    selection="#{STRTableView.amodoklistselected}"
+                      scrollable="true" scrollHeight="500" scrollRows="15"
+                      style="width: 1100px; height: 600px;" rowKey="#{wpis.amodokPK.mc}"
                       rowStyleClass="#{wpis.zaksiegowane eq true ? 'old' : null}" emptyMessage="Nie wygenerowano dokumentów amortyzacyjnych"> 
           <p:ajax event="filter" global="false"/>
             <f:facet name="header">  

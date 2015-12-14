@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.SrodekTrw;
 import java.math.BigDecimal;
 
 /**
@@ -36,6 +37,49 @@ public class STRtabela {
     private Double grudzien;
     private BigDecimal umorzeniaDo;
     private BigDecimal pozostaloDoUmorzenia;
+
+    public STRtabela() {
+        this.setStyczen(0.0);
+        this.setLuty(0.0);
+        this.setMarzec(0.0);
+        this.setKwiecien(0.0);
+        this.setMaj(0.0);
+        this.setCzerwiec(0.0);
+        this.setLipiec(0.0);
+        this.setSierpien(0.0);
+        this.setWrzesien(0.0);
+        this.setPazdziernik(0.0);
+        this.setListopad(0.0);
+        this.setGrudzien(0.0);
+    }
+
+    
+    public STRtabela(int i, SrodekTrw str) {
+        this.setId(i);
+        this.setNazwa(str.getNazwa());
+        this.setKst(str.getKst());
+        this.setOdpisrok(0.0);
+        this.setSymbol(str.getSymbol());
+        this.setDatazak(str.getDatazak());
+        this.setDataprzek(str.getDataprzek());
+        this.setDatawy("");
+        this.setNetto(str.getNetto());
+        this.setPodatnik(str.getPodatnik());
+        this.setStyczen(0.0);
+        this.setLuty(0.0);
+        this.setMarzec(0.0);
+        this.setKwiecien(0.0);
+        this.setMaj(0.0);
+        this.setCzerwiec(0.0);
+        this.setLipiec(0.0);
+        this.setSierpien(0.0);
+        this.setWrzesien(0.0);
+        this.setPazdziernik(0.0);
+        this.setListopad(0.0);
+        this.setGrudzien(0.0);
+    }
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Integer getId() {

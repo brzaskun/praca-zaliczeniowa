@@ -14,16 +14,24 @@
                             <p:menuitem value="dokumenty umorzeniowe" onclick="PF('dialogsrodkitrwalefkumorzenia').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
-                </p:tab>  
-                <p:tab title="wyposażenie">
+                </p:tab>
+                <p:tab title="w.n.i.p.">
                     <h:form id="dialog1menu2">
+                        <p:menu id="d1m2" styleClass="d2m" style="width: 400px; text-align: center; height: 450px;">
+                            <p:menuitem value="zestawienie wnip" onclick="PF('dialog_wnip_zestawienie').show();"></p:menuitem>
+                            <p:menuitem value="ewidencja wnip" onclick="PF('dialog_wnip_ewidencja').show();"></p:menuitem>
+                        </p:menu>  
+                    </h:form>
+                </p:tab>
+                <p:tab title="wyposażenie">
+                    <h:form id="dialog1menu3">
                         <p:menu id="d1m2" styleClass="d2m" style="width: 400px; text-align: center; height: 450px;">
                             <p:menuitem value="ewidencja wyposażenia" onclick="PF('dialogsrodkitrwalefkwyposazenie').show();"></p:menuitem>
                         </p:menu>  
                     </h:form>
                 </p:tab>
                 <p:tab title="inwestycje">
-                    <h:form id="dialog1menu3">
+                    <h:form id="dialog1menu4">
                         <p:menu id="d1m3" styleClass="d3m" style="width: 400px; text-align: center; height: 450px;">
                             <p:menuitem value="wykaz inwestycji" onclick="PF('dialogsrodkitrwalefkinwestycja').show();"></p:menuitem>
                         </p:menu>  
