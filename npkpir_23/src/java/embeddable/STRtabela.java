@@ -6,6 +6,8 @@ package embeddable;
 
 import entity.SrodekTrw;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -23,34 +25,12 @@ public class STRtabela {
     private String kst;
     private Double odpisrok;
     private Double netto;
-    private Double styczen;
-    private Double luty;
-    private Double marzec;
-    private Double kwiecien;
-    private Double maj;
-    private Double czerwiec;
-    private Double lipiec;
-    private Double sierpien;
-    private Double wrzesien;
-    private Double pazdziernik;
-    private Double listopad;
-    private Double grudzien;
+    private Map<String, Double> m;
     private BigDecimal umorzeniaDo;
     private BigDecimal pozostaloDoUmorzenia;
 
     public STRtabela() {
-        this.setStyczen(0.0);
-        this.setLuty(0.0);
-        this.setMarzec(0.0);
-        this.setKwiecien(0.0);
-        this.setMaj(0.0);
-        this.setCzerwiec(0.0);
-        this.setLipiec(0.0);
-        this.setSierpien(0.0);
-        this.setWrzesien(0.0);
-        this.setPazdziernik(0.0);
-        this.setListopad(0.0);
-        this.setGrudzien(0.0);
+       this.m = mapaMce();
     }
 
     
@@ -65,20 +45,17 @@ public class STRtabela {
         this.setDatawy("");
         this.setNetto(str.getNetto());
         this.setPodatnik(str.getPodatnik());
-        this.setStyczen(0.0);
-        this.setLuty(0.0);
-        this.setMarzec(0.0);
-        this.setKwiecien(0.0);
-        this.setMaj(0.0);
-        this.setCzerwiec(0.0);
-        this.setLipiec(0.0);
-        this.setSierpien(0.0);
-        this.setWrzesien(0.0);
-        this.setPazdziernik(0.0);
-        this.setListopad(0.0);
-        this.setGrudzien(0.0);
+        this.m = mapaMce();
+        
     }
     
+    private Map<String, Double> mapaMce() {
+        Map m = new HashMap();
+        for (String mc : Mce.getMceListS()) {
+            m.put(mc, 0.0);
+        }
+        return m;
+    }
     
 
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -163,101 +140,13 @@ public class STRtabela {
     public void setNetto(Double netto) {
         this.netto = netto;
     }
-    
-    public Double getStyczen() {
-        return styczen;
+
+    public Map<String, Double> getM() {
+        return m;
     }
-    
-    public void setStyczen(Double styczen) {
-        this.styczen = styczen;
-    }
-    
-    public Double getLuty() {
-        return luty;
-    }
-    
-    public void setLuty(Double luty) {
-        this.luty = luty;
-    }
-    
-    public Double getMarzec() {
-        return marzec;
-    }
-    
-    public void setMarzec(Double marzec) {
-        this.marzec = marzec;
-    }
-    
-    public Double getKwiecien() {
-        return kwiecien;
-    }
-    
-    public void setKwiecien(Double kwiecien) {
-        this.kwiecien = kwiecien;
-    }
-    
-    public Double getMaj() {
-        return maj;
-    }
-    
-    public void setMaj(Double maj) {
-        this.maj = maj;
-    }
-    
-    public Double getCzerwiec() {
-        return czerwiec;
-    }
-    
-    public void setCzerwiec(Double czerwiec) {
-        this.czerwiec = czerwiec;
-    }
-    
-    public Double getLipiec() {
-        return lipiec;
-    }
-    
-    public void setLipiec(Double lipiec) {
-        this.lipiec = lipiec;
-    }
-    
-    public Double getSierpien() {
-        return sierpien;
-    }
-    
-    public void setSierpien(Double sierpien) {
-        this.sierpien = sierpien;
-    }
-    
-    public Double getWrzesien() {
-        return wrzesien;
-    }
-    
-    public void setWrzesien(Double wrzesien) {
-        this.wrzesien = wrzesien;
-    }
-    
-    public Double getPazdziernik() {
-        return pazdziernik;
-    }
-    
-    public void setPazdziernik(Double pazdziernik) {
-        this.pazdziernik = pazdziernik;
-    }
-    
-    public Double getListopad() {
-        return listopad;
-    }
-    
-    public void setListopad(Double listopad) {
-        this.listopad = listopad;
-    }
-    
-    public Double getGrudzien() {
-        return grudzien;
-    }
-    
-    public void setGrudzien(Double grudzien) {
-        this.grudzien = grudzien;
+
+    public void setM(Map<String, Double> m) {
+        this.m = m;
     }
     
     public BigDecimal getUmorzeniaDo() {

@@ -6,6 +6,7 @@ package view;
 
 import comparator.SrodekTrwcomparatorData;
 import dao.STRDAO;
+import embeddable.Mce;
 import embeddable.STRtabela;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
@@ -111,12 +112,16 @@ public class STREwidencja implements Serializable {
         }
         List<SrodekTrw> lista = new ArrayList<>();
         lista.addAll(listaSrodkiTrwale);
-        stworzpozycjeSrodka(lista, rokdzisiejszyI);
-        podsumowanieewidencji();
+        stworzpozycjeSrodka(lista, rokdzisiejszyI, strtabela);
+        podsumowanieewidencji(strtabela);
+        lista = new ArrayList<>();
+        lista.addAll(listaWnip);
+        stworzpozycjeSrodka(lista, rokdzisiejszyI, wniptabela);
+        podsumowanieewidencji(wniptabela);
     }
 
     
-    private void stworzpozycjeSrodka(List<SrodekTrw> lista, int rokdzisiejszyI) {
+    private void stworzpozycjeSrodka(List<SrodekTrw> lista, int rokdzisiejszyI, List<STRtabela> tabela) {
         int i = 1;
         for (SrodekTrw str : lista) {
             STRtabela strdocelowy = new STRtabela(i, str);
@@ -126,57 +131,9 @@ public class STREwidencja implements Serializable {
                 while (itX.hasNext()) {
                     Umorzenie um = itX.next();
                     if (um.getRokUmorzenia().equals(rokdzisiejszyI)) {
-                        Integer mc = um.getMcUmorzenia();
-                        switch (mc) {
-                            case 1:
-                                strdocelowy.setStyczen(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getStyczen());
-                                break;
-                            case 2:
-                                strdocelowy.setLuty(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLuty());
-                                break;
-                            case 3:
-                                strdocelowy.setMarzec(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMarzec());
-                                break;
-                            case 4:
-                                strdocelowy.setKwiecien(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getKwiecien());
-                                break;
-                            case 5:
-                                strdocelowy.setMaj(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getMaj());
-                                break;
-                            case 6:
-                                strdocelowy.setCzerwiec(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getCzerwiec());
-                                break;
-                            case 7:
-                                strdocelowy.setLipiec(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getLipiec());
-                                break;
-                            case 8:
-                                strdocelowy.setSierpien(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getSierpien());
-                                break;
-                            case 9:
-                                strdocelowy.setWrzesien(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getWrzesien());
-                                break;
-                            case 10:
-                                strdocelowy.setPazdziernik(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getPazdziernik());
-                                break;
-                            case 11:
-                                strdocelowy.setListopad(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getListopad());
-                                break;
-                            case 12:
-                                strdocelowy.setGrudzien(um.getKwota().doubleValue());
-                                strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getGrudzien());
-                                break;
-                        }
+                        String mc = Mce.getNumberToMiesiac().get(um.getMcUmorzenia());
+                        strdocelowy.getM().put(mc, um.getKwota().doubleValue());
+                        strdocelowy.setOdpisrok(strdocelowy.getOdpisrok() + strdocelowy.getM().get(mc));
                     } else if (um.getRokUmorzenia() < wpisView.getRokWpisu()) {
                         umorzenianarastajaco = umorzenianarastajaco.add(um.getKwota());
                     } else if (um.getRokUmorzenia() > wpisView.getRokWpisu()) {
@@ -184,17 +141,18 @@ public class STREwidencja implements Serializable {
                     }
                 }
                 strdocelowy.setUmorzeniaDo(umorzenianarastajaco.add(new BigDecimal(str.getUmorzeniepoczatkowe())));
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) { 
+                E.e(e); 
                 strdocelowy.setUmorzeniaDo(new BigDecimal(BigInteger.ZERO));
             }
             strdocelowy.setPozostaloDoUmorzenia(new BigDecimal(strdocelowy.getNetto()).subtract(strdocelowy.getUmorzeniaDo().add(new BigDecimal(strdocelowy.getOdpisrok()))));
-            strtabela.add(strdocelowy);
+            tabela.add(strdocelowy);
             i++;
         }
-        Collections.sort(strtabela, new SrodekTrwcomparatorData());
+        Collections.sort(tabela, new SrodekTrwcomparatorData());
     }
     
-    private void podsumowanieewidencji() {
+    private void podsumowanieewidencji(List<STRtabela> tabela) {
         STRtabela podsumowanie = new STRtabela();
         podsumowanie.setId(0);
         podsumowanie.setNazwa("");
@@ -207,25 +165,15 @@ public class STREwidencja implements Serializable {
         podsumowanie.setNetto(0.0);
         podsumowanie.setOdpisrok(0.0);
         podsumowanie.setUmorzeniaDo(BigDecimal.ZERO);
-        for (STRtabela p : strtabela) {
+        for (STRtabela p : tabela) {
             podsumowanie.setNetto(podsumowanie.getNetto() + p.getNetto());
             podsumowanie.setOdpisrok(podsumowanie.getOdpisrok() + p.getOdpisrok());
             podsumowanie.setUmorzeniaDo(podsumowanie.getUmorzeniaDo().add(p.getUmorzeniaDo()));
-            podsumowanie.setStyczen(podsumowanie.getStyczen() + p.getStyczen());
-            podsumowanie.setLuty(podsumowanie.getLuty() + p.getLuty());
-            podsumowanie.setMarzec(podsumowanie.getMarzec() + p.getMarzec());
-            podsumowanie.setKwiecien(podsumowanie.getKwiecien() + p.getKwiecien());
-            podsumowanie.setMaj(podsumowanie.getMaj() + p.getMaj());
-            podsumowanie.setCzerwiec(podsumowanie.getCzerwiec() + p.getCzerwiec());
-            podsumowanie.setLipiec(podsumowanie.getLipiec() + p.getLipiec());
-            podsumowanie.setSierpien(podsumowanie.getSierpien() + p.getSierpien());
-            podsumowanie.setWrzesien(podsumowanie.getWrzesien() + p.getWrzesien());
-            podsumowanie.setPazdziernik(podsumowanie.getPazdziernik() + p.getPazdziernik());
-            podsumowanie.setListopad(podsumowanie.getListopad() + p.getListopad());
-            podsumowanie.setGrudzien(podsumowanie.getGrudzien() + p.getGrudzien());
-
+            for (String mc : Mce.getMceListS()) {
+                podsumowanie.getM().put(mc, podsumowanie.getM().get(mc) + p.getM().get(mc));
+            }
         }
-        strtabela.add(podsumowanie);
+        tabela.add(podsumowanie);
     }
     
     public void mailewidencjaSTR() {
@@ -239,6 +187,14 @@ public class STREwidencja implements Serializable {
     public void drukewidencjaSTR() {
         try {
             PdfSTR.drukuj(wpisView, strtabela);
+        } catch (Exception e) { E.e(e); 
+
+        }
+    }
+    
+    public void drukewidencjaWnip() {
+        try {
+            PdfSTR.drukuj(wpisView, wniptabela);
         } catch (Exception e) { E.e(e); 
 
         }

@@ -19,9 +19,15 @@ var wydrukzbiorcze = function(kto){
     document.getElementById("akordeon:form:pkpirwysylka").style.display='inline';
 };
 
+var wydrukwnip = function(kto){
+    window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
+    document.getElementById("formWnipEw:ewwysylka_wnip").style.display='inline';
+    
+};
+
 var wydrukstr = function(kto){
     window.open('../wydruki/srodki'+kto+'.pdf','','status=no,toolbar=no,location=no,menubar=no,resizable,width=1008,height=690,scrollbars,left=100,top=50');
-    document.getElementById("formSTR:ewwysylka").style.display='inline';
+    document.getElementById("formSTR2:ewwysylka").style.display='inline';
     
 };
 //dlatego jest try bo wykorzystywana jest w dwoch miejscach vatwyslane i vat korekta gdzie nie ma button mail
