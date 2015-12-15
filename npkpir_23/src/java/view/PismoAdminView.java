@@ -10,9 +10,12 @@ import entity.Pismoadmin;
 import entity.Uz;
 import error.E;
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -34,6 +37,7 @@ public class PismoAdminView implements Serializable{
     @Inject
     private UzDAO uzDAO;
     private static final List<String> listamenu;
+    private static final List<String> listamenu_fk;
     private static final List<String> waznosc;
     private static final List<String> status;
     private static final List<String> statusadmin;
@@ -59,12 +63,29 @@ public class PismoAdminView implements Serializable{
         listamenu.add("faktury - panel");
         listamenu.add("zus");
         listamenu.add("napisz do admina");
+        listamenu_fk = new ArrayList<>();
+        listamenu_fk.add("wpisywanie");
+        listamenu_fk.add("przeglądanie zaksięgowanych");
+        listamenu_fk.add("zapisy konta");
+        listamenu_fk.add("obroty konta");
+        listamenu_fk.add("zestawienia analityczne");
+        listamenu_fk.add("zestawienia analityczne narast.");
+        listamenu_fk.add("symulacja");
+        listamenu_fk.add("symulacja narastająco");
+        listamenu_fk.add("ewidencja vat");
+        listamenu_fk.add("bilans");
+        listamenu_fk.add("rachunek zysków i strat");
+        listamenu_fk.add("plan kont");
+        listamenu_fk.add("dane firmy");
+        listamenu_fk.add("środki trwałe");
+        listamenu_fk.add("słowniki");
+        listamenu_fk.add("rmk");
         waznosc = new ArrayList<>();
-        waznosc.add("nie wiem po co to zgłaszam");
-        waznosc.add("takie tam");
-        waznosc.add("wypada naprawić");
+        waznosc.add("na przyszłość");
+        waznosc.add("przydałoby się");
+        waznosc.add("przeszkadza");
         waznosc.add("ważne");
-        waznosc.add("pali się");
+        waznosc.add("nie można bez tego pracować");
         status = new ArrayList<>();
         status.add("wysłana");
         status.add("admin przeczytał");
@@ -89,7 +110,23 @@ public class PismoAdminView implements Serializable{
     private static boolean wybierztylkobiezace;
     
     
+       
     public PismoAdminView() {
+    }
+    
+    @PostConstruct
+    public void init() {
+        listapism = pismoadminDAO.findBiezace();
+        //zrobilem odwrotnie bez zmiany nazwy bo przeca po co mi widzie cte archiwalne
+        if (wybierztylkobiezace==true) {
+            listapismwszytskie = pismoadminDAO.findAll();
+        } else {
+            listapismwszytskie = pismoadminDAO.findBiezace();
+        }
+        Collator collator = Collator.getInstance(new Locale("pl", "PL"));
+        collator.setStrength(Collator.PRIMARY);
+        Collections.sort(listamenu, collator);
+        Collections.sort(listamenu_fk, collator);
     }
     
      public void molestujadmina() {
@@ -163,16 +200,7 @@ public class PismoAdminView implements Serializable{
         }
     }
     
-    @PostConstruct
-    public void init() {
-        listapism = pismoadminDAO.findBiezace();
-        //zrobilem odwrotnie bez zmiany nazwy bo przeca po co mi widzie cte archiwalne
-        if (wybierztylkobiezace==true) {
-            listapismwszytskie = pismoadminDAO.findAll();
-        } else {
-            listapismwszytskie = pismoadminDAO.findBiezace();
-        }
-    }
+    
 
     public Pismoadmin getPismoadmin() {
         return pismoadmin;
@@ -185,11 +213,17 @@ public class PismoAdminView implements Serializable{
     public List<String> getListamenu() {
         return listamenu;
     }
+    
+    public List<String> getListamenuFK() {
+        return listamenu_fk;
+    }
 
     public List<String> getWaznosc() {
         return waznosc;
     }
 
+    
+    
     public List<Pismoadmin> getListapism() {
         return listapism;
     }
@@ -230,6 +264,7 @@ public class PismoAdminView implements Serializable{
         PismoAdminView.wybierztylkobiezace = wybierztylkobiezace;
     }
 
+    
     
     
     
