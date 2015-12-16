@@ -76,7 +76,7 @@ var dolaczwyliczenieKopiowanie = function() {
 };
 
 
-var aktywujopis = function() {
+var aktywujopis = function(czyjestvat) {
     var dokument = $('#dodWiad\\:rodzajTrans').val();
     if (dokument === 'IN') {
         r('dodWiad:inwestycja').show();
@@ -103,7 +103,7 @@ var aktywujopis = function() {
             }
             break;
         default:
-            if (r('dodWiad:dokumentprosty').is(':checked') === true) {
+            if (r('dodWiad:dokumentprosty').is(':checked') === true && czyjestvat > 0) {
                 r('dodWiad:dokumentprosty').trigger("click");
                 r('dodWiad:panelewidencjivat').show();
             }

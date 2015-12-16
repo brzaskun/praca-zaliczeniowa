@@ -21,7 +21,8 @@
                     <h:outputLabel value="nip" style="font-weight: 700"/>
                     <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                     <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
+                    <p:inputText id="nazwaPole" value="#{KlView.selected.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" 
+                                 style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste"
                                   onblur="kopiujnazwepelna();">
                         <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" /> 
                     </p:inputText>

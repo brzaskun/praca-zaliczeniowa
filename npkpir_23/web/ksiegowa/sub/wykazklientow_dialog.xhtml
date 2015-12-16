@@ -18,7 +18,9 @@
                 <h:outputLabel value="nip" style="font-weight: 700"/>
                 <h:outputLabel value="kod pocztowy" style="font-weight: 700"/>
                 <h:outputLabel value="miejscowość" style="font-weight: 700"/>
-                <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55" style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste">
+                <p:inputText id="nazwaPole" value="#{DokumentView.selectedKlient.npelna}"  accesskey="a" title="pełna nazwa kontrahenta" maxlength="55"
+                             onblur="kopiujnazwepelnakontrahenci();"
+                             style="width: 200px" required="true" requiredMessage="Pole nazwy pełnej nie może byc puste">
                     <p:watermark for="nazwaPole" value="pełna nazwa kontrahenta 55znakow" />
                     <p:ajax event="blur" listener="#{KlView.poszukajDuplikatNazwaWTrakcie()}"/>
                 </p:inputText>
@@ -47,7 +49,8 @@
                
                 <p:inputText id="ulicaPole" value="#{DokumentView.selectedKlient.ulica}"   style="width: 200px" required="true" requiredMessage="Pole ulica nie może byc puste"/>
                 <p:inputText id="domPole" value="#{DokumentView.selectedKlient.dom}" style="width: 200px" required="true" requiredMessage="Pole dom nie może byc puste"/>
-                <p:inputText id="lokalPole" value="#{DokumentView.selectedKlient.lokal}"  style="width: 200px"/>
+                <p:inputText id="lokalPole" value="#{DokumentView.selectedKlient.lokal}"  style="width: 200px"
+                             onblur="wykresllokal_wykazklientow_dialog();"/>
 
                 <h:selectOneMenu id="pkpirPole" value="#{KlView.selected.pkpirKolumna}"   style="width: 200px" 
                                      styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -58,7 +61,7 @@
                         <f:selectItems value="#{kolmn.kolumnList}" />
                     </h:selectOneMenu>
                  
-                <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();"/>
+                <p:commandButton value="dodaj" action="#{DokumentView.dodajKlienta()}" oncomplete="skopiujdanenowegoklienta();" update="formX"/>
             
             </p:panelGrid>
             <p:panelGrid id="polawprowadzania1" columns="5" >

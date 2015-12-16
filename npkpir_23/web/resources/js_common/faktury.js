@@ -36,6 +36,13 @@ var kopiujnazwepelnakontrahenci = function () {
   }
 };
 
+var wykresllokal_wykazklientow_dialog = function() {
+  var pole = rj("formX:lokalPole").value;
+  if (pole === "") {
+      rj("formX:lokalPole").value = "-";
+  }
+};
+
 var kliknijpolekontrahenta = function (nip) {
     PF('tworzenieklientapolenazwy').search(nip);
     PF('tworzenieklientapolenazwy').activate();

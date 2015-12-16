@@ -1371,8 +1371,9 @@ public final class DokView implements Serializable {
             poszukajnip();
             klDAO.dodaj(selectedKlient);
             selDokument.setKontr(selectedKlient);
+            selectedKlient = new Klienci(); 
             RequestContext.getCurrentInstance().update("dodWiad:acForce");
-            RequestContext.getCurrentInstance().update("formX:");
+            RequestContext.getCurrentInstance().update("formX");
             RequestContext.getCurrentInstance().update("formY:tabelaKontr");
             Msg.msg("i", "Dodano nowego klienta" + selectedKlient.getNpelna(), "formX:mess_add");
         } catch (Exception e) {
