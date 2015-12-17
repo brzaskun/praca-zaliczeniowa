@@ -811,6 +811,18 @@ public final class DokView implements Serializable {
             selDokument.setOpis(wysDokument.getOpis());
             setRenderujwysz(false);
             setPokazEST(false);
+            int i = 0;
+            try {
+                if (wysDokument.getListakwot1() != null) {
+                    for (KwotaKolumna1 p : wysDokument.getListakwot1()) {
+                        if (selDokument.getListakwot1().size() < i+2) {
+                            selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                
+            }
         } else {
             selectedSTR = new SrodekTrw();
             ewidencjaAddwiad.clear();
@@ -1446,6 +1458,18 @@ public final class DokView implements Serializable {
                                 break;
                             }
                         }
+                    }
+                    int i = 0;
+                    try {
+                        if (poprzedniDokument.getListakwot1() != null) {
+                                for (KwotaKolumna1 p : poprzedniDokument.getListakwot1()) {
+                                    if (selDokument.getListakwot1().size() < i+2) {
+                                        selDokument.getListakwot1().get(i++).setNazwakolumny(p.getNazwakolumny());
+                                    }
+                                }
+                        }
+                    } catch (Exception e) {
+                        
                     }
                 }
             } catch (Exception e) {

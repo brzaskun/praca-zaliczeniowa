@@ -39,7 +39,7 @@ public class KlienciConverterView implements Serializable{
             boolean czynipzagraniczny = m.matches();
             if (czynipzagraniczny) {
                 for (Klienci p : listaKlientow) {
-                    if (p.getNip().startsWith(query)) {
+                    if (p.getNip().startsWith(query.toUpperCase())) {
                             results.add(p);
                     }
                 }
@@ -69,5 +69,8 @@ public class KlienciConverterView implements Serializable{
         return klienciDAO.findAll();
     }
 
+    public static void main(String[] args) {
+        System.out.println("lo23".toUpperCase());
+    }
        
 }
