@@ -13,6 +13,10 @@
         .zaksiegowanewaski input {
             width: 72px !important;
         }
+        
+        .zapisZcecha {
+            color: red;
+        }
     </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
               dynamic="true" maximizable="true"
@@ -145,7 +149,8 @@
                     <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
-                    <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}"/>
+                    <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}" 
+                                  styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
                 </p:column>
                 <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
                     <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">

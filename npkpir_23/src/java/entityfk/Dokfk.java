@@ -762,4 +762,17 @@ public class Dokfk implements Serializable {
             }
         }
     }
+    
+    public boolean czyCecha() {
+        if (this.cechadokumentuLista != null && this.cechadokumentuLista.size() > 0) {
+            return true;
+        } else {
+            for (StronaWiersza p : this.getStronyWierszy()) {
+                if (p.getCechazapisuLista().size() > 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
