@@ -54,6 +54,7 @@ import error.E;
 import java.io.File;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -64,6 +65,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
@@ -201,8 +204,7 @@ public class DokfkView implements Serializable {
     private Klienci klientdlaPK;
     private String miesiacDlaZestawieniaZaksiegowanych;
     private DataTable dataTablezaksiegowane;
-    private String kalkulator_ekran;
-    private String kalkulator_wpis;
+    private StronaWiersza selectedStronaWiersza;
 
 
     public DokfkView() {
@@ -1697,6 +1699,7 @@ public class DokfkView implements Serializable {
     }
 
     public void pobranieStronaWiersza(StronaWiersza wybranastronawiersza) {
+        selectedStronaWiersza = wybranastronawiersza;
         lpWierszaWpisywanie = wybranastronawiersza.getWiersz().getIdporzadkowy() - 1;
         String pole = null;
         if (wybranastronawiersza.getWnma().equals("Wn")) {
@@ -3270,10 +3273,26 @@ public class DokfkView implements Serializable {
         return ret;
     }
 
-    
-
-    
-
+    public String obliczsaldowybranegokonta() {
+        String wynik = "";
+        double wynikkwota = 0.0;
+        if (selectedStronaWiersza != null) {
+            Konto k = selectedStronaWiersza.getKonto();
+            for (Wiersz p : selected.getListawierszy()) {
+                if (p.getStronaWn() != null && p.getStronaWn().getKonto().equals(k)) {
+                    wynikkwota += p.getStronaWn().getKwota();
+                }
+                if (p.getStronaMa() != null && p.getStronaMa().getKonto().equals(k)) {
+                    wynikkwota -= p.getStronaMa().getKwota();
+                }
+            }
+            NumberFormat formatter = NumberFormat.getCurrencyInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            wynik = formatter.format(wynikkwota);
+        }
+        return wynik;
+    }
     
    
 }

@@ -397,9 +397,10 @@
                 </p:panelGrid>
                 <div style="height: 340px;">
                     <p:contextMenu id="contextmenudok" for=":formwpisdokument:dataList">
-                        <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>
+<!--ARCHIWUM            <p:menuitem value="napraw wiersz" icon="ui-icon-arrowreturn-1-n" update=":formwpisdokument:dataList" actionListener="#{dokfkView.naprawwiersznkup}"/>-->
+                        <p:menuitem value="saldo konta" icon="fa fa-table" update="panelwpisbutton" global="false"/>
                         <p:menuitem value="usuń wiersz" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" actionListener="#{dokfkView.usunWskazanyWiersz}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
-                        <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" 
+                        <p:menuitem value="wymuś usuniecie" icon="ui-icon-circle-minus" update=":formwpisdokument:dataList" rendered="#{facesContext.externalContext.remoteUser eq '4'}"
                                     actionListener="#{dokfkView.usunWskazanyWierszWymus}" oncomplete="PF('tablicawierszydokwpisu').unselectAllRows();aktywujPierwszePoleNowegoWiersza();"/>
                     </p:contextMenu>
 
@@ -482,7 +483,8 @@
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
                                                     focusNowyWiersz();"
                                             >
-                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" update=":parametry, :wpisywaniefooter"/>
+                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}"
+                                        update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
                                 <p:ajax event="query" global="false"/>
                                 <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaWn)}" 
                                         oncomplete="dodajnowekontoWpis(#{loop.idporzadkowy}, 'Wn');"
@@ -521,7 +523,8 @@
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
                                                     focusNowyWiersz();" 
                                             >
-                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" update=":parametry, :wpisywaniefooter"/>
+                                <p:ajax event="focus" global="false" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}"
+                                        update=":parametry, :wpisywaniefooter, formwpisdokument:contextmenudok"/>
                                 <p:ajax event="query" global="false"/>
                                 <p:ajax global="false" event="itemSelect" partialSubmit="true" listener="#{dokfkView.pobranieStronaWiersza(loop.stronaMa)}" 
                                         oncomplete="dodajnowekontoWpis(#{loop.idporzadkowy}, 'Ma');"
@@ -562,8 +565,12 @@
                     </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
+                            <h:outputText value="saldo wybranego konta: "/>
+                            <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
+                        </p:column>
                         <p:column style="text-align: right;" width="100">
-                            <h:outputText value="wartość dokumentu: "/>
+                            <h:outputText value="wartość dokumentu: " style="margin-left: 20px;"/>
                             <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.selected.wartoscdokumentu}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
                         <p:column>
