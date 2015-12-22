@@ -893,12 +893,10 @@ public class ZestawienieView implements Serializable {
                 Podatnik selected = wpisView.getPodatnikObiekt();
                 Pitpoz sumapoprzednichmcy;
                 try {
-                    Iterator it;
-                    it = selected.getZusparametr().iterator();
-                    if (zus51zreki == false) {
+                    if (selected.isOdliczeniezus51() == true && zus51zreki == false) {
                         biezacyPit.setZus51(pobierzZUS51());
                     }
-                    if (zus52zreki == false) {
+                    if (selected.isOdliczeniezus52() == true && zus52zreki == false) {
                         biezacyPit.setZus52(pobierzZUS52());
                     }
                     sumapoprzednichmcy = skumulujpity(biezacyPit.getPkpirM(), wybranyudzialowiec);
