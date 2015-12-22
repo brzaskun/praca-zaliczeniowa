@@ -196,11 +196,11 @@
             <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
                              rowIndexVar="index">
-                    <p:column headerText="kwota netto"  width="105">
+                    <p:column headerText="kwota netto*"  width="105">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
-                                        styleClass="wiersznetto" > 
+                                        styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);"> 
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false" oncomplete="dolaczwyliczenieKopiowanie();"
                                     update="dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
@@ -487,7 +487,9 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
+            <h:outputText value="* kalkulator wartości netto ALT-k"/>
         </p:panel>
+            
     </h:form>
     <!--**********************************************************************-->
     <!-- informacja o ostatnio wprowadzonym dokumencie-->
@@ -612,7 +614,11 @@
             </p:panel>>
         </p:panel>
     </h:form>
-    <ui:include src="wykazklientow_dialog.xhtml"/>
+     <h:form id="kalkulator">
+                <p:commandButton id="kalkulator" value="kalkulator" onclick="PF('dialog_kalkulator').show()" accesskey="k"
+                                 global="false" style="display: none;" />
+    </h:form>
+    
 </ui:composition>   
 
 
