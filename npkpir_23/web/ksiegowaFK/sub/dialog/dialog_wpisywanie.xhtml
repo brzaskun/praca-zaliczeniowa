@@ -55,7 +55,7 @@
           visibility: hidden;
         }
         
-        .zapisZcecha input[type = "text"] {
+        .zapisZcecha .ui-inputfield {
             color: red;
         }
 
@@ -477,7 +477,7 @@
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" forceSelection="true" 
                                             minQueryLength="1" converter="KontoConv" queryDelay="1" maxResults="150"
                                             converterMessage="Nieudana konwersja Klient" scrollHeight="180" widgetVar="complWn#{loop.idporzadkowy}"
-                                            styleClass="kontoinput, #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}, #{loop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
+                                            styleClass="kontoinput #{loop.stronaWn.typStronaWiersza ne 0 ? 'kontorozrachunki' : null} #{loop.stronaWn.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Wn', #{loop.typWiersza});
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaWn.typStronaWiersza});
@@ -517,7 +517,7 @@
                                             var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" widgetVar="complMa#{loop.idporzadkowy}"
                                             minQueryLength="1" converter="KontoConv"  queryDelay="1"  maxResults="150"
                                             converterMessage="Nieudana konwersja Klient"   scrollHeight="180" forceSelection="true"
-                                            styleClass="kontoinput, #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : null}, #{loop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : null}"
+                                            styleClass="kontoinput #{loop.stronaMa.typStronaWiersza ne 0 ? 'kontorozrachunki' : ''} #{loop.stronaMa.cechazapisuLista.size() gt 0 ? 'zapisZcecha' : ''}"
                                             onfocus="zachowajwiersz(#{loop.idporzadkowy}, 'Ma', #{loop.typWiersza});
                                                     usunspacje(this);
                                                     pobierznumergrupywierszy(#{loop.lpmacierzystego}, #{loop.idporzadkowy}, #{loop.stronaMa.typStronaWiersza});
@@ -565,7 +565,7 @@
                     </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
-                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne null ? dokfkView.obliczsaldowybranegokonta() ne '' : false}">
                             <h:outputText value="saldo wybranego konta: "/>
                             <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
