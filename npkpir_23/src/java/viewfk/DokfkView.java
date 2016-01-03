@@ -3279,11 +3279,15 @@ public class DokfkView implements Serializable {
         if (selectedStronaWiersza != null) {
             Konto k = selectedStronaWiersza.getKonto();
             for (Wiersz p : selected.getListawierszy()) {
-                if (p.getStronaWn() != null && p.getStronaWn().getKonto().equals(k)) {
-                    wynikkwota += p.getStronaWn().getKwota();
+                if (p.getStronaWn() != null && p.getStronaWn().getKonto() != null) {
+                    if (p.getStronaWn().getKonto().equals(k)) {
+                        wynikkwota += p.getStronaWn().getKwota();
+                    }
                 }
-                if (p.getStronaMa() != null && p.getStronaMa().getKonto().equals(k)) {
-                    wynikkwota -= p.getStronaMa().getKwota();
+                if (p.getStronaMa() != null && p.getStronaMa().getKonto() != null) {
+                    if (p.getStronaMa().getKonto().equals(k)) {
+                        wynikkwota -= p.getStronaMa().getKwota();
+                    }
                 }
             }
             NumberFormat formatter = NumberFormat.getCurrencyInstance();

@@ -565,9 +565,9 @@
                     </p:panelGrid>
                     <p:panelGrid id="panelwpisbutton" style="text-align: right; float: right;">
                         <p:row>
-                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne null ? dokfkView.obliczsaldowybranegokonta() ne '' : false}">
+                        <p:column style="text-align: right;" width="100" rendered="#{dokfkView.obliczsaldowybranegokonta() ne ''}">
                             <h:outputText value="saldo wybranego konta: "/>
-                            <bcf:outputpl id="wartoscdokumentu"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
+                            <bcf:outputpl id="saldowybranegokonta"  value="#{dokfkView.obliczsaldowybranegokonta()}" style="width: 100px; margin-left: 10px;"/>
                         </p:column>
                         <p:column style="text-align: right;" width="100">
                             <h:outputText value="wartość dokumentu: " style="margin-left: 20px;"/>
