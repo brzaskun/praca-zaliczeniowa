@@ -101,6 +101,9 @@ public class PlanKontView implements Serializable {
         if (czysaslownikowe==0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
             RequestContext.getCurrentInstance().update("dialogpierwszy");
+        } else if (czysaslownikowe == 1) {
+            infozebrakslownikowych = " Brak planu kont na dany rok";
+            RequestContext.getCurrentInstance().update("dialogpierwszy");
         } else {
             infozebrakslownikowych = "";
         }
@@ -111,12 +114,17 @@ public class PlanKontView implements Serializable {
     //tworzy nody z bazy danych dla tablicy nodow plan kont
 
     private int sprawdzkonta() {
-        for (Konto p: wykazkont) {
-            if (p.isSlownikowe()==true) {
-                return 1;
+        int zwrot = 0;
+        if (wykazkont == null || wykazkont.size() == 0) {
+            zwrot = 1;
+        } else {
+            for (Konto p: wykazkont) {
+                if (p.isSlownikowe()==true) {
+                    zwrot = 2;
+                }
             }
         }
-        return 0;
+        return zwrot;
     }
     
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {

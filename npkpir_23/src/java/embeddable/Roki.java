@@ -22,19 +22,10 @@ public class Roki implements Serializable{
 
     static{
         rokiList = new ArrayList<>();
- //       rokiList.add(new Integer(2012));
+        rokiList.add(2016);
         rokiList.add(2015);
         rokiList.add(2014);
         rokiList.add(2013);
-//        rokiList.add(new Integer(2015));
-//        rokiList.add(new Integer(2016));
-//        rokiList.add(new Integer(2017));
-//        rokiList.add(new Integer(2018));
-//        rokiList.add(new Integer(2019));
-//        rokiList.add(new Integer(2020));
-//        rokiList.add(new Integer(2021));
-//        rokiList.add(new Integer(2022));
-//        rokiList.add(new Integer(2023));
     }
     
     public static List<Integer> getRokiListS() {
@@ -56,6 +47,12 @@ public class Roki implements Serializable{
             }
         }
         return listalat;
+    }
+    
+    public static String rokPoprzedni(String rok) {
+        int nowyrok = Integer.parseInt(rok)-1;
+        String zwrot = String.valueOf(nowyrok);
+        return zwrot;
     }
     
 }
