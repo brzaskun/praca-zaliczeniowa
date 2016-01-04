@@ -56,11 +56,11 @@ public class Ryczpoz implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "dozaplaty")
+    @Column(name = "dozaplaty", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal dozaplaty;
-    @Column(name = "naleznazal")
+    @Column(name = "naleznazal", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal naleznazal;
-    @Column(name = "nalzalodpoczrok")
+    @Column(name = "nalzalodpoczrok", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal nalzalodpoczrok;
     @Size(max = 255)
     @Column(name = "pkpir_m")
@@ -68,7 +68,7 @@ public class Ryczpoz implements Serializable {
     @Size(max = 255)
     @Column(name = "pkpir_r")
     private String pkpirR;
-    @Column(name = "podatek")
+    @Column(name = "podatek", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal podatek;
     @Size(max = 255)
     @Column(name = "podatnik")
@@ -77,9 +77,9 @@ public class Ryczpoz implements Serializable {
     private BigDecimal podstawa;
     @Column(name = "przelano")
     private Boolean przelano;
-    @Column(name = "przychody")
+    @Column(name = "przychody", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal przychody;
-    @Column(name = "przychodyudzial")
+    @Column(name = "przychodyudzial", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal przychodyudzial;
     @Size(max = 255)
     @Column(name = "terminwplaty")
@@ -94,14 +94,14 @@ public class Ryczpoz implements Serializable {
     private BigDecimal wynik;
     @Column(name = "zamkniety")
     private Boolean zamkniety;
-    @Column(name = "zus51")
+    @Column(name = "zus51", columnDefinition = "DECIMAL(5,2)")
     private BigDecimal zus51;
-    @Column(name = "zus52")
+    @Column(name = "zus52", columnDefinition = "DECIMAL(5,2)")
     private BigDecimal zus52;
     @Lob
     @Column(name = "listapodatkow")
     private List<RyczaltPodatek> listapodatkow;
-    @Column(name = "strata")
+    @Column(name = "strata", columnDefinition = "DECIMAL(7,2)")
     private BigDecimal strata;
 
     public Ryczpoz() {

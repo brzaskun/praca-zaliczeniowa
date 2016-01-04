@@ -6,7 +6,9 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:c="http://java.sun.com/jsp/jstl/core"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <h:form>
     <p:growl id="messages" autoUpdate="true"/>
     <p:panelGrid id="dodrukupit" columns="1" style="width: 1200px" rendered="#{WpisView.ksiegaryczalt}" >
                 <p:panel header="zachowane PIT-y: " /><br/>
@@ -53,35 +55,39 @@
                     <p:printer target="dodrukupit" />  
                 </p:commandButton> 
        </p:panelGrid>
-    <p:panelGrid columns="1" style="width: 1000px" rendered="#{!WpisView.ksiegaryczalt}" >
-                <p:panel header="zachowane PIT-y: " /><br/>
-                <p:dataTable id="tablicaryczalt" value="#{pit36View.listaryczalt}" var="loop" selectionMode="single"  rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"
+    <p:panelGrid columns="1" style="width: 800px" rendered="#{!WpisView.ksiegaryczalt}" >
+                <p:panel header="zachowane PIT-y: " />
+                <p:commandButton value="drukuj" actionListener="#{pit36View.drukujryczalt}" global="false" style="width: 120px;"/>
+                <br/>
+                <p:dataTable id="tablicaryczalt" value="#{pit36View.listaryczalt}" var="loop" selectionMode="single"
+                             rowKey="#{loop.id}" sortBy="#{loop.pkpirM}" style="width: 100%;"
                              emptyMessage="Nie zachowano PIT-ow u tego podatnika w danym roku podatkowym">
-                    <p:column headerText="okres rozliczeniowy: ">
+                    <p:column headerText="okres rozliczeniowy: " style="text-align: center;">
                         <h:outputText value="#{loop.pkpirR}-"/><h:outputText value="#{loop.pkpirM}"/>
                     </p:column>
-                    <p:column headerText="udzialowiec: ">
+                    <p:column headerText="udzialowiec: " width="200">
                         <h:outputText value="#{loop.udzialowiec}"/>
                     </p:column>
                      <p:column headerText="przychody: ">
-                         <h:outputText value="#{loop.przychody}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                         <bcf:outputpl value="#{loop.przychody}"/>
                     </p:column>
-                    <p:column headerText="udział: ">
+                    <p:column headerText="udział: " style="text-align: center;" width="30">
                         <h:outputText value="#{loop.udzial}%"/>
                     </p:column>
                      <p:column headerText="przychody wg udziału: ">
                          <h:outputText value="#{loop.przychodyudzial}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
                     </p:column>
                     <p:column headerText="zus 51: ">
-                        <h:outputText value="#{loop.zus51}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                        <bcf:outputpl value="#{loop.zus51}"/>
                     </p:column>
                     <p:column headerText="zus 52: ">
-                        <h:outputText value="#{loop.zus52}" style="padding-left: 20%; float: right;"><f:convertNumber minFractionDigits="2" currencyCode="PL" locale="PL"/></h:outputText>
+                        <bcf:outputpl value="#{loop.zus52}"/>
                     </p:column>
                     <p:column headerText="należna zaliczka za m-c: ">
-                        <h:outputText value="#{loop.naleznazal}" style="padding-left: 20%; font-weight: 700; float: right;"><f:convertNumber locale="PL"/></h:outputText>
+                        <bcf:outputpl value="#{loop.naleznazal}"/>
                     </p:column>
                 </p:dataTable>
        </p:panelGrid>
+    </h:form>
     </ui:composition>
  

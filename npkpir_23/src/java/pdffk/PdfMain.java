@@ -31,6 +31,7 @@ import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
 import entity.Faktura;
 import entity.Podatnik;
+import entity.Ryczpoz;
 import entity.SrodekTrw;
 import entityfk.Dokfk;
 import entityfk.Konto;
@@ -458,6 +459,17 @@ public class PdfMain {
                 col[3] = 2;
                 col[4] = 1;
                 col[5] = 2;
+                return col;
+            case "entity.Ryczpoz":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 2;
+                col[2] = 6;
+                col[3] = 3;
+                col[4] = 2;
+                col[5] = 3;
+                col[6] = 3;
+                col[7] = 3;
                 return col;
             case "entity.SrodekTrw":
                 col = new int[size];
@@ -1018,6 +1030,30 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getRokUmorzenia(), "left", 8));
                 table.addCell(ustawfrazeAlign(p.getMcUmorzenia(), "left", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+            }
+            if (nazwaklasy.equals("entity.Ryczpoz")) {
+                Ryczpoz p = (Ryczpoz) it.next();
+                if (p.getUdzialowiec().equals("podsumowanie")) {
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getUdzialowiec(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus51())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus52())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNaleznazal())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getPkpirR()+"-"+p.getPkpirM(), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getUdzialowiec(), "left", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychody())), "right", 8));
+                    table.addCell(ustawfrazeAlign(p.getUdzial(), "center", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getPrzychodyudzial())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus51())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getZus52())), "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getNaleznazal())), "right", 8));
+                }
             }
             if (nazwaklasy.equals("embeddable.VatUe")) {
                 VatUe p = (VatUe) it.next();

@@ -17,6 +17,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
 import entity.RodzajedokPK;
+import entity.Ryczpoz;
 import entity.SrodekTrw;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
@@ -180,6 +181,24 @@ public class testobjects {
        n.add(B.b("wartość"));
        n.add(B.b("waluta"));
        List t = getWierszeDokfk(wiersze);
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+   
+   public static List[] getTabelaRyczpoz(List<Ryczpoz>  wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("okres rozliczeniowy");
+       n.add("udziałowiec");
+       n.add("przychody");
+       n.add("udział");
+       n.add("przychody wg udziału");
+       n.add("ZUS 51");  
+       n.add("ZUS 52");
+       n.add("podatek za m-c");
+       List t = wiersze;
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = t;
