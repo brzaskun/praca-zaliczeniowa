@@ -46,7 +46,9 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -910,14 +912,14 @@ public class FakturaView implements Serializable {
                 try {
                     waloryzacjakwoty(nowa, waloryzajca);
                 } catch (Exception e) { E.e(e); 
-                    Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:641");
+                    Msg.msg("e", "Nieudane generowanie faktury okresowej z waloryzacją FakturaView:wygenerujzokresowych");
                 }
             } else if (waloryzajca == -1) {
                 try {
                     FakturaBean.ewidencjavat(nowa, evewidencjaDAO);
                     Msg.msg("i", "Generowanie nowej ewidencji vat");
                 } catch (Exception e) { E.e(e); 
-                    Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:691");
+                    Msg.msg("e", "Nieudane generowanie nowej ewidencji vat dla faktury generowanej z okresowej FakturaView:wygenerujzokresowych");
                 }
             }
             int dniDoZaplaty = nowa.getDnizaplaty();
@@ -1003,7 +1005,8 @@ public class FakturaView implements Serializable {
                     fakturywystokresoweDAO.edit(p);
                 }
                 Msg.msg("i", "Generuje bieżącą fakturę z okresowej. Kontrahent: " + nowa.getKontrahent().getNpelna());
-            } catch (Exception e) { E.e(e); 
+            } catch (Exception e) { 
+                E.e(e); 
                 Faktura nibyduplikat = fakturaDAO.findbyNumerPodatnik(nowa.getFakturaPK().getNumerkolejny(), nowa.getFakturaPK().getWystawcanazwa());
                 Msg.msg("e", "Faktura o takim numerze istnieje juz w bazie danych: data-" + nibyduplikat.getDatawystawienia()+" numer-"+nibyduplikat.getFakturaPK().getNumerkolejny()+" wystawca-"+nibyduplikat.getFakturaPK().getWystawcanazwa());
             }
@@ -1113,6 +1116,66 @@ public class FakturaView implements Serializable {
         }
     }
     
+    public void sprawdzbiezacymiesiac() {
+        resetujbiezacymiesiac();
+        for (Faktura r : faktury) {
+            if (r.getBrutto() == 123.0) {
+                System.out.println("");
+            }
+            for (Fakturywystokresowe p : this.fakturyokresowe) {
+                if (p.getDokument().getKontrahent().equals(r.getKontrahent()) && p.getDokument().getBrutto() == r.getBrutto()) {
+                    naniesoznaczenienaokresowa(p);
+                    break;
+                }
+            }
+
+        }
+    }
+    
+    private void naniesoznaczenienaokresowa(Fakturywystokresowe p) {
+        Fakturywystokresowe okresowe = p;
+        String miesiac = wpisView.getMiesiacWpisu();
+        switch (miesiac) {
+            case "01":
+                okresowe.setM1(1);
+                break;
+            case "02":
+                okresowe.setM2(1);
+                break;
+            case "03":
+                okresowe.setM3(1);
+                break;
+            case "04":
+                okresowe.setM4(1);
+                break;
+            case "05":
+                okresowe.setM5(1);
+                break;
+            case "06":
+                okresowe.setM6(1);
+                break;
+            case "07":
+                okresowe.setM7(1);
+                break;
+            case "08":
+                okresowe.setM8(1);
+                break;
+            case "09":
+                okresowe.setM9(1);
+                break;
+            case "10":
+                okresowe.setM10(1);
+                break;
+            case "11":
+                okresowe.setM11(1);
+                break;
+            case "12":
+                okresowe.setM12(1);
+                break;
+        }
+        fakturywystokresoweDAO.edit(okresowe);
+    }
+    
     public void skopiujdoNowegoroku() {
         for (Fakturywystokresowe stara : gosciwybralokres) {
             Fakturywystokresowe p = SerialClone.clone(stara);
@@ -1152,11 +1215,16 @@ public class FakturaView implements Serializable {
                 }
             }
         } else {
+            iloscwybranych = gosciwybralokres.size();
             for (Fakturywystokresowe p : gosciwybralokres) {
+                podsumowaniewybranychnetto += p.getNetto();
+                podsumowaniewybranychvat += p.getVat();
                 podsumowaniewybranychbrutto += p.getBrutto();
             }
         }
     }
+    
+    
 
     public void aktualizujTabeleTabela(AjaxBehaviorEvent e) throws IOException {
         fakturyarchiwum.clear();
@@ -1600,6 +1668,8 @@ public class FakturaView implements Serializable {
     public void setDataTablepozycjenafakturzekorekta(DataTable dataTablepozycjenafakturzekorekta) {
         this.dataTablepozycjenafakturzekorekta = dataTablepozycjenafakturzekorekta;
     }
+
+   
     
    
 

@@ -294,6 +294,14 @@ public class Fakturywystokresowe implements Serializable {
     public void setM12(int m12) {
         this.m12 = m12;
     }
+    
+    public double getNetto() {
+        return this.dokument.getNetto();
+    }
+    
+    public double getVat() {
+        return this.dokument.getVat();
+    }
 
     @Override
     public int hashCode() {

@@ -14,15 +14,44 @@
                 <p:menuitem value="Wygeneruj z waloryzacją" update=":form1:messages" actionListener="#{fakturaView.wygenerujzokresowychwaloryzacja()}" icon="ui-icon-lightbulb" />
                 <p:menuitem value="Usuń wybrane" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.usunfaktureokresowa()}" icon="ui-icon-trash" />
                 <p:separator/>
+                <p:menuitem value="Sprawdź bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.sprawdzbiezacymiesiac()}" icon="fa fa-spinner" />
                 <p:menuitem value="Resetuj bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.resetujbiezacymiesiac()}" icon="ui-icon-cancel" />
                 <p:menuitem value="Oznacz bieżący m-c" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.oznaczbiezacymiesiac()}" icon="ui-icon-plus" />
                 <p:menuitem value="Skopiuj do nowego roku" update=":akordeon:formokresowe:dokumentyOkresowe" actionListener="#{fakturaView.skopiujdoNowegoroku()}" icon="ui-icon-star" />
             </p:contextMenu>
+            <p:panelGrid id="panelsumokresowe">
+                <f:facet name="header">
+                    <p:row>
+                    <p:column>
+                        <h:outputText value="ilość"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma netto"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma vat"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="suma brutto"/>
+                    </p:column>
+                        </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center;">
+                        <h:outputText value="#{fakturaView.iloscwybranych}" rendered="#{fakturaView.iloscwybranych gt 0}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychnetto}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrvat" value="#{fakturaView.podsumowaniewybranychvat}"/>
+                    </p:column>
+                    <p:column>
+                        <bcf:outputpl id="podsumowaniewybrbrutto" value="#{fakturaView.podsumowaniewybranychbrutto}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
             <p:panelGrid columns="6">
-                <h:outputText value="Suma wartości brutto wybranych dokumentów zł: "/> 
-                <h:outputText  id="podsumowaniewybrnetto" value="#{fakturaView.podsumowaniewybranychbrutto}" style="float: right;">
-                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
-                </h:outputText>
                 <h:outputText value="Kwota waloryzacji"/><h:inputText  id="kwotawaloryzacji" value="#{fakturaView.waloryzajca}" style="text-align:  right;"/>
                 <h:outputText value="Data wystawienia"/>
                 <h:inputText  id="datawystawienia" value="#{fakturaView.datawystawienia}"/>
@@ -37,9 +66,9 @@
                     <p:inputText id="globalFilter" onkeyup="PF('okresTable').filter()" style="width:150px" />  
                 </f:facet>
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>
-                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>
-                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:podsumowaniewybrnetto" global="false"/>      
+                <p:ajax event="rowSelectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
+                <p:ajax event="rowUnselectCheckbox" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>
+                <p:ajax event="toggleSelect" listener="#{fakturaView.sumawartosciwybranych}" update=":akordeon:formokresowe:panelsumokresowe" global="false"/>      
                 <p:column width="20">
                     <p:rowToggler />
                 </p:column>
