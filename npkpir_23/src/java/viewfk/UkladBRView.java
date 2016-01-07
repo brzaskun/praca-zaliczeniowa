@@ -95,16 +95,35 @@ public class UkladBRView implements Serializable {
             Msg.msg("e", "Nieudana próba dodania układu. " + e.getMessage());
         }
     }
+    
+    public void kopiujuklad() {
+        try {
+            UkladBR ukladBR = serialclone.SerialClone.clone(ukladzrodlowy);
+            ukladBR.setUklad(ukladdocelowynazwa);
+            ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
+            ukladBR.setRok(ukladdocelowyrok);
+            ukladBR.setImportowany(true);
+            ukladBRDAO.dodaj(ukladBR);
+            implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
+            implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
+            lista.add(ukladBR);
+            wybranyukladwzorcowy = null;
+            Msg.msg("i", "Skopiowano układ podatnika");
+        } catch (Exception e) {
+            System.out.println("Blad " + e.getStackTrace()[0].toString());
+            Msg.msg("e", "Nieudana próba skopiowania układu. " + e.getMessage());
+        }
+    }
 
-    public void implementuj() {
+    public void implementujWzorcowy() {
         try {
             UkladBR ukladBR = serialclone.SerialClone.clone(wybranyukladwzorcowy);
             ukladBR.setPodatnik(wpisView.getPodatnikWpisu());
             ukladBR.setRok(wpisView.getRokWpisuSt());
             ukladBR.setImportowany(true);
             ukladBRDAO.dodaj(ukladBR);
-            implementujRZiS(wybranyukladwzorcowy);
-            implementujBilans(wybranyukladwzorcowy);
+            implementujRZiS(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
+            implementujBilans(wybranyukladwzorcowy, wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wybranyukladwzorcowy.getUklad());
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
             Msg.msg("i", "Dodano nowy układ");
@@ -131,13 +150,13 @@ public class UkladBRView implements Serializable {
         }
     }
 
-    private void implementujRZiS(UkladBR ukladBR) {
+    private void implementujRZiS(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaRZiS> pozycje = pozycjaRZiSDAO.findRzisuklad(ukladBR);
         if (pozycje != null && pozycje.size() > 0) {
-            List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje);
+            List<PozycjaRZiS> macierzyste = skopiujlevel0(pozycje, podatnik, rok, uklad);
             int maxlevel = pozycjaRZiSDAO.findMaxLevelPodatnik(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
-                macierzyste = skopiujlevel(pozycje, macierzyste, i);
+                macierzyste = skopiujlevel(pozycje, macierzyste, i, podatnik, rok, uklad);
             }
             System.out.println("Kopiuje");
         } else {
@@ -145,19 +164,19 @@ public class UkladBRView implements Serializable {
         }
     }
 
-    private void implementujBilans(UkladBR ukladBR) {
+    private void implementujBilans(UkladBR ukladBR, String podatnik, String rok, String uklad) {
         List<PozycjaBilans> pozycje = pozycjaBilansDAO.findBilansukladAktywa(ukladBR);
         if (pozycje != null && pozycje.size() > 0) {
-            List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje);
+            List<PozycjaBilans> macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
             int maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikAktywa(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
-                macierzyste = skopiujlevelB(pozycje, macierzyste, i);
+                macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
             }
             pozycje = pozycjaBilansDAO.findBilansukladPasywa(ukladBR);
-            macierzyste = skopiujlevel0B(pozycje);
+            macierzyste = skopiujlevel0B(pozycje, podatnik, rok, uklad);
             maxlevel = pozycjaBilansDAO.findMaxLevelPodatnikPasywa(ukladBR);
             for (int i = 1; i <= maxlevel; i++) {
-                macierzyste = skopiujlevelB(pozycje, macierzyste, i);
+                macierzyste = skopiujlevelB(pozycje, macierzyste, i, podatnik, rok, uklad);
             }
         } else {
             Msg.msg("e", "Brak pozycji bilansu przyporządkowanych do wybranego układu");
@@ -238,13 +257,14 @@ public class UkladBRView implements Serializable {
     }
 
 //</editor-fold>
-    private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje) {
+    private List<PozycjaRZiS> skopiujlevel0(List<PozycjaRZiS> pozycje, String podatnik, String rok, String uklad) {
         List<PozycjaRZiS> macierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel() == 0) {
                 PozycjaRZiS r = serialclone.SerialClone.clone(p);
-                r.setPodatnik(wpisView.getPodatnikWpisu());
-                r.setRok(wpisView.getRokWpisuSt());
+                r.setPodatnik(podatnik);
+                r.setRok(rok);
+                r.setUklad(uklad);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
                 } catch (Exception e) {
@@ -257,14 +277,15 @@ public class UkladBRView implements Serializable {
         return macierzyste;
     }
 
-    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i) {
+    private List<PozycjaRZiS> skopiujlevel(List<PozycjaRZiS> pozycje, List<PozycjaRZiS> macierzystelista, int i, String podatnik, String rok, String uklad) {
         List<PozycjaRZiS> nowemacierzyste = new ArrayList<>();
         for (PozycjaRZiS p : pozycje) {
             if (p.getLevel() == i) {
                 try {
                     PozycjaRZiS r = serialclone.SerialClone.clone(p);
-                    r.setPodatnik(wpisView.getPodatnikWpisu());
-                    r.setRok(wpisView.getRokWpisuSt());
+                    r.setPodatnik(podatnik);
+                    r.setRok(rok);
+                    r.setUklad(uklad);
                     r.setLp(null);
                     PozycjaRZiS macierzyste = wyszukajmacierzyste(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());
@@ -289,13 +310,14 @@ public class UkladBRView implements Serializable {
         return null;
     }
 
-    private List<PozycjaBilans> skopiujlevel0B(List<PozycjaBilans> pozycje) {
+    private List<PozycjaBilans> skopiujlevel0B(List<PozycjaBilans> pozycje, String podatnik, String rok, String uklad) {
         List<PozycjaBilans> macierzyste = new ArrayList<>();
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel() == 0) {
                 PozycjaBilans r = serialclone.SerialClone.clone(p);
-                r.setPodatnik(wpisView.getPodatnikWpisu());
-                r.setRok(wpisView.getRokWpisuSt());
+                r.setPodatnik(podatnik);
+                r.setRok(rok);
+                r.setUklad(uklad);
                 try {
                     pozycjaRZiSDAO.dodaj(r);
                 } catch (Exception e) {
@@ -308,14 +330,15 @@ public class UkladBRView implements Serializable {
         return macierzyste;
     }
 
-    private List<PozycjaBilans> skopiujlevelB(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i) {
+    private List<PozycjaBilans> skopiujlevelB(List<PozycjaBilans> pozycje, List<PozycjaBilans> macierzystelista, int i, String podatnik, String rok, String uklad) {
         List<PozycjaBilans> nowemacierzyste = new ArrayList<>();
         for (PozycjaBilans p : pozycje) {
             if (p.getLevel() == i) {
                 try {
                     PozycjaBilans r = serialclone.SerialClone.clone(p);
-                    r.setPodatnik(wpisView.getPodatnikWpisu());
-                    r.setRok(wpisView.getRokWpisuSt());
+                    r.setPodatnik(podatnik);
+                    r.setRok(rok);
+                    r.setUklad(uklad);
                     r.setLp(null);
                     PozycjaBilans macierzyste = wyszukajmacierzysteB(p, macierzystelista);
                     r.setMacierzysty(macierzyste.getLp());

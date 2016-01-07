@@ -25,7 +25,7 @@
                     <p:dataTable id="dataList" value="#{ukladBRView.lista}" var="loop" selectionMode="single" selection="#{ukladBRView.selected}" 
                                  styleClass="tablicaplankont" style="width: 650px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.uklad}" scrollable="true" scrollHeight="500"
                                  emptyMessage="Brak układów RZiS">
-                        <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}"/>
+                        <p:ajax event="rowSelect" listener="#{ukladBRView.wybranouklad}" global="false"/>
                         <p:column headerText="nazwa ukladu" width="150">
                             <h:outputText value="#{loop.uklad}" style="font-weight: bolder; width: 200px;" /> 
                         </p:column>
@@ -40,7 +40,8 @@
                         </p:column>
                         <p:column headerText="zablokowany" style="width: 120px; text-align: center;">
                             <h:outputText value="zablokowany" rendered="#{loop.blokada}"/>
-                            <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" update=":formprojektuklad"/>
+                            <p:commandButton value="usuń" actionListener="#{ukladBRView.usun(loop)}" rendered="#{!loop.blokada}" style="width: 100px;" 
+                                             update=":formprojektuklad :formdialog_uklad_kopiuj" global="false"/>
                         </p:column>
 
                     </p:dataTable>
@@ -51,8 +52,8 @@
                     <p:panel header="twórz własny układ">
                         <h:outputText value="wpisz nazwę nowego układu" style="margin-top: 10px;"/>
                         <p:inputText value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; margin-top: 10px;"/>
-                        <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;"
-                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt"/>
+                        <p:commandButton value="dodaj" actionListener="#{ukladBRView.dodaj}" style="width: 120px; margin-top: 10px;" global="false"
+                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt, :formdialog_uklad_kopiuj"/>
                     </p:panel>
                 </h:form>
                 <h:form>
@@ -61,8 +62,8 @@
                         <p:selectOneListbox value="#{ukladBRView.wybranyukladwzorcowy}" style="width: 250px; height: 100px; margin-top: 10px;" converter="UkladBRWzorcowyConv">
                             <f:selectItems value="#{ukladBRView.listaWzorcowy}" var="item" itemLabel="#{item.uklad} - #{item.rok}" itemValue="#{String.valueOf(item.lp)}"/>
                         </p:selectOneListbox>
-                        <p:commandButton value="implementuj" actionListener="#{ukladBRView.implementuj}" style="width: 120px; margin-top: 10px;"
-                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt"/>
+                        <p:commandButton value="implementuj" actionListener="#{ukladBRView.implementujWzorcowy}" style="width: 120px; margin-top: 10px;" global="false"
+                                         update=":formprojektuklad, :formprojekt, :formbilansprojekt, :formdialog_uklad_kopiuj"/>
                     </p:panel>
                 </h:form>
             </p:panelGrid>

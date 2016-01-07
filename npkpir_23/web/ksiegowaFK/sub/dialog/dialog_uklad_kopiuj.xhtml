@@ -26,7 +26,7 @@
             </p:panelGrid>
             <p:commandButton value="kopiuj" actionListener="#{ukladBRView.kopiujuklad}" type="submit" 
                                  style="margin-left: 130px; margin-right: auto; margin-top: 20px; width: 120px;" onclick="PF('dialog_uklad_kopiuj').hide();"
-                                 update=":dialogprojektuklad"/>
+                                 update=":dialogprojektuklad, :formprojekt, :formbilansprojekt"/>
             <p:commandButton value="anuluj" type="button" 
                                  onclick="PF('dialog_uklad_kopiuj').hide();" style="margin-right: auto; margin-left: 80px; margin-top: 20px; width: 120px;"/>
         </h:form>
