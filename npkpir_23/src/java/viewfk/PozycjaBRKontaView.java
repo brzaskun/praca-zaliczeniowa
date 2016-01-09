@@ -7,6 +7,7 @@ package viewfk;
 
 import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
+import beansFK.UkladBRBean;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import daoFK.KontopozycjaBiezacaDAO;
@@ -586,12 +587,10 @@ public class PozycjaBRKontaView implements Serializable {
             } else {
                 if (rb.equals("r")) {
                     skopiujPozycje(rb, uklad, ukladwzorcowy);
-                    List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "wynikowe");
                     zaksiegujzmianypozycji("r", uklad);
                     pobierzukladkontoR();
                 } else {
                     skopiujPozycje(rb, uklad, ukladwzorcowy);
-                    List<KontopozycjaBiezaca> pozycjebiezace = kontopozycjaBiezacaDAO.findKontaPozycjaBiezacaPodatnikUklad(uklad, "bilansowe");
                     zaksiegujzmianypozycji("b", uklad);
                     pobierzukladkontoB("aktywa");
                 }
@@ -851,48 +850,20 @@ public class PozycjaBRKontaView implements Serializable {
     private void wyczyscKonta(String rb) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAO.findWszystkieKontaWynikowePodatnika(wpisView);
-            for (Konto p : listakont) {
-                p.setKontopozycjaID(null);
-                try {
-                    kontoDAO.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         } else {
             List<Konto> listakont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
-            for (Konto p : listakont) {
-                p.setKontopozycjaID(null);
-                try {
-                    kontoDAO.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         }
     }
     
      private void wyczyscKontaWzorcowy(String rb) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAO.findWszystkieKontaWynikoweWzorcowy(wpisView);
-            for (Konto p : listakont) {
-                p.setKontopozycjaID(null);
-                try {
-                    kontoDAO.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         } else {
             List<Konto> listakont = kontoDAO.findWszystkieKontaBilansoweWzorcowy(wpisView);
-            for (Konto p : listakont) {
-                p.setKontopozycjaID(null);
-                try {
-                    kontoDAO.edit(p);
-                } catch (Exception e) {
-                    E.e(e);
-                }
-            }
+            UkladBRBean.czyscPozycjeKont(kontoDAO, listakont);
         }
     }
     
