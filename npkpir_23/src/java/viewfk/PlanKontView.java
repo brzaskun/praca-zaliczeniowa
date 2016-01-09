@@ -448,7 +448,7 @@ public class PlanKontView implements Serializable {
             //a teraz trzeba pozmieniac id macierzystych bo inaczej sie nie odnajda
             for (Konto p : wykazkonttmp) {
                 if (!p.getMacierzyste().equals("0")) {
-                    Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView);
+                    Konto macierzyste = kontoDAOfk.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     p.setMacierzysty(macierzyste.getId());
                     kontoDAOfk.edit(p);
                 }
@@ -470,7 +470,7 @@ public class PlanKontView implements Serializable {
                     Konto konto = selectednodekontowzorcowy;
                     try {
                         konto.setPodatnik(p.getNazwapelna());
-                        Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
+                        Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         if (!konto.getMacierzyste().equals("0")) {
                             konto.setMacierzysty(macierzyste.getId());
                             macierzyste.setMapotomkow(true);
@@ -544,7 +544,7 @@ public class PlanKontView implements Serializable {
      private void dodajpojedynczekoto(Konto konto, String podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView);
+            Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);
@@ -566,7 +566,7 @@ public class PlanKontView implements Serializable {
      private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
         konto.setPodatnik("Wzorcowy");
         if (!konto.getMacierzyste().equals("0")) {
-            Konto macierzyste = kontoDAOfk.findKontoWzorcowy(pelnynumer, wpisView);
+            Konto macierzyste = kontoDAOfk.findKonto(pelnynumer, "Wzorcowy", wpisView.getRokWpisu());
             konto.setMacierzysty(macierzyste.getId());
             macierzyste.setMapotomkow(true);
             macierzyste.setBlokada(true);

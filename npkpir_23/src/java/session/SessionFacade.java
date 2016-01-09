@@ -566,9 +566,6 @@ public class SessionFacade<T> implements Serializable {
         return (Konto) em.createNamedQuery("Konto.findByPelnynumerPodatnik").setParameter("pelnynumer", numer).setParameter("podatnik", podatnik).setParameter("rok", rok).getSingleResult();
     }
 
-    public Konto findKontoWzorcowy(String numer, Integer rok) {
-        return (Konto) em.createNamedQuery("Konto.findByPelnynumerWzorcowy").setParameter("pelnynumer", numer).setParameter("podatnik", "Wzorcowy").setParameter("rok", rok).getSingleResult();
-    }
 
     public Konto findKontoNazwaPelnaPodatnik(String nazwapelna, WpisView wpisView) {
         return (Konto) em.createNamedQuery("Konto.findByNazwaPelnaPodatnik").setParameter("nazwapelna", nazwapelna).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getSingleResult();

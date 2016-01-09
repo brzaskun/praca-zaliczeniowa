@@ -518,7 +518,7 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
             String result = StringUtils.join(analitykinazwy, ", ");
             Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: " + result);
         } else {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             for (Konto p : listaSiostrzane) {
                 kontabezprzydzialu.remove(p);
             }

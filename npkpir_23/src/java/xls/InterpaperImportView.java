@@ -182,7 +182,7 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strwn = new StronaWiersza(w, "Wn", interpaperXLS.getBruttowaluta(), null);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getNettowaluta(), null);
-        Konto kontonetto = kontoDAO.findKonto("702-2", wpisView);
+        Konto kontonetto = kontoDAO.findKonto("702-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         strwn.setKwotaPLN(interpaperXLS.getBruttoPLN());
         strma.setKwotaPLN(interpaperXLS.getNettoPLN());
         strma.setKonto(kontonetto);
@@ -198,7 +198,7 @@ public class InterpaperImportView implements Serializable {
         w.setOpisWiersza(opiswiersza);
         StronaWiersza strma = new StronaWiersza(w, "Ma", interpaperXLS.getVatwaluta(), null);
         strma.setKwotaPLN(interpaperXLS.getVatPLN());
-        Konto kontovat = kontoDAO.findKonto("221-1", wpisView);
+        Konto kontovat = kontoDAO.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         strma.setKonto(kontovat);
         w.setStronaMa(strma);
         return w;

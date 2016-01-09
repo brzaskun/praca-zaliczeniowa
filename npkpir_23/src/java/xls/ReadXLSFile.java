@@ -98,7 +98,7 @@ public class ReadXLSFile {
                     String nazwapelna = row.getCell(2).getStringCellValue();
                     String tlumaczenie = row.getCell(3).getStringCellValue();
                     if (!tlumaczenie.equals("")) {
-                        Konto k = kontoDAOfk.findKonto(pelnynumer, wpisView);
+                        Konto k = kontoDAOfk.findKonto(pelnynumer, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         if (k != null && k.getNazwapelna().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             kontoDAOfk.edit(k);
@@ -227,7 +227,7 @@ public class ReadXLSFile {
                     String nazwapelna = row.getCell(2).getStringCellValue();
                     String tlumaczenie = row.getCell(3).getStringCellValue();
                     if (!tlumaczenie.equals("")) {
-                        Konto k = kontoDAOfk.findKontoWzorcowy(pelnynumer, wpisView);
+                        Konto k = kontoDAOfk.findKonto(pelnynumer, "Wzorcowy", wpisView.getRokWpisu());
                         if (k != null && k.getNazwapelna().equals(nazwapelna)) {
                             k.setDe(tlumaczenie);
                             kontoDAOfk.edit(k);

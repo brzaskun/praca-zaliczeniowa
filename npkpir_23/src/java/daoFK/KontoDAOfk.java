@@ -184,30 +184,22 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
     }
     
-   public Konto findKonto(String numer, WpisView wpisView){
+   public Konto findKonto(String numer, String podatnik, Integer rok){
        try {
-            return kontoFacade.findKonto(numer, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            return kontoFacade.findKonto(numer, podatnik, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
    
-   public Konto findKontoWzorcowy(String numer, WpisView wpisView){
+   public Konto findKonto(String numer, String podatnik, String rok){
        try {
-            return kontoFacade.findKontoWzorcowy(numer, wpisView.getRokWpisu());
+            return kontoFacade.findKonto(numer, podatnik, Integer.parseInt(rok));
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
    
-   public Konto findKontoWzorcowy(String numer, UkladBR ukladBR){
-       try {
-            return kontoFacade.findKontoWzorcowy(numer, Integer.parseInt(ukladBR.getRok()));
-        } catch (Exception e) { 
-            E.e(e); 
-            return null;
-        }
-   }
    
    public Konto findKontoNazwaPodatnik(String nazwaskrocona, WpisView wpisView){
        try {

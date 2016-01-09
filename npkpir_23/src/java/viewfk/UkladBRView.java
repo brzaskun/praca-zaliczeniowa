@@ -107,10 +107,10 @@ public class UkladBRView implements Serializable {
             ukladBRDAO.dodaj(ukladBR);
             implementujRZiS(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
             implementujBilans(ukladzrodlowy, wpisView.getPodatnikWpisu(), ukladdocelowyrok, ukladdocelowynazwa);
-            skopiujPozycje("r", ukladBR, ukladzrodlowy);
-            zaksiegujzmianypozycji("r", ukladBR);
-            skopiujPozycje("b", ukladBR, ukladzrodlowy);
-            zaksiegujzmianypozycji("b", ukladBR);
+//            skopiujPozycje("r", ukladBR, ukladzrodlowy);
+//            zaksiegujzmianypozycji("r", ukladBR);
+//            skopiujPozycje("b", ukladBR, ukladzrodlowy);
+//            zaksiegujzmianypozycji("b", ukladBR);
             lista.add(ukladBR);
             wybranyukladwzorcowy = null;
             Msg.msg("i", "Skopiowano układ podatnika");

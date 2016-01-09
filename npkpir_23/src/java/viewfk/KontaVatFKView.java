@@ -286,7 +286,7 @@ public class KontaVatFKView implements Serializable {
         }
         double przesuniete = Z.z(ewidencjaVatView.getSumaprzesunietych());
         double przesunieteBardziej = Z.z(ewidencjaVatView.getSumaprzesunietychBardziej());
-        SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView));
+        SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
         double roznica = Z.z(saldodlaprzesunietychBardziej.getSaldoWn() - (przesuniete+przesunieteBardziej));
         if (Z.z(saldo2214) < Z.z(przesuniete) || roznica < 0) {
             Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
@@ -405,7 +405,7 @@ public class KontaVatFKView implements Serializable {
             uzupelnijwiersz(w, nd);
             String opiswiersza = "przeksięg. konto: "+p.getKonto().getPelnynumer();
             w.setOpisWiersza(opiswiersza);
-            Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView);
+            Konto kontoRozrachunkizUS = kontoDAOfk.findKonto("222", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             if (p.getSaldoWn() != 0.0) {
                 StronaWiersza wn = new StronaWiersza(w, "Wn", p.getSaldoWn(), kontoRozrachunkizUS);
                 wn.setKwotaPLN(p.getSaldoWn());

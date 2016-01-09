@@ -2420,8 +2420,8 @@ public class DokfkView implements Serializable {
     
     public void zmienmiesiac(int innyokres) {
         StronaWiersza p = null;
-        Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView);
-        Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView);
+        Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+        Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         String vatokres = sprawdzjakiokresvat();
         if (!vatokres.equals("miesięczne")) {
             Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(selected.getMiesiac())));

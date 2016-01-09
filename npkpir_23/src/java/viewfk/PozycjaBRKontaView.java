@@ -501,7 +501,7 @@ public class PozycjaBRKontaView implements Serializable {
             String result = StringUtils.join(analitykinazwy, ", ");
             Msg.msg("e", "Nie można zwinąć analityk. Istnieją analityki przypisane do kont: " + result);
         } else {
-            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView);
+            Konto macierzyste = kontoDAO.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             for (Konto p : listaSiostrzane) {
                 kontabezprzydzialu.remove(p);
             }
@@ -654,7 +654,7 @@ public class PozycjaBRKontaView implements Serializable {
                             if (p.getKontoID().getPelnynumer().equals("755")) {
                                 System.out.println("skopiujPozycje()");
                             }
-                            Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
+                            Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                             kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             boxNaKonto = kontouzytkownika;
                             if (kontouzytkownika.getPelnynumer().equals("755")) {
@@ -693,7 +693,7 @@ public class PozycjaBRKontaView implements Serializable {
             for (KontopozycjaZapis p : zapisanePOzycjezUkladuWzorcowego) {
                 if (!p.getSyntetykaanalityka().equals("analityka") && !p.getSyntetykaanalityka().equals("syntetyka")) {
                     try {
-                        Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView);
+                        Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                         boxNaKonto = kontouzytkownika;
                         if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
@@ -741,7 +741,7 @@ public class PozycjaBRKontaView implements Serializable {
                     if (p.getSyntetykaanalityka().equals("wynikowe") || p.getSyntetykaanalityka().equals("szczególne")) {
                         System.out.println("Szukam konta " + p.getKontoID().toString());
                         try {
-                            Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladdocelowy);
+                            Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), "Wzorcowy", ukladdocelowy.getRok());
                             kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                             if (kontouzytkownika.getPelnynumer().equals("407")) {
                                System.out.println("dd");
@@ -779,7 +779,7 @@ public class PozycjaBRKontaView implements Serializable {
                     if (!p.getSyntetykaanalityka().equals("syntetyka")) {//wykluczam potomkow podlaczanych automatycznie
                          System.out.println("Szukam konta "+p.getKontoID().toString());
                          try {
-                             Konto kontouzytkownika = kontoDAO.findKontoWzorcowy(p.getKontoID().getPelnynumer(), ukladdocelowy);
+                             Konto kontouzytkownika = kontoDAO.findKonto(p.getKontoID().getPelnynumer(), "Wzorcowy", ukladdocelowy.getRok());
                              kontouzytkownika.setZwyklerozrachszczegolne(p.getKontoID().getZwyklerozrachszczegolne());
                              boxNaKonto = kontouzytkownika;
                              if (kontouzytkownika != null && kontouzytkownika.getBilansowewynikowe().equals("bilansowe")) {
