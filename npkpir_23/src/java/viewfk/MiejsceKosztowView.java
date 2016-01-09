@@ -85,7 +85,7 @@ public class MiejsceKosztowView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
         List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         MiejsceKosztowBean.zsumujkwotyzkont(miejscakosztow, kontaslownikowe, wpisView, stronaWierszaDAO, listasummiejsckosztow, stronywiersza);
     }
@@ -123,7 +123,7 @@ public class MiejsceKosztowView  implements Serializable{
     
     public void zapiszedycje() {
         miejsceKosztowDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 3, wpisView, kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 3, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setOpismiejsca(null);
         selected.setOpisskrocony(null);
         miejscakosztow = miejsceKosztowDAO.findMiejscaPodatnik(wpisView.getPodatnikObiekt());

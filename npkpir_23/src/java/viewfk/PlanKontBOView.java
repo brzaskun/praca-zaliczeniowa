@@ -54,7 +54,7 @@ public class PlanKontBOView implements Serializable {
             wykazkont3 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "3%");
             wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
-            wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView);
+            wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         }
     }
 

@@ -802,8 +802,8 @@ public class SessionFacade<T> implements Serializable {
         return null;
     }
 
-    public List<Konto> findKontaPotomnePodatnik(WpisView wpisView, String macierzyste) {
-        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    public List<Konto> findKontaPotomnePodatnik(String podatnik, Integer rok, String macierzyste) {
+        return em.createNamedQuery("Konto.findByMacierzysteBOPodatnik").setParameter("macierzyste", macierzyste).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
     public List<Konto> findKontaPotomneWzorcowy(Integer rok, String macierzyste) {
@@ -826,8 +826,8 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Konto.findByMacierzystePodatnikCOUNT").setParameter("macierzyste", macierzyste).setParameter("podatnik", "Wzorcowy").setParameter("rok", wpisView.getRokWpisu()).getSingleResult();
     }
 
-    public List<Konto> findKontaMaSlownik(WpisView wpisView, int idslownika) {
-        return em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    public List<Konto> findKontaMaSlownik(String podatnik, Integer rok, int idslownika) {
+        return em.createNamedQuery("Konto.findByMaSlownik").setParameter("idslownika", idslownika).setParameter("podatnik", podatnik).setParameter("rok", rok).getResultList();
     }
 
     public List<Konto> findKontaPotomne(WpisView wpisView, String macierzyste, String bilansowewynikowe) {
@@ -1025,12 +1025,12 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Konto.findByKontaPodatnikaBO").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).setParameter("wzorzec", kategoriaKonta).getResultList();
     }
 
-    public List<Konto> findWszystkieKontaBilansowePodatnika(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    public List<Konto> findWszystkieKontaBilansowePodatnika(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnikBilansowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
 
-    public List<Konto> findWszystkieKontaWynikowePodatnika(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", wpisView.getPodatnikWpisu()).setParameter("rok", wpisView.getRokWpisu()).getResultList();
+    public List<Konto> findWszystkieKontaWynikowePodatnika(String podatnik, String rok) {
+        return em.createNamedQuery("Konto.findByPodatnikWynikowe").setParameter("podatnik", podatnik).setParameter("rok", Integer.parseInt(rok)).getResultList();
     }
 
     public List<Konto> findKontaWynikowePodatnikaBezPotomkow(WpisView wpisView) {
@@ -1453,14 +1453,6 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Konto.findWzorcowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
     }
     
-    public List<Konto> findKontaWynikoweWzorcowy(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findWzorcoweWynikowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
-    }
-    
-    public List<Konto> findKontaBilansoweWzorcowy(WpisView wpisView) {
-        return em.createNamedQuery("Konto.findWzorcoweBilansowe").setParameter("rok", wpisView.getRokWpisu()).getResultList();
-    }
-
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
     }

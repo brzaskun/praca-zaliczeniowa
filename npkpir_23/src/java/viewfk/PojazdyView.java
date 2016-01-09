@@ -84,7 +84,7 @@ public class PojazdyView  implements Serializable{
     
     
     public void obliczsumy() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 3);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 3);
         List<StronaWiersza> stronywiersza = stronaWierszaDAO.findStronaByPodatnikRokMcWynikSlownik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
         PojazdyBean.zsumujkwotyzkont(pojazdy, kontaslownikowe, wpisView, stronaWierszaDAO, listasumpojazdy, stronywiersza);
     }
@@ -121,7 +121,7 @@ public class PojazdyView  implements Serializable{
     
     public void zapiszedycje() {
         pojazdyDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 3, wpisView, kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 3,wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         selected.setNrrejestracyjny(null);
         selected.setNazwapojazdu(null);
         pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());

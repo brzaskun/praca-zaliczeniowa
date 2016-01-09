@@ -47,7 +47,7 @@ public class KontaFKBean implements Serializable{
          for (Konto p : wykazkont) {
             if (!"0".equals(p.getMacierzyste())) {
                 try {
-                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView);
+                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
@@ -72,7 +72,7 @@ public class KontaFKBean implements Serializable{
          for (Konto p : wykazkont) {
             if (!"0".equals(p.getMacierzyste())) {
                 try {
-                    Konto macierzyste = kontoDAO.findKontoWzorcowy(p.getMacierzyste(), wpisView);
+                    Konto macierzyste = kontoDAO.findKonto(p.getMacierzyste(), "Wzorcowy", wpisView.getRokWpisu());
                     macierzyste.setMapotomkow(true);
                     macierzyste.setBlokada(true);
                     kontoDAO.edit(macierzyste);
@@ -100,7 +100,7 @@ public class KontaFKBean implements Serializable{
     public static List<StronaWiersza> pobierzZapisyRokSyntetyka(KontoDAOfk kontoDAOfk, WpisView wpisView, Konto konto, Podatnik podatnik, String rok, StronaWierszaDAO stronaWierszaDAO) {
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikKontoRokWszystkie(podatnik, konto, rok);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), rok, konto.getPelnynumer());
             for (Konto p : kontapotomne) {
                 pobranezapisy.addAll(pobierzZapisyRokSyntetyka(kontoDAOfk, wpisView, p, podatnik, rok, stronaWierszaDAO));
             }
@@ -168,7 +168,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), konto.getPelnynumer());
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1(p, kontoDAOfk, przychod0koszt1, wpisView);
             }
@@ -179,7 +179,7 @@ public class KontaFKBean implements Serializable{
         konto.setPrzychod0koszt1(przychod0koszt1);
         kontoDAOfk.edit(konto);
         if (konto.isMapotomkow()) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), konto.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomneWzorcowy(wpisView.getRokWpisu(), konto.getPelnynumer(), "wynikowe");
             for (Konto p : kontapotomne) {
                 oznaczkontoPrzychod0Koszt1Wzorcowy(p, kontoDAOfk, przychod0koszt1, wpisView);
             }

@@ -24,12 +24,12 @@ import view.WpisView;
 @Stateless
 public class SlownikiBean {
     
-     public static void aktualizujkontapoedycji(Object obiekt, int nrslownika, WpisView wpisView, KontoDAOfk kontoDAOfk) {
+     public static void aktualizujkontapoedycji(Object obiekt, int nrslownika, String podatnik, Integer rok, KontoDAOfk kontoDAOfk) {
         String[] pola = pobierzpola(obiekt);
         List<Konto> kontaslownik = null;
-        kontaslownik = kontoDAOfk.findKontaMaSlownik(wpisView, nrslownika);
+        kontaslownik = kontoDAOfk.findKontaMaSlownik(podatnik, rok, nrslownika);
         for (Konto p : kontaslownik) {
-            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(wpisView, p.getPelnynumer());
+            List<Konto> kontapotomne = kontoDAOfk.findKontaPotomnePodatnik(podatnik, rok, p.getPelnynumer());
             for (Konto r : kontapotomne) {
                 if (r.getNrkonta().equals(pola[0])) {
                     r.setNazwapelna(pola[1]);

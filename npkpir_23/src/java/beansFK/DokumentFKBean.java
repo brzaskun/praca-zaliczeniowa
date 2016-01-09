@@ -142,9 +142,9 @@ public class DokumentFKBean implements Serializable {
             String dok = p.getNowaTransakcja().getWiersz() == null ? "BO: "+p.getNowaTransakcja().getOpisBO() : p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getSeriadokfk()+"/"+p.getNowaTransakcja().getWiersz().getDokfk().getDokfkPK().getNrkolejnywserii(); 
             String opiswiersza = "księg. różnic kurs: "+dok+" & "+rozliczajacy+" "+p.getNowaTransakcja().getId()+"/"+p.getRozliczajacy().getId(); 
             w.setOpisWiersza(opiswiersza);
-            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView);
-            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView);
-            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView);
+            Konto kontoRozniceKursowe = kontoDAOfk.findKonto("755", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto przychodyfinansowe = kontoDAOfk.findKonto("756", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto kosztyfinansowe = kontoDAOfk.findKonto("759", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             String walutarachunku = p.getNowaTransakcja().getSymbolWalut();
             String walutaplatnosci = p.getRozliczajacy().getSymbolWalut();
             boolean sazlotowki = walutarachunku.equals("PLN") || walutaplatnosci.equals("PLN") ? true : false;
@@ -208,8 +208,8 @@ public class DokumentFKBean implements Serializable {
             uzupelnijwiersz(w, nd, tabelanbpDAO);
             String opiswiersza = "umorzenie: "+p.getNazwaSrodka()+" "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt();
             w.setOpisWiersza(opiswiersza);
-            Konto umorzeniesrodkitrwale = kontoDAOfk.findKonto("401-1-1", wpisView);
-            Konto kontosrodka = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView);
+            Konto umorzeniesrodkitrwale = kontoDAOfk.findKonto("401-1-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
+            Konto kontosrodka = kontoDAOfk.findKonto(p.getKontoumorzenie(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
             double kwota =  p.getKwota().doubleValue();
             StronaWiersza stronaumorzenie = new StronaWiersza(w, "Wn", kwota, umorzeniesrodkitrwale);
             StronaWiersza stronasrodka = new StronaWiersza(w, "Ma", kwota, kontosrodka);

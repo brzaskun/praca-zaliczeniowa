@@ -258,17 +258,17 @@ public class KontoDAOfk extends DAO implements Serializable{
         }
    }
     
-    public List<Konto> findWszystkieKontaBilansowePodatnika(WpisView wpisView){
+    public List<Konto> findWszystkieKontaBilansowePodatnika(String podatnik, String rok){
        try {
-            return kontoFacade.findWszystkieKontaBilansowePodatnika(wpisView);
+            return kontoFacade.findWszystkieKontaBilansowePodatnika(podatnik, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }
    }
     
-    public List<Konto> findWszystkieKontaWynikowePodatnika(WpisView wpisView){
+    public List<Konto> findWszystkieKontaWynikowePodatnika(String podatnik, String rok){
        try {
-            return kontoFacade.findWszystkieKontaWynikowePodatnika(wpisView);
+            return kontoFacade.findWszystkieKontaWynikowePodatnika(podatnik, rok);
         } catch (Exception e) { E.e(e); 
             return null;
         }
@@ -358,21 +358,22 @@ public class KontoDAOfk extends DAO implements Serializable{
    }
     
 
-    public List<Konto> findKontaPotomnePodatnik(WpisView wpisView,String macierzyste) {
+    public List<Konto> findKontaPotomnePodatnik(String podatnik, Integer rok,String macierzyste) {
         try {
-            return kontoFacade.findKontaPotomnePodatnik(wpisView, macierzyste);
+            return kontoFacade.findKontaPotomnePodatnik(podatnik, rok, macierzyste);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
     
-     public List<Konto> findKontaPotomneWzorcowy(Integer rok,String macierzyste) {
+    public List<Konto> findKontaPotomnePodatnik(String podatnik, String rok,String macierzyste) {
         try {
-            return kontoFacade.findKontaPotomneWzorcowy(rok, macierzyste);
+            return kontoFacade.findKontaPotomnePodatnik(podatnik, Integer.parseInt(rok), macierzyste);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
     }
+    
     
     public List<Konto> findKontaWszystkiePotomnePodatnik(WpisView wpisView,Konto macierzyste) {
         List<Konto> listakontwszystkie = new ArrayList<>();
@@ -423,9 +424,9 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
     }
     
-    public List<Konto> findKontaMaSlownik(WpisView wpisView, int idslownika) {
+    public List<Konto> findKontaMaSlownik(String podatnik, Integer rok, int idslownika) {
         try {
-            return kontoFacade.findKontaMaSlownik(wpisView, idslownika);
+            return kontoFacade.findKontaMaSlownik(podatnik, rok, idslownika);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
@@ -467,7 +468,7 @@ public class KontoDAOfk extends DAO implements Serializable{
 
     public List<Konto> findListaKontRozrachunkowych(WpisView wpisView) {
          try {
-            return kontoFacade.findKontaMaSlownik(wpisView, 1);
+            return kontoFacade.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 1);
         } catch (Exception e) { E.e(e); 
             return null;
         } 
@@ -504,22 +505,7 @@ public class KontoDAOfk extends DAO implements Serializable{
         } 
     }
     
-    public List<Konto> findWszystkieKontaWynikoweWzorcowy(WpisView wpisView) {
-        try {
-            return kontoFacade.findKontaWynikoweWzorcowy(wpisView);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        } 
-    }
-    
-     public List<Konto> findWszystkieKontaBilansoweWzorcowy(WpisView wpisView) {
-        try {
-            return kontoFacade.findKontaBilansoweWzorcowy(wpisView);
-        } catch (Exception e) { E.e(e); 
-            return null;
-        } 
-    }
-
+   
     public List<Konto> findWszystkieKontaPodatnikaBez0(String podatnikWpisu, String rokWpisuSt) {
         try {
             return kontoFacade.findKontoPodatnikBez0(podatnikWpisu, rokWpisuSt);

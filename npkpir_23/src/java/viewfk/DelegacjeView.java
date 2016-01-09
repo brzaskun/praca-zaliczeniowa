@@ -77,7 +77,7 @@ public class DelegacjeView  implements Serializable{
     }
     
     public void obliczsumymiejsc() {
-        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView, 2);
+        List<Konto> kontaslownikowe = kontoDAOfk.findKontaMaSlownik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), 2);
         for (Delegacja p : delegacjekrajowe) {
             DelegacjaBean.zsumujkwotyzkont(p, kontaslownikowe, wpisView, stronaWierszaDAO, listadelegacja);
         }
@@ -148,10 +148,10 @@ public class DelegacjeView  implements Serializable{
         delegacjaDAO.edit(selected);
         if (krajowa0zagraniczna1) {
             delegacjezagraniczne = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
-            SlownikiBean.aktualizujkontapoedycji(selected, 6, wpisView, kontoDAOfk);
+            SlownikiBean.aktualizujkontapoedycji(selected, 6, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         } else {
             delegacjekrajowe = delegacjaDAO.findDelegacjaPodatnik(wpisView,krajowa0zagraniczna1);
-            SlownikiBean.aktualizujkontapoedycji(selected, 5, wpisView, kontoDAOfk);
+            SlownikiBean.aktualizujkontapoedycji(selected, 5, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         }
         zapisz0edytuj1 = false;
         selected = new Delegacja();

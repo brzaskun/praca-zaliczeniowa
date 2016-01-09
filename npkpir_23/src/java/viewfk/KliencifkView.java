@@ -223,7 +223,7 @@ public class KliencifkView implements Serializable {
     
     public void zapiszedycje() {
         kliencifkDAO.edit(selected);
-        SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView, kontoDAOfk);
+        SlownikiBean.aktualizujkontapoedycji(selected, 1, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDAOfk);
         selected = new Kliencifk();
         listawszystkichklientowFk = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         zapisz0edytuj1 = false;

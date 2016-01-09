@@ -196,7 +196,7 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wierszpierwszy.getStronaMa().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wierszpierwszy.getStronaMa().setKonto(k);
                     }
                 }
@@ -214,7 +214,7 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wierszdrugi.getStronaMa().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wierszdrugi.getStronaMa().setKonto(k);
                     }
                     selected.getListawierszy().add(wierszdrugi);
@@ -315,7 +315,7 @@ public class DokFKVATBean {
                         if (kontovat != null) {
                             wierszpierwszy.getStronaWn().setKonto(kontovat);
                         } else {
-                            Konto k = kontoDAOfk.findKonto("221-3", wpisView);
+                            Konto k = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                             wierszpierwszy.getStronaWn().setKonto(k);
                         }
                     } else {
@@ -370,7 +370,7 @@ public class DokFKVATBean {
                     wierszdrugi.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat");
                     wierszdrugi.setCzworka(wierszpierwszy);
                     wierszpierwszy.getPiatki().add(wierszdrugi);
-                    Konto k = kontoDAOfk.findKonto("490", wpisView);
+                    Konto k = kontoDAOfk.findKonto("490", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wierszdrugi.getStronaMa().setKonto(k);
                     selected.getListawierszy().add(wierszdrugi);
                     dolaczwiersz2_3(wartosciVAT, w, lpnastepnego+1, 0, selected, kontoDAOfk, wpisView);
@@ -414,20 +414,20 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221-3", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaWn().setKonto(k);
                     }
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
-                        Konto k = kontoDAOfk.findKonto("221-1", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaMa().setKonto(k);
                     }
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat");
                 } else {
-                    Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                    Konto k = kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
                     wiersz2_3.getStronaWn().setKonto(k);
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
-                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView);
+                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaMa().setKonto(k1);
                     }
                 }
@@ -461,20 +461,20 @@ public class DokFKVATBean {
                     if (kontovat != null) {
                         wiersz2_3.getStronaWn().setKonto(kontovat);
                     } else {
-                        Konto k = kontoDAOfk.findKonto("221-3", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaWn().setKonto(k);
                     }
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
-                        Konto k = kontoDAOfk.findKonto("221-1", wpisView);
+                        Konto k = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaMa().setKonto(k);
                     }
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat");
                 } else {
-                    Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                    Konto k = kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wiersz2_3.setOpisWiersza(selected.getOpisdokfk() + " - podatek vat nie podl. odl.");
                     wiersz2_3.getStronaWn().setKonto(k);
                     if (selected.getRodzajedok().getRodzajtransakcji().equals("WNT") || selected.getRodzajedok().getRodzajtransakcji().contains("import usług") || selected.getRodzajedok().getRodzajtransakcji().equals("odwrotne obciążenie")) {
-                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView);
+                        Konto k1 = kontoDAOfk.findKonto("221-1", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersz2_3.getStronaMa().setKonto(k1);
                     }
                 }
@@ -688,7 +688,7 @@ public class DokFKVATBean {
                 if (kontovat != null) {
                     wierszdrugi.getStronaWn().setKonto(kontovat);
                 } else {
-                    Konto k = kontoDAOfk.findKonto("221", wpisView);
+                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wierszdrugi.getStronaWn().setKonto(k);
                 }
                 nowewiersze.add(wierszdrugi);
@@ -710,7 +710,7 @@ public class DokFKVATBean {
                     wiersztrzeci.setTabelanbp(selected.getTabelanbp());
                     wiersztrzeci.setDataWalutyWiersza(wierszpierwszy.getDataWalutyWiersza());
                     wiersztrzeci.setOpisWiersza(wierszpierwszy.getOpisWiersza() + " - pod. vat k.u.p.");
-                    Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                    Konto k = kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wiersztrzeci.getStronaWn().setKonto(k);
                     nowewiersze.add(wiersztrzeci);
                 }
@@ -761,7 +761,7 @@ public class DokFKVATBean {
                          wiersztrzeci.getStronaWn().setKwota(vatkoszt);
                      } else {
                         wiersztrzeci = ObslugaWiersza.wygenerujiDodajWierszRK(selected, wierszRKindex, true, vatkoszt, 1);
-                        Konto k = kontoDAOfk.findKonto("404-2", wpisView);
+                        Konto k = kontoDAOfk.findKonto("404-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                         wiersztrzeci.getStronaWn().setKonto(k);
                      }
                      wiersztrzeci.setTabelanbp(selected.getTabelanbp());
@@ -896,7 +896,7 @@ public class DokFKVATBean {
                 if (kontovat != null) {
                     wierszdrugi.getStronaMa().setKonto(kontovat);
                 } else {
-                    Konto k = kontoDAOfk.findKonto("221", wpisView);
+                    Konto k = kontoDAOfk.findKonto("221", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
                     wierszdrugi.getStronaMa().setKonto(k);
                 }
                 nowewiersze.add(wierszdrugi);

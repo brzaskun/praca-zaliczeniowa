@@ -13,7 +13,7 @@
                     <p:dataTable id="dataList" value="#{sprawozdanieUkladView.zachowaneuklady}" var="loop" selectionMode="single" selection="#{sprawozdanieUkladView.selected}" 
                                  styleClass="tablicaplankont" style="width: 550px; margin-top: 0%; margin-bottom: 50px;" rowKey="#{loop.lp}" scrollable="true" scrollHeight="500"
                              emptyMessage="Brak układów Sprawozdań">
-                    <p:ajax event="rowSelect" listener="#{sprawozdanieUkladView.wybranouklad}"/>
+                    <p:ajax event="rowSelect" listener="#{sprawozdanieUkladView.wybranouklad}" global="false"/>
                     <p:column headerText="nazwa ukladu" width="200">
                         <h:outputText value="#{loop.nazwaukladu}" style="font-weight: bolder; width: 200px;" /> 
                     </p:column>
