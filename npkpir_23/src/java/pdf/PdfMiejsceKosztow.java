@@ -30,6 +30,8 @@ import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import viewfk.MiejsceKosztowView;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

@@ -721,17 +721,19 @@ public class Dokfk implements Serializable {
         return brakrozrachunkow;
     }
     
-    public void oznaczewidencjeVAT() {
+    public void oznaczVATdokument() {
         for (EVatwpisFK p : this.ewidencjaVAT) {
-            if (p.getInnyokres()==0) {
-                p.setMcEw(this.getMiesiac());
-                p.setRokEw(this.getDokfkPK().getRok());
-            } else {
-                String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
-                p.setRokEw(nowyokres[0]);
-                p.setMcEw(nowyokres[1]);
-                this.setVatR(nowyokres[0]);
-                this.setVatM(nowyokres[1]);
+            if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
+                if (p.getInnyokres()==0) {
+                    p.setMcEw(this.getMiesiac());
+                    p.setRokEw(this.getDokfkPK().getRok());
+                } else {
+                    String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
+                    p.setRokEw(nowyokres[0]);
+                    p.setMcEw(nowyokres[1]);
+                    this.setVatR(nowyokres[0]);
+                    this.setVatM(nowyokres[1]);
+                }
             }
         }
     }

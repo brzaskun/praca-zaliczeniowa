@@ -44,6 +44,10 @@ import static pdffk.PdfMain.naglowekStopkaP;
 import static pdffk.PdfMain.otwarcieDokumentu;
 import plik.Plik;
 import view.WpisView;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static pdf.PdfVAT7.absText;
+import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *

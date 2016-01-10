@@ -110,7 +110,10 @@
                                         <h:outputText value="#{mgs.rok}"/>
                                     </p:column>
                                     <p:column>
-                                        <h:outputText value="#{mgs.miesiąc}"/>
+                                        <h:outputText value="m CIT"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="m VAT"/>
                                     </p:column>
                                 </p:row>
                             </f:facet>
@@ -162,6 +165,13 @@
                                                  maxlength="2" size="3">
                                         <p:ajax event="change" partialSubmit="true" global="false" />
                                         <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanie}" update="formwpisdokument:miesiac"/>
+                                    </p:inputText>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <p:inputText id="miesiacVAT" value="#{dokfkView.selected.vatM}" style="text-align: center; width: 30px;"
+                                                 maxlength="2" size="3">
+                                        <p:ajax event="change" partialSubmit="true" global="false" />
+                                        <p:ajax event="blur" global="false" listener="#{dokfkView.sprawdzmiesiacWpisywanievat}" update="formwpisdokument:miesiacVAT"/>
                                     </p:inputText>
                                 </p:column>
                             </p:row>
@@ -378,11 +388,13 @@
                                 </h:selectOneMenu>
                             </p:column>
                             <p:column headerText="+mc" style="width: 25px; text-align: center;">
-                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" maxlength="2" onblur="sprawdzmcshift(this)"
+                                <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" 
+                                             maxlength="2" onblur="sprawdzmcshift(this)"
                                              >
                                     <f:validateDoubleRange minimum="-3" maximum="3"/>
                                     <p:ajax global="false" event="keyup" partialSubmit="true"/>
-                                    <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" update="formwpisdokument:dataList"/>
+                                    <p:ajax global="false" event="change" listener="#{dokfkView.zmienmiesiac(item.innyokres)}" 
+                                            update="formwpisdokument:dataList formwpisdokument:miesiacVAT"/>
                                 </p:inputText>
                             </p:column>
                             <p:column style="width: 20px; text-align: center;">

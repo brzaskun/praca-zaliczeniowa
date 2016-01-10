@@ -12,6 +12,7 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import embeddable.EVatwpis;
+import embeddable.Mce;
 import entity.Faktura;
 import entity.Rodzajedok;
 import entityfk.Dokfk;
@@ -53,6 +54,7 @@ public class FDfkBean {
         ustawtabelenbp(nd,tabelanbpDAO, walutyDAOfk);
         podepnijEwidencjeVat(nd, faktura);
         ustawwiersze(nd, faktura, kontoDAOfk, wpisView, tabelanbpDAO,kliencifkDAO);
+        nd.przeliczKwotyWierszaDoSumyDokumentu();
         nd.setImportowany(true);
         return nd;
     }
@@ -65,8 +67,13 @@ public class FDfkBean {
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
         nd.setMiesiac(wpisView.getMiesiacWpisu());
-        nd.setVatM(datasprzedazy.split("-")[1]);
-        nd.setVatR(datasprzedazy.split("-")[0]);
+        if (faktura.getNettopk() != 0.0 || faktura.getVatpk() != 0.0) {
+            nd.setVatM(datadokumentu.split("-")[1]);
+            nd.setVatR(datadokumentu.split("-")[0]);
+        } else {
+            nd.setVatM(datasprzedazy.split("-")[1]);
+            nd.setVatR(datasprzedazy.split("-")[0]);
+        }
     }
     
      private static void ustawkontrahenta(Dokfk nd, Faktura faktura) {
@@ -116,10 +123,12 @@ public class FDfkBean {
                         }
                         EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
+                        eVatwpisFK.setInnyokres(Mce.odlegloscMcy(nd.getDataoperacji(), nd.getDatadokumentu()));
                         ewidencjaTransformowana.add(eVatwpisFK);
                     } else {
                         EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
+                        eVatwpisFK.setInnyokres(Mce.odlegloscMcy(nd.getDataoperacji(), nd.getDatadokumentu()));
                         ewidencjaTransformowana.add(eVatwpisFK);
                     }
                 }

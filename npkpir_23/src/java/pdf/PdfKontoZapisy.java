@@ -33,6 +33,8 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import plik.Plik;
 import view.WpisView;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *

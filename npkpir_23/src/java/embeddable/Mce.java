@@ -270,6 +270,14 @@ public class Mce implements Serializable{
         return listamiesiecy;
     }
    
+    public static int odlegloscMcy(String dok, String ewid) {
+        String rokOd = dok.split("-")[0];
+        String mcOd = dok.split("-")[1];
+        String rokAkt = ewid.split("-")[0];
+        String mcAkt = ewid.split("-")[1];
+        return odlegloscMcy(mcOd, rokOd, mcAkt, rokAkt);
+    }
+    
    public static int odlegloscMcy(String mcOd, String rokOd, String mcAkt, String rokAkt) {
         int mcod = Mce.miesiacToNumber.get(mcOd);
         int rokod = Integer.parseInt(rokOd);

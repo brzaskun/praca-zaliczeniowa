@@ -29,6 +29,8 @@ import msg.Msg;
 import plik.Plik;
 import view.WpisView;
 import viewfk.PojazdyView;
+import static beansPdf.PdfFont.ustawfraze;
+import static beansPdf.PdfFont.ustawfrazeAlign;
 
 /**
  *
