@@ -10,16 +10,16 @@
         <h:form id="form6" >
             <h:outputText value="Rodzaje dokumentów księgowych" style="font-size: 15px"/>
             <p:growl id="messages" />
-            <p:panelGrid columns="1" style="max-width: 1200px">
+            <p:panelGrid columns="1" style="width: 1150px">
                 <p:dataTable id="pDokKsi" value="#{podatnikView.rodzajeDokumentowLista}"  var="loop" selection="#{podatnikView.wybranyRodzajDokumentu}"
-                             paginator="true" paginatorPosition="top" rows="7" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
+                             scrollable="true" scrollHeight="330" selectionMode="single" rowKey="#{loop.rodzajedokPK.skrotNazwyDok}"
                              sortBy="#{loop.rodzajedokPK.skrotNazwyDok}"
                              >
                     <p:ajax event="rowSelect" update=":akordeon:form7" listener="#{podatnikView.przygotujdoedycjiDokKsi}" />
-                    <p:column headerText="skrót" style="text-align: center; height: 30px;" width="40">
+                    <p:column headerText="skrót" style="text-align: center;" width="40">
                         <h:outputText value="#{loop.rodzajedokPK.skrotNazwyDok}" />
                     </p:column>
-                    <p:column headerText="nazwa pelna" width="150">
+                    <p:column headerText="nazwa pelna" width="180">
                         <h:outputText value="#{loop.nazwa}" />
                     </p:column>
                     <p:column headerText="rodzaj transakcji">
@@ -48,13 +48,13 @@
                             <f:convertNumber integerOnly="true"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="konto rozrach." style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                    <p:column headerText="konto rozrach." style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
                         <h:outputText value="#{loop.kontorozrachunkowe.pelnynumer}" />
                     </p:column>
-                    <p:column headerText="konto VAT" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                    <p:column headerText="konto VAT" style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
                         <h:outputText value="#{loop.kontovat.pelnynumer}" />
                     </p:column>
-                    <p:column headerText="konto RZiS" style="text-align: center;" rendered="#{WpisView.ksiegirachunkowe}">
+                    <p:column headerText="konto RZiS" style="text-align: center;" width="50" rendered="#{WpisView.ksiegirachunkowe}">
                         <h:outputText value="#{loop.kontoRZiS.pelnynumer}" />
                     </p:column>
                     <p:column id="deleteColumn" headerText="usuń" style="text-align: center; width: 50px;">

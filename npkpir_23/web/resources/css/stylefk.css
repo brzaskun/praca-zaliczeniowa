@@ -257,6 +257,11 @@ body {
     
 }
 
+.ui-datatable-scrollable-theadclone th span.ui-column-title {
+    display: none !important;
+    height: 0px;
+}
+    
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
 }*/

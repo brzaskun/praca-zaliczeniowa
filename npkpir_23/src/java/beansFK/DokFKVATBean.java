@@ -626,7 +626,6 @@ public class DokFKVATBean {
         if (kontoRozrachunkowe == null) {
             kontoRozrachunkowe = selected.getRodzajedok().getKontorozrachunkowe();
         }
-        if (kontoRozrachunkowe != null) {
             //nie chodzi ze jest pierwszy, tylko ze jest zainicjalizowany
             if (wierszpierwszy != null) {
                 StronaWiersza wn = wierszpierwszy.getStronaWn();
@@ -715,9 +714,6 @@ public class DokFKVATBean {
                     nowewiersze.add(wiersztrzeci);
                 }
             }
-        } else {
-            Msg.msg("w", "Brak Zdefiniowanego konta rozrachunkowego. Nie można generować zapisów VAT.");
-        }
         return nowewiersze;
     }
     

@@ -169,6 +169,11 @@ body {
     
 }
 
+.ui-datatable-scrollable-theadclone{
+    display: none !important;
+    height: 0px;
+}
+
 /*.tablicafk td {
     padding: 0px 0px 0px 0px !important;
 }*/
