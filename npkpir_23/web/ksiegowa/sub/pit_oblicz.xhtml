@@ -13,6 +13,11 @@
                    <p:growl id="messages" autoUpdate="true" />
                     <p:panelGrid id="danedopit" columns="2">
                         <p:panelGrid  columns="1" >
+                            <p:panel header="pobieranie kwot ZUS: " style="width: 250px;"/>
+                            <p:panelGrid  columns="1">
+                            <h:outputText value="ZUS 51 nie pobierany automatycznie" rendered="#{podatnikView.selected.odliczeniezus51 ne true}"/>
+                            <h:outputText value="ZUS 52 nie pobierany automatycznie" rendered="#{podatnikView.selected.odliczeniezus52 ne true}"/>
+                            </p:panelGrid>
                             <p:panel header="rozliczenie remanentów: " style="width: 250px;" rendered="#{WpisView.miesiacWpisu eq '12'}"/>
                             <p:panelGrid  columns="2" rendered="#{WpisView.miesiacWpisu eq '12'}">
                                 <h:outputText value="remanent poczatkowy"/><h:outputText value="#{remanentView.remanentPoczRoku}" style="float: right;">
