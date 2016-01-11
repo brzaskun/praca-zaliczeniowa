@@ -5,6 +5,7 @@
  */
 package beansFaktura;
 
+import beansFK.DFKWiersze;
 import dao.RodzajedokDAO;
 import daoFK.DokDAOfk;
 import daoFK.KliencifkDAO;
@@ -66,7 +67,7 @@ public class FDfkBean {
         nd.setDataoperacji(datasprzedazy);
         nd.setDatawplywu(datadokumentu);
         nd.setDatawystawienia(datadokumentu);
-        nd.setMiesiac(wpisView.getMiesiacWpisu());
+        nd.setMiesiac(datadokumentu.split("-")[1]);
         if (faktura.getNettopk() != 0.0 || faktura.getVatpk() != 0.0) {
             nd.setVatM(datadokumentu.split("-")[1]);
             nd.setVatR(datadokumentu.split("-")[0]);
@@ -123,12 +124,10 @@ public class FDfkBean {
                         }
                         EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), s.getNetto()-r.getNetto(), s.getVat()-r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
-                        eVatwpisFK.setInnyokres(Mce.odlegloscMcy(nd.getDataoperacji(), nd.getDatadokumentu()));
                         ewidencjaTransformowana.add(eVatwpisFK);
                     } else {
                         EVatwpisFK eVatwpisFK = new EVatwpisFK(r.getEwidencja(), r.getNetto(), r.getVat(), r.getEstawka());
                         eVatwpisFK.setDokfk(nd);
-                        eVatwpisFK.setInnyokres(Mce.odlegloscMcy(nd.getDataoperacji(), nd.getDatadokumentu()));
                         ewidencjaTransformowana.add(eVatwpisFK);
                     }
                 }
@@ -178,6 +177,7 @@ public class FDfkBean {
         strma.setKonto(kontonetto);
         w.setStronaWn(strwn);
         w.setStronaMa(strma);
+        DFKWiersze.zaznaczNowaTrasakcja(w, "Wn");
         return w;
     }
     
