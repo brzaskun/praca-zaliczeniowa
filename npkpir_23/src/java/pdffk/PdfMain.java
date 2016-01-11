@@ -470,6 +470,7 @@ public class PdfMain {
                 col[5] = 3;
                 col[6] = 3;
                 col[7] = 3;
+                col[8] = 3;
                 return col;
             case "entity.SrodekTrw":
                 col = new int[size];
