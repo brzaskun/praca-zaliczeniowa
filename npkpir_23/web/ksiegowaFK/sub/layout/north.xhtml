@@ -10,29 +10,29 @@
         <h:form>
             <p:menubar autoDisplay="true">
                 <p:menuitem icon="fa fa-institution" value="firma" outcome="firmaFK"/>
-                <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK"/>
-                <p:menuitem icon="fa fa-pencil" value="zapisy kont" outcome="raportyFK"/>
-                <p:menuitem icon="fa fa-sheqel" value="zestawienia" outcome="zestawieniaFK"/>
-                <p:menuitem icon="fa fa-tasks" value="rejestry" outcome="rejestryFK"/>
-                <p:menuitem icon="fa fa-file-text-o" value="słowniki" outcome="kartotekiFK"/>
-                <p:menuitem icon="fa fa-wrench" value="ustawienia" outcome="menuustawieniaFK"/>
-                <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK"/>
-                <p:menuitem icon="fa fa-columns" value="deklaracje" />
-                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK">
+                <p:menuitem icon="fa fa-stack-overflow" value="#{mgs.dokumenty}" outcome="menudokumentyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-pencil" value="zapisy kont" outcome="raportyFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-sheqel" value="zestawienia" outcome="zestawieniaFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-tasks" value="rejestry" outcome="rejestryFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-file-text-o" value="słowniki" outcome="kartotekiFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-wrench" value="ustawienia" outcome="menuustawieniaFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-building-o" value="#{mgs.bilans}" outcome="bilanseFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-columns" value="deklaracje"  rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-car" value="środki trw." outcome="srodkitrwaleFK" rendered="#{WpisView.czegosbrakuje == false}">
                     <f:actionListener binding="#{srodkiTrwaleAMOView.init()}"/>
                     <f:actionListener binding="#{STRTableView.init()}"/>
                 </p:menuitem>
-                <p:menuitem icon="fa fa-clock-o" value="rmk" outcome="rmkFK"/>
-                <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestzestFK"/>
+                <p:menuitem icon="fa fa-clock-o" value="rmk" outcome="rmkFK" rendered="#{WpisView.czegosbrakuje == false}"/>
+                <p:menuitem icon="fa fa-newspaper-o" value="#{mgs.zestawienia}" outcome="guestzestFK" rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem value=" | "/>
                 <p:menuitem icon="fa fa-exchange" value="inna firma" outcome="BookkeeperFK"/>
                 <p:menuitem value=" | "/>
-                <p:menuitem icon="fa fa-question-circle" value="pomoc" />
+                <p:menuitem icon="fa fa-question-circle" value="pomoc"  rendered="#{WpisView.czegosbrakuje == false}"/>
                 <p:menuitem icon="fa fa-hand-o-right" value="uwagi" outcome="pismoadminFK"/>
                 <p:menuitem  value=" | " />
                 <p:menuitem icon="fa fa-toggle-off" value="#{mgs.wyloguj}" action="#{logowanie.logout()}" />
                 <p:menuitem  value=" | " />
-                <p:menuitem value="#{WpisView.podatnikWpisu } #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900;"/>
+                <p:menuitem value="#{WpisView.podatnikObiekt.nazwisko} #{WpisView.rokWpisuSt}/#{WpisView.miesiacWpisu}" style="font-weight: 900; word-break: break-all; word-wrap: break-word !important; white-space: pre-wrap; "/>
             </p:menubar>
         </h:form>
     </p:layoutUnit>

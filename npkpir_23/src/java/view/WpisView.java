@@ -78,10 +78,12 @@ public class WpisView implements Serializable {
     private DokDAOfk dokDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
+    private boolean czegosbrakuje;
 
 
     @PostConstruct
     private void init() {
+        czegosbrakuje = false;
         if (miesiacDo == null && miesiacWpisu == null) {
             miesiacDo = miesiacWpisu;
             miesiacOd = miesiacWpisu;
@@ -190,6 +192,7 @@ public class WpisView implements Serializable {
     }
 
     public final void naniesDaneDoWpis() {
+        czegosbrakuje = false;
         HttpServletRequest request;
         request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Principal principal = request.getUserPrincipal();
@@ -285,8 +288,11 @@ public class WpisView implements Serializable {
                     ksiegirachunkowe = false;
                     Msg.msg("e", "Brak wyboru opodatkowania w danym roku");
                 }
+                if (rodzajopodatkowania == null) {
+                    czegosbrakuje = true;
+                }
             } catch (Exception e) {
-                
+                czegosbrakuje = true;
                 E.e(e);
             }
     }
@@ -492,6 +498,14 @@ public class WpisView implements Serializable {
         this.rokUprzedniSt = rokUprzedniSt;
     }
     
+    public boolean isCzegosbrakuje() {
+        return czegosbrakuje;
+    }
+
+    public void setCzegosbrakuje(boolean czegosbrakuje) {
+        this.czegosbrakuje = czegosbrakuje;
+    }
+
     
 //</editor-fold>
 
