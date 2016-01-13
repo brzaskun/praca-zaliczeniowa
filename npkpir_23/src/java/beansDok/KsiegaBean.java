@@ -48,23 +48,31 @@ public class KsiegaBean {
     }
 
     public static List<Dok> pobierzdokumenty(DokDAO dokDAO, String podatnik, Integer rok, String mc, int numerkolejny) {
-        List<Dok> obiektDOKjsfSel = null;
+        List<Dok> dokumentyZaRok = null;
+        List<Dok> dokumentyZaMc = new ArrayList<>();
         try {
-            obiektDOKjsfSel = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
-            Collections.sort(obiektDOKjsfSel, new Dokcomparator());
+            dokumentyZaRok = dokDAO.zwrocBiezacegoKlientaRok(podatnik, rok.toString());
+            dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc);
+            int iloscdo = 0;
+            for (Dok p : dokumentyZaRok) {
+                if (Integer.parseInt(p.getPkpirM()) < Integer.parseInt(mc)) {
+                    iloscdo += 1;
+                }
+            }
+            if (numerkolejny == 1 && dokumentyZaRok != null && dokumentyZaMc != null) {
+                numerkolejny = iloscdo+1;
+            }
+            Collections.sort(dokumentyZaRok, new Dokcomparator());
+            Collections.sort(dokumentyZaMc, new Dokcomparator());
         } catch (Exception e) { 
             E.e(e); 
         }
-        List<Dok> obiektDOKmrjsfSel = new ArrayList<>();
-        if (obiektDOKjsfSel != null) {
-            for (Dok tmpx : obiektDOKjsfSel) {
+        if (dokumentyZaMc != null) {
+            for (Dok tmpx : dokumentyZaMc) {
                 tmpx.setNrWpkpir(numerkolejny++);
-                if (tmpx.getPkpirM().equals(mc)) {
-                    obiektDOKmrjsfSel.add(tmpx);
-                }
             }
         }
-        return obiektDOKmrjsfSel;
+        return dokumentyZaMc;
     }
 
     public static DokKsiega ustawpodsumowanie() {
