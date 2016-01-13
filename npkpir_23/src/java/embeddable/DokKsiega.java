@@ -7,6 +7,7 @@ package embeddable;
 import entity.Dok;
 import entity.EVatwpis1;
 import entity.Klienci;
+import entityfk.Tabelanbp;
 import java.io.Serializable;
 import java.util.List;
 import javax.inject.Named;
@@ -47,6 +48,8 @@ public class DokKsiega implements Serializable {
     private String status;
     private List<EVatwpis1> ewidencjaVAT1;
     boolean dokumentProsty;
+    private Tabelanbp tabela;
+    private double kwotawwalucie;
 
     public DokKsiega() {
     }
@@ -68,6 +71,8 @@ public class DokKsiega implements Serializable {
         this.setStatus(tmp.getStatus());
         this.setEwidencjaVAT1(tmp.getEwidencjaVAT1());
         this.setDokumentProsty(tmp.isDokumentProsty());
+        this.setTabela(tmp.getTabelanbp());
+        this.setKwotawwalucie(tmp.getNettoWaluta());
     }
 
     @Override
@@ -283,6 +288,22 @@ public class DokKsiega implements Serializable {
 
     public void setDokumentProsty(boolean dokumentProsty) {
         this.dokumentProsty = dokumentProsty;
+    }
+
+    public Tabelanbp getTabela() {
+        return tabela;
+    }
+
+    public void setTabela(Tabelanbp tabela) {
+        this.tabela = tabela;
+    }
+
+    public double getKwotawwalucie() {
+        return kwotawwalucie;
+    }
+
+    public void setKwotawwalucie(double kwotawwalucie) {
+        this.kwotawwalucie = kwotawwalucie;
     }
     
     

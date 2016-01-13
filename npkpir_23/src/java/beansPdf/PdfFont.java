@@ -13,9 +13,11 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import entity.Deklaracjevat;
+import error.E;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -216,6 +218,18 @@ public class PdfFont {
         }
     }
     
+    public static String formatujEuro(Double wsad) {
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        formatter.setMinimumFractionDigits(2);
+        formatter.setMaximumFractionDigits(2);
+        try {
+            String moneyString = formatter.format(wsad)+" €";
+            return moneyString;
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
     public static String formatujKurs(Double wsad) {
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         formatter.setMinimumFractionDigits(4);
@@ -254,19 +268,29 @@ public class PdfFont {
     
     //wykrywanie fontow z systemu
     public static void main(String[] args) {
+//        try {
+//            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/Calibri.ttf", "my_font");
+//            Font myBoldFont = FontFactory.getFont("my_font");
+//            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+//            Font font = new Font(helvetica, 5);
+//            String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+//            for (int i = 0; i < fonts.length; i++) {
+//                System.out.println(fonts[i]);
+//            }
+//        } catch (DocumentException ex) {
+//            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         try {
-            FontFactory.register("C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/resources/fonts/Calibri.ttf", "my_font");
-            Font myBoldFont = FontFactory.getFont("my_font");
-            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica, 5);
-            String fonts[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-            for (int i = 0; i < fonts.length; i++) {
-                System.out.println(fonts[i]);
-            }
-        } catch (DocumentException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            NumberFormat formatter = NumberFormat.getNumberInstance();
+            formatter.setMinimumFractionDigits(2);
+            formatter.setMaximumFractionDigits(2);
+            Locale l = Locale.GERMAN;
+            String moneyString = formatter.format(10000);
+            System.out.println(moneyString);
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 

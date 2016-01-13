@@ -4,15 +4,14 @@
  */
 package pdf;
 
+import static beansPdf.PdfFont.formatujEuro;
 import static beansPdf.PdfFont.formatujWaluta;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
 import beansPdf.PdfHeaderFooter;
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -185,7 +184,11 @@ public class PdfPkpir {
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna13()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna14()), "right",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getKolumna15()), "right",6));
-            table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
+            if (rs.getTabela() != null && !rs.getTabela().getWaluta().getSymbolwaluty().equals("PLN")) {
+                table.addCell(ustawfrazeAlign(formatujEuro(rs.getKwotawwalucie()), "right",6));
+            } else {
+                table.addCell(ustawfrazeAlign(rs.getUwagi(), "right",6));
+            }
         }
     }
 }
