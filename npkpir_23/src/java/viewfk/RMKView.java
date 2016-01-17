@@ -28,6 +28,7 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -52,6 +53,8 @@ public class RMKView  implements Serializable {
     private List<RMK> listarmk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{rMKDokView}")
+    private RMKDokView rMKDokView;
     @Inject
     private KontoDAOfk kontoDAO;
     @Inject
@@ -80,15 +83,31 @@ public class RMKView  implements Serializable {
     
     public void init() {
         listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
+        for (Iterator<Konto> p = listakontkosztowych.iterator(); p.hasNext();) {
+            if (p.next().isMapotomkow() == true) {
+                p.remove();
+            }
+        }
         listarmk = rmkdao.findRMKByPodatnikRok(wpisView);
         this.sumarmk = podsumujrmk(listarmk);
-        RequestContext.getCurrentInstance().update("transakcje");
+        RequestContext.getCurrentInstance().update("formrmk");
     }
     
-    public void dodajNoweRMKDokfk(Dokfk wybranydok) {
+    public void dodajNoweRMKDokfk(List<Dokfk> wybranydok) {
         try {
-            this.dokfk = wybranydok;
-        } catch (Exception e) {  E.e(e);
+            listakontkosztowych = kontoDAO.findKontaGrupa4(wpisView);
+            for (Iterator<Konto> p = listakontkosztowych.iterator(); p.hasNext();) {
+                if (p.next().isMapotomkow() == true) {
+                    p.remove();
+                }
+            }
+            dokfk = wybranydok.get(0);
+            if (dokfk != null) {
+                rmk.setDataksiegowania(dokfk.getDatawystawienia());
+            }
+            
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     
@@ -127,10 +146,17 @@ public class RMKView  implements Serializable {
    
     public void destroy(RMK rmk) {
         try {
-            rmkdao.destroy(rmk);
-            listarmk.remove(rmk);
-        } catch (Exception e) {  E.e(e);
-            
+            if (rmk.getUjetewksiegach() != null && rmk.getUjetewksiegach().size() > 0) {
+                Msg.msg("e", "Zapisy zostały zaksięgowane. Nie można usunąć pozycji");
+            } else {
+                rmkdao.destroy(rmk);
+                listarmk.remove(rmk);
+                init();
+                rMKDokView.init();
+                Msg.msg("Usunięto pozycję RMK");
+            }
+        } catch (Exception e) {  
+            E.e(e);
         }
     }
     
@@ -242,7 +268,7 @@ public class RMKView  implements Serializable {
      
     private double wyliczkwotedopobrania(RMK p) {
         String rok;
-         int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+        int odelgloscwmcach = Mce.odlegloscMcy(p.getMckosztu(), p.getRokkosztu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
         double kwota = 0.0;
         try {
            kwota = p.getPlanowane().get(odelgloscwmcach);
@@ -250,7 +276,8 @@ public class RMKView  implements Serializable {
            for (int i = 0;i < odelgloscwmcach+1;i++){
                p.getUjetewksiegach().add(p.getPlanowane().get(i));
            }
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
             p.setRozliczony(true);
         }
         return kwota;
@@ -313,9 +340,13 @@ public class RMKView  implements Serializable {
         this.sumarmk = sumarmk;
     }
 
-    
+    public RMKDokView getrMKDokView() {
+        return rMKDokView;
+    }
 
-   
+    public void setrMKDokView(RMKDokView rMKDokView) {
+        this.rMKDokView = rMKDokView;
+    }
 
     
     

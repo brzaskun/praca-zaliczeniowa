@@ -16,10 +16,9 @@
               resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1100,300);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
         <h:form id="formrmk"> 
-            <f:ajax>
                 <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="loop"> 
-                    <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="100">
-                        <p:inputText id="opiswydatku" value="#{loop.opiskosztu}" style="width: 120px;"/>
+                    <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="200">
+                        <p:inputText id="opiswydatku" value="#{loop.opiskosztu}" style="width: 260px;"/>
                     </p:column>
                     <p:column headerText="data ksiegowania" width="70" style="text-align: center;">
                         <p:inputText id="dataksiegowania" value="#{loop.dataksiegowania}"  placeholder="rrrr-mm-dd" size="10"
@@ -44,7 +43,6 @@
                         </h:selectOneMenu>
                     </p:column>
                 </p:dataTable>
-            </f:ajax>
             <p:commandButton value="dodaj rmk" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('confirm2').show();"/>
         </h:form>
     </p:dialog>

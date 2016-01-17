@@ -51,7 +51,7 @@ public class RMKDokView implements Serializable {
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);
-       RequestContext.getCurrentInstance().update("transakcje");
+       RequestContext.getCurrentInstance().update("formrmk");
     }
     
     
@@ -59,13 +59,15 @@ public class RMKDokView implements Serializable {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         int licznik = 0;
         for (Konto p : kontaklienta) {
-            SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setId(licznik++);
-            saldoKonto.setKonto(p);
-            naniesZapisyNaKonto(saldoKonto, p);
-            saldoKonto.sumujBOZapisy();
-            saldoKonto.wyliczSaldo();
-            dodajdolisty(saldoKonto, przygotowanalista);
+            if (p.getPelnynumer().startsWith("641") || p.getPelnynumer().startsWith("645")) {
+                SaldoKonto saldoKonto = new SaldoKonto();
+                saldoKonto.setId(licznik++);
+                saldoKonto.setKonto(p);
+                naniesZapisyNaKonto(saldoKonto, p);
+                saldoKonto.sumujBOZapisy();
+                saldoKonto.wyliczSaldo();
+                dodajdolisty(saldoKonto, przygotowanalista);
+            }
         }
         obrotyWn = obliczobrotyWn(przygotowanalista);
         return przygotowanalista;
@@ -83,6 +85,7 @@ public class RMKDokView implements Serializable {
                             double suma = Math.round((saldoKonto.getObrotyWn() + r.getKwotaPLN()) * 100);
                             suma /= 100;
                             saldoKonto.setObrotyWn(suma);
+                            saldoKonto.getZapisy().add(r);
                         } else {
                             double suma = Math.round((saldoKonto.getObrotyMa() + r.getKwotaPLN()) * 100);
                             suma /= 100;

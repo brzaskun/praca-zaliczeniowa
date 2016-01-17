@@ -11,11 +11,15 @@
         <bcf:ajaxs/>
         <h:form id="formrmk">
             <p:outputPanel style="margin-top: 10px">
-                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 50%;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
+                <p:dataTable value="#{rMKDokView.kontarmk}" var="item" style="width: 90%;" id="saldokontasrodkitrw" emptyMessage="Brak kont rmk">
+                    <p:ajax event="rowToggle" global="false"/>
+                    <p:column style="text-align: center;" width="10">
+                        <p:rowToggler/>
+                    </p:column>
                     <p:column headerText="nr konta" width="50">
                         <h:outputText value="#{item.konto.pelnynumer}"/>
                     </p:column>
-                    <p:column headerText="#{mgs.nazwakonta}">
+                    <p:column headerText="#{mgs.nazwakonta}" width="350">
                         <h:outputText value="#{item.konto.nazwapelna}"/>
                     </p:column>
                     <p:column headerText="obroty Bo Wn">
@@ -28,27 +32,55 @@
                             <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
+                    <p:rowExpansion>
+                    <p:column  >  
+                        <p:dataTable var="subwpis" value="#{item.zapisy}" emptyMessage="brak zapisów"  resizableColumns="true" style="width: 98%;"
+                                     scrollable="true" scrollHeight="150" scrollRows="20">
+                            <p:column id="SubColumn1" headerText="opis" width="450">  
+                                <h:outputText value="#{subwpis.wiersz.opisWiersza}" style="width: 300px;"/>
+                            </p:column>
+                            <p:column id="SubColumn1a"  headerText="data" width="70">  
+                                <h:outputText value="#{subwpis.wiersz.dokfk.dataoperacji}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn2" headerText="nr dok" width="200">  
+                                <h:outputText value="#{subwpis.wiersz.dokfk.numerwlasnydokfk}"/>
+                            </p:column>
+                            <p:column id="SubColumn3" headerText="kwota">  
+                                <h:outputText value="#{subwpis.kwota} #{subwpis.wiersz.tabelanbp.waluta.skrotsymbolu}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column id="SubColumn4" headerText="kwota PLN">  
+                                <h:outputText value="#{subwpis.kwotaPLN}" style="float: right;">
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
                 </p:dataTable>
             </p:outputPanel>
             <p:outputPanel style="margin-top: 10px">
                 <p:dataTable id="infokontarmk" value="#{rMKView.listarmk}" var="item"  emptyMessage="Brak rozrachunków międzyokresowych"
-                         style="margin-top: 2%;" sortBy="#{item.id}" paginator="true" rows="10">
+                         style="margin-top: 2%;" sortBy="#{item.id}" paginator="true" rows="10"  rowIndexVar="number">
                 <f:facet name="header">
                     <h:outputText value="Wykaz rozliczeń międzyokresowych podatnika"/>
                 </f:facet>
-                <p:column width="20">
+                    <p:column width="20" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="id"/>
                         </f:facet>
-                        <h:outputText value="#{item.id}"/>
+                        <h:outputText value="#{number+1}" />
                     </p:column>
-                    <p:column width="80">
+                    <p:column width="200">
                         <f:facet name="header">
                             <h:outputText value="opis kosztu"/>
                         </f:facet>
                         <h:outputText value="#{item.opiskosztu}"/>
                     </p:column>
-                    <p:column>
+                    <p:column width="80">
                         <f:facet name="header">
                             <h:outputText value="#{mgs.dokument}"/>
                         </f:facet>
@@ -62,9 +94,9 @@
                             <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                <p:column  width="40" style="text-align: center;">
+                <p:column  width="30" style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="liczba mcy"/>
+                            <h:outputText value="licz. mcy"/>
                         </f:facet>
                         <h:outputText value="#{item.liczbamiesiecy}"/>
                     </p:column>
@@ -76,29 +108,30 @@
                         <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column width="140">
+                    <p:column width="240">
                         <f:facet name="header">
                             <h:outputText value="konto rmk"/>
                         </f:facet>
                         <h:outputText value="#{item.kontokosztowe.pelnynumer}/#{item.kontokosztowe.nazwapelna}"/>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="70">
                         <f:facet name="header">
                             <h:outputText value="data księgowania"/>
                         </f:facet>
                         <h:outputText value="#{item.dataksiegowania}"/>
                     </p:column>
-                    <p:column width="50" style="text-align: center;" >
+                    <p:column width="60" style="text-align: center;" >
                         <f:facet name="header" >
-                            <h:outputText value="rok kosztu"/>
+                            <h:outputText value="rok/mc kosztu"/>
                         </f:facet>
-                        <h:outputText value="#{item.rokkosztu}"/>
+                        <h:outputText value="#{item.rokkosztu}/#{item.mckosztu}"/>
                     </p:column>
-                    <p:column width="50" style="text-align: center;">
+                    <p:column width="40" style="text-align: center;">
                         <f:facet name="header">
-                            <h:outputText value="mc kosztu"/>
+                            <h:outputText value=""/>
                         </f:facet>
-                        <h:outputText value="#{item.mckosztu}"/>
+                        <p:commandButton actionListener="#{rMKView.destroy(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
+                                    global="false" update="formrmk"/>
                     </p:column>
         </p:dataTable>
             </p:outputPanel>

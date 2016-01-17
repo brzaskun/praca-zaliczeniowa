@@ -105,8 +105,9 @@
             <p:contextMenu for="dataList" style="width: 200px;">
                 <p:menuitem value="oznacz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update="@(form)"/>
                 <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
-                <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selected)}" oncomplete="PF('dialogwpisrmk').show();"/>
-                <p:menuitem value="usuń zaznaczone" icon="fa fa-clock-o" actionListener="#{dokfkView.usunzaznaczone}" update=":zestawieniedokumentow:dataList"/>
+                <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
+                            oncomplete="PF('dialogwpisrmk').show();"/>
+                <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}" update=":zestawieniedokumentow:dataList"/>
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
@@ -123,7 +124,6 @@
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                 <p:column style="width: 10px; height: 40px; text-align: center;" >
                     <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}"/>
-                    
                 </p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
                     <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
@@ -182,7 +182,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                        <p:dataTable var="subwpis" value="#{item.zapisy}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
                             <p:column id="SubColumn1" headerText="ewidencja" width="250">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
                                               rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
