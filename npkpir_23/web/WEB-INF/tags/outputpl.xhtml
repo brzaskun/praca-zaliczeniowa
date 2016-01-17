@@ -9,7 +9,7 @@
     <h:body>
        <ui:composition>
            <f:view>
-               <h:outputText value="#{value}" style="#{style != null ? style : 'float: right;'}" rendered="#{rendered != null ? rendered : true}">
+               <h:outputText value="#{value}" style="#{style != null ? style : 'float: right; margin-right: 4px;'}" rendered="#{rendered != null ? rendered : true}">
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                 </h:outputText>
             </f:view>

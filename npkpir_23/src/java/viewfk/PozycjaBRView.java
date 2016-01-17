@@ -666,16 +666,23 @@ public class PozycjaBRView implements Serializable {
             }
             List<Konto> konta = new ArrayList<>();
             for (StronaWierszaKwota p : podpieteStronyWiersza) {
-                Konto k = p.getStronaWiersza().getKonto();
-                if (!konta.contains(k)) {
-                    konta.add(k);
-                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
-                } else {
-                    for (KontoKwota r : sumaPodpietychKont) {
-                        if (r.getKonto().equals(k)) {
-                            r.setKwota(r.getKwota()+p.getKwota());
+                if (p.getKwota() != 0.0) {
+                    Konto k = p.getStronaWiersza().getKonto();
+                    if (!konta.contains(k)) {
+                        konta.add(k);
+                        sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                    } else {
+                        for (KontoKwota r : sumaPodpietychKont) {
+                            if (r.getKonto().equals(k)) {
+                                r.setKwota(r.getKwota()+p.getKwota());
+                            }
                         }
                     }
+                }
+            }
+            for (Iterator<KontoKwota> it = sumaPodpietychKont.iterator(); it.hasNext();) {
+                if (Z.z(it.next().getKwota()) == 0.0) {
+                    it.remove();
                 }
             }
         }
@@ -694,14 +701,16 @@ public class PozycjaBRView implements Serializable {
             }
             List<Konto> konta = new ArrayList<>();
             for (KontoKwota p : podpieteKonta) {
-                Konto k = p.getKonto();
-                if (!konta.contains(k)) {
-                    konta.add(k);
-                    sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
-                } else {
-                    for (KontoKwota r : sumaPodpietychKont) {
-                        if (r.getKonto().equals(k)) {
-                            r.setKwota(r.getKwota()+p.getKwota());
+                if (p.getKwota() != 0.0) {
+                    Konto k = p.getKonto();
+                    if (!konta.contains(k)) {
+                        konta.add(k);
+                        sumaPodpietychKont.add(new KontoKwota(k, p.getKwota()));
+                    } else {
+                        for (KontoKwota r : sumaPodpietychKont) {
+                            if (r.getKonto().equals(k)) {
+                                r.setKwota(r.getKwota()+p.getKwota());
+                            }
                         }
                     }
                 }
@@ -714,6 +723,11 @@ public class PozycjaBRView implements Serializable {
                     if (Mce.getMiesiacToNumber().get(r.getDokfk().getMiesiac()) < granicagorna && r.getKonto().equals(p.getKonto())) {
                         podpieteStronyWiersza.add(new StronaWierszaKwota(r, r.getKwotaPLN()));
                     }
+                }
+            }
+            for (Iterator<KontoKwota> it = sumaPodpietychKont.iterator(); it.hasNext();) {
+                if (Z.z(it.next().getKwota()) == 0.0) {
+                    it.remove();
                 }
             }
         }
