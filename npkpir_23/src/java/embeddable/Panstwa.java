@@ -295,7 +295,7 @@ wykazPanstw.add("Zjedn.Emiraty Arabskie");
         List<String> results = new ArrayList<String>();
         String kl = new String();
         for(String p : getWykazPanstw()) {  
-            if(p.startsWith(query)) {
+            if(p.toLowerCase().startsWith(query.toLowerCase())) {
                 results.add(p);
             }
         }

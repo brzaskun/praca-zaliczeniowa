@@ -44,7 +44,7 @@ public class VatUeView implements Serializable {
     private List<VatUe> klienciWDTWNT;
     private List<VatUe> listawybranych;
     private List<Danezdekalracji> danezdeklaracji;
-
+    private boolean niemoznadrukowac;
   
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -96,6 +96,11 @@ public class VatUeView implements Serializable {
                 }
             }
         }
+        for (VatUe r : klienciWDTWNT) {
+            if (r.getKontrahent().getKrajkod() == null) {
+                niemoznadrukowac = true;
+            }
+        }
         VatUe rzadpodsumowanie = new VatUe("podsumowanie", null, sumanettovatue, 0, null);
         klienciWDTWNT.add(rzadpodsumowanie);
         zachowajwbazie(String.valueOf(rok), m, podatnik);
@@ -118,11 +123,14 @@ public class VatUeView implements Serializable {
         //bo czasami nie edytowalo nie wiem dlaczego
         try {
             vatuepodatnikDAO.destroy(vatuepodatnik);
-        } catch (Exception e) { E.e(e); };
+        } catch (Exception e) { 
+            E.e(e); 
+        };
         try {
             vatuepodatnikDAO.dodaj(vatuepodatnik);
             Msg.msg("i", "Zachowano dane do VAT-EU");
-        } catch (Exception e) { E.e(e); 
+        } catch (Exception e) { 
+            E.e(e); 
             Msg.msg("e", "Błąd podczas zachowywania danych do VAT-UE");
         }
     }
@@ -246,6 +254,14 @@ public class VatUeView implements Serializable {
 
     public void setDanezdeklaracji(List<Danezdekalracji> danezdeklaracji) {
         this.danezdeklaracji = danezdeklaracji;
+    }
+
+    public boolean isNiemoznadrukowac() {
+        return niemoznadrukowac;
+    }
+
+    public void setNiemoznadrukowac(boolean niemoznadrukowac) {
+        this.niemoznadrukowac = niemoznadrukowac;
     }
 
  

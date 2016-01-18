@@ -34,7 +34,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import data.Data;
-import embeddable.Kwartaly;
 import embeddable.Mce;
 import embeddable.Parametr;
 import entity.Evewidencja;
@@ -53,7 +52,6 @@ import entityfk.Wiersz;
 import error.E;
 import java.io.File;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,21 +63,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.ArrayDataModel;
 import javax.faces.model.DataModel;
 import javax.inject.Inject;
 import msg.Msg;
-import org.jboss.weld.util.collections.ArraySet;
 import org.joda.time.DateTime;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
-import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentu;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
@@ -977,13 +971,17 @@ public class DokfkView implements Serializable {
     }
 
     public void pobierzopiszpoprzedniegodokItemSelect() {
-        Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
-        if (poprzedniDokument != null) {
-            selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
-            Wiersz w = selected.getListawierszy().get(0);
-            if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
-                w.setOpisWiersza(selected.getOpisdokfk());
+        try {
+            Dokfk poprzedniDokument = dokDAOfk.findDokfkLastofaTypeKontrahent(wpisView.getPodatnikObiekt().getNip(), selected.getRodzajedok().getSkrot(), selected.getKontr(), wpisView.getRokWpisuSt());
+            if (poprzedniDokument != null) {
+                selected.setOpisdokfk(poprzedniDokument.getOpisdokfk());
+                Wiersz w = selected.getListawierszy().get(0);
+                if (w.getOpisWiersza() == null || w.getOpisWiersza().equals("")) {
+                    w.setOpisWiersza(selected.getOpisdokfk());
+                }
             }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
 

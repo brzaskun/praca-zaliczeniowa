@@ -319,6 +319,9 @@ public class KlView implements Serializable {
     public void edit() {
         try {
             //sformatuj();
+            String kraj = selected.getKrajnazwa();
+            String symbol = ps1.getWykazPanstwSX().get(kraj);
+            selected.setKrajkod(symbol);
             klDAO.edit(selected);
             edycja = false;
             //refresh();

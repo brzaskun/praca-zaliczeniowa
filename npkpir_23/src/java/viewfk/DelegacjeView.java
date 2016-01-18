@@ -171,19 +171,23 @@ public class DelegacjeView  implements Serializable{
     }
     
     public void sprawdzIstnienieDelegacji(Dokfk dokfk) {
-        if (dokfk.getRodzajedok().getSkrot().equals("DEL")) {
-            jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
-            System.out.println("delegacja: " + jest1niema0);
-            Konto kontoRozrachunkowe = null;
-            try {
-                kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(dokfk.getNumerwlasnydokfk(), wpisView);
-            } catch (Exception e) {
+        try {
+            if (dokfk.getRodzajedok().getSkrot().equals("DEL")) {
+                jest1niema0 = DelegacjaBean.sprawdzczyjestdelegacja(delegacjaDAO, dokfk.getNumerwlasnydokfk());
+                System.out.println("delegacja: " + jest1niema0);
+                Konto kontoRozrachunkowe = null;
+                try {
+                    kontoRozrachunkowe = kontoDAOfk.findKontoNazwaPelnaPodatnik(dokfk.getNumerwlasnydokfk(), wpisView);
+                } catch (Exception e) {
 
+                }
+                if (kontoRozrachunkowe != null) {
+                    dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
+                    RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
+                }
             }
-            if (kontoRozrachunkowe != null) {
-                dokfk.getRodzajedok().setKontorozrachunkowe(kontoRozrachunkowe);
-                RequestContext.getCurrentInstance().update("formwpisdokument:przypkonto");
-            }
+        } catch (Exception e) {
+            E.e(e);
         }
     }
     

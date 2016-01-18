@@ -46,6 +46,7 @@ import plik.Plik;
 import view.WpisView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import error.E;
 import static pdf.PdfVAT7.absText;
 import static pdffk.PdfMain.dodajOpisWstepny;
 
@@ -90,7 +91,7 @@ public class PdfVatUE {
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
-                if (!p.getTransakcja().equals("podsum.")) {
+                if (!p.getTransakcja().equals("podsumowanie")) {
                     table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
@@ -102,6 +103,7 @@ public class PdfVatUE {
                     table.setHeaderRows(1);
                     table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
+                    String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
@@ -122,7 +124,7 @@ public class PdfVatUE {
             document.add(new Paragraph("sporządził", fontS));
             document.close();
         } catch (Exception e) {
-            Msg.msg("e", "Blad w drukowaniu vateu" + e.getMessage());
+            E.e(e);
         }
         RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikWpisu() + "');");
     }

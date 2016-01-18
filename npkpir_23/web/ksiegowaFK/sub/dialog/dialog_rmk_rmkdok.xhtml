@@ -36,23 +36,23 @@
                     <p:column  >  
                         <p:dataTable var="subwpis" value="#{item.zapisy}" emptyMessage="brak zapisów"  resizableColumns="true" style="width: 98%;"
                                      scrollable="true" scrollHeight="150" scrollRows="20">
-                            <p:column id="SubColumn1" headerText="opis" width="450">  
+                            <p:column headerText="opis" width="450">  
                                 <h:outputText value="#{subwpis.wiersz.opisWiersza}" style="width: 300px;"/>
                             </p:column>
-                            <p:column id="SubColumn1a"  headerText="data" width="70">  
+                            <p:column headerText="data" width="70">  
                                 <h:outputText value="#{subwpis.wiersz.dokfk.dataoperacji}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn2" headerText="nr dok" width="200">  
+                            <p:column headerText="nr dok" width="200">  
                                 <h:outputText value="#{subwpis.wiersz.dokfk.numerwlasnydokfk}"/>
                             </p:column>
-                            <p:column id="SubColumn3" headerText="kwota">  
+                            <p:column headerText="kwota">  
                                 <h:outputText value="#{subwpis.kwota} #{subwpis.wiersz.tabelanbp.waluta.skrotsymbolu}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column id="SubColumn4" headerText="kwota PLN">  
+                            <p:column headerText="kwota PLN">  
                                 <h:outputText value="#{subwpis.kwotaPLN}" style="float: right;">
                                     <f:convertNumber minFractionDigits="2" locale="PL"/>
                                 </h:outputText>

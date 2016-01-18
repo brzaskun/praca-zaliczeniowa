@@ -15,7 +15,8 @@
     <p:dialog id="dialogwpisrmk" header="Wpisywanie nowej pozycji RMK" widgetVar="dialogwpisrmk"  modal="true" appendTo="@(body)"
               resizable="false"  onShow="ustawdialog('dialogwpisrmk','dialogtrzeci',1100,300);" 
               closeOnEscape="true" onHide="resetujdialog('dialogwpisrmk');" >
-        <h:form id="formrmk"> 
+        <h:form id="formrmk">
+            
                 <p:dataTable id="tabelarmkwprowadzanie" value="#{rMKView.rmk}" var="loop"> 
                     <p:column headerText="opis wydatku" style="text-align: center; height: 30px;" width="200">
                         <p:inputText id="opiswydatku" value="#{loop.opiskosztu}" style="width: 260px;"/>

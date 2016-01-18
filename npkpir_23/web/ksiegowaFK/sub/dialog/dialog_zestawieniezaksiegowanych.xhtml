@@ -182,7 +182,7 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  
-                        <p:dataTable var="subwpis" value="#{item.zapisy}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
+                        <p:dataTable var="subwpis" value="#{item.ewidencjaVAT}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 700px;">
                             <p:column id="SubColumn1" headerText="ewidencja" width="250">  
                                 <h:outputText value="#{subwpis.ewidencja.nazwa}" style="width: 300px;"
                                               rendered="#{subwpis.vat ne 0 ? true : subwpis.netto ne 0 ? true : false}" />
