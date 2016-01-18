@@ -51,7 +51,7 @@
             </p:column>
             <p:column id="kontrColumn" width="270" headerText="#{mgs.kontrahent}" filterBy="#{wpis.kontr.npelna}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.kontr.npelna}" style="width: 14%;">  
                  <f:facet name="filter">
-                     <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 100px;">
+                     <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 250px;">
                         <f:selectItem itemLabel="kontrahent" itemValue="#{null}" />
                         <f:selectItems value="#{obrotyView.kontrahentypodatnika}" />
                     </p:selectOneMenu>

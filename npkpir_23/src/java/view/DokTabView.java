@@ -25,10 +25,14 @@ import entity.Wpis;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -68,7 +72,8 @@ public class DokTabView implements Serializable {
     private List<Dok> dokumentyFiltered;
     //dokumenty o tym samym okresie vat
     private List<Dok> dokvatmc;
-    
+    private List<String> dokumentypodatnika;
+    private List<String> kontrahentypodatnika;
     //dokumenty okresowe
     private List<Dok> dokumentyokresowe;
     
@@ -102,6 +107,8 @@ public class DokTabView implements Serializable {
         //dokumenty okresowe
         dokumentyokresowe = new ArrayList<>();
         gosciuwybral = new ArrayList<>();
+        dokumentypodatnika = new ArrayList<>();
+        kontrahentypodatnika = new ArrayList<>();
     }
 
    
@@ -109,47 +116,60 @@ public class DokTabView implements Serializable {
     @PostConstruct
     public void init() {
         inicjalizacjalist();
+        try {
+            inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        Integer rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        uzytkownik = wpisView.getWprowadzil();
+        try {
+            StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
+            setButton(false);
+        } catch (Exception ef) {
+            setButton(true);
+        }
+        int numerkolejny = 1;
+        if (wpisView.getPodatnikObiekt().getNumerpkpir() != null) {
             try {
-                inwestycje = inwestycjeDAO.findInwestycje(wpisView.getPodatnikWpisu(), false);
-            } catch (Exception e) { E.e(e); }
-            Integer rok = wpisView.getRokWpisu();
-            String mc = wpisView.getMiesiacWpisu();
-            String podatnik = wpisView.getPodatnikWpisu();
-            Podatnik pod = wpisView.getPodatnikObiekt();
-            uzytkownik = wpisView.getWprowadzil();
-            try {
-                StornoDok tmp = stornoDokDAO.find(rok, mc, podatnik);
-                setButton(false);
-            } catch (Exception ef) {
-                setButton(true);
-            }
-            int numerkolejny = 1;
-            if(wpisView.getPodatnikObiekt().getNumerpkpir()!=null){
-            try{
-            //zmienia numer gdy srodek roku
-             int index = wpisView.getPodatnikObiekt().getNumerpkpir().size()-1;
-             String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
-             numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) { 
-                System.out.println("Blad " + e.toString()); 
+                //zmienia numer gdy srodek roku
+                int index = wpisView.getPodatnikObiekt().getNumerpkpir().size() - 1;
+                String wartosc = wpisView.getPodatnikObiekt().getNumerpkpir().get(index).getParametr();
+                numerkolejny = Integer.parseInt(wartosc);
+            } catch (Exception e) {
+                System.out.println("Blad " + e.toString());
                 System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
             }
+        }
+        try {
+            obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(), mc));
+            //sortowanie dokumentów
+            Collections.sort(obiektDOKjsfSel, new Dokcomparator());
+        } catch (Exception e) {
+            E.e(e);
+        }
+        numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik) + 1;
+        obiektDOKmrjsfSel.clear();
+        Set<String> dokumentyl = new HashSet<>();
+        Set<String> kontrahenty = new HashSet<>();
+        for (Dok tmpx : obiektDOKjsfSel) {
+            tmpx.setNrWpkpir(numerkolejny++);
+            if (tmpx.getPkpirM().equals(mc)) {
+                dokumentyl.add(tmpx.getTypdokumentu());
+                kontrahenty.add(tmpx.getKontr().getNpelna());
+                obiektDOKmrjsfSel.add(tmpx);
             }
-            try {
-                obiektDOKjsfSel.addAll(dokDAO.zwrocBiezacegoKlientaRokMC(podatnik, rok.toString(),mc));
-                //sortowanie dokumentów
-                    Collections.sort(obiektDOKjsfSel, new Dokcomparator());
-            } catch (Exception e) { E.e(e); 
-            }
-            numerkolejny = dokDAO.liczdokumenty(rok.toString(), mc, podatnik)+1;
-            obiektDOKmrjsfSel.clear();
-            for(Dok tmpx : obiektDOKjsfSel){
-                   tmpx.setNrWpkpir(numerkolejny++);
-                    if (tmpx.getPkpirM().equals(mc)) {
-                        obiektDOKmrjsfSel.add(tmpx);
-                    }
-                }
-            }
+        }
+        dokumentypodatnika.addAll(dokumentyl);
+        Collections.sort(dokumentypodatnika);
+        Collator collator = Collator.getInstance(new Locale("pl", "PL"));
+        collator.setStrength(Collator.PRIMARY);
+        kontrahentypodatnika.addAll(kontrahenty);
+        Collections.sort(kontrahentypodatnika, collator);
+    }
     
 
     
@@ -416,6 +436,14 @@ public class DokTabView implements Serializable {
         public void setObiektDOKjsf(List<Dok> obiektDOKjsf) {
             this.obiektDOKjsf = obiektDOKjsf;
         }
+
+    public List<String> getDokumentypodatnika() {
+        return dokumentypodatnika;
+    }
+
+    public void setDokumentypodatnika(List<String> dokumentypodatnika) {
+        this.dokumentypodatnika = dokumentypodatnika;
+    }
         
         public List<Dok> getObiektDOKjsfSel() {
             return obiektDOKjsfSel;
@@ -507,6 +535,14 @@ public class DokTabView implements Serializable {
         public void setGosciuwybral(List<Dok> gosciuwybral) {
             this.gosciuwybral = gosciuwybral;
         }
+
+    public List<String> getKontrahentypodatnika() {
+        return kontrahentypodatnika;
+    }
+
+    public void setKontrahentypodatnika(List<String> kontrahentypodatnika) {
+        this.kontrahentypodatnika = kontrahentypodatnika;
+    }
         
       
         
