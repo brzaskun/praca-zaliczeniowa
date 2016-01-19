@@ -1,0 +1,87 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions">
+    
+    <p:tab id="nowa" title="Nanieś płatności" >
+        <style>
+            .ui-autocomplete-input {
+                width: 340px;
+            }
+        </style>
+        <h:form id="fakturarozrachunki">
+            <p:focus context="fakturarozrachunki"/>
+            <p:panelGrid>
+                <f:facet name="header">
+                    <p:row >
+                        <p:column>
+                            <h:outputText value="data"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="transakcja"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kwota"/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="kontrahent"/>
+                        </p:column>
+                    </p:row>
+                </f:facet>
+                <p:row >
+                    <p:column>
+                        <p:inputText value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true"/>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneListbox value="#{fakturaRozrachunkiView.selected.zaplata0korekta1}" required="true" style="width: 90px;"
+                                            styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                            onfocus="$(this).removeClass('ui-state-default');
+                                                    $(this).addClass('ui-state-focus');"
+                                            onblur="$(this).removeClass('ui-state-focus');
+                                                    $(this).addClass('ui-state-default');">
+                            <f:selectItem itemLabel="zapłata" itemValue="false"/>
+                            <f:selectItem itemLabel="korekta" itemValue="true"/>
+                        </h:selectOneListbox>
+                    </p:column>
+                    <p:column>
+                        <pe:inputNumber value="#{fakturaRozrachunkiView.selected.kwota}" symbol=" zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" 
+                                        decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete value="#{fakturaRozrachunkiView.selected.kontrahent}" completeMethod="#{fakturaRozrachunkiView.completeKL}"
+                                        var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                        maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
+                                        widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
+                                        required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 350px;"
+                                        >
+                            <p:ajax event="query" global="false"/>
+                            <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
+                            <f:facet name="itemtip">  
+                                <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                                    <f:facet name="header">  
+                                        <h:outputText value="Dane kontrahenta"/>
+                                    </f:facet>  
+                                    <h:outputText value="Nazwa: " />  
+                                    <h:outputText id="npelna" value="#{p.npelna}" />  
+                                    <h:outputText value="NIP: " />  
+                                    <h:outputText id="nip" value="#{p.nip}" />  
+                                    <h:outputText value="Adres " />  
+                                    <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                                </h:panelGrid>
+                            </f:facet>
+                        </p:autoComplete>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;"/>
+        </h:form>
+    </p:tab>  
+</ui:composition>   
+
+

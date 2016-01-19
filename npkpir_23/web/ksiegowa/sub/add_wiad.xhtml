@@ -141,7 +141,7 @@
                                         var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
                                         minQueryLength="3" maxResults="12" maxlength="12" converterMessage="Nieudana konwersja Klient" 
                                         widgetVar="dialogklient" cache="true" forceSelection="true" queryDelay="10" 
-                                        valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}"
+                                        valueChangeListener="#{DokumentView.pobierzdaneZpoprzedniegoDokumentu}" 
                                         required="true" requiredMessage="Pole klienta nie może być puste" 
                                         onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                             <p:ajax event="itemSelect" partialSubmit="true" update="dodWiad:rodzajTrans,dodWiad:opis" oncomplete="r('dodWiad:numerwlasny').select();" />

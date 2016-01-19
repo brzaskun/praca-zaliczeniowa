@@ -5,8 +5,11 @@
 package dao;
 
 import entity.Faktura;
+import entity.Klienci;
+import entity.Podatnik;
 import error.E;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -125,6 +128,14 @@ public class FakturaDAO extends DAO implements Serializable {
          try {
             return fakturaFacade.findByPodatnikRokMcPlatnosci(podatnik, rok, mc, niezaplacone0zaplacone1);
         } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
+    public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
+        try {
+            return fakturaFacade.findKontrahentFaktury(podatnikObiekt); 
+        } catch (Exception e) {
             return null;
         }
     }

@@ -1679,6 +1679,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Zusstawki> findZUS(boolean duzy0maly1) {
         return em.createNamedQuery("Zusstawki.findZUS").setParameter("duzy0maly1", duzy0maly1).getResultList();
     }
+
+    public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
+        return em.createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+    }
     
    
 

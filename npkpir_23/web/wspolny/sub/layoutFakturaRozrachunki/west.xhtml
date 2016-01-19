@@ -14,7 +14,6 @@
                 <h:outputText value="Miesiac:" style="text-shadow: #6374AB 1px -1px 1px"/>
                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
                     <f:selectItems value="#{Mce.mceList}"/>
-                    <p:ajax event="change" listener="#{fakturaView.aktualizujTabeleTabela}" update=":akordeon:formsporzadzone:dokumentyLista, :akordeon:formarchiwum:dokumentyArchiwum, :akordeon:formokresowe:dokumentyOkresowe"/>
                 </p:selectOneMenu>
             </p:panelGrid>
             <p:panel id="linki" header="linki">

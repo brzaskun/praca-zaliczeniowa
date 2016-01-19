@@ -257,6 +257,10 @@
             <from-outcome>faktura</from-outcome>
             <to-view-id>/wspolny/wspolnyFaktura.xhtml?faces-redirect=true</to-view-id>
         </navigation-case>
+         <navigation-case>
+            <from-outcome>fakturarozrachunki</from-outcome>
+            <to-view-id>/wspolny/wspolnyFakturaRozrachunki.xhtml?faces-redirect=true</to-view-id>
+        </navigation-case>
         <navigation-case>
             <from-outcome>srodkiewidencja</from-outcome>
             <to-view-id>/wspolny/wspolnySrodkiEwidencja.xhtml?faces-redirect=true</to-view-id>
