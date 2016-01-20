@@ -485,13 +485,24 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum);
+            PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, true);
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
         } catch (Exception e) {  E.e(e);
 
         }
     }
+    
+    public void drukujPdfZapisyNaKoncieDuzy() {
+        try {
+            PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, false);
+            String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
+            RequestContext.getCurrentInstance().execute(wydruk);
+        } catch (Exception e) {  E.e(e);
+
+        }
+    }
+    
     
     public void usunPozycjeRozliczone() {
         try {
