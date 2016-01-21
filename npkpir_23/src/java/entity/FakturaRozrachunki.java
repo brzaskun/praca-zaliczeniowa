@@ -7,13 +7,10 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -34,12 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Osito
  */
 @Entity
-@Table(name = "fakturarozrachunki",uniqueConstraints = {
-    @UniqueConstraint(columnNames={"wystawca, kontrahent"})
-})
+@Table(name = "fakturarozrachunki")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FakturaRozrachunki.findAll", query = "SELECT e FROM FakturaRozrachunki e"),
+    @NamedQuery(name = "FakturaRozrachunki.findByData_k", query = "SELECT e FROM FakturaRozrachunki e WHERE e.dataksiegowania = :data")
 })
 public class FakturaRozrachunki implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -54,12 +50,11 @@ public class FakturaRozrachunki implements Serializable {
     @JoinColumn(name = "kontrahent", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontrahent;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "wpr")
-    private String wprowadzil;
-    @Column(name = "data_k", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    @JoinColumn(name = "wprowadzil", referencedColumnName = "login")
+    @ManyToOne
+    private Uz wprowadzil;
+    @Column(name = "data_k", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataksiegowania;
     @Size(max = 10)
     @Column(name = "data")
@@ -69,6 +64,11 @@ public class FakturaRozrachunki implements Serializable {
     private double kwota;
     @Column(name = "zaplatakorekta")
     private boolean zaplata0korekta1;
+    
+    @PrePersist
+    private void prepresist() {
+        this.dataksiegowania = new Date();
+    }
 
     @Override
     public int hashCode() {
@@ -124,13 +124,14 @@ public class FakturaRozrachunki implements Serializable {
         this.kontrahent = kontrahent;
     }
 
-    public String getWprowadzil() {
+    public Uz getWprowadzil() {
         return wprowadzil;
     }
 
-    public void setWprowadzil(String wprowadzil) {
+    public void setWprowadzil(Uz wprowadzil) {
         this.wprowadzil = wprowadzil;
     }
+
 
     public Date getDataksiegowania() {
         return dataksiegowania;

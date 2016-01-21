@@ -53,7 +53,7 @@ public class MailAdmin implements Serializable {
     public static void usterkausunieta(Pismoadmin p, Uz uz, WpisView wpisView) {
         try {
              MailSetUp mailSetUp = new MailSetUp();
-             MimeMessage message = mailSetUp.logintoMail(wpisView);
+             MimeMessage message = mailSetUp.logintoMailAdmin(uz.getEmail());
              message.setSubject("Taxman - Informacja o rozwiązaniu problemu","UTF-8");
              // create and fill the first message part
              MimeBodyPart mbp1 = new MimeBodyPart();

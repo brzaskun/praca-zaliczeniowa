@@ -16,6 +16,7 @@ import entity.Evewidencja;
 import entity.Evpozycja;
 import entity.Ewidencjevat;
 import entity.Faktura;
+import entity.FakturaRozrachunki;
 import entity.FakturaXXLKolumna;
 import entity.Fakturadodelementy;
 import entity.Fakturaelementygraficzne;
@@ -72,11 +73,13 @@ import entityfk.WynikFKRokMc;
 import error.E;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import view.WpisView;
 import viewfk.UkladBRView;
 
@@ -1682,6 +1685,10 @@ public class SessionFacade<T> implements Serializable {
 
     public Collection<? extends Klienci> findKontrahentFaktury(Podatnik podatnikObiekt) {
         return em.createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
+    }
+
+    public List<FakturaRozrachunki> rozrachunkiZDnia(Date d) {
+        return em.createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).getResultList();
     }
     
    

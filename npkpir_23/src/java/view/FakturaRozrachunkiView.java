@@ -6,8 +6,10 @@
 package view;
 
 import dao.FakturaDAO;
+import dao.FakturaRozrachunkiDAO;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,15 +35,19 @@ public class FakturaRozrachunkiView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Klienci> klienci;
+    private List<FakturaRozrachunki> wprowadzoneplatnosci;
     @Inject
     private FakturaRozrachunki selected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
 
     public FakturaRozrachunkiView() {
         klienci = new ArrayList<>();
+        wprowadzoneplatnosci = new ArrayList<>();
     }
 
     @PostConstruct
@@ -54,6 +60,7 @@ public class FakturaRozrachunkiView  implements Serializable {
                 }
             }
         }
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia();
         System.out.println("d");
     }
    
@@ -96,7 +103,24 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     public void zaksiegujplatnosc() {
-        
+        try {
+            selected.setWystawca(wpisView.getPodatnikObiekt());
+            selected.setWprowadzil(wpisView.getWprowadzil());
+            fakturaRozrachunkiDAO.dodaj(selected);
+            wprowadzoneplatnosci.add(selected);
+            selected = new FakturaRozrachunki();
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void usun(FakturaRozrachunki p) {
+        try {
+            fakturaRozrachunkiDAO.destroy(p);
+            wprowadzoneplatnosci.remove(p);
+        } catch (Exception e) {
+            E.e(e);
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
@@ -123,8 +147,18 @@ public class FakturaRozrachunkiView  implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-//</editor-fold>
+    
+    
+    public List<FakturaRozrachunki> getWprowadzoneplatnosci() {
+        return wprowadzoneplatnosci;
+    }
+
+    public void setWprowadzoneplatnosci(List<FakturaRozrachunki> wprowadzoneplatnosci) {
+        this.wprowadzoneplatnosci = wprowadzoneplatnosci;
+    }
    
+//</editor-fold>
+
     
     
     

@@ -6,8 +6,9 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
-    
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+
     <p:tab id="nowa" title="Nanieś płatności" >
         <style>
             .ui-autocomplete-input {
@@ -35,7 +36,8 @@
                 </f:facet>
                 <p:row >
                     <p:column>
-                        <p:inputText value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true"/>
+                        <p:inputText id="datarozrachunki" value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true"
+                                     onblur="ustawDateGen(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu},'akordeon:fakturarozrachunki:datarozrachunki');"/>
                     </p:column>
                     <p:column>
                         <h:selectOneListbox value="#{fakturaRozrachunkiView.selected.zaplata0korekta1}" required="true" style="width: 90px;"
@@ -79,7 +81,57 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;"/>
+            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;" update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
+        </h:form>
+        <h:form id="form_wprowadzoneplatnosci">
+                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1000px; margin-top: 20px;"
+                             emptyMessage="niczego nie zaksięgowano">
+                    <p:column width="30">
+                        <f:facet name="header">
+                            <h:outputText value="lp"/>
+                        </f:facet>
+                        <h:outputText value="#{item.lp}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="wystawca"/>
+                        </f:facet>
+                        <h:outputText value="#{item.wystawca.nazwapelna}"/>
+                    </p:column>
+                    <p:column width="280">
+                        <f:facet name="header">
+                            <h:outputText value="kontrahent"/>
+                        </f:facet>
+                        <h:outputText value="#{item.kontrahent}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="wprowadzil"/>
+                        </f:facet>
+                        <h:outputText value="#{item.wprowadzil.login}"/>
+                    </p:column>
+                    <p:column width="70">
+                        <f:facet name="header">
+                            <h:outputText value="data"/>
+                        </f:facet>
+                        <h:outputText value="#{item.data}"/>
+                    </p:column>
+                    <p:column width="90">
+                        <f:facet name="header">
+                            <h:outputText value="zapłata"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}" rendered="#{!item.zaplata0korekta1}"/>
+                    </p:column>
+                    <p:column width="90">
+                        <f:facet name="header">
+                            <h:outputText value="korekta"/>
+                        </f:facet>
+                        <bcf:outputpl value="#{item.kwota}" rendered="#{item.zaplata0korekta1}"/>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiView.usun(item)}" update="akordeon:form_wprowadzoneplatnosci"/>
+                    </p:column>
+                </p:dataTable>
         </h:form>
     </p:tab>  
 </ui:composition>   
