@@ -18,7 +18,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class ParametrView implements Serializable {
     /**
      * 

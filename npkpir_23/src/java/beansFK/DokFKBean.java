@@ -34,7 +34,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class DokFKBean {
 
     public static void dodajWaluteDomyslnaDoDokumentu(WalutyDAOfk walutyDAOfk, TabelanbpDAO tabelanbpDAO, Dokfk selected) {

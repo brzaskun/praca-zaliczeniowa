@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class IPaddress {
 
     public static String getIpAddr(HttpServletRequest request) {

@@ -28,7 +28,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfRZiS {
 
     public static void drukujRZiS(TreeNodeExtended rootProjektRZiS, WpisView wpisView) {

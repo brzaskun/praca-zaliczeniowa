@@ -15,7 +15,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class EDeklaracjeObslugaBledow {
 
     public static List<String> odpowiedznakodserwera(Integer kodserwera) {

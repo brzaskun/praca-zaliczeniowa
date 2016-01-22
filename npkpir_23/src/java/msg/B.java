@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
  *
  * @author Osito
  */
-@Stateless
+
 public class B {
     
     public static String b(String key) {

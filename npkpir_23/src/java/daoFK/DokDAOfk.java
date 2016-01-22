@@ -23,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named(value="DokDAOfk")
-@Stateless
+
 public class DokDAOfk extends DAO implements Serializable {
     private static final long serialVersionUID = 1L;
     

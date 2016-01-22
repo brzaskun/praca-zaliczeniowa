@@ -64,6 +64,10 @@ public class FakturaRozrachunki implements Serializable {
     private double kwota;
     @Column(name = "zaplatakorekta")
     private boolean zaplata0korekta1;
+    @Column(name = "rok")
+    private String rok;
+    @Column(name = "mc")
+    private String mc;
     
     @PrePersist
     private void prepresist() {
@@ -155,6 +159,22 @@ public class FakturaRozrachunki implements Serializable {
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    public String getRok() {
+        return rok;
+    }
+
+    public void setRok(String rok) {
+        this.rok = rok;
+    }
+
+    public String getMc() {
+        return mc;
+    }
+
+    public void setMc(String mc) {
+        this.mc = mc;
     }
 
     public boolean isZaplata0korekta1() {

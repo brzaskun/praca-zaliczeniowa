@@ -39,7 +39,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfSymulacjaWyniku {
     
     public static void drukuj(List<SaldoKonto> listakontaprzychody, List<SaldoKonto> listakontakoszty, List<SymulacjaWynikuView.PozycjeSymulacji> listapozycjisymulacji, 

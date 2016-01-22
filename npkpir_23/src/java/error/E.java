@@ -11,7 +11,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class E {
  
     public static void e(Exception e) {

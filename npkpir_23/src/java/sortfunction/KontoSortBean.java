@@ -12,7 +12,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class KontoSortBean {
 
     public static int sortZaksiegowaneDok(Konto o1, Konto o2) {

@@ -29,7 +29,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class MailOther implements Serializable{
  
     

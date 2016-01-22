@@ -38,7 +38,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PlanKontFKBean {
    
      public static int dodajsyntetyczne(List<Konto> wykazkont, Konto nowekonto, Konto macierzyste, KontoDAOfk kontoDAOfk, WpisView wpisView) {

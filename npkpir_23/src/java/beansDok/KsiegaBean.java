@@ -29,7 +29,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class KsiegaBean {
 
     public static int pobierznumerrecznie(Podatnik pod, Integer rok, String mc) {

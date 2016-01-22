@@ -46,7 +46,7 @@ import view.ZestawienieView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfZestRok{
     
     public static void drukuj(WpisView wpisView, ZestawienieView zestawienieView) throws DocumentException, FileNotFoundException, IOException {

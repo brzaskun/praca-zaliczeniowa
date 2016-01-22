@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class DFKWiersze {
     public static void zaznaczNowaTrasakcja(Wiersz wiersz, String wnma) {
         StronaWiersza wn = null;

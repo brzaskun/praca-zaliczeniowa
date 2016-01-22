@@ -24,7 +24,7 @@ import viewfk.MiejsceKosztowView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class MiejsceKosztowBean {
 
     public static void zsumujkwotyzkont(List<MiejsceKosztow> miejscakosztow, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, List<StronaWiersza> stronywiersza) {

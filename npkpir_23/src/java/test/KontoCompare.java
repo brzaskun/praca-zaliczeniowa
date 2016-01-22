@@ -24,7 +24,7 @@ import sortfunction.KontonumerComparator;
  *
  * @author Osito
  */
-@Stateless
+
 public class KontoCompare implements Serializable {
       
 //      public static List<Konto> findAllKontos() {

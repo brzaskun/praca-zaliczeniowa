@@ -30,7 +30,7 @@ import waluty.WalutyNBP;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class WalutyFKBean {
 
     @Inject

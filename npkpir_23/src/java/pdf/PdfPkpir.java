@@ -34,7 +34,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfPkpir {
 
     public static void drukujksiege(List<DokKsiega> wykaz, WpisView wpisView, String mc) throws DocumentException, FileNotFoundException, IOException {

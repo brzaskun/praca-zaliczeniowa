@@ -17,7 +17,7 @@ import org.joda.time.DateTime;
  *
  * @author Osito
  */
-@Stateless
+
 public class TabelaNBPBean {
     
     public static Tabelanbp pobierzTabeleNBP(DateTime dzienposzukiwany, TabelanbpDAO tabelanbpDAO, String nazwawaluty, Dokfk selected) {

@@ -36,7 +36,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfFakturySporzadzone {
 
     public static void drukujzapisy(WpisView wpisView, List<Faktura> wybranefaktury) throws DocumentException, FileNotFoundException, IOException {

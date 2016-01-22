@@ -32,7 +32,7 @@ import static pdffk.PdfMain.dodajOpisWstepny;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfSrodekTrwKarta {
      public static void drukujSTRkartasrodka(WpisView wpisView, SrodekTrw srodek) throws DocumentException, FileNotFoundException, IOException {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"kartasrodkatrw";

@@ -26,7 +26,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class SrodkiTrwBean implements Serializable {
 
     public static double sumujumorzenia(List<Umorzenie> umorzenia) {

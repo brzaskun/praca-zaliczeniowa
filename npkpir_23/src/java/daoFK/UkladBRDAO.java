@@ -20,7 +20,7 @@ import viewfk.UkladBRView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class UkladBRDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

@@ -17,7 +17,7 @@ import static pdf.Pdf.RESULT;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PdfGrafika {
 
     public static void prost(PdfContentByte cb, int x, int y, int x1, int y1) {

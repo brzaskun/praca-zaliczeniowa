@@ -25,7 +25,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class DelegacjaBean {
 
     public static void zsumujkwotyzkont(Delegacja p, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, Map<Delegacja, List<DelegacjaZest>> listasummiejsckosztow) {

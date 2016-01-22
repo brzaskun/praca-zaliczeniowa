@@ -21,7 +21,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class SlownikiBean {
     
      public static void aktualizujkontapoedycji(Object obiekt, int nrslownika, String podatnik, Integer rok, KontoDAOfk kontoDAOfk) {

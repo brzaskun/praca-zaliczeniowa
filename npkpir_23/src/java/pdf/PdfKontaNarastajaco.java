@@ -39,7 +39,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfKontaNarastajaco {
     
     public static void drukuj(List<SaldoKontoNarastajaco> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, int polowaroku, boolean drukujkategorie, boolean saldaniezerowe) {

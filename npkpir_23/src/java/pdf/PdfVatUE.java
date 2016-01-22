@@ -54,7 +54,7 @@ import static pdffk.PdfMain.dodajOpisWstepny;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVatUE {
 
 

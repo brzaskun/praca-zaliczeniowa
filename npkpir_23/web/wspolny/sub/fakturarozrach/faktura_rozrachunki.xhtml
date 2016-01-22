@@ -81,11 +81,12 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
-            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;" update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
+            <p:commandButton value="zapisz" actionListener="#{fakturaRozrachunkiView.zaksiegujplatnosc}" style="width: 120px; margin-top: 10px;" global="false"
+                             update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
                 <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1000px; margin-top: 20px;"
-                             emptyMessage="niczego nie zaksięgowano">
+                             emptyMessage="niczego dzisiaj nie zaksięgowano">
                     <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="lp"/>

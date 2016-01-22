@@ -21,7 +21,7 @@ import org.primefaces.context.RequestContext;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class VAT {
     
     public static void zweryfikujokresvat(Dok selDokument) {

@@ -18,7 +18,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class DeklaracjaVatSchemaBean implements Serializable{
 
     public static int sprawdzScheme(DeklaracjaVatSchema deklaracjaVatSchema, List schemyDeklaracjiVat) {

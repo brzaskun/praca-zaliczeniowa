@@ -28,7 +28,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfBilansPodgladKonta {
     
     public static void drukujBilansPodgladKonta(List<Konto> wykazkont, WpisView wpisView) {

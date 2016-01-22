@@ -21,7 +21,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class StronaWierszaBean {
     
     public static boolean czyKontoJestRozrachunkowe(StronaWiersza aktualnyWierszDlaRozrachunkow, String stronawiersza) {

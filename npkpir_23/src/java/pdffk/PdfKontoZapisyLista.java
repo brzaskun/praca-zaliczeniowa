@@ -43,7 +43,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfKontoZapisyLista {
 
     public static void pobierzlistekont(List<KontoZapisy> kontoZapisylista, WpisView wpisView) throws FileNotFoundException {

@@ -22,7 +22,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class BOFKBean {
     
     public static List<StronaWiersza> pobierzZapisyBO(WierszBODAO wierszBODAO, WpisView wpisView) {

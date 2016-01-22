@@ -35,7 +35,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class FDfkBean {
     
     public static int oblicznumerkolejny(String rodzajdok, DokDAOfk dokDAOfk, WpisView wpisView) {

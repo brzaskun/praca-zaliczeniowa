@@ -34,7 +34,7 @@ import plik.Plik;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVAT7 extends Pdf implements Serializable {
 
     private static final String golab = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/golab.png";

@@ -37,7 +37,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfPIT28 {
     
     public static void drukuj(Ryczpoz selected, WpisView wpisView, PodatnikDAO podatnikDAO) throws DocumentException, FileNotFoundException, IOException {

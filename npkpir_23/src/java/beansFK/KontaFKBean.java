@@ -29,7 +29,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class KontaFKBean implements Serializable{
     /**
      * @param wykazkont List<Konto>

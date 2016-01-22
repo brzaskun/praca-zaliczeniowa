@@ -20,7 +20,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class FakturaSortBean {
     public static int sortZaksiegowaneDok(Object o1, Object o2, WpisView wpisView) {
         Map<String, Integer> mapa = rozbijwzor(wpisView.getPodatnikObiekt().getSchematnumeracji());

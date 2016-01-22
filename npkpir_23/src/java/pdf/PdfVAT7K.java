@@ -32,7 +32,7 @@ import plik.Plik;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVAT7K {
 
     private static String vat71kw;

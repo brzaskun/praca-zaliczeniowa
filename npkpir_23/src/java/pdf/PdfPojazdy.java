@@ -36,7 +36,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfPojazdy {
 
     public static void drukuj(List<PojazdyView.TabelaPojazdy> listapojazdow, WpisView wpisView, int rodzajdruku) {

@@ -35,7 +35,7 @@ import viewfk.SymulacjaWynikuView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfSymulacjaWynikuNarastajaco {
     
     public static void drukuj(List<WynikFKRokMc> listamiesiecy, List<SymulacjaWynikuView.PozycjeSymulacji> pozycjePodsumowaniaWyniku, 

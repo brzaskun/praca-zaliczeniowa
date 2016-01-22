@@ -24,7 +24,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PDFRozrachunki {
     
     public static void drukujRozrachunki(List<StronaWiersza> stronyWiersza, WpisView wpisView) {

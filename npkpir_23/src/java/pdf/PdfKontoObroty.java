@@ -39,7 +39,7 @@ import viewfk.KontoObrotyFKView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfKontoObroty {
 
     public static void drukujobroty(WpisView wpisView, List<KontoObrotyFKView.ObrotykontaTabela> lista, Konto wybranekonto, List<ListaSum> listasum)  throws DocumentException, FileNotFoundException, IOException {

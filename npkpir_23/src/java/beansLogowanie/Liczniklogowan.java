@@ -18,7 +18,7 @@ import mail.MailAdmin;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class Liczniklogowan {
     
     

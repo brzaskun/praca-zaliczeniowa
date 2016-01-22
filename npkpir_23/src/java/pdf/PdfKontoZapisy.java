@@ -40,7 +40,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfKontoZapisy {
 
     public static void drukujzapisy(WpisView wpisView, List<StronaWiersza> kontozapisy, Konto wybranekonto, List<ListaSum> listasum, boolean duzy0maly1)  throws DocumentException, FileNotFoundException, IOException {

@@ -40,7 +40,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVATsuma {
 
     public static void drukuj(EwidencjeVatDAO ewidencjeVatDAO, WpisView wpisView) throws FileNotFoundException, DocumentException, IOException  {

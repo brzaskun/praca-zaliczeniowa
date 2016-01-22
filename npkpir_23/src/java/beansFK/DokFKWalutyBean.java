@@ -20,7 +20,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class DokFKWalutyBean implements Serializable{
     
     public static void przewalutujzapisy(String staranazwa, String nazwawaluty, Dokfk selected, WalutyDAOfk walutyDAOfk) {

@@ -29,7 +29,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfWierszBO {
     public static void drukujRKK(List<WierszBO> pobranetransakcje, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"wierszBO";

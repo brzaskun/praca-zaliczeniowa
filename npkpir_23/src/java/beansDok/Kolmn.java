@@ -17,7 +17,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class Kolmn implements Serializable{
     
     

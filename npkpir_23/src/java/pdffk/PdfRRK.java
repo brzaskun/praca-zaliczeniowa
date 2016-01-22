@@ -29,7 +29,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfRRK {
     
      public static void drukujRKK(List<Transakcja> pobranetransakcje, WpisView wpisView) {

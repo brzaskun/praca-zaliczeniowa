@@ -35,7 +35,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfSTR {
 
     public static void drukuj(WpisView wpisView, List<STRtabela> wykaz) throws DocumentException, FileNotFoundException, IOException {

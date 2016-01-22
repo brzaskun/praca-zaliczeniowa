@@ -21,7 +21,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class CechazapisuBean {
     
     public static List<StronaWiersza> pobierzwierszezcecha(List<StronaWiersza> zapisy, String nazwacechy, String mc) {

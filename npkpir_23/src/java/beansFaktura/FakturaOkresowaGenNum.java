@@ -20,7 +20,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class FakturaOkresowaGenNum {
 
     public static void wygenerujnumerfaktury(FakturaDAO fakturaDAO, Faktura selected, WpisView wpisView) {

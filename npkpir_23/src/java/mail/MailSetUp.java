@@ -25,7 +25,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class MailSetUp implements Serializable{
 //
 //    private String wysylajacy;

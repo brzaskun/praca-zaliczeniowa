@@ -32,7 +32,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PozycjaRZiSFKBean {
     
     public static void wyluskajNieprzyporzadkowaneAnalitykiRZiS(List<Konto> pobraneKontaSyntetyczne, List<Konto> wykazkont, KontoDAOfk kontoDAO, String podatnik, Integer rok) {

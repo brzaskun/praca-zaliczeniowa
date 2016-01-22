@@ -29,7 +29,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class ObslugaWiersza {
     
     //sluzy do sprawdzenia czy wprowadzono wszystkie kwoty

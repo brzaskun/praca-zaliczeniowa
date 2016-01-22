@@ -21,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Named
-@Stateless
+
 public class Mail {
     protected static final String stopka;
     protected static final String reklama;

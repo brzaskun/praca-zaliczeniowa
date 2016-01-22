@@ -29,7 +29,7 @@ import plik.Plik;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVATZT {
     private static final String ordz = "C:/Users/Osito/Documents/NetBeansProjects/npkpir_23/build/web/vat/VAT-ZT.jpg";
     

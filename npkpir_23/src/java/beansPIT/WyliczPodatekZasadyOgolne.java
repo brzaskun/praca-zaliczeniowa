@@ -18,7 +18,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class WyliczPodatekZasadyOgolne implements Serializable{
     
     public static BigDecimal wyliczopodatek(Podstawki skalaPodatkowaZaDanyRok, BigDecimal dochod) {

@@ -38,4 +38,13 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
         }
     }
 
+    public List<FakturaRozrachunki> findAll() {
+        try {
+            return sessionFacade.findAll(FakturaRozrachunki.class);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+
 }

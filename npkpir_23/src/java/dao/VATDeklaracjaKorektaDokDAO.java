@@ -18,7 +18,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class VATDeklaracjaKorektaDokDAO  extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

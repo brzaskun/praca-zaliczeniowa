@@ -52,7 +52,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfKonta {
     
     public static void drukuj(List<SaldoKonto> listaSaldoKonto, WpisView wpisView, int rodzajdruku, int analit0synt1, String mc, List<SaldoKonto> sumaSaldoKonto) {

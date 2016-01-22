@@ -23,7 +23,7 @@ import viewfk.PojazdyView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PojazdyBean {
 
     public static void zsumujkwotyzkont(List<Pojazdy> listapojazdy, List<Konto> kontaslownikowe, WpisView wpisView, StronaWierszaDAO stronaWierszaDAO, LinkedHashSet<PojazdyView.TabelaPojazdy> listasumpojazdy, List<StronaWiersza> stronywiersza) {

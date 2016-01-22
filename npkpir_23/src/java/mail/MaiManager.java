@@ -21,7 +21,7 @@ import javax.mail.internet.MimeUtility;
  *
  * @author Osito
  */
-@Stateless
+
 public class MaiManager implements Serializable {
 
     public static void mailManagerZUS(String adres, String temat, String tresc, String wysylajacy) throws MessagingException, UnsupportedEncodingException {

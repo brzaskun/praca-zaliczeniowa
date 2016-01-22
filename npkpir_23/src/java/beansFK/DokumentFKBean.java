@@ -36,7 +36,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class DokumentFKBean implements Serializable {
     
     

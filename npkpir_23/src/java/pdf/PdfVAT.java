@@ -50,7 +50,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVAT {
 
     public static void drukujewidencje(WpisView wpisView, EwidencjeVatDAO ewidencjeVatDAO, String nazwaewidencji, boolean wartosc) throws DocumentException, FileNotFoundException, IOException {

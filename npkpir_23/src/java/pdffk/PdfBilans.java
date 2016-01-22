@@ -30,7 +30,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfBilans {
 
     public static void drukujBilans(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {

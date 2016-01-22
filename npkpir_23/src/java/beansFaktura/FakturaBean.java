@@ -39,7 +39,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class FakturaBean {
 
     public static String uzyjwzorcagenerujnumerDok(String wzorzec, String skrot, WpisView wpisView, DokDAO dokDAO) {

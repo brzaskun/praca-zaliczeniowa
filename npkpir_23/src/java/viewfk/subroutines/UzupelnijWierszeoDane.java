@@ -16,7 +16,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class UzupelnijWierszeoDane implements Serializable {
     
     //uzupeelnia wiersze podczas ich wprowadzania badz edycji, nie rusza pol edycji

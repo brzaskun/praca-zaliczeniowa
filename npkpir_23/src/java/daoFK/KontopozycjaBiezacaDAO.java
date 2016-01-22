@@ -20,7 +20,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class KontopozycjaBiezacaDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

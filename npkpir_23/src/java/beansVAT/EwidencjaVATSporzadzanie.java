@@ -30,7 +30,7 @@ import view.EwidencjaVatView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class EwidencjaVATSporzadzanie {
     
     

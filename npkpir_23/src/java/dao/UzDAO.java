@@ -18,7 +18,7 @@ import session.SessionFacade;
  *
  * @author Osito
  */
-@Stateless
+
 public class UzDAO extends DAO implements Serializable{
     @Inject
     private SessionFacade uzFacade;

@@ -46,7 +46,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVATKorektaReczna {
 
     

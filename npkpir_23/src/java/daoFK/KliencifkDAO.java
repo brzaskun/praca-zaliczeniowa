@@ -21,7 +21,7 @@ import session.SessionFacade;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class KliencifkDAO extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

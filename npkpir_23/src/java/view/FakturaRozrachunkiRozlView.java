@@ -29,7 +29,7 @@ import javax.inject.Inject;
  */
 @ManagedBean
 @ViewScoped
-public class FakturaRozrachunkiView  implements Serializable {
+public class FakturaRozrachunkiRozlView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Klienci> klienci;
@@ -43,7 +43,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
 
-    public FakturaRozrachunkiView() {
+    public FakturaRozrachunkiRozlView() {
         klienci = new ArrayList<>();
         wprowadzoneplatnosci = new ArrayList<>();
     }
@@ -58,8 +58,17 @@ public class FakturaRozrachunkiView  implements Serializable {
                 }
             }
         }
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia();
+        pobierzplatnosci(wpisView.getMiesiacWpisu());
         System.out.println("d");
+    }
+    
+    public void pobierzplatnosci(String mc) {
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findAll();
+        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
+            if (!it.next().getMc().equals(mc)) {
+                it.remove();
+            }
+        }
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {
@@ -100,20 +109,7 @@ public class FakturaRozrachunkiView  implements Serializable {
         return results;
     }
     
-    public void zaksiegujplatnosc() {
-        try {
-            selected.setRok(wpisView.getRokWpisuSt());
-            selected.setMc(wpisView.getMiesiacWpisu());
-            selected.setWystawca(wpisView.getPodatnikObiekt());
-            selected.setWprowadzil(wpisView.getWprowadzil());
-            fakturaRozrachunkiDAO.dodaj(selected);
-            wprowadzoneplatnosci.add(selected);
-            selected = new FakturaRozrachunki();
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
-    
+       
     public void usun(FakturaRozrachunki p) {
         try {
             fakturaRozrachunkiDAO.destroy(p);

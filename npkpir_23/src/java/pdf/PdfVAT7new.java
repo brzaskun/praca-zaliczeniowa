@@ -47,7 +47,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfVAT7new {
     
 

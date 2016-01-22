@@ -19,7 +19,7 @@ import static pdffk.PdfMain.*;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PdfDokfk {
     
     public static void drukujtrescpojedynczegodok(String nazwa, Dokfk selected, Uz uz) {

@@ -28,7 +28,7 @@ import org.primefaces.model.TreeNode;
  * @param <T>
  */
 @Named
-@Stateless
+
 public class TreeNodeExtended<T> extends DefaultTreeNode implements Serializable {
 
     private static final long serialVersionUID = 1L;

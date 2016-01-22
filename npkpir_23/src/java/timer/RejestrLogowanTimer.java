@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class RejestrLogowanTimer implements Serializable{
     @Inject
     private RejestrlogowanDAO rejestrlogowanDAO;

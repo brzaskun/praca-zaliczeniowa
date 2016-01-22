@@ -15,7 +15,7 @@ import javax.persistence.Persistence;
  *
  * @author Osito
  */
-@Stateless
+
 public class ConnectToDatabase implements Serializable{
     
 //    private static final EntityManagerFactory emFactory;

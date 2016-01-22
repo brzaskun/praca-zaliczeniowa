@@ -10,7 +10,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class ZusTimer {
 //    @Resource
 //    TimerService timerService;

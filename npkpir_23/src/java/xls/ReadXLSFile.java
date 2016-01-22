@@ -31,7 +31,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class ReadXLSFile {
     
     private static String filename = "c://temp//faktury2.xlsx";

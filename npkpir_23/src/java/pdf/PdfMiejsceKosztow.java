@@ -37,7 +37,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfMiejsceKosztow {
 
     public static void drukuj(List<MiejsceKosztowView.TabelaMiejsceKosztow> listasummiejsckosztow, WpisView wpisView, int rodzajdruku) {

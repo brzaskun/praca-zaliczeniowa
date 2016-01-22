@@ -27,7 +27,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class MailAdmin implements Serializable {
 
     public static void mailAdmin(String adres, String temat, String tresc)  {

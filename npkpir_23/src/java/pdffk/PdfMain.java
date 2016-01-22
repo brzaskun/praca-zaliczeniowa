@@ -67,7 +67,7 @@ import static beansPdf.PdfFont.ustawfrazeAlign;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfMain {
     
     public static final Font[] ft = czcionki();

@@ -16,7 +16,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PlanKontTablicaBean {
 
     public static List<Konto> generujTablicePlanKont(Map<Integer, List<Konto>> leveleKonta, WpisView wpisView) {

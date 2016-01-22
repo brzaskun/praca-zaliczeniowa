@@ -23,7 +23,7 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PdfHeaderFooter extends PdfPageEventHelper {
     
         private int liczydlo = 1;

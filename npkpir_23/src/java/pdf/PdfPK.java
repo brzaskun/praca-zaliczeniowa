@@ -44,7 +44,7 @@ import static pdf.PdfVAT7.absText;
  * @author Osito
  */
 
-@Stateless
+
 public class PdfPK {
 
  

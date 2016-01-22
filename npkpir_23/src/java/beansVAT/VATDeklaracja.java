@@ -34,7 +34,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class VATDeklaracja implements Serializable {
 
     private static final long serialVersionUID = 1L;

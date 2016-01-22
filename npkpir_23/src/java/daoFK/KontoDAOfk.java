@@ -23,7 +23,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class KontoDAOfk extends DAO implements Serializable{
     private static final long serialVersionUID = 1L;
     

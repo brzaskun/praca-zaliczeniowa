@@ -22,7 +22,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class DialogWpisywanie {
 
     public static int dodajPustyWierszNaKoncu(Dokfk selected) {

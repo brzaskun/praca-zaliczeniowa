@@ -38,7 +38,7 @@ import view.WpisView;
  * @author Osito
  */
 
-@Stateless
+
 public class PdfInwestycja {
     
 //     public static void main(String[] args) throws DocumentException, FileNotFoundException, IOException {

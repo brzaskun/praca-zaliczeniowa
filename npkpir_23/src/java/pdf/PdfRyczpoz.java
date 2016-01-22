@@ -30,7 +30,7 @@ import view.WpisView;
  *
  * @author Osito
  */
-@Stateless
+
 public class PdfRyczpoz {
     
       

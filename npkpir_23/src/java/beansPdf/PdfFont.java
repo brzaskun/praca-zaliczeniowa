@@ -30,7 +30,7 @@ import javax.persistence.metamodel.SingularAttribute;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PdfFont {
 
     public static PdfPCell ustawfraze(String fraza, int colsp, int rowsp){

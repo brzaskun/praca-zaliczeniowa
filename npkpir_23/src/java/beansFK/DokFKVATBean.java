@@ -30,7 +30,7 @@ import waluty.Z;
  *
  * @author Osito
  */
-@Stateless
+
 public class DokFKVATBean {
     
     public static Double pobierzstawke(EVatwpisFK evatwpis) {

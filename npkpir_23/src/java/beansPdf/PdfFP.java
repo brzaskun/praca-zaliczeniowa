@@ -44,7 +44,7 @@ import waluty.Z;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class PdfFP {
 
     public static void dodajnaglowekstopka(PdfWriter writer, List<Fakturadodelementy> elementydod) {

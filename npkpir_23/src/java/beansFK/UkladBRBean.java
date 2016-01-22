@@ -15,7 +15,7 @@ import javax.ejb.Stateless;
  *
  * @author Osito
  */
-@Stateless
+
 public class UkladBRBean {
     
     public static int czyscPozycjeKont(KontoDAOfk kontoDAO, List<Konto> listakont) {

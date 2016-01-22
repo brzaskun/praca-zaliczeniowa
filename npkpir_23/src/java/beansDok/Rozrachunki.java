@@ -22,7 +22,7 @@ import view.WpisView;
  * @author Osito
  */
 @Named
-@Stateless
+
 public class Rozrachunki {
 
     public static void dodajdatydlaStorno(WpisView wpisView, Dok tmpDok) throws ParseException {
