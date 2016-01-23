@@ -27,6 +27,12 @@
                             <h:outputText value="transakcja"/>
                         </p:column>
                         <p:column>
+                            <h:outputText value="rodzaj dok."/>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="nr dok."/>
+                        </p:column>
+                        <p:column>
                             <h:outputText value="kwota"/>
                         </p:column>
                         <p:column>
@@ -49,6 +55,24 @@
                             <f:selectItem itemLabel="zapłata" itemValue="false"/>
                             <f:selectItem itemLabel="korekta" itemValue="true"/>
                         </h:selectOneListbox>
+                    </p:column>
+                    <p:column>
+                        <h:selectOneListbox value="#{fakturaRozrachunkiView.selected.rodzajdokumentu}" required="true" style="width: 90px;"
+                                            styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                            onfocus="$(this).removeClass('ui-state-default');
+                                                    $(this).addClass('ui-state-focus');"
+                                            onblur="$(this).removeClass('ui-state-focus');
+                                                    $(this).addClass('ui-state-default');">
+                            <f:selectItem itemLabel="rk" itemValue="rk"/>
+                            <f:selectItem itemLabel="wb" itemValue="wb"/>
+                            <f:selectItem itemLabel="wbm" itemValue="wbm"/>
+                            <f:selectItem itemLabel="wbh" itemValue="wbh"/>
+                            <f:selectItem itemLabel="fa" itemValue="fa"/>
+                        </h:selectOneListbox>
+                    </p:column>
+                    <p:column>
+                        <p:inputText value="#{fakturaRozrachunkiView.selected.nrdokumentu}" required="true"
+                                     />
                     </p:column>
                     <p:column>
                         <pe:inputNumber value="#{fakturaRozrachunkiView.selected.kwota}" symbol=" zł" required="true" 
@@ -85,7 +109,7 @@
                              update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
-                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1000px; margin-top: 20px;"
+                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1100px; margin-top: 20px;"
                              emptyMessage="niczego dzisiaj nie zaksięgowano">
                     <p:column width="30">
                         <f:facet name="header">
@@ -116,6 +140,12 @@
                             <h:outputText value="data"/>
                         </f:facet>
                         <h:outputText value="#{item.data}"/>
+                    </p:column>
+                    <p:column width="100">
+                        <f:facet name="header">
+                            <h:outputText value="dokument"/>
+                        </f:facet>
+                        <h:outputText value="#{item.rodzajdokumentu} #{item.nrdokumentu}"/>
                     </p:column>
                     <p:column width="90">
                         <f:facet name="header">

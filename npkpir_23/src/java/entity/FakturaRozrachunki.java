@@ -62,6 +62,10 @@ public class FakturaRozrachunki implements Serializable {
     private String data;
     @Column(name = "kwota")
     private double kwota;
+    @Column(name = "rodzajdokumentu")
+    private String rodzajdokumentu;
+    @Column(name = "nrdokumentu")
+    private String nrdokumentu;
     @Column(name = "zaplatakorekta")
     private boolean zaplata0korekta1;
     @Column(name = "rok")
@@ -184,7 +188,24 @@ public class FakturaRozrachunki implements Serializable {
     public void setZaplata0korekta1(boolean zaplata0korekta1) {
         this.zaplata0korekta1 = zaplata0korekta1;
     }
-    
+
+    public String getRodzajdokumentu() {
+        return rodzajdokumentu;
+    }
+
+    public void setRodzajdokumentu(String rodzajdokumentu) {
+        this.rodzajdokumentu = rodzajdokumentu;
+    }
+
+    public String getNrdokumentu() {
+        return nrdokumentu;
+    }
+
+    public void setNrdokumentu(String nrdokumentu) {
+        this.nrdokumentu = nrdokumentu;
+    }
+
+   
     
     
 }
