@@ -5,7 +5,9 @@
 package comparator;
 
 import entity.Klienci;
+import java.text.Collator;
 import java.util.Comparator;
+import java.util.Locale;
 import javax.inject.Named;
 
 /**
@@ -19,7 +21,9 @@ public class Kliencicomparator implements Comparator<Klienci> {
     public int compare(Klienci o1, Klienci o2) {
         String datao1 = o1.getNpelna().toLowerCase();
         String datao2 = o2.getNpelna().toLowerCase();
-        return datao1.compareTo(datao2);
+        Collator collator = Collator.getInstance(new Locale("pl", "PL"));
+        collator.setStrength(Collator.PRIMARY);
+        return collator.compare(datao1, datao2);
     }
     
 }

@@ -58,7 +58,7 @@ public class FakturaRozrachunkiView  implements Serializable {
                 }
             }
         }
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia();
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia(wpisView);
         System.out.println("d");
     }
    

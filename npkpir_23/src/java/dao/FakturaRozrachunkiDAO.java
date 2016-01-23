@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import session.SessionFacade;
+import view.WpisView;
 
 /**
  *
@@ -28,17 +29,26 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
         super(FakturaRozrachunki.class);
     }
     
-    public List<FakturaRozrachunki> rozrachunkiZDnia () {
+    public List<FakturaRozrachunki> rozrachunkiZDnia (WpisView wpisView) {
         Date d = new Date();
         try {
-            return sessionFacade.rozrachunkiZDnia(d);
+            return sessionFacade.rozrachunkiZDnia(d, wpisView);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
+    public List<FakturaRozrachunki> findByPodatnik(WpisView wpisView) {
+        try {
+            return sessionFacade.findByPodatnik(wpisView);
         } catch (Exception e) {
             E.e(e);
             return null;
         }
     }
 
-    public List<FakturaRozrachunki> findAll() {
+    public List<FakturaRozrachunki> findAll(WpisView wpisView) {
         try {
             return sessionFacade.findAll(FakturaRozrachunki.class);
         } catch (Exception e) {

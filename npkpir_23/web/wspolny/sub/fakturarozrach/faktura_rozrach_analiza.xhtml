@@ -16,30 +16,18 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:autoComplete value="#{fakturaRozrachunkiAnalizaView.selected.kontrahent}" completeMethod="#{fakturaRozrachunkiAnalizaView.completeKL}"
-                            var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
-                            maxResults="20" maxlength="20" converterMessage="Nieudana konwersja Klient" 
-                            cache="true" forceSelection="true" queryDelay="10" 
-                            required="true" requiredMessage="Pole klienta nie może być puste" styleClass="wpisywaniekontrfk" style="width: 350px;"
-                            >
-                <p:ajax event="query" global="false"/>
-                <p:ajax event="itemSelect" partialSubmit="true" global="false"/>
-                <f:facet name="itemtip">  
-                    <h:panelGrid  columns="2" cellpadding="5" width="400">  
-                        <f:facet name="header">  
-                            <h:outputText value="Dane kontrahenta"/>
-                        </f:facet>  
-                        <h:outputText value="Nazwa: " />  
-                        <h:outputText  value="#{p.npelna}" />  
-                        <h:outputText value="NIP: " />  
-                        <h:outputText value="#{p.nip}" />  
-                        <h:outputText value="Adres " />  
-                        <h:outputText value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
-                    </h:panelGrid>
-                </f:facet>
-            </p:autoComplete>
-            <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzplatnosci(WpisView.miesiacWpisu)}" update="fakturaanaliza" global="false"/>
-                <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1100px; margin-top: 20px;"
+            <p:panelGrid columns="2">
+            <h:selectOneListbox value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  size="10" converter="KlientConv"
+                                            styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" 
+                                            onfocus="$(this).removeClass('ui-state-default');
+                                                    $(this).addClass('ui-state-focus');"
+                                            onblur="$(this).removeClass('ui-state-focus');
+                                                    $(this).addClass('ui-state-default');">
+                <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
+            </h:selectOneListbox>
+            <p:commandButton value="pobierz" style="width: 120px; margin-left: 10px;" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzfakturyrozliczenia(WpisView.miesiacWpisu)}" update="fakturaanaliza" global="false"/>
+            </p:panelGrid>
+                <p:dataTable value="#{fakturaRozrachunkiAnalizaView.wprowadzoneplatnosci}" var="item" style="width: 1100px; margin-top: 20px;"
                              emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}">
                     <p:column width="30">
                         <f:facet name="header">

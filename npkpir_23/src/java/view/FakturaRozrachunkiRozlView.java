@@ -63,7 +63,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
     
     public void pobierzplatnosci(String mc) {
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findAll();
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
         for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
             if (!it.next().getMc().equals(mc)) {
                 it.remove();

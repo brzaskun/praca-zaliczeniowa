@@ -5,16 +5,20 @@
  */
 package view;
 
+import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -33,6 +37,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private static final long serialVersionUID = 1L;
     
     private List<Klienci> klienci;
+    private Klienci szukanyklient;
     private List<FakturaRozrachunki> wprowadzoneplatnosci;
     @Inject
     private FakturaRozrachunki selected;
@@ -51,6 +56,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     @PostConstruct
     private void init() {
         klienci.addAll(pobierzkontrahentow());
+        Collections.sort(klienci, new Kliencicomparator());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
                 if (it.next() == null) {
@@ -58,21 +64,28 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
             }
         }
-        pobierzplatnosci(wpisView.getMiesiacWpisu());
+        pobierzfakturyrozliczenia(wpisView.getMiesiacWpisu());
         System.out.println("d");
     }
     
-    public void pobierzplatnosci(String mc) {
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findAll();
+    public void pobierzfakturyrozliczenia(String mc) {
+        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
         for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
-            if (!it.next().getMc().equals(mc)) {
+            FakturaRozrachunki p = it.next();
+            if (!p.getMc().equals(mc) || !p.getKontrahent().equals(szukanyklient)) {
                 it.remove();
             }
         }
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {
-        return fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
+        for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
+            if (it.next() == null) {
+                it.remove();
+            }
+        }
+        return p;
     }
     
     public List<Klienci> completeKL(String query) {
@@ -126,6 +139,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public Klienci getSzukanyklient() {
+        return szukanyklient;
+    }
+
+    public void setSzukanyklient(Klienci szukanyklient) {
+        this.szukanyklient = szukanyklient;
     }
 
     public FakturaRozrachunki getSelected() {

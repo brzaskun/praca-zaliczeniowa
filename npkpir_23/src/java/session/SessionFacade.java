@@ -1687,8 +1687,12 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Faktura.findByKonrahentPodatnik").setParameter("podatnik", podatnikObiekt).getResultList();
     }
 
-    public List<FakturaRozrachunki> rozrachunkiZDnia(Date d) {
-        return em.createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).getResultList();
+    public List<FakturaRozrachunki> rozrachunkiZDnia(Date d, WpisView wpisView) {
+        return em.createNamedQuery("FakturaRozrachunki.findByData_k").setParameter("data", d, TemporalType.DATE).setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
+    }
+
+    public List<FakturaRozrachunki> findByPodatnik(WpisView wpisView) {
+        return em.createNamedQuery("FakturaRozrachunki.findByPodatnik").setParameter("podatnik", wpisView.getPodatnikObiekt()).getResultList();
     }
     
    
