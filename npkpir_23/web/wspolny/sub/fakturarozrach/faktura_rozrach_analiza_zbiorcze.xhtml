@@ -21,7 +21,7 @@
                     height: 25px;
                 }
             </style>
-
+                <p:commandButton value="pobierz" actionListener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" global="false" style="width: 120px;" update="fakturaanalizazbiorcza"/>
             <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1100px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" 
                          >

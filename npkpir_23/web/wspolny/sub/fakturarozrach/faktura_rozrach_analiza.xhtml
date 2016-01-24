@@ -24,7 +24,7 @@
                                     onblur="$(this).removeClass('ui-state-focus');
                                                     $(this).addClass('ui-state-default');">
                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
-                    <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzpozycje(WpisView.miesiacWpisu)}" update="fakturaanaliza:tablicaanaliza akordeon:analizaarchiwum"/>
+                    <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystko(WpisView.miesiacWpisu)}" update="fakturaanaliza:tablicaanaliza akordeon:analizaarchiwum"/>
                 </h:selectOneListbox>
             </p:panelGrid>
             <style>

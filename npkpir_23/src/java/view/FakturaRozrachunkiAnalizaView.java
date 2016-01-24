@@ -74,40 +74,31 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
             }
         }
-        pobierzpozycje(wpisView.getMiesiacWpisu());
-        zestawieniezbiorcze();
+        pobierzwszystko(wpisView.getMiesiacWpisu());
     }
     
-    public void pobierzpozycje(String mc) {
-        pobierzfakturynowe(mc);
-        pobierzfakturarchiwum(mc);
-        sortujsumuj();
+    public void pobierzwszystko(String mc) {
+        nowepozycje = pobierzelementy(mc, false);
+        archiwum = pobierzelementy(mc, true);
+        sortujsumuj(nowepozycje);
+        sortujsumuj(archiwum);
     }
     
-    public void pobierzfakturynowe(String mc) {
+    public List<FakturaPodatnikRozliczenie> pobierzelementy(String mc, boolean nowe0archiwum) {
+        List<FakturaPodatnikRozliczenie> pozycje = null;
         if (szukanyklient != null) {
             List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, szukanyklient);
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            nowepozycje = stworztabele(platnosci, faktury, false);
+            pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
             int i = 1;
-            for (FakturaPodatnikRozliczenie p : nowepozycje) {
+            for (FakturaPodatnikRozliczenie p : pozycje) {
                 p.setLp(i++);
             }
         }
+        return pozycje;
     }
     
-    public void pobierzfakturarchiwum(String mc) {
-        if (szukanyklient != null) {
-            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, szukanyklient);
-            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            archiwum = stworztabele(platnosci, faktury, true);
-            int i = 1;
-            for (FakturaPodatnikRozliczenie p : archiwum) {
-                p.setLp(i++);
-            }
-        }
-    }
-   
+     
     private Collection<? extends Klienci> pobierzkontrahentow() {
         Collection p = fakturaDAO.findKontrahentFaktury(wpisView.getPodatnikObiekt());
         for (Iterator<Klienci> it = p.iterator(); it.hasNext();) {
@@ -161,14 +152,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } else {
             rozliczJednaPozycja(p, nowy0archiwum1);
         }
-        sortujsumuj();
+        sortujsumuj(nowepozycje);
+        sortujsumuj(archiwum);
     }
     
-    private void sortujsumuj() {
-        Collections.sort(nowepozycje, new FakturaPodatnikRozliczeniecomparator());
-        obliczsaldo(nowepozycje);
-        Collections.sort(archiwum, new FakturaPodatnikRozliczeniecomparator());
-        obliczsaldo(archiwum);
+    private void sortujsumuj(List<FakturaPodatnikRozliczenie> pozycje) {
+        if (pozycje != null) {
+            Collections.sort(pozycje, new FakturaPodatnikRozliczeniecomparator());
+            obliczsaldo(pozycje);
+        }
     }
     
     private void obliczsaldo(List<FakturaPodatnikRozliczenie> nowepozycje) {
@@ -228,11 +220,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         return l;
     }
     
-    private void zestawieniezbiorcze() {
+    public void zestawieniezbiorcze() {
         int i = 1;
         for (Klienci p : klienci) {
             szukanyklient = p;
-            pobierzpozycje(wpisView.getMiesiacWpisu());
+            pobierzwszystko(wpisView.getMiesiacWpisu());
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
                 if (r.getSaldo() != 0.0) {
@@ -249,7 +241,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } else {
             szukanyklient = p.getFaktura().getKontrahent();
         }
-        pobierzpozycje(wpisView.getMiesiacWpisu());
+        pobierzwszystko(wpisView.getMiesiacWpisu());
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 2;
     }
