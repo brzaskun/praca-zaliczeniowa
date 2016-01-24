@@ -5,8 +5,6 @@
  */
 package pdffk;
 
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -50,7 +48,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import msg.B;
 import plik.Plik;
@@ -61,7 +58,7 @@ import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
 import waluty.Z;
 import static beansPdf.PdfFont.ustawfrazeAlign;
-import static beansPdf.PdfFont.ustawfrazeAlign;
+import embeddable.FakturaPodatnikRozliczenie;
 
 /**
  *
@@ -308,7 +305,19 @@ public class PdfMain {
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
-            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, String)");
+            System.out.println("Problem z dodaniem opisu wstepnego PDFMain dodajOpisWstepny(Document, String, String)");
+            E.e(ex);
+        }
+    }
+    
+    public static void dodajLinieOpisu(Document document, String opis) {
+        try {
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            opiswstepny.setAlignment(Element.ALIGN_LEFT);
+            document.add(opiswstepny);
+            document.add(Chunk.NEWLINE);
+        } catch (DocumentException ex) {
+            System.out.println("Problem z dodaniem linii opisu PDFMain dodajLinieOpisu(Document, String, String)");
             E.e(ex);
         }
     }
@@ -444,6 +453,16 @@ public class PdfMain {
                 col[0] = 2;
                 col[1] = 6;
                 col[2] = 3;
+                return col;
+            case "embeddable.FakturaPodatnikRozliczenie":
+                col = new int[size];
+                col[0] = 2;
+                col[1] = 3;
+                col[2] = 4;
+                col[3] = 3;
+                col[4] = 3;
+                col[5] = 3;
+                col[6] = 3;
                 return col;
             case "embeddable.Umorzenie":
                 col = new int[size];
@@ -836,6 +855,21 @@ public class PdfMain {
         int i = 1;
         int maxlevel = 0;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
+            if (nazwaklasy.equals("embeddable.FakturaPodatnikRozliczenie")) {
+                FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                if (p.isFaktura0rozliczenie1()) {
+                    table.addCell(ustawfrazeAlign("", "right", 8));
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                    table.addCell(ustawfrazeAlign("", "right", 8));
+                }
+                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
+            }
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));

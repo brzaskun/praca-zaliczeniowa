@@ -160,7 +160,36 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.saldo = saldo;
     }
 
-   
+    public String getKontrahent() {
+        if (this.faktura != null) {
+            return this.faktura.getKontrahent().getNpelna();
+        } else {
+            return this.rozliczenie.getKontrahent().getNpelna();
+        }
+    }
     
+    public String getWprowadzil() {
+        if (this.faktura != null) {
+            return this.faktura.getAutor();
+        } else {
+            return this.rozliczenie.getWprowadzil().getLogin();
+        }
+    }
+    
+    public String getRodzajDok() {
+        if (this.faktura != null) {
+            return "faktura";
+        } else {
+            return this.rozliczenie.getRodzajdokumentu();
+        }
+    }
+    
+    public String getNrDok() {
+        if (this.faktura != null) {
+            return this.faktura.getFakturaPK().getNumerkolejny();
+        } else {
+            return this.rozliczenie.getNrdokumentu();
+        }
+    }
     
 }

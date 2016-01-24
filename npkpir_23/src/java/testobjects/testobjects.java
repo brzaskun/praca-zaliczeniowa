@@ -5,6 +5,7 @@
  */
 package testobjects;
 
+import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.Umorzenie;
 import embeddable.VatUe;
@@ -215,6 +216,21 @@ public class testobjects {
        n.add("pozycja Wn");
        n.add("pozycja Ma");  
        n.add("przychód/koszt");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
+       return tabela;
+   }
+    
+    public static List[] getFakturaRozrachunki(List<FakturaPodatnikRozliczenie> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("rodzaj dok.");
+       n.add("nr dok.");
+       n.add("data");
+       n.add("zapłata");
+       n.add("faktura");
+       n.add("saldo");  
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = wiersze;

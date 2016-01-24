@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="1">
+            <p:panelGrid columns="2">
                 <h:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  size="10" converter="KlientConv"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     onfocus="$(this).removeClass('ui-state-default');
@@ -26,6 +26,7 @@
                     <f:selectItems value="#{fakturaRozrachunkiAnalizaView.klienci}"/>
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystko(WpisView.miesiacWpisu)}" update="fakturaanaliza:tablicaanaliza akordeon:analizaarchiwum"/>
                 </h:selectOneListbox>
+                <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" global="false" style="width: 120px;"/>
             </p:panelGrid>
             <style>
                 th {
@@ -50,15 +51,13 @@
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
-                    <h:outputText value="#{item.faktura.kontrahent}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
-                    <h:outputText value="#{item.rozliczenie.kontrahent}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                    <h:outputText value="#{item.kontrahent}"/>
                 </p:column>
                 <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="wprowadzil"/>
                     </f:facet>
-                    <h:outputText value="#{item.faktura.autor}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
-                    <h:outputText value="#{item.rozliczenie.wprowadzil.login}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                    <h:outputText value="#{item.wprowadzil}"/>
                 </p:column>
                 <p:column width="70">
                     <f:facet name="header">
@@ -83,14 +82,6 @@
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
-                </p:column>
-                <p:column width="70">
-                    <f:facet name="header">
-                        <h:outputText value="data"/>
-                    </f:facet>
-                    <h:outputText value="#{item.data}">
-                        <f:convertDateTime dateStyle="default" locale="pl"/>
-                    </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>

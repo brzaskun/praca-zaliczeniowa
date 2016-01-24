@@ -28,7 +28,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.inject.Inject;
+import msg.Msg;
 import org.primefaces.context.RequestContext;
+import pdf.PdfFaktRozrach;
 
 /**
  *
@@ -244,6 +246,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         pobierzwszystko(wpisView.getMiesiacWpisu());
         selectOneUI.setValue(szukanyklient);
         aktywnytab = 2;
+    }
+    
+    public void drukujKlienci() {
+        try {
+            PdfFaktRozrach.drukujKlienci(szukanyklient, nowepozycje, archiwum, wpisView);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
+            E.e(e);
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

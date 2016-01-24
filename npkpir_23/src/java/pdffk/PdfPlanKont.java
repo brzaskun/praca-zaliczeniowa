@@ -12,7 +12,6 @@ import entity.Uz;
 import entityfk.Konto;
 import java.io.File;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.B;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
