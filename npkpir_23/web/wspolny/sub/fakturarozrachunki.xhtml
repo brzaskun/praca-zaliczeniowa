@@ -5,10 +5,11 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" >
+    <p:tabView id="akordeon" style="max-width: 1500px; min-width: 900px;" activeIndex="#{fakturaRozrachunkiAnalizaView.aktywnytab}" >
        <ui:include src="fakturarozrach/faktura_rozrachunki.xhtml"/>
        <ui:include src="fakturarozrach/faktura_rozrach_przeglad.xhtml"/>
        <ui:include src="fakturarozrach/faktura_rozrach_analiza.xhtml"/>
+       <ui:include src="fakturarozrach/faktura_rozrach_analiza_zbiorcze.xhtml"/>
     </p:tabView>
 
 </ui:composition>   

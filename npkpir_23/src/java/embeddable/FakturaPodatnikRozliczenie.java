@@ -26,6 +26,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private String data;
     private boolean nowy0rozliczony1;
     private double kwota;
+    private double saldo;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -149,6 +150,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public void setKwota(double kwota) {
         this.kwota = kwota;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
     }
 
    
