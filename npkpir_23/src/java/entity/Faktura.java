@@ -207,6 +207,8 @@ public class Faktura implements Serializable {
     private Integer idfakturaokresowa;
     @Column(name = "stopka")
     private String stopka;
+    @Column(name = "nowy0archiwum1")
+    private boolean nowy0archiwum1;
 
     public Faktura() {
     }
@@ -292,6 +294,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public boolean isNowy0archiwum1() {
+        return nowy0archiwum1;
+    }
+
+    public void setNowy0archiwum1(boolean nowy0archiwum1) {
+        this.nowy0archiwum1 = nowy0archiwum1;
     }
 
     public String getStopka() {

@@ -5,20 +5,21 @@
  */
 package view;
 
+import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import embeddable.FakturaPodatnikRozliczenie;
+import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.annotation.PostConstruct;
@@ -38,7 +39,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     private List<Klienci> klienci;
     private Klienci szukanyklient;
-    private List<FakturaRozrachunki> wprowadzoneplatnosci;
+    private List<FakturaPodatnikRozliczenie> rozliczenia;
+    private List<FakturaPodatnikRozliczenie> selectedrozliczenia;
     @Inject
     private FakturaRozrachunki selected;
     @ManagedProperty(value = "#{WpisView}")
@@ -50,7 +52,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public FakturaRozrachunkiAnalizaView() {
         klienci = new ArrayList<>();
-        wprowadzoneplatnosci = new ArrayList<>();
+        rozliczenia = new ArrayList<>();
     }
 
     @PostConstruct
@@ -69,11 +71,13 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void pobierzfakturyrozliczenia(String mc) {
-        wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
-        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
-            FakturaRozrachunki p = it.next();
-            if (!p.getMc().equals(mc) || !p.getKontrahent().equals(szukanyklient)) {
-                it.remove();
+        if (szukanyklient != null) {
+            List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, szukanyklient);
+            List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            rozliczenia = stworztabele(platnosci, faktury, false);
+            int i = 1;
+            for (FakturaPodatnikRozliczenie p : rozliczenia) {
+                p.setLp(i++);
             }
         }
     }
@@ -123,14 +127,34 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
        
-    public void usun(FakturaRozrachunki p) {
+    public void rozlicz(FakturaPodatnikRozliczenie p) {
         try {
-            fakturaRozrachunkiDAO.destroy(p);
-            wprowadzoneplatnosci.remove(p);
+            rozliczenia.remove(p);
         } catch (Exception e) {
             E.e(e);
         }
     }
+    
+    private List<FakturaPodatnikRozliczenie> stworztabele(List<FakturaRozrachunki> platnosci, List<Faktura> faktury, boolean nowe0archiwum1) {
+        List<FakturaPodatnikRozliczenie> l = new ArrayList<>();
+        if (platnosci != null) {
+            for (FakturaRozrachunki p : platnosci) {
+                if (p.isNowy0archiwum1() == nowe0archiwum1) {
+                    l.add(new FakturaPodatnikRozliczenie(p));
+                }
+            }
+        }
+        if (faktury != null) {
+            for (Faktura r : faktury) {
+                if (r.isNowy0archiwum1() == nowe0archiwum1) {
+                    l.add(new FakturaPodatnikRozliczenie(r));
+                }
+            }
+        }
+        Collections.sort(l, new FakturaPodatnikRozliczeniecomparator());
+        return l;
+    }
+
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
@@ -164,18 +188,29 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
-    
-    public List<FakturaRozrachunki> getWprowadzoneplatnosci() {
-        return wprowadzoneplatnosci;
+
+    public List<FakturaPodatnikRozliczenie> getSelectedrozliczenia() {
+        return selectedrozliczenia;
     }
 
-    public void setWprowadzoneplatnosci(List<FakturaRozrachunki> wprowadzoneplatnosci) {
-        this.wprowadzoneplatnosci = wprowadzoneplatnosci;
+    public void setSelectedrozliczenia(List<FakturaPodatnikRozliczenie> selectedrozliczenia) {
+        this.selectedrozliczenia = selectedrozliczenia;
     }
+    
+    public List<FakturaPodatnikRozliczenie> getRozliczenia() {
+        return rozliczenia;
+    }
+
+    public void setRozliczenia(List<FakturaPodatnikRozliczenie> rozliczenia) {
+        this.rozliczenia = rozliczenia;
+    }
+
+  
    
 //</editor-fold>
 
+    
+    
     
     
     

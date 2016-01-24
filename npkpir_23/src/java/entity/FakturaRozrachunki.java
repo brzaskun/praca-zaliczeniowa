@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "FakturaRozrachunki.findAll", query = "SELECT e FROM FakturaRozrachunki e"),
     @NamedQuery(name = "FakturaRozrachunki.findByData_k", query = "SELECT e FROM FakturaRozrachunki e WHERE e.dataksiegowania = :data AND e.wystawca = :podatnik"),
-    @NamedQuery(name = "FakturaRozrachunki.findByPodatnik", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik")
+    @NamedQuery(name = "FakturaRozrachunki.findByPodatnik", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik"),
+    @NamedQuery(name = "FakturaRozrachunki.findByPodatnikKontrahent", query = "SELECT e FROM FakturaRozrachunki e WHERE e.wystawca = :podatnik AND e.kontrahent = :kontrahent")
 })
 public class FakturaRozrachunki implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -73,6 +74,8 @@ public class FakturaRozrachunki implements Serializable {
     private String rok;
     @Column(name = "mc")
     private String mc;
+    @Column(name = "nowy0archiwum1")
+    private boolean nowy0archiwum1;
     
     @PrePersist
     private void prepresist() {
@@ -204,6 +207,14 @@ public class FakturaRozrachunki implements Serializable {
 
     public void setNrdokumentu(String nrdokumentu) {
         this.nrdokumentu = nrdokumentu;
+    }
+
+    public boolean isNowy0archiwum1() {
+        return nowy0archiwum1;
+    }
+
+    public void setNowy0archiwum1(boolean nowy0archiwum1) {
+        this.nowy0archiwum1 = nowy0archiwum1;
     }
 
    

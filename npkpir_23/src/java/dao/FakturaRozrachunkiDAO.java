@@ -6,6 +6,7 @@
 package dao;
 
 import entity.FakturaRozrachunki;
+import entity.Klienci;
 import error.E;
 import java.io.Serializable;
 import java.util.Date;
@@ -42,6 +43,15 @@ public class FakturaRozrachunkiDAO extends DAO implements Serializable {
     public List<FakturaRozrachunki> findByPodatnik(WpisView wpisView) {
         try {
             return sessionFacade.findByPodatnik(wpisView);
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
+    
+    public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
+        try {
+            return sessionFacade.findByPodatnikKontrahent(wpisView, kontrahent);
         } catch (Exception e) {
             E.e(e);
             return null;

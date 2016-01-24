@@ -4,6 +4,7 @@
  */
 package comparator;
 
+import embeddable.FakturaPodatnikRozliczenie;
 import entity.Dok;
 import error.E;
 import java.text.DateFormat;
@@ -11,8 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Named;
 
 /**
@@ -20,12 +19,12 @@ import javax.inject.Named;
  * @author Osito
  */
 @Named
-public class Dokcomparator implements Comparator<Dok> {
+public class FakturaPodatnikRozliczeniecomparator implements Comparator<FakturaPodatnikRozliczenie> {
 
     @Override
-    public int compare(Dok o1, Dok o2) {
-        String datao1 = o1.getDataWyst();
-        String datao2 = o2.getDataWyst();
+    public int compare(FakturaPodatnikRozliczenie o1, FakturaPodatnikRozliczenie o2) {
+        String datao1 = o1.getData();
+        String datao2 = o2.getData();
         DateFormat formatter;
         formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date datao1date = null;
