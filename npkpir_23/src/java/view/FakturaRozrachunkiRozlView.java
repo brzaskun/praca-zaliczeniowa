@@ -44,12 +44,12 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
 
     public FakturaRozrachunkiRozlView() {
-        klienci = new ArrayList<>();
-        wprowadzoneplatnosci = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
+        klienci = new ArrayList<>();
+        wprowadzoneplatnosci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {

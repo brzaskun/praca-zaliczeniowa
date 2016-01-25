@@ -59,14 +59,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private UISelectOne selectOneUI;
 
     public FakturaRozrachunkiAnalizaView() {
-        klienci = new ArrayList<>();
-        nowepozycje = new ArrayList<>();
-        archiwum = new ArrayList<>();
-        saldanierozliczone = new ArrayList<>();
+        
     }
 
     @PostConstruct
     public void init() {
+        klienci = new ArrayList<>();
+        nowepozycje = new ArrayList<>();
+        archiwum = new ArrayList<>();
+        saldanierozliczone = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
         Collections.sort(klienci, new Kliencicomparator());
         if (klienci != null) {
@@ -223,6 +224,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
     
     public void zestawieniezbiorcze() {
+        saldanierozliczone = new ArrayList<>();
         int i = 1;
         sumasaldnierozliczonych = 0.0;
         for (Klienci p : klienci) {

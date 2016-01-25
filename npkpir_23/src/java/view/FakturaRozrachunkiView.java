@@ -55,12 +55,12 @@ public class FakturaRozrachunkiView  implements Serializable {
     private WpisDAO wpisDAO;
 
     public FakturaRozrachunkiView() {
-        klienci = new ArrayList<>();
-        wprowadzoneplatnosci = new ArrayList<>();
     }
 
     @PostConstruct
     public void init() {
+        klienci = new ArrayList<>();
+        wprowadzoneplatnosci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
