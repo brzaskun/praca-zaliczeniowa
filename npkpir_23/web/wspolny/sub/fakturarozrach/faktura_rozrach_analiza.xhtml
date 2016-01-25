@@ -47,7 +47,7 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="280">
+                <p:column width="280" sortable="true" sortBy="#{item.kontrahent}">
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
@@ -59,7 +59,7 @@
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil}"/>
                 </p:column>
-                <p:column width="70">
+                <p:column width="70" sortable="true" sortBy="#{item.data}">
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>

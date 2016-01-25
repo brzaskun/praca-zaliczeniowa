@@ -168,6 +168,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         }
     }
     
+    public String getKontrahentEmail() {
+        if (this.faktura != null) {
+            return this.faktura.getKontrahent().getEmail();
+        } else {
+            return this.rozliczenie.getKontrahent().getEmail();
+        }
+    }
+    
     public String getWprowadzil() {
         if (this.faktura != null) {
             return this.faktura.getAutor();
