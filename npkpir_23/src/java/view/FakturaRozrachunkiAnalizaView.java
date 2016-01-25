@@ -29,7 +29,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.inject.Inject;
 import msg.Msg;
-import org.primefaces.context.RequestContext;
 import pdf.PdfFaktRozrach;
 
 /**
@@ -254,6 +253,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     public void drukujKlienci() {
         try {
             PdfFaktRozrach.drukujKlienci(szukanyklient, nowepozycje, archiwum, wpisView);
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
+            E.e(e);
+        }
+    }
+    
+    public void drukujKlienciZbiorcze() {
+        try {
+            PdfFaktRozrach.drukujKlienciZbiorcze(saldanierozliczone, wpisView);
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
             E.e(e);

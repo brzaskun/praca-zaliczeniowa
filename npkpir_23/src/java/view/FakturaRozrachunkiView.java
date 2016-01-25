@@ -22,6 +22,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -108,10 +109,31 @@ public class FakturaRozrachunkiView  implements Serializable {
             selected.setWprowadzil(wpisView.getWprowadzil());
             fakturaRozrachunkiDAO.dodaj(selected);
             wprowadzoneplatnosci.add(selected);
+            boolean zaplata0korekta1 = selected.isZaplata0korekta1();
+            String rodzajdokumentu = selected.getRodzajdokumentu();
+            String starynumer = selected.getNrdokumentu();
+            String nowynumer = zrobnowynumer(starynumer);
             selected = new FakturaRozrachunki();
+            selected.setZaplata0korekta1(zaplata0korekta1);
+            selected.setRodzajdokumentu(rodzajdokumentu);
+            selected.setNrdokumentu(nowynumer);
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    private String zrobnowynumer(String starynumer) {
+        String nowynumer = starynumer;
+        if (starynumer.contains("/")) {
+            String[] numertablica = starynumer.split("/");
+            if (numertablica.length == 2) {
+                String koncowka = numertablica[numertablica.length-1];
+                int nowakoncowka = Integer.parseInt(koncowka)+1;
+                String nowakoncowka2 = String.valueOf(nowakoncowka);
+                nowynumer = numertablica[0]+"/"+nowakoncowka2;
+            }
+        }
+        return nowynumer;
     }
     
     public void usun(FakturaRozrachunki p) {
@@ -121,6 +143,10 @@ public class FakturaRozrachunkiView  implements Serializable {
         } catch (Exception e) {
             E.e(e);
         }
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        fakturaRozrachunkiDAO.edit((FakturaRozrachunki) event.getObject());
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
@@ -158,6 +184,8 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
    
 //</editor-fold>
+
+    
 
     
     

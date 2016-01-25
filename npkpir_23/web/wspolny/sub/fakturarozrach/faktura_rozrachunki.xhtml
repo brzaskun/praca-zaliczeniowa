@@ -109,15 +109,17 @@
                              update="akordeon:fakturarozrachunki akordeon:form_wprowadzoneplatnosci"/>
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
-                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1100px; margin-top: 20px;"
-                             emptyMessage="niczego dzisiaj nie zaksięgowano" scrollable="true" scrollHeight="400" scrollRows="20">
+                <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
+                             emptyMessage="niczego dzisiaj nie zaksięgowano" scrollable="true" scrollHeight="400" scrollRows="20"
+                             editable="true">
+                    <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
                     <p:column width="30">
                         <f:facet name="header">
                             <h:outputText value="lp"/>
                         </f:facet>
                         <h:outputText value="#{item.lp}"/>
                     </p:column>
-                    <p:column>
+                    <p:column width="100">
                         <f:facet name="header">
                             <h:outputText value="wystawca"/>
                         </f:facet>
@@ -139,25 +141,57 @@
                         <f:facet name="header">
                             <h:outputText value="data"/>
                         </f:facet>
-                        <h:outputText value="#{item.data}"/>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.data}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.data}" style="width: 70px;"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
-                    <p:column width="100">
+                    <p:column width="100" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="dokument"/>
                         </f:facet>
-                        <h:outputText value="#{item.rodzajdokumentu} #{item.nrdokumentu}"/>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.rodzajdokumentu} #{item.nrdokumentu}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.rodzajdokumentu}" style="width: 90px;"/>
+                                <p:inputText value="#{item.nrdokumentu}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
-                    <p:column width="90">
+                    <p:column width="90" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="zapłata"/>
                         </f:facet>
-                        <bcf:outputpl value="#{item.kwota}" rendered="#{!item.zaplata0korekta1}"/>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <bcf:outputpl value="#{item.kwota}" rendered="#{!item.zaplata0korekta1}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.kwota}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
                     </p:column>
-                    <p:column width="90">
+                    <p:column width="90" style="text-align: center;">
                         <f:facet name="header">
                             <h:outputText value="korekta"/>
                         </f:facet>
-                        <bcf:outputpl value="#{item.kwota}" rendered="#{item.zaplata0korekta1}"/>
+                         <p:cellEditor>
+                            <f:facet name="output">
+                                <bcf:outputpl value="#{item.kwota}" rendered="#{item.zaplata0korekta1}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.kwota}" style="width: 90px;"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column width="40" style="text-align: center;">
+                        <p:rowEditor style="height: 30px;"/>
                     </p:column>
                     <p:column width="40" style="text-align: center;">
                         <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiView.usun(item)}" update="akordeon:form_wprowadzoneplatnosci"/>

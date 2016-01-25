@@ -286,7 +286,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony ") + " " + mc + "/" + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -301,7 +301,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("rok") + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("rok ") + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -455,15 +455,28 @@ public class PdfMain {
                 col[2] = 3;
                 return col;
             case "embeddable.FakturaPodatnikRozliczenie":
-                col = new int[size];
-                col[0] = 2;
-                col[1] = 3;
-                col[2] = 4;
-                col[3] = 3;
-                col[4] = 3;
-                col[5] = 3;
-                col[6] = 3;
-                return col;
+                if (modyfikator == 0) {
+                    col = new int[size];
+                    col[0] = 1;
+                    col[1] = 3;
+                    col[2] = 4;
+                    col[3] = 3;
+                    col[4] = 3;
+                    col[5] = 3;
+                    col[6] = 3;
+                    return col;
+                } else {
+                    col = new int[size];
+                    col[0] = 1;
+                    col[1] = 6;
+                    col[2] = 3;
+                    col[3] = 4;
+                    col[4] = 3;
+                    col[5] = 3;
+                    col[6] = 3;
+                    col[7] = 3;
+                    return col;
+                }
             case "embeddable.Umorzenie":
                 col = new int[size];
                 col[0] = 2;
@@ -856,19 +869,36 @@ public class PdfMain {
         int maxlevel = 0;
         for (Iterator it = wiersze.iterator(); it.hasNext();) {
             if (nazwaklasy.equals("embeddable.FakturaPodatnikRozliczenie")) {
-                FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
-                table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
-                table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
-                if (p.isFaktura0rozliczenie1()) {
-                    table.addCell(ustawfrazeAlign("", "right", 8));
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                if (modyfikator == 0) {
+                    FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8));
+                    table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                    if (p.isFaktura0rozliczenie1()) {
+                        table.addCell(ustawfrazeAlign("", "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
+                    }
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 } else {
-                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
-                    table.addCell(ustawfrazeAlign("", "right", 8));
+                    FakturaPodatnikRozliczenie p = (FakturaPodatnikRozliczenie) it.next();
+                    table.addCell(ustawfrazeAlign(String.valueOf(p.getLp()), "center", 8, 22f));
+                    table.addCell(ustawfrazeAlign(p.getKontrahent(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getRodzajDok(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
+                    if (p.isFaktura0rozliczenie1()) {
+                        table.addCell(ustawfrazeAlign("", "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                    } else {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
+                    }
+                    table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 }
-                table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
             }
             if (nazwaklasy.equals("testobjects.WierszTabeli")) {
                 WierszTabeli p = (WierszTabeli) it.next();

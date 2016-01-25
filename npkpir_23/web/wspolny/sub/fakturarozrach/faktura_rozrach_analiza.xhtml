@@ -65,7 +65,7 @@
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
                 </p:column>
-                 <p:column width="120">
+                <p:column width="120">
                     <f:facet name="header">
                         <h:outputText value="dokument"/>
                     </f:facet>
@@ -96,7 +96,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="analizaarchiwum">
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 1100px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 1150px; margin-top: 20px;"
                          emptyMessage="niczego nie zarchiwizowane dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -129,6 +129,12 @@
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
                 </p:column>
+                <p:column width="120">
+                    <f:facet name="header">
+                        <h:outputText value="dokument"/>
+                    </f:facet>
+                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
+                </p:column>
                 <p:column width="90">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
@@ -146,14 +152,6 @@
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
-                </p:column>
-                <p:column width="70">
-                    <f:facet name="header">
-                        <h:outputText value="data"/>
-                    </f:facet>
-                    <h:outputText value="#{item.data}">
-                        <f:convertDateTime dateStyle="default" locale="pl"/>
-                    </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, false)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>

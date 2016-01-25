@@ -222,19 +222,35 @@ public class testobjects {
        return tabela;
    }
     
-    public static List[] getFakturaRozrachunki(List<FakturaPodatnikRozliczenie> wiersze) {
-       List n = new ArrayList();
-       n.add("lp");
-       n.add("rodzaj dok.");
-       n.add("nr dok.");
-       n.add("data");
-       n.add("zapłata");
-       n.add("faktura");
-       n.add("saldo");  
-       List[] tabela = new List[2];
-       tabela[0] = n;
-       tabela[1] = wiersze;
-       return tabela;
+    public static List[] getFakturaRozrachunki(List<FakturaPodatnikRozliczenie> wiersze, int modyfikator) {
+        if (modyfikator == 0) {
+            List n = new ArrayList();
+            n.add("lp");
+            n.add("rodzaj dok.");
+            n.add("nr dok.");
+            n.add("data");
+            n.add("zapłata");
+            n.add("faktura");
+            n.add("saldo");
+            List[] tabela = new List[2];
+            tabela[0] = n;
+            tabela[1] = wiersze;
+            return tabela;
+        } else {
+            List n = new ArrayList();
+            n.add("lp");
+            n.add("kontrahent");
+            n.add("rodzaj dok.");
+            n.add("nr dok.");
+            n.add("data");
+            n.add("zapłata");
+            n.add("faktura");
+            n.add("saldo");
+            List[] tabela = new List[2];
+            tabela[0] = n;
+            tabela[1] = wiersze;
+            return tabela;
+        }
    }
     
      public static List[] getTabelaTransakcje(List<Transakcja> wiersze) {
