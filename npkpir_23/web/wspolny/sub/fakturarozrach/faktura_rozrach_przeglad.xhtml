@@ -21,13 +21,13 @@
                          emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
-                <p:column width="30">
+                <p:column width="30" sortBy="#{item.lp}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="lp"/>
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="280">
+                <p:column width="280" sortable="true" sortBy="#{item.kontrahent}">
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
@@ -39,7 +39,7 @@
                     </f:facet>
                     <h:outputText value="#{item.wprowadzil.login}"/>
                 </p:column>
-                <p:column width="70" style="text-align: center;">
+                <p:column width="70" style="text-align: center;" sortable="true" sortBy="#{item.data}">
                     <f:facet name="header">
                         <h:outputText value="data"/>
                     </f:facet>
@@ -87,7 +87,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="90" style="text-align: center;">
+                <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
@@ -100,7 +100,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column width="90" style="text-align: center;">
+                <p:column width="90" style="text-align: center;" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="korekta"/>
                     </f:facet>

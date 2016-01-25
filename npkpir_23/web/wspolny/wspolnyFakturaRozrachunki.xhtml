@@ -11,19 +11,40 @@
         </ui:define>
         <ui:define name="body">
             <f:view contentType="text/html">
-                
+
                 <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
-                        <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                        <ui:include src="sub/layoutFakturaRozrachunki/west.xhtml"/>   <!-- panel zachodni-->
+                    <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
+                    <ui:include src="sub/layoutFakturaRozrachunki/west.xhtml" rendered="#{facesContext.externalContext.isUserInRole('Bookkeeper')}"/>   <!-- panel zachodni-->
+                    <ui:include src="sub/layoutFakturaRozrachunkiManager/west.xhtml" rendered="#{facesContext.externalContext.isUserInRole('Manager')}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
-                        
+
                         <p:panel toggleable="true" closable="true" style="width: 1000px;"  rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
                             <f:facet name="header">
                                 <h:outputText value="Strona służy do księgowania zapłat za faktury dla firmy #{WpisView.podatnikWpisu} i przeglądania rozrachunków"/>
                             </f:facet>
                         </p:panel>
-                        <ui:include src="sub/menu_wiad.xhtml"/> 
+                        <ui:include src="sub/menu_wiad.xhtml"/>
+                        <h:form>
+                            <p:panelGrid columns="4" style="margin-left: 0%;" rendered="#{facesContext.externalContext.isUserInRole('Manager')}">
+                                <h:outputLabel value="#{mgs['nazwa.podatnika']}"/>
+                                <h:outputLabel value="#{mgs.rok}"/>
+                                <h:outputLabel value="#{mgs.mc}"/>
+                                <h:outputLabel value=""/>
+                                <p:selectOneMenu id="podatnikWpisu" value="#{WpisView.podatnikWpisu}" style="width: 250px;" >
+                                    <f:selectItems value="#{podatnikWyborView.listaPodatnikowNoFK}" var="p" itemLabel="#{p.nazwapelna}" itemValue="#{p.nazwapelna}"/>
+                                    <p:ajax event="change"  listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon" />
+                                </p:selectOneMenu>
+                                <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}">
+                                    <f:selectItems value="#{Roki.rokiList}"/>
+                                    <p:ajax event="change" listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon" />
+                                </p:selectOneMenu>
+                                <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
+                                    <f:selectItems value="#{Mce.mceList}"/>
+                                    <p:ajax event="change" listener="#{fakturaRozrachunkiView.aktualizuj}" update=":akordeon"/>
+                                </p:selectOneMenu>
+                            </p:panelGrid>
+                        </h:form>
                         <ui:include src="sub/fakturarozrachunki.xhtml"/>   <!-- właściwa tablica z danymi z księgi-->
                     </p:layoutUnit>
                 </p:layout>

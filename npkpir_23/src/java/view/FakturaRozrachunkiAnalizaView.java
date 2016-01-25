@@ -66,7 +66,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         klienci.addAll(pobierzkontrahentow());
         Collections.sort(klienci, new Kliencicomparator());
         if (klienci != null) {
@@ -230,6 +230,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             pobierzwszystko(wpisView.getMiesiacWpisu());
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
+                if (r.getSaldo() == 674.0) {
+                    System.out.println("");
+                }
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
                     saldanierozliczone.add(r);

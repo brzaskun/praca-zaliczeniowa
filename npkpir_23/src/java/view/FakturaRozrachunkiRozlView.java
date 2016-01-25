@@ -49,7 +49,7 @@ public class FakturaRozrachunkiRozlView  implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {

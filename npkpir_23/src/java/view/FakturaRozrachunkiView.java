@@ -7,8 +7,10 @@ package view;
 
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import dao.WpisDAO;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
+import entity.Wpis;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +23,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -39,10 +43,16 @@ public class FakturaRozrachunkiView  implements Serializable {
     private FakturaRozrachunki selected;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{fakturaRozrachunkiRozlView}")
+    private FakturaRozrachunkiRozlView fakturaRozrachunkiRozlView;
+    @ManagedProperty(value = "#{fakturaRozrachunkiAnalizaView}")
+    private FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView;
     @Inject
     private FakturaDAO fakturaDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
+    @Inject 
+    private WpisDAO wpisDAO;
 
     public FakturaRozrachunkiView() {
         klienci = new ArrayList<>();
@@ -50,7 +60,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         klienci.addAll(pobierzkontrahentow());
         if (klienci != null) {
             for (Iterator<Klienci> it = klienci.iterator(); it.hasNext();) {
@@ -149,6 +159,21 @@ public class FakturaRozrachunkiView  implements Serializable {
         fakturaRozrachunkiDAO.edit((FakturaRozrachunki) event.getObject());
     }
     
+    public void aktualizuj(){
+        HttpSession sessionX = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        String user = (String) sessionX.getAttribute("user");
+        Wpis wpistmp = wpisDAO.find(user);
+        wpistmp.setMiesiacWpisu(wpisView.getMiesiacWpisu());
+        wpistmp.setRokWpisu(wpisView.getRokWpisu());
+        wpistmp.setRokWpisuSt(String.valueOf(wpisView.getRokWpisu()));
+        wpistmp.setPodatnikWpisu(wpisView.getPodatnikWpisu());
+        wpisDAO.edit(wpistmp);
+        wpisView.naniesDaneDoWpis();
+        init();
+        fakturaRozrachunkiRozlView.init();
+        fakturaRozrachunkiAnalizaView.init();
+    }
+    
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {
         return klienci;
@@ -172,6 +197,22 @@ public class FakturaRozrachunkiView  implements Serializable {
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public FakturaRozrachunkiRozlView getFakturaRozrachunkiRozlView() {
+        return fakturaRozrachunkiRozlView;
+    }
+
+    public void setFakturaRozrachunkiRozlView(FakturaRozrachunkiRozlView fakturaRozrachunkiRozlView) {
+        this.fakturaRozrachunkiRozlView = fakturaRozrachunkiRozlView;
+    }
+
+    public FakturaRozrachunkiAnalizaView getFakturaRozrachunkiAnalizaView() {
+        return fakturaRozrachunkiAnalizaView;
+    }
+
+    public void setFakturaRozrachunkiAnalizaView(FakturaRozrachunkiAnalizaView fakturaRozrachunkiAnalizaView) {
+        this.fakturaRozrachunkiAnalizaView = fakturaRozrachunkiAnalizaView;
     }
     
     
