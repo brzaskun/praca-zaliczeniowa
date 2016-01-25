@@ -46,6 +46,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private List<FakturaPodatnikRozliczenie> nowepozycje;
     private List<FakturaPodatnikRozliczenie> archiwum;
     private List<FakturaPodatnikRozliczenie> saldanierozliczone;
+    private double sumasaldnierozliczonych;
     private List<FakturaPodatnikRozliczenie> selectedrozliczenia;
     @Inject
     private FakturaRozrachunki selected;
@@ -224,6 +225,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void zestawieniezbiorcze() {
         int i = 1;
+        sumasaldnierozliczonych = 0.0;
         for (Klienci p : klienci) {
             szukanyklient = p;
             pobierzwszystko(wpisView.getMiesiacWpisu());
@@ -232,6 +234,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
                     saldanierozliczone.add(r);
+                    sumasaldnierozliczonych += r.getSaldo();
                 }
             }
         }
@@ -272,6 +275,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setSzukanyklient(Klienci szukanyklient) {
         this.szukanyklient = szukanyklient;
+    }
+
+    public double getSumasaldnierozliczonych() {
+        return sumasaldnierozliczonych;
+    }
+
+    public void setSumasaldnierozliczonych(double sumasaldnierozliczonych) {
+        this.sumasaldnierozliczonych = sumasaldnierozliczonych;
     }
 
     public FakturaRozrachunki getSelected() {

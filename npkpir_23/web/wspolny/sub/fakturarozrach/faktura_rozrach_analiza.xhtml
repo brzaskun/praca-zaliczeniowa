@@ -34,7 +34,7 @@
                 }
             </style>
 
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1100px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1150px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -64,6 +64,12 @@
                         <h:outputText value="data"/>
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
+                </p:column>
+                 <p:column width="120">
+                    <f:facet name="header">
+                        <h:outputText value="dokument"/>
+                    </f:facet>
+                     <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
                 </p:column>
                 <p:column width="90">
                     <f:facet name="header">

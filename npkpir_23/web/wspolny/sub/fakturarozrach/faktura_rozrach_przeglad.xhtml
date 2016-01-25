@@ -17,7 +17,7 @@
         </style>
         <h:form id="fakturarozliczenia">
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci(WpisView.miesiacWpisu)}" update="fakturarozliczenia" global="false"/>
-                <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1100px; margin-top: 20px;"
+                <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1200px; margin-top: 20px;"
                              emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}"
                              widgetVar="fakturarozliczenia_tablica">
                     <p:column width="30">
@@ -59,7 +59,7 @@
                         </f:facet>
                         <h:outputText value="#{item.rodzajdokumentu}"/>
                     </p:column>
-                    <p:column width="40">
+                    <p:column width="100">
                         <f:facet name="header">
                             <h:outputText value="nr"/>
                         </f:facet>

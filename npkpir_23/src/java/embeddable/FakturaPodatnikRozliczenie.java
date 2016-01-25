@@ -30,7 +30,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
-        this.faktura0rozliczenie1 = true;
+        this.faktura0rozliczenie1 = !p.isZaplata0korekta1();
         this.rok = p.getRok();
         this.mc = p.getMc();
         this.data = p.getData();

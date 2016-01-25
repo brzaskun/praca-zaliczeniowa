@@ -60,10 +60,10 @@ public class PdfVatUE {
 
     public static void drukujewidencje(List<VatUe> lista, WpisView wpisView) throws DocumentException, FileNotFoundException, IOException {
         Podatnik podatnik = wpisView.getPodatnikObiekt();
+        Document document = new Document();
         try {
             List<Parametr> param = podatnik.getVatokres();
             //problem kwartalu
-            Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("VATUE" + wpisView.getPodatnikWpisu() + ".pdf"));
             writer.setInitialLeading(16);
             document.addTitle("VAT-UE dokumenty");
@@ -103,8 +103,8 @@ public class PdfVatUE {
                     table.setHeaderRows(1);
                     table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
-                    String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajkod(), "center", 8));
+                    //String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
+                    table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajnazwa(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
@@ -124,6 +124,7 @@ public class PdfVatUE {
             document.add(new Paragraph("sporządził", fontS));
             document.close();
         } catch (Exception e) {
+            document.close();
             E.e(e);
         }
         RequestContext.getCurrentInstance().execute("wydrukvatue('" + wpisView.getPodatnikWpisu() + "');");
@@ -333,21 +334,26 @@ public class PdfVatUE {
     //</editor-fold>
 
     public static void drukujewidencjeTabela(List<VatUe> listawybranych, WpisView wpisView) {
-        String nazwa = wpisView.getPodatnikObiekt().getNip()+"vateutabela";
-        File file = Plik.plik(nazwa, true);
-        if (file.isFile()) {
-            file.delete();
-        }
         Document document = inicjacjaA4Portrait();
-        PdfWriter writer = inicjacjaWritera(document, nazwa);
-        naglowekStopkaP(writer);
-        otwarcieDokumentu(document, nazwa);
-        dodajOpisWstepny(document, String.format("Ewidencja dokument\u00f3w VAT-UE %s", wpisView.getPodatnikWpisu()), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
-        czyjestpodsumowanie(listawybranych);
-        dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100,0);
-        finalizacjaDokumentu(document);
-        String f = "pokazwydruk('"+nazwa+"');";
-        RequestContext.getCurrentInstance().execute(f);
+        try {
+            String nazwa = wpisView.getPodatnikObiekt().getNip() + "vateutabela";
+            File file = Plik.plik(nazwa, true);
+            if (file.isFile()) {
+                file.delete();
+            }
+            PdfWriter writer = inicjacjaWritera(document, nazwa);
+            naglowekStopkaP(writer);
+            otwarcieDokumentu(document, nazwa);
+            dodajOpisWstepny(document, String.format("Ewidencja dokument\u00f3w VAT-UE %s", wpisView.getPodatnikWpisu()), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
+            czyjestpodsumowanie(listawybranych);
+            dodajTabele(document, testobjects.testobjects.getEwidencjaVATUE(listawybranych), 100, 0);
+            finalizacjaDokumentu(document);
+            String f = "pokazwydruk('" + nazwa + "');";
+            RequestContext.getCurrentInstance().execute(f);
+        } catch (Exception e) {
+            E.e(e);
+            document.close();
+        }
     }
 
     private static void czyjestpodsumowanie(List<VatUe> listawybranych) {
