@@ -286,7 +286,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony ") + " " + mc + "/" + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniony") + " " + mc + "/" + rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {
@@ -301,7 +301,7 @@ public class PdfMain {
             opiswstepny.setAlignment(Element.ALIGN_CENTER);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
-            opiswstepny = new Paragraph(new Phrase(B.b("rok ") + rok, ft[1]));
+            opiswstepny = new Paragraph(new Phrase(B.b("okresrozliczeniowyrok") +" "+ rok, ft[1]));
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
         } catch (DocumentException ex) {

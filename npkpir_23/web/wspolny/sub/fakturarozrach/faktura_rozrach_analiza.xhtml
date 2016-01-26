@@ -34,7 +34,7 @@
                 }
             </style>
 
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1150px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 900px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -46,12 +46,6 @@
                         <h:outputText value="lp"/>
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
-                </p:column>
-                <p:column width="280" sortable="true" sortBy="#{item.kontrahent}">
-                    <f:facet name="header">
-                        <h:outputText value="kontrahent"/>
-                    </f:facet>
-                    <h:outputText value="#{item.kontrahent}"/>
                 </p:column>
                 <p:column width="100">
                     <f:facet name="header">
@@ -96,7 +90,7 @@
             </p:dataTable>
         </h:form>
         <h:form id="analizaarchiwum">
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 1150px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 900px; margin-top: 20px;"
                          emptyMessage="niczego nie zarchiwizowane dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -109,19 +103,11 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="280">
-                    <f:facet name="header">
-                        <h:outputText value="kontrahent"/>
-                    </f:facet>
-                    <h:outputText value="#{item.faktura.kontrahent}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
-                    <h:outputText value="#{item.rozliczenie.kontrahent}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
-                </p:column>
-                <p:column width="100">
+                 <p:column width="100">
                     <f:facet name="header">
                         <h:outputText value="wprowadzil"/>
                     </f:facet>
-                    <h:outputText value="#{item.faktura.autor}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
-                    <h:outputText value="#{item.rozliczenie.wprowadzil.login}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
+                    <h:outputText value="#{item.wprowadzil}"/>
                 </p:column>
                 <p:column width="70">
                     <f:facet name="header">

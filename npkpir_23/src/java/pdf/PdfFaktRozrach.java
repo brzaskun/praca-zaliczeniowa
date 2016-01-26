@@ -38,7 +38,7 @@ public class PdfFaktRozrach {
             PdfWriter writer = inicjacjaWritera(document, nazwa);
             naglowekStopkaP(writer);
             otwarcieDokumentu(document, nazwa);
-            dodajOpisWstepny(document, "Rozrachunki  "+wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            dodajOpisWstepny(document, "Rozrachunki  "+wpisView.getPodatnikObiekt().getNazwadlafaktury(), wpisView.getRokWpisuSt());
             dodajLinieOpisu(document, "kontrahent "+szukanyklient.getNpelna());
             dodajTabele(document, testobjects.testobjects.getFakturaRozrachunki(nowepozycje, 0),90,0);
             finalizacjaDokumentu(document);

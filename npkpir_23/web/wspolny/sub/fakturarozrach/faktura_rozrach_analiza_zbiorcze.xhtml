@@ -28,7 +28,7 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1200px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1000px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" 
                          >
                 <f:facet name="header">
@@ -45,12 +45,6 @@
                         <h:outputText value="kontrahent"/>
                     </f:facet>
                     <h:outputText value="#{item.kontrahent}"/>
-                </p:column>
-                <p:column width="190">
-                    <f:facet name="header">
-                        <h:outputText value="email"/>
-                    </f:facet>
-                    <h:outputText value="#{item.kontrahentEmail}"/>
                 </p:column>
                 <p:column width="70" sortBy="#{item.data}" sortable="true">
                     <f:facet name="header">
