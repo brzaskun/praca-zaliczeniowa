@@ -705,15 +705,14 @@ public class PlanKontView implements Serializable {
     }
 
     public void usun(String klientWzor) {
-        Konto dousuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
+        Konto kontoDoUsuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
         String podatnik = null;
         if (klientWzor.equals("W")) {
             podatnik = "Wzorcowy";
         } else {
             podatnik = wpisView.getPodatnikWpisu();
         }
-        if (dousuniecia != null) {
-            Konto kontoDoUsuniecia = dousuniecia;
+        if (kontoDoUsuniecia != null) {
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
             } else if (kontoDoUsuniecia.isMapotomkow() == true && !kontoDoUsuniecia.getNrkonta().equals("0")) {
@@ -744,20 +743,11 @@ public class PlanKontView implements Serializable {
                         }
                     } else {
                         boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
-                        List<Konto> siostry = null;
                         Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
-                        if (klientWzor.equals("W")) {
-                            siostry = kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
-                        } else {
-                            siostry = kontoDAOfk.findKontaPotomnePodatnik( wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
-                        }
+                        List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
                         if (siostry.size() < 1) {
                         //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
-                            if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
-                                kontomacierzyste.setBlokada(false);
-                                kontomacierzyste.setMapotomkow(false);
-                                kontoDAOfk.edit(kontomacierzyste);
-                            }
+                            odznaczmacierzyste(sadzieci, kontomacierzyste, kontoDoUsuniecia);
                         }
                     }
                     Msg.msg("i", "Usuwam konto");
@@ -770,18 +760,33 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         }
     }
+    
+    private List<Konto> sprawdzczysasiostry(String klientWzor, Konto kontomacierzyste) {
+        if (klientWzor.equals("W")) {
+            return kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
+        } else {
+            return kontoDAOfk.findKontaPotomnePodatnik( wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
+        }
+    }
+    
+    private void odznaczmacierzyste(boolean sadzieci, Konto kontomacierzyste, Konto kontoDoUsuniecia) {
+        if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
+            kontomacierzyste.setBlokada(false);
+            kontomacierzyste.setMapotomkow(false);
+            kontoDAOfk.edit(kontomacierzyste);
+        }
+    }
 
     public void obslugaBlokadyKonta() {
         try {
             if (selectednodekonto != null) {
-                Konto konto = selectednodekonto;
-                if (konto.isBlokada() == false) {
-                    konto.setBlokada(true);
-                    kontoDAOfk.edit(konto);
+                if (selectednodekonto.isBlokada() == false) {
+                    selectednodekonto.setBlokada(true);
+                    kontoDAOfk.edit(selectednodekonto);
                     Msg.msg("w", "Zabezpieczono konto przed edycją.");
-                } else if (konto.isBlokada() == true) {
-                    konto.setBlokada(false);
-                    kontoDAOfk.edit(konto);
+                } else if (selectednodekonto.isBlokada() == true) {
+                    selectednodekonto.setBlokada(false);
+                    kontoDAOfk.edit(selectednodekonto);
                     Msg.msg("w", "Odblokowano edycję konta.");
                 }
             } else {
