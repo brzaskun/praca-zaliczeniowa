@@ -60,12 +60,15 @@ var dolaczwyliczenieKopiowanie = function() {
             r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
                 if (event.which === 107) {
                     var roznica;
-                    var odjema = zrobFloat($(this).val());
-                    var odjemna = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
-                    roznica = odjemna - odjema;
-                    $(this).val(Math.abs(roznica));
-                    r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(roznica));
+                    var czesciowa = zrobFloat($(this).val());
+                    var calosc = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
+                    roznica = calosc - czesciowa;
+                    r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val(Math.abs(roznica));
+                    r("dodWiad:tabelapkpir:0:kwotaPkpir_hinput").val(Math.abs(roznica));
                     event.preventDefault();
+                    event.stopPropagation();
+                    event.stopImmediatePropagation();
+                    r("dodWiad:tabelapkpir:0:kwotaPkpir_input").blur();
                 }
             });
         } catch (ec) {

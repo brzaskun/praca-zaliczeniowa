@@ -42,45 +42,48 @@
                     <p:panelGrid id="rejestrowaniepanel" columns="2" style="text-align: center; margin-left: auto; margin-right: auto;">
                             <h:outputText value="#{mgs.imię}"/>
                             <p:inputText id="imie" value="#{UzView.selUzytkownik.imie}" title="#{mgs.wpiszimie}"  required="true" requiredMessage="#{mgs.wpiszimie}!" autocomplete="true" >
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputText>
                             <h:outputText value="#{mgs.nazwisko}"/>
                             <p:inputText id="nazwisko" value="#{UzView.selUzytkownik.nazw}" title="#{mgs.wpisznazwisko}" required="true" requiredMessage="#{mgs.wpisznazwisko}!" autocomplete="true">
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputText>
                             <h:outputText value="#{mgs.login}"/>
-                            <p:inputText id="login" value="#{UzView.selUzytkownik.login}" title="#{mgs.wpiszlogin}" required="true" requiredMessage="#{mgs.wpiszlogin}!" autocomplete="true">
+                            <p:inputText id="login" value="#{UzView.selUzytkownik.login}" title="#{mgs.wpiszlogin}" 
+                                         required="true" requiredMessage="#{mgs.wpiszlogin}!" autocomplete="true">
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="blur" partialSubmit="true" listener="#{UzView.sprawdzloginduplikat}" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" listener="#{UzView.sprawdzloginduplikat}" global="false"/>
                             </p:inputText>
                             <h:outputText value="#{mgs.email}"/>
-                            <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" requiredMessage="#{mgs.wpiszemail}!" autocomplete="true"  validatorMessage="#{mgs.nieprawidlowymail}">
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                            <p:inputText id="email" value="#{UzView.selUzytkownik.email}" required="true" title="#{mgs.wpiszemail}"
+                                         requiredMessage="#{mgs.wpiszemail}!" autocomplete="true"  validatorMessage="#{mgs.nieprawidlowymail}">
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                                 <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                             </p:inputText>
                             <h:outputText value="#{mgs.nipfirmy}"/>
-                            <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" validatorMessage="#{mgs.zakrotkinip}">
+                            <p:inputText id="nipfirmy" value="#{UzView.selUzytkownik.firma}" required="true" title="#{mgs.wpisznip}"
+                                         requiredMessage="#{mgs.wpisznip}!" autocomplete="true" maxlength="10" validatorMessage="#{mgs.zakrotkinip}">
                                 <f:validateLength minimum="10"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:inputText>
                             <h:outputText value="#{mgs.wersjajezykowa}"/>
                             <p:selectOneMenu value="#{UzView.selUzytkownik.locale}">
                                 <f:selectItem itemValue="pl" itemLabel="pl"/>
                                 <f:selectItem itemValue="de" itemLabel="de"/>
                                 <f:selectItem itemValue="en" itemLabel="en"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:selectOneMenu>
                             <h:outputText value="#{mgs.haslo}"/>
                             <p:password id="turkishFeedback" value="#{UzView.selUzytkownik.haslo}" feedback="true"   
                                         promptLabel="#{mgs.wprowadzhaslo}" weakLabel="#{mgs.słabe}"  validatorMessage="#{mgs.hasloskladasie}"
                                         goodLabel="#{mgs.akceptowalne}" strongLabel="#{mgs.mocne}" required="true" requiredMessage="#{mgs.wprowadzhaslo}!" autocomplete="true"> 
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false"/>
+                                <p:ajax event="change" partialSubmit="true" global="false"/>
                             </p:password>
                             <h:outputText value="#{mgs.potwierdzhaslo}"/>
                             <p:password id="haslo2" value="#{UzView.confPassword}" title="#{mgs.haslazgodne}" validatorMessage="#{mgs.hasloskladasie}" required="true" requiredMessage="#{mgs.wpiszpotwierdzenie}!" autocomplete="true" >
                                 <f:validateLength minimum="6"/>
-                                <p:ajax event="blur" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}"/>
+                                <p:ajax event="change" partialSubmit="true" global="false" listener="#{UzView.sprawdzidentycznoschasel}"/>
                             </p:password>
                     </p:panelGrid>
                     <br/>
