@@ -112,10 +112,11 @@ public class WalutyViewFK implements Serializable {
             tabelanbp.setRecznie(true);
             tabelanbpDAO.dodaj(tabelanbp);
             wprowadzonekursyRok.add(tabelanbp);
-            tabelanbp = null;
+            kurswprowadzonyrecznie = new Tabelanbp();
             Msg.msg("Dodałem tabelę NBP");
             RequestContext.getCurrentInstance().update("formkursrecznie");
-        } catch (Exception e) {  E.e(e);
+        } catch (Exception e) {  
+            E.e(e);
             List<Tabelanbp> kursypokrewne = new ArrayList<>();
             for (Tabelanbp p : wprowadzonekursyRok) {
                 if (p.getNrtabeli().contains(tabelanbp.getNrtabeli().substring(3))) {

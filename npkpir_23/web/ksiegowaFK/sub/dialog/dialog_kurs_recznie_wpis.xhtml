@@ -10,6 +10,7 @@
               resizable="false"  onShow="ustawdialog('dialogkursrecznie','dialogpierwszy',800,550);" closeOnEscape="true" 
               onHide="resetujdialog('dialogkursrecznie');" >
         <h:form id="formkursrecznie">
+            <p:focus for="formkursrecznie:dataKursReczny"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 720px;">
                 <p:column headerText="nr tabeli" width="120" style="text-align: center; height: 25px;">
                     <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
@@ -32,14 +33,16 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update="@form, :formwpisdokument:panelTabelaNBP, :wprowadzonekursyrecznie"
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update=":formkursrecznie, :formwpisdokument:panelTabelaNBP, :wprowadzonekursyrecznie"
                                      />
                 </p:column>
             </p:dataTable>
         </h:form>
       <h:form id="wprowadzonekursyrecznie">
+      
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
-                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="350" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}">
+                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="350" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
+                         sortBy="#{wpis.datatabeli}" sortOrder="descending">
                 <p:ajax event="filter" global="false"/>
                  <f:facet name="header">  
                     <h:outputText value="Zestawienie zaksięgowanych tabel nieNBP " />  
