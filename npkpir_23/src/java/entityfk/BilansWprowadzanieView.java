@@ -642,7 +642,7 @@ public class BilansWprowadzanieView implements Serializable {
     
     private void edytujwiersze(Dokfk nd) {
         List<Wiersz> wiersze = nd.getListawierszy();
-        int idporzadkowy = 1;
+        int idporzadkowy = wiersze.size()+1;
         Set<Integer> numerylist = listazbiorcza.keySet();
         for (Integer r : numerylist) {
             List<WierszBO> listabiezaca = listazbiorcza.get(r);
@@ -708,7 +708,10 @@ public class BilansWprowadzanieView implements Serializable {
     private boolean niezawierategokonta(List<Wiersz> wiersze, WierszBO w) {
         boolean niezawiera = true;
         for (Wiersz p : wiersze) {
-            p.jest0niejest1(w);
+            if (p.jest0niejest1(w) == false) {
+                niezawiera = false;
+                break;
+            }
         }
         return niezawiera;
     }

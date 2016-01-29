@@ -25,8 +25,9 @@
         }
 
     </style>
-    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  modal="true" appendTo="@(body)"
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 600);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
+    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  
+              appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 630);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
               maximizable="true">
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
@@ -573,7 +574,7 @@
                     </p:dataTable>
                 </p:tab>
             </p:tabView>
-            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px;">
+            <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
                 <p:column>
                     <p:commandButton value="zapisz kwoty i konta" actionListener="#{bilansWprowadzanieView.zapiszBilansBOdoBazy()}" style="width: 120px;" update=":formbilanswprowadzanie:tabviewbilans:tablicasuma, :formbilanswprowadzanie:kwotysum" >
                     </p:commandButton>
@@ -593,6 +594,12 @@
                         </bcf:outputpl>
                         <h:outputText value="Wprowadzenie dwóch i więcej zapisów na tym samym koncie wymaga podania różnych opisów!" style="margin-left: 10px;"/>
                     </p:panelGrid>
+                   
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="1">
+                <p:column>
+                    <h:outputText value="Uwaga! Nie można zmieniać kwoty konta w dokumenie BO. Należy usunąć konto. Wyedytować dokument. Wprowadzić konto z nową wartością"/>
                 </p:column>
             </p:panelGrid>
         </h:form>
