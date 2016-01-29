@@ -50,8 +50,8 @@
             </p:panelGrid>
             <h:outputText value="wpisz dane"/><br/>
             <p:panelGrid id="parametryp9" columns="4" >
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.udzialy.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <h:outputText value="miesiąc od: "/><h:selectOneMenu value="#{podatnikView.udzialy.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.udzialy.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
+                <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.udzialy.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
                 <h:outputText value="nazwisko i imie"/><h:inputText value="#{podatnikView.udzialy.nazwiskoimie}"/>
                 <h:outputText value="nip"/><h:inputText value="#{podatnikView.udzialy.nip}"/>
                 <h:outputText value="udział - 100=100%"/><h:inputText value="#{podatnikView.udzialy.udzial}"/>

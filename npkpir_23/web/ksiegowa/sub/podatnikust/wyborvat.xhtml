@@ -27,12 +27,12 @@
                 </p:panelGrid>
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <p:panelGrid id="parametryp1" columns="5" >
-                    <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                    <h:outputText value="miesiąc od: "/><h:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-                    <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                    <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
+                    <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                    <p:selectOneMenu value="#{podatnikView.parametr.parametr}" >
                         <f:selectItem itemValue="miesięczne"/> 
                         <f:selectItem itemValue="kwartalne"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                 </p:panelGrid>
                 <br/>
                 <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

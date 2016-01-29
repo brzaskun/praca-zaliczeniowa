@@ -5,7 +5,8 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
-    xmlns:pe="http://primefaces.org/ui/extensions">
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
     <p:tab title="Wartości kwoty autoryzującej">  
         <h:form id="form4a" >
             <h:outputText value="Wartości kwoty autoryzującej dla roku podatowego" style="font-size: 15px"/>
@@ -13,22 +14,27 @@
             <p:focus for="parametrypodatnika3a"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.kwotaautoryzujaca}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                    <h:outputText value="od: " />
-                    <h:outputText value="#{loop.mcOd}-" />
-                    <h:outputText value="#{loop.rokOd}" />
-                    <h:outputText value="  do: " />
-                    <h:outputText value="#{loop.mcDo}-" />
-                    <h:outputText value="#{loop.rokDo}" />
-                    <h:outputText value=" kwota autoryzująca: " />
-                    <h:outputText value="#{loop.parametr}" />
-                    <br/>
-                </p:dataList>
+                <p:dataTable value="#{podatnikView.selected.kwotaautoryzujaca}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                    <p:column headerText="od">
+                        <h:outputText value="#{loop.mcOd}-" />
+                        <h:outputText value="#{loop.rokOd}" />
+                    </p:column>
+                    <p:column headerText="do">
+                        <h:outputText value="#{loop.mcDo}-" />
+                        <h:outputText value="#{loop.rokDo}" />
+                    </p:column>
+                    <p:column headerText="kwota autoryzująca">
+                        <bcf:outputpl value="#{loop.paramentrNumb}"/>
+                    </p:column>
+                </p:dataTable>
             </p:panelGrid>
             <h:outputText value="wybierz parametry aktualne"/><br/>
             <p:panelGrid id="parametrypodatnika3a" columns="4" >
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <h:inputText value="#{podatnikView.parametr.parametr}" />
+                <h:outputText value="rok podatkowy: "/>
+                <p:selectOneMenu value="#{podatnikView.parametr.rokOd}">
+                    <f:selectItems value="#{Roki.rokiListString}"/>
+                </p:selectOneMenu>
+                <p:inputText value="#{podatnikView.parametr.parametr}" />
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

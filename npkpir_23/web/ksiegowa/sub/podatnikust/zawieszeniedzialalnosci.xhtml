@@ -13,29 +13,31 @@
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.zawieszeniedzialalnosci}"  
-                            var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" emptyMessage="Brak okresów zawieszenia">
-                    <h:outputText value="od: " />
-                    <h:outputText value="#{loop.mcOd}-" />
-                    <h:outputText value="#{loop.rokOd}" />
-                    <h:outputText value="  do: " />
-                    <h:outputText value="#{loop.mcDo}-" />
-                    <h:outputText value="#{loop.rokDo}" />
-                    <h:outputText value=" status: " />
-                    <h:outputText value="#{loop.parametr}" />
-                    <br/>
-                </p:dataList>
+                <p:dataTable value="#{podatnikView.selected.zawieszeniedzialalnosci}"  
+                            var="loop"  paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" emptyMessage="Brak okresów zawieszenia">
+                    <p:column headerText="od">
+                        <h:outputText value="#{loop.mcOd}-" />
+                        <h:outputText value="#{loop.rokOd}" />
+                    </p:column>
+                    <p:column headerText="do">
+                        <h:outputText value="#{loop.mcDo}-" />
+                        <h:outputText value="#{loop.rokDo}" />
+                    </p:column>
+                    <p:column headerText="status">
+                        <h:outputText value="#{loop.parametr}"/>
+                    </p:column>
+                </p:dataTable>
             </p:panelGrid>
             <h:outputText value="wprowadz nowy okres zawieszenia"/><br/>
             <p:panelGrid id="parametrypodatnika" columns="2" >
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.parametr.rokOd}">
-                    <f:selectItems value="#{Roki.rokiList}"/>
-                </h:selectOneMenu>
-                <h:outputText value="miesiąc od: "/><h:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-                <h:outputText value="miesiąc do: "/><h:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{Mce.mceList}"/></h:selectOneMenu>
-                <h:selectOneMenu value="#{podatnikView.parametr.parametr}" >
-                    <f:selectItem itemValue="zawieszony"/> 
-                </h:selectOneMenu>
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.parametr.rokOd}">
+                    <f:selectItems value="#{Roki.rokiListString}"/>
+                </p:selectOneMenu>
+                <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <h:outputText value="miesiąc do: "/><p:selectOneMenu value="#{podatnikView.parametr.mcDo}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.parametr.parametr}" >
+                    <f:selectItem itemValue="zawieszony" itemLabel="zawieszony"/> 
+                </p:selectOneMenu>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

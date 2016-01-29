@@ -6,6 +6,8 @@ package embeddable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -19,6 +21,7 @@ import javax.faces.bean.SessionScoped;
 public class Roki implements Serializable{
 
     private static final List<Integer> rokiList;
+    private static final List<String> rokiListS;
 
     static{
         rokiList = new ArrayList<>();
@@ -26,6 +29,11 @@ public class Roki implements Serializable{
         rokiList.add(2015);
         rokiList.add(2014);
         rokiList.add(2013);
+        rokiListS = new ArrayList<>();
+        rokiListS.add("2016");
+        rokiListS.add("2015");
+        rokiListS.add("2014");
+        rokiListS.add("2013");
     }
     
     public static List<Integer> getRokiListS() {
@@ -37,6 +45,10 @@ public class Roki implements Serializable{
     
     public List<Integer> getRokiList() {
         return rokiList;
+    }
+    
+    public List<String> getRokiListString() {
+        return rokiListS;
     }
     
     public List<Integer> RokiListM(Integer biezacyrok) {

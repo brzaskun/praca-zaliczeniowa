@@ -29,8 +29,8 @@
             </p:dataTable>
             <h:outputText value="wybierz parametry aktualne"/><br/>
             <p:panelGrid id="parametrypodatnika" columns="6" >
-                <h:outputText value="rok podatkowy: "/><h:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.rokOd}"><f:selectItems value="#{Roki.rokiList}"/></h:selectOneMenu>
-                <h:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}" >
+                <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}" >
                     <f:selectItem itemValue="zasady ogólne"/> 
                     <f:selectItem itemValue="zasady ogólne bez VAT"/>
                     <f:selectItem itemValue="podatek liniowy"/>
@@ -39,11 +39,11 @@
                     <f:selectItem itemValue="ryczałt bez VAT"/>
                     <f:selectItem itemValue="księgi rachunkowe"/>
                     <f:selectItem itemValue="księgi rachunkowe bez VAT"/>
-                </h:selectOneMenu>
-                <h:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
+                </p:selectOneMenu>
+                <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
                     <f:selectItem itemLabel="miesięczne" itemValue="false"/> 
                     <f:selectItem itemLabel="kwartalne" itemValue="true"/>
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
             </p:panelGrid>
             <br/>
             <p:panelGrid columns="2" style="column-width: 350px; width: 500px">

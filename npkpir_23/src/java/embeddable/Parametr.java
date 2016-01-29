@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Embeddable;
@@ -93,6 +94,26 @@ public class Parametr implements Serializable {
 
     public String getParametr() {
         return parametr;
+    }
+    
+    public Double getParamentrNumb() {
+        double zwrot = 0;
+        try {
+            zwrot = Double.parseDouble(parametr);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
+    }
+    
+    public int getParamentrInt() {
+        int zwrot = 0;
+        try {
+            zwrot = Integer.parseInt(parametr);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
     }
 
     public void setParametr(String parametr) {

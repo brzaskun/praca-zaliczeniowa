@@ -678,6 +678,9 @@ public class PodatnikView implements Serializable {
         if (sprawdzrok(parametr, lista) == 0) {
             String tmp = parametr.getParametr();
             tmp = tmp.replace(",", ".");
+            if (tmp.contains(".") == false) {
+                tmp  = tmp + ".0";
+            }
             parametr.setParametr(tmp);
             assert tmp.contains(",") : "Nie usuwa dobrze przecinka z kwota autoryzujaca!";
             lista.add(parametr);
