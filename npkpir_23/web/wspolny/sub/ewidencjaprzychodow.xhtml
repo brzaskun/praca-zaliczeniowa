@@ -32,16 +32,19 @@
                 </p:commandButton>
                 <p:commandButton id="pkpirwysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
                 </p:commandButton>
+                 <p:commandButton  value="Drukuj rok" actionListener="#{sesjaView.dodajwydruk()}" action="#{ewidencjaPrzychodowView.drukujPKPIRrok()}" style="margin-left: 100px; width: 120px;">
+                </p:commandButton>
             </p:panel>
              <p:hotkey bind="down"  onstart="przejdzwierszK();"/>
             <p:hotkey bind="up"   onstart="wrocwierszK();"/>
             <p:dataTable  var="wpis" value="#{ewidencjaPrzychodowView.lista}" id="dokumentyKsiega" 
-                          rowKey="#{wpis.idDok}" selection="#{ewidencjaPrzychodowView.selDokument}" selectionMode="single" filteredValue="#{ewidencjaPrzychodowView.listaFiltered}"
+                          rowKey="#{wpis.idDok}" selection="#{ewidencjaPrzychodowView.selDokument}" selectionMode="single" 
+                          filteredValue="#{ewidencjaPrzychodowView.listaFiltered}"
                           emptyMessage="W danym miesiącu nie było żadnych zapisów"
-                          style="width: 100%; height: 800px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
+                          style="width: 1400px; height: 600px; overflow-y: scroll;" widgetVar="dokKsiega"  styleClass="grid" 
                           > 
                 <f:facet name="header">  
-                    <h:outputText value="Podatkowa księga przychodów i rozchodów" />
+                    <h:outputText value="Ewidencja przychodów" />
                     <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokKsiega').filter()" style="width:250px" placeholder="wyszukiwane wyrażenie" />  
                 </f:facet>
@@ -52,7 +55,7 @@
                         <p:column rowspan="2" headerText="Data zdarzenia gosp." width="50"/>  
                         <p:column rowspan="2" headerText="Nr dowodu księgowego" width="90"/>  
                         <p:column colspan="2" headerText="#{mgs.kontrahent}" width="250"/>  
-                        <p:column colspan="5" headerText="Przychody wg stawki" width="500"/>
+                        <p:column colspan="5" headerText="Przychody wg stawki" width="400"/>
                         <p:column rowspan="2" headerText="Razem przychód (5+6+7+8+9)"  width="90"/>  
                         <p:column rowspan="2" headerText="Uwagi" width="60"/>  
                         <p:column colspan="1" headerText="Kwota przychodu wg stawki" width="60"/>
@@ -79,9 +82,10 @@
                         <p:column headerText="8" filterBy="#{wpis.kolumna7}" filterMatchMode="contains" sortBy="#{wpis.kolumna7}"  filterStyle="display: none;"/>  
                         <p:column headerText="9" filterBy="#{wpis.kolumna8}" filterMatchMode="contains" sortBy="#{wpis.kolumna8}" filterStyle="display: none;"/>  
                         <p:column headerText="10" filterBy="#{wpis.kolumna9}" filterMatchMode="contains" sortBy="#{wpis.kolumna9}" filterStyle="display: none;"/>  
-                        <p:column headerText="11" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>  
-                        <p:column headerText="12" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
-                        <p:column headerText="13"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
+                        <p:column headerText="11" filterBy="#{wpis.kolumna11}" filterMatchMode="contains" sortBy="#{wpis.kolumna11}" filterStyle="display: none;"/>  
+                        <p:column headerText="12"  filterBy="#{wpis.uwagi}" filterMatchMode="contains" sortBy="#{wpis.uwagi}"  filterStyle="display: none;"/>  
+                        <p:column headerText="13" filterBy="#{wpis.kolumna10}" filterMatchMode="contains" sortBy="#{wpis.kolumna10}" filterStyle="display: none;"/>
+                        
                     </p:row>
                 </p:columnGroup>  
                 <p:column style="height: 40px;" width="40"> 
@@ -121,12 +125,13 @@
                 <p:column id="pkpirKolColumn13" headerText="kolumna">  
                     <h:outputText value="#{wpis.kolumna11}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
                 </p:column>
-                <p:column id="pkpirKolColumn12" headerText="kolumna" >  
-                    <h:outputText value="#{wpis.kolumna10 ne 0.0 ? wpis.kolumna10 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
-                </p:column>
                 <p:column id="uwagaColumn" headerText="uwagi">  
                     <h:outputText value="#{wpis.uwagi}" />
                 </p:column>
+                <p:column id="pkpirKolColumn12" headerText="kolumna" >  
+                    <h:outputText value="#{wpis.kolumna10 ne 0.0 ? wpis.kolumna10 : null}"   style=" float: right;"><f:convertNumber minFractionDigits="2" locale="PL"/></h:outputText>
+                </p:column>
+                
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" width="300" resizable="true">  
                         <p:dataTable var="subwpis" value="#{wpis.ewidencjaVAT1}" emptyMessage="dokument bez vat"  resizableColumns="true" style="width: 600px;">

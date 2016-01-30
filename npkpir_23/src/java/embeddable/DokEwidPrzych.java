@@ -4,6 +4,7 @@
  */
 package embeddable;
 
+import entity.Dok;
 import entity.EVatwpis1;
 import entity.Klienci;
 import java.io.Serializable;
@@ -45,6 +46,28 @@ public class DokEwidPrzych implements Serializable {
     private List<EVatwpis1> ewidencjaVAT1;
     boolean dokumentProsty;
 
+    public DokEwidPrzych() {
+    }
+
+    public DokEwidPrzych(Dok tmp) {
+        this.setIdDok(tmp.getIdDok());
+        this.setTypdokumentu(tmp.getTypdokumentu());
+        this.setNrWpkpir(tmp.getNrWpkpir());
+        this.setNrWlDk(tmp.getNrWlDk());
+        this.setKontr(tmp.getKontr());
+        this.setPodatnik(tmp.getPodatnik());
+        this.setDataWyst(tmp.getDataWyst());
+        this.setOpis(tmp.getOpis());
+        this.setUwagi(tmp.getUwagi());
+        this.setPkpirM(tmp.getPkpirM());
+        this.setPkpirR(tmp.getPkpirR());
+        this.setVatM(tmp.getVatM());
+        this.setVatR(tmp.getVatR());
+        this.setStatus(tmp.getStatus());
+        this.setEwidencjaVAT1(tmp.getEwidencjaVAT1());
+        this.setDokumentProsty(tmp.isDokumentProsty());
+    }
+    
     public Long getIdDok() {
         return idDok;
     }

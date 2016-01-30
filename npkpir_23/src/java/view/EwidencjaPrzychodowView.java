@@ -4,11 +4,14 @@
  */
 package view;
 
+import beansDok.EwidencjaPrzychBean;
+import beansDok.KsiegaBean;
 import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokEwidPrzych;
+import embeddable.DokKsiega;
 import embeddable.Mce;
 import entity.Dok;
 import entity.Klienci;
@@ -22,7 +25,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -56,6 +61,7 @@ public class EwidencjaPrzychodowView implements Serializable {
     @Inject
     private DokDAO dokDAO;
     @Inject private WpisDAO wpisDAO;
+    private Map<String, List<DokEwidPrzych>> ksiegimiesieczne;
 
     public EwidencjaPrzychodowView() {
         lista = new ArrayList<>();
@@ -63,122 +69,7 @@ public class EwidencjaPrzychodowView implements Serializable {
 
     @PostConstruct
     private void init() {
-        Integer rok = wpisView.getRokWpisu();
-        String mc = wpisView.getMiesiacWpisu();
-        String podatnik = wpisView.getPodatnikWpisu();
-        Podatnik pod = wpisView.getPodatnikObiekt();
-        int numerkolejny = 1;
-        if (pod.getNumerpkpir() != null) {
-            try {
-                //zmienia numer gdy srodek roku
-                String wartosc = ParametrView.zwrocParametr(pod.getNumerpkpir(),rok,Mce.getMapamcyCalendar().get(mc));
-                numerkolejny = Integer.parseInt(wartosc);
-            } catch (Exception e) { 
-                E.e(e);
-                System.out.println("Brak numeru pkpir wprowadzonego w trakcie roku");
-            }
-        }
-        List<Dok> pobranedokumenty = new ArrayList<>();
-        try {
-            pobranedokumenty.addAll(dokDAO.zwrocBiezacegoKlientaRokPrzychody(podatnik, rok.toString()));
-            //sortowanie dokumentów
-            Collections.sort(pobranedokumenty, new Dokcomparator());
-        } catch (Exception e) { E.e(e); 
-        }
-        List<Dok> obiektDOKmrjsfSel = new ArrayList<>();
-        for (Dok tmpx : pobranedokumenty) {
-            tmpx.setNrWpkpir(numerkolejny++);
-            if (tmpx.getPkpirM().equals(mc)) {
-                obiektDOKmrjsfSel.add(tmpx);
-            }
-        }
-        podsumowanie.setKontr(null);
-        podsumowanie.setKolumna5(0.0);
-        podsumowanie.setKolumna6(0.0);
-        podsumowanie.setKolumna7(0.0);
-        podsumowanie.setKolumna8(0.0);
-        podsumowanie.setKolumna9(0.0);
-        podsumowanie.setKolumna10(0.0);
-        podsumowanie.setKolumna11(0.0);
-        for (Dok tmp : obiektDOKmrjsfSel) {
-            DokEwidPrzych dk = new DokEwidPrzych();
-            dk.setIdDok(tmp.getIdDok());
-            dk.setTypdokumentu(tmp.getTypdokumentu());
-            dk.setNrWpkpir(tmp.getNrWpkpir());
-            dk.setNrWlDk(tmp.getNrWlDk());
-            dk.setKontr(tmp.getKontr());
-            dk.setPodatnik(tmp.getPodatnik());
-            dk.setDataWyst(tmp.getDataWyst());
-            dk.setOpis(tmp.getOpis());
-            List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
-            for (KwotaKolumna1 tmpX : listawierszy) {
-                switch (tmpX.getNazwakolumny()) {
-                    case "20%":
-                        try {
-                            dk.setKolumna5(dk.getKolumna5()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna5(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna5(podsumowanie.getKolumna5() + tmpX.getNetto());
-                        break;
-                    case "17%":
-                        try {
-                            dk.setKolumna6(dk.getKolumna6()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna6(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna6(podsumowanie.getKolumna6() + tmpX.getNetto());
-                        break;
-                    case "8.5%":
-                        try {
-                            dk.setKolumna7(dk.getKolumna7()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna7(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna7(podsumowanie.getKolumna7() + tmpX.getNetto());
-                        break;
-                    case "5.5%":
-                        try {
-                            dk.setKolumna8(dk.getKolumna8()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna8(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna8(podsumowanie.getKolumna8() + tmpX.getNetto());
-                        break;
-                    case "3%":
-                        try {
-                            dk.setKolumna9(dk.getKolumna9()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna9(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna9(podsumowanie.getKolumna9() + tmpX.getNetto());
-                        break;
-                    case "10%":
-                        try {
-                            dk.setKolumna10(dk.getKolumna10()+tmpX.getNetto());
-                        } catch (Exception e) { E.e(e); 
-                            dk.setKolumna10(tmpX.getNetto());
-                        }
-                        podsumowanie.setKolumna10(podsumowanie.getKolumna10() + tmpX.getNetto());
-                        break;
-                }
-            }
-                double suma = dk.getKolumna5()+dk.getKolumna6()+dk.getKolumna7()+dk.getKolumna8()+dk.getKolumna9();
-                dk.setKolumna11(suma);
-                podsumowanie.setKolumna11(podsumowanie.getKolumna11() + suma);
-            dk.setUwagi(tmp.getUwagi());
-            dk.setPkpirM(tmp.getPkpirM());
-            dk.setPkpirR(tmp.getPkpirR());
-            dk.setVatM(tmp.getVatM());
-            dk.setVatR(tmp.getVatR());
-            dk.setStatus(tmp.getStatus());
-            dk.setEwidencjaVAT1(tmp.getEwidencjaVAT1());
-            dk.setDokumentProsty(tmp.isDokumentProsty());
-            lista.add(dk);
-        }
-        podsumowanie.setIdDok(new Long(1222));
-        podsumowanie.setKontr(new Klienci());
-        lista.add(podsumowanie);
+        generujksiege(wpisView.getMiesiacWpisu());
        // System.out.println("d");
     }
 
@@ -229,10 +120,54 @@ public class EwidencjaPrzychodowView implements Serializable {
     
     public void drukujPKPIR() {
         try {
-            PdfEwidencjaPrzychodow.drukujksiege(lista, wpisView);
+            PdfEwidencjaPrzychodow.drukujksiege(lista, wpisView, wpisView.getMiesiacWpisu());
         } catch (Exception e) { E.e(e); 
             
         }
+    }
+    
+    public void drukujPKPIRrok() {
+        try {
+            generujksiegirok();
+            if (ksiegimiesieczne.isEmpty() == false) {
+                PdfEwidencjaPrzychodow.drukujksiegeRok(ksiegimiesieczne, wpisView);
+            }
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+    }
+    
+    public void generujksiegirok() {
+        ksiegimiesieczne = new HashMap<>();
+        int mcint = Integer.parseInt(wpisView.getMiesiacWpisu());
+        for (int i = 1; i <= mcint; i++) {
+            lista = new ArrayList<>();
+            String mc = Mce.getNumberToMiesiac().get(i);
+            generujksiege(mc);
+            if (lista.size() > 0) {
+                ksiegimiesieczne.put(mc, lista);
+            }
+        }
+        System.out.println("wygenerowano");
+    }
+    
+    private void generujksiege(String mc) {
+        Integer rok = wpisView.getRokWpisu();
+        String podatnik = wpisView.getPodatnikWpisu();
+        Podatnik pod = wpisView.getPodatnikObiekt();
+        int numerkolejny = EwidencjaPrzychBean.pobierznumerrecznie(pod,rok,mc);
+        List<Dok> dokumentyzaMc = EwidencjaPrzychBean.pobierzdokumenty(dokDAO, podatnik, rok, mc, numerkolejny);
+        podsumowanie = EwidencjaPrzychBean.ustawpodsumowanieR();
+        for (Dok tmp : dokumentyzaMc) {
+            DokEwidPrzych dk = new DokEwidPrzych(tmp);
+            List<KwotaKolumna1> listawierszy = tmp.getListakwot1();
+                for (KwotaKolumna1 tmpX : listawierszy) {
+                    EwidencjaPrzychBean.rozliczkolumnyR(dk, tmpX, podsumowanie);
+                }
+            EwidencjaPrzychBean.rozliczkolumnysumaryczneR(dk, podsumowanie);
+            lista.add(dk);
+        }
+        lista.add(podsumowanie);
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
