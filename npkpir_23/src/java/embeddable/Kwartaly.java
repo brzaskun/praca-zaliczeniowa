@@ -23,8 +23,11 @@ public class Kwartaly implements Serializable{
 
     private static final List<String> mceList;
     private static final List<String> kwList;
+    private static final Map<Integer, String> numberToKw;
+    private static final Map<Integer, String> kwToostMc;
     private static final Map<Integer, String> mapanrkw;
     private static final Map<String, String> mapamckw;
+    private static final Map<String, Integer> mapamckwint;
     private static final Map<String, String> mapamcMcwkw;
     private static final Map<Integer, List<String>> mapakwnr;
 
@@ -48,6 +51,18 @@ public class Kwartaly implements Serializable{
         kwList.add("2");
         kwList.add("3");
         kwList.add("4");
+        
+        numberToKw = new HashMap<>();
+        numberToKw.put(1, "1");
+        numberToKw.put(2, "2");
+        numberToKw.put(3, "3");
+        numberToKw.put(4, "4");
+        
+        kwToostMc = new HashMap<>();
+        kwToostMc.put(1,"03");
+        kwToostMc.put(2,"06");
+        kwToostMc.put(3,"09");
+        kwToostMc.put(4,"12");
         
         mapanrkw = new HashMap<>();
         mapanrkw.put(1, "1");
@@ -76,6 +91,20 @@ public class Kwartaly implements Serializable{
         mapamckw.put("10", "4");
         mapamckw.put("11", "4");
         mapamckw.put("12", "4");
+        
+        mapamckwint = new HashMap<>();
+        mapamckwint.put("01", 1);
+        mapamckwint.put("02", 1);
+        mapamckwint.put("03", 1);
+        mapamckwint.put("04", 2);
+        mapamckwint.put("05", 2);
+        mapamckwint.put("06", 2);
+        mapamckwint.put("07", 3);
+        mapamckwint.put("08", 3);
+        mapamckwint.put("09", 3);
+        mapamckwint.put("10", 4);
+        mapamckwint.put("11", 4);
+        mapamckwint.put("12", 4);
         
         mapamcMcwkw = new HashMap<>();
         mapamcMcwkw.put("01", "03");
@@ -117,6 +146,32 @@ public class Kwartaly implements Serializable{
         }
         return nowedane;
     }
+    
+     public static String[] zwiekszkwartal(String rok, String miesiac, int oilezwiekszyc) {
+        String[] nowedane = new String[2];
+        int kwInt = mapamckwint.get(miesiac)+oilezwiekszyc;
+        if (kwInt <= 0) {
+            int rokInt = Integer.parseInt(rok);
+            nowedane[0] = String.valueOf(rokInt-1);
+            nowedane[1] = kwToostMc.get(4-Math.abs(kwInt));
+        } else if (kwInt <= 4) {
+            nowedane[0] = rok;
+            nowedane[1] = kwToostMc.get(kwInt);
+        } else if (kwInt <= 8) {
+            int rokInt = Integer.parseInt(rok);
+            nowedane[0] = String.valueOf(++rokInt);
+            nowedane[1] = kwToostMc.get(kwInt-8);
+        } else if (kwInt <= 12) {
+            int rokInt = Integer.parseInt(rok)+2;
+            nowedane[0] = String.valueOf(rokInt);
+            nowedane[1] = kwToostMc.get(kwInt-12);
+        } else if (kwInt <= 16) {
+            int rokInt = Integer.parseInt(rok)+3;
+            nowedane[0] = String.valueOf(rokInt);
+            nowedane[1] = kwToostMc.get(kwInt-16);
+        }
+        return nowedane;
+    }
         
     public static List<String> getKwList() {
         return kwList;
@@ -144,6 +199,12 @@ public class Kwartaly implements Serializable{
     public static Map<String, String> getMapamcMcwkw() {
         return mapamcMcwkw;
     }
+
+    public static Map<Integer, String> getKwToostMc() {
+        return kwToostMc;
+    }
+
+   
     
     
 

@@ -654,7 +654,7 @@ public class DokfkView implements Serializable {
                 for (Wiersz p : selected.getListawierszy()) {
                     przepiszWalutyZapisEdycja(p);
                 }
-                selected.oznaczVATdokument();//nanosi zmiany okresu vat
+                selected.oznaczVATdokument(sprawdzjakiokresvat());//nanosi zmiany okresu vat
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
@@ -809,7 +809,7 @@ public class DokfkView implements Serializable {
                     przepiszWalutyZapisEdycja(p);
                 }
                 ObslugaWiersza.przenumerujSelected(selected);
-                selected.oznaczVATdokument();
+                selected.oznaczVATdokument(sprawdzjakiokresvat());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
                 wykazZaksiegowanychDokumentow.add(selected);
@@ -2422,8 +2422,7 @@ public class DokfkView implements Serializable {
         StronaWiersza p = null;
         Konto k221_3 = kontoDAOfk.findKonto("221-3", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
         Konto k221_4 = kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
-        String vatokres = sprawdzjakiokresvat();
-        selected.oznaczVATdokument();
+        selected.oznaczVATdokument(sprawdzjakiokresvat());
         for (Wiersz r : selected.getListawierszy()) {
             if (innyokres != 0) {
                 if (r.getStronaWn() != null && r.getStronaWn().getKonto().getPelnynumer().equals("221-3")) {

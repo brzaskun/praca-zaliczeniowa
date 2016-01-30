@@ -386,7 +386,7 @@
                                     <f:selectItem itemLabel="op.izw." itemValue="sprzed.op.izw."/>
                                 </h:selectOneMenu>
                             </p:column>
-                            <p:column headerText="+mc" style="width: 25px; text-align: center;">
+                            <p:column headerText="#{dokfkView.sprawdzjakiokresvat() eq 'kwartalne' ? '+kw' : '+mc'}" style="width: 25px; text-align: center;">
                                 <p:inputText id="mcshift" value="#{item.innyokres}" style="width: 30px; text-align: center;" 
                                              maxlength="2" onblur="sprawdzmcshift(this)"
                                              >
