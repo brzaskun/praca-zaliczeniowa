@@ -97,7 +97,7 @@ public class beanek {
     //wartosci test
     private String idMBT;
     private String idpobierzT;
-    private Integer statMBT;
+    private String statMBT;
     private String opisMBT;
     private String upoMBT;
     @Inject
@@ -220,17 +220,18 @@ public class beanek {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMB);
+        List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z informacją od serwera na temat deklaracji podatnika.", "formX:msg");
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
-        upoMB = upo.value;
-        statMB = stat.value;
-        opisMB = opis.value;
+        upoMBT = upo.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
         temp.setUpo(upoMB);
         temp.setStatus(statMB.toString());
         temp.setOpis(opisMB);
@@ -247,17 +248,18 @@ public class beanek {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z informacją od serwera na temat deklaracji podatnika.", "formX:msg");
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
-        upoMB = upo.value;
-        statMB = stat.value;
-        opisMB = opis.value;
+        upoMBT = upo.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMB);
         sprawdzanadeklaracja.setStatus(statMB.toString());
         sprawdzanadeklaracja.setOpis(opisMB);
@@ -302,8 +304,15 @@ public class beanek {
             sendUnsignDocument_Test(dok, lang, signT, id, stat, opis);
             idMBT = id.value;
             idpobierzT = id.value;
-            statMBT = stat.value;
+            List<String> komunikat = null;
             opisMBT = opis.value;
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            if (komunikat.size() > 1) {
+                    Msg.msg(komunikat.get(0), komunikat.get(1));
+                    opisMBT = komunikat.get(1);
+            }
+            upoMBT = upo.value;
+            statMBT = stat.value + " "+opis.value;
             temp.setIdentyfikator(idMBT);
             temp.setStatus(statMBT.toString());
             temp.setOpis(opisMBT);
@@ -335,7 +344,7 @@ public class beanek {
             wysylanaDeklaracja.setIdentyfikator(wpisView.getMiesiacWpisu()+wpisView.getRokWpisuSt()+wpisView.findNazwaPodatnika()+wpisView.getWprowadzil().getLogin());
             idpobierzT = wysylanaDeklaracja.getIdentyfikator();
             wysylanaDeklaracja.setStatus("200");
-            statMBT = Integer.parseInt(wysylanaDeklaracja.getStatus());
+            statMBT = wysylanaDeklaracja.getStatus();
             wysylanaDeklaracja.setOpis("Udana rejestracja wysyłki poza systemem");
             opisMBT = wysylanaDeklaracja.getOpis();
             wysylanaDeklaracja.setUpo("Deklaracja wysłana poza systemem. Zarejestrowana elektronicznie ze względu na ciągłość");
@@ -361,17 +370,18 @@ public class beanek {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat temp = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(idMBT);
+        List<String> komunikat = null;
         if (temp.getStatus().equals(stat.value)) {
-            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ");
+            Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMBT = upo.value;
-        statMBT = stat.value;
-        opisMBT = opis.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
         temp.setUpo(upoMBT);
         temp.setStatus(statMBT.toString());
         temp.setOpis(opisMBT);
@@ -390,17 +400,18 @@ public class beanek {
             Msg.msg("e", "Nie można nawiązać połączenia z serwerem ministerstwa podczas pobierania UPO podatnika " + podatnik + " za " + rok + "-" + mc);
         }
         Deklaracjevat sprawdzanadeklaracja = deklaracjevatDAO.findDeklaracjeDopotwierdzenia(identyfikator);
+        List<String> komunikat = null;
         if (sprawdzanadeklaracja.getStatus().equals(stat.value)) {
             Msg.msg("i", "Wypatruje gołębia z potwierdzeniem deklaracji podatnika ", "formX:msg");
         } else {
-            List<String> komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
+            komunikat = EDeklaracjeObslugaBledow.odpowiedznakodserwera(stat.value);
             if (komunikat.size() > 1) {
                 Msg.msg(komunikat.get(0), komunikat.get(1));
             }
         }
         upoMBT = upo.value;
-        statMBT = stat.value;
-        opisMBT = opis.value;
+        statMBT = stat.value + " "+opis.value;
+        opisMBT = komunikat.get(1);
         sprawdzanadeklaracja.setUpo(upoMBT);
         sprawdzanadeklaracja.setStatus(statMBT.toString());
         sprawdzanadeklaracja.setOpis(opisMBT);
@@ -482,13 +493,15 @@ public class beanek {
         this.idpobierzT = idpobierzT;
     }
 
-    public Integer getStatMBT() {
+    public String getStatMBT() {
         return statMBT;
     }
 
-    public void setStatMBT(Integer statMBT) {
+    public void setStatMBT(String statMBT) {
         this.statMBT = statMBT;
     }
+
+   
 
     public String getOpisMBT() {
         return opisMBT;
