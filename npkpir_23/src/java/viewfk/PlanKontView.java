@@ -9,6 +9,7 @@ import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import comparator.Kontocomparator;
 import dao.PodatnikDAO;
+import dao.RodzajedokDAO;
 import daoFK.DelegacjaDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
@@ -20,6 +21,7 @@ import daoFK.UkladBRDAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
+import entity.Rodzajedok;
 import entityfk.Delegacja;
 import entityfk.Kliencifk;
 import entityfk.Konto;
@@ -81,6 +83,8 @@ public class PlanKontView implements Serializable {
     private DelegacjaDAO delegacjaDAO;
     @Inject
     private UkladBRDAO ukladBRDAO;
+    @Inject
+    private RodzajedokDAO rodzajedokDAO;
     @Inject
     private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
@@ -704,14 +708,113 @@ public class PlanKontView implements Serializable {
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
 
+    public void usunZsubkontami(String klientWzor) {
+        Konto kontoDoUsuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
+        List<Rodzajedok> dokumenty = null;
+        if (klientWzor.equals("K")) {
+            dokumenty = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+        }
+        if (kontoDoUsuniecia.isMapotomkow() == true) {
+            usunrekurencja(klientWzor, kontoDoUsuniecia, dokumenty);
+            if (!kontoDoUsuniecia.getMacierzyste().equals("0")) {
+                boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
+                oznaczbraksiostr(sadzieci, kontoDoUsuniecia, klientWzor);
+            }
+        }
+    }
+    
+    private void usunrekurencja(String klientWzor, Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
+        if (kontoDoUsuniecia.isMapotomkow() == false) {
+            try {
+                usunpozycje(kontoDoUsuniecia);
+                usunuzyciewdokumencie(kontoDoUsuniecia, dokumenty);
+                usunkontozbazy(kontoDoUsuniecia, klientWzor);
+            } catch (Exception e) {
+                E.e(e);
+            }
+        } else {
+            try {
+                usunpozycje(kontoDoUsuniecia);
+                usunuzyciewdokumencie(kontoDoUsuniecia, dokumenty);
+                usunkontozbazy(kontoDoUsuniecia, klientWzor);
+                List<Konto> dzieci = PlanKontFKBean.pobierzpotomne(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
+                if (dzieci != null && dzieci.size() > 0) {
+                    for (Konto p : dzieci) {
+                        usunrekurencja(klientWzor, p, dokumenty);
+                    }
+                }
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
+    }
+    
+    private void usunuzyciewdokumencie(Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
+        try {
+            for (Rodzajedok p : dokumenty) {
+                if (p.getKontoRZiS() != null && p.getKontoRZiS().equals(kontoDoUsuniecia)) {
+                    p.setKontoRZiS(null);
+                    rodzajedokDAO.edit(p);
+                }
+                if (p.getKontorozrachunkowe() != null && p.getKontorozrachunkowe().equals(kontoDoUsuniecia)) {
+                    p.setKontorozrachunkowe(null);
+                    rodzajedokDAO.edit(p);
+                }
+                if (p.getKontovat() != null && p.getKontovat().equals(kontoDoUsuniecia)) {
+                    p.setKontovat(null);
+                    rodzajedokDAO.edit(p);
+                }
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    private void usunpozycje(Konto kontoDoUsuniecia) {
+        try {
+            KontopozycjaZapis p = kontopozycjaZapisDAO.findByKonto(kontoDoUsuniecia, ukladBRDAO);
+            if (p != null) {
+                kontopozycjaZapisDAO.destroy(p);
+            }
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    private void usunkontozbazy(Konto kontoDoUsuniecia, String klientWzor) {
+        kontoDAOfk.destroy(kontoDoUsuniecia);
+        if (klientWzor.equals("W")) {
+            wykazkontwzor.remove(kontoDoUsuniecia);
+        } else {
+            wykazkont.remove(kontoDoUsuniecia);
+        }
+    }
+    
+    private void oznaczbraksiostr(boolean sadzieci, Konto kontoDoUsuniecia, String klientWzor) {
+        Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
+        List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
+        if (siostry.size() < 1) {
+        //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
+            odznaczmacierzyste(sadzieci, kontomacierzyste, kontoDoUsuniecia);
+        }
+    }
+    
+    
+    private void usunslownikowe(Konto kontoDoUsuniecia) {
+        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wykazkont, kontopozycjaZapisDAO, ukladBRDAO);
+        if (wynik == 0) {
+            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
+            kontomacierzyste.setBlokada(false);
+            kontomacierzyste.setMapotomkow(false);
+            kontomacierzyste.setIdslownika(0);
+            kontoDAOfk.edit(kontomacierzyste);
+            Msg.msg("Usunięto elementy słownika");
+        } else {
+            Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
+        }
+    }
     public void usun(String klientWzor) {
         Konto kontoDoUsuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
-        String podatnik = null;
-        if (klientWzor.equals("W")) {
-            podatnik = "Wzorcowy";
-        } else {
-            podatnik = wpisView.getPodatnikWpisu();
-        }
         if (kontoDoUsuniecia != null) {
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
@@ -719,36 +822,13 @@ public class PlanKontView implements Serializable {
                 Msg.msg("e", "Konto ma analitykę, nie można go usunąć.");
             } else {
                 try {
-                    KontopozycjaZapis p = kontopozycjaZapisDAO.findByKonto(kontoDoUsuniecia, ukladBRDAO);
-                    if (p != null) {
-                        kontopozycjaZapisDAO.destroy(p);
-                    }
-                    kontoDAOfk.destroy(kontoDoUsuniecia);
-                    if (klientWzor.equals("W")) {
-                        wykazkontwzor.remove(kontoDoUsuniecia);
-                    } else {
-                        wykazkont.remove(kontoDoUsuniecia);
-                    }
+                    usunpozycje(kontoDoUsuniecia);
+                    usunkontozbazy(kontoDoUsuniecia, klientWzor);
                     if (kontoDoUsuniecia.getNrkonta().equals("0")) {
-                        int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wykazkont, kontopozycjaZapisDAO, ukladBRDAO);
-                        if (wynik == 0) {
-                            Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
-                            kontomacierzyste.setBlokada(false);
-                            kontomacierzyste.setMapotomkow(false);
-                            kontomacierzyste.setIdslownika(0);
-                            kontoDAOfk.edit(kontomacierzyste);
-                            Msg.msg("Usunięto elementy słownika");
-                        } else {
-                            Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
-                        }
+                        usunslownikowe(kontoDoUsuniecia);
                     } else {
                         boolean sadzieci = PlanKontFKBean.sprawdzczymacierzystymapotomne(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontoDoUsuniecia, kontoDAOfk);
-                        Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
-                        List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
-                        if (siostry.size() < 1) {
-                        //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
-                            odznaczmacierzyste(sadzieci, kontomacierzyste, kontoDoUsuniecia);
-                        }
+                        oznaczbraksiostr(sadzieci, kontoDoUsuniecia, klientWzor);
                     }
                     Msg.msg("i", "Usuwam konto");
                 } catch (Exception e) { 
@@ -1111,6 +1191,10 @@ public class PlanKontView implements Serializable {
     public void setInfozebrakslownikowych(String infozebrakslownikowych) {
         this.infozebrakslownikowych = infozebrakslownikowych;
     }
+
+    
+
+    
 
     
     
