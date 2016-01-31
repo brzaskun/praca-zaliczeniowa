@@ -91,8 +91,9 @@ public class PdfVatUE {
             int lp = 1;
             for (VatUe p : lista) {
                 PdfPTable table = new PdfPTable(7);
+                table.setWidthPercentage(95);
                 if (!p.getTransakcja().equals("podsumowanie")) {
-                    table.setWidths(new int[]{1, 2, 2, 3, 4, 3, 2});
+                    table.setWidths(new int[]{1, 2, 2, 3, 5, 3, 2});
                     table.addCell(ustawfraze("lp", 0, 1));
                     table.addCell(ustawfraze("Transakcja", 0, 1));
                     table.addCell(ustawfraze("Kod kraju", 0, 1));
@@ -103,8 +104,8 @@ public class PdfVatUE {
                     table.setHeaderRows(1);
                     table.addCell(ustawfrazeAlign(String.valueOf(lp++), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getTransakcja(), "center", 8));
-                    //String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
-                    table.addCell(ustawfrazeAlign(p.getKontrahent().getKrajnazwa(), "center", 8));
+                    String kod = p.getKontrahent().getKrajkod() != null ? p.getKontrahent().getKrajkod() : "brak";
+                    table.addCell(ustawfrazeAlign(kod, "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNip(), "center", 8));
                     table.addCell(ustawfrazeAlign(p.getKontrahent().getNpelna(), "center", 8));
                     table.addCell(ustawfrazeAlign(String.valueOf(formatter.format(p.getNetto())), "right", 8));
@@ -137,7 +138,8 @@ public class PdfVatUE {
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{2, 2, 2, 6, 3, 2});
+            table.setWidthPercentage(95);
+            table.setWidths(new int[]{3, 2, 2, 6, 3, 2});
             table.addCell(ustawfraze("symbol", 0, 1));
             table.addCell(ustawfraze("data wyst.", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));
@@ -161,11 +163,12 @@ public class PdfVatUE {
     private static PdfPTable createsubtablefk(List<Dokfk> zawiera) {
         PdfPTable table = new PdfPTable(6);
         try {
+            table.setWidthPercentage(95);
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
             formatter.setMaximumFractionDigits(2);
             formatter.setMinimumFractionDigits(2);
             formatter.setGroupingUsed(true);
-            table.setWidths(new int[]{2, 2, 2, 6, 3, 2});
+            table.setWidths(new int[]{3, 2, 2, 6, 3, 2});
             table.addCell(ustawfraze("symbol", 0, 1));
             table.addCell(ustawfraze("data wyst.", 0, 1));
             table.addCell(ustawfraze("nr własny", 0, 1));
@@ -368,7 +371,7 @@ public class PdfVatUE {
         }
         if (czyjest == false) {
             VatUe v = new VatUe();
-            v.setTransakcja("podsumowanie");
+            v.setTransakcja("podsum.");
             v.setNetto(suma);
             listawybranych.add(v);
         }

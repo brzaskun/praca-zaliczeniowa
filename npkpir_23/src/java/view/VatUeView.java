@@ -101,7 +101,7 @@ public class VatUeView implements Serializable {
                 niemoznadrukowac = true;
             }
         }
-        VatUe rzadpodsumowanie = new VatUe("podsumowanie", null, sumanettovatue, 0, null);
+        VatUe rzadpodsumowanie = new VatUe("podsum.", null, sumanettovatue, 0, null);
         klienciWDTWNT.add(rzadpodsumowanie);
         zachowajwbazie(String.valueOf(rok), m, podatnik);
         try {
@@ -223,6 +223,17 @@ public class VatUeView implements Serializable {
       }
     } 
    
+     public void drukujewidencjeUETabela() {
+      try {
+          if (listawybranych != null && !listawybranych.isEmpty()) {
+              PdfVatUE.drukujewidencjeTabela(listawybranych, wpisView);
+          } else {
+              PdfVatUE.drukujewidencjeTabela(klienciWDTWNT, wpisView);
+          }
+      }  catch (Exception e) { E.e(e); 
+          
+      }
+    } 
 
     public WpisView getWpisView() {
         return wpisView;
