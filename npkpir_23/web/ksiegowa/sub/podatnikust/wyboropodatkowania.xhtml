@@ -31,14 +31,14 @@
             <p:panelGrid id="parametrypodatnika" columns="6" >
                 <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.formaopodatkowania}" >
-                    <f:selectItem itemValue="zasady ogólne"/> 
-                    <f:selectItem itemValue="zasady ogólne bez VAT"/>
-                    <f:selectItem itemValue="podatek liniowy"/>
-                    <f:selectItem itemValue="podatek liniowy bez VAT"/>
-                    <f:selectItem itemValue="ryczałt"/>
-                    <f:selectItem itemValue="ryczałt bez VAT"/>
-                    <f:selectItem itemValue="księgi rachunkowe"/>
-                    <f:selectItem itemValue="księgi rachunkowe bez VAT"/>
+                    <f:selectItem itemValue="zasady ogólne" itemLabel="zasady ogólne"/> 
+                    <f:selectItem itemValue="zasady ogólne bez VAT" itemLabel="zasady ogólne bez VAT"/>
+                    <f:selectItem itemValue="podatek liniowy" itemLabel="podatek liniowy"/>
+                    <f:selectItem itemValue="podatek liniowy bez VAT" itemLabel="podatek liniowy bez VAT"/>
+                    <f:selectItem itemValue="ryczałt" itemLabel="ryczałt"/>
+                    <f:selectItem itemValue="ryczałt bez VAT" itemLabel="ryczałt bez VAT"/>
+                    <f:selectItem itemValue="księgi rachunkowe" itemLabel="księgi rachunkowe"/>
+                    <f:selectItem itemValue="księgi rachunkowe bez VAT"  itemLabel="księgi rachunkowe bez VAT"/>
                 </p:selectOneMenu>
                 <p:selectOneMenu value="#{podatnikView.wybranyPodatnikOpodatkowanie.mc0kw1}" >
                     <f:selectItem itemLabel="miesięczne" itemValue="false"/> 
