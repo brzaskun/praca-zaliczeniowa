@@ -56,22 +56,22 @@ public class Msg implements Serializable {
           RequestContext.getCurrentInstance().update(updateelement);
     }
     
-    public static void msg(String severitylevel,String summary, String details, String updateelement, String formelement){
-          Severity sl = null;
-          switch (severitylevel){
-              case "i": sl = FacesMessage.SEVERITY_INFO;
-                  break;
-              case "e": sl = FacesMessage.SEVERITY_ERROR;
-                  break;
-              case "w": sl = FacesMessage.SEVERITY_WARN;
-                  break;
-              case "f": sl = FacesMessage.SEVERITY_FATAL;
-                  break;
-          }
-          FacesMessage msg = new FacesMessage(sl,summary, details);
-          FacesContext.getCurrentInstance().addMessage(formelement, msg);
-          RequestContext.getCurrentInstance().update(updateelement);
-    }
+//    public static void msg(String severitylevel,String summary, String details, String updateelement, String formelement){
+//          Severity sl = null;
+//          switch (severitylevel){
+//              case "i": sl = FacesMessage.SEVERITY_INFO;
+//                  break;
+//              case "e": sl = FacesMessage.SEVERITY_ERROR;
+//                  break;
+//              case "w": sl = FacesMessage.SEVERITY_WARN;
+//                  break;
+//              case "f": sl = FacesMessage.SEVERITY_FATAL;
+//                  break;
+//          }
+//          FacesMessage msg = new FacesMessage(sl,summary, details);
+//          FacesContext.getCurrentInstance().addMessage(formelement, msg);
+//          RequestContext.getCurrentInstance().update(updateelement);
+//    }
     
     public static void msg(String severitylevel,String messagetext){
           Severity sl = null;

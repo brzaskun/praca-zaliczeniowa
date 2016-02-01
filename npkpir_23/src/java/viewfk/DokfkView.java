@@ -1489,7 +1489,7 @@ public class DokfkView implements Serializable {
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
             czysto = false;
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         main = "Występują różnice w stronach Wn i Ma w PLN w " + listaRozniceWnMa.size() + " dokumentach: ";
         b = new StringBuilder();
@@ -1501,7 +1501,7 @@ public class DokfkView implements Serializable {
         if (listaRozniceWnMa.size() > 0) {
             czysto = false;
             dokDAOfk.editList(listaRozniceWnMa);
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         main = "Występują braki w kolumnie pln w " + listabraki.size() + " dokumentach: ";
         b = new StringBuilder();
@@ -1519,7 +1519,7 @@ public class DokfkView implements Serializable {
         if (listabraki.size() > 0) {
             czysto = false;
             dokDAOfk.editList(listabraki);
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         main = "Konta w dokumencie nie maja przyporzadkowania do Pozycji w " + listaRozniceWnMa.size() + " dokumentach: ";
         b = new StringBuilder();
@@ -1530,7 +1530,7 @@ public class DokfkView implements Serializable {
         }
         if (listabrakiPozycji.size() > 0) {
             czysto = false;
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         main = "Niezgodność między miesiącem ewidencji vat a typem konta vat w " + listabrakivat.size() + " dokumentach: ";
         b = new StringBuilder();
@@ -1541,7 +1541,7 @@ public class DokfkView implements Serializable {
         }
         if (listabrakivat.size() > 0) {
             czysto = false;
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         main = "Puste ewidencje vat w " + listapustaewidencja.size() + " dokumentach: ";
         b = new StringBuilder();
@@ -1552,7 +1552,7 @@ public class DokfkView implements Serializable {
         }
         if (listapustaewidencja.size() > 0) {
             czysto = false;
-            Msg.msg("i", b.toString(), b.toString(), "zestawieniedokumentow:wiadomoscsprawdzenie", "zestawieniedokumentow:dataList");
+            Msg.msg("i", b.toString(), b.toString());
         }
         init();
         if (czysto) {

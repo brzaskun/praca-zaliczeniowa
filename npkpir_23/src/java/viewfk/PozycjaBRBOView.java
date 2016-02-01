@@ -245,7 +245,9 @@ public class PozycjaBRBOView implements Serializable {
         pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
         rootBilansAktywa.getChildren().clear();
         rootBilansPasywa.getChildren().clear();
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRokBilansBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        //lista jest zerowa bo teraz zapisy bo sa nanoszone na bo, nie mozna dodawac zapisow z bo bo bedzie duplikat!
+        List<StronaWiersza> zapisy = new ArrayList<>();
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
             Konto kontowyniku = kontoDAO.findKonto860(wpisView);

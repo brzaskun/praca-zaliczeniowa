@@ -10,6 +10,7 @@
             <h:outputText value="Księgi rachunkowe"></h:outputText>
         </ui:define>
         <ui:define name="body">
+            <p:growl life="6000" autoUpdate="true"/>
             <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj">
                 <p:outputPanel id="potwierdzeniazestawieniedok">
             
@@ -26,8 +27,9 @@
             </p:confirmDialog> 
             <bcf:confirm lp="2" wiadomosc="Dodać rozliczenie rmk?" listenerPresent="true" listener="#{rMKView.dodajRMK()}" closeDialog="dialogwpisrmk"/>
 <!--            <bcf:confirm lp="3" wiadomosc="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}" listenerPresent="true" listener="#{dokfkView.usundokument()}" update=":zestawieniedokumentow:dataList"/>-->
-            <p:confirmDialog id="confirmDialog3" message="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}"  
-                             header="Usuwanie dok" severity="alert" widgetVar="confirm3" width="500" appendTo="@(zestawieniezaksiegowanych)"
+            <p:confirmDialog id="confirmDialog3" 
+                             message="Usunąć dokument #{dokfkView.dokumentdousuniecia.dokfkPK.toString2()} #{dokfkView.dokumentdousuniecia.numerwlasnydokfk} #{dokfkView.dokumentdousuniecia.kontr.npelna}"  
+                             header="Usuwanie dok" severity="alert" widgetVar="confirm3" width="500" appendTo="@(zestawieniezaksiegowanych)" 
                              >
                 <h:form>
                             <p:commandButton id="confirm" value="Usuń"  oncomplete="PF('confirm3').hide();"
@@ -42,7 +44,6 @@
                 <p:layoutUnit id="centralna" position="center" >
                     <div id="ramki">
                     </div>
-                   
                     <p:hotkey bind="down" global="false"  handler="przejdzwiersz();" ignoreAutoUpdate="true"/>
                     <p:hotkey bind="up" global="false" handler="wrocwiersz();" ignoreAutoUpdate="true"/>
                     <ui:include src="sub/menu/menudokumenty.xhtml"/>

@@ -607,12 +607,13 @@ public class StronaWiersza implements Serializable{
     @Override
     public String toString() {
         if (this. id != null) {
-            return "StronaWiersza{" + "id=" + id +", wnma="+ wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "StronaWiersza{" + "id=" + id + ", konto=" + konto+", wnma="+ wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         } else {
             return "StronaWiersza{" + "id=null, wnma="+ wnma +", wiersz= "+ wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         }
     }
 
+    
     
 
     
