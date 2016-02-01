@@ -379,6 +379,7 @@ public class PozycjaRZiSFKBean {
         if (potomki != null) {
             for (Konto p : potomki) {
                 try {
+                    p.setZwyklerozrachszczegolne(konto.getZwyklerozrachszczegolne());
                     if (pozycja == null) {
                        p.setKontopozycjaID(null);
                    } else {
