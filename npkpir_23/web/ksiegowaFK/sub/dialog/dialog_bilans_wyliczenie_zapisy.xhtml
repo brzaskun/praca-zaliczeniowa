@@ -58,7 +58,8 @@
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="#{mgs.aktywa} #{pozycjaBRView.sumabilansowaaktywa}"/>
+                            <h:outputText value="#{mgs.aktywa} "/>
+                            <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -77,7 +78,8 @@
                         <p:ajax event="select" global="false" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <p:ajax event="unselect" listener="#{pozycjaBRView.wyluskajStronyzPozycjiBilans()}" update=":formprzegladbilanszapisy:podpietekonta, :formprzegladbilanszapisy:podpietepozycje"/>
                         <f:facet name="header">
-                            <h:outputText value="#{mgs.pasywa} #{pozycjaBRView.sumabilansowapasywa}"/>
+                            <h:outputText value="#{mgs.pasywa} "/>
+                            <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
                         </f:facet>
                         <p:column style="width: 440px;">
                             <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

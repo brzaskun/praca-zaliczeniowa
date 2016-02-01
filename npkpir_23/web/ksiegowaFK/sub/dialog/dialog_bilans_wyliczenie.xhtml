@@ -62,9 +62,7 @@
                              scrollable="true" style="width: 600px; max-height: 600px;" >
                     <f:facet name="header">
                         <h:outputText value="#{mgs.aktywa} "/>
-                        <h:outputText value="#{pozycjaBRView.sumabilansowaaktywa}">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowaaktywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 
@@ -82,9 +80,7 @@
                              scrollable="true" style="width: 600px; max-height: 600px;">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.pasywa} "/>
-                        <h:outputText value="#{pozycjaBRView.sumabilansowapasywa}">
-                            <f:convertNumber minFractionDigits="2" locale="PL"/>
-                        </h:outputText>
+                        <bcf:outputpl value="#{pozycjaBRView.sumabilansowapasywa}"/>
                     </f:facet>
                     <p:column style="width: 440px;">
                         <h:outputText value="#{loop.pozycjaSymbol}" style="font-weight: bolder" /> 

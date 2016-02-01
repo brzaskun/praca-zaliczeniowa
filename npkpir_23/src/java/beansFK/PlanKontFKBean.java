@@ -119,6 +119,7 @@ public class PlanKontFKBean {
          nowekonto.setBilansowewynikowe(macierzyste.getBilansowewynikowe());
          nowekonto.setZwyklerozrachszczegolne(macierzyste.getZwyklerozrachszczegolne());
          nowekonto.setNrkonta(numerkonta);
+         nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
@@ -179,6 +180,7 @@ public class PlanKontFKBean {
          nowekonto.setMapotomkow(false);
          nowekonto.setMacierzyste(macierzyste.getPelnynumer());
          nowekonto.setMacierzysty(macierzyste.getLp());
+         nowekonto.setPrzychod0koszt1(macierzyste.isPrzychod0koszt1());
          nowekonto.setLevel(obliczlevel(nowekonto.getMacierzyste()));
          nowekonto.setPelnynumer(nowekonto.getMacierzyste() + "-" + nowekonto.getNrkonta());
          int wynikdodaniakonta = zachowajkonto(wykazkont,nowekonto, kontoDAOfk, wpisView);
@@ -526,6 +528,7 @@ public class PlanKontFKBean {
             nowekonto.setNazwapelna(npelna);
             nowekonto.setNazwaskrocona(nskrocona);
             nowekonto.setSlownikowe(true);
+            nowekonto.setPrzychod0koszt1(kontomacierzyste.isPrzychod0koszt1());
             int wynikdodaniakonta = 1;
             wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, nowekonto, kontomacierzyste, kontoDAO, String.valueOf(numerkonta), wpisView);
             naniesPozycjenaKonto(wynikdodaniakonta, kontopozycjaZapisDAO, nowekonto, kontomacierzyste, kontoDAOfk, ukladBRDAO);
@@ -625,6 +628,7 @@ public class PlanKontFKBean {
         } else {
                 konto.setNazwapelna(nowekonto.getNazwapelna());
                 konto.setNazwaskrocona(nowekonto.getNazwaskrocona());
+                konto.setPrzychod0koszt1(nowekonto.isPrzychod0koszt1());
                 kontoDAOfk.edit(konto);
             return 1;
         }

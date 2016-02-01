@@ -1316,6 +1316,7 @@ public class DokfkView implements Serializable {
     public void sprawdzWnMawDokfk() {
         List<Dokfk> listaRozniceWnMa = new ArrayList<>();
         List<Dokfk> listabrakiKontaAnalityczne = new ArrayList<>();
+        List<Integer> listabrakiKontaAnalityczne_nr = new ArrayList<>();
         List<Dokfk> listabraki = new ArrayList<>();
         List<Dokfk> listabrakiPozycji = new ArrayList<>();
         List<Dokfk> listabrakivat = new ArrayList<>();
@@ -1452,6 +1453,7 @@ public class DokfkView implements Serializable {
                     if (jestkontonieostatnieWn == true || jestkontonieostatnieMa == true) {
                         if (!listabrakiKontaAnalityczne.contains(p)) {
                             listabrakiKontaAnalityczne.add(p);
+                            listabrakiKontaAnalityczne_nr.add(r.getIdporzadkowy());
                         }
                     }
                 }
@@ -1483,8 +1485,11 @@ public class DokfkView implements Serializable {
         String main = "Występują księgowania na sytnetykach w " + listabrakiKontaAnalityczne.size() + " dokumentach: ";
         StringBuilder b = new StringBuilder();
         b.append(main);
+        int i = 0;
         for (Dokfk p : listabrakiKontaAnalityczne) {
             b.append(p.getDokfkPK().toString2());
+            b.append(" w.");
+            b.append(listabrakiKontaAnalityczne_nr.get(i));
             b.append(", ");
         }
         if (listabrakiKontaAnalityczne.size() > 0) {
