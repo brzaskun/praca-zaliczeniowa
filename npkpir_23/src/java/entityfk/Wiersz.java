@@ -404,11 +404,13 @@ public class Wiersz implements Serializable {
         if (this.getStronaWn() != null) {
             if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getStronaWn().getKwota() == w.getKwotaWn()) {
                 jest0niejest1 = false;
+                System.out.println("jest takie konto z kwota w bo");
             }
         }
         if (this.getStronaMa() != null) {
             if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getStronaMa().getKwota() == w.getKwotaMa()) {
                 jest0niejest1 = false;
+                System.out.println("jest takie konto z kwota w bo");
             }
         }
         return jest0niejest1;

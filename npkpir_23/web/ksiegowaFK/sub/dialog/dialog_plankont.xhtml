@@ -131,7 +131,9 @@
 <!--                    <p:column headerText="macierz." style="width: 50px;">
                         <h:outputText value="#{loop.macierzyste}" /> 
                     </p:column>-->
-                   
+                   <p:column  style="width: 100px;">
+                        <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaWn : 'nieprzyp.'}" /> 
+                    </p:column>
                     <p:column  style="width: 100px;">
                         <h:outputText value="#{loop.kontopozycjaID != null ? loop.kontopozycjaID.pozycjaMa : 'nieprzyp.'}" /> 
                     </p:column>

@@ -258,7 +258,7 @@ public class PozycjaBRBOView implements Serializable {
             //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansAktywa, pozycjeaktywa, zapisy, plankont, "aktywa");
             //PozycjaRZiSFKBean.ustawRootaBilansNowy(rootBilansPasywa, pozycjepasywa, zapisy, plankont, "pasywa");
             level = PozycjaRZiSFKBean.ustawLevel(rootBilansAktywa, pozycje);
-            Msg.msg("i", "Pobrano układ ");
+            Msg.msg("i", "Pobrano i wyliczono BO");
             sumaaktywapasywaoblicz("aktywa");
             sumaaktywapasywaoblicz("pasywa");
         } catch (Exception e) {

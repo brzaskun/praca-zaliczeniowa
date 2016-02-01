@@ -553,7 +553,11 @@ public class Podatnik implements Serializable {
     }
     
     public int getPole47N() {
-        return pole47 != null ? Integer.parseInt(pole47) : 0;
+        int wartosc = 0;
+        if (pole47 != null && !pole47.equals("") ) {
+            wartosc = Integer.parseInt(pole47);
+        }
+        return wartosc;
     }
     
     public void setPole47(String pole47) {
