@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     >
-    <p:dialog header="Wybierz słownik jako analitykę:" widgetVar="nowekontoslownik" resizable="false"
+    <p:dialog header="Wybierz słownik jako analitykę: #{planKontView.selectednodekonto.pelnynumer}" widgetVar="nowekontoslownik" resizable="false"
               onShow="snapshot('form_dialog_plankont:dataList_data');" onHide="recover('form_dialog_plankont:dataList_data');">
         <h:form id="dialog_plankont_dodajslownik">  
         <p:focus for="wybierzslownik">

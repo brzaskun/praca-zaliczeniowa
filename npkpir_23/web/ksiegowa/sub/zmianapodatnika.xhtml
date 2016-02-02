@@ -28,6 +28,7 @@
                 </p:selectOneMenu>
                 
             </p:panelGrid>
+            <h:outputText value="nie wprowadzono danych tego podatnika na nowy rok podatkowy - program nie będzie działał poprawnie" rendered="#{WpisView.czegosbrakuje}" style="font-weight: 800; color: red;"/>
             <h:outputText value="miesiąc zamknięty, możliwe jedynie przeglądanie danych i sporządzanie deklaracji" rendered="#{zamkniecieView.sprawdzMiesiacRok()}" style="font-weight: 800; color: blue;"/>
         </p:panel>
         <p:messages autoUpdate="true" style="width: 500px; margin-left: 2%;"/>

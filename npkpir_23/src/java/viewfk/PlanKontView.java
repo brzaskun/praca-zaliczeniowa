@@ -125,6 +125,7 @@ public class PlanKontView implements Serializable {
             for (Konto p: wykazkont) {
                 if (p.isSlownikowe()==true) {
                     zwrot = 2;
+                    break;
                 }
             }
         }
