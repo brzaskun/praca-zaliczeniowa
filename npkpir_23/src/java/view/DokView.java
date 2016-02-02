@@ -1444,6 +1444,9 @@ public final class DokView implements Serializable {
         if (!klientnip.equals(wpisView.getPodatnikObiekt().getNip())) {
             try {
                 Dok poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokWpisuSt());
+                if (poprzedniDokument == null) {
+                    poprzedniDokument = dokDAO.findDokLastofaKontrahent(wpisView.getPodatnikObiekt().getNazwapelna(), klient, wpisView.getRokUprzedniSt());
+                }
                 if (poprzedniDokument != null) {
                     selDokument.setTypdokumentu(poprzedniDokument.getTypdokumentu());
                     typdokumentu = poprzedniDokument.getTypdokumentu();
