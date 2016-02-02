@@ -220,8 +220,12 @@ public class Vat7DKView implements Serializable {
                         naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
                     }
                 } else {
-                    RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
-                    Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                    if (przeniesieniezpoprzedniejdeklaracji != null) {
+                        przeniesienie.getDeklaracjaVatWierszSumaryczny().setSumavat(przeniesieniezpoprzedniejdeklaracji);
+                        naliczony.getDeklaracjaVatWierszSumaryczny().setSumavat(naliczony.getDeklaracjaVatWierszSumaryczny().getSumavat()+przeniesieniezpoprzedniejdeklaracji);
+                        RequestContext.getCurrentInstance().execute("varzmienkolorpola47deklvat();");
+                        Msg.msg("i", "Pobrałem kwotę do przeniesienia wpisaną ręcznie");
+                    }
                 }
             } catch (Exception ex) {
                 E.e(ex);

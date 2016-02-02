@@ -229,7 +229,7 @@ public class Mce implements Serializable{
         } else {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(--rokInt);
-            nowedane[1] = numberToMiesiac.get(13-mcInt);;
+            nowedane[1] = numberToMiesiac.get(12-mcInt);;
         }
         return nowedane;
     }
@@ -243,7 +243,7 @@ public class Mce implements Serializable{
         } else {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(--rokInt);
-            nowedane[1] = numberToMiesiac.get(13-mcInt);;
+            nowedane[1] = numberToMiesiac.get(12-mcInt);;
         }
         return nowedane;
     }

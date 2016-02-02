@@ -645,15 +645,28 @@ public class FakturaView implements Serializable {
     }
 
     public void zaksieguj() throws Exception {
-        if (wpisView.getPodatnikObiekt().isFirmafk()) {
+        if (wpisView.getPodatnikObiekt().getFirmafk() == 1) {
             for (Faktura p : gosciwybral) {
                 ksiegowanieFK(p);
             }
-        } else {
+            Msg.msg("i", "Dokument zaksięgowany");
+        } else if (wpisView.getPodatnikObiekt().getFirmafk() == 0) {
             for (Faktura p : gosciwybral) {
                 ksiegowaniePkpir(p);
             }
             Msg.msg("i", "Dokument zaksięgowany");
+        } else {
+            if (wpisView.isKsiegirachunkowe() == true) {
+                for (Faktura p : gosciwybral) {
+                    ksiegowanieFK(p);
+                }
+                Msg.msg("i", "Dokument zaksięgowany");
+            } else {
+                for (Faktura p : gosciwybral) {
+                    ksiegowaniePkpir(p);
+                }
+                Msg.msg("i", "Dokument zaksięgowany");
+            }
         }
     }
     

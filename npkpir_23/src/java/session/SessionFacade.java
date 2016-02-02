@@ -997,11 +997,15 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public List<Podatnik> findPodatnikFK() {
-        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", true).getResultList();
+        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 1).getResultList();
     }
 
     public List<Podatnik> findPodatnikNieFK() {
-        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", false).getResultList();
+        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 0).getResultList();
+    }
+    
+    public List<Podatnik> findPodatnikFKPkpir() {
+        return em.createNamedQuery("Podatnik.findByFirmafk").setParameter("firmafk", 3).getResultList();
     }
 
     public List<Podatnik> findPodatnikZUS() {

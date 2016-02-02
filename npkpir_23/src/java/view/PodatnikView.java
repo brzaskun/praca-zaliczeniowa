@@ -187,7 +187,7 @@ public class PodatnikView implements Serializable {
             selectedDod.setPesel("00000000000");
         }
         try {
-            selectedDod.setFirmafk(true);
+            selectedDod.setFirmafk(1);
             sformatuj(selectedDod);
             podatnikDAO.dodaj(selectedDod);
             Msg.msg("i", "Dodano nowego podatnika-firmę FK: " + selectedDod.getNazwapelna());
@@ -215,7 +215,6 @@ public class PodatnikView implements Serializable {
     public void edytujfk() {
         try {
             sformatuj(selected);
-            selected.setFirmafk(true);
             zachowajZmiany(selected);
             Msg.msg("i", "Edytowano dane podatnika-klienta " + selected.getNazwapelna(), "akordeon:form:msg");
         } catch (Exception e) { E.e(e); 

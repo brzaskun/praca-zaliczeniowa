@@ -35,12 +35,24 @@ public class PodatnikWyborView implements Serializable {
     
     @PostConstruct
     private void init() {
+        List<Podatnik> lista = podatnikDAO.findPodatnikFKPkpir();
         listaPodatnikowNoFK = podatnikDAO.findPodatnikNieFK();
+        for (Podatnik p : lista) {
+            if (!listaPodatnikowNoFK.contains(p)) {
+                listaPodatnikowNoFK.add(p);
+            }
+        }
         Collections.sort(listaPodatnikowNoFK, new Podatnikcomparator());
         listaPodatnikowFK = podatnikDAO.findPodatnikFK();
+        for (Podatnik p : lista) {
+            if (!listaPodatnikowFK.contains(p)) {
+                listaPodatnikowFK.add(p);
+            }
+        }
         Collections.sort(listaPodatnikowFK, new Podatnikcomparator());
         listaPodatnikow = podatnikDAO.findAll();
         Collections.sort(listaPodatnikow, new Podatnikcomparator());
+        
     }
 
    

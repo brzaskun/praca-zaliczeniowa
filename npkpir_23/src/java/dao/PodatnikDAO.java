@@ -55,6 +55,14 @@ public class PodatnikDAO extends DAO implements Serializable{
             return null;
         }
     }
+     
+     public  List<Podatnik> findPodatnikFKPkpir(){
+        try {
+            return podatnikFacade.findPodatnikFKPkpir();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
     
     public  List<Podatnik> findPodatnikZUS(){
         try {

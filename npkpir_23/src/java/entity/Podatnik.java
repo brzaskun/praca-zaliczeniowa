@@ -199,7 +199,7 @@ public class Podatnik implements Serializable {
     @Column(name = "schematnumeracji")
     private String schematnumeracji;
     @Column(name = "firmafk")
-    private boolean firmafk;
+    private int firmafk;
     @Column(name = "podmiotaktywny")
     private boolean podmiotaktywny;
     @Column(name = "wysylkazusmail")
@@ -327,13 +327,15 @@ public class Podatnik implements Serializable {
         this.podmiotaktywny = podmiotaktywny;
     }
 
-    public boolean isFirmafk() {
+    public int getFirmafk() {
         return firmafk;
     }
-    
-    public void setFirmafk(boolean firmafk) {
+
+    public void setFirmafk(int firmafk) {
         this.firmafk = firmafk;
     }
+
+   
     
     public String getNip() {
         return nip;

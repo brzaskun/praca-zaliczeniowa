@@ -7,7 +7,7 @@
     xmlns:pe="http://primefaces.org/ui/extensions">
     <p:tab title="Edycja danych podatnika">
         <h:form id="form">
-            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == false}">
+            <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 0}">
                 <p:growl id="msg" autoUpdate="true"/>
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
                 <p:focus for="wprowadzaniepodatnika"/>
@@ -94,7 +94,7 @@
             </p:outputPanel>
         </h:form>
         <h:form id="formwprowadzaniefirmy">
-             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == true}">
+             <p:outputPanel id="wrapper" rendered="#{podatnikView.selected.firmafk == 1}">
                 <p:growl id="msg" autoUpdate="true"/>
             <!--        wpisywanie firmy-->
                 <pe:tooltip global="true" myPosition="left center" atPosition="right center" autoShow="true"/>  
@@ -178,7 +178,15 @@
                             </h:panelGrid>
                         </f:facet>
                     </p:autoComplete>
-
+                 <h:outputLabel value="księgi"/>
+                 <h:selectOneMenu value="#{podatnikView.selected.firmafk}"
+                                     styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                 onfocus="$(this).addClass('ui-state-focus');" 
+                                 onblur="$(this).removeClass('ui-state-focus');" >
+                     <f:selectItem itemLabel="firma fk" itemValue="1"/>
+                     <f:selectItem itemLabel="firma pkpir" itemValue="0"/>
+                     <f:selectItem itemLabel="firma fk/pkpir" itemValue="3"/>
+                    </h:selectOneMenu>
                 </p:panelGrid>
                 <p:panelGrid columns="1">
                     <p:commandButton action="#{podatnikView.edytujfk()}" value="edytuj podatnika" update="@form" type="submit" style="margin-top: 10px;"/>

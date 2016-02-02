@@ -232,9 +232,9 @@ public class beanek {
         upoMBT = upo.value;
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
-        temp.setUpo(upoMB);
-        temp.setStatus(statMB.toString());
-        temp.setOpis(opisMB);
+        temp.setUpo(upoMBT);
+        temp.setStatus(statMBT);
+        temp.setOpis(opisMBT);
         deklaracjevatDAO.edit(temp);
     }
 
@@ -260,9 +260,9 @@ public class beanek {
         upoMBT = upo.value;
         statMBT = stat.value + " "+opis.value;
         opisMBT = komunikat.get(1);
-        sprawdzanadeklaracja.setUpo(upoMB);
-        sprawdzanadeklaracja.setStatus(statMB.toString());
-        sprawdzanadeklaracja.setOpis(opisMB);
+        sprawdzanadeklaracja.setUpo(upoMBT);
+        sprawdzanadeklaracja.setStatus(statMBT);
+        sprawdzanadeklaracja.setOpis(opisMBT);
         sprawdzanadeklaracja.setDataupo(new Date());
         deklaracjevatView.getWyslaneniepotwierdzone().remove(sprawdzanadeklaracja);
         deklaracjevatView.getWyslanenormalne().add(sprawdzanadeklaracja);
