@@ -70,6 +70,11 @@ public class EwidencjaAddwiad implements Serializable{
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "EwidencjaAddwiad{" + "opis=" + opis + ", netto=" + netto + ", vat=" + vat + ", brutto=" + brutto + ", opzw=" + opzw + ", datadokumentu=" + datadokumentu + ", dataoperacji=" + dataoperacji + ", klient=" + klient + ", wiersz=" + wiersz + '}';
+    }
+
     
     
     public int getLp() {

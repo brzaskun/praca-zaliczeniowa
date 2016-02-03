@@ -145,7 +145,7 @@
                                         required="true" requiredMessage="Pole klienta nie może być puste" 
                                         onkeyup="sprawdzczykopiowacklienta();" onblur="sprawdzczybrakklienta();">
                             <p:ajax event="itemSelect" partialSubmit="true"
-                                    update="dodWiad:rodzajTrans,dodWiad:opis" oncomplete="r('dodWiad:numerwlasny').select();" />
+                                    update="dodWiad:rodzajTrans,dodWiad:opis"  />
                             <f:facet name="itemtip">  
                                 <h:panelGrid  columns="2" cellpadding="5" width="400">  
                                     <f:facet name="header">  
@@ -179,7 +179,7 @@
                     <p:column>
                         <p:inputText id="numerwlasny" value="#{DokumentView.selDokument.nrWlDk}" title="wpisz numer własny faktury" style="width: 150px;">
                             <p:ajax event="focus" listener="#{DokumentView.podepnijListe()}" 
-                                    update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis(#{WpisView.podatnikObiekt.vatokres.size()});"/>
+                                    update="dodWiad:tabelapkpir" global="false" onstart="aktywujopis(#{DokumentView.nieVatowiec});"/>
                             <p:ajax event="blur" partialSubmit="true" listener="#{DokumentView.sprawdzCzyNieDuplikatwtrakcie}"/>
                         </p:inputText>
                     </p:column>
@@ -205,7 +205,7 @@
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
                                         styleClass="wiersznetto" onfocus="kalkulator_pobierzwiersz(this);dolaczwyliczenieKopiowanie();"> 
                             <p:ajax event="blur" listener="#{DokumentView.podepnijEwidencjeVat}" global="false"
-                                    update="dodWiad:panelewidencjivat, dodWiad:sumbrutto"/>
+                                    update="dodWiad:panelewidencjivat, dodWiad:sumbrutto, dodWiad:dokumentprosty"/>
                             <p:ajax event="change" listener="#{DokumentView.skopiujwartosc(index)}" global="false" partialSubmit="true"/>
                         </pe:inputNumber>
                     </p:column>

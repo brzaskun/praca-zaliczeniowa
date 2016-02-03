@@ -312,12 +312,12 @@ public class EwidencjaVatView implements Serializable {
 
     private void pobierzdokumentyzaOkres() {
         try {
-            List<Dok> listatmp = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
+                List<Dok> listatmp = dokDAO.zwrocBiezacegoKlientaRokKW(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu());
             //sortowanie dokumentów
             Collections.sort(listatmp, new Dokcomparator());
             int numerk = 1;
             for (Dok tmpx : listatmp) {
-                if (tmpx.getVatR().equals(wpisView.getRokWpisuSt())) {
+                if (tmpx.getVatR().equals(wpisView.getRokWpisuSt()) && !tmpx.getEwidencjaVAT1().isEmpty()) {
                     tmpx.setNrWpkpir(numerk++);
                     listadokvat.add(tmpx);
                 }

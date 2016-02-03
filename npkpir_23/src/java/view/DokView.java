@@ -374,9 +374,10 @@ public final class DokView implements Serializable {
                     break;
                 }
             }
-            if (nieVatowiec == false) {
+            if (nieVatowiec == false || typdok.equals("IU")) {
                 /*wyswietlamy ewidencje VAT*/
                 List opisewidencji = new ArrayList<>();
+                selDokument.setDokumentProsty(false);
                 opisewidencji.addAll(listaEwidencjiVat.pobierzOpisyEwidencji(transakcjiRodzaj));
                 double sumanetto = sumujnetto();
                 Tabelanbp t = selDokument.getTabelanbp();
@@ -677,27 +678,27 @@ public final class DokView implements Serializable {
         Double kwotavat = 0.0;
         try {
             String rodzajOpodatkowania = podatnikOpodatkowanieDDAO.findOpodatkowaniePodatnikRok(wpisView).getFormaopodatkowania();
-            if ((!rodzajOpodatkowania.contains("bez VAT")) && (selDokument.isDokumentProsty() == false)) {
+            if ((!rodzajOpodatkowania.contains("bez VAT")) || (selDokument.isDokumentProsty() == false)) {
                 Map<String, Evewidencja> zdefiniowaneEwidencje = evewidencjaDAO.findAllMap();
                 List<EVatwpis1> ewidencjeDokumentu = new ArrayList<>();
                 for (EwidencjaAddwiad p : ewidencjaAddwiad) {
-                    String op = p.getOpis();
-                    EVatwpis1 eVatwpis = new EVatwpis1();
-                    eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
-                    eVatwpis.setNetto(p.getNetto());
-                    eVatwpis.setVat(p.getVat());
-                    eVatwpis.setEstawka(p.getOpzw());
-                    eVatwpis.setDok(selDokument);
-                    ewidencjeDokumentu.add(eVatwpis);
-                    //to musi być bo inaczej nie obliczy kwoty vat;
-                    kwotavat += p.getVat();
+                    if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
+                        String op = p.getOpis();
+                        EVatwpis1 eVatwpis = new EVatwpis1();
+                        eVatwpis.setEwidencja(zdefiniowaneEwidencje.get(op));
+                        eVatwpis.setNetto(p.getNetto());
+                        eVatwpis.setVat(p.getVat());
+                        eVatwpis.setEstawka(p.getOpzw());
+                        eVatwpis.setDok(selDokument);
+                        ewidencjeDokumentu.add(eVatwpis);
+                        //to musi być bo inaczej nie obliczy kwoty vat;
+                        kwotavat += p.getVat();
+                    }
                 }
-                if (nieVatowiec == true) {
+                if (ewidencjeDokumentu.isEmpty()) {
                     selDokument.setEwidencjaVAT1(null);
-                } else if (!selDokument.isDokumentProsty()) {
-                    selDokument.setEwidencjaVAT1(ewidencjeDokumentu);
                 } else {
-                    selDokument.setEwidencjaVAT1(null);
+                    selDokument.setEwidencjaVAT1(ewidencjeDokumentu);
                 }
             }
             selDokument.setStatus("bufor");
@@ -804,6 +805,9 @@ public final class DokView implements Serializable {
             selectedSTR = new SrodekTrw();
             if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
                 selDokument.setDokumentProsty(true);
+                ewidencjaAddwiad.clear();
+                ukryjEwiencjeVAT = true;
+                RequestContext.getCurrentInstance().update("dodWiad:tablicavat");
             } else {
                 podepnijEwidencjeVat();
             }
@@ -1777,6 +1781,14 @@ public final class DokView implements Serializable {
 
     public void setSymbolWalutyNettoVat(String symbolWalutyNettoVat) {
         this.symbolWalutyNettoVat = symbolWalutyNettoVat;
+    }
+
+    public boolean isNieVatowiec() {
+        return nieVatowiec;
+    }
+
+    public void setNieVatowiec(boolean nieVatowiec) {
+        this.nieVatowiec = nieVatowiec;
     }
     
 

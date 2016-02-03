@@ -105,8 +105,14 @@ var aktywujopis = function(czyjestvat) {
                 r('dodWiad:panelewidencjivat').hide();
             }
             break;
+        case 'IU':
+            if (r('dodWiad:dokumentprosty').is(':checked') === true) {
+                r('dodWiad:dokumentprosty').trigger("click");
+                r('dodWiad:panelewidencjivat').show();
+            }
+            break;
         default:
-            if (r('dodWiad:dokumentprosty').is(':checked') === true && czyjestvat > 0) {
+            if (r('dodWiad:dokumentprosty').is(':checked') === true && czyjestvat === false) {
                 r('dodWiad:dokumentprosty').trigger("click");
                 r('dodWiad:panelewidencjivat').show();
             }
