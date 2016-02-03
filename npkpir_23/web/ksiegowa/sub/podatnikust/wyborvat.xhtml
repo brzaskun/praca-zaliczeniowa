@@ -30,8 +30,8 @@
                     <h:outputText value="rok podatkowy: "/><p:selectOneMenu value="#{podatnikView.parametr.rokOd}"><f:selectItems value="#{Roki.rokiListString}"/></p:selectOneMenu>
                     <h:outputText value="miesiąc od: "/><p:selectOneMenu value="#{podatnikView.parametr.mcOd}"><f:selectItems value="#{Mce.mceList}"/></p:selectOneMenu>
                     <p:selectOneMenu value="#{podatnikView.parametr.parametr}" >
-                        <f:selectItem itemValue="miesięczne"/> 
-                        <f:selectItem itemValue="kwartalne"/>
+                        <f:selectItem itemValue="miesięczne" itemLabel="miesięczne"/> 
+                        <f:selectItem itemValue="kwartalne" itemLabel="kwartalne"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <br/>

@@ -78,6 +78,10 @@ public class DokDAO extends DAO implements Serializable {
     public List<Dok> zwrocBiezacegoKlientaRokPrzychody(String pod, String rok) {
         return dokFacade.findDokBKPrzychody(pod,rok);
     }
+    
+    public List<Dok> zwrocBiezacegoKlientaRokMcPrzychody(String pod, String rok, String mc) {
+        return dokFacade.findDokBKMCPrzychody(pod,rok, mc);
+    }
      
     public List<Dok> zwrocRok(String rok) {
         return dokFacade.findDokRok(rok);

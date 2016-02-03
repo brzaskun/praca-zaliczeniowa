@@ -44,6 +44,11 @@ public class WalutyKursRecznieView implements Serializable{
         numertabeli = 252;
         List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         try {
+            Tabelanbp ostatniatabela = tabelanbpDAO.findOstatniaTabela(w.getSymbolwaluty());
+            if (ostatniatabela != null) {
+                datawstepna = ostatniatabela.getDatatabeli();
+                numertabeli = Integer.parseInt(ostatniatabela.getNrtabeli().substring(0, 3));
+            }
             wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
         } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
             //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");

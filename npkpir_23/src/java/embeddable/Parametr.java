@@ -99,6 +99,7 @@ public class Parametr implements Serializable {
     public Double getParamentrNumb() {
         double zwrot = 0;
         try {
+            parametr = parametr.replace(",",".");
             zwrot = Double.parseDouble(parametr);
         } catch (Exception e) {
             E.e(e);

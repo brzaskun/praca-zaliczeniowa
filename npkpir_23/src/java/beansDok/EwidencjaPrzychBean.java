@@ -5,11 +5,17 @@
  */
 package beansDok;
 
+import comparator.Dokcomparator;
+import dao.DokDAO;
 import embeddable.DokEwidPrzych;
 import embeddable.DokKsiega;
+import entity.Dok;
 import entity.Klienci;
 import entity.KwotaKolumna1;
 import error.E;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -95,5 +101,21 @@ public class EwidencjaPrzychBean extends KsiegaBean {
         double suma = dk.getKolumna5()+dk.getKolumna6()+dk.getKolumna7()+dk.getKolumna8()+dk.getKolumna9();
         dk.setKolumna11(suma);
         podsumowanie.setKolumna11(podsumowanie.getKolumna11() + suma);
+    }
+    
+    public static List<Dok> pobierzdokumentyR(DokDAO dokDAO, String podatnik, Integer rok, String mc, int numerkolejny) {
+        List<Dok> dokumentyZaMc = new ArrayList<>();
+        try {
+            dokumentyZaMc = dokDAO.zwrocBiezacegoKlientaRokMcPrzychody(podatnik, rok.toString(), mc);
+            Collections.sort(dokumentyZaMc, new Dokcomparator());
+        } catch (Exception e) { 
+            E.e(e); 
+        }
+        if (dokumentyZaMc != null) {
+            for (Dok tmpx : dokumentyZaMc) {
+                tmpx.setNrWpkpir(numerkolejny++);
+            }
+        }
+        return dokumentyZaMc;
     }
 }

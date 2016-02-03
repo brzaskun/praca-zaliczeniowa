@@ -97,7 +97,7 @@ public class TabelanbpDAO extends DAO implements Serializable {
     }
     
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
-         try {
+        try {
             return tabelanbpFacade.findByDateWalutaLista(datatabeli, nazwawaluty);
         } catch (Exception e) { E.e(e); 
             return null;
@@ -105,8 +105,16 @@ public class TabelanbpDAO extends DAO implements Serializable {
     }
     
     public Tabelanbp findByTabelaPLN() {
-         try {
+        try {
             return tabelanbpFacade.findTabelaPLN();
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+
+    public Tabelanbp findOstatniaTabela(String symbolwaluty) {
+        try {
+            return tabelanbpFacade.findOstatniaTabela(symbolwaluty);
         } catch (Exception e) { E.e(e); 
             return null;
         }

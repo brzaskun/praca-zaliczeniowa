@@ -460,6 +460,10 @@ public class SessionFacade<T> implements Serializable {
     public List<Dok> findDokBKPrzychody(String pod, String rok) {
         return em.createNamedQuery("Dok.findByBKPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).getResultList();
     }
+    public List<Dok> findDokBKMCPrzychody(String pod, String rok, String mc) {
+        return em.createNamedQuery("Dok.findByBKMCPrzychody").setParameter("podatnik", pod).setParameter("pkpirR", rok).setParameter("pkpirM", mc).getResultList();
+    }
+    
 
     public List<Dok> findDokRok(String rok) {
         return em.createNamedQuery("Dok.findByPkpirR").setParameter("pkpirR", rok).getResultList();
@@ -911,6 +915,10 @@ public class SessionFacade<T> implements Serializable {
 
     public Tabelanbp findTabelaPLN() {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findBySymbolWaluty").setParameter("symbolwaluty", "PLN").getSingleResult();
+    }
+    
+    public Tabelanbp findOstatniaTabela(String symbolwaluty) {
+        return (Tabelanbp) em.createNamedQuery("Tabelanbp.findBySymbolWalutyOstatnia").setParameter("symbolwaluty", symbolwaluty).setMaxResults(1).getSingleResult();
     }
 
     public Waluty findWalutaBySymbolWaluty(String staranazwa) {
@@ -1702,6 +1710,8 @@ public class SessionFacade<T> implements Serializable {
     public List<FakturaRozrachunki> findByPodatnikKontrahent(WpisView wpisView, Klienci kontrahent) {
         return em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList();
     }
+
+    
     
    
    
