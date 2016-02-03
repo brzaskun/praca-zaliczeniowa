@@ -14,7 +14,7 @@
             <p:focus for="parametrypodatnika3"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataTable value="#{podatnikView.selected.remanent}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                <p:dataTable value="#{podatnikView.selected.remanent}"  var="loop" >
                     <p:column headerText="od">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />

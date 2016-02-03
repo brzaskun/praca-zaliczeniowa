@@ -12,7 +12,8 @@
             <p:growl showDetail="true"/>
             <p:focus for="parametryp2"/><br/>
             <p:panelGrid columns="4" style="width: 920px">
-                <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12" id="datatable"
+                <p:dataTable value="#{podatnikView.selected.zusparametr}"  var="loop" paginatorAlwaysVisible="true" paginatorPosition="top"
+                             paginator="true" pageLinks="12" rows="12" id="datatable"
                              sortFunction="#{zUSStawkiZbiorczeView.sortujZUSstawki}"  sortBy="#{loop.zusstawkiPK}" sortOrder="descending" selection="#{podatnikView.zusstawkiWybierz}" selectionMode="single" rowKey="#{loop.zusstawkiPK}"
                              rowIndexVar="row" rowStyleClass="#{(row mod 2) eq 0 ? null : 'odd'}" >
                     <p:ajax event="rowSelect" listener="#{podatnikView.wybranowiadomosc()}" update="@form:parametryp2"/>       

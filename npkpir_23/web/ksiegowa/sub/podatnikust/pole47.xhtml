@@ -14,7 +14,7 @@
             <p:focus for="parametrypodatnika8"/><br/>
             <h:outputText value="dane historyczne"/><br/>
             <p:panelGrid columns="4" style="width: 500px">
-                <p:dataList value="#{podatnikView.selected.pole47N}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+                <p:dataList value="#{podatnikView.selected.pole47N}"  var="loop" itemType="disc" >
                     <h:outputText value="kwota pola47: " />
                     <bcf:outputpl0 value="#{loop}" />
                 </p:dataList>

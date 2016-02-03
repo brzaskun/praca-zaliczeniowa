@@ -13,17 +13,20 @@
                 <p:focus for="parametryp1"/><br/>
                 <h:outputText value="dane historyczne"/><br/>
                 <p:panelGrid columns="4" style="width: 500px">
-                    <p:dataList value="#{podatnikView.selected.vatokres}"  var="loop" itemType="disc" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
-                        <h:outputText value="od: " />
-                        <h:outputText value="#{loop.mcOd}-" />
-                        <h:outputText value="#{loop.rokOd}" />
-                        <h:outputText value="  do: " />
-                        <h:outputText value="#{loop.mcDo}-" />
-                        <h:outputText value="#{loop.rokDo}" />
-                        <h:outputText value=" rodzaj rozliczeń: " />
-                        <h:outputText value="#{loop.parametr}" />
-                        <br/>
-                    </p:dataList>
+                    <p:dataTable value="#{podatnikView.selected.vatokres}"  var="loop" 
+                                 >
+                        <p:column headerText="od">
+                            <h:outputText value="#{loop.mcOd}-" />
+                            <h:outputText value="#{loop.rokOd}" />
+                        </p:column>
+                        <p:column headerText="do">
+                            <h:outputText value="#{loop.mcDo}-" />
+                            <h:outputText value="#{loop.rokDo}" />
+                        </p:column>
+                        <p:column headerText="rodzaj rozliczeń">
+                            <h:outputText value="#{loop.parametr}" />
+                        </p:column>
+                    </p:dataTable>
                 </p:panelGrid>
                 <h:outputText value="wybierz parametry aktualne"/><br/>
                 <p:panelGrid id="parametryp1" columns="5" >

@@ -11,7 +11,7 @@
             <h:outputText value="Wybór opodatkowania podatkiem dochodowym" style="font-size: 15px"/>
             <p:focus for="parametrypodatnika"/><br/>
             <h:outputText value="dane historyczne"/><br/>
-            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" paginatorAlwaysVisible="true" paginator="true" pageLinks="12" rows="12">
+            <p:dataTable value="#{podatnikView.podatnikOpodatkowanie}"  var="loop" >
                     <p:column headerText="od">
                         <h:outputText value="#{loop.mcOd}-" />
                         <h:outputText value="#{loop.rokOd}" />

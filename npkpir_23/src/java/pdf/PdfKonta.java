@@ -150,7 +150,7 @@ public class PdfKonta {
     private static PdfPTable tablica(SaldoKonto rs, int i) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(11);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
-        table.setWidthPercentage(95);
+        table.setWidthPercentage(98);
         table.setSpacingBefore(15);
         try {
             table.addCell(ustawfraze(B.b("lp"), 0, 1));
@@ -256,7 +256,7 @@ public class PdfKonta {
     private static PdfPTable tablicabezdok(WpisView wpisView, List<SaldoKonto> listaSaldoKonto, int rodzajdruku, int analit0synt1) throws DocumentException, IOException {
         PdfPTable table = new PdfPTable(11);
         table.setWidths(new int[]{1, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2});
-        table.setWidthPercentage(95);
+        table.setWidthPercentage(98);
         try {
             table.addCell(ustawfraze(wpisView.getPodatnikWpisu(), 3, 0));
             if (analit0synt1==1) {
