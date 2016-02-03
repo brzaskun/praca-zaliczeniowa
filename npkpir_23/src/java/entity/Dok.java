@@ -203,11 +203,13 @@ public class Dok implements Serializable {
     
     public Dok() {
         this.listakwot1 = new ArrayList<>();
+        this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
     }
 
     public Dok(Long idDok) {
         this.listakwot1 = new ArrayList<>();
+        this.typdokumentu = "";
         this.getListakwot1().add(new KwotaKolumna1());
         this.idDok = idDok;
     }

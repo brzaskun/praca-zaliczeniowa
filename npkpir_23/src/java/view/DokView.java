@@ -360,7 +360,8 @@ public final class DokView implements Serializable {
 //            sumujnetto();
 //            ewidencjaAddwiad = new ArrayList<>();
 //        } else 
-        if (selDokument.isDokumentProsty()) {
+        String typdok = typdokumentu != null ? typdokumentu : selDokument.getTypdokumentu();
+        if (selDokument.isDokumentProsty() && !typdok.equals("IU")) {
             ukryjEwiencjeVAT = true;
             sumujnetto();
             ewidencjaAddwiad = new ArrayList<>();
