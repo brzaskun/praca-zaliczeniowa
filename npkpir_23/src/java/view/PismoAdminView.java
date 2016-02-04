@@ -107,7 +107,8 @@ public class PismoAdminView implements Serializable{
     @Inject private PismoadminDAO pismoadminDAO;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    private static boolean wybierztylkobiezace;
+    private boolean razemzarchiwalnymi;
+    private boolean wybierznowe;
     
     
        
@@ -117,9 +118,10 @@ public class PismoAdminView implements Serializable{
     @PostConstruct
     public void init() {
         listapism = pismoadminDAO.findBiezace();
-        //zrobilem odwrotnie bez zmiany nazwy bo przeca po co mi widzie cte archiwalne
-        if (wybierztylkobiezace==true) {
+        if (razemzarchiwalnymi==true) {
             listapismwszytskie = pismoadminDAO.findAll();
+        } else if (wybierznowe==true) {
+            listapismwszytskie = pismoadminDAO.findNowe();
         } else {
             listapismwszytskie = pismoadminDAO.findBiezace();
         }
@@ -256,13 +258,23 @@ public class PismoAdminView implements Serializable{
         this.listapismwszytskie = listapismwszytskie;
     }
 
-    public boolean isWybierztylkobiezace() {
-        return wybierztylkobiezace;
+    public boolean isRazemzarchiwalnymi() {
+        return razemzarchiwalnymi;
     }
 
-    public void setWybierztylkobiezace(boolean wybierztylkobiezace) {
-        PismoAdminView.wybierztylkobiezace = wybierztylkobiezace;
+    public void setRazemzarchiwalnymi(boolean razemzarchiwalnymi) {
+        this.razemzarchiwalnymi = razemzarchiwalnymi;
     }
+
+    public boolean isWybierznowe() {
+        return wybierznowe;
+    }
+
+    public void setWybierznowe(boolean wybierznowe) {
+        this.wybierznowe = wybierznowe;
+    }
+
+   
 
     
     

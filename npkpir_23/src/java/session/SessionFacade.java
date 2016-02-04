@@ -991,6 +991,9 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("Pismoadmin.findByNOTStatus").setParameter("status", "archiwalna").getResultList();
     }
 
+    public List<Pismoadmin> findPismoadminNowe() {
+        return em.createNamedQuery("Pismoadmin.findByStatus").setParameter("status", "wysłana").getResultList();
+    }
     public Kliencifk znajdzkontofk(String nip, String podatniknip) {
         try {
             return (Kliencifk) em.createNamedQuery("Kliencifk.findByNipPodatniknip").setParameter("nip", nip).setParameter("podatniknip", podatniknip).getSingleResult();
