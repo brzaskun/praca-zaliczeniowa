@@ -42,6 +42,15 @@ public class PismoadminDAO extends DAO implements Serializable{
             return null;
         }
    }
+
+    public List<Pismoadmin> findNowe() {
+        try {
+            List<Pismoadmin> lista = sessionFacade.findPismoadminNowe();
+            return lista;
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
     
     
 }

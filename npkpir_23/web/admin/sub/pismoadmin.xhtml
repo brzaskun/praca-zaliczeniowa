@@ -9,13 +9,18 @@
     <f:view>
         <bcf:ajaxs/>
         <h:form style="padding: 0.5%;">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="4">
                 <h:outputText value="z archiwalnymi"/>
-                <p:selectBooleanCheckbox value="#{pismoAdminView.wybierztylkobiezace}" label="bez archiwalnych">
-                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism"/>
+                <p:selectBooleanCheckbox value="#{pismoAdminView.razemzarchiwalnymi}" label="bez archiwalnych">
+                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
+                </p:selectBooleanCheckbox>
+                <h:outputText value="tylko nowe"/>
+                <p:selectBooleanCheckbox value="#{pismoAdminView.wybierznowe}" label="nowe only">
+                    <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
                 </p:selectBooleanCheckbox>
             </p:panelGrid>
         </h:form>
+      
         <h:form id="wykazpism">
             <p:dataTable value="#{pismoAdminView.listapismwszytskie}" var="item" style="width: 80%; margin-top: 2%;" id="dokLista"
                          widgetVar="table" emptyMessage="Nikt nie niepokoił jeszcze admina" filterDelay="600"
