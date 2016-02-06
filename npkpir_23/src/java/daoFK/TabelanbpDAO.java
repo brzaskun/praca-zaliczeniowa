@@ -6,6 +6,7 @@ package daoFK;
 
 import dao.DAO;
 import entityfk.Tabelanbp;
+import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -91,6 +92,14 @@ public class TabelanbpDAO extends DAO implements Serializable {
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
          try {
             return tabelanbpFacade.findByDateWaluta(datatabeli, nazwawaluty);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public List<Tabelanbp> findByWaluta(Waluty waluta) {
+         try {
+            return tabelanbpFacade.findByWaluta(waluta);
         } catch (Exception e) { E.e(e); 
             return null;
         }

@@ -10,6 +10,7 @@ import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
 import entityfk.Waluty;
+import error.E;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import waluty.WalutyNBP;
  * @author Osito
  */
 @Named
-
+@Stateless
 public class WalutyFKBean {
 
     @Inject
@@ -79,27 +80,13 @@ public class WalutyFKBean {
     
     @Schedule(hour = "10,14", persistent = false)
     public void pobierzkursy() {
+        System.out.println("pobieram kursy ********************************************************************");
         String datawstepna;
         Integer numertabeli;
-        List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findAll();
-        Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
-        Tabelanbp wiersz = null;
-        if (wierszejuzzapisane.size() > 0) {
-            wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
-        }
-        if (wiersz == null) {
-            datawstepna = "2013-12-30";
-            numertabeli = 250;
-        } else {
-            datawstepna = wiersz.getDatatabeli();
-            numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
-            numertabeli++;
-        }
-        List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
         List<Waluty> pobranewaluty = walutyDAOfk.findAll();
-        Iterator it = pobranewaluty.iterator();
+        Iterator<Waluty> it = pobranewaluty.iterator();
         while(it.hasNext()) {
-            Waluty w = (Waluty) it.next();
+            Waluty w = it.next();
             if(w.getSymbolwaluty().equals("PLN")) {
                 it.remove();
                 break;
@@ -108,16 +95,32 @@ public class WalutyFKBean {
         //FacesContext context = FacesContext.getCurrentInstance();
         //WalutyNBP walutyNBP = (WalutyNBP) context.getApplication().evaluateExpressionGet(context, "#{walutyNBP}", WalutyNBP.class);
         for (Waluty w : pobranewaluty) {
+            List<Tabelanbp> wierszejuzzapisane = tabelanbpDAO.findByWaluta(w);
+            Collections.sort(wierszejuzzapisane, new Tabelanbpcomparator());
+            Tabelanbp wiersz = null;
+            if (wierszejuzzapisane.size() > 0) {
+                wiersz = wierszejuzzapisane.get(wierszejuzzapisane.size() - 1);
+            }
+            if (wiersz == null) {
+                datawstepna = "2013-12-30";
+                numertabeli = 250;
+            } else {
+                datawstepna = wiersz.getDatatabeli();
+                numertabeli = Integer.parseInt(wiersz.getNrtabeli().split("/")[0]);
+                numertabeli++;
+            }
+            List<Tabelanbp> wierszepobranezNBP = new ArrayList<>();
             try {
                 wierszepobranezNBP.addAll(walutyNBP.pobierzpliknbp(datawstepna, numertabeli, w.getSymbolwaluty()));
             } catch (IOException | ParserConfigurationException | SAXException | ParseException e) {
-                //Msg.msg("e", "nie udalo sie pobrac kursow walut z internetu");
+                E.e(e);
+            }
+            for (Tabelanbp p : wierszepobranezNBP) {
+               tabelanbpDAO.dodaj(p);
             }
             //Msg.msg("i", "Udalo sie pobrac kursow walut z internetu");
         }
-        for (Tabelanbp p : wierszepobranezNBP) {
-            tabelanbpDAO.dodaj(p);
-        }
+       
     }
     
     

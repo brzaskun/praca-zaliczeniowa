@@ -176,6 +176,7 @@ var powrotdopolaPoNaniesieniuRozrachunkow = function () {
 var doklejsumowaniewprowadzonych = function () {
     r("rozrachunki:dataList").find("input").change(function () {
         var wprowadzonowpole = $(this).val();
+        var starawartosc = zrobFloat(this.oldvalue);
         r("rozrachunki:zapiszrozrachunekButton").show();
         $(this).css("color", "black");
         $(this).css("font-weight", "normal");
@@ -183,10 +184,19 @@ var doklejsumowaniewprowadzonych = function () {
         var iloscpozycji = oblicziloscpozycji();
         if (wprowadzonowpole === "") {
             uzupelnijpustepole(numerwiersza);
+            wprowadzonowpole = 0.0;
         }
         var waluta = pobierzwaluta(numerwiersza);
         var kurs = pobierzkurs(numerwiersza);
-        var wartoscpoprawej = pobierzwartoscpoprawej(numerwiersza, kurs, waluta);
+        var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
+        var wartoscpoprawej = zrobFloat(r(wiersz).text());
+        if (isNaN(wartoscpoprawej) === true) {
+            wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
+            wartoscpoprawej = zrobFloat(r(wiersz).text());
+        }
+        if (waluta !== "PLN") {
+            wartoscpoprawej = wartoscpoprawej * kurs + wartoscpoprawej * .2;
+        }
         r(wiersz).css("font-weight", "normal");
         r(wiersz).css("color", "black");
         var wierszTransakcjaRozliczajaca = "rozrachunki:pozostalodorozliczenia";
@@ -219,17 +229,18 @@ var doklejsumowaniewprowadzonych = function () {
             }
         }
         //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
-        var wprowadzono = 0;
+        //var wprowadzono = 0;
         //TU JEST SUMOWANIE
-        for (var i = 0; i < iloscpozycji; i = i + 1) {
-            var wiersz = "rozrachunki:dataList:" + i + ":kwotarozliczenia_hinput";
-            wprowadzono += zrobFloat(r(wiersz).val());
-        }
-        var kwotapierwotna = zrobFloat(r('rozrachunki:dorozliczenia').text());
-        r("rozrachunki:juzrozliczono").text(zamien_na_waluta(wprowadzono));
-        r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(kwotapierwotna - wprowadzono));
+//        for (var i = 0; i < iloscpozycji; i = i + 1) {
+//            var wiersz = "rozrachunki:dataList:" + i + ":kwotarozliczenia_hinput";
+//            wprowadzono += zrobFloat(r(wiersz).val());
+//        }
+        var dorozliczenia = zrobFloat(r('rozrachunki:dorozliczenia').text());
+        var juzrozliczono = zrobFloat(r('rozrachunki:juzrozliczono').text());
+        r("rozrachunki:juzrozliczono").text(zamien_na_waluta(juzrozliczono+wartoscwprowadzona-starawartosc));
+        r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(dorozliczenia - (juzrozliczono+wartoscwprowadzona-starawartosc)));
         //
-        MYAPP.limit = (kwotapierwotna - wprowadzono).round(2);
+        MYAPP.limit = (dorozliczenia - (juzrozliczono+wartoscwprowadzona-starawartosc)).round(2);
         if (MYAPP.limit < 0) {
             r(wierszTransakcjaRozliczajaca).css("font-weight", "900");
             r(wierszTransakcjaRozliczajaca).css("color", "red");
@@ -242,6 +253,7 @@ var doklejsumowaniewprowadzonych = function () {
                 r("rozrachunki:zapiszrozrachunekButton").show();
             }
         }
+        $(this).css("color", "green");
         if (MYAPP.limit === 0.0) {
             r("rozrachunki:zapiszrozrachunekButton").focus();
             r("rozrachunki:zapiszrozrachunekButton").select();
@@ -293,17 +305,7 @@ var pobierzkurs = function(numerwiersza) {
     return zrobFloat(kurs);
 };
 
-var pobierzwartoscpoprawej = function(numerwiersza, kurs, waluta) {
-    var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
-    var wartoscpoprawej = zrobFloat(r(wiersz).text());
-    if (isNaN(wartoscpoprawej) === true) {
-        wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
-        wartoscpoprawej = zrobFloat(r(wiersz).text());
-    }
-    if (waluta !== "PLN") {
-        wartoscpoprawej = wartoscpoprawej * kurs + wartoscpoprawej * .2;
-    }
-};
+
 
 //var rozliczwprowadzone2 = function(wprowadzonowpole, wierszR) {
 //  var limit = zrobFloat($(document.getElementById('rozrachunki:pozostalodorozliczenia')).text());

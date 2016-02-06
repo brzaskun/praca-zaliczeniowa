@@ -908,6 +908,10 @@ public class SessionFacade<T> implements Serializable {
     public Tabelanbp findByDateWaluta(String datatabeli, String nazwawaluty) {
         return (Tabelanbp) em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getSingleResult();
     }
+    
+    public List<Tabelanbp> findByWaluta(Waluty waluta) {
+        return em.createNamedQuery("Tabelanbp.findByWaluta").setParameter("waluta", waluta).getResultList();
+    }
 
     public List<Tabelanbp> findByDateWalutaLista(String datatabeli, String nazwawaluty) {
         return em.createNamedQuery("Tabelanbp.findByDatatabeliSymbolwaluty").setParameter("datatabeli", datatabeli).setParameter("symbolwaluty", nazwawaluty).getResultList();

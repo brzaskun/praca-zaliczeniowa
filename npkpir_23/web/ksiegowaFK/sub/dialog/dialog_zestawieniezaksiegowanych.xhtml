@@ -112,7 +112,7 @@
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
                          style="width: 1260px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
-                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane" 
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
@@ -135,7 +135,7 @@
                 </p:column>-->
                 <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" sortFunction="#{dokfkView.sortujzaksiegowane}"
                           filterBy="#{item.dokfkSN}">
-                    <h:outputText value="#{item.dokfkSN}"/>
+                    <h:outputText value="#{item.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
                 </p:column>
                 <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
                     <h:outputText value="#{item.kontr.nip}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
