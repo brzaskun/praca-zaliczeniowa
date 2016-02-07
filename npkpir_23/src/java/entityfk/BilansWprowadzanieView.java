@@ -550,7 +550,7 @@ public class BilansWprowadzanieView implements Serializable {
         nd.setPodatnikObj(wpisView.getPodatnikObiekt());
         ustawrodzajedok(nd);
         ustawtabelenbp(nd);
-        ustawwiersze(nd);
+        ustawwiersze(nd, pobierzWierszeBO(nd, listazbiorcza));
         return nd;
     }
 
@@ -594,50 +594,54 @@ public class BilansWprowadzanieView implements Serializable {
         Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         nd.setWalutadokumentu(w);
     }
-
-    private void ustawwiersze(Dokfk nd) {
-        nd.setListawierszy(new ArrayList<Wiersz>());
-        int idporzadkowy = 1;
+    
+    private  List<WierszBO> pobierzWierszeBO(Dokfk nd, Map<Integer, List<WierszBO>> listazbiorcza) {
+        List<WierszBO> pobranewiersze = new ArrayList<>();
         Set<Integer> numerylist = listazbiorcza.keySet();
         for (Integer r : numerylist) {
             List<WierszBO> listabiezaca = listazbiorcza.get(r);
             if (listabiezaca != null && listabiezaca.size() > 0) {
                 for (WierszBO p : listabiezaca) {
-                    if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0)) {
-                        Wiersz w = new Wiersz(idporzadkowy++, 0);
-                        uzupelnijwiersz(w, nd);
-                        String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
-                        w.setOpisWiersza(opiswiersza);
-                        if (p.getKwotaWn() != 0) {
-                            w.setTypWiersza(1);
-                            StronaWiersza st = new StronaWiersza(w, "Wn", p.getKwotaWn(), p.getKonto());
-                            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                                st.setNowatransakcja(true);
-                            }
-                            st.setKursBO(p.getKurs());
-                            st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
-                            st.setOpisBO(p.getWierszBOPK().getOpis());
-                            st.setKwotaPLN(p.getKwotaWnPLN());
-                            st.setTypStronaWiersza(9);
-                            w.setStronaWn(st);
-                        } else if (p.getKwotaMa() != 0) {
-                            w.setTypWiersza(2);
-                            StronaWiersza st = new StronaWiersza(w, "Ma", p.getKwotaMa(), p.getKonto());
-                            if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
-                                st.setNowatransakcja(true);
-                            }
-                            st.setKursBO(p.getKurs());
-                            st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
-                            st.setOpisBO(p.getWierszBOPK().getOpis());
-                            st.setKwotaPLN(p.getKwotaMaPLN());
-                            st.setTypStronaWiersza(9);
-                            w.setStronaMa(st);
-                        }
-                        nd.getListawierszy().add(w);
-                    }
+                    pobranewiersze.add(p);
                 }
             }
         }
+        return pobranewiersze;
+    }
+
+    private void ustawwiersze(Dokfk nd, List<WierszBO> listabiezaca) {
+        nd.setListawierszy(new ArrayList<Wiersz>());
+        int idporzadkowy = 1;
+        if (listabiezaca != null && listabiezaca.size() > 0) {
+            for (WierszBO p : listabiezaca) {
+                if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0)) {
+                    Wiersz w = new Wiersz(idporzadkowy++, 0);
+                    uzupelnijwiersz(w, nd);
+                    String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
+                    w.setOpisWiersza(opiswiersza);
+                    if (p.getKwotaWn() != 0) {
+                        uzupelnijTworzonyWiersz(w, p, "Wn", 1);
+                    } else if (p.getKwotaMa() != 0) {
+                        uzupelnijTworzonyWiersz(w, p, "Ma", 2);
+                    }
+                    nd.getListawierszy().add(w);
+                }
+            }
+        }
+    }
+    
+    private void uzupelnijTworzonyWiersz(Wiersz w, WierszBO p, String wnma, Integer typWiersza) {
+        w.setTypWiersza(typWiersza);
+        StronaWiersza st = new StronaWiersza(w, wnma, p.getKwotaWn(), p.getKonto());
+        if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
+            st.setNowatransakcja(true);
+        }
+        st.setKursBO(p.getKurs());
+        st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
+        st.setOpisBO(p.getWierszBOPK().getOpis());
+        st.setKwotaPLN(p.getKwotaWnPLN());
+        st.setTypStronaWiersza(9);
+        w.setStronaWn(st);
     }
     
     private void edytujwiersze(Dokfk nd) {

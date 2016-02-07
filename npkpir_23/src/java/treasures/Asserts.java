@@ -12,5 +12,6 @@ public class Asserts {
     public static void main(String[] args){
          Object obj = "kotek";
          assert obj instanceof Double  : "Tu powinien byc String";
+         System.out.println("koniec");
     }
 }
