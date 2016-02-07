@@ -20,12 +20,12 @@ import javax.jms.TextMessage;
  */
 
 
-@MessageDriven(mappedName="jms/pkpirQueue", activationConfig= {
-    @ActivationConfigProperty(propertyName="acknowledgeMode",
-        propertyValue="Auto-acknowledge"),
-    @ActivationConfigProperty(propertyName="destinationType",
-        propertyValue="javax.jms.Queue")
-})
+//@MessageDriven(mappedName="jms/pkpirQueue", activationConfig= {
+//    @ActivationConfigProperty(propertyName="acknowledgeMode",
+//        propertyValue="Auto-acknowledge"),
+//    @ActivationConfigProperty(propertyName="destinationType",
+//        propertyValue="javax.jms.Queue")
+//})
 
 @ManagedBean
 @RequestScoped
