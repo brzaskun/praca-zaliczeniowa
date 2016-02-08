@@ -186,46 +186,49 @@ var doklejsumowaniewprowadzonych = function () {
             uzupelnijpustepole(numerwiersza);
             wprowadzonowpole = 0.0;
         }
-        var waluta = pobierzwaluta(numerwiersza);
+        var walutarachunki = pobierzwaluta(numerwiersza);
         var kurs = pobierzkurs(numerwiersza);
-        var wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
-        var wartoscpoprawej = zrobFloat(r(wiersz).text());
-        if (isNaN(wartoscpoprawej) === true) {
-            wiersz = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
-            wartoscpoprawej = zrobFloat(r(wiersz).text());
+        var wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloWn";
+        var kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
+        if (isNaN(kwotarachunekpozostalo) === true) {
+            wierszrachunekpozostalo = "rozrachunki:dataList:" + numerwiersza + ":pozostaloMa";
+            kwotarachunekpozostalo = zrobFloat(r(wierszrachunekpozostalo).text());
         }
-        if (waluta !== "PLN") {
-            wartoscpoprawej = wartoscpoprawej * kurs + wartoscpoprawej * .2;
+        //dopuszczalny margines dla nadplat bo platnosc w walucie
+        var kwotarachunekpozostalowPLN = kwotarachunekpozostalo;
+        if (walutarachunki !== "PLN") {
+            kwotarachunekpozostalo = kwotarachunekpozostalo * kurs + kwotarachunekpozostalo * .2;
         }
-        r(wiersz).css("font-weight", "normal");
-        r(wiersz).css("color", "black");
+        r(wierszrachunekpozostalo).css("font-weight", "normal");
+        r(wierszrachunekpozostalo).css("color", "black");
         var wierszTransakcjaRozliczajaca = "rozrachunki:pozostalodorozliczenia";
         r(wierszTransakcjaRozliczajaca).css("font-weight", "normal");
         r(wierszTransakcjaRozliczajaca).css("color", "black");
-        var wartoscwprowadzona = zrobFloat(wprowadzonowpole);
-        var walutarozliczajacego = r("rozrachunki:walutarozliczajacego").text();
-        if (walutarozliczajacego != "PLN" && waluta == "PLN") {
-            var kursrozliczajacego = parseFloat(r("rozrachunki:kursrozliczajacego").text());
-            wartoscwprowadzona = wartoscwprowadzona * kursrozliczajacego - wartoscpoprawej * 0.2;
+        var kwotaplatnosci = zrobFloat(wprowadzonowpole);
+        var walutaplatnosci = r("rozrachunki:walutarozliczajacego").text();
+        var kwotaplatnosciwPLN = kwotaplatnosci;
+        if (walutaplatnosci != "PLN" && walutarachunki == "PLN") {
+            var kursplatnosci = parseFloat(r("rozrachunki:kursrozliczajacego").text());
+            kwotaplatnosciwPLN = kwotaplatnosci * kursplatnosci - kwotarachunekpozostalo * 0.2;
         }
         var _jednak_nie_odslaniaj;
-        if (wartoscwprowadzona > wartoscpoprawej) {
-            if (wartoscpoprawej === 0) {
-                r(wiersz).css("font-weight", "600");
-                r(wiersz).css("color", "green");
+        if (kwotaplatnosciwPLN > kwotarachunekpozostalowPLN) {
+            if (kwotarachunekpozostalo === 0) {
+                r(wierszrachunekpozostalo).css("font-weight", "600");
+                r(wierszrachunekpozostalo).css("color", "green");
                 _jednak_nie_odslaniaj = false;
             } else {
-                r(wiersz).css("font-weight", "900");
-                r(wiersz).css("color", "red");
+                r(wierszrachunekpozostalo).css("font-weight", "900");
+                r(wierszrachunekpozostalo).css("color", "red");
                 r("rozrachunki:zapiszrozrachunekButton").hide();
                 _jednak_nie_odslaniaj = true;
             }
         }
         if (wprowadzonowpole === " zł") {
-            if (wartoscpoprawej >= MYAPP.limit) {
+            if (kwotarachunekpozostalo >= MYAPP.limit) {
                 $(this).val(MYAPP.limit);
             } else {
-                $(this).val(wartoscpoprawej);
+                $(this).val(kwotarachunekpozostalo);
             }
         }
         //oznaczamy odpowienio kolorem kwote pozostalo w wierszu rozliczajacym u gory dialogrozrachunki
@@ -237,10 +240,10 @@ var doklejsumowaniewprowadzonych = function () {
 //        }
         var dorozliczenia = zrobFloat(r('rozrachunki:dorozliczenia').text());
         var juzrozliczono = zrobFloat(r('rozrachunki:juzrozliczono').text());
-        r("rozrachunki:juzrozliczono").text(zamien_na_waluta(juzrozliczono+wartoscwprowadzona-starawartosc));
-        r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(dorozliczenia - (juzrozliczono+wartoscwprowadzona-starawartosc)));
+        r("rozrachunki:juzrozliczono").text(zamien_na_waluta(juzrozliczono+kwotaplatnosci-starawartosc));
+        r("rozrachunki:pozostalodorozliczenia").text(zamien_na_waluta(dorozliczenia - (juzrozliczono+kwotaplatnosci-starawartosc)));
         //
-        MYAPP.limit = (dorozliczenia - (juzrozliczono+wartoscwprowadzona-starawartosc)).round(2);
+        MYAPP.limit = (dorozliczenia - (juzrozliczono+kwotaplatnosci-starawartosc)).round(2);
         if (MYAPP.limit < 0) {
             r(wierszTransakcjaRozliczajaca).css("font-weight", "900");
             r(wierszTransakcjaRozliczajaca).css("color", "red");

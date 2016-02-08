@@ -11,7 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -70,10 +73,10 @@ public class Fakturywystokresowe implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 22)
     private Double brutto;
-    @Basic(optional = false)
-    @NotNull
-    @Lob
-    @Column(nullable = false)
+    @JoinColumns({
+        @JoinColumn(name = "fa_wystawcanazwa", referencedColumnName = "wystawcanazwa"),
+        @JoinColumn(name = "fa_numerkolejny", referencedColumnName = "numerkolejny")
+    })
     private Faktura dokument;
     @Basic(optional = false)
     @NotNull

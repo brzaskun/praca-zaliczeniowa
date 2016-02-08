@@ -803,7 +803,7 @@ public final class DokView implements Serializable {
             selDokument.setKontr1(wstawKlientaDoNowegoDok());
             DokFKBean.dodajWaluteDomyslnaDoDokumentu(walutyDAOfk, tabelanbpDAO, selDokument);
             selectedSTR = new SrodekTrw();
-            if (wpisView.getRodzajopodatkowania().contains("bez VAT")) {
+            if (wpisView.getRodzajopodatkowania().contains("bez VAT") && !selDokument.getTypdokumentu().equals("IU")) {
                 selDokument.setDokumentProsty(true);
                 ewidencjaAddwiad.clear();
                 ukryjEwiencjeVAT = true;

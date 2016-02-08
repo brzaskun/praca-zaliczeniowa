@@ -7,6 +7,7 @@
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
     <style>
+       
         .ui-inputfield .ui-inputtext {
             padding: 0px !important;
             margin: 0px !important;
@@ -21,22 +22,33 @@
             border: none;
             outline: none;
             box-shadow: none;
+            height: 25px;
+            width: 170px;
         }
         .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
             -webkit-box-shadow: none;
             box-shadow: none;
             font-weight: 900;
             background: #e4e3e3;
+            width: 170px;
         }
         
         
     </style>
-    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpiAr" widgetVar="dialog_srodki_dodaj" 
-              resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,350);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
+    <p:dialog id="dialog_srodki_dodaj" header="Dodanie środka trwałego umorzonego z pominięciem pkpir" widgetVar="dialog_srodki_dodaj" 
+              resizable="false"  onShow="ustawdialog('dialog_srodki_dodaj','formbuttonsrodki:buttonsrodki',700,380);r('formdialogsrodki:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodki_dodaj');">
         <!--pola ewidencji SRODKOW TRWALYCH-->
         <h:form id="formdialogsrodki">
-            <p:panel id="panelwyszukiwarki" style="width: 300px;" >
+            <p:panel id="panelwyszukiwarki" style="width: 300px; height: 80px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" />
+                <style>
+                     .ui-autocomplete-input[id="formdialogsrodki:acForce1_input"]  {
+            width: 300px;
+        }
+        .ui-autocomplete-input[id="formdialogsrodki:acForce1_input"]:focus {
+            width: 300px;
+        }
+                </style>
                 <p:autoComplete id="acForce1" value="#{STRTableView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="20" itemtipMyPosition="rightbottom"
@@ -59,11 +71,11 @@
                     </f:facet>
                 </p:autoComplete>
             </p:panel>
-            <p:panel id="nowypanelsrodki" style="width: 600px;">
+            <p:panel id="nowypanelsrodki" style="width: 600px; height: 280px;">
                 <p:panel header="dodawanie środka trw." style="width: 300px;" />
-                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4">
-                    <h:outputText value="nazwa środka"/>
-                    <p:column headerText="nazwa środka">
+                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" >
+                    <h:outputText value="nazwa środka" style="height: 45px;"/>
+                    <p:column headerText="nazwa środka" width="100">
                         <p:inputText id="nazwasrodka" value="#{STRTableView.selectedSTR.nazwa}" required="true" requiredMessage="Proszę wpisać nazwę środka"/>
                     </p:column>
                     <h:outputText value="data zakupu"/>
@@ -86,7 +98,7 @@
                     <p:column>
                         <pe:inputNumber id="cenazakupu" value="#{STRTableView.selectedSTR.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         onblur="zweryfikujczyniebrakujesrodektrw('formdialogsrodki');"
-                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
                     <p:column>
