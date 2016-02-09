@@ -10,6 +10,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import entity.Deklaracjevat;
@@ -113,7 +114,39 @@ public class PdfFont {
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         return cell;
     }
-
+ 
+ 
+ public static PdfPCell ustawfrazeAlignNOBorder(Object fraza, String orient, int fontsize) {
+        try {
+            String fraza2 = String.valueOf(fraza);
+            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
+            Font font = new Font(helvetica, fontsize);
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            switch (orient) {
+                case "right":
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                    break;
+                case "left":
+                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+                    break;
+                case "center":
+                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    break;
+                case "just":
+                    cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
+                    break;
+            }
+            return cell;
+        } catch (DocumentException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
     public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize) {
         try {
             String fraza2 = String.valueOf(fraza);

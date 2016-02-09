@@ -5,6 +5,9 @@
  */
 package pdffk;
 
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlign;
+import static beansPdf.PdfFont.ustawfrazeAlignNOBorder;
 import static beansPdf.PdfGrafika.prost;
 import beansPdf.PdfHeaderFooter;
 import com.itextpdf.text.Chunk;
@@ -21,13 +24,16 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import embeddable.FakturaPodatnikRozliczenie;
 import embeddable.SchemaEwidencjaSuma;
 import embeddable.Umorzenie;
 import embeddable.VatUe;
 import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import entity.DeklaracjaVatSchemaWierszSum;
+import entity.Dok;
 import entity.Faktura;
+import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Ryczpoz;
 import entity.SrodekTrw;
@@ -57,8 +63,6 @@ import testobjects.WierszKonta;
 import testobjects.WierszTabeli;
 import testobjects.WierszWNTWDT;
 import waluty.Z;
-import static beansPdf.PdfFont.ustawfrazeAlign;
-import embeddable.FakturaPodatnikRozliczenie;
 
 /**
  *
@@ -493,6 +497,19 @@ public class PdfMain {
                 col[3] = 2;
                 col[4] = 1;
                 col[5] = 2;
+                return col;
+            case "entity.Dok":
+                col = new int[size];
+                col[0] = 1;
+                col[1] = 2;
+                col[2] = 6;
+                col[3] = 1;
+                col[4] = 3;
+                col[5] = 3;
+                col[6] = 2;
+                col[7] = 4;
+                col[8] = 1;
+                col[9] = 3;
                 return col;
             case "entity.Ryczpoz":
                 col = new int[size];
@@ -1172,6 +1189,23 @@ public class PdfMain {
                 table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
+            if (nazwaklasy.equals("entity.Dok")) {
+                Dok p = (Dok) it.next();
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getNrWpkpir()), "center", 8, 25f));
+                table.addCell(ustawfrazeAlign(p.getDataWyst(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getKontr1().toString3(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getTypdokumentu(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getNrWlDk(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpis(), "left", 8));
+                tablicaWkomorce(table, p, "entity.Dok", 0);
+                tablicaWkomorce(table, p, "entity.Dok", 1);
+                table.addCell(ustawfrazeAlign(p.getVatM(), "center", 8));
+                if (p.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                    table.addCell(ustawfrazeAlign("", "left", 8));
+                } else {
+                    table.addCell(ustawfrazeAlign(p.getTabelanbp().getNrtabeli()+" "+p.getTabelanbp().getKurssredni(), "just", 8));
+                }
+            }
             if (nazwaklasy.equals("embeddablefk.KontoKwota")) {
                 KontoKwota p = (KontoKwota) it.next();
                 table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer(), "left", 7));
@@ -1410,6 +1444,51 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS30())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
+                }
+            }
+        }
+    }
+
+    private static void tablicaWkomorce(PdfPTable table, Object p, String nazwaklasy, int modyfikator) {
+        if (nazwaklasy.equals("entity.Dok")) {
+            if (modyfikator == 0) {
+                try {
+                    NumberFormat number = getNumberFormater();
+                    Dok d = (Dok) p;
+                    if (d.getTabelanbp().getNrtabeli().equals("000/A/NBP/0000")) {
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(d.getNetto())), "right", 8));
+                    } else {
+                        PdfPTable t = new PdfPTable(1);
+                        t.getDefaultCell().setBorderWidth(0f);
+                        int[] col = new int[1];
+                        col[0] = 2;
+                        t.setWidths(col);
+                        t.setWidthPercentage(100);
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(d.getNetto())), "right", 8));
+                        t.addCell(ustawfrazeAlignNOBorder(d.getTabelanbp().getWaluta().getSkrotsymbolu()+" "+String.valueOf(number.format(d.getNettoWaluta())), "right", 8));
+                        table.addCell(t);
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            } else {
+                 try {
+                    NumberFormat number = getNumberFormater();
+                    Dok d = (Dok) p;
+                    PdfPTable t = new PdfPTable(2);
+                    t.getDefaultCell().setBorderWidth(0f);
+                    int[] col = new int[2];
+                    col[0] = 3;
+                    col[1] = 2;
+                    t.setWidths(col);
+                    t.setWidthPercentage(100);
+                    for (KwotaKolumna1 r : d.getListakwot1()) {
+                        t.addCell(ustawfrazeAlignNOBorder(r.getNazwakolumny(), "left", 8));
+                        t.addCell(ustawfrazeAlignNOBorder(String.valueOf(number.format(r.getNetto())), "right", 8));
+                    }
+                    table.addCell(t);
+                } catch (Exception e) {
+                    E.e(e);
                 }
             }
         }

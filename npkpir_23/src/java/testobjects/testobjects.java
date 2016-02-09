@@ -13,6 +13,7 @@ import embeddable.ZestawienieRyczalt;
 import embeddablefk.KontoKwota;
 import embeddablefk.TreeNodeExtended;
 import entity.DeklaracjaVatSchemaWierszSum;
+import entity.Dok;
 import entity.Faktura;
 import entity.Klienci;
 import entity.Podatnik;
@@ -203,6 +204,24 @@ public class testobjects {
        List[] tabela = new List[2];
        tabela[0] = n;
        tabela[1] = t;
+       return tabela;
+   }
+   
+    public static List[] getListaDok(List<Dok> wiersze) {
+       List n = new ArrayList();
+       n.add("lp");
+       n.add("data wystawienia");
+       n.add("kontrahent");
+       n.add("trans");
+       n.add("nr własny");
+       n.add("opis");
+       n.add("netto");  
+       n.add("zapis w pkpir");
+       n.add("vat");
+       n.add("tab/kurs");
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = wiersze;
        return tabela;
    }
    

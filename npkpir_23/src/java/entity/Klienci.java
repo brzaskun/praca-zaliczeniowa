@@ -376,6 +376,9 @@ public class Klienci implements Serializable {
         return "Klienci{" + "nip=" + nip + ", miejscowosc=" + miejscowosc + ", npelna=" + npelna + '}';
     }
 
+    public String toString3() {
+        return getNpelna()+" "+getMiejscowosc()+" "+getNip();
+    }
     
     @Override
     public String toString() {

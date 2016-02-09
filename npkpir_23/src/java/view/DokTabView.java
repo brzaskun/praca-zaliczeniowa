@@ -46,6 +46,7 @@ import javax.servlet.http.HttpSession;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
 import pdf.PDFDirectPrint;
+import pdf.PdfDok;
 import pdf.PdfPK;
 
 /**
@@ -425,6 +426,13 @@ public class DokTabView implements Serializable {
         return "500px";
     }
 
+    public void drukujdokumentyuproszczona() {
+        if (dokumentyFiltered != null && dokumentyFiltered.size()>0) {
+            PdfDok.drukujDok(dokumentyFiltered, wpisView);
+        } else {
+            PdfDok.drukujDok(obiektDOKmrjsfSel, wpisView);
+        }
+    }
       
       
     

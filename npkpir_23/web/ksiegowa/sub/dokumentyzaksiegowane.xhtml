@@ -35,7 +35,7 @@
 
     </style>
     <h:form>
-        <p:stack icon="/resources/images/menustack/stack.png" >  
+        <p:stack icon="/resources/images/menustack/stack.png"  >  
             <p:menuitem global="false" value="duplikaty" icon="/resources/images/menustack/mix.png"  actionListener="#{DokTabView.sprawdzCzyNieDuplikat}"  />  
         </p:stack>
     </h:form>
@@ -45,7 +45,7 @@
             <p:menuitem global="false" value="Edytuj" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{DokumentView.sprawdzczywybranodokumentdoedycji}" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Okresowa" update=":formM:messages" icon="ui-icon-calculator" actionListener="#{fakturyokresoweView.dodajfaktureokresowa()}"/>
             <p:menuitem global="false" value="PDF" update=":formM:messages" actionListener="#{DokTabView.printPDFPK()}" icon="ui-icon-disk" onsuccess="wydrukpk('#{WpisView.podatnikWpisu}');"/>
-            <p:menuitem global="false" value="Wydruk" update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />
+            <p:menuitem global="false" value="Wydruk    " update=":formM:messages" actionListener="#{DokTabView.printPDFPKWydruk()}" icon="ui-icon-disk" />
             <p:menuitem global="false" value="Usuń wybrane" actionListener="#{DokTabView.destroygrupa()}" icon="ui-icon-trash" onclick="PF('confirmation1').show();" update=":form:dokumentyLista" rendered="#{!zamkniecieView.sprawdzMiesiacRok()}"/>
             <p:menuitem global="false" value="Switch" update=":formM:messages" actionListener="#{DokTabView.aktywacjadeaktywacja()}" icon="ui-icon-locked" rendered="#{facesContext.externalContext.remoteUser eq 'szef'}"/>
         </p:contextMenu>
@@ -67,11 +67,12 @@
 
             /* ]]> */
         </script>
+        <p:commandButton  icon="fa fa-print" style="width: 120px;" actionListener="#{DokTabView.drukujdokumentyuproszczona()}" global="false"/>
         <p:hotkey bind="down"  onstart="przejdzwiersz();"/>
         <p:hotkey bind="up"   onstart="wrocwiersz();"/>
         <p:outputPanel id="kontenertabeli" deferred="true">
             <p:dataTable  var="wpis" value="#{DokTabView.obiektDOKmrjsfSel}" id="dokumentyLista"  filteredValue="#{DokTabView.dokumentyFiltered}"
-                          style="width: 1400px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
+                          style="width: 1400px; margin-top: 10px;" rowKey="#{wpis.idDok}" selection="#{DokTabView.gosciuwybral}" widgetVar="dokTable"
                           rowStyleClass="#{wpis.rodzTrans eq 'sprzedaz' ? 'old' : (wpis.netto lt 0 ? 'korekta' : null)}" emptyMessage="W danym miesiącu nie było żadnych zapisów"
                           selectionMode="multiple" styleClass="grid" 
                           >
