@@ -57,6 +57,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     private int aktywnytab;
     private UISelectOne selectOneUI;
+    private boolean tylkoprzeterminowane;
 
     public FakturaRozrachunkiAnalizaView() {
         
@@ -215,7 +216,11 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (faktury != null) {
             for (Faktura r : faktury) {
                 if (r.isNowy0archiwum1() == nowe0archiwum1) {
-                    l.add(new FakturaPodatnikRozliczenie(r));
+                    if (tylkoprzeterminowane == false)  {
+                        l.add(new FakturaPodatnikRozliczenie(r));
+                    } else if (!r.getMc().equals(wpisView.getMiesiacWpisu())){
+                        l.add(new FakturaPodatnikRozliczenie(r));
+                    }
                 }
             }
         }
@@ -227,8 +232,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         saldanierozliczone = new ArrayList<>();
         int i = 1;
         sumasaldnierozliczonych = 0.0;
-        for (Klienci p : klienci) {
-            szukanyklient = p;
+        for (Iterator<Klienci> it =  klienci.iterator(); it.hasNext();) {
+            szukanyklient = it.next();
             pobierzwszystko(wpisView.getMiesiacWpisu());
             if (nowepozycje.size() > 0) {
                 FakturaPodatnikRozliczenie r = nowepozycje.get(nowepozycje.size()-1);
@@ -237,9 +242,16 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
-                    saldanierozliczone.add(r);
-                    sumasaldnierozliczonych += r.getSaldo();
+                    if (tylkoprzeterminowane == false) {
+                        saldanierozliczone.add(r);
+                        sumasaldnierozliczonych += r.getSaldo();
+                    } else if (r.getSaldo() > 0.0) {
+                        saldanierozliczone.add(r);
+                        sumasaldnierozliczonych += r.getSaldo();
+                    }
                 }
+            } else {
+                it.remove();
             }
         }
     }
@@ -352,6 +364,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setNowepozycje(List<FakturaPodatnikRozliczenie> nowepozycje) {
         this.nowepozycje = nowepozycje;
+    }
+
+    public boolean isTylkoprzeterminowane() {
+        return tylkoprzeterminowane;
+    }
+
+    public void setTylkoprzeterminowane(boolean tylkoprzeterminowane) {
+        this.tylkoprzeterminowane = tylkoprzeterminowane;
     }
 
 

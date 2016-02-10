@@ -78,6 +78,7 @@ import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 import view.WpisView;
@@ -1512,7 +1513,11 @@ public class SessionFacade<T> implements Serializable {
     }
 
     public FakturaXXLKolumna findXXLByPodatnik(Podatnik p) {
-        return (FakturaXXLKolumna) em.createNamedQuery("FakturaXXLKolumna.findByPodatnik").setParameter("podatnik", p).getSingleResult();
+        try {
+            return (FakturaXXLKolumna) em.createNamedQuery("FakturaXXLKolumna.findByPodatnik").setParameter("podatnik", p).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     public int findMaxLevelPodatnik(String podatnik, int rokWpisu) {

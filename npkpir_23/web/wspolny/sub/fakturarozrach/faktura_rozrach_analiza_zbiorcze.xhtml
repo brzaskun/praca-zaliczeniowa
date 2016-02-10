@@ -22,8 +22,12 @@
                 }
             </style>
             
-                <p:commandButton value="pobierz" actionListener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" style="width: 120px;" update="fakturaanalizazbiorcza"/>
+                <p:commandButton value="pobierz" actionListener="#{fakturaRozrachunkiAnalizaView.zestawieniezbiorcze()}" style="width: 120px;" update="fakturaanalizazbiorcza akordeon:fakturaanaliza:wyborklienta"/>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienciZbiorcze()}" global="false" style="width: 120px; margin-left: 20px;"/>
+                <h:outputText value="tylko przeterminowane" style="margin-left: 20px;"/>
+                <p:selectBooleanCheckbox value="#{fakturaRozrachunkiAnalizaView.tylkoprzeterminowane}" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
             <p:panelGrid columns="2" style="padding: 10px;">
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>

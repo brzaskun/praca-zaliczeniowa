@@ -8,6 +8,7 @@ package dao;
 import entity.FakturaXXLKolumna;
 import entity.Podatnik;
 import entityfk.Kliencifk;
+import error.E;
 import java.io.Serializable;
 import javax.inject.Inject;
 import session.SessionFacade;
@@ -30,7 +31,13 @@ public class FakturaXXLKolumnaDAO extends DAO implements Serializable{
     }
     
     public FakturaXXLKolumna findXXLByPodatnik(Podatnik p) {
-        return sessionFacade.findXXLByPodatnik(p);
+        FakturaXXLKolumna zwrot = null;
+        try {
+            zwrot = sessionFacade.findXXLByPodatnik(p);
+        } catch (Exception e) {
+            E.e(e);
+        }
+        return zwrot;
     }
     
 }
