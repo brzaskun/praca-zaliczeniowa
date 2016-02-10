@@ -26,6 +26,12 @@
                 </h:form>-->
         <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="zestawieniedokumentow"/>
         <h:form id="zestawieniedokumentow">
+            <p:panelGrid id="sumawybranych" columns="2">
+                <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
+                <h:outputText  id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:panelGrid>
             <p:panelGrid style="margin-left: 2%;" >
                 <p:row>
                 <p:column>
@@ -116,9 +122,9 @@
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
                 <p:ajax event="filter" global="false"/>
-                <p:ajax event="rowSelectCheckbox"  global="false"/>
-                <p:ajax event="rowUnselectCheckbox" global="false"/>
-                <p:ajax event="toggleSelect" global="false" />
+                <p:ajax event="toggleSelect" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
+                <p:ajax event="rowSelectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
                 <p:column style="width: 10px; height: 40px; text-align: center;" >

@@ -36,6 +36,7 @@ import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
+import entity.Dok;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
@@ -201,6 +202,7 @@ public class DokfkView implements Serializable {
     private String miesiacDlaZestawieniaZaksiegowanych;
     private DataTable dataTablezaksiegowane;
     private StronaWiersza selectedStronaWiersza;
+    private Double podsumowaniewybranych;
 
 
     public DokfkView() {
@@ -1622,10 +1624,20 @@ public class DokfkView implements Serializable {
                 }
             }
         }
-        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(dokDAOfk.findDokfkPodatnikRokMc(wpisView));
+        dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
         System.out.println("odswiezzaksiegowane()");
+    }
+    
+    public void sumawartosciwybranych(){
+        podsumowaniewybranych = 0.0;
+        for(Dokfk p : selectedlist){
+            try {
+                podsumowaniewybranych += p.getWartoscdokumentu();
+            } catch (Exception e) {
+            }
+        }
     }
 
     public void odswiezzaksiegowaneimport() {
@@ -2777,6 +2789,14 @@ public class DokfkView implements Serializable {
 
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
+    }
+
+    public Double getPodsumowaniewybranych() {
+        return podsumowaniewybranych;
+    }
+
+    public void setPodsumowaniewybranych(Double podsumowaniewybranych) {
+        this.podsumowaniewybranych = podsumowaniewybranych;
     }
 
     public String getMiesiacDlaZestawieniaZaksiegowanych() {
