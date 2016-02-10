@@ -25,6 +25,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.event.RowEditEvent;
 
@@ -53,12 +54,27 @@ public class FakturaRozrachunkiView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     @Inject 
     private WpisDAO wpisDAO;
+    private String west;
 
     public FakturaRozrachunkiView() {
     }
 
     @PostConstruct
     public void init() {
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        if (request.isUserInRole("Guest")) {
+            west = "sub/layoutFakturaRozrachunki/west.xhtml";
+        } else if (request.isUserInRole("Bookkeeper")) {
+            west = "sub/layoutFakturaRozrachunki/west.xhtml";
+        } else if (request.isUserInRole("Manager")) {
+            west = "sub/layoutFakturaRozrachunkiManager/west.xhtml";
+        } else if (request.isUserInRole("GuestFK")) {
+            west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";
+        } else if (request.isUserInRole("GuestFaktura")) {
+            west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";
+        } else if (request.isUserInRole("Multiuser")) {
+            west = "../wspolny/sub/layoutFakturaRozrachunki/west.xhtml";
+        }
         klienci = new ArrayList<>();
         wprowadzoneplatnosci = new ArrayList<>();
         klienci.addAll(pobierzkontrahentow());
@@ -181,6 +197,14 @@ public class FakturaRozrachunkiView  implements Serializable {
     
     public void setKlienci(List<Klienci> klienci) {
         this.klienci = klienci;
+    }
+
+    public String getWest() {
+        return west;
+    }
+
+    public void setWest(String west) {
+        this.west = west;
     }
 
     public FakturaRozrachunki getSelected() {

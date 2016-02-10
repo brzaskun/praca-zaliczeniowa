@@ -15,8 +15,7 @@
                 <bcf:ajaxs/>
                 <p:layout fullPage="true" expandTitle="Wysuń" closeTitle="Zamknij" collapseTitle="Schowaj" >
                     <ui:include src="sub/layoutFaktura/north.xhtml"/>  <!-- panel polnocny-->
-                    <ui:include src="sub/layoutFakturaRozrachunki/west.xhtml" rendered="#{facesContext.externalContext.isUserInRole('Bookkeeper')}"/>   <!-- panel zachodni-->
-                    <ui:include src="sub/layoutFakturaRozrachunkiManager/west.xhtml" rendered="#{facesContext.externalContext.isUserInRole('Manager')}"/>   <!-- panel zachodni-->
+                    <ui:include src="#{fakturaRozrachunkiView.west}"/>   <!-- panel zachodni-->
                     <p:layoutUnit position="center" style="box-shadow: 10px 10px 5px #888; padding: 1%;">
 
                         <p:panel toggleable="true" closable="true" style="width: 1000px;"  rendered="#{facesContext.viewRoot.locale.language.equals('pl')}">
