@@ -36,8 +36,8 @@
                 <h:outputText value="Wykaz obrotow z kontrahentem" />
                 <h:outputText value="- wyszukiwanie: " />  
                     <p:inputText id="globalFilter" onkeyup="PF('dokTable').filter()" style="width:180px" placeholder="wyszukiwane wyrażenie" />
-                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
-                    <p:columnToggler datasource="dokumentyLista" trigger="toggler" />
+<!--                    <p:commandButton id="toggler" type="button" value="Kolumny" style="float:right" icon="ui-icon-calculator" />
+                    <p:columnToggler datasource="dokumentyLista" trigger="toggler" />-->
             </f:facet>
             <p:column selectionMode="multiple"  style="width: 5%;" >
             </p:column>
@@ -54,6 +54,7 @@
                      <p:selectOneMenu onchange="PF('dokTable').filter()" style="width: 250px;">
                         <f:selectItem itemLabel="kontrahent" itemValue="#{null}" />
                         <f:selectItems value="#{obrotyView.kontrahentypodatnika}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
                     </p:selectOneMenu>
                 </f:facet>
                 <h:outputText value="#{wpis.kontr.npelna}"  />
@@ -66,6 +67,7 @@
                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
                         <f:selectItem itemLabel="dok" itemValue="#{null}" />
                         <f:selectItems value="#{obrotyView.dokumentypodatnika}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
                     </p:selectOneMenu>
                 </f:facet>
                 <h:outputText value="#{wpis.typdokumentu}" />

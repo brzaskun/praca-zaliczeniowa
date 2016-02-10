@@ -614,6 +614,7 @@ public class PozycjaBRKontaView implements Serializable {
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
             }
+            uklad = ukladdocelowykonta;
             pobierzukladkontoR();
         } else {
             Msg.msg("Rozpoczynam kopiowanie przyporządkowania kont wzorcowych-bilansowych");
@@ -623,6 +624,7 @@ public class PozycjaBRKontaView implements Serializable {
             for (KontopozycjaBiezaca p : pozycjebiezace) {
                 kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p));
             }
+            uklad = ukladdocelowykonta;
             pobierzukladkontoB("aktywa");
         }
     }

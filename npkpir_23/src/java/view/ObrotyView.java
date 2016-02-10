@@ -202,6 +202,12 @@ public class ObrotyView implements Serializable{
         }
     }
    
+   public void czyscwybrane() {
+        goscwybral = null;
+        podsumowaniewybranych = 0.0;
+        podsumowaniewybranychnetto = 0.0;
+   }
+   
    public void mailobroty() {
        try {
            MailOther.obroty(wpisView);
