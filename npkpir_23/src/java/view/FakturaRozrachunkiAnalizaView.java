@@ -9,12 +9,15 @@ import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -267,6 +270,31 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         aktywnytab = 2;
     }
     
+    public void korygujsaldo(FakturaPodatnikRozliczenie p) {
+        double saldo = p.getSaldo();
+        FakturaRozrachunki f = new FakturaRozrachunki();
+        f.setData(Data.aktualnyDzien());
+        if (p.isFaktura0rozliczenie1()) {
+            szukanyklient = p.getRozliczenie().getKontrahent();
+        } else {
+            szukanyklient = p.getFaktura().getKontrahent();
+        }
+        f.setKontrahent(szukanyklient);
+        f.setKwota(-saldo);
+        f.setRok(wpisView.getRokWpisuSt());
+        f.setMc(wpisView.getMiesiacWpisu());
+        f.setWystawca(wpisView.getPodatnikObiekt());
+        f.setWprowadzil(wpisView.getWprowadzil());
+        f.setZaplata0korekta1(true);
+        f.setRodzajdokumentu("ka");
+        String nr = "ka/"+wpisView.getPodatnikWpisu().substring(0,1)+"/"+wpisView.getMiesiacWpisu();
+        f.setNrdokumentu(nr);
+        selectOneUI.setValue(szukanyklient);
+        fakturaRozrachunkiDAO.dodaj(f);
+        zestawieniezbiorcze();
+        aktywnytab = 3;
+    }
+    
     public void drukujKlienci() {
         try {
             PdfFaktRozrach.drukujKlienci(szukanyklient, nowepozycje, archiwum, wpisView);
@@ -281,6 +309,16 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             PdfFaktRozrach.drukujKlienciZbiorcze(saldanierozliczone, wpisView);
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
+            E.e(e);
+        }
+    }
+    
+    public void usun(FakturaRozrachunki p) {
+        try {
+            fakturaRozrachunkiDAO.destroy(p);
+            nowepozycje.remove(p);
+            archiwum.remove(p);
+        } catch (Exception e) {
             E.e(e);
         }
     }

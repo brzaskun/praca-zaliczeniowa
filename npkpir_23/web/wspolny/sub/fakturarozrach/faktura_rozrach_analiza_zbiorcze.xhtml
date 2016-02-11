@@ -32,7 +32,7 @@
                 <h:outputText value="suma"/>
                 <bcf:outputpl value="#{fakturaRozrachunkiAnalizaView.sumasaldnierozliczonych}"/>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 1000px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.saldanierozliczone}" var="item" style="width: 980px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" 
                          >
                 <f:facet name="header">
@@ -44,7 +44,7 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="280" sortable="true" sortBy="#{item.kontrahent}">
+                <p:column width="240" sortable="true" sortBy="#{item.kontrahent}">
                     <f:facet name="header">
                         <h:outputText value="kontrahent"/>
                     </f:facet>
@@ -62,26 +62,30 @@
                     </f:facet>
                      <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
                 </p:column>
-                <p:column width="90" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="80" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
                 </p:column>
-                <p:column width="90" sortBy="#{item.kwota}" sortable="true">
+                <p:column width="80" sortBy="#{item.kwota}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="faktura"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
-                <p:column width="90" sortBy="#{item.saldo}" sortable="true">
+                <p:column width="80" sortBy="#{item.saldo}" sortable="true">
                     <f:facet name="header">
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
                 </p:column>
-                   <p:column width="40" style="text-align: center;">
+                <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-eye" actionListener="#{fakturaRozrachunkiAnalizaView.pobierzszczegoly(item)}" 
+                                     update="akordeon"/>
+                </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-magic" actionListener="#{fakturaRozrachunkiAnalizaView.korygujsaldo(item)}" 
                                      update="akordeon"/>
                 </p:column>
 

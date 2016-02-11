@@ -34,7 +34,7 @@
                 }
             </style>
 
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 900px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 940px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -86,11 +86,13 @@
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
                 </p:column>
-
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiAnalizaView.usun(item)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
+                </p:column>
             </p:dataTable>
         </h:form>
         <h:form id="analizaarchiwum">
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 900px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 940px; margin-top: 20px;"
                          emptyMessage="niczego nie zarchiwizowane dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -142,6 +144,10 @@
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, false)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
                 </p:column>
+                <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiAnalizaView.usun(item)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
+                </p:column>
+
             </p:dataTable>
         </h:form>
     </p:tab>  
