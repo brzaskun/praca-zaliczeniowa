@@ -8,6 +8,7 @@ import entity.Klienci;
 import error.E;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -73,6 +74,8 @@ public class MailSetUp implements Serializable{
             E.e(ex);
         }
         try {
+            message.setSentDate(new Date());
+            message.addHeader("X-Priority", "1");
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(wpisView.getPodatnikObiekt().getEmail()));
         } catch (MessagingException ex) {
             E.e(ex);
@@ -109,6 +112,8 @@ public class MailSetUp implements Serializable{
                 });
         MimeMessage message = new MimeMessage(session);
         try {
+            message.setSentDate(new Date());
+            message.addHeader("X-Priority", "1");
             message.setFrom(new InternetAddress("info@e-taxman.pl", wpisView.getPodatnikWpisu()));
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
@@ -152,6 +157,8 @@ public class MailSetUp implements Serializable{
                 });
         MimeMessage message = new MimeMessage(session);
         try {
+            message.setSentDate(new Date());
+            message.addHeader("X-Priority", "1");
             message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
         } catch (MessagingException ex) {
             Logger.getLogger(MailSetUp.class.getName()).log(Level.SEVERE, null, ex);
@@ -186,6 +193,8 @@ public class MailSetUp implements Serializable{
                 });
         MimeMessage message = new MimeMessage(session);
         try {
+            message.setSentDate(new Date());
+            message.addHeader("X-Priority", "1");
             message.setFrom(new InternetAddress("info@e-taxman.pl", "Biuro Rachunkowe Taxman"));
             message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(adreskontrahenta));
             message.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(wysylajacy));

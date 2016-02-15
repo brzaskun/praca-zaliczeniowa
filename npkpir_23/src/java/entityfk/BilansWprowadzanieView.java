@@ -490,6 +490,7 @@ public class BilansWprowadzanieView implements Serializable {
             usundokumentztegosamegomiesiaca(nrkolejny);
         }
         Dokfk dok = stworznowydokument(nrkolejny);
+        dok.przeliczKwotyWierszaDoSumyDokumentu();
         try {
             dokDAOfk.dodaj(dok);
             isteniejeDokBO = true;
@@ -619,9 +620,9 @@ public class BilansWprowadzanieView implements Serializable {
                     uzupelnijwiersz(w, nd);
                     String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
                     w.setOpisWiersza(opiswiersza);
-                    if (p.getKwotaWn() != 0) {
+                    if (Z.z(p.getKwotaWn()) != 0.0) {
                         uzupelnijTworzonyWiersz(w, p, "Wn", 1);
-                    } else if (p.getKwotaMa() != 0) {
+                    } else if (Z.z(p.getKwotaMa()) != 0.0) {
                         uzupelnijTworzonyWiersz(w, p, "Ma", 2);
                     }
                     nd.getListawierszy().add(w);
@@ -632,7 +633,12 @@ public class BilansWprowadzanieView implements Serializable {
     
     private void uzupelnijTworzonyWiersz(Wiersz w, WierszBO p, String wnma, Integer typWiersza) {
         w.setTypWiersza(typWiersza);
-        StronaWiersza st = new StronaWiersza(w, wnma, p.getKwotaWn(), p.getKonto());
+        StronaWiersza st = null;
+        if (wnma.equals("Wn")) {
+            st = new StronaWiersza(w, wnma, Z.z(p.getKwotaWn()), p.getKonto());
+        } else {
+            st = new StronaWiersza(w, wnma, Z.z(p.getKwotaMa()), p.getKonto());
+        }
         if (p.getKonto().getZwyklerozrachszczegolne().equals("rozrachunkowe")) {
             st.setNowatransakcja(true);
         }
@@ -641,7 +647,11 @@ public class BilansWprowadzanieView implements Serializable {
         st.setOpisBO(p.getWierszBOPK().getOpis());
         st.setKwotaPLN(p.getKwotaWnPLN());
         st.setTypStronaWiersza(9);
-        w.setStronaWn(st);
+        if (wnma.equals("Wn")) {
+            w.setStronaWn(st);
+        } else {
+            w.setStronaMa(st);
+        }
     }
     
     private void edytujwiersze(Dokfk nd) {
