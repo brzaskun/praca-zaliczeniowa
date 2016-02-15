@@ -416,4 +416,14 @@ public class Wiersz implements Serializable {
         return jest0niejest1;
     }
 
+    public String getOpisWiersza(int ile) {
+        String opis = this.opisWiersza;
+        if (this.opisWiersza != null && this.opisWiersza.length() > 10) {
+            if (this.opisWiersza.length()+1 > ile) {
+                opis = this.opisWiersza.substring(0,ile);
+            }
+        }
+        return opis;
+    }
+    
 }
