@@ -292,7 +292,6 @@ public class SymulacjaWynikuView implements Serializable {
         }
         kupmn_mc = CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacWpisu());
         kupmn_mc_pop = 0.0;
-        if (!wpisView.getMiesiacWpisu().equals("01")) {
             zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "KUPMN", wpisView.getMiesiacUprzedni());
             kupmn_mc_pop = -CechazapisuBean.sumujcecha(zapisycechakoszt, "KUPMN", wpisView.getMiesiacUprzedni());
             for (StronaWiersza stw : zapisycechakoszt) {
@@ -300,7 +299,6 @@ public class SymulacjaWynikuView implements Serializable {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
                 }
             }
-        }
         List<StronaWiersza> zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "NPUP", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechaprzychod) {
             for (Cechazapisu s : stw.getCechazapisuLista()) {
@@ -316,7 +314,6 @@ public class SymulacjaWynikuView implements Serializable {
         }
         pmn_mc = -CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacWpisu());
         pmn_mc_pop = 0.0;
-        if (!wpisView.getMiesiacWpisu().equals("01")) {
             zapisycechaprzychod = CechazapisuBean.pobierzwierszezcecha(zapisy, "PMN", wpisView.getMiesiacUprzedni());
             pmn_mc_pop = CechazapisuBean.sumujcecha(zapisycechaprzychod, "PMN", wpisView.getMiesiacUprzedni());
             for (StronaWiersza stw : zapisycechaprzychod) {
@@ -324,7 +321,6 @@ public class SymulacjaWynikuView implements Serializable {
                     zapisyZCecha.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, stw, "popmc"));
                 }
             }
-        }
     }
     
     public void zaksiegujwynik () {

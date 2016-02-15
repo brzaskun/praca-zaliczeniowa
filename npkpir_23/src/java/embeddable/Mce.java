@@ -229,7 +229,21 @@ public class Mce implements Serializable{
         } else {
             int rokInt = Integer.parseInt(rok);
             nowedane[0] = String.valueOf(--rokInt);
-            nowedane[1] = numberToMiesiac.get(12-mcInt);;
+            nowedane[1] = "12";
+        }
+        return nowedane;
+    }
+    
+    public static String[] zmniejszmiesiac(WpisView wpisView) {
+        String[] nowedane = new String[2];
+        int mcInt = miesiacToNumber.get(wpisView.getMiesiacWpisu());
+        if (mcInt > 1) {
+            nowedane[0] = wpisView.getRokWpisuSt();
+            nowedane[1] = numberToMiesiac.get(--mcInt);
+        } else {
+            int rokInt = Integer.parseInt(wpisView.getRokWpisuSt());
+            nowedane[0] = String.valueOf(--rokInt);
+            nowedane[1] = "12";
         }
         return nowedane;
     }

@@ -1316,6 +1316,10 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).getResultList();
     }
 
+    public List<StronaWiersza> findStronaByPodatnikWynikCecha(Podatnik podatnik) {
+        return em.createNamedQuery("StronaWiersza.findByPodatnikWynikCecha").setParameter("podatnikObj", podatnik).getResultList();
+    }
+    
     public List<StronaWiersza> findStronaByPodatnikRokMcWynik(Podatnik podatnik, String rok, String mc) {
         return em.createNamedQuery("StronaWiersza.findByPodatnikRokMcWynik").setParameter("podatnikObj", podatnik).setParameter("rok", rok).setParameter("mc", mc).getResultList();
     }
