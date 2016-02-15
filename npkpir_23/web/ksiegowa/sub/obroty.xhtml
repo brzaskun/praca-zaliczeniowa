@@ -12,6 +12,9 @@
     </p:commandButton>
     <p:commandButton id="obrotywysylka" value="Wyślij podatnikowi" actionListener="#{sesjaView.dodajmail()}" onclick="PF('confirmation').show();" style="display: none;">
     </p:commandButton>
+    <p:commandButton value="Odhacz wybrane" actionListener="#{obrotyView.czyscwybrane()}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista" style="margin-left: 20px;"
+                     onclick="PF('dokTable').clearFilters()">
+    </p:commandButton>
     <p:panelGrid columns="4">
         <h:outputText value="   suma wartości netto wybranych dokumentów w zł: "/>
         <h:outputText  id="podsumowaniewybr" value="#{obrotyView.podsumowaniewybranychnetto}">
@@ -59,7 +62,14 @@
                 </f:facet>
                 <h:outputText value="#{wpis.kontr.npelna}"  />
             </p:column>
-            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="contains" filterStyle="display: none;" sortBy="#{wpis.rodzTrans}" style="width: 9%; text-align: center;">  
+            <p:column id="rodzTrColumn" headerText="rodzaj trans" filterBy="#{wpis.rodzTrans}" filterMatchMode="exact" filterStyle="display: none;" sortBy="#{wpis.rodzTrans}" style="width: 9%; text-align: center;">  
+                <f:facet name="filter">
+                    <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="rodz" itemValue="#{null}" />
+                        <f:selectItems value="#{obrotyView.rodzajetransakcji}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
                 <h:outputText value="#{wpis.rodzTrans}" />
             </p:column>
             <p:column id="typDokColumn" headerText="symbol dok" filterBy="#{wpis.typdokumentu}" filterMatchMode="exact" sortBy="#{wpis.typdokumentu}" style="width: 8%; text-align: center;">  

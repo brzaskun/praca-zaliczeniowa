@@ -60,6 +60,7 @@ public class ObrotyView implements Serializable{
     private Double podsumowaniewybranychnetto;
     private List<String> dokumentypodatnika;
     private List<String> kontrahentypodatnika;
+    private List<String> rodzajetransakcji;
 
     public ObrotyView() {
         //lista porzechowujaca przefiltrowane widoki
@@ -78,6 +79,7 @@ public class ObrotyView implements Serializable{
             }
             dokumentypodatnika = new ArrayList<>();
             kontrahentypodatnika = new ArrayList<>();
+            rodzajetransakcji = new ArrayList<>();
         }
     }
     
@@ -88,6 +90,7 @@ public class ObrotyView implements Serializable{
         obiektDOKjsfSelRok = new ArrayList<>();
         dokumentypodatnika = new ArrayList<>();
         kontrahentypodatnika = new ArrayList<>();
+        rodzajetransakcji = new ArrayList<>();
           if (wpisView.getMiesiacOd() != null) {
                obiektDOKjsfSelRok = dokDAO.zwrocBiezacegoKlientaRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu().toString());
                 obiektDOKmrjsfSelX.clear();
@@ -101,10 +104,12 @@ public class ObrotyView implements Serializable{
                 }
                 Set<String> dokumentyl = new HashSet<>();
                 Set<String> kontrahenty = new HashSet<>();
+                Set<String> rodzaje = new HashSet<>();
                 for (Dok tmpx : obiektDOKjsfSelRok){
                     if (zakres.contains(tmpx.getPkpirM())) {
                         obiektDOKmrjsfSelX.add(tmpx);
                         dokumentyl.add(tmpx.getTypdokumentu());
+                        rodzaje.add(tmpx.getRodzTrans());
                         kontrahenty.add(tmpx.getKontr().getNpelna());
                     }
                 }
@@ -119,6 +124,8 @@ public class ObrotyView implements Serializable{
                 collator.setStrength(Collator.PRIMARY);
                 kontrahentypodatnika.addAll(kontrahenty);
                 Collections.sort(kontrahentypodatnika, collator);
+                rodzajetransakcji.addAll(rodzaje);
+                Collections.sort(rodzajetransakcji, collator);
             }
      }
     
@@ -202,6 +209,7 @@ public class ObrotyView implements Serializable{
         }
     }
    
+     
    public void czyscwybrane() {
         goscwybral = null;
         podsumowaniewybranych = 0.0;
@@ -287,6 +295,14 @@ public class ObrotyView implements Serializable{
 
     public void setKontrahentypodatnika(List<String> kontrahentypodatnika) {
         this.kontrahentypodatnika = kontrahentypodatnika;
+    }
+
+    public List<String> getRodzajetransakcji() {
+        return rodzajetransakcji;
+    }
+
+    public void setRodzajetransakcji(List<String> rodzajetransakcji) {
+        this.rodzajetransakcji = rodzajetransakcji;
     }
 
    
