@@ -699,6 +699,14 @@ public class PlanKontView implements Serializable {
                 }
             }
         }
+        kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(null, wewy);
+        for (Konto p : wykazkont) {
+            try {
+                kontopozycjaZapisDAO.dodaj(new KontopozycjaZapis(p.getKontopozycjaID()));
+            } catch (Exception e) {
+                E.e(e);
+            }
+        }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
     }
 
