@@ -29,10 +29,9 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         for (WierszBO p : wierszeBO) {
-            if (p.getKwotaWnPLN() != 0.0) {
+            if (p.getKwotaWnPLN() > 0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } 
-            if (p.getKwotaMaPLN() != 0.0){
+            } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -43,10 +42,9 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
         for (WierszBO p : wierszeBO) {
-            if (p.getKwotaWnPLN() != 0.0) {
+            if (p.getKwotaWnPLN() > 0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            }
-            if (p.getKwotaMaPLN() != 0.0){
+            } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -57,10 +55,9 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKontoWaluta(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto, waluta);
         for (WierszBO p : wierszeBO) {
-           if (p.getKwotaWnPLN() != 0.0) {
+            if (p.getKwotaWnPLN() > 0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            }
-           if (p.getKwotaMaPLN() != 0.0){
+            } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -71,10 +68,9 @@ public class BOFKBean {
         List<StronaWiersza> zapisy = new ArrayList<>();
         List<WierszBO> wierszeBO = wierszBODAO.findPodatnikRokKonto(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), konto);
         for (WierszBO p : wierszeBO) {
-            if (p.getKwotaWnPLN() != 0.0) {
+            if (p.getKwotaWnPLN() > 0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            }
-            if (p.getKwotaMaPLN() != 0.0){
+            } else {
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
