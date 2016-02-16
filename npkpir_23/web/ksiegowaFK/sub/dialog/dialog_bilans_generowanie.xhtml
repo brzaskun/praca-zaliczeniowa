@@ -1,0 +1,46 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .ui-autocomplete-input {
+            width: 250px;
+        }
+
+        .kurswaluta input {
+            width: 50px !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-odd td{
+            height : 30px !important;
+            padding: 0px 1px  !important;
+        }
+        .gridtablicasyntetyczne .ui-datatable-even td{
+            height : 30px !important;
+            padding: 0px 1px  !important;
+        }
+
+    </style>
+    <p:dialog id="dialog_bilans_generowanie" header="Bilans otwarcia - generowanie sald - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilans_generowanie"  
+              appendTo="@(body)"
+              resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 500, 400);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
+              maximizable="true">
+        <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
+            <p:panelGrid columns="1" style="height: 300px;">
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage="Nie rozpoczęto analizy" columns="1" rowIndexVar="index">
+                    <h:outputText value="#{index+1}. " style="color: green;"/>
+                    <h:outputText value="#{ok}" style="color: green;"/>
+                </p:dataGrid>
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie rozpoczęto analizy/Nie ma błędów" columns="1" rowIndexVar="index">
+                    <h:outputText value="#{index+1}. " style="color: red;"/>
+                    <h:outputText value="#{err}" style="color: red;"/>
+                </p:dataGrid>
+            </p:panelGrid>
+            <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}" global="false" update="form_dialog_bilans_generowanie"/>
+        </h:form>
+    </p:dialog>
+</ui:composition>

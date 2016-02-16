@@ -3,18 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityfk;
+package viewfk;
 
+import daoFK.KontoDAOfk;
+import daoFK.UkladBRDAO;
+import entityfk.Dokfk;
+import entityfk.DokfkPK;
+import entityfk.Konto;
+import entityfk.UkladBR;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import testobjects.Konto;
+import javax.inject.Inject;
+import msg.Msg;
 import testobjects.WierszBO;
 import static testobjects.testobjects.getKlienci;
 import static testobjects.testobjects.getPodatnik;
 import static testobjects.testobjects.getRodzajedok;
+import view.WpisView;
 
 /**
  *
@@ -23,6 +33,87 @@ import static testobjects.testobjects.getRodzajedok;
 @ManagedBean
 @ViewScoped
 public class BilansGenerowanieView implements Serializable {
+    
+    @ManagedProperty(value = "#{WpisView}")
+    private WpisView wpisView;
+    @ManagedProperty(value = "#{saldoAnalitykaView}")
+    private SaldoAnalitykaView saldoAnalitykaView;
+    @Inject
+    private KontoDAOfk kontoDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
+    private List<String> komunikatyok;
+    private List<String> komunikatyerror;
+
+    public BilansGenerowanieView() {
+        this.komunikatyok = new ArrayList<>();
+        this.komunikatyerror = new ArrayList<>();
+    }
+    
+    
+
+    
+    public void generuj() {
+        boolean stop = false;
+        List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+         if (konta.isEmpty()) {
+            stop = true;
+            String error = "Brak kont w roku "+wpisView.getRokWpisuSt()+" nie można generować BO";
+            Msg.msg("e",error);
+            komunikatyerror.add(error);
+        } else {
+            komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: "+konta.size());
+         }
+        List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        if (uklad.isEmpty()) {
+            stop = true;
+            String error = "Brak ukladu w roku "+wpisView.getRokWpisuSt()+" nie można generować BO";
+            Msg.msg("e",error);
+            komunikatyerror.add(error);
+        } else {
+            komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: "+uklad.size());
+        }
+        if (stop == false) {
+            Msg.msg("Generuje bilans");
+        }
+    }
+
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+    
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
+
+    public List<String> getKomunikatyok() {
+        return komunikatyok;
+    }
+
+    public void setKomunikatyok(List<String> komunikatyok) {
+        this.komunikatyok = komunikatyok;
+    }
+
+    public List<String> getKomunikatyerror() {
+        return komunikatyerror;
+    }
+
+    public void setKomunikatyerror(List<String> komunikatyerror) {
+        this.komunikatyerror = komunikatyerror;
+    }
+   
+    public SaldoAnalitykaView getSaldoAnalitykaView() {
+        return saldoAnalitykaView;
+    }
+    
+    public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
+        this.saldoAnalitykaView = saldoAnalitykaView;
+    }
+    
+//</editor-fold>
+    
     
     public static void generujbilans() {
         String podatnik = "Lolo";
