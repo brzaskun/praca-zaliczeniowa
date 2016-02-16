@@ -274,7 +274,7 @@ public class SymulacjaWynikuView implements Serializable {
     private void pobierzzapisyzcechami() {
         zapisyZCecha = new ArrayList<>();
         //pobieram wszystkie strony wiersza z roku
-        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikowe(stronaWierszaDAO, wpisView);
+        List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowwynikoweCecha(stronaWierszaDAO, wpisView);
         //pobieram strony wiersza z cecha i wyluskuje strony wiersza z dokumentu z cecha
         List<StronaWiersza> zapisycechakoszt = CechazapisuBean.pobierzwierszezcecha(zapisy, "NKUP", wpisView.getMiesiacWpisu());
         for (StronaWiersza stw : zapisycechakoszt) {

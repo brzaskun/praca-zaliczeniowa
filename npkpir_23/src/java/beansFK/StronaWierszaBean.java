@@ -70,6 +70,18 @@ public class StronaWierszaBean {
      
      public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+            StronaWiersza p = it.next();
+            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                it.remove();
+            }
+            }
+        return pobranezapisy;
+    }
+     
+    public static List<StronaWiersza> pobraniezapisowwynikoweCecha(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+        int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         int dolnagranica = Mce.getMiesiacToNumber().get(Mce.zmniejszmiesiac(wpisView)[1]);
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikWynikCecha(wpisView.getPodatnikObiekt());
         for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
