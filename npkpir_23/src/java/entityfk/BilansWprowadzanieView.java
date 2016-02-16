@@ -616,6 +616,9 @@ public class BilansWprowadzanieView implements Serializable {
                 if (p != null && (p.getKwotaWn() != 0 || p.getKwotaMa() != 0)) {
                     Wiersz w = new Wiersz(idporzadkowy++, 0);
                     uzupelnijwiersz(w, nd);
+                    if (p.getKonto().getPelnynumer().equals("202-1-5")) {
+                        System.out.println("stop");
+                    }
                     String opiswiersza = "zapis BO: " + p.getWierszBOPK().getOpis();
                     w.setOpisWiersza(opiswiersza);
                     if (Z.z(p.getKwotaWn()) != 0.0) {
@@ -643,7 +646,11 @@ public class BilansWprowadzanieView implements Serializable {
         st.setKursBO(p.getKurs());
         st.setSymbolWalutyBO(p.getWaluta().getSymbolwaluty());
         st.setOpisBO(p.getWierszBOPK().getOpis());
-        st.setKwotaPLN(p.getKwotaWnPLN());
+         if (wnma.equals("Wn")) {
+            st.setKwotaPLN(p.getKwotaWnPLN());
+        } else {
+            st.setKwotaPLN(p.getKwotaMaPLN());
+        }
         st.setTypStronaWiersza(9);
         if (wnma.equals("Wn")) {
             w.setStronaWn(st);
