@@ -31,7 +31,8 @@ public class BOFKBean {
         for (WierszBO p : wierszeBO) {
             if (p.getKwotaWnPLN() != 0.0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else if (p.getKwotaMaPLN() != 0.0){
+            } 
+            if (p.getKwotaMaPLN() != 0.0){
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -44,7 +45,8 @@ public class BOFKBean {
         for (WierszBO p : wierszeBO) {
             if (p.getKwotaWnPLN() != 0.0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else if (p.getKwotaMaPLN() != 0.0){
+            }
+            if (p.getKwotaMaPLN() != 0.0){
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -57,7 +59,8 @@ public class BOFKBean {
         for (WierszBO p : wierszeBO) {
            if (p.getKwotaWnPLN() != 0.0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else if (p.getKwotaMaPLN() != 0.0){
+            }
+           if (p.getKwotaMaPLN() != 0.0){
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }
@@ -70,7 +73,8 @@ public class BOFKBean {
         for (WierszBO p : wierszeBO) {
             if (p.getKwotaWnPLN() != 0.0) {
                 zapisy.add(new StronaWiersza(p, "Wn", "zapisy"));
-            } else if (p.getKwotaMaPLN() != 0.0){
+            }
+            if (p.getKwotaMaPLN() != 0.0){
                 zapisy.add(new StronaWiersza(p, "Ma", "zapisy"));
             }
         }

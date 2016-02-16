@@ -20,6 +20,12 @@ public class Z implements Serializable {
         return m;
     }
     
+    public static double z4(double l) {
+        double m = Math.round(l * 10000);
+        m /= 10000;
+        return m;
+    }
+    
     //obcina kwoty po przeciku typu 1,49999 = 1
     public static double z0(double l) {
         double m = Math.round(l);
@@ -47,10 +53,16 @@ public class Z implements Serializable {
 //        System.out.println(m);
 //    }
     
-     public static void main(String[] args) {
-         BigDecimal b = new BigDecimal(1000);
-         Integer c = 500;
-         int suma = Z.zUD((int) c +b.intValue());
-         System.out.println("s "+suma);
+//     public static void main(String[] args) {
+//         BigDecimal b = new BigDecimal(1000);
+//         Integer c = 500;
+//         int suma = Z.zUD((int) c +b.intValue());
+//         System.out.println("s "+suma);
+//    }
+     
+      public static void main(String[] args) {
+        double kurswyliczony = Math.round(555354.35 / 133434.49 * 10000);
+        kurswyliczony /= 10000;
+          System.out.println(kurswyliczony);
     }
 }

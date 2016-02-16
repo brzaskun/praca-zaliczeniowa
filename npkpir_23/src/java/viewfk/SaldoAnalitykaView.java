@@ -95,7 +95,7 @@ public class SaldoAnalitykaView implements Serializable {
         Map<String,SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
-            if (p.getPelnynumer().equals("809")) {
+            if (p.getPelnynumer().equals("202-1-5")) {
                 System.out.println("stop");
             }
             SaldoKonto saldoKonto = new SaldoKonto();
@@ -192,6 +192,9 @@ public class SaldoAnalitykaView implements Serializable {
         for (StronaWiersza r : zapisyBO) {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
+                if (r.getKonto().getPelnynumer().equals("202-1-5")) {
+                    System.out.println("stop");
+                }
                 if (r.getWnma().equals("Wn")) {
                     p.setBoWn(Z.z(p.getBoWn() + r.getKwotaPLN()));
                 } else {

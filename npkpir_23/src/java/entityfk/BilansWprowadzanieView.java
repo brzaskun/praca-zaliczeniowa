@@ -409,9 +409,7 @@ public class BilansWprowadzanieView implements Serializable {
     
     public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN, String WnMa) {
         if (kurs == 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
-            double kurswyliczony = Math.round(kwotaWPLN / kwotaWwalucie * 100);
-            kurswyliczony /= 100;
-            wiersz.setKurs(kurswyliczony);
+            wiersz.setKurs(Z.z4(kwotaWPLN / kwotaWwalucie));
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
             RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
         } else if (kurs != 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN") && kwotaWwalucie == 0.0) {
