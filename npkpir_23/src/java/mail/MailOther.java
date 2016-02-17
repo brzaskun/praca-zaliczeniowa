@@ -10,6 +10,7 @@ import entity.Klienci;
 import entity.Podatnik;
 import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -80,7 +81,6 @@ public class MailOther implements Serializable{
          int i = 0;
          for (Faktura faktura : fakturydomaila){
              try {
-                 
                  Klienci klientf = faktura.getKontrahent();
                  MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView);
                  message.setSubject("Wydruk faktury VAT - "+faktura.getFakturaPK().getWystawcanazwa(),"UTF-8");
@@ -112,6 +112,7 @@ public class MailOther implements Serializable{
                  Transport.send(message);
                  Msg.msg("i","Wysłano maila do klienta "+klientf.getNpelna());
                  faktura.setWyslana(true);
+                 faktura.setDatawysylki(new Date());
                  fakturaDAO.edit(faktura);
                  RequestContext.getCurrentInstance().update("akordeon:formsporzadzone:dokumentyLista");
                  try {

@@ -5,6 +5,7 @@
  */
 package embeddable;
 
+import data.Data;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import java.io.Serializable;
@@ -27,6 +28,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private boolean nowy0rozliczony1;
     private double kwota;
     private double saldo;
+    private String mail;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -35,6 +37,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.mc = p.getMc();
         this.data = p.getData();
         this.kwota = p.getKwota();
+        this.mail = "";
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -44,6 +47,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.mc = r.getMc();
         this.data = r.getDatawystawienia();
         this.kwota = r.getBruttopk() != 0.0 ? r.getBruttopk() : r.getBrutto();
+        this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
     }
 
     @Override
@@ -142,6 +146,14 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     public void setNowy0rozliczony1(boolean nowy0rozliczony1) {
         this.nowy0rozliczony1 = nowy0rozliczony1;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public double getKwota() {
