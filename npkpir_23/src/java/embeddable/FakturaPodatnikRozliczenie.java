@@ -47,7 +47,11 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.mc = r.getMc();
         this.data = r.getDatawystawienia();
         this.kwota = r.getBruttopk() != 0.0 ? r.getBruttopk() : r.getBrutto();
-        this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
+        if (r.getDatawysylki() != null) {
+            this.mail = Data.data_yyyyMMdd(r.getDatawysylki());
+        } else {
+            this.mail = "";
+        }
     }
 
     @Override
