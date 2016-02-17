@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entityfk;
+package viewfk;
 
 import comparator.WierszBOcomparator;
 import dao.KlienciDAO;
@@ -17,6 +17,13 @@ import daoFK.WierszBODAO;
 import entity.Klienci;
 import entity.Podatnik;
 import entity.Rodzajedok;
+import entityfk.Dokfk;
+import entityfk.Konto;
+import entityfk.StronaWiersza;
+import entityfk.Tabelanbp;
+import entityfk.Waluty;
+import entityfk.Wiersz;
+import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
