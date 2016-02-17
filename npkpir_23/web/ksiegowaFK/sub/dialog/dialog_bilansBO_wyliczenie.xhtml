@@ -9,8 +9,8 @@
     xmlns:bcf="http://brzaskun.com/facelets">
 
     <p:dialog id="dialog_bilansBO_wyliczenie" header="Bilans otwarcia roku1 #{WpisView.rokWpisuSt} - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilansBO_wyliczenie" 
-              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1250, 750);" closeOnEscape="true" 
-              onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  style="overflow-y: scroll;">
+              resizable="false" onShow="ustawdialog('dialog_bilansBO_wyliczenie','menubilanse', 1450, 750);" closeOnEscape="true" 
+              onHide="resetujdialog('dialog_bilansBO_wyliczenie');"  >
         <h:form id="formdialog_bilansBO_wyliczenie">
 <!--            <p:contextMenu for="dataList">
                 <p:menuitem value="Nowe syntetyczne" icon="ui-icon-circle-plus" update=":form" onclick="PF('nowekontosyntetyczne').show();"/>
@@ -55,10 +55,11 @@
                 <h:outputText value="różnica stron: "/>
                 <bcf:outputpl value="#{pozycjaBRBOView.sumabilansowaaktywa-pozycjaBRBOView.sumabilansowapasywa}"/>
             </p:panelGrid>
-            <p:panelGrid columns="1" >
+            <p:panelGrid columns="2" >
+                <p:column>
                 <p:treeTable id="dataList" value="#{pozycjaBRBOView.rootBilansAktywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRBOView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjiaktywa}" 
-                             scrollable="true" style="width: 1200px;" >
+                             scrollable="true"  style="width: 700px; max-height: 600px;">
                     <p:ajax event="select" global="false"/>
                     <f:facet name="header">
                         <h:outputText value="aktywa:  "/>
@@ -76,13 +77,15 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 550px;">
+                    <p:column style="width: 150px;">
                         <h:outputText value="#{loop.przyporzadkowanekonta}"/>
                     </p:column>
                 </p:treeTable>
+                    </p:column>
+                <p:column>
                 <p:treeTable id="dataList2" value="#{pozycjaBRBOView.rootBilansPasywa}" var="loop" selectionMode="checkbox" selection="#{pozycjaBRBOView.selectedNodes}" 
                              styleClass="tablicaplankont" resizableColumns="true" emptyMessage="#{mgs.brakpozycjipasywa}" 
-                             scrollable="true" style="width: 1200px; margin-top: 30px;">
+                             scrollable="true" style="width: 700px; max-height: 600px;">
                     <f:facet name="header">
                         <h:outputText value="pasywa: "/>
                         <h:outputText value="#{pozycjaBRBOView.sumabilansowapasywa}">
@@ -99,10 +102,11 @@
                         <f:convertNumber minFractionDigits="2" locale="PL"/>
                     </h:outputText>
                     </p:column>
-                    <p:column style="width: 550px;">
+                    <p:column style="width: 150px;">
                         <h:outputText value="#{loop.przyporzadkowanekonta}"/>
                     </p:column>
                 </p:treeTable>
+                    </p:column>
             </p:panelGrid>
            
         </h:form>
