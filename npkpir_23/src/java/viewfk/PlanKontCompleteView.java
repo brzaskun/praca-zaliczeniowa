@@ -8,6 +8,7 @@ package viewfk;
 import comparator.Kontocomparator;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,11 +51,13 @@ public class PlanKontCompleteView implements Serializable {
             List<Konto> results = new ArrayList<>();
             if (listakontOstatniaAnalitykaklienta != null) {
                 String nazwa = null;
-                if (qr.contains(" ") && qr.length() > 6) {
+                if (qr.trim().matches("^(.*\\s+.*)+$") && qr.length() > 6) {
                     String[] pola = qr.split(" ");
                     if (pola.length > 1) {
                         query = pola[0];
                         nazwa = pola[1];
+                    } else {
+                        query = qr;
                     }
                 } else {
                     query = qr.split(" ")[0];
@@ -62,11 +65,11 @@ public class PlanKontCompleteView implements Serializable {
                 try {
                     String q = query.substring(0, 1);
                     int i = Integer.parseInt(q);
+                    if (query.length() == 4 && !query.contains("-")) {
+                        //wstawia - do ciagu konta
+                        query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                    }
                     for (Konto p : listakontOstatniaAnalitykaklienta) {
-                        if (query.length() == 4 && !query.contains("-")) {
-                            //wstawia - do ciagu konta
-                            query = query.substring(0, 3) + "-" + query.substring(3, 4);
-                        }
                         if (p.getPelnynumer().startsWith(query)) {
                             results.add(p);
                         }
@@ -86,6 +89,8 @@ public class PlanKontCompleteView implements Serializable {
                             results.add(p);
                         }
                     }
+                } catch (Exception e) {
+                    E.e(e);
                 }
             }
             Collections.sort(results, new Kontocomparator());
@@ -129,6 +134,9 @@ public class PlanKontCompleteView implements Serializable {
         this.listakont = listakont;
     }
     
-    
+    public static void main(String[] args) {
+        String s = "201-2-4";
+        System.out.println(s.matches("^(.*\\s+.*)+$"));
+    }
     
 }
