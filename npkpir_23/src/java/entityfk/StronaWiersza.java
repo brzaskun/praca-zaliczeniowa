@@ -143,9 +143,9 @@ public class StronaWiersza implements Serializable{
      public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
         this.nowetransakcje = new ArrayList<>();
         this.platnosci = new ArrayList<>();
-        this.kwota = kwota;
+        this.kwota = Z.z(kwota);
         this.kwotaPLN = 0.0;
-        this.kwotaWaluta = kwota;
+        this.kwotaWaluta = Z.z(kwota);
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
@@ -155,9 +155,9 @@ public class StronaWiersza implements Serializable{
      public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota, Konto konto) {
         this.nowetransakcje = new ArrayList<>();
         this.platnosci = new ArrayList<>();
-        this.kwota = kwota;
+        this.kwota = Z.z(kwota);
         this.kwotaPLN = 0.0;
-        this.kwotaWaluta = kwota;
+        this.kwotaWaluta = Z.z(kwota);
         this.wiersz = nowywiersz;
         this.wnma = wnma;
         this.typStronaWiersza = 0;
@@ -436,7 +436,7 @@ public class StronaWiersza implements Serializable{
     }
 
     public void setKwota(double kwota) {
-        this.kwota = kwota;
+        this.kwota = Z.z(kwota);
     }
     
 
