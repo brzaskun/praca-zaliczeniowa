@@ -47,17 +47,17 @@
                     </f:facet>
                     <h:outputText value="#{item.lp}"/>
                 </p:column>
-                <p:column width="100">
-                    <f:facet name="header">
-                        <h:outputText value="wprowadzil"/>
-                    </f:facet>
-                    <h:outputText value="#{item.wprowadzil}"/>
-                </p:column>
                 <p:column width="70" sortable="true" sortBy="#{item.data}">
                     <f:facet name="header">
-                        <h:outputText value="data"/>
+                        <h:outputText value="data dok"/>
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
+                </p:column>
+                <p:column width="100">
+                    <f:facet name="header">
+                        <h:outputText value="mail"/>
+                    </f:facet>
+                    <h:outputText value="#{item.mail}" rendered="#{item.mail ne ''}"/>
                 </p:column>
                 <p:column width="120">
                     <f:facet name="header">

@@ -7,6 +7,7 @@ package entity;
 import embeddable.EVatwpis;
 import embeddable.Pozycjenafakturzebazadanych;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -18,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -209,6 +212,8 @@ public class Faktura implements Serializable {
     private String stopka;
     @Column(name = "nowy0archiwum1")
     private boolean nowy0archiwum1;
+    @Temporal(TemporalType.DATE)
+    private Date datawysylki;
 
     public Faktura() {
     }
@@ -242,6 +247,7 @@ public class Faktura implements Serializable {
         this.mc = stara.mc;
         this.numerzamowienia = stara.numerzamowienia;
         this.fakturaxxl = stara.fakturaxxl;
+        this.datawysylki = null;
     }
 
     
@@ -280,6 +286,7 @@ public class Faktura implements Serializable {
         this.rok = rok;
         this.mc = mc;
         this.numerzamowienia = numerzamowienia;
+        this.datawysylki = null;
     }
 
     public Faktura(String wystawcanazwa, String numerkolejny) {
@@ -294,6 +301,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public Date getDatawysylki() {
+        return datawysylki;
+    }
+
+    public void setDatawysylki(Date datawysylki) {
+        this.datawysylki = datawysylki;
     }
 
     public boolean isNowy0archiwum1() {

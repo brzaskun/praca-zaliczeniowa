@@ -426,4 +426,36 @@ public class Wiersz implements Serializable {
         return opis;
     }
     
+    public double getKursWiersz() {
+        double kurs = this.tabelanbp != null ? this.tabelanbp.getKurssredni() : 0;
+        int wiersz = wierszbo();
+        if (wiersz == 1) {
+            kurs = this.getStronaWn().getKursBO();
+        } else if (wiersz == 2) {
+            kurs = this.getStronaMa().getKursBO();
+        }
+        return kurs;
+    }
+    
+    public String getWalutaWiersz() {
+        String kurs = this.tabelanbp != null ? this.tabelanbp.getWaluta().getSymbolwaluty() : "";
+        int wiersz = wierszbo();
+        if (wiersz == 1) {
+            kurs = this.getStronaWn().getSymbolWalut();
+        } else if (wiersz == 2) {
+            kurs = this.getStronaMa().getSymbolWalut();
+        }
+        return kurs;
+    }
+    
+    private int wierszbo() {
+        int wiersbo = 0;
+        if (this.getStronaWn() != null && this.getStronaWn().getTypStronaWiersza() == 9){
+            wiersbo = 1;
+        } else if (this.getStronaMa() != null && this.getStronaMa().getTypStronaWiersza() == 9) {
+            wiersbo = 2;
+        }
+        return wiersbo;
+    }
+    
 }

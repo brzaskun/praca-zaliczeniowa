@@ -225,7 +225,7 @@ public class KontoZapisFKView implements Serializable{
                         kontozapisy.add(r);
                     }
                 } else {
-                    if (r.getDokfk().getTabelanbp().getWaluta().getSymbolwaluty().equals(wybranaWalutaDlaKont)) {
+                    if (r.getSymbolWalut().equals(wybranaWalutaDlaKont)) {
                         int mc = Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac());
                         if (mc >= granicaDolna && mc <= granicaGorna) {
                             kontozapisy.add(r);
@@ -321,19 +321,11 @@ public class KontoZapisFKView implements Serializable{
             sumaMa = 0.0;
             if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
                 for(StronaWiersza p : wybranekontadosumowania){
-                        if (p.getWnma().equals("Wn")) {
-                            sumaWn = Z.z(sumaWn + p.getKwota());
-                        } else if (p.getWnma().equals("Ma")){
-                            Z.z(sumaMa = sumaMa + p.getKwota());
-                        }
+                    sumujstrony(p);
                 }
             } else {
                 for(StronaWiersza p : kontozapisy){
-                        if (p.getWnma().equals("Wn")) {
-                            sumaWn = Z.z(sumaWn + p.getKwota());
-                        } else if (p.getWnma().equals("Ma")){
-                            Z.z(sumaMa = sumaMa + p.getKwota());
-                        }
+                    sumujstrony(p);
                 }
             }
             saldoWn = 0.0;
@@ -349,6 +341,27 @@ public class KontoZapisFKView implements Serializable{
             listasum.get(0).setSaldoMa(saldoMa);
         } catch (Exception e) {  E.e(e);
             Msg.msg("e", "Brak tabeli NBP w dokumencie. Podsumowanie nie jest prawidłowe. KontoZapisFVView sumazapisow()");
+        }
+    }
+    
+    private void sumujstrony(StronaWiersza p) {
+        if (p.getWnma().equals("Wn")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                if (!p.getSymbolWalut().equals("PLN")) {
+                    sumaWn = Z.z(sumaWn + p.getKwota());
+                }
+            } else {
+                sumaWn = Z.z(sumaWn + p.getKwota());
+            }
+        } else if (p.getWnma().equals("Ma")) {
+            if (wybranaWalutaDlaKont.equals("wszystkie")) {
+                if (!p.getSymbolWalut().equals("PLN")) {
+                    sumaMa = Z.z(sumaMa + p.getKwota());
+                }
+            } else {
+                sumaMa = Z.z(sumaMa + p.getKwota());
+            }
+
         }
     }
     
@@ -508,7 +521,7 @@ public class KontoZapisFKView implements Serializable{
         try {
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
                 StronaWiersza sw = it.next();
-                if (Z.z(sw.getPozostalo()) == 0.0) {
+                if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
             }
