@@ -7,6 +7,7 @@ package viewfk;
 
 import daoFK.KontoDAOfk;
 import daoFK.UkladBRDAO;
+import embeddablefk.SaldoKonto;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
@@ -79,6 +80,8 @@ public class BilansGenerowanieView implements Serializable {
         if (stop == true) {
             sabledy = true;
         } else {
+            saldoAnalitykaView.initGenerowanieBO();
+            List<SaldoKonto> listaSaldoKonto = saldoAnalitykaView.getListaSaldoKonto();
             Msg.msg("Generuje bilans");
         }
     }

@@ -85,6 +85,28 @@ public class SaldoAnalitykaView implements Serializable {
        przygotowanalistasald(kontaklienta, zapisyBO);
     }
     
+    public void initGenerowanieBO() {
+       int rok = wpisView.getRokWpisu();
+       String mc = wpisView.getMiesiacWpisu();
+       wpisView.setRokWpisu(rok-1);
+       wpisView.setRokWpisuSt(String.valueOf(rok-1));
+       wpisView.setMiesiacWpisu("12");
+       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
+       listaSaldoKonto = new ArrayList<>();
+       przygotowanalistasald(kontaklienta, zapisyBO);
+       for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();)  {
+            SaldoKonto skn = it.next();
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0) {
+                it.remove();
+            }
+        }
+       wpisView.setRokWpisu(rok);
+       wpisView.setRokWpisuSt(String.valueOf(rok));
+       wpisView.setMiesiacWpisu(mc);
+       
+    }
+    
     public void odswiezsaldoanalityczne() {
          wpisView.wpisAktualizuj();
          init();
