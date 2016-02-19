@@ -1248,7 +1248,7 @@ public class PdfMain {
             if (nazwaklasy.equals("entityfk.Konto")) {
                 if (modyfikator == 1) {
                     Konto p = (Konto) it.next();
-                    table.addCell(ustawfrazeAlign(i++, "left", 8));
+                    table.addCell(ustawfrazeAlign(i++, "left", 8, 22f));
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getZwyklerozrachszczegolne(), "center", 8));
@@ -1270,14 +1270,14 @@ public class PdfMain {
                     }
                 } else if (modyfikator == 2) {
                     Konto p = (Konto) it.next();
-                    table.addCell(ustawfrazeAlign(i++, "left", 7));
+                    table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
                     table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getDe(), "left", 8));
                 } else {
                     Konto p = (Konto) it.next();
-                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8));
+                    table.addCell(ustawfrazeAlign(p.getPelnynumer(), "left", 8, 22f));
                     table.addCell(ustawfrazeAlign(p.getNazwapelna(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getNazwaskrocona(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getBilansowewynikowe(), "center", 8));

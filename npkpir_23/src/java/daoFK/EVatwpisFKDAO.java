@@ -66,9 +66,6 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = new ArrayList<>();
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, rok);
-        if (mcod.equals("01")) {
-            input.addAll(sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, String.valueOf(Integer.parseInt(rok)-1)));
-        }
         if (input != null && !input.isEmpty()) {
             int dg = Integer.parseInt(mcod)-1;
             int gg = Integer.parseInt(mcdo)+1;

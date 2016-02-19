@@ -178,41 +178,13 @@ public class PdfFont {
         }
     }
     
-    public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize) {
-        try {
-            BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-            Font font = new Font(helvetica, fontsize);
-            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
-            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-            switch (orient) {
-                case "right":
-                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-                    break;
-                case "left":
-                    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-                    break;
-                case "center":
-                    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    break;
-                case "just":
-                    cell.setHorizontalAlignment(Element.ALIGN_JUSTIFIED);
-                    break;
-            }
-            return cell;
-        } catch (DocumentException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        } catch (IOException ex) {
-            Logger.getLogger(PdfFont.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
     
-    public static PdfPCell ustawfrazeAlign(String fraza, String orient, int fontsize, float fixedHeigth) {
+    public static PdfPCell ustawfrazeAlign(Object fraza, String orient, int fontsize, float fixedHeigth) {
         try {
+            String fraza2 = String.valueOf(fraza);
             BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
             Font font = new Font(helvetica, fontsize);
-            PdfPCell cell = new PdfPCell(new Phrase(fraza, font));
+            PdfPCell cell = new PdfPCell(new Phrase(fraza2, font));
             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
             switch (orient) {
                 case "right":

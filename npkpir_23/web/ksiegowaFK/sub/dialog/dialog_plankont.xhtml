@@ -46,7 +46,7 @@
                         }
                     }
             </script>-->
-              <p:panelGrid columns="5">
+              <p:panelGrid columns="7">
 <!--                <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{planKontView.rozwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{planKontView.rozwin(planKontView.root)}" update=":form:dataList" style="float: left;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{planKontView.zwinwszystkie(planKontView.root)}" update=":form:dataList" style="float: left;" />
@@ -68,6 +68,12 @@
                       <p:menuitem global="false" value="grupa 7" actionListener="#{planKontView.drukujPlanKont('grupa7')}" icon="fa fa-print"/>  
                       <p:menuitem global="false" value="grupa 8" actionListener="#{planKontView.drukujPlanKont('grupa8')}" icon="fa fa-print"/>  
                   </p:splitButton>
+                  <p:selectBooleanCheckbox itemLabel="bez słownikowych" value="#{planKontView.bezslownikowych}">
+                      <p:ajax event="change" global="false" partialSubmit="true"/>
+                  </p:selectBooleanCheckbox>
+                  <p:selectBooleanCheckbox itemLabel="tylko syntetyka" value="#{planKontView.tylkosyntetyka}">
+                      <p:ajax event="change" global="false" partialSubmit="true"/>
+                  </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 

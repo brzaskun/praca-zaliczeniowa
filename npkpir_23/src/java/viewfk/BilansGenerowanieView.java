@@ -44,9 +44,11 @@ public class BilansGenerowanieView implements Serializable {
     private UkladBRDAO ukladBRDAO;
     private List<String> komunikatyok;
     private List<String> komunikatyerror;
+    private boolean sabledy;
 
     public BilansGenerowanieView() {
         this.komunikatyok = new ArrayList<>();
+        this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = new ArrayList<>();
     }
     
@@ -54,6 +56,7 @@ public class BilansGenerowanieView implements Serializable {
 
     
     public void generuj() {
+        this.komunikatyok = new ArrayList<>();
         boolean stop = false;
         List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
          if (konta.isEmpty()) {
@@ -73,7 +76,9 @@ public class BilansGenerowanieView implements Serializable {
         } else {
             komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: "+uklad.size());
         }
-        if (stop == false) {
+        if (stop == true) {
+            sabledy = true;
+        } else {
             Msg.msg("Generuje bilans");
         }
     }
@@ -86,6 +91,14 @@ public class BilansGenerowanieView implements Serializable {
     
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
+    }
+
+    public boolean isSabledy() {
+        return sabledy;
+    }
+
+    public void setSabledy(boolean sabledy) {
+        this.sabledy = sabledy;
     }
 
     public List<String> getKomunikatyok() {

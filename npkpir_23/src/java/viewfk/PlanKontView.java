@@ -92,6 +92,8 @@ public class PlanKontView implements Serializable {
     private String infozebrakslownikowych;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
+    private boolean bezslownikowych;
+    private boolean tylkosyntetyka;
     
     
     public PlanKontView() {
@@ -1056,57 +1058,85 @@ public class PlanKontView implements Serializable {
     public void drukujPlanKont(String parametr) {
         switch (parametr) {
             case "all":
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "wynikowe":
                 wykazkont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "bilansowe":
                 wykazkont = kontoDAOfk.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa0":
                 wykazkont = kontoDAOfk.findKontaGrupa0(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa1":
                 wykazkont = kontoDAOfk.findKontaGrupa1(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa2":
                 wykazkont = kontoDAOfk.findKontaGrupa2(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa3":
                 wykazkont = kontoDAOfk.findKontaGrupa3(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa4":
                 wykazkont = kontoDAOfk.findKontaGrupa4(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa5":
                 wykazkont = kontoDAOfk.findKontaGrupa5(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa6":
                 wykazkont = kontoDAOfk.findKontaGrupa6(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa7":
                 wykazkont = kontoDAOfk.findKontaGrupa7(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "grupa8":
                 wykazkont = kontoDAOfk.findKontaGrupa8(wpisView);
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKont(wykazkont, wpisView);
                 break;
             case "tłumaczenie":
+                usunslownikowe();
                 PdfPlanKont.drukujPlanKontTłumaczenie(wykazkont, wpisView);
                 break;
         }
-
+        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        Collections.sort(wykazkont, new Kontocomparator());
+    }
+    
+    private void usunslownikowe() {
+        if (bezslownikowych || tylkosyntetyka) {
+            for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
+                Konto p = it.next();
+                if (bezslownikowych && p.isSlownikowe()) {
+                    it.remove();
+                }
+                if (tylkosyntetyka && !p.getMacierzyste().equals("0")) {
+                    it.remove();
+                }
+            }
+        }
     }
     
     //<editor-fold defaultstate="collapsed" desc="comment">
@@ -1199,6 +1229,22 @@ public class PlanKontView implements Serializable {
 
     public void setInfozebrakslownikowych(String infozebrakslownikowych) {
         this.infozebrakslownikowych = infozebrakslownikowych;
+    }
+
+    public boolean isBezslownikowych() {
+        return bezslownikowych;
+    }
+
+    public void setBezslownikowych(boolean bezslownikowych) {
+        this.bezslownikowych = bezslownikowych;
+    }
+
+    public boolean isTylkosyntetyka() {
+        return tylkosyntetyka;
+    }
+
+    public void setTylkosyntetyka(boolean tylkosyntetyka) {
+        this.tylkosyntetyka = tylkosyntetyka;
     }
 
     

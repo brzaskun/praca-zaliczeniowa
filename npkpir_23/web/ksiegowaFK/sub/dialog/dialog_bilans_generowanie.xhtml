@@ -31,11 +31,13 @@
               maximizable="true">
         <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
             <p:panelGrid columns="1" style="height: 300px;">
-                <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage="Nie rozpoczęto analizy" columns="1" rowIndexVar="index">
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage=""
+                            columns="1" rowIndexVar="index">
                     <h:outputText value="#{index+1}. " style="color: green;"/>
                     <h:outputText value="#{ok}" style="color: green;"/>
                 </p:dataGrid>
-                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie rozpoczęto analizy/Nie ma błędów" columns="1" rowIndexVar="index">
+                <p:dataGrid value="#{bilansGenerowanieView.komunikatyerror}" var="err" emptyMessage="Nie rozpoczęto analizy" 
+                            columns="1" rowIndexVar="index" rendered="#{bilansGenerowanieView.sabledy}">
                     <h:outputText value="#{index+1}. " style="color: red;"/>
                     <h:outputText value="#{err}" style="color: red;"/>
                 </p:dataGrid>
