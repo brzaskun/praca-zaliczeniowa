@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.BOFKBean;
+import beansFK.PlanKontFKBean;
 import beansFK.PozycjaRZiSFKBean;
 import beansFK.StronaWierszaBean;
 import converter.RomNumb;
@@ -261,7 +262,7 @@ public class PozycjaBRView implements Serializable {
         List<StronaWiersza> zapisy = StronaWierszaBean.pobraniezapisowbilansowe(stronaWierszaDAO, wpisView);
         try {
             List<Konto> plankont = kontoDAO.findKontaBilansowePodatnikaBezPotomkow(wpisView);
-            Konto kontowyniku = findKonto860(plankont);
+            Konto kontowyniku = PlanKontFKBean.findKonto860(plankont);
             naniesKwoteWynikFinansowy(kontowyniku);
             PozycjaRZiSFKBean.sumujObrotyNaKontach(zapisy, plankont);
             PozycjaRZiSFKBean.ustawRootaBilans(rootBilansAktywa, pozycjeaktywa, plankont, "aktywa");
@@ -282,14 +283,7 @@ public class PozycjaBRView implements Serializable {
         }
     }
 
-    private Konto findKonto860(List<Konto> plankont) {
-        for (Konto p : plankont) {
-            if (p.getPelnynumer().equals("860")) {
-                return p;
-            }
-        }
-        return null;
-    }
+    
     
     private void naniesKwoteWynikFinansowy(Konto kontowyniku) {
         pobierzukladprzegladRZiS();

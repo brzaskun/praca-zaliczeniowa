@@ -10,7 +10,7 @@ package testobjects;
  *
  * @author Osito
  */
-public class WierszBO {
+public class WierszBO_T {
     private String podatnik;;
     private Konto konto;
     private double kwotaWn;
@@ -21,10 +21,10 @@ public class WierszBO {
     private double kwotaWnPLN;
     private double kwotaMaPLN;
 
-    public WierszBO() {
+    public WierszBO_T() {
     }
 
-    public WierszBO(String podatnik, Konto konto, double kwotaWn, double kwotaMa) {
+    public WierszBO_T(String podatnik, Konto konto, double kwotaWn, double kwotaMa) {
         this.podatnik = podatnik;
         this.konto = konto;
         this.kwotaWn = kwotaWn;

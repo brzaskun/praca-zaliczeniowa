@@ -48,6 +48,10 @@ public class WierszBODAO extends DAO implements Serializable {
         return wierszBOFacade.findWierszBOPodatnikRok(podatnik, rok);
     }
     
+    public int deletePodatnikRok(Podatnik podatnik, String rok) {
+        return wierszBOFacade.deleteWierszBOPodatnikRok(podatnik, rok);
+    }
+    
     public List<WierszBO> findPodatnikRokRozrachunkowe(Podatnik podatnik, String rok) {
         return wierszBOFacade.findWierszBOPodatnikRokRozrachunkowe(podatnik, rok);
     }

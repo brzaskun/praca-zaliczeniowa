@@ -1727,6 +1727,10 @@ public class SessionFacade<T> implements Serializable {
         return em.createNamedQuery("FakturaRozrachunki.findByPodatnikKontrahent").setParameter("podatnik", wpisView.getPodatnikObiekt()).setParameter("kontrahent", kontrahent).getResultList();
     }
 
+    public int deleteWierszBOPodatnikRok(Podatnik podatnik, String rok) {
+        return em.createNamedQuery("WierszBO.findByDeletePodatnikRok").setParameter("podatnik", podatnik).setParameter("rok", rok).executeUpdate();
+    }
+
     
     
    

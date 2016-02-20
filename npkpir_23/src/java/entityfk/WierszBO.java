@@ -6,6 +6,7 @@
 
 package entityfk;
 
+import embeddablefk.SaldoKonto;
 import entity.Podatnik;
 import entityfk.Konto;
 import java.io.Serializable;
@@ -24,6 +25,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "WierszBO.findByLista", query = "SELECT w FROM WierszBO w WHERE w.konto.pelnynumer LIKE :grupakonta AND  w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
+    @NamedQuery(name = "WierszBO.findByDeletePodatnikRok", query = "DELETE FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByPodatnikRok", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokRozrachunkowe", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto.zwyklerozrachszczegolne = 'rozrachunkowe'"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto"),
@@ -57,6 +59,21 @@ public class WierszBO implements Serializable{
         this.kwotaWn = 0.0;
         this.kwotaWnPLN = 0.0;
         this.kwotaMa = 0.0;
+        this.kwotaMaPLN = 0.0;
+        this.kurs = 0.0;
+        this.waluta = waluta;
+        this.rozrachunek = false;
+    }
+
+    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta) {
+        this.wierszBOPK = new WierszBOPK();
+        this.wierszBOPK.setRok(rok);
+        this.wierszBOPK.setOpis("zapis BO");
+        this.podatnik = podatnik;
+        this.konto = konto;
+        this.kwotaWn = p.getSaldoWn();
+        this.kwotaWnPLN = 0.0;
+        this.kwotaMa = p.getSaldoMa();
         this.kwotaMaPLN = 0.0;
         this.kurs = 0.0;
         this.waluta = waluta;

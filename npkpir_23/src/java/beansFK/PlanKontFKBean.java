@@ -850,6 +850,13 @@ public class PlanKontFKBean {
         }
     }
     
-        
+    public static Konto findKonto860(List<Konto> plankont) {
+        for (Konto p : plankont) {
+            if (p.getPelnynumer().equals("860")) {
+                return p;
+            }
+        }
+        return null;
+    }
     
 }

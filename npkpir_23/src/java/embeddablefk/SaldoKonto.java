@@ -8,6 +8,7 @@ package embeddablefk;
 
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.Waluty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class SaldoKonto implements Serializable {
     private double saldoMa;
     private String nrpelnymacierzystego;
     private List<StronaWiersza> zapisy;
+    private Waluty walutadlabo;
 
     public SaldoKonto() {
         this.zapisy = new ArrayList<>();
@@ -42,6 +44,15 @@ public class SaldoKonto implements Serializable {
         this.saldoWn = saldoWn;
         this.saldoMa = saldoMa;
         this.zapisy = new ArrayList<>();
+    }
+    
+    public SaldoKonto (Konto konto, double saldoWn, double saldoMa, Waluty waluta, List<StronaWiersza> zapisy) {
+        this.konto = konto;
+        this.saldoWn = saldoWn;
+        this.saldoMa = saldoMa;
+        this.zapisy = new ArrayList<>();
+        this.walutadlabo = waluta;
+        this.zapisy = zapisy;
     }
 
     @Override
@@ -165,6 +176,14 @@ public class SaldoKonto implements Serializable {
 
     public void setNrpelnymacierzystego(String nrpelnymacierzystego) {
         this.nrpelnymacierzystego = nrpelnymacierzystego;
+    }
+
+    public Waluty getWalutadlabo() {
+        return walutadlabo;
+    }
+
+    public void setWalutadlabo(Waluty walutadlabo) {
+        this.walutadlabo = walutadlabo;
     }
 
     

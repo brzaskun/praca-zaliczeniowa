@@ -11,12 +11,14 @@ import beansFK.KontaFKBean;
 import beansFK.SaldoAnalitykaBean;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
+import daoFK.WalutyDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import embeddablefk.Sprawozdanie_0;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import entityfk.Waluty;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -52,6 +54,8 @@ public class SaldoAnalitykaView implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
+    @Inject 
+    private WalutyDAOfk walutyDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
     private String wybranyRodzajKonta;
@@ -85,7 +89,7 @@ public class SaldoAnalitykaView implements Serializable {
        przygotowanalistasald(kontaklienta, zapisyBO);
     }
     
-    public void initGenerowanieBO() {
+    public Waluty initGenerowanieBO() {
        int rok = wpisView.getRokWpisu();
        String mc = wpisView.getMiesiacWpisu();
        wpisView.setRokWpisu(rok-1);
@@ -95,16 +99,19 @@ public class SaldoAnalitykaView implements Serializable {
        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
        listaSaldoKonto = new ArrayList<>();
        przygotowanalistasald(kontaklienta, zapisyBO);
+       Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();)  {
             SaldoKonto skn = it.next();
             if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0) {
                 it.remove();
+            } else {
+                skn.setWalutadlabo(walpln);
             }
         }
        wpisView.setRokWpisu(rok);
        wpisView.setRokWpisuSt(String.valueOf(rok));
        wpisView.setMiesiacWpisu(mc);
-       
+       return walpln;
     }
     
     public void odswiezsaldoanalityczne() {

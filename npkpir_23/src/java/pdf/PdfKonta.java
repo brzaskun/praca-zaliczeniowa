@@ -306,8 +306,8 @@ public class PdfKonta {
         return table;
     }
     
-    private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, int i, String l) {
-        table.addCell(ustawfrazeAlign(String.valueOf(i), "center", 7));
+    private static void dodajwiersztabeli(SaldoKonto rs, PdfPTable table, Integer i, String l) {
+        table.addCell(ustawfrazeAlign(i, "center", 7));
             table.addCell(ustawfrazeAlign(rs.getKonto().getPelnynumer(), "left", 7, 30f));
             if (l.equals("pl")) {
                 table.addCell(ustawfrazeAlign(rs.getKonto().getNazwapelna(), "left", 7));

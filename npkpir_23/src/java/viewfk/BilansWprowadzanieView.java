@@ -113,7 +113,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         Podatnik p = wpisView.getPodatnikObiekt();
         String r = wpisView.getRokWpisuSt();
         Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
@@ -173,6 +173,28 @@ public class BilansWprowadzanieView implements Serializable {
             isteniejeDokBO = true;
         }
         wierszedousuniecia = new ArrayList<>();
+    }
+    
+    public void init2() {
+        this.lista0 = new ArrayList<>();
+        this.lista1 = new ArrayList<>();
+        this.lista2 = new ArrayList<>();
+        this.lista3 = new ArrayList<>();
+        this.lista6 = new ArrayList<>();
+        this.lista8 = new ArrayList<>();
+        this.listaSumList = new HashMap<>();
+        listaSumList.put("lista0", new ArrayList());
+        listaSumList.put("lista1", new ArrayList());
+        listaSumList.put("lista2", new ArrayList());
+        listaSumList.put("lista3", new ArrayList());
+        listaSumList.put("lista6", new ArrayList());
+        listaSumList.put("lista8", new ArrayList());
+        tworzListeZbiorcza();
+        init();
+        aktualizujListaW();
+        podsumujWnMa(listaW);
+        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
+        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tablicasuma");
     }
 
     private void tworzListeZbiorcza() {
