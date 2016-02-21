@@ -83,6 +83,7 @@ public class BilansWprowadzanieView implements Serializable {
     private List<WierszBO> lista6s;
     private List<WierszBO> lista8s;
     private List<WierszBO> listaW;
+    private List<WierszBO> listaWKonsolidacja;
     private Map<Integer, List<WierszBO>> listazbiorcza;
     private Map<String, List> listaSumList;
     private double stronaWn;
@@ -96,12 +97,18 @@ public class BilansWprowadzanieView implements Serializable {
     private WpisView wpisView;
 
     public BilansWprowadzanieView() {
+       
+    }
+
+    @PostConstruct
+    public void init() {
         this.lista0 = new ArrayList<>();
         this.lista1 = new ArrayList<>();
         this.lista2 = new ArrayList<>();
         this.lista3 = new ArrayList<>();
         this.lista6 = new ArrayList<>();
         this.lista8 = new ArrayList<>();
+        this.listaWKonsolidacja = new ArrayList<>();
         this.listaSumList = new HashMap<>();
         listaSumList.put("lista0", new ArrayList());
         listaSumList.put("lista1", new ArrayList());
@@ -110,10 +117,6 @@ public class BilansWprowadzanieView implements Serializable {
         listaSumList.put("lista6", new ArrayList());
         listaSumList.put("lista8", new ArrayList());
         tworzListeZbiorcza();
-    }
-
-    @PostConstruct
-    public void init() {
         Podatnik p = wpisView.getPodatnikObiekt();
         String r = wpisView.getRokWpisuSt();
         Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
@@ -154,6 +157,7 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             this.listaW.addAll(this.lista8);
         }
+        usunpodwojnekontawListaW();
         Collections.sort(lista0, new WierszBOcomparator());
         Collections.sort(lista1, new WierszBOcomparator());
         Collections.sort(lista2, new WierszBOcomparator());
@@ -826,6 +830,10 @@ public class BilansWprowadzanieView implements Serializable {
     public void drukuj(List<WierszBO> lista) {
         PdfWierszBO.drukujRKK(lista, wpisView);
     }
+    
+    public void drukujListaKonsolidacyjna(List<WierszBO> lista) {
+        PdfWierszBO.drukujListaKonsolidacyjna(lista, wpisView);
+    }
 
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<WierszBO> getLista0() {
@@ -980,6 +988,14 @@ public class BilansWprowadzanieView implements Serializable {
         this.isteniejaWierszeBOdoUsuniecia = isteniejaWierszeBOdoUsuniecia;
     }
 
+    public List<WierszBO> getListaWKonsolidacja() {
+        return listaWKonsolidacja;
+    }
+
+    public void setListaWKonsolidacja(List<WierszBO> listaWKonsolidacja) {
+        this.listaWKonsolidacja = listaWKonsolidacja;
+    }
+
     public double getStronaMa() {
         return stronaMa;
     }
@@ -990,7 +1006,33 @@ public class BilansWprowadzanieView implements Serializable {
 
 //</editor-fold>
 
+    private void usunpodwojnekontawListaW() {
+        Map<String, WierszBO> nowewiersze = new HashMap<>();
+        for (WierszBO p : listaW) {
+            WierszBO w = null;
+            if (p.getKonto() != null) {
+                nowewiersze.get(p.getKonto().getPelnynumer());
+            }
+            if (w == null && p.getKonto() != null) {
+                nowewiersze.put(p.getKonto().getPelnynumer(), p);
+            } else if(w != null && p.getKonto() != null){
+                dodajwierszBO(w,p);
+            }
+        }
+        listaWKonsolidacja = new ArrayList<>();
+        listaWKonsolidacja.addAll(nowewiersze.values());
+        Collections.sort(listaWKonsolidacja, new WierszBOcomparator());
+    }
+
+    private void dodajwierszBO(WierszBO stary, WierszBO nowy) {
+        stary.setKwotaMa(stary.getKwotaMa()+nowy.getKwotaMa());
+        stary.setKwotaWn(stary.getKwotaWn()+nowy.getKwotaWn());
+        stary.setKwotaMaPLN(stary.getKwotaMaPLN()+nowy.getKwotaMaPLN());
+        stary.setKwotaWnPLN(stary.getKwotaWnPLN()+nowy.getKwotaWnPLN());
+    }
+
     
+        
 
     
 }

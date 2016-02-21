@@ -34,6 +34,10 @@ public class SaldoKonto implements Serializable {
     private String nrpelnymacierzystego;
     private List<StronaWiersza> zapisy;
     private Waluty walutadlabo;
+    private String opisdlabo;
+    private double kursdlaBO;
+    private double saldoWnPLN;
+    private double saldoMaPLN;
 
     public SaldoKonto() {
         this.zapisy = new ArrayList<>();
@@ -55,6 +59,38 @@ public class SaldoKonto implements Serializable {
         this.zapisy = zapisy;
     }
 
+    public SaldoKonto(StronaWiersza t,Waluty wal) {
+        this.konto = t.getKonto();
+        this.kursdlaBO = t.getKursWaluty();
+        boolean mniejszeodzera = t.getKwota() < 0.0;
+        if (t.getWnma().equals("Wn")) {
+            if (mniejszeodzera) {
+                this.saldoWn = -t.getPozostalo();
+                this.saldoWnPLN = -t.getPozostaloPLN();
+                this.saldoMa = 0.0;
+            } else {
+                this.saldoWn = t.getPozostalo();
+                this.saldoWnPLN = t.getPozostaloPLN();
+                this.saldoMa = 0.0;
+            }
+        } else {
+            if (mniejszeodzera) {
+                this.saldoWn = 0.0;
+                this.saldoMa = -t.getPozostalo();
+                this.saldoMaPLN = -t.getPozostaloPLN();
+            } else {
+                this.saldoWn = 0.0;
+                this.saldoMa = t.getPozostalo();
+                this.saldoMaPLN = t.getPozostaloPLN();
+            }
+        }
+        this.zapisy = new ArrayList<>();
+        this.zapisy.add(t);
+        this.walutadlabo = wal;
+        this.opisdlabo = t.getWiersz().getOpisWiersza()+" "+t.getId();
+    }
+    
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -184,6 +220,38 @@ public class SaldoKonto implements Serializable {
 
     public void setWalutadlabo(Waluty walutadlabo) {
         this.walutadlabo = walutadlabo;
+    }
+
+    public String getOpisdlabo() {
+        return opisdlabo;
+    }
+
+    public void setOpisdlabo(String opisdlabo) {
+        this.opisdlabo = opisdlabo;
+    }
+
+    public double getKursdlaBO() {
+        return kursdlaBO;
+    }
+
+    public void setKursdlaBO(double kursdlaBO) {
+        this.kursdlaBO = kursdlaBO;
+    }
+
+    public double getSaldoWnPLN() {
+        return saldoWnPLN;
+    }
+
+    public void setSaldoWnPLN(double saldoWnPLN) {
+        this.saldoWnPLN = saldoWnPLN;
+    }
+
+    public double getSaldoMaPLN() {
+        return saldoMaPLN;
+    }
+
+    public void setSaldoMaPLN(double saldoMaPLN) {
+        this.saldoMaPLN = saldoMaPLN;
     }
 
     

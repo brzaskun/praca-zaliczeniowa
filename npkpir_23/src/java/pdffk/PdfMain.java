@@ -723,19 +723,31 @@ public class PdfMain {
                     return col13;
                 }
             case "entityfk.WierszBO":
-                int[] col14 = new int[size];
-                col14[0] = 1;
-                col14[1] = 6;
-                col14[2] = 3;
-                col14[3] = 2;
-                col14[4] = 2;
-                col14[5] = 3;
-                col14[6] = 3;
-                col14[7] = 3;
-                col14[8] = 3;
-                return col14;
+                if (modyfikator==0) {
+                    int[] col14 = new int[size];
+                    col14[0] = 1;
+                    col14[1] = 6;
+                    col14[2] = 5;
+                    col14[3] = 2;
+                    col14[4] = 2;
+                    col14[5] = 3;
+                    col14[6] = 3;
+                    col14[7] = 3;
+                    col14[8] = 3;
+                    return col14;
+                } else {
+                    int[] col14 = new int[size];
+                    col14[0] = 1;
+                    col14[1] = 6;
+                    col14[2] = 5;
+                    col14[3] = 3;
+                    col14[4] = 3;
+                    col14[5] = 3;
+                    col14[6] = 3;
+                    return col14;
+                }
             case "embeddable.VatUe":
-                col14 = new int[size];
+                int[] col14 = new int[size];
                 col14[0] = 1;
                 col14[1] = 3;
                 col14[2] = 2;
@@ -1288,41 +1300,79 @@ public class PdfMain {
                 }
             }
             if (nazwaklasy.equals("entityfk.WierszBO")) {
-                WierszBO p = (WierszBO) it.next();
-                table.addCell(ustawfrazeAlign(i++, "left", 7));
-                table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
-                table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
-                double kwota = p.getKurs();
-                if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
+                if (modyfikator == 0) {
+                    WierszBO p = (WierszBO) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
+                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    double kwota = p.getKurs();
+                    if (kwota > 0) {
+                        number.setMinimumFractionDigits(4);
+                        number.setMaximumFractionDigits(4);
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    String waluta = p.getWaluta().getSymbolwaluty();
+                    table.addCell(ustawfrazeAlign(waluta, "center", 7));
+                    kwota = p.getKwotaWn(); 
+                    number.setMinimumFractionDigits(2);
+                    number.setMaximumFractionDigits(2);
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaWnPLN();
+                    if (kwota > 0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMa();
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMaPLN();
+                    if (kwota > 0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
                 } else {
-                    table.addCell(ustawfrazeAlign("", "center", 7));
-                }
-                String waluta = p.getWaluta().getSymbolwaluty();
-                table.addCell(ustawfrazeAlign(waluta, "center", 7));
-                kwota = p.getKwotaWn(); 
-                if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "center", 7));
-                }
-                kwota = p.getKwotaWnPLN();
-                if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(number.format(kwota), "center", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "center", 7));
-                }
-                kwota = p.getKwotaMa();
-                if (kwota > 0) {
-                    table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "center", 7));
-                }
-                kwota = p.getKwotaMaPLN();
-                if (kwota > 0 && !waluta.equals("PLN")) {
-                    table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
-                } else {
-                    table.addCell(ustawfrazeAlign("", "center", 7));
+                    WierszBO p = (WierszBO) it.next();
+                    table.addCell(ustawfrazeAlign(i++, "left", 7, 22f));
+                    table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
+                    table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
+                    double kwota = p.getKwotaWn(); 
+                    String waluta = p.getWaluta().getSymbolwaluty();
+                    number.setMinimumFractionDigits(2);
+                    number.setMaximumFractionDigits(2);
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaWnPLN();
+                    if (kwota > 0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMa();
+                    if (kwota > 0) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
+                    kwota = p.getKwotaMaPLN();
+                    if (kwota > 0 && !waluta.equals("PLN")) {
+                        table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
+                    } else {
+                        table.addCell(ustawfrazeAlign("", "center", 7));
+                    }
                 }
             }
             if (nazwaklasy.equals("entityfk.Transakcja")) {

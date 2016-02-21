@@ -361,17 +361,17 @@ public class Wiersz implements Serializable {
     public String toString() {
         try {
             if (getStronaWn() == null && getStronaMa().getKonto() != null) {
-                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + '}';
+                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: null, Ma: "+ getStronaMa().getKwota()+ " Ma:"+getStronaMa().getKonto().getPelnynumer() + " " + opisWiersza;
             } else if (getStronaMa() == null && getStronaWn().getKonto() != null) {
-                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer();
+                return "idwiersza=" + idwiersza + ", idporz.= " + idporzadkowy + "typ : "+typWiersza + " Wn: "+ getStronaWn().getKwota() + " Ma: null}"+ " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " " + opisWiersza;
             } else if (idwiersza != null && getStronaWn().getKonto() != null && getStronaMa().getKonto() != null) {
-                return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+                return "idwiersza=" + idwiersza + ", idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+" " + opisWiersza;
             } else if (getStronaWn().getKonto() != null && getStronaMa().getKonto() != null){
-                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+'}';
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + " Wn:"+getStronaWn().getKonto().getPelnynumer()+ " Ma: "+getStronaMa().getKonto().getPelnynumer()+" " + opisWiersza;
             } else if (getStronaWn() != null && getStronaMa() != null){
-                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() + '}';
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" Wn: "+ getStronaWn().getKwota() + " Ma: "+ getStronaMa().getKwota() +" " + opisWiersza;
             } else {
-                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza;
+                return "idwiersza= null, idporz.=" + idporzadkowy + "typ : "+typWiersza+" " + opisWiersza;
             }
         } catch (Exception e) {
             E.e(e);

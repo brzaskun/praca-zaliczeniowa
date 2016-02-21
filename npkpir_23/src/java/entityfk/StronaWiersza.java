@@ -569,6 +569,29 @@ public class StronaWiersza implements Serializable{
         }
     }
     
+     public Konto getKontoPrzeciwstawne() {
+        Wiersz w = this.getWiersz();
+        Konto t = null; 
+        if (this.wnma.equals("Wn")) {
+            if (w.getStronaMa() != null) {
+                t = w.getStronaMa().getKonto();
+            }
+        } else {
+            if (w.getStronaWn() != null) {
+                t = w.getStronaWn().getKonto();
+            }
+        }
+        return t;
+    }
+     
+    public boolean getToNieJestRRK() {
+        boolean zwrot = true;
+        if (this.wiersz.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+            zwrot = false;
+        }
+        return zwrot;
+    }
+    
     public boolean isWn() {
         return this.wnma.equals("Wn");
     }

@@ -27,7 +27,7 @@
     </style>
     <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  
               appendTo="@(body)" 
-              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 630);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
+              resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
               maximizable="true">
         <h:form id="formbilanswprowadzanie">
             <p:tabView id="tabviewbilans">
@@ -546,14 +546,15 @@
                     </p:panelGrid>
                 </p:tab>
                 <p:tab id="tabzbiorczy" title="W">
-                    <p:dataTable value="#{bilansWprowadzanieView.listaW}" id="tablicasuma" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne">
-                        <p:column width="260">
+                    <p:dataTable value="#{bilansWprowadzanieView.listaWKonsolidacja}" id="tablicasuma" var="item" style="width: 700px;"
+                                 scrollable="true" scrollHeight="400" styleClass="gridtablicasyntetyczne">
+                        <p:column width="90">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
                             <h:outputText value="#{item.konto.pelnynumer}" />
                         </p:column>
-                        <p:column>
+                        <p:column width="300">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
@@ -563,15 +564,16 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
-                            <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="true"/>
+                            <bcf:outputpl value="#{item.kwotaWnPLN}" rendered="#{item.kwotaWnPLN != 0.0}"/>
                         </p:column>
                         <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
-                            <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="true"/>
+                            <bcf:outputpl value="#{item.kwotaMaPLN}" rendered="#{item.kwotaMaPLN != 0.0}"/>
                         </p:column>
                     </p:dataTable>
+                    <p:commandButton value="drukuj" actionListener="#{bilansWprowadzanieView.drukujListaKonsolidacyjna(bilansWprowadzanieView.listaWKonsolidacja)}" global="false" style="width: 120px; margin-top: 20px;"/>
                 </p:tab>
             </p:tabView>
             <p:panelGrid columns="2" id="sumyibutton" style="margin-top: 8px; margin-bottom: 10px;">
