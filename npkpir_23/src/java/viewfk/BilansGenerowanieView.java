@@ -13,13 +13,18 @@ import embeddablefk.SaldoKonto;
 import entityfk.Dokfk;
 import entityfk.DokfkPK;
 import entityfk.Konto;
+import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.WierszBO;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -95,8 +100,10 @@ public class BilansGenerowanieView implements Serializable {
             List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
             obliczkontawynikowe(kontowyniku, listaSaldoKonto, walpln);
+            //tutaj trzeba przerobic odpowiednio listaSaldo
+            List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKonto);
             List<WierszBO> wierszeBO = new ArrayList<>();
-            zrobwierszeBO(wierszeBO, listaSaldoKonto, kontaNowyRok);
+            zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
             komunikatyok.add("Wygenerowano BO na rok "+wpisView.getRokWpisuSt());
             wierszBODAO.editList(wierszeBO);
             zapiszBOnaKontach(wierszeBO, kontaNowyRok);
@@ -294,6 +301,36 @@ public class BilansGenerowanieView implements Serializable {
             }
         }
         return zwrot;
+    }
+
+    private List<SaldoKonto> przetwarzajSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
+        List<SaldoKonto> nowalista = new ArrayList<>();
+        for (SaldoKonto p : listaSaldoKonto) {
+            if (p.getKonto().getPelnynumer().startsWith("203")) {
+                nowalista.addAll(przetworzPojedyncze(p));
+            }
+        }
+        return nowalista;
+    }
+
+    private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
+         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+         Set<String> waluty = new HashSet<>();
+         for (StronaWiersza t : p.getZapisy()) {
+             waluty.add(t.getSymbolWalut());
+         }
+         for (String wal : waluty) {
+             nowalista_wierszy.addAll(sumujdlawaluty(wal,p.getZapisy()));
+         }
+         return nowalista_wierszy;
+    }
+
+    private Collection<? extends SaldoKonto> sumujdlawaluty(String wal, List<StronaWiersza> zapisy) {
+        List<SaldoKonto> zapisykonta = new ArrayList<>();
+        for (StronaWiersza t : zapisy) {
+            
+        }
+        return zapisykonta;
     }
 
    

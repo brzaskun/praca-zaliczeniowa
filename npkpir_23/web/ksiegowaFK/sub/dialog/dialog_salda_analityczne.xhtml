@@ -143,24 +143,22 @@
                     <h:outputText value="#{loop.konto.pelnynumer}" style="color: green; font-weight: 700;"/>
                 </p:column>
                 <p:rowExpansion>
-                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="#{mgs.dokument}" width="60">
-                            <h:outputText value="#{loopik.dokfkS}"/>
+                    <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" sortBy="#{loopik.dokfk.datadokumentu}">
+                        <p:column headerText="#{mgs.dokument}" width="90">
+                            <h:outputText value="#{loopik.dokfkS}" style="height: 50px; word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
                         <p:column headerText="#{mgs.data}" width="50">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
                         <p:column headerText="#{mgs.nr}" width="100">
-                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}"/>
+                            <h:outputText value="#{loopik.dokfk.numerwlasnydokfk}" style="word-break: break-all !important; word-wrap: break-word !important; white-space: pre-wrap;"/>
                         </p:column>
-                        <p:column headerText="#{mgs.kontrahent}">
-                            <h:outputText value="#{loopik.wiersz.eVatwpisFK eq null ? loopik.dokfk.kontr.npelna : loopik.wiersz.eVatwpisFK.klient.npelna}"/>
-                        </p:column>
+                       
                         <p:column headerText="#{mgs.opis}">
                             <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                         </p:column>
                         <p:column headerText="#{mgs.waluta}" width="25" style="text-align: center;">
-                            <h:outputText value="#{loopik.symbolWalutyBO ne null ?  loopik.symbolWalutyBO : loopik.wiersz.tabelanbp.waluta.skrotsymbolu}"/>
+                            <h:outputText value="#{loopik.symbolWalut}" rendered="#{loopik.symbolWalut ne 'PLN'}"/>
                         </p:column>
                         <p:column headerText="#{mgs.kwotaWn}" width="60">
                             <bcf:outputpl value="#{loopik.kwota}"  rendered="#{loopik.wnma eq 'Wn' }"/>

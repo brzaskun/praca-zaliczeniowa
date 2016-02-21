@@ -36,6 +36,7 @@ import plik.Plik;
 import view.WpisView;
 import static beansPdf.PdfFont.ustawfraze;
 import static beansPdf.PdfFont.ustawfrazeAlign;
+import comparator.StronaWierszacomparator;
 import waluty.Z;
 
 /**
@@ -189,8 +190,9 @@ public class PdfKonta {
     }
 
     private static PdfPTable subtable(List<StronaWiersza> stronywiersza) throws DocumentException, IOException {
-        PdfPTable table = new PdfPTable(11);
-        table.setWidths(new int[]{2, 2, 2, 4, 3, 1, 2, 2, 2, 2, 2});
+        Collections.sort(stronywiersza, new StronaWierszacomparator());
+        PdfPTable table = new PdfPTable(10);
+        table.setWidths(new int[]{3, 2, 2, 6, 1, 2, 2, 2, 2, 2});
         table.setWidthPercentage(92);
         table.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.setSpacingAfter(15);
@@ -198,7 +200,6 @@ public class PdfKonta {
             table.addCell(ustawfrazeSpanFont(B.b("dokument"), 0, 1, 7));
             table.addCell(ustawfrazeSpanFont(B.b("data"), 0, 1, 7));
             table.addCell(ustawfrazeSpanFont(B.b("numerwlasny"), 0, 1, 7));
-            table.addCell(ustawfrazeSpanFont(B.b("kontrahent"), 0, 1, 7));
             table.addCell(ustawfrazeSpanFont(B.b("opis"), 0, 1, 7));
             table.addCell(ustawfrazeSpanFont(B.b("waluta"), 0, 1, 7));
             table.addCell(ustawfrazeSpanFont(B.b("kwotaWn"), 0, 1, 7));
@@ -212,13 +213,11 @@ public class PdfKonta {
             Logger.getLogger(Pdf.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (StronaWiersza rs : stronywiersza) {
-            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "center", 6));
+            table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 6, 24f));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getDatadokumentu(), "left", 6));
             table.addCell(ustawfrazeAlign(rs.getDokfk().getNumerwlasnydokfk(), "left", 6));
-            String kontr = rs.getWiersz().geteVatwpisFK() == null ? rs.getDokfk().getKontr().getNpelna() : rs.getWiersz().geteVatwpisFK().getKlient().getNpelna();
-            table.addCell(ustawfrazeAlign(kontr, "left", 6));
             table.addCell(ustawfrazeAlign(rs.getWiersz().getOpisWiersza(), "left", 6));
-            String waluta = rs.getSymbolWalutyBO() != null ? rs.getSymbolWalutyBO() : rs.getWiersz().getTabelanbp().getWaluta().getSymbolwaluty();
+            String waluta = rs.getSymbolWalut().equals("PLN") ? "" : rs.getSymbolWalut();
             table.addCell(ustawfrazeAlign(waluta, "center", 6));
             if (rs.getWnma().equals("Wn")) {
                 table.addCell(ustawfrazeAlign(formatujLiczba(rs.getKwota()), "right", 6));
