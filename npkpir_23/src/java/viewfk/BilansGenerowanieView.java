@@ -281,7 +281,7 @@ public class BilansGenerowanieView implements Serializable {
         if (wynik > 0) {
             p.setSaldoMa(Z.z(p.getSaldoMa()+wynik));
         } else {
-            p.setSaldoWn(Z.z(p.getSaldoWn())+wynik);
+            p.setSaldoWn(Z.z(p.getSaldoWn())-wynik);
         }
     }
 

@@ -66,7 +66,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item0.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item0, item0.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -75,7 +75,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item0.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 100%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item0, item0.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -163,7 +163,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
@@ -172,7 +172,7 @@
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -181,7 +181,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
@@ -190,7 +190,7 @@
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Ma')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -277,7 +277,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -287,7 +287,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
-                                            minValue="-1000000" styleClass="wiersznetto">
+                                            minValue="-10000000" styleClass="wiersznetto">
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -296,7 +296,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -306,7 +306,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
-                                            minValue="-1000000" styleClass="wiersznetto">
+                                            minValue="-10000000" styleClass="wiersznetto">
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaMa, item.kwotaMaPLN, 'Ma')}"/>
                             </pe:inputNumber>
                         </p:column>
@@ -367,7 +367,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto">
+                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -376,7 +376,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -437,7 +437,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -446,7 +446,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -507,7 +507,7 @@
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                            style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaWn, 'Wn')}" />
                             </pe:inputNumber>
                         </p:column>
@@ -516,7 +516,7 @@
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-1000000" styleClass="wiersznetto"> 
+                                             style="width: 95%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
                                 <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przepiszkurs(item, item.kwotaMa, 'Ma')}" />
                             </pe:inputNumber>
                         </p:column>
