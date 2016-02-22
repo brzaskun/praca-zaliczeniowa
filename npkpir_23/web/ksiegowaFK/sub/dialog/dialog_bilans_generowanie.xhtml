@@ -25,12 +25,20 @@
         }
 
     </style>
-    <p:dialog id="dialog_bilans_generowanie" header="Bilans otwarcia - generowanie sald - #{WpisView.podatnikWpisu}" widgetVar="dialog_bilans_generowanie"  
+    <p:dialog id="dialog_bilans_generowanie" header="Bilans otwarcia - generowanie sald" widgetVar="dialog_bilans_generowanie"  
               appendTo="@(body)"
               resizable="false" onShow="ustawdialog('dialog_bilans_generowanie','menubilanse', 500, 400);" closeOnEscape="true" onHide="resetujdialog('dialog_bilans_generowanie');" 
               maximizable="true">
         <h:form id="form_dialog_bilans_generowanie" style="padding: 10px;">
-            <p:panelGrid columns="1" style="height: 300px;">
+            <p:panelGrid columns="1">
+                <p:column>
+                    <h:outputText value="Firma - #{WpisView.podatnikWpisu}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="Rok - #{WpisView.rokWpisuSt}"/>
+                </p:column>
+            </p:panelGrid>
+            <p:panelGrid columns="1" style="height: 260px;">
                 <p:dataGrid value="#{bilansGenerowanieView.komunikatyok}" var="ok" emptyMessage=""
                             columns="1" rowIndexVar="index">
                     <h:outputText value="#{index+1}. " style="color: green;"/>
@@ -42,7 +50,8 @@
                     <h:outputText value="#{err}" style="color: red;"/>
                 </p:dataGrid>
             </p:panelGrid>
-            <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}" update="form_dialog_bilans_generowanie"/>
+            <p:commandButton value="generuj bilans" actionListener="#{bilansGenerowanieView.generuj()}"
+                             update="form_dialog_bilans_generowanie formbilanswprowadzanie:kwotysum formbilanswprowadzanie:tabviewbilans:tablicasuma"/>
         </h:form>
     </p:dialog>
 </ui:composition>

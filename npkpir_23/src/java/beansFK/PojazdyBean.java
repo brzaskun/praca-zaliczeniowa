@@ -37,6 +37,9 @@ public class PojazdyBean {
                     double suma = 0;
                     List<StronaWiersza> listastron = new ArrayList<>();
                     for (StronaWiersza s : stronywiersza) {
+                        if (s.getKonto().getNazwapelna().equals("ZS228CG") && r.getPelnynumer().equals("403-2")) {
+                            System.out.println("");
+                        }
                         if (s.getKonto().getNazwapelna().equals(p.getNrrejestracyjny()) && s.getKonto().getMacierzyste().equals(r.getPelnynumer())) {
                             if (s.getDokfk().getMiesiac().equals(wpisView.getMiesiacWpisu())) {
                                 suma += sumuj(s);
@@ -45,7 +48,7 @@ public class PojazdyBean {
                         }
                     }
                     total += suma;
-                    if (suma > 0) {
+                    if (suma != 0.0) {
                         l.add(stworzmiejscekosztzest(r, suma, total, listastron));
                     }
                 }

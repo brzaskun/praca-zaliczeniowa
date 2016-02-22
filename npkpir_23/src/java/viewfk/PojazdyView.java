@@ -77,8 +77,8 @@ public class PojazdyView  implements Serializable{
             pojazdy = pojazdyDAO.findPojazdyPodatnik(wpisView.getPodatnikObiekt());
             listasumpojazdy = new LinkedHashSet<>();
             obliczsumy();
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) { 
+            E.e(e);
         }
     }
     

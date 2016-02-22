@@ -245,8 +245,7 @@ public class BilansGenerowanieView implements Serializable {
             wierszBODAO.editList(wierszeBO);
             zapiszBOnaKontach(wierszeBO, kontaNowyRok);
             bilansWprowadzanieView.init();
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tablicasuma");
+            bilansWprowadzanieView.zapiszBilansBOdoBazy();
             Msg.msg("Generuje bilans");
         }
     }
