@@ -85,7 +85,13 @@ public class FakturaPodatnikRozliczenie implements Serializable{
 
     @Override
     public String toString() {
-        return "FakturaRozliczenie{" + "lp=" + lp + ", faktura=" + faktura.getFakturaPK().getNumerkolejny() + ", rozliczenie=" + rozliczenie.getNrdokumentu() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+        if (rozliczenie != null) {
+            return "FakturaRozliczenie{" + "lp=" + lp + ", rozliczenie=" + rozliczenie.getNrdokumentu() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+        } else if (faktura != null) {
+            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura=" + faktura.getFakturaPK().getNumerkolejny() + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+        } else {
+            return "FakturaRozliczenie{" + "lp=" + lp + ", faktura0rozliczenie1=" + faktura0rozliczenie1 + ", rok=" + rok + ", mc=" + mc + ", nowy0rozliczony1=" + nowy0rozliczony1 + '}';
+        }
     }
 
     public int getLp() {

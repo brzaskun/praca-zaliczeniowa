@@ -313,15 +313,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
-    public void usun(FakturaRozrachunki p) {
-        try {
-            fakturaRozrachunkiDAO.destroy(p);
-            nowepozycje.remove(p);
-            archiwum.remove(p);
-        } catch (Exception e) {
-            E.e(e);
-        }
-    }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
     public List<Klienci> getKlienci() {

@@ -86,9 +86,6 @@
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiAnalizaView.usun(item)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
-                </p:column>
             </p:dataTable>
         </h:form>
         <h:form id="analizaarchiwum">
@@ -144,10 +141,6 @@
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, false)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiAnalizaView.usun(item)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
-                </p:column>
-
             </p:dataTable>
         </h:form>
     </p:tab>  
