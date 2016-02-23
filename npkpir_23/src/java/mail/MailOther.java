@@ -83,14 +83,15 @@ public class MailOther implements Serializable{
              try {
                  Klienci klientf = faktura.getKontrahent();
                  MimeMessage message = MailSetUp.logintoMailFakt(klientf, wpisView);
-                 message.setSubject("Wydruk faktury VAT - "+faktura.getFakturaPK().getWystawcanazwa(),"UTF-8");
+                 String nazwa = wpisView.getPodatnikObiekt().getNazwadlafaktury() != null ? wpisView.getPodatnikObiekt().getNazwadlafaktury() : wpisView.getPodatnikWpisu();
+                 message.setSubject("Wydruk faktury VAT - "+nazwa,"UTF-8");
                  // create and fill the first message part
                  MimeBodyPart mbp1 = new MimeBodyPart();
                  mbp1.setHeader("Content-Type", "text/html; charset=utf-8");
-                 Podatnik pod = wpisView.getPodatnikObiekt();
-                 String klient = pod.getImie()+" "+pod.getNazwisko();
-                 mbp1.setContent("Szanowna/y "+klient
+                 mbp1.setContent("Witam"
                      + "<p>W załączeniu bieżąca faktura automatycznie wygenerowana przez nasz program księgowy.</p>"
+                     + "<p>dla firmy "+klientf.getNpelna()+"</p>"
+                     + "<p>za okres "+faktura.getRok()+"/"+faktura.getMc()+"</p>"
                      + "<p>"+wiadomoscdodatkowa+"</p>"
                      + Mail.reklama
                      + stopka,  "text/html; charset=utf-8");

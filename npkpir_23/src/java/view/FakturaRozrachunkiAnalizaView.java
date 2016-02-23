@@ -9,15 +9,15 @@ import comparator.FakturaPodatnikRozliczeniecomparator;
 import comparator.Kliencicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
+import dao.FakturadodelementyDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
+import entity.Fakturadodelementy;
 import entity.Klienci;
 import error.E;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,6 +31,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UISelectOne;
 import javax.inject.Inject;
+import mail.MailFaktRozrach;
 import msg.Msg;
 import pdf.PdfFaktRozrach;
 
@@ -56,6 +57,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private WpisView wpisView;
     @Inject
     private FakturaDAO fakturaDAO;
+    @Inject
+    private FakturadodelementyDAO fakturadodelementyDAO;
     @Inject
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     private int aktywnytab;
@@ -301,6 +304,17 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         } catch (Exception e) {
             Msg.msg("e", "Wystąpił błąd. Wydruk nieudany");
             E.e(e);
+        }
+    }
+    
+    public void mailKlienci() {
+        if (szukanyklient != null && !nowepozycje.isEmpty()) {
+            double saldo = nowepozycje.get(nowepozycje.size()-1).getSaldo();
+            if (saldo > 0) {
+                PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
+                Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
+                MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
+            }
         }
     }
     

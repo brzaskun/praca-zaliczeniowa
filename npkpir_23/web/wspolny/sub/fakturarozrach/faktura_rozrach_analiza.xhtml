@@ -16,7 +16,7 @@
             }
         </style>
         <h:form id="fakturaanaliza">
-            <p:panelGrid columns="2">
+            <p:panelGrid columns="3">
                 <h:selectOneListbox id="wyborklienta" value="#{fakturaRozrachunkiAnalizaView.szukanyklient}" required="true" style="width: 300px;"  size="10" converter="KlientConv"
                                     styleClass="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" binding="#{fakturaRozrachunkiAnalizaView.selectOneUI}"
                                     onfocus="$(this).removeClass('ui-state-default');
@@ -27,6 +27,7 @@
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystko(WpisView.miesiacWpisu)}" update="fakturaanaliza:tablicaanaliza akordeon:analizaarchiwum"/>
                 </h:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" global="false" style="width: 120px;"/>
+                <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci()}" style="width: 120px; margin-left: 15px;"/>
             </p:panelGrid>
             <style>
                 th {
