@@ -137,6 +137,7 @@ public class Logowanie implements Serializable {
                 }
                 Liczniklogowan.resetujLogowanie(ipusera, rejestrlogowanDAO);
             }
+            ustawLocale(uzytkownik);
             return navto;
         } catch (ServletException e) {
             Msg.msg("e", "Podałeś nieprawidłowy login lub hasło. Nie możesz rozpocząć pracy z programem");

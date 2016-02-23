@@ -186,10 +186,17 @@ public class Dokfk implements Serializable {
         this.cechadokumentuLista = new ArrayList<>();
     }
     
-    public Dokfk(String opis) {
+    public Dokfk(String opis, String rok) {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
         this.dokfkPK.setSeriadokfk("BO");
+        this.dokfkPK.setRok(rok);
+        this.dokfkPK.setNrkolejnywserii(1);
+        this.datadokumentu = rok+"-01-31";
+        this.dataoperacji = rok+"-01-31";
+        this.datawplywu = rok+"-01-31";
+        this.datawystawienia = rok+"-01-31";
+        this.numerwlasnydokfk = "BO/"+rok+"/01";
         this.opisdokfk = opis;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;

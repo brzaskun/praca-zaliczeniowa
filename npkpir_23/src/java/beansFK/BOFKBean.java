@@ -12,8 +12,6 @@ import entityfk.StronaWiersza;
 import entityfk.WierszBO;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 

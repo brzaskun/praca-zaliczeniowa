@@ -183,9 +183,10 @@ public class StronaWiersza implements Serializable{
          }
          this.wiersz = new Wiersz();
          this.wiersz.setIdwiersza(0);
-         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis());
-         this.wiersz.setDokfk(new Dokfk("zapis z BO"));
+         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis() != null ? w.getWierszBOPK().getOpis() : "zapis BO");
+         this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getWierszBOPK().getRok()));
          this.cechazapisuLista = new ArrayList<>();
+         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
        }
      
       public StronaWiersza(WierszBO w, String wnma) {

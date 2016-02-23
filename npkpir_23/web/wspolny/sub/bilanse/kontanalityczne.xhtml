@@ -14,8 +14,8 @@
                 height : 25px !important;
                 padding: 0px 1px  !important;
             }
-            .ui-datatable .konto .ui-column-filter {
-            width: 65px !important;
+        .ui-datatable .konto .ui-column-filter {
+            width: 45px !important;
         }
         </style>
         <h:form id="formtablicaanalityczne">
@@ -50,6 +50,7 @@
                          filteredValue="#{saldoAnalitykaView.listaSaldoKontofilter}" selection="#{saldoAnalitykaView.listaSaldoKontowybrane}"
                          sortBy="#{loop.konto}" sortFunction="#{saldoAnalitykaView.compare}" emptyMessage="#{mgs.niemazapisownakontach}"  
                          styleClass="gridtablicaanalityczne"  style="overflow-y: scroll; height: 620px;" widgetVar="tablicasaldaanalityczne"
+                         rowIndexVar="index"
                          >
                 <p:ajax event="filter" global="false"/>
                  <p:ajax event="rowSelectCheckbox" global="false" update="akordeon:tabelazsumamianalityka:sumy" listener="#{saldoAnalitykaView.sumujwybranekonta}"/>
@@ -61,9 +62,9 @@
                     <p:rowToggler/>
                 </p:column>
                 <p:column headerText="#{mgs.lp}" width="20" sortBy="#{loop.id}" >
-                    <h:outputText styleClass="lpwierszaanalityka" value="#{loop.id}"/>
+                    <h:outputText styleClass="lpwierszaanalityka" value="#{index+1}"/>
                 </p:column>
-                <p:column styleClass="#{mgs.konto}" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
+                <p:column styleClass="konto" headerText="#{mgs.konto}" width="60" filterBy="#{loop.konto.pelnynumer}" >
                     <h:outputText value="#{loop.konto.pelnynumer}"/>
                 </p:column>
                 <p:column headerText="#{mgs.opis}" width="120" >
@@ -115,10 +116,10 @@
                 </p:column>
                 <p:rowExpansion>
                     <p:dataTable value="#{loop.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie">
-                        <p:column headerText="#{mgs.dokument}" width="60">
-                            <h:outputText value="#{loopik.dokfkS}"/>
+                        <p:column headerText="#{mgs.dokument}" width="60" style="height: 35px !important">
+                            <h:outputText value="#{loopik.dokfkS}" />
                         </p:column>
-                        <p:column headerText="#{mgs.data}" width="50">
+                        <p:column headerText="#{mgs.data}" width="70">
                             <h:outputText value="#{loopik.dokfk.datadokumentu}"/>
                         </p:column>
                         <p:column headerText="#{mgs.nr}" width="100">

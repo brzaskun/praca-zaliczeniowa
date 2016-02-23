@@ -5,6 +5,7 @@
  */
 package view;
 
+import comparator.FakturaRozrachunkicomparator;
 import dao.FakturaDAO;
 import dao.FakturaRozrachunkiDAO;
 import dao.WpisDAO;
@@ -15,6 +16,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -86,7 +88,8 @@ public class FakturaRozrachunkiView  implements Serializable {
             }
         }
         wprowadzoneplatnosci = fakturaRozrachunkiDAO.rozrachunkiZDnia(wpisView);
-        System.out.println("d");
+        selected.setRodzajdokumentu("rk");
+        pobierzostatninumer();
     }
    
     private Collection<? extends Klienci> pobierzkontrahentow() {
@@ -157,6 +160,11 @@ public class FakturaRozrachunkiView  implements Serializable {
                 int nowakoncowka = Integer.parseInt(koncowka)+1;
                 String nowakoncowka2 = String.valueOf(nowakoncowka);
                 nowynumer = numertablica[0]+"/"+nowakoncowka2;
+            } else if (numertablica.length == 3) {
+                String poczatek = numertablica[0];
+                int nowypoczatek = Integer.parseInt(poczatek)+1;
+                String nowypoczatek2 = String.valueOf(nowypoczatek);
+                nowynumer = nowypoczatek2+"/"+numertablica[1]+"/"+numertablica[2];
             }
         }
         return nowynumer;
@@ -188,6 +196,30 @@ public class FakturaRozrachunkiView  implements Serializable {
         init();
         fakturaRozrachunkiRozlView.init();
         fakturaRozrachunkiAnalizaView.init();
+    }
+    
+    private List<FakturaRozrachunki> pobierzplatnosci(String mc) {
+        List<FakturaRozrachunki> wprowadzoneplatnosci = fakturaRozrachunkiDAO.findByPodatnik(wpisView);
+        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
+            if (!it.next().getMc().equals(mc)) {
+                it.remove();
+            }
+        }
+        return wprowadzoneplatnosci;
+    }
+    
+    public void pobierzostatninumer() {
+        List<FakturaRozrachunki> wprowadzoneplatnosci = pobierzplatnosci(wpisView.getMiesiacWpisu());
+        for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
+            if (!it.next().getRodzajdokumentu().equals(selected.getRodzajdokumentu())) {
+                it.remove();
+            }
+        }
+        if (wprowadzoneplatnosci.size() > 0) {
+            Collections.sort(wprowadzoneplatnosci, new FakturaRozrachunkicomparator());
+            String ostatninumer = wprowadzoneplatnosci.get(wprowadzoneplatnosci.size()-1).getNrdokumentu();
+            selected.setNrdokumentu(zrobnowynumer(ostatninumer));
+        }
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">

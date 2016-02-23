@@ -15,6 +15,13 @@
                 width: 340px;
             }
         </style>
+        <script>
+           var blednadata = function() {
+               var pole = document.getElementById("akordeon:fakturarozrachunki:datarozrachunki");
+               var wart = pole.value;
+               $(pole).select();
+            };
+        </script>
         <h:form id="fakturarozrachunki">
             <p:focus context="fakturarozrachunki"/>
             <p:panelGrid>
@@ -42,7 +49,7 @@
                 </f:facet>
                 <p:row >
                     <p:column>
-                        <p:inputText id="datarozrachunki" value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true"
+                        <p:inputText id="datarozrachunki" value="#{fakturaRozrachunkiView.selected.data}" size="10"  required="true" onfocus="blednadata();"
                                      onblur="ustawDateGen(#{WpisView.rokWpisu}, #{WpisView.miesiacWpisu},'akordeon:fakturarozrachunki:datarozrachunki');"/>
                     </p:column>
                     <p:column>
@@ -63,6 +70,7 @@
                                                     $(this).addClass('ui-state-focus');"
                                             onblur="$(this).removeClass('ui-state-focus');
                                                     $(this).addClass('ui-state-default');">
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{fakturaRozrachunkiView.pobierzostatninumer}" update="akordeon:fakturarozrachunki:numerdok"/>
                             <f:selectItem itemLabel="rk" itemValue="rk"/>
                             <f:selectItem itemLabel="wb" itemValue="wb"/>
                             <f:selectItem itemLabel="wbm" itemValue="wbm"/>
@@ -71,7 +79,7 @@
                         </h:selectOneListbox>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{fakturaRozrachunkiView.selected.nrdokumentu}" required="true"
+                        <p:inputText id="numerdok" value="#{fakturaRozrachunkiView.selected.nrdokumentu}" required="true"
                                      />
                     </p:column>
                     <p:column>

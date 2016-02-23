@@ -9,9 +9,8 @@
 
     <p:outputPanel id="wrapper">
         <p:dataTable  var="wpis" value="#{UzView.obiektUZjsf}" id="uzytkownicyLista" editable="true"
-                      paginator="true" paginatorAlwaysVisible="true" rows="12" filteredValue="#{UzView.obiektUZjsfselected}"
-                      paginatorTemplate="{FirstPageLink} {PageLinks} {LastPageLink} {RowsPerPageDropdown}" 
-                      rowsPerPageTemplate="12,16,20,50" 
+                      paginator="true" paginatorAlwaysVisible="true" filteredValue="#{UzView.obiektUZjsfselected}"
+                      scrollable="true" scrollHeight="300"
                       rowKey="#{wpis.login}" selection="#{UzView.selUzytkownik}" selectionMode="single"> 
             <p:ajax event="rowEdit" update=":form:messages" listener="#{UzView.zachowajzmiany()}" />
             <p:ajax event="rowSelect" update=":form:messages, :editUzyt" listener="#{UzView.wybranoUzytkownika}" />

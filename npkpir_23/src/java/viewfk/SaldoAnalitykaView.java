@@ -229,6 +229,7 @@ public class SaldoAnalitykaView implements Serializable {
                 } else {
                     p.setBoMa(Z.z(p.getBoMa() + r.getKwotaPLN()));
                 }
+                p.getZapisy().add(r);
             }
         }
     }

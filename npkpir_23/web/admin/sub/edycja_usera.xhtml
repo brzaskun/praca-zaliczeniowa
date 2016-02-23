@@ -6,17 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <p:panel id="editDane" menuTitle="Edytowanie danych użytkownika" header="Edytowanie danych użytkownika" >
         <h:messages id="mess_edit" tooltip="true" />
-        <p:panelGrid columns="8" >
-
-            <h:outputLabel value="login"/>
+        <p:panelGrid columns="7" >
             <h:outputLabel value="imie"/>
             <h:outputLabel value="nazwisko"/>
             <h:outputLabel value="hasło"/>
             <h:outputLabel value="uprawnienia"/>
             <h:outputLabel value="locale"/>
-            <h:outputLabel value="log"/>
+            <h:outputLabel value="firma"/>
             <br/>
-            <p:inputText  value="#{UzView.selUzytkownik.login}"/>
             <p:inputText  value="#{UzView.selUzytkownik.imie}"/>
             <p:inputText  value="#{UzView.selUzytkownik.nazw}"/>
             <p:inputText  value="#{UzView.selUzytkownik.haslo}"/>
@@ -30,7 +27,9 @@
                 <f:selectItem itemValue="dk" itemLabel="dk"/>
                 <f:selectItem itemValue="nl" itemLabel="nl"/>
             </p:selectOneMenu>
-            <p:inputText  value="#{UzView.selUzytkownik.login}"/>
+            <p:selectOneMenu value="#{UzView.selUzytkownik.firma}" >
+                <f:selectItems value="#{podatnikWyborView.listaPodatnikow}" var="item" itemLabel="#{item.nazwapelna}" itemValue="#{item.nip}"/>
+            </p:selectOneMenu>
             <p:commandButton action="#{UzView.zachowajzmiany()}" value="Edytuj" update=":form:uzytkownicyLista,mess_edit,:dodWiad:ostatniUzytkownik"/>
         </p:panelGrid>
     </p:panel>
