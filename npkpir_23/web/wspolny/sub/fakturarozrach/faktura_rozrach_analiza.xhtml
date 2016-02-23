@@ -27,7 +27,7 @@
                     <p:ajax event="change" global="false" listener="#{fakturaRozrachunkiAnalizaView.pobierzwszystko(WpisView.miesiacWpisu)}" update="fakturaanaliza:tablicaanaliza akordeon:analizaarchiwum"/>
                 </h:selectOneListbox>
                 <p:commandButton icon="fa fa-print" actionListener="#{fakturaRozrachunkiAnalizaView.drukujKlienci()}" global="false" style="width: 120px;"/>
-                <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci()}" style="width: 120px; margin-left: 15px;"/>
+                <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci()}" style="width: 120px; margin-left: 15px;" update="fakturaanaliza:tablicaanaliza"/>
             </p:panelGrid>
             <style>
                 th {
@@ -56,7 +56,7 @@
                 </p:column>
                 <p:column width="100">
                     <f:facet name="header">
-                        <h:outputText value="mail"/>
+                        <h:outputText value="data wysyłki"/>
                     </f:facet>
                     <h:outputText value="#{item.mail}" rendered="#{item.mail ne ''}"/>
                 </p:column>
@@ -83,6 +83,14 @@
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
+                </p:column>
+                <p:column width="70" sortable="true" sortBy="#{item.rozliczenie.dataupomnienia}">
+                    <f:facet name="header">
+                        <h:outputText value="data upomnienia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rozliczenie.dataupomnienia}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
@@ -138,6 +146,14 @@
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
+                </p:column>
+                <p:column width="70" sortable="true" sortBy="#{item.rozliczenie.dataupomnienia}">
+                    <f:facet name="header">
+                        <h:outputText value="data upomnienia"/>
+                    </f:facet>
+                    <h:outputText value="#{item.rozliczenie.dataupomnienia}">
+                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                    </h:outputText>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, false)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>

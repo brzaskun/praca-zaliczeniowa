@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -309,11 +310,15 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     
     public void mailKlienci() {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
-            double saldo = nowepozycje.get(nowepozycje.size()-1).getSaldo();
+            FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
+            FakturaRozrachunki r = p.getRozliczenie();
+            double saldo = p.getSaldo();
             if (saldo > 0) {
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
                 MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
+                r.setDataupomnienia(new Date());
+                fakturaRozrachunkiDAO.edit(r);
             }
         }
     }

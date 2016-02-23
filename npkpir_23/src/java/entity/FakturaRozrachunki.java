@@ -76,6 +76,9 @@ public class FakturaRozrachunki implements Serializable {
     private String mc;
     @Column(name = "nowy0archiwum1")
     private boolean nowy0archiwum1;
+    @Column(name = "dataupomnienia", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataupomnienia;
     
     @PrePersist
     private void prepresist() {
@@ -215,6 +218,14 @@ public class FakturaRozrachunki implements Serializable {
 
     public void setNowy0archiwum1(boolean nowy0archiwum1) {
         this.nowy0archiwum1 = nowy0archiwum1;
+    }
+
+    public Date getDataupomnienia() {
+        return dataupomnienia;
+    }
+
+    public void setDataupomnienia(Date dataupomnienia) {
+        this.dataupomnienia = dataupomnienia;
     }
 
    
