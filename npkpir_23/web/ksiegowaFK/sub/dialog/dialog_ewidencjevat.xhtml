@@ -270,7 +270,8 @@
                     </p:dataTable>
                     <p:outputPanel style="margin-top: 10px">
         <!--                            <p:commandButton value="dodaj BO" style="width: 120px; margin-bottom: 10px;" actionListener="#{kontaVatFKView.dodajBOdoKont()}"/>-->
-                        <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 700px;" id="saldokontvat">
+                        <p:dataTable value="#{kontaVatFKView.kontavat}" var="item" style="width: 700px;" id="saldokontvat"
+                                     emptyMessage="Brak kont oznaczonych jako konta VAT. Sprawdź plan kont!">
                             <p:ajax event="rowToggle" global="false" />
                             <p:column style="height: 19px; text-align: center;" width="20">
                                 <p:rowToggler />
@@ -292,7 +293,8 @@
                                 </h:outputText>
                             </p:column>
                             <p:rowExpansion>
-                                <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" paginator="true" rows="2" paginatorPosition="top">
+                                <p:dataTable value="#{item.zapisy}" var="loopik" emptyMessage="nie ma rachunków na tym koncie" 
+                                             scrollable="true" scrollHeight="90">
                                     <p:ajax event="page" global="false"/>
                                     <p:column headerText="#{mgs.dokument}" width="70">
                                         <h:outputText value="#{loopik.dokfkS}"/>
@@ -309,7 +311,7 @@
                                     <p:column headerText="wiersz">
                                         <h:outputText value="#{loopik.wiersz.opisWiersza}"/>
                                     </p:column>
-                                    <p:column headerText="#{mgs.kwota}" width="60">
+                                    <p:column headerText="#{mgs.kwota}" width="60" sortBy="#{loopik.kwota}">
                                         <bcf:outputpl value="#{loopik.kwota}"/>
                                     </p:column>
                                 </p:dataTable>

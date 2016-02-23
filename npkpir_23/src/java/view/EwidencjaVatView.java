@@ -208,9 +208,7 @@ public class EwidencjaVatView implements Serializable {
             RequestContext.getCurrentInstance().update("form");
             RequestContext.getCurrentInstance().update("formEwidencjeGuest");
         } catch (Exception e) { 
-            if (e.getStackTrace() != null && e.getStackTrace().length > 0) {
-                E.e(e); 
-            }
+            E.e(e); 
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje

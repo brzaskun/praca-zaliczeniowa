@@ -37,7 +37,10 @@ public class KlienciConverterView implements Serializable{
             Pattern pattern = Pattern.compile("[A-Z]{2}\\d+");
             Matcher m = pattern.matcher(query.toUpperCase());
             boolean czynipzagraniczny = m.matches();
-            if (czynipzagraniczny) {
+            pattern = Pattern.compile("[A-Z]{3}\\d+");
+            m = pattern.matcher(query.toUpperCase());
+            boolean czynipzagraniczny2 = m.matches();
+            if (czynipzagraniczny || czynipzagraniczny2) {
                 for (Klienci p : listaKlientow) {
                     if (p.getNip().startsWith(query.toUpperCase())) {
                             results.add(p);
