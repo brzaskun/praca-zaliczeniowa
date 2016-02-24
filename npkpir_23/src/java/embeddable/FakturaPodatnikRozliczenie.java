@@ -9,6 +9,7 @@ import data.Data;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -29,6 +30,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private double kwota;
     private double saldo;
     private String mail;
+    private Date dataupomnienia;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -38,6 +40,8 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.data = p.getData();
         this.kwota = p.getKwota();
         this.mail = "";
+        this.dataupomnienia = p.getDataupomnienia();
+        
     }
 
     public FakturaPodatnikRozliczenie(Faktura r) {
@@ -52,6 +56,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         } else {
             this.mail = "";
         }
+        this.dataupomnienia = r.getDataupomnienia();
     }
 
     @Override
@@ -181,6 +186,15 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+
+    public Date getDataupomnienia() {
+        return dataupomnienia;
+    }
+
+    public void setDataupomnienia(Date dataupomnienia) {
+        this.dataupomnienia = dataupomnienia;
+    }
+    
 
     public String getKontrahent() {
         if (this.faktura != null) {

@@ -312,13 +312,19 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
             FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
             FakturaRozrachunki r = p.getRozliczenie();
+            Faktura f = p.getFaktura();
             double saldo = p.getSaldo();
             if (saldo > 0) {
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
                 MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
-                r.setDataupomnienia(new Date());
-                fakturaRozrachunkiDAO.edit(r);
+                if (r != null) {
+                    r.setDataupomnienia(new Date());
+                    fakturaRozrachunkiDAO.edit(r);
+                } else {
+                    f.setDataupomnienia(new Date());
+                    fakturaDAO.edit(f);
+                }
             }
         }
     }

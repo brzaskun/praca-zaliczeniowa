@@ -18,7 +18,7 @@
         <h:form id="fakturarozliczenia">
             <p:commandButton value="pobierz" style="width: 120px;" actionListener="#{fakturaRozrachunkiRozlView.pobierzplatnosci(WpisView.miesiacWpisu)}" update="fakturarozliczenia" global="false"/>
             <p:dataTable value="#{fakturaRozrachunkiRozlView.wprowadzoneplatnosci}" var="item" style="width: 1250px; margin-top: 20px;"
-                         emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}"
+                         emptyMessage="niczego nie zaksięgowano w miesiącu #{WpisView.miesiacWpisu}" id="wprowadzonetabela"
                          widgetVar="fakturarozliczenia_tablica" editable="true">
                 <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
                 <p:column width="30" sortBy="#{item.lp}" sortable="true">
@@ -126,7 +126,7 @@
                     <p:rowEditor style="height: 30px;"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" update="akordeon:fakturarozliczenia"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{fakturaRozrachunkiRozlView.usun(item)}" update="akordeon:fakturarozliczenia:wprowadzonetabela"/>
                 </p:column>
             </p:dataTable>
         </h:form>

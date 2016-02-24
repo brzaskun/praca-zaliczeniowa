@@ -214,6 +214,9 @@ public class Faktura implements Serializable {
     private boolean nowy0archiwum1;
     @Temporal(TemporalType.DATE)
     private Date datawysylki;
+    @Column(name = "dataupomnienia", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataupomnienia;
 
     public Faktura() {
     }
@@ -301,6 +304,14 @@ public class Faktura implements Serializable {
 
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
+    }
+
+    public Date getDataupomnienia() {
+        return dataupomnienia;
+    }
+
+    public void setDataupomnienia(Date dataupomnienia) {
+        this.dataupomnienia = dataupomnienia;
     }
 
     public Date getDatawysylki() {
