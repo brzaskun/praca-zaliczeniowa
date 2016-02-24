@@ -905,11 +905,11 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getNrDok(), "left", 8));
                     table.addCell(ustawfrazeAlign(p.getData(), "center", 8));
                     if (p.isFaktura0rozliczenie1()) {
-                        table.addCell(ustawfrazeAlign("", "right", 8));
                         table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
+                        table.addCell(ustawfrazeAlign("", "right", 8));
                     } else {
-                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                         table.addCell(ustawfrazeAlign("", "right", 8));
+                        table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
                     }
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getSaldo())), "right", 8));
                 } else {

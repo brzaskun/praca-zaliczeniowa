@@ -308,13 +308,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
     }
     
-    public void mailKlienci() {
+    public void mailKlienci(FakturaPodatnikRozliczenie p) {
         if (szukanyklient != null && !nowepozycje.isEmpty()) {
-            FakturaPodatnikRozliczenie p = nowepozycje.get(nowepozycje.size()-1);
+            System.out.println(p.toString());
             FakturaRozrachunki r = p.getRozliczenie();
             Faktura f = p.getFaktura();
             double saldo = p.getSaldo();
             if (saldo > 0) {
+                obetnijliste(p);
                 PdfFaktRozrach.drukujKlienciSilent(szukanyklient, nowepozycje, archiwum, wpisView);
                 Fakturadodelementy stopka = fakturadodelementyDAO.findFaktStopkaPodatnik(wpisView.getPodatnikWpisu());
                 MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
@@ -325,6 +326,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                     f.setDataupomnienia(new Date());
                     fakturaDAO.edit(f);
                 }
+            }
+        }
+    }
+    
+    private void obetnijliste(FakturaPodatnikRozliczenie p) {
+        for (Iterator<FakturaPodatnikRozliczenie> it = nowepozycje.iterator(); it.hasNext();) {
+            if (it.next().getLp() > p.getLp()) {
+                it.remove();
             }
         }
     }
