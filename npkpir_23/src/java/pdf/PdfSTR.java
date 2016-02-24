@@ -90,7 +90,7 @@ public class PdfSTR {
             } else {
                 table.addCell(ustawfrazeAlign("", "center",6));
             }
-            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",6));
+            table.addCell(ustawfrazeAlign(rs.getNazwa(), "left",6, 23f));
             table.addCell(ustawfrazeAlign(rs.getDataprzek(), "left",6));
             table.addCell(ustawfrazeAlign(rs.getKst(), "left",6));
             table.addCell(ustawfrazeAlign(formatujWaluta(rs.getNetto()), "right",6));

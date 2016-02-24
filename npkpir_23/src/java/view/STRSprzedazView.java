@@ -6,6 +6,7 @@
 package view;
 
 import dao.STRDAO;
+import data.Data;
 import embeddable.Umorzenie;
 import entity.SrodekTrw;
 import error.E;
@@ -73,6 +74,7 @@ public class STRSprzedazView extends STRTabView implements Serializable {
         SrodekTrw sprzedawanySrodekTrw = sTRTabView.getWybranysrodektrwalyPosiadane();
         if (sprzedawanySrodekTrw != null) {
             obsluztransakcje(sprzedawanySrodekTrw, wpisView.getRokWpisu(), Integer.parseInt(wpisView.getMiesiacWpisu()));
+            sprzedawanySrodekTrw.setDatasprzedazy(Data.ostatniDzien(wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu()));
             try {
                 sTRDAO.edit(sprzedawanySrodekTrw);
                 Msg.msg("i", "Naniesiono sprzedaż: " + sprzedawanySrodekTrw.getNazwa() + ". Pamiętaj o wygenerowaniu nowych dokumentow umorzeń!", "dodWiad:mess_add");

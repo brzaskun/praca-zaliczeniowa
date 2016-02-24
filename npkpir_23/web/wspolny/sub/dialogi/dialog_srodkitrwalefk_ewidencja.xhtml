@@ -6,31 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:pe="http://primefaces.org/ui/extensions">
-    <style>
-        .ui-inputfield .ui-inputtext {
-            padding: 0px !important;
-            margin: 0px !important;
-        }
-
-        .ui-datatable-data tr td {
-            padding: 0px !important;
-            margin: 0px !important;
-        }
-/*        dzieki temu nie mamy ramek przy wpisywani danych do dokumentu*/
-        .ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-inputfield {
-            border: none;
-            outline: none;
-            box-shadow: none;
-        }
-        .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
-            -webkit-box-shadow: none;
-            box-shadow: none;
-            font-weight: 900;
-            background: #e4e3e3;
-        }
-        
-        
-    </style>
     <p:dialog id="dialogsrodkitrwalefkewidencja" header="Ewidencja środków trwałych" widgetVar="dialogsrodkitrwalefkewidencja" 
               resizable="true"  onShow="ustawdialog('dialogsrodkitrwalefkewidencja','menusrodkitrwale',1400,750);" 
               closeOnEscape="true" onHide="resetujdialog('dialogsrodkitrwalefkewidencja');">
