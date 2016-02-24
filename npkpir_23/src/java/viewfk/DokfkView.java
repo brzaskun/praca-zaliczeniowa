@@ -2049,7 +2049,7 @@ public class DokfkView implements Serializable {
         symbolwalutydowiersza = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String nazwawaluty = ((Waluty) el.getNewValue()).getSymbolwaluty();
         String staranazwa = ((Waluty) el.getOldValue()).getSymbolwaluty();
-        if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN")) {
+        if (!staranazwa.equals("PLN") && !nazwawaluty.equals("PLN") && selected.getListawierszy().get(0).getStronaWn().getKwota() != 0.0) {
             Msg.msg("w", "Prosze przewalutowywać do PLN");
         } else {
             if (!nazwawaluty.equals("PLN")) {
