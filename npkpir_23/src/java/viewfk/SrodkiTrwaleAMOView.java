@@ -32,6 +32,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -72,7 +73,7 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private double roznicasald;
     
     
-    
+    @PostConstruct
     public void init() {
        List<Konto> kontaklienta = kontoDAOfk.findKontaSrodkiTrw(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontasrodkitrw = przygotowanalistasald(kontaklienta);

@@ -6,9 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace"
     xmlns:bcf="http://brzaskun.com/facelets">
-  
-    <f:event type="preRenderView" listener="#{srodkiTrwaleAMOView.init()}"/>
-    <f:event type="preRenderView" listener="#{STRTableView.init()}"/>
         <h:form id="formbuttonsrodki">
             <p:commandButton id="buttonsrodki" value="dodaj środek trwały" onclick="PF('dialog_srodki_dodaj').show();"/>
             <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>
@@ -43,14 +40,14 @@
                         <h:outputText value="#{wpis.nrsrodka}"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
 
-                    <p:column id="dataColumn" headerText="data zakupu środka" filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="65"
+                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="60"
                               style="text-align: center;">  
 
                         <h:outputText value="#{wpis.datazak}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="70"
+                    <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="60"
                              style="text-align: center;">  
                         <h:outputText value="#{wpis.dataprzek}" style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertDateTime dateStyle="medium"  />
@@ -60,12 +57,10 @@
 
                         <h:outputText value="#{wpis.nazwa}"    style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="50" style="text-align: center;">  
-
+                    <p:column id="kstColumn" headerText="KŚT" filterBy="#{wpis.kst}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.kst}" width="30" style="text-align: center;">  
                         <h:outputText value="#{wpis.kst}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
-                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="70">  
-
+                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="110">  
                         <h:outputText value="#{wpis.nrwldokzak}"   style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}"/>
                     </p:column>
                     <p:column id="rodzTrColumn" headerText="#{mgs.kwota}" filterBy="#{wpis.netto}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.netto}" width="60">  
@@ -91,7 +86,7 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="staw. odp." filterBy="#{wpis.stawka}" style="text-align: center;" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="40">  
+                    <p:column id="stawkaColumn" headerText="staw. odp." filterBy="#{wpis.stawka}" style="text-align: center;" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="45">  
 
                         <h:outputText value="#{wpis.stawka}%"  style="#{wpis.odpisrok eq null ? 'color: gray; font-weight: 100;' : null}">
                             <f:convertNumber maxFractionDigits="2"
@@ -152,15 +147,17 @@
                         <h:outputText value="#{wpis.nrsrodka}" />
                     </p:column>
 
-                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.datazak}" width="70">  
+                    <p:column id="dataColumn" headerText="data zakupu" filterBy="#{wpis.datazak}" filterMatchMode="contains" 
+                              filterStyle="display : none;" sortBy="#{wpis.datazak}" width="65">  
 
-                        <h:outputText value="#{wpis.datazak}">
+                        <h:outputText value="#{wpis.datazak}" style="font-weight: 100">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
-                    <p:column id="data2Column" headerText="data przekazania" filterBy="#{wpis.dataprzek}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="70">  
+                    <p:column id="data2Column" headerText="data przek." filterBy="#{wpis.dataprzek}" filterMatchMode="contains"
+                              filterStyle="display : none;" sortBy="#{wpis.dataprzek}" width="65">  
 
-                        <h:outputText value="#{wpis.dataprzek}">
+                        <h:outputText value="#{wpis.dataprzek}" style="font-weight: 100">
                             <f:convertDateTime dateStyle="medium"  />
                         </h:outputText>
                     </p:column>
@@ -172,7 +169,8 @@
 
                         <h:outputText value="#{wpis.kst}"  />
                     </p:column>
-                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="70">  
+                    <p:column id="dowColumn" headerText="nr. faktury" filterBy="#{wpis.nrwldokzak}" 
+                              filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.nrwldokzak}" width="110">  
 
                         <h:outputText value="#{wpis.nrwldokzak}"  />
                     </p:column>
@@ -221,7 +219,7 @@
             <p:tab id="zestawieniestr1" title="plan umorzeń">
                 <p:dataTable  var="wpis" value="#{STRTableView.srodkiTrwale}" id="srodkiLista1" editable="true" 
                               scrollable="true" scrollHeight="390"
-                              style="width: 1250px;"
+                              style="width: 1250px;" emptyMessage="Nie naliczono umorzeń"
                               rowKey="#{wpis.id}" selectionMode="single"> 
 
                     <f:facet name="header">  
@@ -255,7 +253,8 @@
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="stawkaColumn" headerText="odpis staw." filterBy="#{wpis.stawka}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.stawka}" width="40" style="text-align: center;">  
+                    <p:column id="stawkaColumn" headerText="odpis staw." filterBy="#{wpis.stawka}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpis.stawka}" width="45" style="text-align: center;">  
 
                         <h:outputText value="#{wpis.stawka}%" >
                             <f:convertNumber maxFractionDigits="2"
@@ -264,7 +263,8 @@
                                              type="number"/>
                         </h:outputText>
                     </p:column>
-                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" filterStyle="display : none;" sortBy="#{wpis.odpisrok}" width="60">  
+                    <p:column id="odpisrokColumn" headerText="odpis za rok" filterBy="#{wpis.odpisrok}" filterMatchMode="contains" filterStyle="display : none;" 
+                              sortBy="#{wpis.odpisrok}" width="60">  
 
                         <h:outputText value="#{wpis.odpisrok}"  style="float: right;">
                           <f:convertNumber minFractionDigits="2" locale="PL"/>
@@ -278,7 +278,7 @@
                     </p:column>
                     <p:column id="amortColumn" headerText="zaplanowane miesięczne umorzenia" filterBy="#{wpis.umorzWyk}" filterMatchMode="contains" 
                               filterStyle="display : none;" sortBy="#{wpis.umorzWyk}" width="490" style="text-align: center;">  
-                        <p:dataTable var="subwpis" value="#{wpis.umorzWyk}"
+                        <p:dataTable var="subwpis" value="#{wpis.umorzWyk}" emptyMessage="Nie naliczono umorzeń"
                                      scrollable="true" scrollHeight="150"
                                      style="width: 500px;">
                             <p:column id="SubColumn1" headerText="id" width="40">  
