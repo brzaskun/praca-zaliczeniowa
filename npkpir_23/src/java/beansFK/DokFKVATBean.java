@@ -107,13 +107,13 @@ public class DokFKVATBean {
                 wartosciVAT[1] += p.getVat();
                 wartosciVAT[2] += p.getNettowwalucie();
                 wartosciVAT[3] += p.getVatwwalucie();
-                double vatplnpolowa = Z.z(p.getVat()*p.getDokfk().getRodzajedok().getProcentvat()/100);
-                double vatplnreszta = p.getVat() - vatplnpolowa;
-                wartosciVAT[4] += vatplnpolowa;
+                double vatplnprocent = Z.z(p.getVat()*p.getDokfk().getRodzajedok().getProcentvat()/100);
+                double vatplnreszta = Z.z(p.getVat() - vatplnprocent);
+                wartosciVAT[4] += vatplnprocent;
                 wartosciVAT[5] += vatplnreszta;
-                double vatpolowa = Z.z(p.getVatwwalucie()*p.getDokfk().getRodzajedok().getProcentvat()/100);
-                double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
-                wartosciVAT[6] += vatpolowa;
+                double vatprocent = Z.z(p.getVatwwalucie()*p.getDokfk().getRodzajedok().getProcentvat()/100);
+                double vatreszta = Z.z(p.getVatwwalucie()-vatprocent);
+                wartosciVAT[6] += vatprocent;
                 wartosciVAT[7] += vatreszta;
             } else {
                 wartosciVAT[0] += p.getNetto();

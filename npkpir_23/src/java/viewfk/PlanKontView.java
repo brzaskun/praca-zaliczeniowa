@@ -1129,11 +1129,16 @@ public class PlanKontView implements Serializable {
         if (bezslownikowych || tylkosyntetyka) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = it.next();
-                if (bezslownikowych && p.isSlownikowe()) {
+                if (bezslownikowych && p.isSlownikowe() && !tylkosyntetyka) {
                     it.remove();
                 }
-                if (tylkosyntetyka && !p.getMacierzyste().equals("0")) {
+                if (tylkosyntetyka && !p.getMacierzyste().equals("0") && !bezslownikowych) {
                     it.remove();
+                }
+                if (bezslownikowych && tylkosyntetyka) {
+                    if (p.isSlownikowe() || !p.getMacierzyste().equals("0")) {
+                        it.remove();
+                    }
                 }
             }
         }
