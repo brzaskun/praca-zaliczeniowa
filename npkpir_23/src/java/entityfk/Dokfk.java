@@ -577,6 +577,10 @@ public class Dokfk implements Serializable {
         }
         return ew;
     }
+    
+    public String getMcRok() {
+        return this.miesiac+"/"+this.dokfkPK.getRok();
+    }
 
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {

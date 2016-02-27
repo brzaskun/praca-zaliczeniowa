@@ -63,7 +63,35 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
         return l;
     }
     
+    public List<EVatwpisFK> findPodatnikMcInnyOkres(Podatnik podatnik, String rok, String mcod, String mcdo) {
+        //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
+        List<EVatwpisFK> l = new ArrayList<>();
+        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, rok);
+        if (input != null && !input.isEmpty()) {
+            int dg = Integer.parseInt(mcod)-1;
+            int gg = Integer.parseInt(mcdo)+1;
+            for (EVatwpisFK p : input) {
+                try {
+                    int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
+                    if (mcod.equals("01")) {
+                        mcdok = 12 - mcdok;
+                    }
+                    if (mcdok <= dg && p.getVat() != 0.0) {
+                        int p_mc = Integer.parseInt(p.getMcEw());
+                        if (p_mc > dg && p_mc < gg) {
+                            l.add(p);
+                        }
+                    }
+                } catch (Exception e) {
+                    E.e(e);
+                }
+            }
+        }
+        return l;
+    }
+    
     public List<EVatwpisFK> findPodatnikMcOdDo(Podatnik podatnik, String rok, String mcod, String mcdo) {
+        //pobieramy ewidencje z tego roku i mca i badamy ich dokumenty, jezeli sa rozne to pobieramy
         List<EVatwpisFK> l = new ArrayList<>();
         List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, rok);
         if (input != null && !input.isEmpty()) {
@@ -91,7 +119,7 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
     
     public List<EVatwpisFK> findPodatnikMcPo(Podatnik podatnik, Integer rok, String mcod, String mcdo) {
         List<EVatwpisFK> l = new ArrayList<>();
-        List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRok(podatnik, String.valueOf(rok));
+            List<EVatwpisFK> input = sessionFacade.findEVatwpisFKByPodatnikRokInnyOkres(podatnik, String.valueOf(rok));
         if (input != null && !input.isEmpty()) {
             int gg = Integer.parseInt(mcdo);
             if (gg == 13) {

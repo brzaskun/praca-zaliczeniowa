@@ -97,6 +97,8 @@ public class KontaVatFKView implements Serializable {
             //naniesBOnaKonto(saldoKonto, p);
             if (p.getPelnynumer().equals("221-4")) {
                 naniesZapisyNaKonto2214(saldoKonto, p);
+            } else if (p.getPelnynumer().equals("221-2")){
+                naniesZapisyNaKonto2214(saldoKonto, p);
             } else {
                 naniesZapisyNaKonto(saldoKonto, p, vatokres);
             }
@@ -284,10 +286,40 @@ public class KontaVatFKView implements Serializable {
                 }
             }
         }
+        double saldo2212 = 0.0;
+        for (SaldoKonto p : kontavat) {
+            if (p.getKonto().getPelnynumer().equals("221-2")) {
+                if (p.getSaldoWn() > 0) {
+                    saldo2212 = p.getSaldoWn();
+                }
+                if (p.getSaldoMa() > 0) {
+                    saldo2212 = p.getSaldoMa();
+                }
+            }
+        }
         double przesuniete = Z.z(ewidencjaVatView.getSumaprzesunietych());
         double przesunieteBardziej = Z.z(ewidencjaVatView.getSumaprzesunietychBardziej());
         SaldoKonto saldodlaprzesunietychBardziej = saldo2214Rok(kontoDAOfk.findKonto("221-4", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
         double roznica = Z.z(saldodlaprzesunietychBardziej.getSaldoWn() - (przesuniete+przesunieteBardziej));
+        double przesunieteprzychodu = Z.z(ewidencjaVatView.getSumaprzesunietychprzychody());
+        double przesunieteBardziejprzychody = Z.z(ewidencjaVatView.getSumaprzesunietychBardziejPrzychody());
+        SaldoKonto saldodlaprzesunietychBardziejPrzychody = saldo2212Rok(kontoDAOfk.findKonto("221-2", wpisView.getPodatnikWpisu(), wpisView.getRokWpisu()));
+        double roznicaprzychody = Z.z(saldodlaprzesunietychBardziejPrzychody.getSaldoMa() - (przesunieteprzychodu+przesunieteBardziejprzychody));
+        if (Z.z(saldo2212) < Z.z(przesunieteprzychodu) || roznicaprzychody < 0) {
+            Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-2");
+            return;
+        } else {
+            for (SaldoKonto p : kontavat) {
+                if (p.getKonto().getPelnynumer().equals("221-2")) {
+                    if (przesunieteprzychodu >= 0) {
+                        p.setSaldoMa(przesunieteprzychodu);
+                    }
+                    if (przesunieteprzychodu < 0) {
+                        p.setSaldoWn(przesunieteprzychodu);
+                    }
+                }
+            }
+        }
         if (Z.z(saldo2214) < Z.z(przesuniete) || roznica < 0) {
             Msg.msg("e", "Dokumenty z innym miesiącem VAT w ewidencji nie posiadają zapisów na koncie 221-4");
             return;
@@ -320,6 +352,18 @@ public class KontaVatFKView implements Serializable {
         SaldoKonto saldoKonto = new SaldoKonto();
         int licznik = 0;
         if (p.getPelnynumer().equals("221-4")) {
+            saldoKonto.setId(licznik++);
+            saldoKonto.setKonto(p);
+            naniesZapisyNaKonto2214Rok(saldoKonto, p);
+            saldoKonto.sumujBOZapisy();
+            saldoKonto.wyliczSaldo();
+        }
+        return saldoKonto;
+    }
+     private SaldoKonto saldo2212Rok(Konto p) {
+        SaldoKonto saldoKonto = new SaldoKonto();
+        int licznik = 0;
+        if (p.getPelnynumer().equals("221-2")) {
             saldoKonto.setId(licznik++);
             saldoKonto.setKonto(p);
             naniesZapisyNaKonto2214Rok(saldoKonto, p);

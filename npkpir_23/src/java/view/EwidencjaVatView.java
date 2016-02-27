@@ -33,6 +33,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -73,9 +74,13 @@ public class EwidencjaVatView implements Serializable {
     private List<Dokfk> listadokvatFK;
     private List<EVatViewPola> listadokvatprzetworzona;
     private List<EVatwpisFK> listaprzesunietychKoszty;
+    private List<EVatwpisFK> listaprzesunietychPrzychody;
     private List<EVatwpisFK> listaprzesunietychBardziej;
+    private List<EVatwpisFK> listaprzesunietychBardziejPrzychody;
     private double sumaprzesunietych;
+    private double sumaprzesunietychprzychody;
     private double sumaprzesunietychBardziej;
+    private double sumaprzesunietychBardziejPrzychody;
     @Inject
     private Dok selected;
     @Inject
@@ -190,9 +195,17 @@ public class EwidencjaVatView implements Serializable {
             Collections.sort(listaprzetworzona,new EVatwpisFKcomparator());
             listadokvatprzetworzona = transferujEVatwpisFKDoEVatViewPola(listaprzetworzona, vatokres);
             listaprzesunietychKoszty = pobierzEVatRokFKNastepnyOkres(vatokres);
+            wyluskajzlisty(listaprzesunietychKoszty, "koszty");
             sumaprzesunietych = sumujprzesuniete(listaprzesunietychKoszty);
             listaprzesunietychBardziej = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+            wyluskajzlisty(listaprzesunietychBardziej, "koszty");
             sumaprzesunietychBardziej = sumujprzesuniete(listaprzesunietychBardziej);
+            listaprzesunietychPrzychody = pobierzEVatRokFKNastepnyOkres(vatokres);
+            wyluskajzlisty(listaprzesunietychPrzychody, "przychody");
+            sumaprzesunietychprzychody = sumujprzesuniete(listaprzesunietychPrzychody);
+            listaprzesunietychBardziejPrzychody = pobierzEVatRokFKNastepnyOkresBardziej(vatokres);
+            wyluskajzlisty(listaprzesunietychBardziejPrzychody, "przychody");
+            sumaprzesunietychBardziejPrzychody = sumujprzesuniete(listaprzesunietychBardziejPrzychody);
             stworzenieEwidencjiCzescWspolna(vatokres);
             for (String k : listaewidencji.keySet()) {
                 nazwyewidencji.add(k);
@@ -212,6 +225,22 @@ public class EwidencjaVatView implements Serializable {
             System.out.println("blad przy tworzeniu ewidencji vat "+e.getMessage());
         }
         //drukuj ewidencje
+    }
+    
+    private void wyluskajzlisty(List<EVatwpisFK> listaprzesunietych, String przychodykoszty) {
+        if (przychodykoszty.equals("koszty")) {
+            for (Iterator<EVatwpisFK> it = listaprzesunietych.iterator(); it.hasNext();) {
+                if (it.next().getEwidencja().getTypewidencji().equals("s")) {
+                    it.remove();
+                }
+            }
+        } else {
+            for (Iterator<EVatwpisFK> it = listaprzesunietych.iterator(); it.hasNext();) {
+                if (it.next().getEwidencja().getTypewidencji().equals("z")) {
+                    it.remove();
+                }
+            }
+        }
     }
 
     public void stworzenieEwidencjiCzescWspolna(String vatokres) {
@@ -343,17 +372,18 @@ public class EwidencjaVatView implements Serializable {
     }
     
     private List<EVatwpisFK> pobierzEVatRokFKNastepnyOkres(String vatokres) {
+        //pobiera nie dokumenty ale ewidencje vat, a wiec ewidencja z roku x moze sama miec rokx+1, a my szukamy wlasnie roku x+1
         try {
             switch (vatokres) {
                 case "blad":
                     Msg.msg("e", "Nie ma ustawionego parametru vat za dany okres. Nie można sporządzić ewidencji VAT.");
                     throw new Exception("Nie ma ustawionego parametru vat za dany okres");
                 case "miesięczne":
-                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
+                    return eVatwpisFKDAO.findPodatnikMcInnyOkres(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), wpisView.getMiesiacWpisu(), wpisView.getMiesiacWpisu());
                 default:
                     Integer kwartal = Integer.parseInt(Kwartaly.getMapanrkw().get(Integer.parseInt(wpisView.getMiesiacWpisu())));
                     List<String> miesiacewkwartale = Kwartaly.getMapakwnr().get(kwartal);
-                    return eVatwpisFKDAO.findPodatnikMcOdDo(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
+                    return eVatwpisFKDAO.findPodatnikMcInnyOkres(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), miesiacewkwartale.get(0), miesiacewkwartale.get(2));
             }
         } catch (Exception e) { 
             E.e(e); 
@@ -1142,6 +1172,38 @@ public class EwidencjaVatView implements Serializable {
         this.ewidencje = ewidencje;
     }
 
+    public List<EVatwpisFK> getListaprzesunietychPrzychody() {
+        return listaprzesunietychPrzychody;
+    }
+
+    public void setListaprzesunietychPrzychody(List<EVatwpisFK> listaprzesunietychPrzychody) {
+        this.listaprzesunietychPrzychody = listaprzesunietychPrzychody;
+    }
+
+    public List<EVatwpisFK> getListaprzesunietychBardziejPrzychody() {
+        return listaprzesunietychBardziejPrzychody;
+    }
+
+    public void setListaprzesunietychBardziejPrzychody(List<EVatwpisFK> listaprzesunietychBardziejPrzychody) {
+        this.listaprzesunietychBardziejPrzychody = listaprzesunietychBardziejPrzychody;
+    }
+
+    public double getSumaprzesunietychprzychody() {
+        return sumaprzesunietychprzychody;
+    }
+
+    public void setSumaprzesunietychprzychody(double sumaprzesunietychprzychody) {
+        this.sumaprzesunietychprzychody = sumaprzesunietychprzychody;
+    }
+
+    public double getSumaprzesunietychBardziejPrzychody() {
+        return sumaprzesunietychBardziejPrzychody;
+    }
+
+    public void setSumaprzesunietychBardziejPrzychody(double sumaprzesunietychBardziejPrzychody) {
+        this.sumaprzesunietychBardziejPrzychody = sumaprzesunietychBardziejPrzychody;
+    }
+
     public List<EVatViewPola> getWybranewierszeewidencji() {
         return wybranewierszeewidencji;
     }
@@ -1168,4 +1230,6 @@ public class EwidencjaVatView implements Serializable {
     private void tlumaczewidencje(List<EVatViewPola> l) {
         
     }
+
+    
 }

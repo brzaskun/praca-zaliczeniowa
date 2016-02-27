@@ -39,7 +39,8 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "EVatwpisFK.findByWiersz", query = "SELECT k FROM EVatwpisFK k WHERE k.wiersz = :wiersz"),
     @NamedQuery(name = "EVatwpisFK.findByPodatnik", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik"),
-    @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok")
+    @NamedQuery(name = "EVatwpisFK.findByPodatnikRok", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok"),
+    @NamedQuery(name = "EVatwpisFK.findByPodatnikRokInnyOkres", query = "SELECT k FROM EVatwpisFK k WHERE k.dokfk.podatnikObj = :podatnik AND k.rokEw = :rok AND k.innyokres != 0")
 })
 public class EVatwpisFK implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -301,8 +302,18 @@ public class EVatwpisFK implements Serializable {
         }
     }
 
-    
+     public String getWalutaWiersz() {
+        Wiersz w = this.wiersz;
+        String waluta = null;
+        if (w != null) {
+            waluta = w.getTabelanbp() != null ? w.getTabelanbp().getWaluta().getSymbolwaluty() : "";
+        } else {
+            waluta = this.dokfk.getTabelanbp().getWaluta().getSymbolwaluty();
+        }
+        return waluta;
+    }
 
+     
     
    
     

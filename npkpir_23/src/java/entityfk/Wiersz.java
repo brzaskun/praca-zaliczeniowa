@@ -438,14 +438,14 @@ public class Wiersz implements Serializable {
     }
     
     public String getWalutaWiersz() {
-        String kurs = this.tabelanbp != null ? this.tabelanbp.getWaluta().getSymbolwaluty() : "";
+        String waluta = this.tabelanbp != null ? this.tabelanbp.getWaluta().getSymbolwaluty() : "";
         int wiersz = wierszbo();
         if (wiersz == 1) {
-            kurs = this.getStronaWn().getSymbolWalut();
+            waluta = this.getStronaWn().getSymbolWalut();
         } else if (wiersz == 2) {
-            kurs = this.getStronaMa().getSymbolWalut();
+            waluta = this.getStronaMa().getSymbolWalut();
         }
-        return kurs;
+        return waluta;
     }
     
     private int wierszbo() {
