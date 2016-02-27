@@ -433,7 +433,7 @@
         </navigation-case>
         <navigation-case>
             <from-outcome>Administrator</from-outcome>
-            <to-view-id>/admin/adminIndex.xhtml</to-view-id>
+            <to-view-id>/admin/adminPismoadmin.xhtml?faces-redirect=true</to-view-id>
             <redirect></redirect>
         </navigation-case>
         <navigation-case>

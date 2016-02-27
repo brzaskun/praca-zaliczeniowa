@@ -380,7 +380,7 @@ public class beanek {
             }
         }
         upoMBT = upo.value;
-        statMBT = stat.value + " "+opis.value;
+        statMBT = stat.value+ " ";
         opisMBT = komunikat.get(1);
         temp.setUpo(upoMBT);
         temp.setStatus(statMBT.toString());

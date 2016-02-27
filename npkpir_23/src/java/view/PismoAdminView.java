@@ -51,6 +51,7 @@ public class PismoAdminView implements Serializable{
         listamenu.add("wykaz dokumentów");
         listamenu.add("podatkowa ksiega");
         listamenu.add("faktury miesieczne");
+        listamenu.add("faktury wystawione i rozl.");
         listamenu.add("niezaplacone");
         listamenu.add("zaplacone");
         listamenu.add("obroty w roku");
@@ -72,6 +73,7 @@ public class PismoAdminView implements Serializable{
         listamenu_fk.add("zestawienia analityczne narast.");
         listamenu_fk.add("symulacja");
         listamenu_fk.add("symulacja narastająco");
+        listamenu.add("faktury wystawione i rozl.");
         listamenu_fk.add("ewidencja vat");
         listamenu_fk.add("bilans");
         listamenu_fk.add("rachunek zysków i strat");

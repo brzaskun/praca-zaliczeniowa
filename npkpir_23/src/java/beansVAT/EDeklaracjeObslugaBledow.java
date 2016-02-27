@@ -34,7 +34,7 @@ public class EDeklaracjeObslugaBledow {
                 break;
             case 200:
                 komunikaty.add("i");
-                komunikaty.add("SUKCES! Dokument został przyjęty przez system e-Deklaracje i zostanie przekazany do Urzędu Skarbowego wskazanego w tym dokumencie.\n"
+                komunikaty.add("SUKCES! Dokument został przyjęty przez system e-Deklaracje i przekazany do Urzędu Skarbowego wskazanego w tym dokumencie.\n"
                         + "Weryfikacja dokumentu nie wykazała błędów.\n"
                         + "Dla dokumentu zostało wystawione Urzędowe Poświadczenie Odbioru (UPO).");
                 break;
