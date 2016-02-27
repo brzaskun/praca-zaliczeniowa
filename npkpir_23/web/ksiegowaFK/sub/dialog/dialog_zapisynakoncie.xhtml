@@ -150,7 +150,7 @@
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
                          <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
                      </p:contextMenu>
-                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.wiersz.idwiersza}" 
+                    <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}" 
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"
                                  sortFunction="#{kontoZapisFKView.sortZapisynaKoncie}" emptyMessage="Nie ma zapisów na koncie"
                                  rowIndexVar="rowindex" styleClass="grid1"
