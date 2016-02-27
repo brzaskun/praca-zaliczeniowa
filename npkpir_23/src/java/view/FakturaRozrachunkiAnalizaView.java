@@ -12,6 +12,7 @@ import dao.FakturaRozrachunkiDAO;
 import dao.FakturadodelementyDAO;
 import data.Data;
 import embeddable.FakturaPodatnikRozliczenie;
+import embeddable.Mce;
 import entity.Faktura;
 import entity.FakturaRozrachunki;
 import entity.Fakturadodelementy;
@@ -101,6 +102,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
             List<FakturaRozrachunki> platnosci = fakturaRozrachunkiDAO.findByPodatnikKontrahent(wpisView, szukanyklient);
             List<Faktura> faktury = fakturaDAO.findbyKontrahentNipRok(szukanyklient.getNip(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             pozycje = stworztabele(platnosci, faktury, nowe0archiwum);
+            usuninnemiesiace(wpisView.getRokWpisuSt(), mc, pozycje);
             int i = 1;
             for (FakturaPodatnikRozliczenie p : pozycje) {
                 p.setLp(i++);
@@ -449,6 +451,20 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
   
    
 //</editor-fold>
-    
+
+    private void usuninnemiesiace(String rokWpisuSt, String mc, List<FakturaPodatnikRozliczenie> pozycje) {
+        for (Iterator<FakturaPodatnikRozliczenie> it = pozycje.iterator();it.hasNext();) {
+            FakturaPodatnikRozliczenie f = it.next();
+            if (rokWpisuSt.equals(f.getRok())) {
+                int granica = Mce.getMiesiacToNumber().get(mc);
+                int mcpozycji = Mce.getMiesiacToNumber().get(f.getMc());
+                if (mcpozycji > granica) {
+                    it.remove();
+                }
+            }
+        }
+    }
+
+   
     
 }
