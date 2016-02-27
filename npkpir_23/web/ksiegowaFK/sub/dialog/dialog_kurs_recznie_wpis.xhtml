@@ -12,8 +12,16 @@
         <h:form id="formkursrecznie">
             <p:focus for="formkursrecznie:dataKursReczny"/>
             <p:dataTable id="dataKursReczny" var="wpis" value="#{walutyViewFK.kurswprowadzonyrecznie}" editable="true" style="width: 720px;">
-                <p:column headerText="nr tabeli" width="120" style="text-align: center; height: 25px;">
-                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr"/>
+                 <p:column headerText="tabela" width="100" style="text-align: center;">
+                     <p:selectOneMenu value="#{walutyViewFK.symbolRecznie}" id="polewyboruwaluty"
+                                      editable="true">
+                         <f:selectItems value="#{walutyViewFK.symboleTabelRecznie}" />
+                         <p:ajax event="change" global="false" listener="#{walutyViewFK.generujNumerTabeli()}" partialSubmit="true"
+                                 update="formkursrecznie:dataKursReczny:0:kodPole"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column headerText="nr tabeli" width="100" style="text-align: center; height: 25px;">
+                    <p:inputMask id="kodPole" value="#{wpis.nrtabeli}" onblur="weryfikujnumertabeli()" mask="999/a/aaa/9999" slotChar="###/A/NBP/rrrr" size="14"/>
                 </p:column>
                 <p:column headerText="data tabeli" width="100" style="text-align: center;">
                     <p:inputText id="datakurs" value="#{wpis.datatabeli}" style="width: 100px;" onblur="weryfikujdatekursreczny()" placeholder="rrrr-mm-dd" maxlength="10"/>
@@ -33,8 +41,11 @@
                     </pe:inputNumber>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" update=":formkursrecznie, :formwpisdokument:panelTabelaNBP, :wprowadzonekursyrecznie"
-                                     />
+                    <p:commandButton icon="ui-icon-disk" actionListener="#{walutyViewFK.dodajkurs(wpis)}" global="false" 
+                                     update=":formkursrecznie :formwpisdokument:panelTabelaNBP :wprowadzonekursyrecznie"
+                                     oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()"
+                    >
+                    </p:commandButton>
                 </p:column>
             </p:dataTable>
         </h:form>

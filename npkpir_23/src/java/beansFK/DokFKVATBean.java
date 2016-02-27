@@ -109,12 +109,12 @@ public class DokFKVATBean {
                 wartosciVAT[3] += p.getVatwwalucie();
                 double vatplnprocent = Z.z(p.getVat()*p.getDokfk().getRodzajedok().getProcentvat()/100);
                 double vatplnreszta = Z.z(p.getVat() - vatplnprocent);
-                wartosciVAT[4] += vatplnprocent;
-                wartosciVAT[5] += vatplnreszta;
+                wartosciVAT[4] += Z.z(vatplnprocent);
+                wartosciVAT[5] += Z.z(vatplnreszta);
                 double vatprocent = Z.z(p.getVatwwalucie()*p.getDokfk().getRodzajedok().getProcentvat()/100);
                 double vatreszta = Z.z(p.getVatwwalucie()-vatprocent);
-                wartosciVAT[6] += vatprocent;
-                wartosciVAT[7] += vatreszta;
+                wartosciVAT[6] += Z.z(vatprocent);
+                wartosciVAT[7] += Z.z(vatreszta);
             } else {
                 wartosciVAT[0] += p.getNetto();
                 wartosciVAT[1] += p.getVat();
@@ -122,12 +122,12 @@ public class DokFKVATBean {
                 wartosciVAT[3] += p.getVatwwalucie();
                 double vatplnpolowa = Z.z(p.getVat()/2);
                 double vatplnreszta = Z.z(p.getVat()-vatplnpolowa);
-                wartosciVAT[4] += vatplnpolowa;
-                wartosciVAT[5] += vatplnreszta;
+                wartosciVAT[4] += Z.z(vatplnpolowa);
+                wartosciVAT[5] += Z.z(vatplnreszta);
                 double vatpolowa = Z.z(p.getVatwwalucie()/2);
                 double vatreszta = Z.z(p.getVatwwalucie()-vatpolowa);
-                wartosciVAT[6] += vatpolowa;
-                wartosciVAT[7] += vatreszta;
+                wartosciVAT[6] += Z.z(vatpolowa);
+                wartosciVAT[7] += Z.z(vatreszta);
             }
         }
         return wartosciVAT;

@@ -492,7 +492,7 @@ public class DokfkView implements Serializable {
             if (rodzajdok.getKategoriadokumentu() == 1) {
                 if (selected.getRodzajedok().getProcentvat() != 0.0 && evatwpis.getEwidencja().getTypewidencji().equals("z")) {
                     //oblicza polowe vat dla faktur samochody osobowe
-                    evatwpis.setVat(wartosciVAT[4]);
+                    evatwpis.setVat(Z.z(wartosciVAT[4]));
                     evatwpis.setBrutto(Z.z(evatwpis.getNetto() + evatwpis.getVat()));
                     RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":vat");
                     RequestContext.getCurrentInstance().update("formwpisdokument:tablicavat:" + evatwpis.getLp() + ":brutto");
@@ -2232,7 +2232,7 @@ public class DokfkView implements Serializable {
 
     private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
-        if (!symbolwaluty.equals("PLN")) {
+        if (!symbolwaluty.equals("PLN") && wierszbiezacy.getTabelanbp() == null) {
 
             String datadokumentu;
             datadokumentu = selected.getDatadokumentu();
@@ -2695,6 +2695,24 @@ public class DokfkView implements Serializable {
     }
 
     public void zamienkursnareczny() {
+        try {
+            String wierszlp = poledlawaluty;
+            if (!wiersz.equals("")) {
+                int wierszid = Integer.parseInt(wierszlp) - 1;
+                Wiersz wiersz = selected.getListawierszy().get(wierszid);
+                wiersz.setTabelanbp(tabelanbprecznie);
+                przepiszWaluty(wiersz);
+                String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
+                RequestContext.getCurrentInstance().update(update);
+                poledlawaluty = "";
+            }
+        } catch (Exception e) {
+            E.e(e);
+
+        }
+    }
+    
+    public void zamienkursnareczny(Tabelanbp tabelanbprecznie) {
         try {
             String wierszlp = poledlawaluty;
             if (!wiersz.equals("")) {

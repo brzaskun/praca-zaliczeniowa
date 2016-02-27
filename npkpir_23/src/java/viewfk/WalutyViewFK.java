@@ -5,6 +5,7 @@
 package viewfk;
 
 import beansFK.WalutyFKBean;
+import comparator.Tabelanbpcomparator;
 import daoFK.TabelanbpDAO;
 import daoFK.WalutyDAOfk;
 import entityfk.Tabelanbp;
@@ -13,8 +14,12 @@ import error.E;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -43,6 +48,8 @@ public class WalutyViewFK implements Serializable {
     private List<Tabelanbp> pobranekursy;
     private List<Tabelanbp> pobranekursyRok;
     private List<Tabelanbp> wprowadzonekursyRok;
+    private List<String> symboleTabelRecznie;
+    private String symbolRecznie;
     @Inject
     private Tabelanbp kurswprowadzonyrecznie;
     @Inject
@@ -51,6 +58,8 @@ public class WalutyViewFK implements Serializable {
     private WalutyFKBean walutyFKBean;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{dokfkView}")
+    private DokfkView dokfkView;
 
     public WalutyViewFK() {
         pobraneRodzajeWalut = new ArrayList<>();
@@ -58,6 +67,7 @@ public class WalutyViewFK implements Serializable {
         walutywuzyciu = new ArrayList<>();
         symboleWalut = new ArrayList<>();
         wprowadzonekursyRok = new ArrayList<>();
+        symboleTabelRecznie = new ArrayList<>();
     }
 
     @PostConstruct
@@ -72,8 +82,66 @@ public class WalutyViewFK implements Serializable {
                 walutywuzyciu.add(w);
             }
         }
+        Set<String> st = new HashSet<>();
+        for(Tabelanbp p : wprowadzonekursyRok) {
+            st.add(p.getNrtabeli().split("/")[2]);
+        }
+        symboleTabelRecznie.addAll(st);
+        Collections.sort(symboleTabelRecznie);
+        if (symboleTabelRecznie.size()>0) {
+            symbolRecznie = symboleTabelRecznie.get(0);
+        }
+        kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
+        System.out.println("");
+    }
+    
+    public void generujNumerTabeli() {
+        kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(symbolRecznie, wprowadzonekursyRok));
+    }
+    
+    private String generujNumerTabeli(String symbolRecznie, List<Tabelanbp> wprowadzonekursyRok) {
+        List<Tabelanbp> odnalezioneTabele = new ArrayList<>();
+        if (wprowadzonekursyRok.size() > 0) {
+            for (Tabelanbp p : wprowadzonekursyRok) {
+                if (p.getNrtabeli().contains(symbolRecznie)) {
+                    odnalezioneTabele.add(p);
+                }
+            }
+        }
+        if (odnalezioneTabele.size() > 2) {
+            Collections.sort(odnalezioneTabele, new Tabelanbpcomparator());
+            return numerzwiekszonyojeden(odnalezioneTabele.get(odnalezioneTabele.size()-1));
+        } else if (odnalezioneTabele.size() == 1) {
+            return numerzwiekszonyojeden(odnalezioneTabele.get(0));
+        } else {
+            return nowynumer(symbolRecznie);
+        }
     }
 
+    private String nowynumer(String symbolRecznie) {
+        String s = symbolRecznie.toUpperCase();
+        symboleTabelRecznie.add(s);
+        return "001/A/"+s+"/"+wpisView.getRokWpisuSt();
+    }
+
+    private String numerzwiekszonyojeden(Tabelanbp get) {
+        String poczatek = get.getNrtabeli().substring(0,3);
+        Integer numer = Integer.parseInt(poczatek);
+        int nowy = 0;
+        String zwrot = null;
+        if (numer < 8) {
+            nowy = numer +1;
+            zwrot = "00"+nowy+get.getNrtabeli().substring(3);
+        } else if (numer < 98) {
+            nowy = numer +1;
+            zwrot = "0"+nowy+get.getNrtabeli().substring(3);
+        } else {
+            nowy = numer +1;
+            zwrot = nowy+get.getNrtabeli().substring(3);
+        }
+        return zwrot;
+    }
+    
     public void dodajnowawalute() {
         try {
             nowawaluta.setSymbolwaluty(nowawaluta.getSymbolwaluty().toUpperCase(new Locale("pl")));
@@ -112,7 +180,9 @@ public class WalutyViewFK implements Serializable {
             tabelanbp.setRecznie(true);
             tabelanbpDAO.dodaj(tabelanbp);
             wprowadzonekursyRok.add(tabelanbp);
+            dokfkView.zamienkursnareczny(tabelanbp);
             kurswprowadzonyrecznie = new Tabelanbp();
+            kurswprowadzonyrecznie.setNrtabeli(generujNumerTabeli(tabelanbp.getNrtabeli().split("/")[2], wprowadzonekursyRok));
             Msg.msg("Dodałem tabelę NBP");
             RequestContext.getCurrentInstance().update("formkursrecznie");
         } catch (Exception e) {  
@@ -232,6 +302,30 @@ public class WalutyViewFK implements Serializable {
         this.wpisView = wpisView;
     }
 
+    public String getSymbolRecznie() {
+        return symbolRecznie;
+    }
+
+    public void setSymbolRecznie(String symbolRecznie) {
+        this.symbolRecznie = symbolRecznie;
+    }
+
+    public List<String> getSymboleTabelRecznie() {
+        return symboleTabelRecznie;
+    }
+
+    public void setSymboleTabelRecznie(List<String> symboleTabelRecznie) {
+        this.symboleTabelRecznie = symboleTabelRecznie;
+    }
+
+    public DokfkView getDokfkView() {
+        return dokfkView;
+    }
+
+    public void setDokfkView(DokfkView dokfkView) {
+        this.dokfkView = dokfkView;
+    }
+
     
 
     public List<Tabelanbp> getWprowadzonekursyRok() {
@@ -246,4 +340,6 @@ public class WalutyViewFK implements Serializable {
     
     
     //</editor-fold>
+
+   
 }
