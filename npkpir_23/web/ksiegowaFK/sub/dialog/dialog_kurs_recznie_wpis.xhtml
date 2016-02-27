@@ -52,7 +52,7 @@
       <h:form id="wprowadzonekursyrecznie">
       
             <p:dataTable id="dataTablekursy" var="wpis" value="#{walutyViewFK.wprowadzonekursyRok}" editable="true" emptyMessage="Nie ma wprowadzonych ręcznie kursow" 
-                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="350" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
+                         scrollable="true" style="width: 600px; padding: 10px;" scrollHeight="330" widgetVar="dataTablekursy" rowKey="#{wpis.nrtabeli}" selection="#{dokfkView.tabelanbprecznie}"
                          sortBy="#{wpis.datatabeli}" sortOrder="descending">
                 <p:ajax event="filter" global="false"/>
                  <f:facet name="header">  
@@ -80,6 +80,8 @@
              <div style="padding: 10px;">
                  <p:commandButton id="walutynowabutton" value="#{mgs.pobierz}" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
                                   actionListener="#{dokfkView.zamienkursnareczny()}" style="width: 120px;"/>
+                 <p:commandButton id="walutynowabutton2" value="uzyj NBP" oncomplete="PF('dialogkursrecznie').hide();powrotpozmianietabeli()" 
+                                  actionListener="#{dokfkView.resetujkursdoNBP()}" style="width: 120px; margin-left: 10px;"/>
             </div>
         </h:form>
     </p:dialog>

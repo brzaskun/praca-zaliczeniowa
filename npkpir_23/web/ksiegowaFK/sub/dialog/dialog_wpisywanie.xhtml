@@ -543,7 +543,8 @@
                             </p:autoComplete>
                         </p:column>
                         <p:column  headerText="kurs" width="20" style="text-align: center;"  rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0 and dokfkView.selected.walutadokumentu.symbolwaluty ne 'PLN'}" >
-                            <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  styleClass="#{loop.tabelanbp.recznie eq true ? 'color: red;' : null}"/>
+                            <h:outputText id="kurswiersza" value="#{loop.tabelanbp.kurssredni}"  
+                                          style="#{loop.tabelanbp.recznie ? 'color: red !important;' : null}"/>
                         </p:column>
                         <p:column headerText="saldo" width="40" rendered="#{dokfkView.selected.rodzajedok.kategoriadokumentu == 0}">
                             <h:outputText id="saldo" value="#{loop.saldoWBRK}"

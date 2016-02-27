@@ -684,7 +684,12 @@ public class DokfkView implements Serializable {
         try {
             StronaWiersza wn = wiersz.getStronaWn();
             StronaWiersza ma = wiersz.getStronaMa();
-            if (wiersz.getTabelanbp() == null) {
+            if (wiersz == null) {
+                wn.setKwotaPLN(0.0);
+                wn.setKwotaWaluta(0.0);
+                ma.setKwotaPLN(0.0);
+                ma.setKwotaWaluta(0.0);
+            }else if (wiersz.getTabelanbp() == null) {
                 if (wn != null && wn.getKwotaPLN() == 0.0) {
                     if (wn.getSymbolWalutyBO().equals("PLN")) {
                         wn.setKwotaPLN(wn.getKwota());
@@ -2232,8 +2237,11 @@ public class DokfkView implements Serializable {
 
     private void pobierzkursNBPwiersz(String datawiersza, Wiersz wierszbiezacy) {
         String symbolwaluty = selected.getWalutadokumentu().getSymbolwaluty();
-        if (!symbolwaluty.equals("PLN") && wierszbiezacy.getTabelanbp() == null) {
-
+        boolean mozna = true;
+        if (wierszbiezacy.getTabelanbp() != null && wierszbiezacy.getTabelanbp().isRecznie()) {
+            mozna = false;
+        }
+        if (!symbolwaluty.equals("PLN") && mozna) {
             String datadokumentu;
             datadokumentu = selected.getDatadokumentu();
             if (datawiersza.length() == 1) {
@@ -2703,6 +2711,27 @@ public class DokfkView implements Serializable {
                 wiersz.setTabelanbp(tabelanbprecznie);
                 przepiszWaluty(wiersz);
                 String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
+                RequestContext.getCurrentInstance().update(update);
+                poledlawaluty = "";
+            }
+        } catch (Exception e) {
+            E.e(e);
+
+        }
+    }
+    
+    public void resetujkursdoNBP() {
+        try {
+            String wierszlp = poledlawaluty;
+            if (!wiersz.equals("")) {
+                int wierszid = Integer.parseInt(wierszlp) - 1;
+                Wiersz wiersz = selected.getListawierszy().get(wierszid);
+                wiersz.setTabelanbp(null);
+                wiersz.setDataWalutyWiersza(null);
+                przepiszWaluty(wiersz);
+                String update = "formwpisdokument:dataList:" + wierszid + ":kurswiersza";
+                RequestContext.getCurrentInstance().update(update);
+                update = "formwpisdokument:dataList:" + wierszid + ":dataWiersza";
                 RequestContext.getCurrentInstance().update(update);
                 poledlawaluty = "";
             }
