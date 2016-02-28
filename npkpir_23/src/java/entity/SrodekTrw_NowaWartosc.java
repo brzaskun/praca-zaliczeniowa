@@ -46,8 +46,10 @@ public class SrodekTrw_NowaWartosc implements Serializable {
     private SrodekTrw srodekTrw;
     @Column(name = "datazmiany")
     private String datazmiany;
-    @Column(name = "nowakwota")
+    @Column(name = "kwota")
     private double kwota;
+    @Column(name = "kwotapierwotna")
+    private double kwotapierwotna;
     @Column(name = "mc")
     private String mc;
     @Column(name = "rok")
@@ -67,8 +69,9 @@ public class SrodekTrw_NowaWartosc implements Serializable {
         this.dataksiegowania = new Date();
         this.datazmiany = datazmiany;
         this.kwota = kwotazmiany;
-        this.mc = wpisView.getMiesiacWpisu();
-        this.rok = wpisView.getRokWpisuSt();
+        this.kwotapierwotna = wybranysrodektrwalyPosiadane.getNetto();
+        this.mc = datazmiany.split("-")[1];
+        this.rok = datazmiany.split("-")[0];
         this.srodekTrw = wybranysrodektrwalyPosiadane;
         this.wprowadzil = wpisView.getWprowadzil();
     }
@@ -95,6 +98,14 @@ public class SrodekTrw_NowaWartosc implements Serializable {
 
     public void setDatazmiany(String datazmiany) {
         this.datazmiany = datazmiany;
+    }
+
+    public double getKwotapierwotna() {
+        return kwotapierwotna;
+    }
+
+    public void setKwotapierwotna(double kwotapierwotna) {
+        this.kwotapierwotna = kwotapierwotna;
     }
 
     public double getKwota() {
@@ -164,5 +175,12 @@ public class SrodekTrw_NowaWartosc implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "SrodekTrw_NowaWartosc{" + "srodekTrw=" + srodekTrw + ", datazmiany=" + datazmiany + ", kwota=" + kwota + ", kwotapierwotna=" + kwotapierwotna + ", mc=" + mc + ", rok=" + rok + ", wprowadzil=" + wprowadzil + ", dataksiegowania=" + dataksiegowania + '}';
+    }
+
+    
+    
 }
 

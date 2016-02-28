@@ -32,6 +32,7 @@
                               rowKey="#{wpis.id}" selection="#{STRTableView.wybranysrodektrwalyPosiadane}" selectionMode="single"> 
                     <p:ajax event="rowSelect" global="false" update="form_dialog_srodkitrwale_zmianawartosci"/>
                     <p:ajax event="filter" global="false"/>
+                    <p:ajax event="rowToggle" global="false"/>
                     <f:facet name="header">  
                         <h:outputText value="Ewidencja środkow trwalych - " />
                         <p:inputText id="globalFilter" placeholder="wyszukiwana fraza" onkeyup="PF('srodkiLista1').filter()" style="width: 200px;"/>

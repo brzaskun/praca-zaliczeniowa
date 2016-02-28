@@ -7,6 +7,7 @@ package view;
 import beansFK.DokumentFKBean;
 import beansSrodkiTrwale.SrodkiTrwBean;
 import com.itextpdf.text.DocumentException;
+import comparator.SrodekTrwNowaWartoscComparator;
 import comparator.SrodekTrwcomparator;
 import dao.AmoDokDAO;
 import dao.KlienciDAO;
@@ -650,9 +651,10 @@ public class STRTabView implements Serializable {
                     wybranysrodektrwalyPosiadane.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
                 }
                 wybranysrodektrwalyPosiadane.getZmianawartosci().add(s);
-                wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane, s));
+                SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane);
                 wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
             }
+            Collections.sort(wybranysrodektrwalyPosiadane.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
             wybranysrodektrwalyPosiadane = null;
             datazmiany = null;
@@ -665,6 +667,14 @@ public class STRTabView implements Serializable {
     public void destroyZmianaWartosci(SrodekTrw_NowaWartosc w) {
         try {
             wybranysrodektrwalyPosiadane.getZmianawartosci().remove(w);
+            SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
+            SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+            wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
+            if (wybranysrodektrwalyPosiadane.getZmianawartosci() != null && wybranysrodektrwalyPosiadane.getZmianawartosci().size() > 0) {
+                SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane);
+            }
+            wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+            Collections.sort(wybranysrodektrwalyPosiadane.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
         } catch (Exception e) {
             E.e(e);

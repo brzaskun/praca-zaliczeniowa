@@ -5,6 +5,7 @@
  */
 package beansSrodkiTrwale;
 
+import comparator.SrodekTrwNowaWartoscComparator;
 import embeddable.Mce;
 import embeddable.Parametr;
 import embeddable.Umorzenie;
@@ -14,6 +15,7 @@ import entity.SrodekTrw_NowaWartosc;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -32,56 +34,75 @@ public class SrodkiTrwBean implements Serializable {
     
      public static void main(String[] args) {
         SrodekTrw s = new SrodekTrw();
+        s.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
         s.setNetto(24000.0);
-        s.setStawka(90.0);
-        s.setDataprzek("2014-12-01-");
+        s.setStawka(50.0);
+        s.setDataprzek("2015-01-01-");
+        odpisroczny(s);
+        odpismiesieczny(s);
+        s.setUmorzPlan(naliczodpisymczne(s));
         SrodekTrw_NowaWartosc t = new SrodekTrw_NowaWartosc();
-        t.setSrodekTrw(s);
-        t.setMc("06");
-        t.setRok("2015");
-        t.setKwota(24000);
-        s.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(s, t));
-        t = new SrodekTrw_NowaWartosc();
         t.setSrodekTrw(s);
         t.setMc("12");
         t.setRok("2015");
         t.setKwota(24000);
-        s.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(s, t));
+        s.getZmianawartosci().add(t);
+        t = new SrodekTrw_NowaWartosc();
+        t.setSrodekTrw(s);
+        t.setMc("06");
+        t.setRok("2015");
+        t.setKwota(24000);
+        s.getZmianawartosci().add(t);
+        naliczodpisymczneUlepszenie(s);
         int i = 1;
         for (Double p : s.getUmorzPlan()) {
-            System.out.println(i+" "+p);
+            System.out.println(p.intValue());
             i++;
         }
         
     }
     
-    public static List<Double> naliczodpisymczneUlepszenie(SrodekTrw dodawanysrodektrwaly, SrodekTrw_NowaWartosc s) {
+    public static void naliczodpisymczneUlepszenie(SrodekTrw dodawanysrodektrwaly) {
+        Collections.sort(dodawanysrodektrwaly.getZmianawartosci(), new SrodekTrwNowaWartoscComparator());
         int pierwszymc = Mce.getMiesiacToNumber().get(dodawanysrodektrwaly.getDataprzek().split("-")[1]);
         int pierwszyrok = Integer.parseInt(dodawanysrodektrwaly.getDataprzek().split("-")[0]);
-        int mczmiany = Mce.getMiesiacToNumber().get(s.getMc());
-        int rokzmiany = Integer.parseInt(s.getRok());
-        int poilumcachzmienic = Mce.odlegloscMcy(pierwszymc, pierwszyrok, mczmiany, rokzmiany);
-        odpisroczny(dodawanysrodektrwaly);
-        odpismiesieczny(dodawanysrodektrwaly);
-        Double netto_do_amortyzacji = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()- dodawanysrodektrwaly.getUmorzeniepoczatkowe();
-        Double nar = 0.0;
-        List<Double> listaplanum = new ArrayList<Double>();
-        int licznikzmian = poilumcachzmienic;
-        while (netto_do_amortyzacji - nar > 0) {
-            Double odp = (netto_do_amortyzacji - nar) >= dodawanysrodektrwaly.getOdpismc() ? dodawanysrodektrwaly.getOdpismc() : netto_do_amortyzacji - nar;
-            //sluzy do eliminowania odpisow w kwocie groszy i dodaje je do ostatniej raty (zaokraglenia)
-            double antycypacja = (netto_do_amortyzacji - (nar+odp)) > 1.0 ? 0.0 : Z.z((netto_do_amortyzacji - (nar+odp)));
-            listaplanum.add(Z.z(odp.doubleValue()+antycypacja));
-            nar = Z.z(nar + odp + antycypacja);
-            licznikzmian--;
-            if (licznikzmian == 0) {
-                netto_do_amortyzacji = netto_do_amortyzacji + s.getKwota();
-                dodawanysrodektrwaly.setNetto(netto_do_amortyzacji);
+        double kwotapierwotna = dodawanysrodektrwaly.getNetto();
+        if (dodawanysrodektrwaly.getZmianawartosci().size() > 0) {
+            for (SrodekTrw_NowaWartosc s : dodawanysrodektrwaly.getZmianawartosci()) {
+                int mczmiany = Mce.getMiesiacToNumber().get(s.getMc());
+                int rokzmiany = Integer.parseInt(s.getRok());
+                int poilumcachzmienic = Mce.odlegloscMcy(pierwszymc, pierwszyrok, mczmiany, rokzmiany);
                 odpisroczny(dodawanysrodektrwaly);
                 odpismiesieczny(dodawanysrodektrwaly);
+                Double netto_do_amortyzacji = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()-dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+                Double nar = 0.0;
+                List<Double> listaplanum = new ArrayList<Double>();
+                int licznikzmian = 0;
+                while (netto_do_amortyzacji - nar > 0) {
+                    if (licznikzmian == poilumcachzmienic) {
+                        netto_do_amortyzacji += s.getKwota();
+                        dodawanysrodektrwaly.setNetto(dodawanysrodektrwaly.getNetto()+s.getKwota());
+                        odpisroczny(dodawanysrodektrwaly);
+                        odpismiesieczny(dodawanysrodektrwaly);
+                    }
+                    if (licznikzmian < poilumcachzmienic) {
+                        double odpiszachowany = dodawanysrodektrwaly.getUmorzPlan().get(licznikzmian);
+                        nar += odpiszachowany;
+                        listaplanum.add(odpiszachowany);
+                        licznikzmian++;
+                    } else {
+                        Double odp = (netto_do_amortyzacji - nar) >= dodawanysrodektrwaly.getOdpismc() ? dodawanysrodektrwaly.getOdpismc() : netto_do_amortyzacji - nar;
+                        //sluzy do eliminowania odpisow w kwocie groszy i dodaje je do ostatniej raty (zaokraglenia)
+                        double antycypacja = (netto_do_amortyzacji - (nar+odp)) > 1.0 ? 0.0 : Z.z((netto_do_amortyzacji - (nar+odp)));
+                        listaplanum.add(Z.z(odp));
+                        nar = Z.z(nar + odp + antycypacja);
+                        licznikzmian++;
+                    }
+                }
+                dodawanysrodektrwaly.setUmorzPlan(listaplanum);
             }
+            dodawanysrodektrwaly.setNetto(kwotapierwotna);
         }
-        return listaplanum;
     }
     
     

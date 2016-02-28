@@ -319,7 +319,7 @@ public class Mce implements Serializable{
             }
         } else if (rokod == rokakt) {
             if (mcod < mcakt) {
-                iloscmcy += 12 - mcod;
+                iloscmcy = mcakt - mcod;
                 return iloscmcy;
             } else if (mcod == mcakt) {
                 return iloscmcy;
@@ -349,7 +349,7 @@ public class Mce implements Serializable{
             }
         } else if (rokod == rokakt) {
             if (mcod < mcakt) {
-                iloscmcy += 12 - mcod;
+                iloscmcy = mcakt - mcod;
                 return iloscmcy;
             } else if (mcod == mcakt) {
                 return iloscmcy;
@@ -397,12 +397,7 @@ public class Mce implements Serializable{
 //    }
     
     public static void main(String[] args) {
-        String rok = "2015";
-        String mc = "01";
-        int oile = 24;
-        String[] t = zwiekszmiesiac(rok, mc, oile);
-        System.out.println("rok "+t[0]);
-        System.out.println("mc "+t[1]);
+        System.out.println(odlegloscMcy(12,2014,6,2015));
     }
     
 //<editor-fold defaultstate="collapsed" desc="comment">
