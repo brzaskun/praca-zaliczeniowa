@@ -14,7 +14,7 @@
                 <p:selectBooleanCheckbox value="#{pismoAdminView.razemzarchiwalnymi}" label="bez archiwalnych">
                     <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
                 </p:selectBooleanCheckbox>
-                <h:outputText value="tylko nowe"/>
+                <h:outputText value="pokaż ukryte"/>
                 <p:selectBooleanCheckbox value="#{pismoAdminView.wybierznowe}" label="nowe only">
                     <p:ajax event="change" listener="#{pismoAdminView.init}" update=":wykazpism" global="false"/>
                 </p:selectBooleanCheckbox>

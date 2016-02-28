@@ -119,13 +119,13 @@ public class PismoAdminView implements Serializable{
     
     @PostConstruct
     public void init() {
-        listapism = pismoadminDAO.findBiezace();
+        listapism = pismoadminDAO.findNowe();
         if (razemzarchiwalnymi==true) {
             listapismwszytskie = pismoadminDAO.findAll();
         } else if (wybierznowe==true) {
-            listapismwszytskie = pismoadminDAO.findNowe();
-        } else {
             listapismwszytskie = pismoadminDAO.findBiezace();
+        } else {
+            listapismwszytskie = pismoadminDAO.findNowe();
         }
         Collator collator = Collator.getInstance(new Locale("pl", "PL"));
         collator.setStrength(Collator.PRIMARY);
