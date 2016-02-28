@@ -1,0 +1,111 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:ft="http://primefaces.prime.com.tr/facestrace"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <p:dialog id="dialog_srodkitrwale_zmianawartosci" header="Zmiana wartości posiadanego środka trwałego" widgetVar="dialog_srodkitrwale_zmianawartosci" 
+              resizable="false"  onShow="ustawdialog('dialog_srodkitrwale_zmianawartosci','formbuttonsrodki:buttonsrodki',700,380);r('form_dialog_srodkitrwale_zmianawartosci:acForce1_input').focus();" closeOnEscape="true" onHide="resetujdialog('dialog_srodkitrwale_zmianawartosci');">
+        <!--pola ewidencji SRODKOW TRWALYCH-->
+        <h:form id="form_dialog_srodkitrwale_zmianawartosci">
+            <p:panel id="nowypanelsrodki" style="width: 600px; height: 370px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT" columns="4" >
+                    <h:outputText value="nazwa środka" style="height: 45px;"/>
+                    <p:column headerText="nazwa środka" width="100">
+                        <p:inputText id="nazwasrodka" value="#{STRTableView.wybranysrodektrwalyPosiadane.nazwa}" required="true" requiredMessage="Proszę wpisać nazwę środka"/>
+                    </p:column>
+                    <h:outputText value="data zakupu"/>
+                    <p:column>
+                        <p:inputText id="datazak" value="#{STRTableView.wybranysrodektrwalyPosiadane.datazak}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                    </p:column>
+                    <h:outputText value="data przyjecia"/>
+                    <p:column>
+                        <p:inputText id="dataprz" value="#{STRTableView.wybranysrodektrwalyPosiadane.dataprzek}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                    </p:column>
+                    <h:outputText value="numer faktury"/>
+                    <p:column>
+                        <p:inputText id="numerfaktzakupu" value="#{STRTableView.wybranysrodektrwalyPosiadane.nrwldokzak}"/>
+                    </p:column>
+                    <h:outputText value="symbol KST"/>
+                    <p:column>
+                        <p:inputText value="#{STRTableView.wybranysrodektrwalyPosiadane.kst}"/>
+                    </p:column>
+                    <h:outputText value="cena zakupu"/>
+                    <p:column>
+                        <pe:inputNumber id="cenazakupu" value="#{STRTableView.wybranysrodektrwalyPosiadane.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');"
+                                        style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
+                    </p:column>
+                    <h:outputText value="środek trw/wyposazenie"/>
+                    <p:column>
+                        <h:selectOneMenu value="#{STRTableView.wybranysrodektrwalyPosiadane.typ}"
+                                          onfocus="$(this).addClass('ui-state-focus');"
+                                        onblur="$(this).removeClass('ui-state-focus');" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all">
+                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                        </h:selectOneMenu>
+                    </p:column>
+                    <h:outputText value=""/>
+                    <h:outputText value=""/>
+                    <h:outputText value="data zmiany"/>
+                    <p:column style="margin-top: 10px">
+                        <p:inputText id="data1DialogWpisywanie" value="#{STRTableView.datazmiany}" 
+                                    onblur="weryfikujsporzadzfakture(this)"
+                                    title="wpisz numer dnia, lub miesiąc i dzień" styleClass="dataInput"
+                                    >
+                           <p:ajax global="false" event="blur" partialSubmit="true"/>
+                        </p:inputText>
+                    </p:column>
+                    <h:outputText value="nowa kwota"/>
+                    <pe:inputNumber id="kwotaPkpir" value="#{STRTableView.kwotazmiany}" symbol="zł" required="true" 
+                                        requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" 
+                                        symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 
+                                        styleClass="wiersznetto" > 
+                            <p:ajax event="change" global="false" partialSubmit="true"/>
+                     </pe:inputNumber>
+                </p:panelGrid>
+                <p:panelGrid columns="2" >
+                <p:commandButton id="dodajsrodekbutton" value="zachowaj" actionListener="#{STRTableView.edytujSrodekTrwaly()}" update=":formSTR:akordeon :form_dialog_srodkitrwale_zmianawartosci" 
+                                 style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
+                <p:commandButton id="dodajsrodekbutton2" value="anuluj zmiany" update=":formSTR:akordeon :form_dialog_srodkitrwale_zmianawartosci" 
+                                 style="margin-top: 10px; width: 120px;" onclick="PF('dialog_srodkitrwale_zmianawartosci').hide();"/>
+                </p:panelGrid>
+                <p:dataTable value="#{STRTableView.wybranysrodektrwalyPosiadane.zmianawartosci}" var="item" id="tabelazmian"
+                                 emptyMessage="Nie naniesiono wcześniej żadnych zmian" style="width: 600px; margin-top: 10px;"
+                                 scrollable="true" scrollHeight="100" rowIndexVar="index">
+                        <f:facet name="header">
+                            <h:outputText value="naniesione zmiany wartości"/>
+                        </f:facet>
+                        <p:column width="30">
+                            <h:outputText value="#{index+1}"/>
+                        </p:column>
+                        <p:column headerText="data zmiany" width="80">
+                            <h:outputText value="#{item.datazmiany}">
+                                <f:convertDateTime dateStyle="medium"  />
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="kwota" width="90">
+                            <bcf:outputpl value="#{item.kwota}"/>
+                        </p:column>
+                        <p:column headerText="wprowadził" width="110">
+                            <bcf:outputpl value="#{item.wprowadzil.imie} #{item.wprowadzil.nazw}"/>
+                        </p:column>
+                        <p:column headerText="naniesiono" width="80">
+                            <h:outputText value="#{item.dataksiegowania}">
+                                <f:convertDateTime dateStyle="medium"  />
+                            </h:outputText>
+                        </p:column>
+                         <p:column id="deleteColumn" headerText="usuń" width="40" style="text-align: center;">
+                            <p:commandButton actionListener="#{STRTableView.destroyZmianaWartosci(item)}" id="delete" 
+                                             update="form_dialog_srodkitrwale_zmianawartosci:tabelazmian :formSTR:akordeon" icon="ui-icon ui-icon-trash" type="submit" >
+                                <p:ajax event="click" global="false"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+            </p:panel>
+        </h:form>
+    </p:dialog>
+</ui:composition>

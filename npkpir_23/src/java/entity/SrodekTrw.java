@@ -10,6 +10,7 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -147,6 +149,8 @@ public class SrodekTrw implements Serializable {
      })
     @ManyToOne
     private Dokfk dokfk;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SrodekTrw_NowaWartosc> zmianawartosci;
 
 
     public SrodekTrw() {
@@ -158,251 +162,262 @@ public class SrodekTrw implements Serializable {
     public SrodekTrw(Integer id) {
         this.id = id;
     }
-
+//<editor-fold defaultstate="collapsed" desc="comment">
+    
     public Double getDatawy() {
         return datawy;
     }
-
+    
     public void setDatawy(Double datawy) {
         this.datawy = datawy;
     }
-
+    
     public String getDataprzek() {
         return dataprzek;
     }
-
+    
     public void setDataprzek(String dataprzek) {
         this.dataprzek = dataprzek;
     }
-
+    
     public String getDatazak() {
         return datazak;
     }
-
+    
     public void setDatazak(String datazak) {
         this.datazak = datazak;
     }
-
+    
     public Double getVat() {
         return vat;
     }
-
+    
     public void setVat(Double vat) {
         this.vat = vat;
     }
-
+    
     public Double getOdpismc() {
         return odpismc;
     }
-
+    
     public void setOdpismc(Double odpismc) {
         this.odpismc = odpismc;
     }
-
+    
     public String getNazwa() {
         return nazwa;
     }
-
+    
     public void setNazwa(String nazwa) {
         this.nazwa = nazwa;
     }
-
+    
     public String getKst() {
         return kst;
     }
-
+    
     public void setKst(String kst) {
         this.kst = kst;
     }
-
+    
     public Integer getId() {
         return id;
     }
-
+    
     public void setId(Integer id) {
         this.id = id;
     }
-
+    
     public Integer getNrsrodka() {
         return nrsrodka;
     }
-
+    
     public void setNrsrodka(Integer nrsrodka) {
         this.nrsrodka = nrsrodka;
     }
-
+    
     public List<Double> getUmorzPlan() {
         return umorzPlan;
     }
-
+    
     public void setUmorzPlan(List<Double> umorzPlan) {
         this.umorzPlan = umorzPlan;
     }
-
+    
     public List<Umorzenie> getUmorzWyk() {
         return umorzWyk;
     }
-
+    
     public void setUmorzWyk(List<Umorzenie> umorzWyk) {
         this.umorzWyk = umorzWyk;
     }
-
+    
     public Double getOdpisrok() {
         return odpisrok;
     }
-
+    
     public void setOdpisrok(Double odpisrok) {
         this.odpisrok = odpisrok;
     }
-
+    
     public Double getStawka() {
         return stawka;
     }
-
+    
     public void setStawka(Double stawka) {
         this.stawka = stawka;
     }
-
+    
     public String getSymbol() {
         return symbol;
     }
-
+    
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
-
+    
     public Double getNetto() {
         return netto;
     }
-
+    
     public void setNetto(Double netto) {
         this.netto = netto;
     }
-
+    
     public String getPodatnik() {
         return podatnik;
     }
-
+    
     public void setPodatnik(String podatnik) {
         this.podatnik = podatnik;
     }
-
-  
-
+    
+    
+    
     public String getTyp() {
         return typ;
     }
-
+    
     public void setTyp(String typ) {
         this.typ = typ;
     }
-
+    
     public Double getUmorzeniepoczatkowe() {
         return umorzeniepoczatkowe;
     }
-
+    
     public void setUmorzeniepoczatkowe(Double umorzeniepoczatkowe) {
         this.umorzeniepoczatkowe = umorzeniepoczatkowe;
     }
-
+    
     public boolean isUmorzeniezaksiegowane() {
         return umorzeniezaksiegowane;
     }
-
+    
     public void setUmorzeniezaksiegowane(boolean umorzeniezaksiegowane) {
         this.umorzeniezaksiegowane = umorzeniezaksiegowane;
     }
-
-  
+    
+    
     public String getNrwldokzak() {
         return nrwldokzak;
     }
-
+    
     public void setNrwldokzak(String nrwldokzak) {
         this.nrwldokzak = nrwldokzak;
     }
-
+    
     public String getDatasprzedazy() {
         return datasprzedazy;
     }
-
+    
     public void setDatasprzedazy(String datasprzedazy) {
         this.datasprzedazy = datasprzedazy;
     }
-
+    
     public String getNrwldokumentu() {
         return nrwldokumentu;
     }
-
+    
     public void setNrwldokumentu(String nrwldokumentu) {
         this.nrwldokumentu = nrwldokumentu;
     }
-
+    
     public String getNrpk() {
         return nrpk;
     }
-
+    
     public void setNrpk(String nrpk) {
         this.nrpk = nrpk;
     }
-
+    
     public Double getKwotaodpislikwidacja() {
         return kwotaodpislikwidacja;
     }
-
+    
     public void setKwotaodpislikwidacja(Double kwotaodpislikwidacja) {
         this.kwotaodpislikwidacja = kwotaodpislikwidacja;
     }
-
+    
     public Integer getZlikwidowany() {
         return zlikwidowany;
     }
-
+    
     public void setZlikwidowany(Integer zlikwidowany) {
         this.zlikwidowany = zlikwidowany;
     }
-
+    
     public String getStyl() {
         return styl;
     }
-
+    
     public void setStyl(String styl) {
         this.styl = styl;
     }
-
+    
     public Double getNiepodlegaamortyzacji() {
         return niepodlegaamortyzacji;
     }
-
+    
     public void setNiepodlegaamortyzacji(Double niepodlegaamortyzacji) {
         this.niepodlegaamortyzacji = niepodlegaamortyzacji;
     }
-
+    
     public Konto getKontonetto() {
         return kontonetto;
     }
-
+    
     public void setKontonetto(Konto kontonetto) {
         this.kontonetto = kontonetto;
     }
-
+    
     public Konto getKontoumorzenie() {
         return kontoumorzenie;
     }
-
+    
     public void setKontoumorzenie(Konto kontoumorzenie) {
         this.kontoumorzenie = kontoumorzenie;
     }
-
+    
     public Dokfk getDokfk() {
         return dokfk;
     }
-
+    
     public void setDokfk(Dokfk dokfk) {
         this.dokfk = dokfk;
     }
-   
     
+    public List<SrodekTrw_NowaWartosc> getZmianawartosci() {
+        return zmianawartosci;
+    }
+    
+    public void setZmianawartosci(List<SrodekTrw_NowaWartosc> zmianawartosci) {
+        this.zmianawartosci = zmianawartosci;
+    }
+    
+    
+    
+//</editor-fold>
     
     
 

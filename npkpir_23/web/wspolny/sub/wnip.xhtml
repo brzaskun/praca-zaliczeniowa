@@ -6,8 +6,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:ft="http://primefaces.prime.com.tr/facestrace">
 
-    <f:event type="preRenderView" listener="#{srodkiTrwaleAMOView.init()}"/>
-    <f:event type="preRenderView" listener="#{STRTableView.init()}"/>
         <h:form id="formbuttonwnip">
             <p:commandButton id="buttonsrodki" value="dodaj wnip" onclick="PF('dialog_srodki_dodaj').show();"/>
             <p:commandButton id="buttondrukowanie" value="drukuj tabele" style="margin-left: 50px; width: 150px;" actionListener="#{STRTableView.drukowanietabeli()}"/>

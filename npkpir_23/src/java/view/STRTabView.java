@@ -23,6 +23,7 @@ import embeddable.Umorzenie;
 import entity.Amodok;
 import entity.AmodokPK;
 import entity.SrodekTrw;
+import entity.SrodekTrw_NowaWartosc;
 import entity.Srodkikst;
 import entityfk.Dokfk;
 import error.E;
@@ -112,6 +113,9 @@ public class STRTabView implements Serializable {
     private int iloscsrodkow_wnip;
     private int zakupionewbiezacyrok;
     private int zakupionewbiezacyrok_wnip;
+    //zmiana wartosci srodka trwalego
+    private String datazmiany;
+    private double kwotazmiany;
 
     public STRTabView() {
         ustawTabele();
@@ -469,6 +473,22 @@ public class STRTabView implements Serializable {
         this.srodkiZakupRokBiezacy = srodkiZakupRokBiezacy;
     }
 
+    public String getDatazmiany() {
+        return datazmiany;
+    }
+
+    public void setDatazmiany(String datazmiany) {
+        this.datazmiany = datazmiany;
+    }
+
+    public double getKwotazmiany() {
+        return kwotazmiany;
+    }
+
+    public void setKwotazmiany(double kwotazmiany) {
+        this.kwotazmiany = kwotazmiany;
+    }
+
 
     public List<SrodekTrw> getWyposazenie() {
         return wyposazenie;
@@ -605,6 +625,32 @@ public class STRTabView implements Serializable {
         }
     }
     
+    public void edytujSrodekTrwaly() {
+        try {
+            if (datazmiany != null && kwotazmiany != 0.0) {
+                SrodekTrw_NowaWartosc s = new SrodekTrw_NowaWartosc(wybranysrodektrwalyPosiadane, wpisView, datazmiany, kwotazmiany);
+                if (wybranysrodektrwalyPosiadane.getZmianawartosci() == null) {
+                    wybranysrodektrwalyPosiadane.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
+                }
+                wybranysrodektrwalyPosiadane.getZmianawartosci().add(s);
+            }
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+            wybranysrodektrwalyPosiadane = null;
+            datazmiany = null;
+            kwotazmiany = 0.0;
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void destroyZmianaWartosci(SrodekTrw_NowaWartosc w) {
+        try {
+            wybranysrodektrwalyPosiadane.getZmianawartosci().remove(w);
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
     
     public void ksiegujUmorzenieFK(Amodok amodok) {
         Dokfk znalezionyBiezacy = dokDAOfk.findDokfkLastofaTypeMc(wpisView.getPodatnikObiekt(), "AMO", String.valueOf(amodok.getAmodokPK().getRok()), wpisView.getMiesiacWpisu());
