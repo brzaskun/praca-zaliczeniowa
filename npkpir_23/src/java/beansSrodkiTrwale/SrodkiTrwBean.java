@@ -10,6 +10,7 @@ import embeddable.Parametr;
 import embeddable.Umorzenie;
 import entity.Podatnik;
 import entity.SrodekTrw;
+import entity.SrodekTrw_NowaWartosc;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +29,93 @@ import waluty.Z;
 @Named
 
 public class SrodkiTrwBean implements Serializable {
+    
+     public static void main(String[] args) {
+        SrodekTrw s = new SrodekTrw();
+        s.setNetto(24000.0);
+        s.setStawka(90.0);
+        s.setDataprzek("2014-12-01-");
+        SrodekTrw_NowaWartosc t = new SrodekTrw_NowaWartosc();
+        t.setSrodekTrw(s);
+        t.setMc("06");
+        t.setRok("2015");
+        t.setKwota(24000);
+        s.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(s, t));
+        t = new SrodekTrw_NowaWartosc();
+        t.setSrodekTrw(s);
+        t.setMc("12");
+        t.setRok("2015");
+        t.setKwota(24000);
+        s.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(s, t));
+        int i = 1;
+        for (Double p : s.getUmorzPlan()) {
+            System.out.println(i+" "+p);
+            i++;
+        }
+        
+    }
+    
+    public static List<Double> naliczodpisymczneUlepszenie(SrodekTrw dodawanysrodektrwaly, SrodekTrw_NowaWartosc s) {
+        int pierwszymc = Mce.getMiesiacToNumber().get(dodawanysrodektrwaly.getDataprzek().split("-")[1]);
+        int pierwszyrok = Integer.parseInt(dodawanysrodektrwaly.getDataprzek().split("-")[0]);
+        int mczmiany = Mce.getMiesiacToNumber().get(s.getMc());
+        int rokzmiany = Integer.parseInt(s.getRok());
+        int poilumcachzmienic = Mce.odlegloscMcy(pierwszymc, pierwszyrok, mczmiany, rokzmiany);
+        odpisroczny(dodawanysrodektrwaly);
+        odpismiesieczny(dodawanysrodektrwaly);
+        Double netto_do_amortyzacji = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()- dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+        Double nar = 0.0;
+        List<Double> listaplanum = new ArrayList<Double>();
+        int licznikzmian = poilumcachzmienic;
+        while (netto_do_amortyzacji - nar > 0) {
+            Double odp = (netto_do_amortyzacji - nar) >= dodawanysrodektrwaly.getOdpismc() ? dodawanysrodektrwaly.getOdpismc() : netto_do_amortyzacji - nar;
+            //sluzy do eliminowania odpisow w kwocie groszy i dodaje je do ostatniej raty (zaokraglenia)
+            double antycypacja = (netto_do_amortyzacji - (nar+odp)) > 1.0 ? 0.0 : Z.z((netto_do_amortyzacji - (nar+odp)));
+            listaplanum.add(Z.z(odp.doubleValue()+antycypacja));
+            nar = Z.z(nar + odp + antycypacja);
+            licznikzmian--;
+            if (licznikzmian == 0) {
+                netto_do_amortyzacji = netto_do_amortyzacji + s.getKwota();
+                dodawanysrodektrwaly.setNetto(netto_do_amortyzacji);
+                odpisroczny(dodawanysrodektrwaly);
+                odpismiesieczny(dodawanysrodektrwaly);
+            }
+        }
+        return listaplanum;
+    }
+    
+    
+    public static List<Double> naliczodpisymczne(SrodekTrw dodawanysrodektrwaly) {
+        Double odpis_mc = dodawanysrodektrwaly.getOdpismc();
+        Double netto_do_amortyzacji = dodawanysrodektrwaly.getNetto()-dodawanysrodektrwaly.getNiepodlegaamortyzacji()- dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+        Double nar = 0.0;
+        List<Double> listaplanum = new ArrayList<Double>();
+        while (netto_do_amortyzacji - nar > 0) {
+            Double odp = (netto_do_amortyzacji - nar) >= odpis_mc ? odpis_mc : netto_do_amortyzacji - nar;
+            //sluzy do eliminowania odpisow w kwocie groszy i dodaje je do ostatniej raty (zaokraglenia)
+            double antycypacja = (netto_do_amortyzacji - (nar+odp)) > 1.0 ? 0.0 : Z.z((netto_do_amortyzacji - (nar+odp)));
+            listaplanum.add(Z.z(odp.doubleValue()+antycypacja));
+            nar = Z.z(nar + odp + antycypacja);
+        }
+        return listaplanum;
+    }
+    
+    public static void odpisroczny(SrodekTrw dodawanysrodektrwaly) {
+        double odpisrok = 0.0;
+        double netto = dodawanysrodektrwaly.getNetto() - dodawanysrodektrwaly.getNiepodlegaamortyzacji() - dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+        odpisrok = Z.z(netto*dodawanysrodektrwaly.getStawka()/100.0);
+        dodawanysrodektrwaly.setOdpisrok(odpisrok);
+    }
+    
+    public static void odpismiesieczny(SrodekTrw dodawanysrodektrwaly) {
+        double odpismiesiac = 0.0;
+        odpismiesiac = Z.z(dodawanysrodektrwaly.getOdpisrok()/12.0);
+        if (dodawanysrodektrwaly.getStawka() == 100.0) {
+            dodawanysrodektrwaly.setOdpismc(dodawanysrodektrwaly.getOdpisrok());
+        } else {
+            dodawanysrodektrwaly.setOdpismc(odpismiesiac);
+        }
+    }
 
     public static double sumujumorzenia(List<Umorzenie> umorzenia) {
         double kwotaumorzenia = 0.0;

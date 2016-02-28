@@ -8,6 +8,7 @@ import embeddable.Umorzenie;
 import entityfk.Dokfk;
 import entityfk.Konto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -72,7 +73,7 @@ public class SrodekTrw implements Serializable {
     private Integer nrsrodka;
     @Lob
     @Column(name = "umorzPlan")
-    private List umorzPlan;
+    private List<Double> umorzPlan;
     @Lob
     @Column(name = "umorzWyk")
     private List<Umorzenie> umorzWyk;
@@ -155,8 +156,11 @@ public class SrodekTrw implements Serializable {
 
     public SrodekTrw() {
         this.niepodlegaamortyzacji = 0.0;
+        this.umorzeniepoczatkowe = 0.0;
         this.netto = 0.0;
         this.vat = 0.0;
+        this.umorzWyk = new ArrayList<>();
+        this.umorzPlan = new ArrayList<>();
     }
 
     public SrodekTrw(Integer id) {

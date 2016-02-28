@@ -625,6 +625,23 @@ public class STRTabView implements Serializable {
         }
     }
     
+     public void dodajSrodekTrwaly(SrodekTrw dodawanysrodektrwaly) {
+        try {
+            SrodkiTrwBean.odpisroczny(dodawanysrodektrwaly);
+            SrodkiTrwBean.odpismiesieczny(dodawanysrodektrwaly);
+            //oblicza planowane umorzenia
+            dodawanysrodektrwaly.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(dodawanysrodektrwaly));
+            dodawanysrodektrwaly.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(dodawanysrodektrwaly, wpisView));
+            sTRDAO.dodaj(dodawanysrodektrwaly);
+            RequestContext.getCurrentInstance().update("srodki:panelekXA");
+            Msg.msg("i", "Środek trwały "+dodawanysrodektrwaly.getNazwa()+" dodany", "formSTR:messages");
+        } catch (Exception e) { 
+            E.e(e); 
+            Msg.msg("e","Nowy srodek nie zachowany "+dodawanysrodektrwaly.getNazwa());
+        }
+    }
+    
+    
     public void edytujSrodekTrwaly() {
         try {
             if (datazmiany != null && kwotazmiany != 0.0) {
@@ -633,6 +650,8 @@ public class STRTabView implements Serializable {
                     wybranysrodektrwalyPosiadane.setZmianawartosci(new ArrayList<SrodekTrw_NowaWartosc>());
                 }
                 wybranysrodektrwalyPosiadane.getZmianawartosci().add(s);
+                wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczneUlepszenie(wybranysrodektrwalyPosiadane, s));
+                wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
             }
             sTRDAO.edit(wybranysrodektrwalyPosiadane);
             wybranysrodektrwalyPosiadane = null;

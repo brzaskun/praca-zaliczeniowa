@@ -330,6 +330,36 @@ public class Mce implements Serializable{
         return -1;
     }
    
+   public static int odlegloscMcy(int mcod, int rokod, int mcakt, int rokakt) {
+        int iloscmcy = 0;
+        if (rokod > rokakt) {
+            return -1;
+        }
+        int rokgraniczny = rokakt;
+        if (rokod < rokgraniczny) {
+            iloscmcy += mcakt;
+            rokgraniczny -= 1;
+            while (rokod < rokgraniczny) {
+                iloscmcy += 12;
+                rokgraniczny--;
+            }
+            if (rokod == rokgraniczny) {
+                iloscmcy += 12 - mcod;
+                return iloscmcy;
+            }
+        } else if (rokod == rokakt) {
+            if (mcod < mcakt) {
+                iloscmcy += 12 - mcod;
+                return iloscmcy;
+            } else if (mcod == mcakt) {
+                return iloscmcy;
+            }else {
+                return -1;
+            }
+        }
+        return -1;
+    }
+   
     
     public Mce() {
     }
