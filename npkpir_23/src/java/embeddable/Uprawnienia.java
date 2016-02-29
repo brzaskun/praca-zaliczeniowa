@@ -22,12 +22,12 @@ public class Uprawnienia implements Serializable{
     static {
         listaUprawnien = new ArrayList<String>();
         listaUprawnien.add("Administrator");
-        listaUprawnien.add("Manager");
         listaUprawnien.add("Bookkeeper");
         listaUprawnien.add("BookkeeperFK");
-        listaUprawnien.add("GuestFK");
-        listaUprawnien.add("GuestFaktura");
         listaUprawnien.add("Guest");
+        listaUprawnien.add("GuestFaktura");
+        listaUprawnien.add("GuestFK");
+        listaUprawnien.add("Manager");
         listaUprawnien.add("Multiuser");
     }
 

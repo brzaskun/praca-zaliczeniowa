@@ -48,7 +48,7 @@ public class PdfKontoZapisy {
         Konto konto = wybranekonto;
         try {
             List<Parametr> param = pod.getVatokres();
-            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 5);
+            Document document = new Document(PageSize.A4_LANDSCAPE.rotate(), 0, 0, 40, 20);
             PdfWriter writer = PdfWriter.getInstance(document, Plik.plikR("zapiskonto-" + wpisView.getPodatnikWpisu() + ".pdf"));
             int liczydlo = 1;
             PdfHeaderFooter headerfoter = new PdfHeaderFooter(liczydlo);
@@ -80,12 +80,12 @@ public class PdfKontoZapisy {
             table.setWidthPercentage(98);
             if (duzy0maly1 == true) {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("wydruk zapisów na koncie "+konto.getPelnynumer(), 4, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 4, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 5, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             } else {
                 table.addCell(ustawfraze("Biuro Rachunkowe Taxman", 4, 0));
-                table.addCell(ustawfraze("wydruk zapisów na koncie "+konto.getPelnynumer(), 3, 0));
+                table.addCell(ustawfraze("zapisy, konto "+konto.getPelnynumer()+" "+konto.getNazwapelna(), 3, 0));
                 table.addCell(ustawfraze("firma: "+wpisView.getPodatnikWpisu(), 3, 0));
                 table.addCell(ustawfraze("za okres: "+wpisView.getMiesiacWpisu()+"/"+wpisView.getRokWpisuSt(), 2, 0));
             }
@@ -146,7 +146,7 @@ public class PdfKontoZapisy {
             table.setFooterRows(1);
             Integer i = 1;
             for (StronaWiersza rs : kontozapisy) {
-                table.addCell(ustawfrazeAlign(i.toString(), "center", 7));
+                table.addCell(ustawfrazeAlign(i.toString(), "center", 7,19f));
                 table.addCell(ustawfrazeAlign(rs.getDokfk().getDatawystawienia(), "center", 7));
                 table.addCell(ustawfrazeAlign(rs.getDokfk().getDataoperacji(), "center", 7));
                 table.addCell(ustawfrazeAlign(rs.getDokfkS(), "left", 7));
@@ -208,9 +208,9 @@ public class PdfKontoZapisy {
                 }
                 if (duzy0maly1 == true) {
                     if (rs.getWnma().equals("Wn") && rs.getWiersz().getStronaMa() != null) {
-                        table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "right", 7));
+                        table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaMa().getKonto().getPelnynumer(), "left", 7));
                     } else if (rs.getWnma().equals("Ma") && rs.getWiersz().getStronaWn() != null) {
-                        table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "right", 7));
+                        table.addCell(ustawfrazeAlign(rs.getWiersz().getStronaWn().getKonto().getPelnynumer(), "left", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "right", 7));
                     }
@@ -230,7 +230,7 @@ public class PdfKontoZapisy {
     
     private static void dodajpodsumowanie(List<ListaSum> listasum, PdfPTable table, boolean duzy0maly1) {
         try {
-            table.addCell(ustawfrazeAlign("", "center", 7));
+            table.addCell(ustawfrazeAlign("", "center", 7, 25f));
             table.addCell(ustawfrazeAlign("", "center", 7));
             table.addCell(ustawfrazeAlign("", "center", 7));
             table.addCell(ustawfrazeAlign("", "left", 7));
@@ -258,7 +258,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
             //************
-            table.addCell(ustawfrazeAlign("", "center", 7));
+            table.addCell(ustawfrazeAlign("", "center", 7, 25f));
             table.addCell(ustawfrazeAlign("", "center", 7));
             table.addCell(ustawfrazeAlign("", "center", 7));
             table.addCell(ustawfrazeAlign("", "left", 7));
@@ -270,7 +270,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
             double saldo = listasum.get(0).getSaldoWn() > 0.0 ? listasum.get(0).getSaldoWn() : listasum.get(0).getSaldoMa();
-            if (listasum.get(0).getSaldoWn() > 0) {
+            if (listasum.get(0).getSaldoWnPLN() > 0) {
                 if (duzy0maly1 == true) {
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWn()), "right", 7));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoWnPLN()), "right", 7));
@@ -282,7 +282,7 @@ public class PdfKontoZapisy {
                 table.addCell(ustawfrazeAlign("", "right", 7));
                 table.addCell(ustawfrazeAlign("", "right", 7));
             }
-            if (listasum.get(0).getSaldoMa() > 0) {
+            if (listasum.get(0).getSaldoMaPLN() > 0) {
                 if (duzy0maly1 == true) {
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMa()), "right", 7));
                     table.addCell(ustawfrazeAlign(formatujWaluta(listasum.get(0).getSaldoMaPLN()), "right", 7));

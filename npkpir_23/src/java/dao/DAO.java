@@ -43,7 +43,8 @@ public abstract class DAO<T> {
     
     public void dodaj(T selected) {
         try {
-                sessionFacade.create(selected);
+            sessionFacade.create(selected);
+            sessionFacade.refresh(selected);
         }  catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
@@ -76,6 +77,7 @@ public abstract class DAO<T> {
     public void edit(T selected) {
         try {
             sessionFacade.edit(selected);
+            sessionFacade.refresh(selected);
         }  catch (EJBException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getCause().getMessage(), e);
             throw new EJBException(e.getCause().getMessage(), e);
