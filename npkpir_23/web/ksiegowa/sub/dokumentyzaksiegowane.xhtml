@@ -121,12 +121,19 @@
                 <p:column id="opisColumn" headerText="#{mgs.opis}" filterBy="#{wpis.opis}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.opis}" style="width: 10%;">  
                     <h:outputText value="#{wpis.opis}"/>
                 </p:column>
-                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.netto}" filterStyle="display : none;" filterMatchMode="contains" sortBy="#{wpis.netto}"  style="width: 60px;">  
+                <p:column id="nettoColumn" headerText="#{mgs.netto}" filterBy="#{wpis.tabelanbp.waluta.symbolwaluty}" filterMatchMode="contains"  sortBy="#{wpis.netto}"  style="width: 60px;">  
+                    
+                    <f:facet name="filter">
+                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="wal" itemValue="#{null}" />
+                        <f:selectItems value="#{walutyViewFK.symboleWalut}" />
+                    </p:selectOneMenu>
+                </f:facet>
                     <bcf:outputpl value="#{wpis.netto}"/>
                     <br/>
 
                     <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
+                    <h:outputText value="#{wpis.tabelanbp.waluta.symbolwaluty}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
 
 
                 </p:column>

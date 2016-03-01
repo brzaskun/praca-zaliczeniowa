@@ -98,16 +98,20 @@
                     <f:convertNumber  locale="PL" minFractionDigits="2" />
                 </h:outputText>
             </p:column>
-            <p:column id="kwotanettoColumnwal" width="80" headerText="#{mgs.netto} wal" sortBy="#{wpis.nettoWaluta}" style="width: 12%;">  
-                <c:if test="#{wpis.tabelanbp ne null}">
-                    <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
-                    <h:outputText value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
-                </c:if>
+            <p:column id="kwotanettoColumnwal" width="80" headerText="#{mgs.netto} waluta" filterBy="#{wpis.tabelanbp.waluta.symbolwaluty}" filterMatchMode="contains" sortBy="#{wpis.nettoWaluta}" style="width: 12%;">
+                <f:facet name="filter">
+                     <p:selectOneMenu onchange="PF('dokTable').filter()" >
+                        <f:selectItem itemLabel="wal" itemValue="#{null}" />
+                        <f:selectItems value="#{walutyViewFK.symboleWalut}" />
+                        <p:ajax event="change" listener="#{obrotyView.czyscwybrane}" update=":formX:podsumowaniewybr :formX:podsumowaniewybrnetto :formX:dokumentyLista"/>
+                    </p:selectOneMenu>
+                </f:facet>
+                 <bcf:outputpl value="#{wpis.nettoWaluta}"  rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/> 
+                 <h:outputText value="#{wpis.tabelanbp.waluta.symbolwaluty}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}"/>
             </p:column>
              <p:column id="kwotanettoColumnwaltab" width="80" headerText="tabela" sortBy="#{wpis.tabelanbp.nrtabeli}" style="width: 12%;">  
-                <c:if test="#{wpis.tabelanbp ne null}">
-                    <h:outputText value="#{wpis.tabelanbp.nrtabeli}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
-                </c:if>
+               <h:outputText value="#{wpis.tabelanbp.nrtabeli} " rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
+                    <h:outputText value="#{wpis.tabelanbp.kurssredni}" rendered="#{wpis.tabelanbp.waluta.symbolwaluty ne 'PLN'}" style="width: 50px;"/>
             </p:column>
 
         </p:dataTable>
