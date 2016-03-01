@@ -50,7 +50,7 @@
                                             converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 140px;"
                                             onfocus="usunspacje(this);podswietltesamekonta(0,this);"
                                             ><!--to teraz powoduje blad-->
-                                <p:ajax event="blur" global="false" partialSubmit="true"/>
+                                <p:ajax event="blur" global="false" partialSubmit="true" />
                                 <p:ajax event="query" global="false"/></p:autoComplete>
                         </p:column>
                         <p:column>
@@ -58,6 +58,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item0.wierszBOPK.opis}" style="width: 95%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item0, 0)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item0.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
                             </p:inputText>
                         </p:column>
@@ -129,6 +130,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 90%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item, 1)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista1)}"/>
                             </p:inputText>
                         </p:column>
@@ -225,8 +227,9 @@
                         <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
                         <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
                         <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2, bilansWprowadzanieView.listaSumList.get('lista2'))}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="filter" global="false"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
-                        <p:column width="260">
+                        <p:column width="260" filterBy="#{item.konto.nazwapelna}" filterMatchMode="contains">
                             <f:facet name="header">
                                 <h:outputText value="#{mgs.konto}"/>
                             </f:facet>
@@ -244,6 +247,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 90%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item, 2)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista2)}"/>
                             </p:inputText>
                         </p:column>
@@ -359,6 +363,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item, 3)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista3)}"/>
                             </p:inputText>
                         </p:column>
@@ -429,6 +434,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item, 6)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista6)}"/>
                             </p:inputText>
                         </p:column>
@@ -499,6 +505,7 @@
                                 <h:outputText value="#{mgs.opis}"/>
                             </f:facet>
                             <p:inputText value="#{item.wierszBOPK.opis}" style="width: 95%;" >
+                                <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.kopiujkontoBO(item, 8)}"/>
                                 <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(item.wierszBOPK.opis, bilansWprowadzanieView.lista8)}"/>
                             </p:inputText>
                         </p:column>

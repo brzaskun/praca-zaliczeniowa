@@ -10,7 +10,9 @@ import entityfk.Konto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -39,10 +41,11 @@ public class PlanKontBOView implements Serializable {
     private List<Konto> wykazkont3;
     private List<Konto> wykazkont6;
     private List<Konto> wykazkont8;
+    private Map<Integer,List<Konto>> wykazkontGrupa;
     private List<Konto> wykazkont;
 
     public PlanKontBOView() {
-
+        this.wykazkontGrupa = new HashMap<>();
     }
 
     @PostConstruct
@@ -55,6 +58,12 @@ public class PlanKontBOView implements Serializable {
             wykazkont6 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "6%");
             wykazkont8 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "8%");
             wykazkont = kontoDAO.findWszystkieKontaBilansowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            wykazkontGrupa.put(0, wykazkont0);
+            wykazkontGrupa.put(1, wykazkont1);
+            wykazkontGrupa.put(2, wykazkont2);
+            wykazkontGrupa.put(3, wykazkont3);
+            wykazkontGrupa.put(6, wykazkont6);
+            wykazkontGrupa.put(8, wykazkont8);
         }
     }
 
@@ -252,4 +261,6 @@ public class PlanKontBOView implements Serializable {
         this.wpisView = wpisView;
     }
 
+    
+  
 }

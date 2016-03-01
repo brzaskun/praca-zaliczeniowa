@@ -498,10 +498,10 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncie() {
         try {
-            if (kontozapisy != null && kontozapisy.size() > 0) {
-                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
-            } else {
+            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
                 PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, true);
+            } else {
+                PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, true);
             }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);
@@ -512,10 +512,10 @@ public class KontoZapisFKView implements Serializable{
     
     public void drukujPdfZapisyNaKoncieDuzy() {
         try {
-            if (kontozapisy != null && kontozapisy.size() > 0) {
-                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
-            } else {
+            if (wybranekontadosumowania != null && wybranekontadosumowania.size() > 0) {
                  PdfKontoZapisy.drukujzapisy(wpisView, wybranekontadosumowania, wybranekonto, listasum, false);
+            } else {
+                 PdfKontoZapisy.drukujzapisy(wpisView, kontozapisy, wybranekonto, listasum, false);
             }
             String wydruk = "wydrukzapisynakoncie('"+wpisView.getPodatnikWpisu()+"')";
             RequestContext.getCurrentInstance().execute(wydruk);

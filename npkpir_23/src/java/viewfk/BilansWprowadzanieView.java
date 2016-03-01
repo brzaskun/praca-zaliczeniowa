@@ -76,6 +76,7 @@ public class BilansWprowadzanieView implements Serializable {
     private List<WierszBO> lista3;
     private List<WierszBO> lista6;
     private List<WierszBO> lista8;
+    private Map<Integer, List<WierszBO>> listaGrupa;
     private List<WierszBO> lista0s;
     private List<WierszBO> lista1s;
     private List<WierszBO> lista2s;
@@ -108,6 +109,7 @@ public class BilansWprowadzanieView implements Serializable {
         this.lista3 = new ArrayList<>();
         this.lista6 = new ArrayList<>();
         this.lista8 = new ArrayList<>();
+        this.listaGrupa = new HashMap<>();
         this.listaWKonsolidacja = new ArrayList<>();
         this.listaSumList = new HashMap<>();
         listaSumList.put("lista0", new ArrayList());
@@ -172,6 +174,12 @@ public class BilansWprowadzanieView implements Serializable {
         podsumujWnMa(lista3, listaSumList.get("lista3"));
         podsumujWnMa(lista6, listaSumList.get("lista6"));
         podsumujWnMa(lista8, listaSumList.get("lista8"));
+        listaGrupa.put(0, lista0);
+        listaGrupa.put(1, lista1);
+        listaGrupa.put(2, lista2);
+        listaGrupa.put(3, lista3);
+        listaGrupa.put(6, lista6);
+        listaGrupa.put(8, lista8);
         dokumentBO = dokDAOfk.findDokfkLastofaType(wpisView.getPodatnikObiekt(), "BO", wpisView.getRokWpisuSt());
         if (dokumentBO != null) {
             isteniejeDokBO = true;
@@ -1031,7 +1039,17 @@ public class BilansWprowadzanieView implements Serializable {
         stary.setKwotaWnPLN(stary.getKwotaWnPLN()+nowy.getKwotaWnPLN());
     }
 
-    
+    public void kopiujkontoBO(WierszBO wierszbiezacy, Integer lista) {
+        List<WierszBO> l = listaGrupa.get(lista);
+        if (l.size() > 1) {
+            if (wierszbiezacy.getKonto() == null) {
+                WierszBO poprzednie = l.get(l.size()-2);
+                wierszbiezacy.setKonto(poprzednie.getKonto());
+                String wiersz = "formbilanswprowadzanie:tabviewbilans:tab"+lista+":"+(l.size()-1)+":konto";
+                RequestContext.getCurrentInstance().update(wiersz);
+            }
+        }
+    }
         
 
     
