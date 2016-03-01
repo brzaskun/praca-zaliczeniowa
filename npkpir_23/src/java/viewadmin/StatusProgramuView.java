@@ -30,6 +30,7 @@ public class StatusProgramuView  implements Serializable{
     @Inject
     private Statusprogramu wprowadzanainformacja;
     private List<Statusprogramu> wprowadzanestatusy;
+    private Statusprogramu aktualnystatus;
 
     public StatusProgramuView() {
     }
@@ -37,6 +38,14 @@ public class StatusProgramuView  implements Serializable{
     @PostConstruct
     private void init() {
         wprowadzanestatusy = statusprogramuDAO.findAll();
+        if (wprowadzanestatusy != null) {
+            for (Statusprogramu p : wprowadzanestatusy) {
+                if (p.isAktywny() == true) {
+                    aktualnystatus = p;
+                    break;
+                }
+            }
+        }
     }
     
     
@@ -62,9 +71,14 @@ public class StatusProgramuView  implements Serializable{
         }
     }
     
-    public void edytuj(Statusprogramu dousuniecia) {
+    public void edytuj(Statusprogramu biezacy) {
         try {
-            statusprogramuDAO.edit(dousuniecia);
+            for (Statusprogramu p : wprowadzanestatusy) {
+                if (p != biezacy && biezacy.isAktywny()) {
+                    p.setAktywny(false);
+                }
+            }
+            statusprogramuDAO.editList(wprowadzanestatusy);
             Msg.msg("Aktywowano/deaktywowano status");
         } catch (Exception e) {
             E.e(e);
@@ -85,6 +99,14 @@ public class StatusProgramuView  implements Serializable{
 
     public void setWprowadzanestatusy(List<Statusprogramu> wprowadzanestatusy) {
         this.wprowadzanestatusy = wprowadzanestatusy;
+    }
+
+    public Statusprogramu getAktualnystatus() {
+        return aktualnystatus;
+    }
+
+    public void setAktualnystatus(Statusprogramu aktualnystatus) {
+        this.aktualnystatus = aktualnystatus;
     }
 
     

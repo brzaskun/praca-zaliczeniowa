@@ -49,11 +49,12 @@ public class Statusprogramu implements Serializable {
     private String datado;
     @Column(name = "tekst")
     private String tekst;
+    @Column(name = "tekst_de")
+    private String tekst_de;
+    @Column(name = "tekst_en")
+    private String tekst_en;
     @Column(name = "aktywny")
     private boolean aktywny;
-    @Column(name = "rodzajuzera")
-    @NotNull(message = "Nie wprowadzono rodzaju użytkownika")
-    private String rodzajuzera;
 
     public Statusprogramu() {
         this.dataod = null;
@@ -70,14 +71,7 @@ public class Statusprogramu implements Serializable {
         this.lp = lp;
     }
 
-    public String getRodzajuzera() {
-        return rodzajuzera;
-    }
-
-    public void setRodzajuzera(String rodzajuzera) {
-        this.rodzajuzera = rodzajuzera;
-    }
-    
+       
     public String getDataod() {
         return dataod;
     }
@@ -100,6 +94,22 @@ public class Statusprogramu implements Serializable {
     
     public void setTekst(String tekst) {
         this.tekst = tekst;
+    }
+
+    public String getTekst_de() {
+        return tekst_de;
+    }
+
+    public void setTekst_de(String tekst_de) {
+        this.tekst_de = tekst_de;
+    }
+
+    public String getTekst_en() {
+        return tekst_en;
+    }
+
+    public void setTekst_en(String tekst_en) {
+        this.tekst_en = tekst_en;
     }
     
     public boolean isAktywny() {
