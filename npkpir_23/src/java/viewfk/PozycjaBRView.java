@@ -759,17 +759,25 @@ public class PozycjaBRView implements Serializable {
     }
     public void drukujBilansPozycje(String ap, double sumabilansowa) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap, sumabilansowa);
+            PdfBilans.drukujBilansBOPozycje(rootBilansAktywa, wpisView, ap, sumabilansowa, false);
         } else {
-            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap, sumabilansowa);
+            PdfBilans.drukujBilansBOPozycje(rootBilansPasywa, wpisView, ap, sumabilansowa, false);
         }
     }
     
     public void drukujBilansKonta(String ap, double sumabilansowa) {
         if (ap.equals("a")) {
-            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap, sumabilansowa);
+            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap, sumabilansowa, false);
         } else {
-            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap, sumabilansowa);
+            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap, sumabilansowa, false);
+        }
+    }
+    
+    public void drukujBilansKontaBez0(String ap, double sumabilansowa) {
+        if (ap.equals("a")) {
+            PdfBilans.drukujBilansKonta(rootBilansAktywa, wpisView, ap, sumabilansowa, true);
+        } else {
+            PdfBilans.drukujBilansKonta(rootBilansPasywa, wpisView, ap, sumabilansowa, true);
         }
     }
    

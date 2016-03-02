@@ -50,9 +50,11 @@
                  <p:column>
                       <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
+                          <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                       </p:splitButton>
                       <p:splitButton value="#{mgs.drukujpasywa}"  style="margin-left: 10px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('p', pozycjaBRView.sumabilansowapasywa)}">
-                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>  
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
+                          <p:menuitem global="false" value="#{mgs.pasywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('b', pozycjaBRView.sumabilansowapasywa)}" icon="fa fa-print"/>
                       </p:splitButton>
                 </p:column>
             </p:panelGrid>

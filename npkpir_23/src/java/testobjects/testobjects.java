@@ -30,6 +30,7 @@ import entityfk.Transakcja;
 import entityfk.Wiersz;
 import entityfk.WierszBO;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import msg.B;
 import viewfk.CechyzapisuPrzegladView;
@@ -537,6 +538,8 @@ public class testobjects {
        tabela[1] = t;
        return tabela;
    }
+   
+        
     public static List[] getTabelaBilansKontaPrzyporzadkowane(TreeNodeExtended rootProjekt) {
        int level = rootProjekt.ustaldepthDT();
        List n = new ArrayList();
@@ -551,6 +554,25 @@ public class testobjects {
        return tabela;
    }
    
+    public static List[] getTabelaBilansKontaPrzyporzadkowaneBez0(TreeNodeExtended rootProjekt) {
+       int level = rootProjekt.ustaldepthDT();
+       List n = new ArrayList();
+       n.add("");
+       n.add(B.b("nazwapozycjiBilansu"));
+       n.add(B.b("kwota"));
+       n.add(B.b("konta"));
+       List t = getWierszeRZiS(rootProjekt, level);
+       for (Iterator<PozycjaRZiSBilans> it = t.iterator(); it.hasNext();) {
+           if (it.next().getKwota() == 0.0) {
+               it.remove();
+           }
+       }
+       List[] tabela = new List[2];
+       tabela[0] = n;
+       tabela[1] = t;
+       return tabela;
+   }
+    
     public static List[] getTabelaFakturyPlatnosci(List<Faktura> wiersze, String zn) {
        List n = new ArrayList();
        n.add("lp");

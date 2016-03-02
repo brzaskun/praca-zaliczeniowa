@@ -109,7 +109,7 @@ public class PdfBilans {
         }
     }
     
-    public static void drukujBilansBOPozycje(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
+    public static void drukujBilansBOPozycje(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa, boolean bezzer) {
         String nazwa = null;
         if (ap.equals("a")) {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansBOPOzobliczenieAktywa-"+wpisView.getRokWpisuSt();
@@ -133,7 +133,12 @@ public class PdfBilans {
             } else {
                 dodajOpisWstepny(document, "Bilans Otwarcia Pasywa (z nr kont) firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getRokWpisuSt());
             }
-            dodajTabele(document, testobjects.testobjects.getTabelaBilansKonta(rootProjekt),95,1);
+             if (bezzer) {
+                dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
+            } else {
+                dodajTabele(document, testobjects.testobjects.getTabelaBilansKonta(rootProjekt),95,1);
+            }
+            
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
@@ -147,7 +152,7 @@ public class PdfBilans {
         }
     }
     
-    public static void drukujBilansKonta(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa) {
+    public static void drukujBilansKonta(TreeNodeExtended rootProjekt, WpisView wpisView, String ap, double sumabilansowa, boolean bezzer) {
         String nazwa = null;
         if (ap.equals("a")) {
             nazwa = wpisView.getPodatnikObiekt().getNip()+"BilansPozobliczenieAktywa-"+wpisView.getRokWpisuSt();
@@ -171,7 +176,11 @@ public class PdfBilans {
             } else {
                 dodajOpisWstepny(document, "Bilans Pasywa z nr kont firmy "+wpisView.getPodatnikWpisu()+" suma pasywów - "+sumatxt, wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             }
-            dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowane(rootProjekt),95,2);
+            if (bezzer) {
+                dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowaneBez0(rootProjekt),95,2);
+            } else {
+                dodajTabele(document, testobjects.testobjects.getTabelaBilansKontaPrzyporzadkowane(rootProjekt),95,2);
+            }
             finalizacjaDokumentu(document);
             String f = null;
             if (ap.equals("a")) {
