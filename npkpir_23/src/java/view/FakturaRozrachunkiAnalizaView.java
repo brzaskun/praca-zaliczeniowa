@@ -65,7 +65,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private FakturaRozrachunkiDAO fakturaRozrachunkiDAO;
     private int aktywnytab;
     private UISelectOne selectOneUI;
-    private boolean tylkoprzeterminowane;
+    private boolean pokaznadplaty;
 
     public FakturaRozrachunkiAnalizaView() {
         
@@ -225,11 +225,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         if (faktury != null) {
             for (Faktura r : faktury) {
                 if (r.isNowy0archiwum1() == nowe0archiwum1) {
-                    if (tylkoprzeterminowane == false)  {
-                        l.add(new FakturaPodatnikRozliczenie(r));
-                    } else if (!r.getMc().equals(wpisView.getMiesiacWpisu())){
-                        l.add(new FakturaPodatnikRozliczenie(r));
-                    }
+                    l.add(new FakturaPodatnikRozliczenie(r));
                 }
             }
         }
@@ -251,7 +247,8 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 }
                 if (r.getSaldo() != 0.0) {
                     r.setLp(i++);
-                    if (tylkoprzeterminowane == false) {
+                    
+                    if (pokaznadplaty == true) {
                         saldanierozliczone.add(r);
                         sumasaldnierozliczonych += r.getSaldo();
                     } else if (r.getSaldo() > 0.0) {
@@ -359,6 +356,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         this.klienci = klienci;
     }
 
+    public boolean isPokaznadplaty() {
+        return pokaznadplaty;
+    }
+
+    public void setPokaznadplaty(boolean pokaznadplaty) {
+        this.pokaznadplaty = pokaznadplaty;
+    }
+
     public Klienci getSzukanyklient() {
         return szukanyklient;
     }
@@ -429,14 +434,6 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setNowepozycje(List<FakturaPodatnikRozliczenie> nowepozycje) {
         this.nowepozycje = nowepozycje;
-    }
-
-    public boolean isTylkoprzeterminowane() {
-        return tylkoprzeterminowane;
-    }
-
-    public void setTylkoprzeterminowane(boolean tylkoprzeterminowane) {
-        this.tylkoprzeterminowane = tylkoprzeterminowane;
     }
 
 
