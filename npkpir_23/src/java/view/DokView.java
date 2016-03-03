@@ -692,7 +692,7 @@ public final class DokView implements Serializable {
                         eVatwpis.setDok(selDokument);
                         ewidencjeDokumentu.add(eVatwpis);
                         //to musi być bo inaczej nie obliczy kwoty vat;
-                        kwotavat += p.getVat();
+                        kwotavat += Z.z(p.getVat());
                     }
                 }
                 if (ewidencjeDokumentu.isEmpty()) {
@@ -729,7 +729,7 @@ public final class DokView implements Serializable {
             //dodaje kolumne z dodatkowym vatem nieodliczonym z faktur za paliwo
             Rodzajedok r = rodzajedokDAO.find(selDokument.getTypdokumentu(), podatnikWDokumencie);
             if (r.getProcentvat() != 0.0 && !wpisView.getRodzajopodatkowania().contains("ryczałt") && kwotapkpir != 0.0) {
-                KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(kwotavat, "poz. koszty");
+                KwotaKolumna1 kwotaKolumna = new KwotaKolumna1(Z.z(kwotavat), "poz. koszty");
                 selDokument.getListakwot1().add(kwotaKolumna);
             }
             selDokument.setNetto(0.0);
@@ -748,8 +748,7 @@ public final class DokView implements Serializable {
                 kwota = kwota + p.getNetto();
             }
 
-            kwota = kwota + kwotavat;
-            kwota = new BigDecimal(kwota).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+            kwota = Z.z(kwota + kwotavat);
             if (selDokument.getRozliczony() == true) {
                 Rozrachunek1 rozrachunekx = new Rozrachunek1(selDokument.getTerminPlatnosci(), kwota, 0.0, selDokument.getWprowadzil(), new Date());
                 rozrachunekx.setDok(selDokument);

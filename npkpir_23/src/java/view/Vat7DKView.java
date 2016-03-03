@@ -563,19 +563,19 @@ public class Vat7DKView implements Serializable {
                     nowadeklaracja.setNrkolejny(badana.getNrkolejny());
                     f = 2;
                 } else {
-                    if (badana.getStatus().equals("301") || badana.getStatus().equals("302") || badana.getStatus().isEmpty()) {
+                    if (badana.getStatus().startsWith("301") || badana.getStatus().startsWith("302") || badana.getStatus().isEmpty()) {
                         Msg.msg("e", "Wysłałeś już deklarację ale nie pobrałeś UPO. Nie mozna sporządzić nowej deklaracji za miesiąc następny!", "form:msg");
                         f = 1;
                     } else if (badana.getStatus().startsWith("4")) {
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
                         Msg.msg("i", "Utworzono nową deklarację. Wysłanie poprzedniej zakończyło się błędem", "form:msg");
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
-                    } else if (badana.getStatus().equals("200") && pierwotnazamiastkorekty == false) {
+                    } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == false) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("2");
                         Msg.msg("i", "Przygotowano do zachowania korekte poprawnie wyslanej deklaracji za okres  " + rok + "-" + mc, "form:msg");
                         Msg.msg("i", "Prosze wypełnić treść załącznika ORD-ZU zawierającego wyjaśnienie przyczyny korekty", "form:msg");
-                    } else if (badana.getStatus().equals("200") && pierwotnazamiastkorekty == true) {
+                    } else if (badana.getStatus().startsWith("200") && pierwotnazamiastkorekty == true) {
                         nowadeklaracja.setNrkolejny(badana.getNrkolejny() + 1);
                         pozycjeDeklaracjiVAT.setCelzlozenia("1");
                         Msg.msg("i", "Wysłano już deklarację za ten okres. Jednakże w opcjach ustawiono wymuszenie deklaracji pierwotnej", "form:msg");
