@@ -24,13 +24,18 @@
                         }
                     }
             </script>
-              <p:panelGrid columns="6">
+              <p:panelGrid columns="9">
                 <p:commandButton id="rozwinwsz" value="rozwiń wszystkie" actionListener="#{bilansPodgladView.rozwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="rozwin" value="rozwiń poziom" actionListener="#{bilansPodgladView.rozwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{bilansPodgladView.zwinwszystkie()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{bilansPodgladView.zwin()}" update=":formbilans:dataList" style="float: left; width: 140px;" />
                 <p:spacer width="60"/>
                 <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansPodgladView.drukuj}" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.drukuj} synt" actionListener="#{bilansPodgladView.drukujAnal(false)}" style="width: 120px; margin-left: 10px;"/>
+                <p:commandButton value="#{mgs.drukuj} analit" actionListener="#{bilansPodgladView.drukujAnal(true)}" style="width: 120px; margin-left: 10px;"/>
+                <p:selectBooleanCheckbox value="#{bilansPodgladView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"

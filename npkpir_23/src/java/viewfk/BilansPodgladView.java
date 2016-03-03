@@ -4,6 +4,8 @@
  */
 package viewfk;
 
+import comparator.Kontocomparator;
+import comparator.KontocomparatorByKwota;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import embeddablefk.TreeNodeExtended;
@@ -11,6 +13,8 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -42,6 +46,7 @@ public class BilansPodgladView  implements Serializable{
     private double sumama;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    private boolean sortujwgwartosci;
 
     public BilansPodgladView() {
         this.root = new TreeNodeExtended("root", null);
@@ -150,15 +155,66 @@ public class BilansPodgladView  implements Serializable{
                 }
             }
             System.out.println("1");
+            if (sortujwgwartosci) {
+                sortujliste(w);
+            }
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         } else {
             List<Konto> w = new ArrayList<Konto>();
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
             System.out.println("2");
+            if (sortujwgwartosci) {
+                sortujliste(w);
+            }
+            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
+        }
+    }
+    
+    public void drukujAnal(boolean analityka) {
+        System.out.println("");
+        if (selectednodes != null && selectednodes.length > 0) {
+            List<Konto> w = new ArrayList<Konto>();
+            for (TreeNode p : selectednodes) {
+                Konto k = (Konto) p.getData();
+                if (!w.contains(k) && k.isMapotomkow() == false) {
+                    List<Konto> tmp = new ArrayList<Konto>();
+                    ((TreeNodeExtended) p).getChildrenTree(new ArrayList<TreeNodeExtended>(), tmp);
+                    w.add(k);
+                    w.addAll(tmp);
+                }
+            }
+            System.out.println("1");
+            if (sortujwgwartosci) {
+                sortujliste(w);
+            }
+            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
+        } else {
+            List<Konto> w = new ArrayList<Konto>();
+            root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
+            if (analityka ==  true) {
+                for (Iterator<Konto> it = w.iterator(); it.hasNext();) {
+                    if (it.next().isMapotomkow() == true) {
+                        it.remove();
+                    }
+                }
+            } else {
+                for (Iterator<Konto> it = w.iterator(); it.hasNext();) {
+                    if (!it.next().getMacierzyste().equals("0")) {
+                        it.remove();
+                    }
+                }
+            }
+            System.out.println("2");
+            if (sortujwgwartosci) {
+                sortujliste(w);
+            }
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         }
     }
    
+    private void sortujliste(List<Konto> w) {
+        Collections.sort(w, new KontocomparatorByKwota());
+    }
      
     public TreeNodeExtended<Konto> getSelectednode() {
         return selectednode;
@@ -207,6 +263,16 @@ public class BilansPodgladView  implements Serializable{
     public void setSelectednodes(TreeNode[] selectednodes) {
         this.selectednodes = selectednodes;
     }
+
+    public boolean isSortujwgwartosci() {
+        return sortujwgwartosci;
+    }
+
+    public void setSortujwgwartosci(boolean sortujwgwartosci) {
+        this.sortujwgwartosci = sortujwgwartosci;
+    }
+
+  
 
     
     
