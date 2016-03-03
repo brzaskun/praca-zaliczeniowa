@@ -84,10 +84,10 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0" onfocus="selectpustepolebo(0,#{bilansWprowadzanieView.lista0.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(0)}" update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(0,#{bilansWprowadzanieView.lista0.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(0, item0)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab0, formbilanswprowadzanie:tabviewbilans:sum0, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -138,10 +138,10 @@
                             <f:facet name="header">
                                 <h:outputText value="kurs"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
                                              style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000" 
                                              styleClass="kurswaluta"> 
-                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item, idx, 'tab1')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="70">
@@ -156,7 +156,7 @@
                                                      $(this).addClass('ui-state-default');"
                                              >
                                 <f:ajax />
-                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item, idx, 'tab1')}"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -164,46 +164,46 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Wnwal"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnpln"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn', idx, 'tab1')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Mawal"
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mapln"
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Ma')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Ma', idx, 'tab1')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1" onfocus="selectpustepolebo(1,#{bilansWprowadzanieView.lista1.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(1)}" update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(1,#{bilansWprowadzanieView.lista1.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(1, item)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab1, formbilanswprowadzanie:tabviewbilans:sum1, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -255,10 +255,10 @@
                             <f:facet name="header">
                                 <h:outputText value="kurs"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item.kurs}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
                                              style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000" 
                                              styleClass="kurswaluta"> 
-                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item, idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="70">
@@ -272,7 +272,7 @@
                                              onblur="$(this).removeClass('ui-state-focus');
                                                      $(this).addClass('ui-state-default');"
                                              >
-                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item)}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkurs(item, idx, 'tab2')}"/>
                                 <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
                             </h:selectOneMenu>
                         </p:column>
@@ -280,48 +280,48 @@
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnwal"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column >
                             <f:facet name="header">
                                 <h:outputText value="KwotaWn PLN"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaWnPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnpln"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
                                             minValue="-10000000" styleClass="wiersznetto">
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaWn, item.kwotaWnPLN, 'Wn', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;" sortBy="#{item.kwotaMa}">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa"/>
                             </f:facet>
-                            <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Mawal"
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="KwotaMa PLN"/>
                             </f:facet>
-                            <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" 
+                            <pe:inputNumber value="#{item.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mapln"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" 
                                             minValue="-10000000" styleClass="wiersznetto">
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaMa, item.kwotaMaPLN, 'Ma')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.obliczkurs(item, item.kurs, item.kwotaMa, item.kwotaMaPLN, 'Ma', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2" onfocus="selectpustepolebo(2,#{bilansWprowadzanieView.lista2.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(2)}" update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(2,#{bilansWprowadzanieView.lista2.size()})"/>
                             <p:spacer width="20"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(2, item)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab2, formbilanswprowadzanie:tabviewbilans:sum2, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -389,10 +389,10 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3" onfocus="selectpustepolebo(3,#{bilansWprowadzanieView.lista3.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(3)}" update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(3,#{bilansWprowadzanieView.lista3.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(3, item)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab3, formbilanswprowadzanie:tabviewbilans:sum3, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -460,10 +460,10 @@
                             <f:facet name="header">
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
-                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6" onfocus="selectpustepolebo(6,#{bilansWprowadzanieView.lista6.size()})"/>
+                            <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(6)}" update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(6,#{bilansWprowadzanieView.lista6.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(6, item)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab6, formbilanswprowadzanie:tabviewbilans:sum6, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">
@@ -532,10 +532,10 @@
                                 <h:outputText value="dodaj/usuń"/>
                             </f:facet>
                             <p:commandButton value="+" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz(8)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8" onfocus="selectpustepolebo(8,#{bilansWprowadzanieView.lista8.size()})"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8 formbilanswprowadzanie:kwotysum" onfocus="selectpustepolebo(8,#{bilansWprowadzanieView.lista8.size()})"/>
                             <p:spacer width="25"/>
                             <p:commandButton value="-" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(8, item)}" 
-                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8, formbilanswprowadzanie:sumyibutton"/>
+                                             update=":formbilanswprowadzanie:tabviewbilans:tab8, formbilanswprowadzanie:tabviewbilans:sum8, formbilanswprowadzanie:sumyibutton formbilanswprowadzanie:kwotysum"/>
                         </p:column>
                     </p:dataTable>
                     <p:panelGrid columns="2">

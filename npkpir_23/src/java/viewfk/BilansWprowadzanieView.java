@@ -247,8 +247,6 @@ public class BilansWprowadzanieView implements Serializable {
                 break;
         }
         podsumujWnMa(listaW);
-        RequestContext.getCurrentInstance().update("formbilanswprowadzanie:kwotysum");
-
     }
 
     private void dodawanielista(List<WierszBO> l) {
@@ -346,7 +344,7 @@ public class BilansWprowadzanieView implements Serializable {
                 Konto k = listakont.get(listakont.indexOf(p.getKonto()));
                 k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
                 k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
-                if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
+                if (k.getBoWn() != 0.0 || k.getBoMa() != 0.0) {
                     k.setBlokada(true);
                 }
                 kontoDAO.edit(k);
@@ -426,58 +424,55 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public void przeliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, String strona) {
+    public void przeliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, String strona, int idx, String tab) {
+        String w = null;
         if (kurs != 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             double kwotawPLN = Math.round(kwotaWwalucie * kurs * 100);
             kwotawPLN /= 100;
             if (strona.equals("Wn")) {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Wnpln";
                 wiersz.setKwotaWnPLN(kwotawPLN);
             } else {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Mapln";
                 wiersz.setKwotaMaPLN(kwotawPLN);
             }
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            
+            RequestContext.getCurrentInstance().update(w);
         } else if (wiersz.getWaluta().getSymbolwaluty().equals("PLN")){
             if (strona.equals("Wn")) {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Wnpln";
                 wiersz.setKwotaWnPLN(kwotaWwalucie);
             } else {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Mapln";
                 wiersz.setKwotaMaPLN(kwotaWwalucie);
             }
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            RequestContext.getCurrentInstance().update(w);
         }
     }
     
-    public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN, String WnMa) {
+    public void obliczkurs(WierszBO wiersz, double kurs, double kwotaWwalucie, double kwotaWPLN, String WnMa, int idx, String tab) {
+        String w = null;
         if (kurs == 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             wiersz.setKurs(Z.z4(kwotaWPLN / kwotaWwalucie));
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":polekurs";
+            RequestContext.getCurrentInstance().update(w);
         } else if (kurs != 0.0 && !wiersz.getWaluta().getSymbolwaluty().equals("PLN") && kwotaWwalucie == 0.0) {
             double kwotaWwaluciewyliczona = Z.z(kwotaWPLN / kurs);
             if (WnMa.equals("Wn")) {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Wnwal";
                 wiersz.setKwotaWn(kwotaWwaluciewyliczona);
             } else {
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Mawal";
                 wiersz.setKwotaMa(kwotaWwaluciewyliczona);
             }
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            RequestContext.getCurrentInstance().update(w);
         }
     }
 
-    public void przeliczkurs(WierszBO wiersz) {
+    public void przeliczkurs(WierszBO wiersz, int idx, String tab) {
         if (!wiersz.getWaluta().getSymbolwaluty().equals("PLN")) {
             double kurs = wiersz.getKurs();
             if (kurs != 0.0) {
-                if (wiersz.getKwotaWn() != 0.0) {
-                    double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
-                    kwotawPLN /= 100;
-                    wiersz.setKwotaWnPLN(kwotawPLN);
-                } else if (wiersz.getKwotaMa() != 0.0) {
-                    double kwotawPLN = Math.round(wiersz.getKwotaMa() * kurs * 100);
-                    kwotawPLN /= 100;
-                    wiersz.setKwotaMaPLN(kwotawPLN);
-                }
                 if (wiersz.getKwotaWn() != 0.0) {
                     double kwotawPLN = Math.round(wiersz.getKwotaWn() * kurs * 100);
                     kwotawPLN /= 100;
@@ -491,16 +486,22 @@ public class BilansWprowadzanieView implements Serializable {
                 wiersz.setKwotaWnPLN(0.0);
                 wiersz.setKwotaMaPLN(0.0);
             }
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-            RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+            String w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":polekurs";
+            RequestContext.getCurrentInstance().update(w);
+            w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Wnpln";
+            RequestContext.getCurrentInstance().update(w);
+            w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Mapln";
+            RequestContext.getCurrentInstance().update(w);
             podsumujWnMa(listaW);
         } else {
             if (wiersz.getKwotaWn() != 0.0 || wiersz.getKwotaMa() != 0.0) {
                 wiersz.setKurs(0.0);
                 wiersz.setKwotaWnPLN(wiersz.getKwotaWn());
                 wiersz.setKwotaMaPLN(wiersz.getKwotaMa());
-                RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab1");
-                RequestContext.getCurrentInstance().update("formbilanswprowadzanie:tabviewbilans:tab2");
+                String w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Wnpln";
+                RequestContext.getCurrentInstance().update(w);
+                w = "formbilanswprowadzanie:tabviewbilans:"+tab+":"+idx+":Mapln";
+                RequestContext.getCurrentInstance().update(w);
                 podsumujWnMa(listaW);
             }
         }
