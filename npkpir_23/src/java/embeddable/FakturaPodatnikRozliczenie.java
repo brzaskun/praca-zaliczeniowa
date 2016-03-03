@@ -31,6 +31,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
     private double saldo;
     private String mail;
     private Date dataupomnienia;
+    private Date datatelefon;
 
     public FakturaPodatnikRozliczenie(FakturaRozrachunki p) {
         this.rozliczenie = p;
@@ -41,6 +42,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
         this.kwota = p.getKwota();
         this.mail = "";
         this.dataupomnienia = p.getDataupomnienia();
+        this.datatelefon = p.getDatatelefon();
         
     }
 
@@ -57,6 +59,7 @@ public class FakturaPodatnikRozliczenie implements Serializable{
             this.mail = "";
         }
         this.dataupomnienia = r.getDataupomnienia();
+        this.datatelefon = r.getDatatelefon();
     }
 
     @Override
@@ -235,5 +238,15 @@ public class FakturaPodatnikRozliczenie implements Serializable{
             return this.rozliczenie.getNrdokumentu();
         }
     }
+
+    public Date getDatatelefon() {
+        return datatelefon;
+    }
+
+    public void setDatatelefon(Date datatelefon) {
+        this.datatelefon = datatelefon;
+    }
+    
+    
     
 }

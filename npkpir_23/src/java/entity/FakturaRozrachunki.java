@@ -77,6 +77,9 @@ public class FakturaRozrachunki implements Serializable {
     @Column(name = "dataupomnienia", insertable=true, updatable=true)
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataupomnienia;
+    @Column(name = "datatelefon", insertable=true, updatable=true)
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date datatelefon;
     
     @PrePersist
     private void prepresist() {
@@ -224,6 +227,14 @@ public class FakturaRozrachunki implements Serializable {
 
     public void setDataupomnienia(Date dataupomnienia) {
         this.dataupomnienia = dataupomnienia;
+    }
+
+    public Date getDatatelefon() {
+        return datatelefon;
+    }
+
+    public void setDatatelefon(Date datatelefon) {
+        this.datatelefon = datatelefon;
     }
 
    

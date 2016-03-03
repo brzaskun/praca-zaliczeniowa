@@ -196,6 +196,7 @@ public class FakturaRozrachunkiView  implements Serializable {
         init();
         fakturaRozrachunkiRozlView.init();
         fakturaRozrachunkiAnalizaView.init();
+        //fakturaRozrachunkiAnalizaView.zestawieniezbiorcze();
     }
     
     private List<FakturaRozrachunki> pobierzplatnosci(String mc) {

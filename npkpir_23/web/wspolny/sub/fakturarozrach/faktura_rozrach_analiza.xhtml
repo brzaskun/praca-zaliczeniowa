@@ -38,14 +38,14 @@
                     <h:outputText id="mailklienta" value="mail: #{fakturaRozrachunkiAnalizaView.szukanyklient.email}" style="margin-top: 10px;" />
                 </p:column>
             </p:panelGrid>
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 1020px; margin-top: 20px;"
+            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.nowepozycje}" var="item" style="width: 970px; margin-top: 20px;"
                          emptyMessage="niczego nie zaksięgowano dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
                     <h:outputText value="nowe dokumenty"/>
                 </f:facet>
-                <p:column selectionMode="multiple" width="30"/>
-                <p:column width="20">
+                <p:column selectionMode="multiple" width="20"  style="text-align: center;"/>
+                <p:column width="20" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="lp"/>
                     </f:facet>
@@ -57,7 +57,7 @@
                     </f:facet>
                     <h:outputText value="#{item.data}"/>
                 </p:column>
-                <p:column width="100">
+                <p:column width="70">
                     <f:facet name="header">
                         <h:outputText value="data wysyłki"/>
                     </f:facet>
@@ -69,42 +69,56 @@
                     </f:facet>
                      <h:outputText value="#{item.rodzajDok} #{item.nrDok}"/>
                 </p:column>
-                <p:column width="90">
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="zapłata"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq true}"/>
                 </p:column>
-                <p:column width="90">
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="faktura"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.kwota}" rendered="#{item.faktura0rozliczenie1 eq false}"/>
                 </p:column>
-                <p:column width="90">
+                <p:column width="60">
                     <f:facet name="header">
                         <h:outputText value="saldo"/>
                     </f:facet>
                     <bcf:outputpl value="#{item.saldo}"/>
+                </p:column>
+                 <p:column width="70" sortable="true" sortBy="#{item.dataupomnienia}">
+                    <f:facet name="header">
+                        <h:outputText value="data telefon"/>
+                    </f:facet>
+                     <h:outputText value="#{item.datatelefon}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </p:column>
+                 <p:column width="35" style="text-align: center;">
+                        <p:commandButton icon="fa fa-phone" actionListener="#{fakturaRozrachunkiAnalizaView.telefonKlienci(item)}" 
+                                     update="akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>
                 <p:column width="70" sortable="true" sortBy="#{item.dataupomnienia}">
                     <f:facet name="header">
                         <h:outputText value="data upomnienia"/>
                     </f:facet>
                     <h:outputText value="#{item.dataupomnienia}">
-                        <f:convertDateTime pattern="yyyy/MM/dd" />
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
                     </h:outputText>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
+                <p:column width="35" style="text-align: center;">
+                        <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci(item)}"
+                                         update="akordeon:fakturaanaliza:tablicaanaliza"/>
                 </p:column>
-                <p:column width="40" style="text-align: center;">
-                    <p:commandButton icon="fa fa-paper-plane" actionListener="#{fakturaRozrachunkiAnalizaView.mailKlienci(item)}" update="akordeon:fakturaanaliza:tablicaanaliza"/>
-                </p:column>
+<!--                 <p:column width="40" style="text-align: center;">
+                    <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, true)}"
+                                     update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
+                </p:column>-->
             </p:dataTable>
         </h:form>
         <h:form id="analizaarchiwum">
-            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 1020px; margin-top: 20px;"
+<!--            <p:dataTable id="tablicaanaliza" value="#{fakturaRozrachunkiAnalizaView.archiwum}" var="item" style="width: 1090px; margin-top: 20px;"
                          emptyMessage="niczego nie zarchiwizowane dla firmy #{fakturaRozrachunkiAnalizaView.szukanyklient}" selection="#{fakturaRozrachunkiAnalizaView.selectedrozliczenia}" rowKey="#{item.lp}"
                          >
                 <f:facet name="header">
@@ -164,7 +178,7 @@
                 <p:column width="40" style="text-align: center;">
                     <p:commandButton icon="fa fa-archive" actionListener="#{fakturaRozrachunkiAnalizaView.rozlicz(item, false)}" update="akordeon:fakturaanaliza akordeon:analizaarchiwum"/>
                 </p:column>
-            </p:dataTable>
+            </p:dataTable>-->
         </h:form>
     </p:tab>  
 </ui:composition> 

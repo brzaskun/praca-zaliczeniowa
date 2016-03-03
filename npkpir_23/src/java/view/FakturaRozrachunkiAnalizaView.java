@@ -66,7 +66,7 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
     private int aktywnytab;
     private UISelectOne selectOneUI;
     private boolean pokaznadplaty;
-
+    private boolean tylkoprzeterminowane;
     public FakturaRozrachunkiAnalizaView() {
         
     }
@@ -224,7 +224,9 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
         }
         if (faktury != null) {
             for (Faktura r : faktury) {
-                if (r.isNowy0archiwum1() == nowe0archiwum1) {
+                if (tylkoprzeterminowane && r.isNowy0archiwum1() == false && !r.getMc().equals(wpisView.getMiesiacWpisu())) {
+                    l.add(new FakturaPodatnikRozliczenie(r));
+                } else if (!tylkoprzeterminowane && r.isNowy0archiwum1() == nowe0archiwum1) {
                     l.add(new FakturaPodatnikRozliczenie(r));
                 }
             }
@@ -320,9 +322,31 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
                 MailFaktRozrach.rozrachunek(szukanyklient, wpisView, fakturaDAO, saldo, stopka.getTrescelementu());
                 if (r != null) {
                     r.setDataupomnienia(new Date());
+                    p.setDataupomnienia(new Date());
                     fakturaRozrachunkiDAO.edit(r);
                 } else {
                     f.setDataupomnienia(new Date());
+                    p.setDataupomnienia(new Date());
+                    fakturaDAO.edit(f);
+                }
+            }
+        }
+    }
+    
+    public void telefonKlienci(FakturaPodatnikRozliczenie p) {
+        if (szukanyklient != null && !nowepozycje.isEmpty()) {
+            System.out.println(p.toString());
+            FakturaRozrachunki r = p.getRozliczenie();
+            Faktura f = p.getFaktura();
+            double saldo = p.getSaldo();
+            if (saldo > 0) {
+                if (r != null) {
+                    r.setDatatelefon(new Date());
+                    p.setDatatelefon(new Date());
+                    fakturaRozrachunkiDAO.edit(r);
+                } else {
+                    f.setDatatelefon(new Date());
+                    p.setDatatelefon(new Date());
                     fakturaDAO.edit(f);
                 }
             }
@@ -434,6 +458,14 @@ public class FakturaRozrachunkiAnalizaView  implements Serializable {
 
     public void setNowepozycje(List<FakturaPodatnikRozliczenie> nowepozycje) {
         this.nowepozycje = nowepozycje;
+    }
+
+    public boolean isTylkoprzeterminowane() {
+        return tylkoprzeterminowane;
+    }
+
+    public void setTylkoprzeterminowane(boolean tylkoprzeterminowane) {
+        this.tylkoprzeterminowane = tylkoprzeterminowane;
     }
 
 
