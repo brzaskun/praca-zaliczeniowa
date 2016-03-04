@@ -59,16 +59,16 @@ var dolaczwyliczenieKopiowanie = function() {
         try {
             r("dodWiad:tabelapkpir:1:kwotaPkpir_input").on('keyup', function(event) {
                 if (event.which === 107) {
-                    var roznica;
-                    var czesciowa = zrobFloat($(this).val());
-                    var calosc = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
-                    roznica = calosc - czesciowa;
-                    r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val(Math.abs(roznica));
-                    r("dodWiad:tabelapkpir:0:kwotaPkpir_hinput").val(Math.abs(roznica));
+                    var zakuptowarow;
+                    var calosc = zrobFloat($(this).val());
+                    var kosztyuboczne = zrobFloat(r("dodWiad:tabelapkpir:0:kwotaPkpir_input").val());
+                    zakuptowarow = calosc - kosztyuboczne;
+                    r("dodWiad:tabelapkpir:1:kwotaPkpir_input").val(Math.abs(zakuptowarow));
+                    r("dodWiad:tabelapkpir:1:kwotaPkpir_hinput").val(Math.abs(zakuptowarow));
                     event.preventDefault();
                     event.stopPropagation();
                     event.stopImmediatePropagation();
-                    r("dodWiad:tabelapkpir:0:kwotaPkpir_input").blur();
+                    //r("dodWiad:tabelapkpir:1:kwotaPkpir_input").blur();
                 }
             });
         } catch (ec) {
@@ -120,7 +120,12 @@ var aktywujopis = function(czyjestvat) {
 
     //dodaje nowa kolumne podczas wpisywania faktury. robi to po stwierdzeniu wcisniecia klawisza +. usuwa tez symbol + z ciagu opisu
     //zachowuje takze opis dokumentgu po wcisnieciu klawisza F8
-    r('dodWiad:opis_input').on('keyup', function(e) {
+   lisnerdodanienowegowiersza();
+    //$('#dodWiad\\:numerwlasny').focus();
+};
+
+var lisnerdodanienowegowiersza = function () {
+    r('dodWiad:opis_input').on('keyup', function (e) {
         var kodklawisza = e.which;
         if (kodklawisza === 107) {
             r('dodWiad:dodkol').click();
@@ -151,9 +156,7 @@ var aktywujopis = function(czyjestvat) {
             e.stopImmediatePropagation();
         }
     });
-    //$('#dodWiad\\:numerwlasny').focus();
-};
-
+}
 
 //to jest konieczne do wyswietlania prawidlowych nazw w kalendarzu
 PrimeFaces.locales['pl'] = {

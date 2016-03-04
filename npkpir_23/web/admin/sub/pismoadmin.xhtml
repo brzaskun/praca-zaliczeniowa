@@ -85,10 +85,10 @@
                     </h:outputText>
                 </p:column>
                  <p:column width="80">
-                     <p:commandButton value="edytuj" actionListener="#{pismoAdminView.edytujpismoadmin(item)}" update=":wykazpism"/>
+                     <p:commandButton value="edytuj" actionListener="#{pismoAdminView.edytujpismoadmin(item)}" update=":wykazpism:dokLista"/>
                 </p:column>
                 <p:column width="80">
-                     <p:commandButton value="usuń" actionListener="#{pismoAdminView.usunpismoadmin(item)}" update=":wykazpism"/>
+                     <p:commandButton value="usuń" actionListener="#{pismoAdminView.usunpismoadmin(item)}" update=":wykazpism:dokLista"/>
                 </p:column>
             </p:dataTable>
         </h:form>

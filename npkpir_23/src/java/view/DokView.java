@@ -201,6 +201,10 @@ public final class DokView implements Serializable {
             p.setNazwakolumny("nie ma");
             selDokument.getListakwot1().add(p);
             liczbawierszy++;
+            if (liczbawierszy == 2) {
+                selDokument.getListakwot1().get(0).setNazwakolumny("koszty ub.zak.");
+                selDokument.getListakwot1().get(1).setNazwakolumny("zakup tow. i mat.");
+            }
         } else {
             Msg.msg("w", "Osiągnięto maksymalną liczbę wierszy", "dodWiad:mess_add");
         }

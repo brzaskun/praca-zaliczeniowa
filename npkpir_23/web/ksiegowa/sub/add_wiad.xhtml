@@ -24,7 +24,7 @@
             box-shadow: none;
         }
         .ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
-            font-weight: 900;
+            font-weight: 700;
             background: #e4e3e3;
         }
         .wiersznetto .ui-inputfield{
@@ -199,7 +199,7 @@
             <p:panelGrid columns="2" style="width: 855px;" columnClasses="forty-percent, sixty-percent">
                 <p:dataTable id="tabelapkpir" value="#{DokumentView.selDokument.listakwot1}" var="row" emptyMessage="jeszcze nie wygenerowano kolumny" 
                              rowIndexVar="index">
-                    <p:column headerText="kwota netto*"  width="105">
+                    <p:column headerText="kwota netto*"  width="105" style="height: 28px;">
                         <pe:inputNumber id="kwotaPkpir" value="#{row.netto}" symbol="#{DokumentView.symbolWalutyNettoVat}" required="true" 
                                         requiredMessage="Brak kwoty - uzupełnij" style="text-align: right; height: 19px;" 
                                         symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" 

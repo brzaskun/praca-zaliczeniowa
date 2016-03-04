@@ -155,8 +155,9 @@ public class PismoAdminView implements Serializable{
          try {
              p.setDatastatus(new Date());
              pismoadminDAO.edit(p);
-             listapism.clear();
-             listapism.addAll(pismoadminDAO.findAll());
+             if (wybierznowe == false) {
+                 listapismwszytskie.remove(p);
+             }
              Msg.msg("i", "Udało się dodać infomację dla Admina");
              if (p.getStatus().equals("zmiany naniesione")){
                  Uz uz = uzDAO.findUzByLogin(p.getNadawca());
