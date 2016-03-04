@@ -201,20 +201,6 @@ var przekazdate = function() {
 };
 
 
-var dataprzyjecia = function() {
-    try {
-        if (rj("dodWiad:acForce1_hinput").value === null) {
-        } else {
-            rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz").value = rj("dodWiad:dataPole").value;
-            rj("dodWiad:tabelasrodkitrwaleOT:0:nazwasrodka").focus();
-        }
-    } catch (e) {
-        
-    }
-};
-
-
-
 var ustawDateSrodekTrw = function() {
     var dataWyst = rj("dodWiad:tabelasrodkitrwaleOT:0:dataprz");
     var re = /^[0-9]{4}-(((0[13578]|(10|12))-(0[1-9]|[1-2][0-9]|3[0-1]))|(02-(0[1-9]|[1-2][0-9]))|((0[469]|11)-(0[1-9]|[1-2][0-9]|30)))$/;

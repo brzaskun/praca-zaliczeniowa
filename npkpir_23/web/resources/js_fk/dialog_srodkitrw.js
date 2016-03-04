@@ -1,7 +1,5 @@
 "use strict";
 
-var dataprzyjecia = function() {
-};
 
 var ustawDateSrodekTrw = function() {
     var dataWyst = rj("formdialogsrodki:datazak");

@@ -1177,6 +1177,7 @@ public final class DokView implements Serializable {
         if (!nazwa.isEmpty()) {
             try {
                 srodekkategoriawynik = srodkikstDAO.finsStr1(nazwa);
+                selectedSTR.setDataprzek(selDokument.getDataWyst());
                 selectedSTR.setKst(srodekkategoriawynik.getSymbol());
                 selectedSTR.setUmorzeniepoczatkowe(0.0);
                 selectedSTR.setStawka(Double.parseDouble(srodekkategoriawynik.getStawka()));

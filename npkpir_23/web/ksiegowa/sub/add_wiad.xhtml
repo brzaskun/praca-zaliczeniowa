@@ -362,13 +362,13 @@
 
             </p:panel>
             <!--pola ewidencji SRODKOW TRWALYCH-->
-            <p:panel id="panelwyszukiwarki" style="width: 300px;" >
+            <p:panel id="panelwyszukiwarki" style="width: 900px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" rendered="#{DokumentView.renderujwysz}"/>
                 <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
                                 minQueryLength="3" maxResults="15" maxlength="15" itemtipMyPosition="rightbottom"
                                 queryDelay="100" size="50" rendered="#{DokumentView.renderujwysz}">
-                    <p:ajax event="blur" async="true" listener="#{DokumentView.skopiujSTR()}" oncomplete="dataprzyjecia();"/>
+                    <p:ajax event="blur" async="true" listener="#{DokumentView.skopiujSTR()}"/>
                     <f:facet name="itemtip">  
                         <h:panelGrid  columns="2" cellpadding="5" width="400" >  
                             <f:facet name="header">  
@@ -384,33 +384,60 @@
                     </f:facet>
                 </p:autoComplete>
             </p:panel>
-            <p:panel id="nowypanelsrodki" style="width: 90%;">
-                <p:dataTable id="tabelasrodkitrwaleOT" value="#{DokumentView.selectedSTR}" var="loops" rendered="#{DokumentView.renderujwysz}"> 
-                    <p:column headerText="nazwa środka">
-                        <p:inputText id="nazwasrodka" value="#{loops.nazwa}"/>
-                    </p:column>
-                    <p:column headerText="data przyjecia">
-                        <p:inputText id="dataprz" value="#{loops.dataprzek}" onblur="ustawDateSrodekTrw();"/>
-                    </p:column>
-                    <p:column headerText="symbol KST">
-                        <p:inputText value="#{loops.kst}"/>
-                    </p:column>
-                    <p:column headerText="stawka amort">
-                        <p:inputText value="#{loops.stawka}"/>
-                    </p:column>
-                    <p:column headerText="dotychczasowe umorzenie">
-                        <pe:inputNumber value="#{loops.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
-                    </p:column>
-                    <p:column headerText="nie podlega umorzeniu">
-                        <pe:inputNumber value="#{loops.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
-                    </p:column>
-                    <p:column headerText="środek trw/wyposazenie">
-                        <h:selectOneMenu value="#{loops.typ}">
-                            <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
-                            <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
-                        </h:selectOneMenu>
-                    </p:column>
-                </p:dataTable>
+            <p:panel id="nowypanelsrodki" style="width: 900px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT"> 
+                    <f:facet name="header">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="nazwa środka"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="data przyjecia"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="symbol KST"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="tawka amort."/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="dotychczasowe umorzenie"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="nie podlega umorzeniu"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="środek trw/wyposazenie"/>
+                            </p:column>
+                        </p:row>
+                    </f:facet>
+                    <p:row>
+                        <p:column>
+                            <p:inputText id="nazwasrodka" value="#{DokumentView.selectedSTR.nazwa}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="dataprz" value="#{DokumentView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{DokumentView.selectedSTR.kst}" style="width: 30px;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{DokumentView.selectedSTR.stawka}"/>
+                        </p:column>
+                        <p:column>
+                            <pe:inputNumber value="#{DokumentView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        </p:column>
+                        <p:column>
+                            <pe:inputNumber value="#{DokumentView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
+                        </p:column>
+                        <p:column>
+                            <h:selectOneMenu value="#{DokumentView.selectedSTR.typ}">
+                                <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
+                                <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
+                            </h:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
             </p:panel>
             <!--pola ewidencji VAT-->
 
@@ -492,7 +519,7 @@
             </p:panelGrid>
             <h:outputText value="*kalkulator wartości netto ALT-k"/>
         </p:panel>
-            
+
     </h:form>
     <!--**********************************************************************-->
     <!-- informacja o ostatnio wprowadzonym dokumencie-->
@@ -617,11 +644,11 @@
             </p:panel>>
         </p:panel>
     </h:form>
-     <h:form id="kalkulator">
-                <p:commandButton id="kalkulator" value="kalkulator" onclick="PF('dialog_kalkulator').show()" accesskey="k"
-                                 global="false" style="display: none;" />
+    <h:form id="kalkulator">
+        <p:commandButton id="kalkulator" value="kalkulator" onclick="PF('dialog_kalkulator').show()" accesskey="k"
+                         global="false" style="display: none;" />
     </h:form>
-    
+
 </ui:composition>   
 
 
