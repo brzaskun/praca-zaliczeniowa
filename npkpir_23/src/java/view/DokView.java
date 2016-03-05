@@ -798,6 +798,7 @@ public final class DokView implements Serializable {
         //robienie srodkow trwalych
         if (selectedSTR.getStawka() != null) {
             dodajSrodekTrwaly();
+            srodekkategoria = new Srodkikst();
         }
         if (rodzajdodawania == 1) {
             selDokument = new Dok();

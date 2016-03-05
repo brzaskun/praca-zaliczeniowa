@@ -362,7 +362,7 @@
 
             </p:panel>
             <!--pola ewidencji SRODKOW TRWALYCH-->
-            <p:panel id="panelwyszukiwarki" style="width: 900px;" >
+            <p:outputPanel id="panelwyszukiwarki" style="width: 900px;" >
                 <p:panel header="wyszukiwarka środka trw." style="width: 300px;" rendered="#{DokumentView.renderujwysz}"/>
                 <p:autoComplete id="acForce1" value="#{DokumentView.srodekkategoria}" completeMethod="#{srodkikstView.complete}"
                                 var="pa" itemLabel="#{pa.nazwa}" itemValue="#{pa}"  converter="SrodkiConv"
@@ -383,9 +383,9 @@
                         </h:panelGrid>
                     </f:facet>
                 </p:autoComplete>
-            </p:panel>
-            <p:panel id="nowypanelsrodki" style="width: 900px;">
-                <p:panelGrid id="tabelasrodkitrwaleOT"> 
+            </p:outputPanel>
+            <p:outputPanel id="nowypanelsrodki" style="width: 900px;">
+                <p:panelGrid id="tabelasrodkitrwaleOT" rendered="#{DokumentView.renderujwysz}" style="margin-top: 5px;"> 
                     <f:facet name="header">
                         <p:row>
                             <p:column>
@@ -413,16 +413,16 @@
                     </f:facet>
                     <p:row>
                         <p:column>
-                            <p:inputText id="nazwasrodka" value="#{DokumentView.selectedSTR.nazwa}"/>
+                            <p:inputText id="nazwasrodka" value="#{DokumentView.selectedSTR.nazwa}" style="width: 230px;"/>
                         </p:column>
                         <p:column>
                             <p:inputText id="dataprz" value="#{DokumentView.selectedSTR.dataprzek}" onblur="ustawDateSrodekTrw();"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center;">
                             <p:inputText value="#{DokumentView.selectedSTR.kst}" style="width: 30px;"/>
                         </p:column>
-                        <p:column>
-                            <p:inputText value="#{DokumentView.selectedSTR.stawka}"/>
+                        <p:column style="text-align: center;">
+                            <p:inputText value="#{DokumentView.selectedSTR.stawka}" style="width: 30px;"/>
                         </p:column>
                         <p:column>
                             <pe:inputNumber value="#{DokumentView.selectedSTR.umorzeniepoczatkowe}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
@@ -431,14 +431,18 @@
                             <pe:inputNumber value="#{DokumentView.selectedSTR.niepodlegaamortyzacji}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"/> 
                         </p:column>
                         <p:column>
-                            <h:selectOneMenu value="#{DokumentView.selectedSTR.typ}">
+                            <h:selectOneMenu value="#{DokumentView.selectedSTR.typ}" styleClass="ui-selectonemenu-label ui-inputfield ui-corner-all"
+                                             onfocus="$(this).removeClass('ui-state-default');
+                                                 $(this).addClass('ui-state-focus');"
+                                         onblur="$(this).removeClass('ui-state-focus');
+                                                 $(this).addClass('ui-state-default');">
                                 <f:selectItem itemLabel="srodek trw." itemValue="srodek trw."/>
                                 <f:selectItem itemLabel="wyposazenie" itemValue="wyposazenie"/>
                             </h:selectOneMenu>
                         </p:column>
                     </p:row>
                 </p:panelGrid>
-            </p:panel>
+            </p:outputPanel>
             <!--pola ewidencji VAT-->
 
             <p:panel id="panelewidencjivat" >

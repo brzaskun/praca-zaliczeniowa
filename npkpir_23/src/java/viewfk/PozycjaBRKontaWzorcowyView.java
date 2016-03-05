@@ -614,9 +614,9 @@ public class PozycjaBRKontaWzorcowyView implements Serializable {
     
      public void drukujBilansKonta() {
         if (aktywa0pasywa1 == false) {
-            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "a", 0);
+            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "a", 0, false);
         } else {
-            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "p", 0);
+            PdfBilans.drukujBilansKonta(rootProjektKontaBilans, wpisView, "p", 0, false);
         }
     }
      

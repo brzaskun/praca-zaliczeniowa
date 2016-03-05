@@ -140,63 +140,68 @@ public class STRTabView implements Serializable {
         String rokdzisiejszy = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         zakupionewbiezacyrok = 0;
         zakupionewbiezacyrok_wnip = 0;
-        if (wpisView.getPodatnikWpisu() != null) {
-            List<SrodekTrw> srodkizBazy = new ArrayList<>();
-            try {
-                srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
-            } catch (Exception e) {
-                E.e(e); 
-            }
-            if (!srodkizBazy.isEmpty()) {
-                int i = 1;
-                int j = 1;
-                for (SrodekTrw srodek : srodkizBazy) {
-                    srodkiTrwaleWyposazenie.add(srodek);
-                    if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
-                        if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
-                            srodek.setNrsrodka(i++);
-                            wyposazenie.add(srodek);
+        try {
+            if (wpisView.getPodatnikWpisu() != null) {
+                List<SrodekTrw> srodkizBazy = new ArrayList<>();
+                try {
+                    srodkizBazy = sTRDAO.findStrPod(wpisView.getPodatnikWpisu());
+                } catch (Exception e) {
+                    E.e(e);
+                }
+                if (!srodkizBazy.isEmpty()) {
+                    int i = 1;
+                    int j = 1;
+                    for (SrodekTrw srodek : srodkizBazy) {
+                        srodkiTrwaleWyposazenie.add(srodek);
+                        if (srodek.getPodatnik().equals(wpisView.getPodatnikWpisu())) {
+                            if (srodek.getTyp() != null && srodek.getTyp().equals("wyposazenie")) {
+                                srodek.setNrsrodka(i++);
+                                wyposazenie.add(srodek);
 
-                        } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip"))  {
-                            srodek.setNrsrodka(j++);
-                            if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
-                                zakupionewbiezacyrok_wnip++;
-                            }
-                            srodkiTrwale.add(srodek);
-                            if (srodek.getZlikwidowany() == 0) {
-                                posiadane_wnip.add(srodek);
-                                posiadanesumanetto_wnip += srodek.getNetto();
+                            } else if (srodek.getTyp() != null && srodek.getTyp().equals("wnip")) {
+                                srodek.setNrsrodka(j++);
+                                if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                                    zakupionewbiezacyrok_wnip++;
+                                }
+                                srodkiTrwale.add(srodek);
+                                if (srodek.getZlikwidowany() == 0) {
+                                    posiadane_wnip.add(srodek);
+                                    posiadanesumanetto_wnip += srodek.getNetto();
+                                } else {
+                                    sprzedane_wnip.add(srodek);
+                                }
                             } else {
-                                sprzedane_wnip.add(srodek);
-                            }
-                        } else {
-                            srodek.setNrsrodka(j++);
-                            if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
-                                zakupionewbiezacyrok++;
-                            }
-                            srodkiTrwale.add(srodek);
-                            if (srodek.getZlikwidowany() == 0) {
-                                posiadane.add(srodek);
-                                posiadanesumanetto += srodek.getNetto();
-                            } else {
-                                sprzedane.add(srodek);
+                                srodek.setNrsrodka(j++);
+                                if (srodek.getDatazak().substring(0, 4).equals(rokdzisiejszy)) {
+                                    zakupionewbiezacyrok++;
+                                }
+                                srodkiTrwale.add(srodek);
+                                if (srodek.getZlikwidowany() == 0) {
+                                    posiadane.add(srodek);
+                                    posiadanesumanetto += srodek.getNetto();
+                                } else {
+                                    sprzedane.add(srodek);
+                                }
                             }
                         }
                     }
+                    iloscsrodkow = srodkiTrwale.size();
                 }
-                iloscsrodkow = srodkiTrwale.size();
             }
-        }
-        /**
-         * to co bylo w amodok
-         */
-        if (wpisView.getPodatnikWpisu() != null) {
-            try {
-                amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            } catch (Exception e) { E.e(e); 
+            /**
+             * to co bylo w amodok
+             */
+            if (wpisView.getPodatnikWpisu() != null) {
+                try {
+                    amodoklist = amoDokDAO.amodokKlientRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                } catch (Exception e) {
+                    E.e(e);
+                }
             }
+            RequestContext.getCurrentInstance().update("formSTR:akordeon");
+        } catch (Exception e) {
+            E.e(e);
         }
-        RequestContext.getCurrentInstance().update("formSTR:akordeon");
     }
 
     //przyporzadkowuje planowane odpisy do konkretnych miesiecy
