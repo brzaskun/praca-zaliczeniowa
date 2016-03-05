@@ -158,6 +158,7 @@ public class BilansPodgladView  implements Serializable{
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
+            dodajwierszsumy(w);
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         } else {
             List<Konto> w = new ArrayList<Konto>();
@@ -166,6 +167,7 @@ public class BilansPodgladView  implements Serializable{
             if (sortujwgwartosci) {
                 sortujliste(w);
             }
+            dodajwierszsumy(w);
             PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
         }
     }
@@ -176,13 +178,15 @@ public class BilansPodgladView  implements Serializable{
             List<Konto> w = new ArrayList<Konto>();
             for (TreeNode p : selectednodes) {
                 Konto k = (Konto) p.getData();
-                if (!w.contains(k) && k.isMapotomkow() == false) {
+                if (!w.contains(k)) {
                     List<Konto> tmp = new ArrayList<Konto>();
                     ((TreeNodeExtended) p).getChildrenTree(new ArrayList<TreeNodeExtended>(), tmp);
                     w.add(k);
                     w.addAll(tmp);
                 }
             }
+            modyfikujlistedowydruku(analityka, w);
+            dodajwierszsumy(w);
             System.out.println("1");
             if (sortujwgwartosci) {
                 sortujliste(w);
@@ -191,7 +195,23 @@ public class BilansPodgladView  implements Serializable{
         } else {
             List<Konto> w = new ArrayList<Konto>();
             root.getChildrenTree(new ArrayList<TreeNodeExtended>(), w);
-            if (analityka ==  true) {
+            modyfikujlistedowydruku(analityka, w);
+            dodajwierszsumy(w);
+            System.out.println("2");
+            if (sortujwgwartosci) {
+                sortujliste(w);
+            }
+            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
+        }
+    }
+    
+    private void dodajwierszsumy(List<Konto> w) {
+        double wn = 0.0;
+        double ma = 0.0;
+    }
+    
+    private void modyfikujlistedowydruku(boolean analityka, List<Konto> w) {
+        if (analityka ==  true) {
                 for (Iterator<Konto> it = w.iterator(); it.hasNext();) {
                     if (it.next().isMapotomkow() == true) {
                         it.remove();
@@ -204,12 +224,6 @@ public class BilansPodgladView  implements Serializable{
                     }
                 }
             }
-            System.out.println("2");
-            if (sortujwgwartosci) {
-                sortujliste(w);
-            }
-            PdfBilansPodgladKonta.drukujBilansPodgladKonta(w, wpisView);
-        }
     }
    
     private void sortujliste(List<Konto> w) {
