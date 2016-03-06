@@ -17,6 +17,35 @@
             <name>style</name>
         </attribute>
     </tag>
+    <tag>
+	<tag-name>outputkurs</tag-name>
+	<source>tags/outputkurs.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
+    </tag>
+     <tag>
+	<tag-name>outputwal</tag-name>
+	<source>tags/outputwal.xhtml</source>
+        <attribute>
+            <name>value</name>
+        </attribute>
+        <attribute>
+            <name>rendered</name>
+        </attribute>
+        <attribute>
+            <name>style</name>
+        </attribute>
+        <attribute>
+            <name>symbolwaluty</name>
+        </attribute>
+    </tag>
      <tag>
 	<tag-name>outputpl0</tag-name>
 	<source>tags/outputpl0.xhtml</source>

@@ -25,7 +25,7 @@
         }
 
     </style>
-    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  
+    <p:dialog id="bilanswprowadzanie" header="Bilans otwarcia - wprowadzanie sald1 - #{WpisView.podatnikWpisu}" widgetVar="bilanswprowadzanie"  
               appendTo="@(body)" 
               resizable="false" onShow="ustawdialog('bilanswprowadzanie','menubilanse', 1300, 680);" closeOnEscape="true" onHide="resetujdialog('bilanswprowadzanie');" 
               maximizable="true">
@@ -36,9 +36,9 @@
                                  styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab0" rowKey="#{item0.hashCode()}" selection="#{bilansWprowadzanieView.lista0s}" 
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get('lista0'), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0, bilansWprowadzanieView.listaSumList.get('lista0'))}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get(0), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaSumList.get(0), bilansWprowadzanieView.lista0)}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0, bilansWprowadzanieView.listaSumList.get(0))}" update=":formbilanswprowadzanie:tabviewbilans:sum0"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
@@ -93,10 +93,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid  id="sum0" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 0 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 0 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(0).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(0).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista0').get(0) - bilansWprowadzanieView.listaSumList.get('lista0').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista0').get(0) - bilansWprowadzanieView.listaSumList.get('lista0').get(1) != 0 ? 'red' : 'black'};"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(0).get(0) - bilansWprowadzanieView.listaSumList.get(0).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(0).get(0) - bilansWprowadzanieView.listaSumList.get(0).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -108,9 +108,9 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista1}" var="item"  style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista1s}" 
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get('lista1'), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get('lista1'), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1, bilansWprowadzanieView.listaSumList.get('lista1'))}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get(1), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1s, bilansWprowadzanieView.listaSumList.get(1), bilansWprowadzanieView.lista1)}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista1, bilansWprowadzanieView.listaSumList.get(1))}" update=":formbilanswprowadzanie:tabviewbilans:sum1"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
@@ -166,7 +166,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Wnwal"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przewalutuj(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
@@ -184,7 +184,7 @@
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Mawal"
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przewalutuj(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab1')}" update=":formbilanswprowadzanie:tabviewbilans:tab1"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column width="90">
@@ -209,10 +209,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid id="sum1"  columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 1 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 1 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(1).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(1).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista1').get(0) - bilansWprowadzanieView.listaSumList.get('lista1').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista1').get(0) - bilansWprowadzanieView.listaSumList.get('lista1').get(1) != 0 ? 'red' : 'black'};"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(1).get(0) - bilansWprowadzanieView.listaSumList.get(1).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(1).get(0) - bilansWprowadzanieView.listaSumList.get(1).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -224,9 +224,9 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista2}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne"
                                  id="tab2" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista2s}" rowIndexVar="idx"
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get('lista2'), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2, bilansWprowadzanieView.listaSumList.get('lista2'))}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get(2), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2s, bilansWprowadzanieView.listaSumList.get(2), bilansWprowadzanieView.lista2)}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista2, bilansWprowadzanieView.listaSumList.get(2))}" update=":formbilanswprowadzanie:tabviewbilans:sum2"/>
                         <p:ajax event="filter" global="false"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260" filterBy="#{item.konto.nazwapelna}" filterMatchMode="contains">
@@ -282,7 +282,7 @@
                             </f:facet>
                             <pe:inputNumber value="#{item.kwotaWn}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Wnwal"
                                             style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab2')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przewalutuj(item, item.kurs, item.kwotaWn, 'Wn', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column >
@@ -301,7 +301,7 @@
                             </f:facet>
                             <pe:inputNumber  value="#{item.kwotaMa}" required="true" requiredMessage="Brak kwoty - uzupełnij"  id="Mawal"
                                              style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
-                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przeliczkurs(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab2')}"/>
+                                <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przewalutuj(item, item.kurs, item.kwotaMa, 'Ma', idx, 'tab2')}"/>
                             </pe:inputNumber>
                         </p:column>
                         <p:column style="text-align: center;">
@@ -327,10 +327,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid id="sum2" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 2 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 2 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(2).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(2).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista2').get(0) - bilansWprowadzanieView.listaSumList.get('lista2').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista2').get(0) - bilansWprowadzanieView.listaSumList.get('lista2').get(1) != 0 ? 'red' : 'black'};"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(2).get(0) - bilansWprowadzanieView.listaSumList.get(2).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(2).get(0) - bilansWprowadzanieView.listaSumList.get(2).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -342,9 +342,9 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista3}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab3" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista3s}" 
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get('lista3'), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get('lista3'), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3, bilansWprowadzanieView.listaSumList.get('lista3'))}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get(3), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3s, bilansWprowadzanieView.listaSumList.get(3), bilansWprowadzanieView.lista3)}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista3, bilansWprowadzanieView.listaSumList.get(3))}" update=":formbilanswprowadzanie:tabviewbilans:sum3"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
@@ -398,10 +398,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid id="sum3" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 3 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 3 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(3).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(3).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista3').get(0) - bilansWprowadzanieView.listaSumList.get('lista3').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista3').get(0) - bilansWprowadzanieView.listaSumList.get('lista3').get(1) != 0 ? 'red' : 'black'};"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(3).get(0) - bilansWprowadzanieView.listaSumList.get(3).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(3).get(0) - bilansWprowadzanieView.listaSumList.get(3).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -413,9 +413,9 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista6}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab6" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista6s}" 
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get('lista6'), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get('lista6'), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6, bilansWprowadzanieView.listaSumList.get('lista6'))}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get(6), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6s, bilansWprowadzanieView.listaSumList.get(6), bilansWprowadzanieView.lista6)}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista6, bilansWprowadzanieView.listaSumList.get(6))}" update=":formbilanswprowadzanie:tabviewbilans:sum6"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
@@ -469,10 +469,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid id="sum6" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 6 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 6 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(6).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(6).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista6').get(0) - bilansWprowadzanieView.listaSumList.get('lista6').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista6').get(0) - bilansWprowadzanieView.listaSumList.get('lista6').get(1) != 0 ? 'red' : 'black'};"/>
+                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(6).get(0) - bilansWprowadzanieView.listaSumList.get(6).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(6).get(0) - bilansWprowadzanieView.listaSumList.get(6).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>
@@ -484,9 +484,9 @@
                     <p:dataTable value="#{bilansWprowadzanieView.lista8}" var="item" style="overflow-y: scroll; height: 400px;" styleClass="gridtablicasyntetyczne" rowIndexVar="idx"
                                  id="tab8" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.lista8s}" 
                                  >
-                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get('lista8'), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
-                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get('lista8'), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
-                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8, bilansWprowadzanieView.listaSumList.get('lista8'))}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get(8), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8s, bilansWprowadzanieView.listaSumList.get(8), bilansWprowadzanieView.lista8)}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
+                        <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista8, bilansWprowadzanieView.listaSumList.get(8))}" update=":formbilanswprowadzanie:tabviewbilans:sum8"/>
                         <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                         <p:column width="260">
                             <f:facet name="header">
@@ -541,10 +541,10 @@
                     <p:panelGrid columns="2">
                         <p:column>
                             <p:panelGrid id="sum8" columns="6" style="margin-top: 10px;margin-left: 10px;">
-                                <h:outputText value="grupa 8 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(0)}" rendered="true" style="font-weight: 900;"/>
-                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(1)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value="grupa 8 - stronaWn: "/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(8).get(0)}" rendered="true" style="font-weight: 900;"/>
+                                <h:outputText value=" stronaMa: " style="margin-left: 10px;"/><bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(8).get(1)}" rendered="true" style="font-weight: 900;"/>
                                 <h:outputText value=" różnica: " style="margin-left: 10px;"/>
-                                <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get('lista8').get(0) - bilansWprowadzanieView.listaSumList.get('lista8').get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get('lista8').get(0) - bilansWprowadzanieView.listaSumList.get('lista8').get(1) != 0 ? 'red' : 'black'};"/>
+                                    <bcf:outputpl value="#{bilansWprowadzanieView.listaSumList.get(8).get(0) - bilansWprowadzanieView.listaSumList.get(8).get(1)}" rendered="true" style="margin-left: 10px; color: #{bilansWprowadzanieView.listaSumList.get(8).get(0) - bilansWprowadzanieView.listaSumList.get(8).get(1) != 0 ? 'red' : 'black'};"/>
                             </p:panelGrid>
                         </p:column>
                         <p:column>

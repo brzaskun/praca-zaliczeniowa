@@ -68,6 +68,38 @@ public class PlanKontBOView implements Serializable {
             wykazkontGrupa.put(8, wykazkont8);
         }
     }
+    
+    public List<Konto> completeBO(String qr) {
+        if (qr != null) {
+            String query = qr.split(" ")[0];
+            List<Konto> wykaz = wykazkontGrupa.get(Integer.parseInt(qr.substring(0,1)));
+            List<Konto> results = new ArrayList<>();
+            if (wykaz != null) {
+                try {
+                    String q = query.substring(0, 1);
+                    int i = Integer.parseInt(q);
+                    for (Konto p : wykaz) {
+                        if (query.length() == 4 && !query.contains("-")) {
+                            //wstawia - do ciagu konta
+                            query = query.substring(0, 3) + "-" + query.substring(3, 4);
+                        }
+                        if (p.getPelnynumer().startsWith(query)) {
+                            results.add(p);
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    for (Konto p : wykaz) {
+                        if (p.getNazwapelna().toLowerCase().contains(query.toLowerCase())) {
+                            results.add(p);
+                        }
+                    }
+                }
+             Collections.sort(results, new Kontocomparator());
+            }
+            return results;
+        }
+        return null;
+    }
 
     public List<Konto> complete0(String qr) {
         if (qr != null) {

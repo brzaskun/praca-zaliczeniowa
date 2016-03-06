@@ -49,6 +49,7 @@ public class WierszBO implements Serializable{
     private double kwotaMaPLN;
 
     public WierszBO() {
+        this.wierszBOPK = new WierszBOPK();
     }
 
     
