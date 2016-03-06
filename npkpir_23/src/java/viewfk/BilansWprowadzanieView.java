@@ -6,6 +6,7 @@
 package viewfk;
 
 import comparator.WierszBOcomparator;
+import comparator.WierszBOcomparatorKwota;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
 import dao.StronaWierszaDAO;
@@ -74,6 +75,7 @@ public class BilansWprowadzanieView implements Serializable {
     private WierszBO selected;
     private List<WierszBO> listaBO;
     private List<WierszBO> listaBOs;
+    private List<WierszBO> listaBOs1;
     private Integer nraktualnejlisty;
     private List<WierszBO> listaBOsumy;
     private DataTable listaBOdatatable;
@@ -101,6 +103,7 @@ public class BilansWprowadzanieView implements Serializable {
     private boolean isteniejaWierszeBOdoUsuniecia;
     private List<WierszBO> wierszedousuniecia;
     private Waluty walutadomyslna;
+    private boolean sortujwgwartosci;
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -204,7 +207,8 @@ public class BilansWprowadzanieView implements Serializable {
         listaBOsumy = listaSumList.get(nrlisty);
         nraktualnejlisty = nrlisty;
     }
- 
+    
+    
     private void tworzListeZbiorcza() {
         this.listazbiorcza = new HashMap<>();
         this.listazbiorcza.put(0, lista0);
@@ -295,6 +299,31 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
     
+     public void usunwierszN(WierszBO wierszBO) {
+        try {
+            usuwaniejeden(listaBO, wierszBO);
+            podsumujWnMa(listaBO, listaBOsumy);
+            Msg.msg("Usunięto zapis BO z tabeli");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd - nie usunięto zapis BO z tabeli");
+        }
+    }
+    
+    
+    public void usunwiele(List<WierszBO> wierszBOlista) {
+        try {
+            for (WierszBO p : wierszBOlista) {
+                usuwanielista(listaBO, p);
+            }
+            podsumujWnMa(listaBO, listaBOsumy);
+            Msg.msg("Usunięto zapis BO");
+        } catch (Exception e) {
+            E.e(e);
+            Msg.msg("e","Wystąpił błąd - nie usunięto zapis BO");
+        }
+    }
+    
     public void usunwiersz(int kategoria, WierszBO wierszBO) {
         switch (kategoria) {
             case 0:
@@ -326,6 +355,14 @@ public class BilansWprowadzanieView implements Serializable {
         isteniejaWierszeBOdoUsuniecia = true;
     }
 
+    private void usuwaniejeden(List<WierszBO> l, WierszBO wierszBO) {
+        try {
+            l.remove(wierszBO);
+        } catch (Exception e) {
+
+        }
+    }
+    
     private void usuwanielista(List<WierszBO> l, WierszBO wierszBO) {
         try {
             Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
@@ -409,7 +446,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public int weryfikacjaopisu(String opis, List<WierszBO> l) {
+    public int weryfikacjaopisu(String opis, List<WierszBO> l, String pole) {
         int licznik = 0;
         String nrkonta = null;
         for (WierszBO p : l) {
@@ -419,8 +456,29 @@ public class BilansWprowadzanieView implements Serializable {
                     licznik++;
                 }
             }
-            if (licznik > 1) {
+            if (licznik > 0) {
                 Msg.msg("e", "Taki opis już istnieje na koncie: " + nrkonta + " opis: " + opis);
+                selected.getWierszBOPK().setOpis("zmień opis");
+                RequestContext.getCurrentInstance().update(pole);
+                return 1;
+            }
+        }
+        return 0;
+    }
+    
+     public int weryfikacjaopisuN(String opis) {
+        int licznik = 0;
+        for (WierszBO p : listaBO) {
+            if (p.getWierszBOPK().getOpis().equals(opis)) {
+                if (p.getKonto() == selected.getKonto()) {
+                    licznik++;
+                }
+            }
+            if (licznik > 0) {
+                Msg.msg("e", "Taki opis już istnieje na koncie: " + selected.getKonto().getPelnynumer() + " opis: " + opis);
+                selected.getWierszBOPK().setOpis("zmień opis");
+                RequestContext.getCurrentInstance().update("formbilanswprowadzanie2_wiersz:opis");
+                RequestContext.getCurrentInstance().update("formbilanswprowadzanie2_wiersz:opis1");
                 return 1;
             }
         }
@@ -1013,6 +1071,14 @@ public class BilansWprowadzanieView implements Serializable {
         this.lista1 = lista1;
     }
 
+    public boolean isSortujwgwartosci() {
+        return sortujwgwartosci;
+    }
+
+    public void setSortujwgwartosci(boolean sortujwgwartosci) {
+        this.sortujwgwartosci = sortujwgwartosci;
+    }
+
     public List<WierszBO> getLista2() {
         return lista2;
     }
@@ -1175,6 +1241,14 @@ public class BilansWprowadzanieView implements Serializable {
         this.stronaMa = stronaMa;
     }
 
+    public List<WierszBO> getListaBOs1() {
+        return listaBOs1;
+    }
+
+    public void setListaBOs1(List<WierszBO> listaBOs1) {
+        this.listaBOs1 = listaBOs1;
+    }
+
     public Integer getNraktualnejlisty() {
         return nraktualnejlisty;
     }
@@ -1224,6 +1298,29 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
         
-
+ public void drukujBO() {
+        System.out.println("");
+        List<WierszBO> w = new ArrayList<>();
+        if (listaBOs != null && listaBOs.size() > 0) {
+           w = listaBOs;
+        } else if (listaBOs1 != null && listaBOs1.size() > 0) {
+           w = listaBOs1;
+        } else if (listaBO != null && listaBO.size() > 0) {
+           w = listaBO;
+        } 
+        if (sortujwgwartosci) {
+            sortujliste(w);
+        }
+        dodajwierszsumy(w);
+        PdfWierszBO.drukujRKK(w, wpisView);
+    }
     
+    private void sortujliste(List<WierszBO> w) {
+        Collections.sort(w, new WierszBOcomparatorKwota());
+    }
+    
+     private void dodajwierszsumy(List<WierszBO> w) {
+        double wn = 0.0;
+        double ma = 0.0;
+    }
 }

@@ -70,14 +70,15 @@
                             <p:ajax event="blur" global="false" partialSubmit="true" />
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
-                    <p:column>
-                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 100px;" >
-                            <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
+                    <p:column width="210">
+                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis">
+                            <p:ajax event="blur" global="false" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
                     <p:column style="text-align: center;">
                         <pe:inputNumber value="#{bilansWprowadzanieView.selected.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
                                         style="width: 70px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto"> 
+                            <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                             <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaWn, 'Wn')}" />
                         </pe:inputNumber>
                     </p:column>
@@ -87,7 +88,7 @@
                             <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaMa, 'Ma')}" />
                         </pe:inputNumber>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="40">
                         <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz()}" 
                                          update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz" 
                                          />
@@ -138,15 +139,17 @@
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
                     <p:column>
-                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 100px;" >
-                            <p:ajax event="blur" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.lista0)}"/>
+                        <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 150px;" id="opis1">
+                            <p:ajax event="blur" global="false" partialSubmit="true"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
                         <pe:inputNumber  value="#{bilansWprowadzanieView.selected.kurs}" symbol=" zł" required="true" 
                                          requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
                                          style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000" 
-                                         styleClass="kurswaluta"> 
+                                         styleClass="kurswaluta">
+                            <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis1')}"
+                                    />
                             <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkursN()}"
                                     update="formbilanswprowadzanie2_wiersz:Wnpln formbilanswprowadzanie2_wiersz:Mapln"/>
                         </pe:inputNumber>
@@ -193,7 +196,7 @@
                                     listener="#{bilansWprowadzanieView.obliczkursN(bilansWprowadzanieView.selected.kurs, bilansWprowadzanieView.selected.kwotaWn, bilansWprowadzanieView.selected.kwotaWnPLN, 'Ma')}"/>
                         </pe:inputNumber>
                     </p:column>
-                    <p:column style="text-align: center;">
+                    <p:column style="text-align: center;" width="40">
                         <p:commandButton icon="fa fa-save" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.dodajwiersz()}" 
                                          update="formbilanswprowadzanie2 formbilanswprowadzanie2_wiersz" 
                                          />
@@ -202,7 +205,7 @@
             </p:panelGrid>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
-            <p:panelGrid columns="7" style="margin-top: 5px;">
+            <p:panelGrid columns="9" style="margin-top: 5px;">
                 <p:commandButton value="0" actionListener="#{bilansWprowadzanieView.pobierzlista(0)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="1" actionListener="#{bilansWprowadzanieView.pobierzlista(1)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="2" actionListener="#{bilansWprowadzanieView.pobierzlista(2)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
@@ -210,7 +213,14 @@
                 <p:commandButton value="6" actionListener="#{bilansWprowadzanieView.pobierzlista(6)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <p:commandButton value="8" actionListener="#{bilansWprowadzanieView.pobierzlista(8)}" global="false" update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2 formbilanswprowadzanie3"/>
                 <h:outputText value="wprowadzanie i edycja kont grupy #{bilansWprowadzanieView.nraktualnejlisty}" style="margin-left: 10px;"/>
+                <p:commandButton value="#{mgs.drukuj}" actionListener="#{bilansWprowadzanieView.drukujBO()}" style="width: 120px; margin-left: 300px;"/>
+                <p:selectBooleanCheckbox value="#{bilansWprowadzanieView.sortujwgwartosci}" itemLabel="wg wartości" style="margin-left: 10px;">
+                    <p:ajax event="change" partialSubmit="true" global="false"/>
+                </p:selectBooleanCheckbox>
             </p:panelGrid>
+            <p:contextMenu for="formbilanswprowadzanie2:tab0">
+                <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
+            </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}"
                          style="overflow-y: scroll; height: 400px; width: 1000px; padding: 10px; margin-top: 5px;" 
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
@@ -250,7 +260,7 @@
                     <f:facet name="header">
                         <h:outputText value="usuń"/>
                     </f:facet>
-                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(item)}" 
+                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}" 
                                      update="formbilanswprowadzanie2 " 
                                      />
                 </p:column>
@@ -263,15 +273,18 @@
                                      />
                 </p:column>
             </p:dataTable>
+            <p:contextMenu for="formbilanswprowadzanie2:tab1">
+                <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab1" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
+            </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
                          style="overflow-y: scroll; height: 400px; width: 1250px; padding: 10px; margin-top: 5px;" 
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}" 
-                         id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs}" 
+                         id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}" 
                          >
-                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false"/>                 
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
                 <p:column width="250" filterBy="#{item.konto.nazwapelna}" filterMatchMode="contains" sortBy="#{item.konto}" sortFunction="#{kontoView.sortujKonto}">
@@ -326,7 +339,7 @@
                     <f:facet name="header">
                         <h:outputText value="usuń"/>
                     </f:facet>
-                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwiersz(item)}" 
+                    <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}" 
                                      update="formbilanswprowadzanie2 " 
                                      />
                 </p:column>

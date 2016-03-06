@@ -172,6 +172,8 @@ public class BilansPodgladView  implements Serializable{
         }
     }
     
+   
+    
     public void drukujAnal(boolean analityka) {
         System.out.println("");
         if (selectednodes != null && selectednodes.length > 0) {
