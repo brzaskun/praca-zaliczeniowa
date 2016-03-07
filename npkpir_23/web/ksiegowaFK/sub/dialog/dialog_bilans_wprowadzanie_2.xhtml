@@ -235,7 +235,7 @@
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"/>
-                <p:column width="250" filterBy="#{item.konto.nazwapelna}" filterMatchMode="contains" sortBy="#{item.konto}" sortFunction="#{kontoView.sortujKonto}">
+                <p:column width="250" filterBy="#{item.konto.nazwapelna}"  filterMatchMode="contains" sortBy="#{item.konto}" sortFunction="#{kontoView.sortujKonto}">
                     <f:facet name="header">
                         <h:outputText value="#{mgs.konto}"/>
                     </f:facet>

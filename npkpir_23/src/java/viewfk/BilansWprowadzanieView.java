@@ -1310,7 +1310,7 @@ public class BilansWprowadzanieView implements Serializable {
     }
     
     public void wklejostatniekonto() {
-        if (ostatniekonto != null) {
+        if (ostatniekonto != null && selected.getKonto() == null) {
             selected.setKonto(ostatniekonto);
         }
     }
