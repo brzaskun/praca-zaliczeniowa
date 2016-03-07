@@ -66,6 +66,8 @@ public class KliencifkView implements Serializable {
     private DokfkView dokfkView;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
+    @ManagedProperty(value = "#{planKontBOView}")
+    private PlanKontBOView planKontBOView;
     private boolean makonto0niemakonta1;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
@@ -170,6 +172,11 @@ public class KliencifkView implements Serializable {
         klientBezKonta = new Kliencifk();
     }
     
+    public void przyporzadkujdokontaBO() {
+        przyporzadkujdokonta();
+        planKontBOView.init();
+    }
+    
     public void kopiujwybranyklient(ValueChangeEvent e) {
         wybranyklient1 = serialclone.SerialClone.clone((Klienci) e.getNewValue());
         System.out.println("e");
@@ -236,6 +243,14 @@ public class KliencifkView implements Serializable {
 
     public List<Klienci> getListawszystkichklientow() {
         return listawszystkichklientow;
+    }
+
+    public PlanKontBOView getPlanKontBOView() {
+        return planKontBOView;
+    }
+
+    public void setPlanKontBOView(PlanKontBOView planKontBOView) {
+        this.planKontBOView = planKontBOView;
     }
 
     public Klienci getWybranyklient1() {

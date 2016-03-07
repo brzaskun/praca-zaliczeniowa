@@ -244,6 +244,7 @@ public class BilansWprowadzanieView implements Serializable {
                 wierszBODAO.dodaj(selected);
                 Msg.msg("Zachowano pozycję");
             }
+            ostatniekonto = selected.getKonto();
             selected = new WierszBO(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt(), walutadomyslna);
         }
     }

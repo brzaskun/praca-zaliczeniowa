@@ -51,7 +51,7 @@ public class PlanKontBOView implements Serializable {
     }
 
     @PostConstruct
-    private void init() {
+    public void init() {
         if (wpisView instanceof WpisView) {
             wykazkont0 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "0%");
             wykazkont1 = kontoDAO.findWszystkieKontaPodatnikaBO(wpisView, "1%");
