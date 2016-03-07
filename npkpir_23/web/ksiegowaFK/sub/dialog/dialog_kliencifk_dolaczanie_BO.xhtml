@@ -70,7 +70,7 @@
                 <h:inputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
             </p:column>
         </p:dataTable>
-            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
+            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokontaBO()}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
                              update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
          </h:form>
     </p:dialog>
