@@ -5,6 +5,7 @@
 package dao;
 
 import entity.SrodekTrw;
+import entityfk.Dokfk;
 import error.E;
 import java.io.Serializable;
 import java.util.List;
@@ -49,6 +50,14 @@ public class STRDAO extends DAO implements Serializable{
    public  List<SrodekTrw> findStrPod(String pod){
         try {
             return strFacade.findStrPod(pod);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+   }
+   
+   public  List<SrodekTrw> findStrPodDokfk(String pod, Dokfk dokfk){
+        try {
+            return strFacade.findStrPodDokfk(pod, dokfk);
         } catch (Exception e) { E.e(e); 
             return null;
         }

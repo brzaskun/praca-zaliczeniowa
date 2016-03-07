@@ -23,12 +23,14 @@ import comparator.TransakcjacomparatorKwota;
 import dao.EvewidencjaDAO;
 import dao.KlienciDAO;
 import dao.RodzajedokDAO;
+import dao.STRDAO;
 import dao.StronaWierszaDAO;
 import daoFK.CechazapisuDAOfk;
 import daoFK.DokDAOfk;
 import daoFK.EVatwpisFKDAO;
 import daoFK.KliencifkDAO;
 import daoFK.KontoDAOfk;
+import daoFK.RMKDAO;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
@@ -36,15 +38,16 @@ import daoFK.WierszBODAO;
 import data.Data;
 import embeddable.Mce;
 import embeddable.Parametr;
-import entity.Dok;
 import entity.Evewidencja;
 import entity.Klienci;
 import entity.Rodzajedok;
+import entity.SrodekTrw;
 import entity.Uz;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.EVatwpisFK;
 import entityfk.Konto;
+import entityfk.RMK;
 import entityfk.StronaWiersza;
 import entityfk.Tabelanbp;
 import entityfk.Transakcja;
@@ -87,7 +90,6 @@ import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -123,10 +125,16 @@ public class DokfkView implements Serializable {
     private ListaEwidencjiVat listaEwidencjiVat;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private STRDAO strDAO;
+    @Inject
+    private RMKDAO rmkDAO;
     private boolean zapisz0edytuj1;
 //    private String wierszid;
 //    private String wnlubma;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
+    private List<Dokfk> wykazZaksiegowanychDokumentowSrodkiTrw;
+    private List<Dokfk> wykazZaksiegowanychDokumentowRMK;
     private List<Dokfk> wykazZaksiegowanychDokumentowimport;
     //a to jest w dialog_zapisywdokumentach
     @Inject
@@ -216,6 +224,8 @@ public class DokfkView implements Serializable {
         this.listaewidencjivatRK = new ArrayList<>();
         this.pobranecechy = new ArrayList<>();
         this.dokumentypodatnika = new ArrayList<>();
+        this.wykazZaksiegowanychDokumentowSrodkiTrw = new ArrayList<>();
+        this.wykazZaksiegowanychDokumentowRMK = new ArrayList<>();
     }
 
     
@@ -228,6 +238,8 @@ public class DokfkView implements Serializable {
             stworzlisteewidencjiRK();
             //RequestContext.getCurrentInstance().update("ewidencjavatRK");
             dokumentypodatnika = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
+            wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+            wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
             wprowadzonesymbolewalut.addAll(walutyDAOfk.findAll());
             klientdlaPK = klDAO.findKlientByNip(wpisView.getPodatnikObiekt().getNip());
             miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
@@ -656,10 +668,18 @@ public class DokfkView implements Serializable {
                 if ((selected.getRodzajedok().getKategoriadokumentu() == 0 || selected.getRodzajedok().getKategoriadokumentu() == 5) && klientdlaPK != null) {
                     selected.setKontr(klientdlaPK);
                 }
+                oznaczdokumentSTRMK(selected, "0");
+                oznaczdokumentSTRMK(selected, "64");
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
                 wykazZaksiegowanychDokumentow.add(dodany);
+                if (selected.isZawierasrodkitrw()) {
+                    wykazZaksiegowanychDokumentowSrodkiTrw.add(dodany);
+                }
+                 if (selected.isZawierarmk()) {
+                    wykazZaksiegowanychDokumentowRMK.add(dodany);
+                }
                 resetujDokument();
                 Msg.msg("i", "Dokument dodany");
                 RequestContext.getCurrentInstance().update("wpisywaniefooter");
@@ -812,12 +832,24 @@ public class DokfkView implements Serializable {
                 }
                 ObslugaWiersza.przenumerujSelected(selected);
                 selected.oznaczVATdokument(sprawdzjakiokresvat());
+                oznaczdokumentSTRMK(selected, "0");
+                oznaczdokumentSTRMK(selected, "64");
+                if (selected.isZawierasrodkitrw()) {
+                    wykazZaksiegowanychDokumentowSrodkiTrw.remove(selected);
+                    wykazZaksiegowanychDokumentowSrodkiTrw.add(selected);
+                }
+                if (selected.isZawierarmk()) {
+                    wykazZaksiegowanychDokumentowRMK.remove(selected);
+                    wykazZaksiegowanychDokumentowRMK.add(selected);
+                }
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
                 wykazZaksiegowanychDokumentow.add(selected);
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
                 selected = new Dokfk();
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
+                RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale");
+                RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychrmk:dataListsrodkiRMK");
                 RequestContext.getCurrentInstance().update("zestawieniezapisownakontach:dataList");
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
@@ -1590,6 +1622,8 @@ public class DokfkView implements Serializable {
     public void odswiezzaksiegowaneInit() {
         miesiacDlaZestawieniaZaksiegowanych = wpisView.getMiesiacWpisu();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
+        wykazZaksiegowanychDokumentowSrodkiTrw = dokDAOfk.findDokfkPodatnikRokSrodkiTrwale(wpisView);
+        wykazZaksiegowanychDokumentowRMK = dokDAOfk.findDokfkPodatnikRokRMK(wpisView);
         dokumentypodatnikazestawienie = znajdzrodzajedokaktualne(wykazZaksiegowanychDokumentow);
         Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
         filteredValue = null;
@@ -3005,6 +3039,14 @@ public class DokfkView implements Serializable {
         this.wybranyWiersz = wybranyWiersz;
     }
 
+    public List<Dokfk> getWykazZaksiegowanychDokumentowSrodkiTrw() {
+        return wykazZaksiegowanychDokumentowSrodkiTrw;
+    }
+
+    public void setWykazZaksiegowanychDokumentowSrodkiTrw(List<Dokfk> wykazZaksiegowanychDokumentowSrodkiTrw) {
+        this.wykazZaksiegowanychDokumentowSrodkiTrw = wykazZaksiegowanychDokumentowSrodkiTrw;
+    }
+
     public int getTypwiersza() {
         return typwiersza;
     }
@@ -3264,6 +3306,14 @@ public class DokfkView implements Serializable {
         this.dokumentypodatnikazestawienie = dokumentypodatnikazestawienie;
     }
 
+    public List<Dokfk> getWykazZaksiegowanychDokumentowRMK() {
+        return wykazZaksiegowanychDokumentowRMK;
+    }
+
+    public void setWykazZaksiegowanychDokumentowRMK(List<Dokfk> wykazZaksiegowanychDokumentowRMK) {
+        this.wykazZaksiegowanychDokumentowRMK = wykazZaksiegowanychDokumentowRMK;
+    }
+
     public int getRodzaj() {
         return rodzaj;
     }
@@ -3379,5 +3429,120 @@ public class DokfkView implements Serializable {
         return wynik;
     }
     
+    
+    public void oznaczdokumentysrodkitrwale() {
+        List<Dokfk> oznaczone = new ArrayList<>();
+        List<Dokfk> l = dokDAOfk.findAll();
+        try {
+            for (Dokfk p : l) {
+                boolean zawierasrodki = false;
+                for (Wiersz w : p.getListawierszy()) {
+                    if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("0")) {
+                        zawierasrodki = true;
+                        System.out.println("sa srodki "+p.getDokfkPK());
+                        break;
+                    }
+                }
+                if (zawierasrodki) {
+                    p.setZawierasrodkitrw(true);
+                    oznaczone.add(p);
+                }
+            }
+            System.out.println("SKONCZYLEM KSIEGOWAC SRODKI");
+            dokDAOfk.editList(oznaczone);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    public void oznaczdokumentyrmk() {
+        List<Dokfk> oznaczone = new ArrayList<>();
+        List<Dokfk> l = dokDAOfk.findAll();
+        try {
+            for (Dokfk p : l) {
+                boolean zawierarmk = false;
+                for (Wiersz w : p.getListawierszy()) {
+                    if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith("64")) {
+                        zawierarmk = true;
+                        System.out.println("sa srodki "+p.getDokfkPK());
+                        break;
+                    }
+                }
+                if (zawierarmk) {
+                    p.setZawierarmk(true);
+                    oznaczone.add(p);
+                }
+            }
+            System.out.println("SKONCZYLEM KSIEGOWAC RMK");
+            dokDAOfk.editList(oznaczone);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+    
+    private void oznaczdokumentSTRMK(Dokfk p, String szukane) {
+        boolean zawiera = false;
+        for (Wiersz w : p.getListawierszy()) {
+            if (w.getStronaWn() != null && w.getStronaWn().getKonto() != null && w.getStronaWn().getKonto().getPelnynumer().startsWith(szukane)) {
+                zawiera = true;
+                break;
+            }
+        }
+        if (zawiera) {
+            if (szukane.equals("0")) {
+                p.setZawierasrodkitrw(true);
+            } else {
+                p.setZawierarmk(true);
+            }
+        } else {
+            if (szukane.equals("0")) {
+                p.setZawierasrodkitrw(false);
+            } else {
+                p.setZawierarmk(false);
+            }
+        }
+    }
+    
+    public void usunspecjalne(Dokfk dokfk, int modyfikator) {
+        try {
+            if (modyfikator == 1) {
+                rozliczsrodkitrw(dokfk);
+                dokDAOfk.destroy(dokfk);
+                wykazZaksiegowanychDokumentowSrodkiTrw.remove(dokfk);
+            } else {
+                rozliczrmk(dokfk);
+                dokDAOfk.destroy(dokfk);
+                wykazZaksiegowanychDokumentowRMK.remove(dokfk);
+            }
+            Msg.msg("Usunięto dokument specjalny "+dokfk.getDokfkPK());
+        } catch (Exception e) {
+            Msg.msg("e", "Wystąpił błąd, nie usnięto dokumentu");
+            E.e(e);
+        }
+    }
+
+    private void rozliczsrodkitrw(Dokfk dokfk) {
+        List<SrodekTrw> srodkidladokumentu = strDAO.findStrPodDokfk(wpisView.getPodatnikWpisu(), dokfk);
+        try {
+            for (SrodekTrw p : srodkidladokumentu) {
+                p.setDokfk(null);
+            }
+            strDAO.editList(srodkidladokumentu);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
+
+    private void rozliczrmk(Dokfk dokfk) {
+        List<RMK> rmkdladokumentu = rmkDAO.findRMKByPodatnikRokDokfk(wpisView, dokfk);
+        try {
+            for (RMK p : rmkdladokumentu) {
+                p.setDokfk(null);
+            }
+            rmkDAO.editList(rmkdladokumentu);
+        } catch (Exception e) {
+            E.e(e);
+        }
+    }
    
 }

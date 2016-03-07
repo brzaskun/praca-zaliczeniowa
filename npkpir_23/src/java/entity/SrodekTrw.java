@@ -52,6 +52,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SrodekTrw.findByStawka", query = "SELECT s FROM SrodekTrw s WHERE s.stawka = :stawka"),
     @NamedQuery(name = "SrodekTrw.findBySymbol", query = "SELECT s FROM SrodekTrw s WHERE s.symbol = :symbol"),
     @NamedQuery(name = "SrodekTrw.findByPodatnik", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik"),
+    @NamedQuery(name = "SrodekTrw.findByPodatnikDokfk", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik AND s.dokfk = :dokfk"),
     @NamedQuery(name = "SrodekTrw.findSTR", query = "SELECT s FROM SrodekTrw s WHERE s.podatnik = :podatnik AND s.netto = :netto AND s.nrwldokzak = :nrwldokzak"),
     @NamedQuery(name = "SrodekTrw.findByDatasprzedazy", query = "SELECT s FROM SrodekTrw s WHERE s.datasprzedazy = :datasprzedazy"),
     @NamedQuery(name = "SrodekTrw.findByNrwldokumentu", query = "SELECT s FROM SrodekTrw s WHERE s.nrwldokumentu = :nrwldokumentu"),

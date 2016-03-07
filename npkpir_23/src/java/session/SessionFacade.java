@@ -524,6 +524,15 @@ public class SessionFacade<T> implements Serializable {
             return null;
         }
     }
+    
+    public List<SrodekTrw> findStrPodDokfk(String podatnik, Dokfk dokfk) {
+        try {
+            return em.createNamedQuery("SrodekTrw.findByPodatnikDokfk").setParameter("podatnik", podatnik).setParameter("dokfk", dokfk).getResultList();
+        } catch (Exception e) {
+            E.e(e);
+            return null;
+        }
+    }
 
     public Dok findDokMC(String typdokumentu, String podatnik, String rok, String mc) {
         try {
@@ -1103,6 +1112,14 @@ public class SessionFacade<T> implements Serializable {
     public List<Dokfk> findDokfkPodatnikRok(WpisView w) {
         return em.createNamedQuery("Dokfk.findByPodatnikRok").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
     }
+    
+    public List<Dokfk> findDokfkPodatnikRokSrodkiTrwale(WpisView w) {
+        return em.createNamedQuery("Dokfk.findByPodatnikRokSrodkiTrwale").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
+    }
+    
+    public List<Dokfk> findDokfkPodatnikRokRMK(WpisView w) {
+        return em.createNamedQuery("Dokfk.findByPodatnikRokRMK").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).getResultList();
+    }
 
     public List<Dokfk> findDokfkPodatnikRokMcKategoria(WpisView w, String kategoria) {
         return em.createNamedQuery("Dokfk.findByPodatnikRokMcKategoria").setParameter("podatnik", w.getPodatnikObiekt()).setParameter("rok", w.getRokWpisuSt()).setParameter("mc", w.getMiesiacWpisu()).setParameter("kategoria", kategoria).getResultList();
@@ -1482,6 +1499,10 @@ public class SessionFacade<T> implements Serializable {
     
     public List<RMK> findRMKByPodatnikRok(WpisView wpisView) {
         return em.createNamedQuery("RMK.findByPodatnikRok").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).getResultList();
+    }
+    
+    public List<RMK> findRMKByPodatnikRokDokfk(WpisView wpisView, Dokfk dokfk) {
+        return em.createNamedQuery("RMK.findByPodatnikRokDokfk").setParameter("rok", wpisView.getRokWpisuSt()).setParameter("podatnikObj", wpisView.getPodatnikObiekt()).setParameter("dokfk", dokfk).getResultList();
     }
 
     public List<MiejsceKosztow> findMiejscaPodatnik(Podatnik podatnik) {

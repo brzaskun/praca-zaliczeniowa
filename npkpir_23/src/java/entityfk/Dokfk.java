@@ -58,6 +58,8 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.findByPodatnik", query = "SELECT d FROM Dokfk d WHERE d.dokfkPK.podatnik = :podatnik"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokMc", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.miesiac = :mc"),
     @NamedQuery(name = "Dokfk.findByPodatnikRok", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok ORDER BY d.datadokumentu"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokSrodkiTrwale", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.zawierasrodkitrw = 1 ORDER BY d.datadokumentu"),
+    @NamedQuery(name = "Dokfk.findByPodatnikRokRMK", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.zawierarmk = 1 ORDER BY d.datadokumentu"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokMcKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.miesiac = :mc AND d.rodzajedok.skrot = :kategoria"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokKategoria", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria"),
     @NamedQuery(name = "Dokfk.findByPodatnikRokKategoriaOrderByNo", query = "SELECT d FROM Dokfk d WHERE d.podatnikObj = :podatnik AND d.dokfkPK.rok = :rok AND d.rodzajedok.skrot = :kategoria ORDER BY d.dokfkPK.nrkolejnywserii"),
@@ -171,6 +173,10 @@ public class Dokfk implements Serializable {
     @NotNull
     @Column(name = "wprowadzil")
     private String wprowadzil;
+    @Column(name = "zawierasrodkitrw")
+    private boolean zawierasrodkitrw;
+    @Column(name = "zawierarmk")
+    private boolean zawierarmk;
  
 
     
@@ -268,6 +274,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public boolean isZawierasrodkitrw() {
+        return zawierasrodkitrw;
+    }
+
+    public void setZawierasrodkitrw(boolean zawierasrodkitrw) {
+        this.zawierasrodkitrw = zawierasrodkitrw;
     }
 
     public String getWprowadzil() {
@@ -495,6 +509,14 @@ public class Dokfk implements Serializable {
     
     public void setListawierszy(List<Wiersz> listawierszy) {
         this.listawierszy = listawierszy;
+    }
+
+    public boolean isZawierarmk() {
+        return zawierarmk;
+    }
+
+    public void setZawierarmk(boolean zawierarmk) {
+        this.zawierarmk = zawierarmk;
     }
     
     

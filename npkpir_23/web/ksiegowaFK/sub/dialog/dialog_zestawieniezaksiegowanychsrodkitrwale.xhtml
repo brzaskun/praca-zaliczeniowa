@@ -1,0 +1,191 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:bcf="http://brzaskun.com/facelets">
+    <style>
+        .waluta input {
+            width: 40px !important;
+        }
+
+        .zaksiegowanewaski input {
+            width: 72px !important;
+        }
+
+        .zapisZcecha {
+            color: red;
+        }
+    </style>
+    <p:dialog id="zestawieniezaksiegowanychsrodkitrwale" header="Zestawienie zaksięgowanych dokumentów dotyczących środków trwałych - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanychsrodkitrwale" 
+              dynamic="true" maximizable="true"
+              resizable="false"  onShow="ustawdialog('zestawieniezaksiegowanychsrodkitrwale','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('zestawieniezaksiegowanychsrodkitrwale');" >
+        <!--        <h:form>
+                    <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
+                </h:form>-->
+        <p:ajax event="maximize" listener="#{dokfkView.powiekszliste}" update="form_dialog_zestawieniezaksiegowanychsrodkitrwale"/>
+        <h:form id="form_dialog_zestawieniezaksiegowanychsrodkitrwale">
+            <p:panelGrid id="sumawybranych" columns="2">
+                <h:outputText value="   suma wartości netto wybranych dokumentów: "/>
+                <h:outputText  id="podsumowaniewybr" value="#{dokfkView.podsumowaniewybranych}">
+                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                </h:outputText>
+            </p:panelGrid>
+            <p:panelGrid style="margin-left: 2%;" >
+                <p:row>
+                    <p:column>
+                        <p:commandButton id="pobierzzaksiegowane" value="#{mgs.pobierz}" actionListener="#{dokfkView.odswiezzaksiegowane}" style="width: 120px; margin-left: 10px;" 
+                                         update=":form_dialog_zestawieniezaksiegowanychsrodkitrwale"
+                                         />
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="drukujbutton" value="#{mgs.drukuj}" actionListener="#{pdfZaksiegowaneView.drukujzaksiegowanydokument(dokfkView.wykazZaksiegowanychDokumentowSrodkiTrw, dokfkView.selectedlist)}" styleClass="fkbutton"
+                                         style="margin-left: 20px; width: 120px;"  rendered="#{dokfkView.dokumentypodatnikazestawienie.size() ne 0}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton id="wpisujbutton" value="wpisuj"  styleClass="fkbutton" 
+                                         actionListener="#{dokfkView.resetujDokument}"
+                                         oncomplete="PF('wpisywanie').show();PF('zestawieniezaksiegowanychsrodkitrwale').hide();"
+                                         style="margin-left: 20px; width: 120px;" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+
+            <script>
+                /* <![CDATA[ */
+                //dzieki tej genialnej funkcji wie na ktorym rowku kliknelismy i od tego zacyzn alazenie
+                $(document).on("click", '.gridZaksiegowane tr', function (e) {
+                    try {
+                        zachowajobiekt(this, e);
+                    } catch (ex) {
+                        alert('error dialog zapisynakoncie' + ex.toString());
+                    }
+                });
+                $(document).on("click", '.gridZaksiegowane tr', function (e) {
+                    var pierwszywiersz = $("#form_dialog_zestawieniezaksiegowanychsrodkitrwale\\:dataListsrodkitrwale_data").children("tr");
+                    var numerpierwszegowiersza = $.trim($(pierwszywiersz[0]).find(".lpwierszaZaksiegowane").text());
+                    try {
+                        e.stopPropagation(); // will prevent double click events from link being clicked within row
+                        var numerkliknietegowiersza = $.trim($(this).closest("tr").find(".lpwierszaZaksiegowane").text()); // trim to remove end space, closest gets closest parent of selected type
+                        var liczbadokalkulacji = numerkliknietegowiersza - numerpierwszegowiersza;
+                        zachowajnumerwiersza("zmiennazaksiegowane", liczbadokalkulacji);
+                    } catch (e) {
+                        //alert('error');
+                    }
+                });
+                /* ]]> */
+            </script>
+            <p:contextMenu for="dataListsrodkitrwale" style="width: 200px;">
+                <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
+                <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}" update=":form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale"/>
+            </p:contextMenu>
+
+            <p:dataTable id="dataListsrodkitrwale" value="#{dokfkView.wykazZaksiegowanychDokumentowSrodkiTrw}" var="item" rowIndexVar="row" widgetVar="tablicadokumentysrodkitrwale" 
+                         selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" 
+                         style="width: 1260px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
+                         emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
+                         >
+                <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
+                <p:ajax event="filter" global="false"/>
+                <p:ajax event="toggleSelect" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="form_dialog_zestawieniezaksiegowanychsrodkitrwale:sumawybranych"/>
+                <p:ajax event="rowSelectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="form_dialog_zestawieniezaksiegowanychsrodkitrwale:sumawybranych"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="form_dialog_zestawieniezaksiegowanychsrodkitrwale:sumawybranych"/>
+                <p:ajax event="rowToggle" global="false"/>
+                <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
+                <p:column style="width: 10px; height: 40px; text-align: center;" >
+                    <p:rowToggler/>
+                </p:column>
+                <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
+                    <h:outputText styleClass="lpwierszaZaksiegowane" value="#{row+1}"/>
+                </p:column>
+                <p:column headerText="#{mgs.datadok}" styleClass="zaksiegowanewaski" width="70" style="text-align: center;"  sortBy="#{item.datadokumentu}" filterBy="#{item.datadokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.datadokumentu}"  style="#{item.datadokumentu.length() ne 10 ? 'color: red;': null}"/>
+                </p:column>
+<!--                <p:column headerText="nowy nr" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkLP}" filterBy="#{item.dokfkLP}">
+                    <h:outputText value="#{item.dokfkLP}"/>
+                </p:column>-->
+                <p:column headerText="#{mgs.symbol}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.dokfkSN}" sortFunction="#{dokfkView.sortujzaksiegowane}"
+                          filterBy="#{item.dokfkSN}">
+                    <h:outputText value="#{item.dokfkSN}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="nip" styleClass="zaksiegowanewaski" width="80" sortBy="#{item.kontr.nip}" filterBy="#{item.kontr.nip}">
+                    <h:outputText value="#{item.kontr.nip}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="#{mgs.kontrahent}" width="140" sortBy="#{item.kontr.npelna}" filterBy="#{item.kontr.npelna}" >
+                    <h:outputText value="#{item.kontr.npelna}"/>
+                </p:column>
+                <p:column headerText="#{mgs.numer}" 
+                          styleClass="zaksiegowanewaski" width="100" sortBy="#{item.numerwlasnydokfk}" filterBy="#{item.numerwlasnydokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.numerwlasnydokfk}" style="white-space: normal !important; word-break: break-all !important; word-wrap: break-word !important;"/>
+                </p:column>
+                <p:column headerText="#{mgs.opis}" width="120" sortBy="#{item.opisdokfk}" filterBy="#{item.opisdokfk}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.opisdokfk.length() gt 40 ? item.opisdokfk.substring(0,39) : item.opisdokfk}" 
+                                  styleClass="#{item.czyCecha() ? 'zapisZcecha' : null}"/>
+                </p:column>
+                <p:column headerText="#{mgs.wartość}" styleClass="zaksiegowanewaski" width="70" sortBy="#{item.wartoscdokumentu}" filterBy="#{item.wartoscdokumentu}" filterMatchMode="contains" >
+                    <h:outputText value="#{item.wartoscdokumentu}" style="float: right;">
+                        <f:convertNumber minFractionDigits="2" locale="PL"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="#{mgs.waluta}" styleClass="waluta" width="40" sortBy="#{item.walutadokumentu.symbolwaluty}" filterBy="#{item.walutadokumentu.symbolwaluty}" style="text-align: center;">
+                    <h:outputText value="#{item.walutadokumentu.symbolwaluty}"/>
+                </p:column>
+                <p:column headerText="#{mgs.VAT}" styleClass="waluta" width="35" sortBy="#{item.vatM}" filterBy="#{item.vatM}" style="text-align: center;">
+                    <h:outputText value="#{item.vatM}" style="color: #{item.vatM ne item.miesiac ? 'red' : null}"/>
+                </p:column>
+                <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
+                    <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}" style="width: 25px;"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="drukujbutton" icon="fa fa-print" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
+                                     update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;" >
+                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
+                                     accesskey="q" styleClass="fkbutton" 
+                                     update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
+                                     rendered="#{!item.wTrakcieEdycji}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                </p:column>
+                <p:column width="25" style="text-align: center;">
+                    <p:commandButton actionListener="#{dokfkView.usunspecjalne(item,1)}" styleClass="fkbutton" icon="fa fa-trash-o" 
+                                     global="false"  style="width: 30px;" update=":form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale"/>
+                </p:column>
+                <p:rowExpansion>
+                    <p:column id="ewidencjavat" headerText="zapisy w wierszach" resizable="true">  
+                        <p:dataTable var="wpis" value="#{item.listawierszy}" editable="true" rowIndexVar="number" style="width: 800px;">
+                            <p:column headerText="#{mgs.numerkolejny}" width="30">
+                                <h:outputText value="#{number+1}" />
+                            </p:column>
+                            <p:column headerText="#{mgs.opis}" width="200">
+                                <h:outputText value="#{wpis.opisWiersza}" />
+                            </p:column>
+                            <p:column headerText="wn" width="90">
+                                <h:outputText value="#{wpis.stronaWn.kwota}"  style="float: right;" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}">  
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column width="7" style="text-align: center;">
+                                <h:outputText id="symbolWn" value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.konto}" width="90">
+                                <h:outputText value="#{wpis.stronaWn.konto.pelnynumer}" rendered="#{wpis.typWiersza eq 1 || wpis.typWiersza eq 0 || wpis.typWiersza eq 6 || wpis.typWiersza eq 5 ? true : false}"/>
+                            </p:column>
+                            <p:column headerText="ma" width="90">
+                                <h:outputText value="#{wpis.stronaMa.kwota}"  style="float: right;" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}">   
+                                    <f:convertNumber minFractionDigits="2" locale="PL"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column width="7" style="text-align: center;">
+                                <h:outputText id="symbolMa" value="#{wpis.tabelanbp.waluta.skrotsymbolu}" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}"/>
+                            </p:column>
+                            <p:column headerText="#{mgs.konto}" width="90">
+                                <h:outputText value="#{wpis.stronaMa.konto.pelnynumer}" rendered="#{wpis.typWiersza eq 2 || wpis.typWiersza eq 0 || wpis.typWiersza eq 7 || wpis.typWiersza eq 5 ? true : false}"/>
+                            </p:column>
+                      </p:dataTable>
+                    </p:column>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+    </p:dialog>
+</ui:composition>
