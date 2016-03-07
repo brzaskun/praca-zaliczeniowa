@@ -63,15 +63,16 @@
                     <p:column width="250">
                         <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="KontoConv" queryDelay="10"  styleClass="kontobo"
+                                        minQueryLength="1" converter="KontoConv" queryDelay="1"  styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         onfocus="usunspacje(this);"
                                         ><!--to teraz powoduje blad-->
-                            <p:ajax event="blur" global="false" partialSubmit="true" />
+                            <p:ajax event="blur" global="false" partialSubmit="true"/>
                             <p:ajax event="query" global="false"/></p:autoComplete>
                     </p:column>
                     <p:column width="210">
                         <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis">
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
                             <p:ajax event="blur" global="false" partialSubmit="true" />
                         </p:inputText>
                     </p:column>
@@ -129,9 +130,9 @@
                 </f:facet>
                 <p:row>
                     <p:column width="250">
-                        <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}"
+                        <p:autoComplete value="#{bilansWprowadzanieView.selected.konto}" completeMethod="#{planKontBOView.completeBO}" id="konto2"
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" autocomplete="true" scrollHeight="250"
-                                        minQueryLength="1" converter="KontoConv" queryDelay="10"  styleClass="kontobo"
+                                        minQueryLength="1" converter="KontoConv" queryDelay="1"  styleClass="kontobo" maxResults="50"
                                         converterMessage="Nieudana konwersja Klient" style="margin-left: auto; margin-right: auto; width: 280px;"
                                         onfocus="usunspacje(this);"
                                         ><!--to teraz powoduje blad-->
@@ -140,6 +141,7 @@
                     </p:column>
                     <p:column>
                         <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 150px;" id="opis1">
+                            <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
                             <p:ajax event="blur" global="false" partialSubmit="true"/>
                         </p:inputText>
                     </p:column>
@@ -203,6 +205,7 @@
                     </p:column>
                 </p:row>
             </p:panelGrid>
+            <p:commandButton value="dołącz kontr." global="false" onclick="PF('dialog_kliencifk_dolaczanie').show();" style="width: 120px; float: right;"/>
         </h:form>
         <h:form id="formbilanswprowadzanie2">
             <p:panelGrid columns="9" style="margin-top: 5px;">
@@ -269,7 +272,7 @@
                         <h:outputText value="edycja"/>
                     </f:facet>
                     <p:commandButton icon="ui-icon-circle-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.edycjawiersza(item)}" 
-                                     update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2" 
+                                     update="formbilanswprowadzanie2_wiersz" 
                                      />
                 </p:column>
             </p:dataTable>
@@ -348,7 +351,7 @@
                         <h:outputText value="edycja"/>
                     </f:facet>
                     <p:commandButton icon="ui-icon-circle-plus" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.edycjawiersza(item)}" 
-                                     update="formbilanswprowadzanie2_wiersz formbilanswprowadzanie2" 
+                                     update="formbilanswprowadzanie2_wiersz" 
                                      />
                 </p:column>
             </p:dataTable>

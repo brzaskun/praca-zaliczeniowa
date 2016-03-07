@@ -104,6 +104,8 @@ public class BilansWprowadzanieView implements Serializable {
     private List<WierszBO> wierszedousuniecia;
     private Waluty walutadomyslna;
     private boolean sortujwgwartosci;
+    private Konto ostatniekonto;
+    
 
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -1031,6 +1033,14 @@ public class BilansWprowadzanieView implements Serializable {
         this.lista0 = lista0;
     }
 
+    public Konto getOstatniekonto() {
+        return ostatniekonto;
+    }
+
+    public void setOstatniekonto(Konto ostatniekonto) {
+        this.ostatniekonto = ostatniekonto;
+    }
+
     public List<WierszBO> getListaBOsumy() {
         return listaBOsumy;
     }
@@ -1295,6 +1305,12 @@ public class BilansWprowadzanieView implements Serializable {
                 String wiersz = "formbilanswprowadzanie:tabviewbilans:tab"+lista+":"+(l.size()-1)+":konto";
                 RequestContext.getCurrentInstance().update(wiersz);
             }
+        }
+    }
+    
+    public void wklejostatniekonto() {
+        if (ostatniekonto != null) {
+            selected.setKonto(ostatniekonto);
         }
     }
         

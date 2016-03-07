@@ -1,0 +1,77 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    >
+    <style>
+        .wyborkontrahenta input  {
+            width: 400px !important;
+        }
+    </style>
+    <p:dialog id="dialog_kliencifk_dolaczanie" header="Przyporządkowanie klientów do kont" widgetVar="dialog_kliencifk_dolaczanie" appendTo="@(body)"
+              resizable="false"  onShow="ustawdialog('dialog_kliencifk_dolaczanie','bilanswprowadzanie2',900,600);" closeOnEscape="true" onHide="resetujdialog('dialog_kliencifk_dolaczanie');" >
+       
+        <h:form id="kliencifk">
+            <p:autoComplete id="wyborkontrahenta" value="#{kliencifkView.wybranyklient}" completeMethod="#{KlView.complete}"
+                                var="p" itemLabel="#{p.npelna}" itemValue="#{p}" converter="KlientConv" title="wpisz nazwę lub nip kontrahenta"
+                                minQueryLength="3" maxResults="12" maxlength="30" converterMessage="Nieudana konwersja Klient"
+                                widgetVar="dialogklient" style="width: 500px;" onblur="sprawdzczybrakklienta();" styleClass="wyborkontrahenta"
+                                required="true" requiredMessage="Pole klienta nie może być puste" >
+                <p:ajax event="itemSelect" listener="#{kliencifkView.pobieraniekontaFK}" update=":kontoformV, :kontoformE" global="false"/>
+                <p:ajax event="query" global="false"/>
+                    <f:facet name="itemtip">  
+                        <h:panelGrid  columns="2" cellpadding="5" width="400">  
+                            <f:facet name="header">  
+                                <h:outputText value="Dane kontrahenta"/>
+                            </f:facet>  
+                            <h:outputText value="Nazwa: " />  
+                            <h:outputText id="npelna" value="#{p.npelna}" />  
+                            <h:outputText value="NIP: " />  
+                            <h:outputText id="nip" value="#{p.nip}" />  
+                            <h:outputText value="Adres " />  
+                            <h:outputText id="klumna" value="#{p.miejscowosc} #{p.ulica} #{p.dom} #{p.lokal}" /> 
+                        </h:panelGrid>
+                    </f:facet>
+                </p:autoComplete>
+        </h:form>
+        <h:form id="kontoformV">
+            <p:dataTable id="infokonta" value="#{kliencifkView.klientMaKonto}" var="wpis"  rendered="#{kliencifkView.klientMaKonto.nrkonta eq null ? false : true}"
+                         style="margin-top: 2%;">
+                <f:facet name="header">
+                    <h:outputText value="Klient ma już przyporządkowane konto"/>
+                </f:facet>
+            <p:column headerText="nazwa">
+                <h:outputText value="#{wpis.nazwa}"/>
+            </p:column>
+            <p:column headerText="nip">
+                <h:outputText value="#{wpis.nip}"/>
+            </p:column>
+            <p:column headerText="nrkonta">
+                <h:outputText value="#{wpis.nrkonta}"/>
+            </p:column>
+        </p:dataTable>
+         </h:form>
+        <h:form id="kontoformE">
+            <p:dataTable id="infokonta" value="#{kliencifkView.klientBezKonta}" var="wpis"  rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}"
+                         style="margin-top: 2%;">
+                <f:facet name="header">
+                    <h:outputText value="Przyporządkuj kontrahenta do konta"/>
+                </f:facet>
+            <p:column headerText="nazwa">
+                <h:outputText value="#{wpis.nazwa}"/>
+            </p:column>
+            <p:column headerText="nip">
+                <h:outputText value="#{wpis.nip}"/>
+            </p:column>
+            <p:column headerText="nrkonta">
+                <h:outputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser ne '4'}"/>
+                <h:inputText value="#{wpis.nrkonta}" rendered="#{facesContext.externalContext.remoteUser eq '4'}"/>
+            </p:column>
+        </p:dataTable>
+            <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokonta}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
+                             update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
+         </h:form>
+    </p:dialog>
+</ui:composition>
