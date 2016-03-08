@@ -28,7 +28,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name = "WierszBO.findByPodatnikRokKonto", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto"),
     @NamedQuery(name = "WierszBO.findByPodatnikRokKontoWaluta", query = "SELECT w FROM WierszBO w WHERE w.podatnik = :podatnik AND w.wierszBOPK.rok = :rok AND w.konto = :konto AND w.waluta.symbolwaluty = :waluta")
 })
-public class WierszBO implements Serializable {
+public class WierszBO_old implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -45,11 +45,11 @@ public class WierszBO implements Serializable {
     private double kwotaWnPLN;
     private double kwotaMaPLN;
 
-    public WierszBO() {
+    public WierszBO_old() {
         this.wierszBOPK = new WierszBOPK();
     }
 
-    public WierszBO(Podatnik podatnik, String rok, Waluty waluta) {
+    public WierszBO_old(Podatnik podatnik, String rok, Waluty waluta) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
         this.podatnik = podatnik;
@@ -62,7 +62,7 @@ public class WierszBO implements Serializable {
         this.rozrachunek = false;
     }
 
-    public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta) {
+    public WierszBO_old(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
         this.wierszBOPK.setOpis(p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode());
@@ -102,7 +102,7 @@ public class WierszBO implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final WierszBO other = (WierszBO) obj;
+        final WierszBO_old other = (WierszBO_old) obj;
         if (!Objects.equals(this.wierszBOPK, other.wierszBOPK)) {
             return false;
         }
