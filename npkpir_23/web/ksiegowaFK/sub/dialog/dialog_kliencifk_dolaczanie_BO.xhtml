@@ -71,7 +71,8 @@
             </p:column>
         </p:dataTable>
             <p:commandButton value="Przyporządkuj" actionListener="#{kliencifkView.przyporzadkujdokontaBO()}" style="margin: 2%;" rendered="#{kliencifkView.klientBezKonta.nrkonta eq null ? false : true}" 
-                             update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" oncomplete="$('#kliencifk\\:wyborkontrahenta_input').select();"/>
+                             update=":kliencifk :kontoformV :kontoformE :formbilanswprowadzanie2_wiersz" 
+                             oncomplete="PF('dialog_kliencifk_dolaczanie').hide();"/>
          </h:form>
     </p:dialog>
 </ui:composition>
