@@ -1373,8 +1373,19 @@ public class BilansWprowadzanieView implements Serializable {
             E.e(e);
         }
         if (i != null) {
+            if (f.endsWith(" ")) {
+                if (k.getPelnynumer().contains(f.trim())) {
+                    zwrot = true;
+                }
+            }
             if (k.getPelnynumer().startsWith(f)) {
                 zwrot = true;
+            }
+            if (f.trim().matches("^(.*\\s+.*)+$") && f.length() > 6) {
+                String numeropis = k.getPelnynumer()+" "+k.getNazwapelna().toLowerCase();
+                if (numeropis.startsWith(f.toLowerCase())) {
+                    zwrot = true;
+                }
             }
         } else if (k.getNazwapelna().toLowerCase().contains(f.toLowerCase())) {
             zwrot = true;
