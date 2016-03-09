@@ -73,13 +73,13 @@
                     <p:column width="210">
                         <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 200px;"  id="opis">
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto"/>
-                            <p:ajax event="blur" global="false" partialSubmit="true" />
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                         </p:inputText>
                     </p:column>
                     <p:column style="text-align: center;">
                         <pe:inputNumber value="#{bilansWprowadzanieView.selected.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                         style="width: 70px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
-                            <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                             <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaWn, 'Wn')}" />
                         </pe:inputNumber>
                     </p:column>
@@ -142,7 +142,7 @@
                     <p:column>
                         <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 150px;" id="opis1">
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
-                            <p:ajax event="blur" global="false" partialSubmit="true"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
@@ -150,8 +150,6 @@
                                          requiredMessage="Brak kwoty - uzupełnij" id="polekurs"
                                          style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="4" minValue="-10000"
                                          styleClass="kurswaluta">
-                            <p:ajax event="focus" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis1')}"
-                                    />
                             <p:ajax event="change" global="false" partialSubmit="true" listener="#{bilansWprowadzanieView.przeliczkursN()}"
                                     update="formbilanswprowadzanie2_wiersz:Wnpln formbilanswprowadzanie2_wiersz:Mapln"/>
                         </pe:inputNumber>
@@ -195,7 +193,7 @@
                         <pe:inputNumber  value="#{bilansWprowadzanieView.selected.kwotaMaPLN}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mapln" symbol=" zł"
                                          style="width: 80%;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
-                                    listener="#{bilansWprowadzanieView.obliczkursN(bilansWprowadzanieView.selected.kurs, bilansWprowadzanieView.selected.kwotaWn, bilansWprowadzanieView.selected.kwotaWnPLN, 'Ma')}"/>
+                                    listener="#{bilansWprowadzanieView.obliczkursN(bilansWprowadzanieView.selected.kurs, bilansWprowadzanieView.selected.kwotaMa, bilansWprowadzanieView.selected.kwotaMaPLN, 'Ma')}"/>
                         </pe:inputNumber>
                     </p:column>
                     <p:column style="text-align: center;" width="40">
@@ -286,7 +284,7 @@
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
                          >
                 <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
-                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
+                <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="toggleSelect" global="false"  listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="filter" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"/>

@@ -451,7 +451,8 @@ public class BilansWprowadzanieView implements Serializable {
         int licznik = 0;
         String nrkonta = null;
         for (WierszBO p : l) {
-            if (p.getWierszBOPK().getOpis().equals(opis)) {
+           String opislista = p.getWierszBOPK().getOpis().toLowerCase();
+            if (opislista.equals(opis.toLowerCase())) {
                 if (p.getKonto() != null) {
                     nrkonta = p.getKonto().getPelnynumer();
                     licznik++;
