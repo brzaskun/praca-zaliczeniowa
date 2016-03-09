@@ -79,7 +79,6 @@
                     <p:column style="text-align: center;">
                         <pe:inputNumber value="#{bilansWprowadzanieView.selected.kwotaWn}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij"
                                         style="width: 70px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
                             <p:ajax event="change" global="false" partialSubmit="true"  listener="#{bilansWprowadzanieView.przepiszkurs(bilansWprowadzanieView.selected, bilansWprowadzanieView.selected.kwotaWn, 'Wn')}" />
                         </pe:inputNumber>
                     </p:column>
@@ -142,7 +141,7 @@
                     <p:column>
                         <p:inputText value="#{bilansWprowadzanieView.selected.wierszBOPK.opis}" style="width: 150px;" id="opis1">
                             <p:ajax event="focus" global="false"  listener="#{bilansWprowadzanieView.wklejostatniekonto()}" update="formbilanswprowadzanie2_wiersz:konto2"/>
-                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis')}"/>
+                            <p:ajax event="blur" partialSubmit="true" global="false" listener="#{bilansWprowadzanieView.weryfikacjaopisu(bilansWprowadzanieView.selected.wierszBOPK.opis, bilansWprowadzanieView.listaBO, 'formbilanswprowadzanie2_wiersz:opis1')}"/>
                         </p:inputText>
                     </p:column>
                     <p:column>
@@ -186,7 +185,7 @@
                         <pe:inputNumber  value="#{bilansWprowadzanieView.selected.kwotaMa}" symbol=" #{bilansWprowadzanieView.selected.waluta.skrotsymbolu}" required="true" requiredMessage="Brak kwoty - uzupełnij" id="Mawal"
                                          style="width: 70px;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2" minValue="-10000000" styleClass="wiersznetto">
                             <p:ajax event="change" global="false" partialSubmit="true"
-                                    listener="#{bilansWprowadzanieView.przewalutujN(bilansWprowadzanieView.selectedtem.kurs, bilansWprowadzanieView.selected.kwotaMa, 'Ma')}" />
+                                    listener="#{bilansWprowadzanieView.przewalutujN(bilansWprowadzanieView.selected.kurs, bilansWprowadzanieView.selected.kwotaMa, 'Ma')}" />
                         </pe:inputNumber>
                     </p:column>
                     <p:column>
@@ -263,7 +262,7 @@
                         <h:outputText value="usuń"/>
                     </f:facet>
                     <p:commandButton icon="fa fa-trash" style="width: 30px;" global="false"  actionListener="#{bilansWprowadzanieView.usunwierszN(item)}"
-                                     update="formbilanswprowadzanie2 "
+                                     update="formbilanswprowadzanie2"
                                      />
                 </p:column>
                 <p:column style="text-align: center;" width="40">

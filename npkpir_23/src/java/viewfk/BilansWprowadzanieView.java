@@ -243,6 +243,10 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             if (listaBO.contains(selected)) {
                 wierszBODAO.edit(selected);
+                if (listaBOFiltered != null) {
+                    podsumujWnMa(listaBOFiltered, listaBOsumy);
+                    RequestContext.getCurrentInstance().update("formbilanswprowadzanie2:sum0");
+                }
                 Msg.msg("Wyedytowano pozycję");
             } else {
                 if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
@@ -252,6 +256,8 @@ public class BilansWprowadzanieView implements Serializable {
                 wierszBODAO.dodaj(selected);
                 if (listaBOFiltered != null) {
                     listaBOFiltered.add(selected);
+                    podsumujWnMa(listaBOFiltered, listaBOsumy);
+                    RequestContext.getCurrentInstance().update("formbilanswprowadzanie2:sum0");
                 }
                 Msg.msg("Zachowano pozycję");
             }
@@ -317,10 +323,10 @@ public class BilansWprowadzanieView implements Serializable {
         try {
             usuwaniejeden(listaBO, wierszBO);
             if (listaBOFiltered != null) {
-                listaBOFiltered.remove(selected);
-                podsumujWnMa(listaBO, listaBOsumy);
-            } else {
+                listaBOFiltered.remove(wierszBO);
                 podsumujWnMa(listaBOFiltered, listaBOsumy);
+            } else {
+                podsumujWnMa(listaBO, listaBOsumy);
             }
             Msg.msg("Usunięto zapis BO z tabeli");
         } catch (Exception e) {
@@ -482,7 +488,7 @@ public class BilansWprowadzanieView implements Serializable {
                     licznik++;
                 }
             }
-            if (licznik > 0) {
+                if (licznik > 0) {
                 Msg.msg("e", "Taki opis już istnieje na koncie: " + nrkonta + " opis: " + opis);
                 selected.getWierszBOPK().setOpis("zmień opis");
                 RequestContext.getCurrentInstance().update(pole);
