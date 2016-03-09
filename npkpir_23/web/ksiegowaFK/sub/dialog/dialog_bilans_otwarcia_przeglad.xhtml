@@ -40,7 +40,7 @@
             <p:panelGrid columns="2">
                 <p:treeTable id="dataList" value="#{bilansPodgladView.root}" var="loop"  selection="#{bilansPodgladView.selectednodes}" selectionMode="checkbox"
                              rowStyleClass="#{loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4'}" styleClass="tablicaplankont"
-                             scrollable="true" style="width: 1190px; max-height: 600px;" >
+                             scrollable="true" style="width: 1190px; max-height: 600px;" emptyMessage="Nie ma zapisów na kontach w pozycji BO. Sprawdz czy zapisano wiersze BO do bazy.">
                     <p:ajax event="select" global="false"/>
                     <p:ajax event="unselect" global="false" />
                     <p:column headerText="nr konta" style="width: 100px;" styleClass="#{loop.level eq 2 ? 'druga' : null}">
