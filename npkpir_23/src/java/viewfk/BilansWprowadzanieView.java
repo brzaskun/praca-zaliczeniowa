@@ -75,6 +75,7 @@ public class BilansWprowadzanieView implements Serializable {
     @Inject
     private WierszBO selected;
     private List<WierszBO> listaBO;
+    private List<WierszBO> listaBOFiltered;
     private List<WierszBO> listaBOs;
     private List<WierszBO> listaBOs1;
     private Integer nraktualnejlisty;
@@ -206,8 +207,16 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void pobierzlista(int nrlisty) {
         listaBO = listazbiorcza.get(nrlisty);
+        if (listaBO.size() == 1 && listaBO.get(0).getKonto() == null) {
+            listaBO.remove(0);
+        }
         listaBOsumy = listaSumList.get(nrlisty);
         nraktualnejlisty = nrlisty;
+        if (listaBOFiltered != null) {
+            listaBOFiltered = null;
+            RequestContext.getCurrentInstance().execute("try{PF('tab0prosta').clearFilters()}catch(e){}");
+            RequestContext.getCurrentInstance().execute("try{PF('tab0zlozona').clearFilters()}catch(e){}");
+        }
     }
 
     private void tworzListeZbiorcza() {
@@ -241,6 +250,9 @@ public class BilansWprowadzanieView implements Serializable {
                 }
                 listaBO.add(selected);
                 wierszBODAO.dodaj(selected);
+                if (listaBOFiltered != null) {
+                    listaBOFiltered.add(selected);
+                }
                 Msg.msg("Zachowano pozycję");
             }
             ostatniekonto = selected.getKonto();
@@ -304,7 +316,12 @@ public class BilansWprowadzanieView implements Serializable {
     public void usunwierszN(WierszBO wierszBO) {
         try {
             usuwaniejeden(listaBO, wierszBO);
-            podsumujWnMa(listaBO, listaBOsumy);
+            if (listaBOFiltered != null) {
+                listaBOFiltered.remove(selected);
+                podsumujWnMa(listaBO, listaBOsumy);
+            } else {
+                podsumujWnMa(listaBOFiltered, listaBOsumy);
+            }
             Msg.msg("Usunięto zapis BO z tabeli");
         } catch (Exception e) {
             E.e(e);
@@ -317,7 +334,14 @@ public class BilansWprowadzanieView implements Serializable {
             for (WierszBO p : wierszBOlista) {
                 usuwanielista(listaBO, p);
             }
-            podsumujWnMa(listaBO, listaBOsumy);
+            for (WierszBO p : wierszBOlista) {
+                listaBOFiltered.remove(p);
+            }
+            if (listaBOFiltered != null) {
+                podsumujWnMa(listaBOFiltered, listaBOsumy);
+            } else {
+                podsumujWnMa(listaBO, listaBOsumy);
+            }
             Msg.msg("Usunięto zapis BO");
         } catch (Exception e) {
             E.e(e);
@@ -366,7 +390,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     private void usuwanielista(List<WierszBO> l, WierszBO wierszBO) {
         try {
-            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+                Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
             Podatnik p = wpisView.getPodatnikObiekt();
             String r = wpisView.getRokWpisuSt();
             if (l.size() > 1) {
@@ -1026,6 +1050,14 @@ public class BilansWprowadzanieView implements Serializable {
 
     public void setLista0(List<WierszBO> lista0) {
         this.lista0 = lista0;
+    }
+
+    public List<WierszBO> getListaBOFiltered() {
+        return listaBOFiltered;
+    }
+
+    public void setListaBOFiltered(List<WierszBO> listaBOFiltered) {
+        this.listaBOFiltered = listaBOFiltered;
     }
 
     public Konto getOstatniekonto() {

@@ -9,11 +9,11 @@
     xmlns:bcf="http://brzaskun.com/facelets">
     <style>
         .ui-autocomplete-input {
-            width: 250px;
+            width: 240px;
         }
 
         .ui-column-filter {
-            width: 250px !important;
+            width: 240px !important;
         }
 
         .kolumnaopis .ui-column-filter {
@@ -222,11 +222,12 @@
             <p:contextMenu for="formbilanswprowadzanie2:tab0">
                 <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab0" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs)}" icon="ui-icon-disk" />
             </p:contextMenu>
-            <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}"
+            <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item" binding="#{bilansWprowadzanieView.listaBOdatatable}" widgetVar="tab0prosta"
                          style="overflow-y: scroll; height: 400px; width: 1000px; padding: 10px; margin-top: 5px;"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty ne 1 and bilansWprowadzanieView.nraktualnejlisty ne 2}"
                          id="tab0" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs}"
+                         filteredValue="#{bilansWprowadzanieView.listaBOFiltered}"
                          >
                 <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.lista0s, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
@@ -278,10 +279,11 @@
                 <p:menuitem value="Usuń" update="formbilanswprowadzanie2:tab1" actionListener="#{bilansWprowadzanieView.usunwiele(bilansWprowadzanieView.listaBOs1)}" icon="ui-icon-disk" />
             </p:contextMenu>
             <p:dataTable value="#{bilansWprowadzanieView.listaBO}" var="item"
-                         style="overflow-y: scroll; height: 400px; width: 1250px; padding: 10px; margin-top: 5px;"
+                         style="overflow-y: scroll; height: 400px; width: 1250px; padding: 10px; margin-top: 5px;"  widgetVar="tab0zlozona"
                          styleClass="gridtablicasyntetyczne" rowIndexVar="idx"  emptyMessage="nie ma zapisów w tej grupie"
                          rendered="#{bilansWprowadzanieView.nraktualnejlisty eq 1 or bilansWprowadzanieView.nraktualnejlisty eq 2}"
                          id="tab1" rowKey="#{item.hashCode()}" selection="#{bilansWprowadzanieView.listaBOs1}"
+                         filteredValue="#{bilansWprowadzanieView.listaBOFiltered}"
                          >
                 <p:ajax event="rowSelectCheckbox"  global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{bilansWprowadzanieView.podsumujWnMa(bilansWprowadzanieView.listaBOs1, bilansWprowadzanieView.listaBOsumy, bilansWprowadzanieView.listaBO)}" update=":formbilanswprowadzanie2:sum0"/>
