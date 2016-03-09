@@ -210,6 +210,7 @@ public class FakturaRozrachunkiView  implements Serializable {
     }
     
     public void pobierzostatninumer() {
+        selected.setNrdokumentu(null);
         List<FakturaRozrachunki> wprowadzoneplatnosci = pobierzplatnosci(wpisView.getMiesiacWpisu());
         for (Iterator<FakturaRozrachunki> it = wprowadzoneplatnosci.iterator(); it.hasNext();) {
             if (!it.next().getRodzajdokumentu().equals(selected.getRodzajdokumentu())) {

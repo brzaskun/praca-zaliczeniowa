@@ -118,7 +118,7 @@
         </h:form>
         <h:form id="form_wprowadzoneplatnosci">
                 <p:dataTable value="#{fakturaRozrachunkiView.wprowadzoneplatnosci}" var="item" style="width: 1170px; margin-top: 20px;"
-                             emptyMessage="niczego dzisiaj nie zaksięgowano" scrollable="true" scrollHeight="400" scrollRows="20"
+                             emptyMessage="niczego dzisiaj nie zaksięgowano" scrollable="true" scrollHeight="400" scrollRows="20" sortBy="#{item.lp}" sortOrder="descending"
                              editable="true" widgetVar="form_wprowadzoneplatnosci">
                     <p:ajax event="rowEdit" listener="#{fakturaRozrachunkiView.onRowEdit}" />
                     <p:column width="30" sortBy="#{item.lp}" sortable="true">
