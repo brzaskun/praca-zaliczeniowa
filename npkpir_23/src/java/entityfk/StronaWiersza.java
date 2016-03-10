@@ -587,8 +587,10 @@ public class StronaWiersza implements Serializable{
      
     public boolean getToNieJestRRK() {
         boolean zwrot = true;
-        if (this.wiersz.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
-            zwrot = false;
+        if (this.wiersz != null && this.wiersz.getDokfk() != null && this.wiersz.getDokfk().getRodzajedok() != null) {
+            if (this.wiersz.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
+                zwrot = false;
+            }
         }
         return zwrot;
     }

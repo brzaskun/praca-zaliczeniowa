@@ -347,6 +347,7 @@ public class BilansGenerowanieView implements Serializable {
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
         List<SaldoKonto> zapisykonta = new ArrayList<>();
         for (StronaWiersza t : zapisy) {
+            System.out.println("generowanie bo " +t);
             if (t.getPozostalo() != 0.0 && t.getSymbolWalut().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
                 if (t.getKwota() == 26.20) {
                     System.out.println("");
