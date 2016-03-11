@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package viewfk;
 
 import beansFK.BOFKBean;
@@ -43,6 +42,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class SaldoAnalitykaView implements Serializable {
+
     private static final long serialVersionUID = 1L;
     private List<SaldoKonto> listaSaldoKonto;
     private List<SaldoKonto> listaSaldoKontowybrane;
@@ -54,7 +54,7 @@ public class SaldoAnalitykaView implements Serializable {
     private WierszBODAO wierszBODAO;
     @Inject
     private KontoDAOfk kontoDAOfk;
-    @Inject 
+    @Inject
     private WalutyDAOfk walutyDAOfk;
     @Inject
     private StronaWierszaDAO stronaWierszaDAO;
@@ -65,42 +65,46 @@ public class SaldoAnalitykaView implements Serializable {
         sumaSaldoKonto = new ArrayList<>();
         wybranyRodzajKonta = "wszystkie";
     }
-    
-    
+
     public void init() {
-       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
-       if (wybranyRodzajKonta != null) {
-        if (wybranyRodzajKonta.equals("bilansowe")) {
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("wynikowe")) {
-                    it.remove();
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
+        if (wybranyRodzajKonta != null) {
+            if (wybranyRodzajKonta.equals("bilansowe")) {
+                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("wynikowe")) {
+                        it.remove();
+                    }
                 }
-            }
-        } else if (wybranyRodzajKonta.equals("wynikowe")){
-            for(Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
-                if (it.next().getBilansowewynikowe().equals("bilansowe")) {
-                    it.remove();
+            } else if (wybranyRodzajKonta.equals("wynikowe")) {
+                for (Iterator<Konto> it = kontaklienta.iterator(); it.hasNext();) {
+                    if (it.next().getBilansowewynikowe().equals("bilansowe")) {
+                        it.remove();
+                    }
                 }
             }
         }
-       }
-       listaSaldoKonto = new ArrayList<>();
-       przygotowanalistasald(kontaklienta, zapisyBO);
+        listaSaldoKonto = new ArrayList<>();
+        przygotowanalistasald(kontaklienta, zapisyBO);
     }
-    
+
     public Waluty initGenerowanieBO() {
-       int rok = wpisView.getRokWpisu();
-       String mc = wpisView.getMiesiacWpisu();
-       wpisView.setRokWpisu(rok-1);
-       wpisView.setRokWpisuSt(String.valueOf(rok-1));
-       wpisView.setMiesiacWpisu("12");
-       List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
-       List<StronaWiersza> zapisyBO = BOFKBean.pobierzZapisyBO(wierszBODAO, wpisView);
-       listaSaldoKonto = new ArrayList<>();
-       przygotowanalistasald(kontaklienta, zapisyBO);
-       Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-       for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();)  {
+        int rok = wpisView.getRokWpisu();
+        String mc = wpisView.getMiesiacWpisu();
+        wpisView.setRokWpisu(rok - 1);
+        wpisView.setRokWpisuSt(String.valueOf(rok - 1));
+        wpisView.setMiesiacWpisu("12");
+        List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
+        listaSaldoKonto = new ArrayList<>();
+        List<StronaWiersza> zapisyRok = pobierzzapisy();
+        for (StronaWiersza p : zapisyRok) {
+            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
+                System.out.println("");
+            }
+        }
+        przygotowanalistasaldBO(kontaklienta, zapisyRok);
+        Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
             SaldoKonto skn = it.next();
             if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0) {
                 it.remove();
@@ -108,20 +112,20 @@ public class SaldoAnalitykaView implements Serializable {
                 skn.setWalutadlabo(walpln);
             }
         }
-       wpisView.setRokWpisu(rok);
-       wpisView.setRokWpisuSt(String.valueOf(rok));
-       wpisView.setMiesiacWpisu(mc);
-       return walpln;
+        wpisView.setRokWpisu(rok);
+        wpisView.setRokWpisuSt(String.valueOf(rok));
+        wpisView.setMiesiacWpisu(mc);
+        return walpln;
     }
-    
+
     public void odswiezsaldoanalityczne() {
-         wpisView.wpisAktualizuj();
-         init();
+        wpisView.wpisAktualizuj();
+        init();
     }
-    
-     private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
+
+    private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
         List<StronaWiersza> zapisyRok = pobierzzapisy();
-        Map<String,SaldoKonto> przygotowanalista = new HashMap<>();
+        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
             if (p.getPelnynumer().equals("202-1-5")) {
@@ -129,7 +133,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
             SaldoKonto saldoKonto = new SaldoKonto();
             saldoKonto.setKonto(p);
-            przygotowanalista.put(p.getPelnynumer(),saldoKonto);
+            przygotowanalista.put(p.getPelnynumer(), saldoKonto);
         }
         naniesBOnaKonto(przygotowanalista, zapisyBO);
         naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione);
@@ -143,24 +147,57 @@ public class SaldoAnalitykaView implements Serializable {
         sumaSaldoKonto = new ArrayList<>();
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
         for (StronaWiersza t : wierszenieuzupelnione) {
-            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: "+t.getDokfkS());
+            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
         }
         listaSaldoKonto.addAll(przygotowanalista.values());
-        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();)  {
+        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
             SaldoKonto skn = it.next();
             if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
                 it.remove();
             }
         }
     }
-     
+
+    private void przygotowanalistasaldBO(List<Konto> kontaklienta, List<StronaWiersza> zapisyRok) {
+        Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
+        List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
+        for (Konto p : kontaklienta) {
+            if (p.getPelnynumer().equals("202-1-5")) {
+                System.out.println("stop");
+            }
+            SaldoKonto saldoKonto = new SaldoKonto();
+            saldoKonto.setKonto(p);
+            przygotowanalista.put(p.getPelnynumer(), saldoKonto);
+        }
+        resetujBOnaKonto(przygotowanalista);
+        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione);
+        for (SaldoKonto s : przygotowanalista.values()) {
+            s.sumujBOZapisy();
+            s.wyliczSaldo();
+        }
+//        for (int i = 1; i < przygotowanalista.size()+1; i++) {
+//            przygotowanalista.get(i-1).setId(i);
+//        }
+        sumaSaldoKonto = new ArrayList<>();
+        sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(przygotowanalista));
+        for (StronaWiersza t : wierszenieuzupelnione) {
+            Msg.msg("e", "W tym dokumencie nie ma uzupełnionych kont: " + t.getDokfkS());
+        }
+        listaSaldoKonto.addAll(przygotowanalista.values());
+        for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
+            SaldoKonto skn = it.next();
+            if (skn.getSaldoMa() == 0.0 && skn.getSaldoWn() == 0.0 && skn.getObrotyBoWn() == 0.0 && skn.getObrotyBoMa() == 0.0) {
+                it.remove();
+            }
+        }
+    }
+
     public void sumujwybranekonta() {
         sumaSaldoKonto = new ArrayList<>();
         sumaSaldoKonto.add(KontaFKBean.sumujsaldakont(listaSaldoKontowybrane));
     }
 
-     //<editor-fold defaultstate="collapsed" desc="comment">
-     
+    //<editor-fold defaultstate="collapsed" desc="comment">
     public List<SaldoKonto> getSumaSaldoKonto() {
         return sumaSaldoKonto;
     }
@@ -177,7 +214,6 @@ public class SaldoAnalitykaView implements Serializable {
         this.listaSaldoKontowybrane = listaSaldoKontowybrane;
     }
 
-    
     public String getWybranyRodzajKonta() {
         return wybranyRodzajKonta;
     }
@@ -189,6 +225,7 @@ public class SaldoAnalitykaView implements Serializable {
     public List<SaldoKonto> getListaSaldoKonto() {
         return listaSaldoKonto;
     }
+
     public List<Sprawozdanie_0> getGrupa0() {
         return grupa0;
     }
@@ -196,6 +233,7 @@ public class SaldoAnalitykaView implements Serializable {
     public void setGrupa0(List<Sprawozdanie_0> grupa0) {
         this.grupa0 = grupa0;
     }
+
     public List<SaldoKonto> getListaSaldoKontofilter() {
         return listaSaldoKontofilter;
     }
@@ -203,21 +241,30 @@ public class SaldoAnalitykaView implements Serializable {
     public void setListaSaldoKontofilter(List<SaldoKonto> listaSaldoKontofilter) {
         this.listaSaldoKontofilter = listaSaldoKontofilter;
     }
-     
-     public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
-         this.listaSaldoKonto = listaSaldoKonto;
-     }
-     
-     public WpisView getWpisView() {
-         return wpisView;
-     }
-     
-     public void setWpisView(WpisView wpisView) {
-         this.wpisView = wpisView;
-     }
+
+    public void setListaSaldoKonto(List<SaldoKonto> listaSaldoKonto) {
+        this.listaSaldoKonto = listaSaldoKonto;
+    }
+
+    public WpisView getWpisView() {
+        return wpisView;
+    }
+
+    public void setWpisView(WpisView wpisView) {
+        this.wpisView = wpisView;
+    }
 //</editor-fold>
 
-    private void naniesBOnaKonto(Map<String,SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
+    private void resetujBOnaKonto(Map<String, SaldoKonto> przygotowanalista) {
+        for (SaldoKonto r : przygotowanalista.values()) {
+            if (r != null) {
+                r.setBoWn(0.0);
+                r.setBoMa(0.0);
+            }
+        }
+    }
+
+    private void naniesBOnaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyBO) {
         for (StronaWiersza r : zapisyBO) {
             SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
             if (p != null) {
@@ -234,10 +281,10 @@ public class SaldoAnalitykaView implements Serializable {
         }
     }
 
-    private void naniesZapisyNaKonto(Map<String,SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok,  List<StronaWiersza> wierszenieuzupelnione) {
+    private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
-            if (!r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+            if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
                 try {
                     SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
                     if (p != null) {
@@ -251,11 +298,11 @@ public class SaldoAnalitykaView implements Serializable {
                         }
                     }
                 } catch (Exception e) {
-                     if (r.getKonto() == null) {
-                    System.out.println("Konto null "+r.toString());
+                    if (r.getKonto() == null) {
+                        System.out.println("Konto null " + r.toString());
                     }
-                    if (r.getWiersz().getDokfk().getMiesiac()==null) {
-                        System.out.println("Miesiac null "+r.toString());
+                    if (r.getWiersz().getDokfk().getMiesiac() == null) {
+                        System.out.println("Miesiac null " + r.toString());
                     }
                     E.e(e);
                     if (wierszenieuzupelnione.size() > 0) {
@@ -265,7 +312,7 @@ public class SaldoAnalitykaView implements Serializable {
                                 jest = true;
                             }
                         }
-                        if (jest==false) {
+                        if (jest == false) {
                             wierszenieuzupelnione.add(r);
                         }
                     } else {
@@ -274,15 +321,14 @@ public class SaldoAnalitykaView implements Serializable {
                 }
             }
         }
-       
-    }
 
+    }
 
     private List<StronaWiersza> pobierzzapisy() {
         List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         return zapisy;
     }
-   
+
     public void drukuj(int i) {
         if (listaSaldoKontofilter == null && listaSaldoKontowybrane.size() == 0) {
             PdfKonta.drukuj(listaSaldoKonto, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
@@ -294,35 +340,33 @@ public class SaldoAnalitykaView implements Serializable {
             PdfKonta.drukuj(listaSaldoKontowybrane, wpisView, i, 0, wpisView.getMiesiacWpisu(), sumaSaldoKonto);
         }
     }
-    
-     public int compare(Object o1, Object o2) {
-         try {
+
+    public int compare(Object o1, Object o2) {
+        try {
             return KontoSortBean.sortZaksiegowaneDok((Konto) o1, (Konto) o2);
-         } catch (Exception e) {  E.e(e);
-             return 0;
-         }
-     }
-     
-     public List<Sprawozdanie_0> kontagrupy_0() {
+        } catch (Exception e) {
+            E.e(e);
+            return 0;
+        }
+    }
+
+    public List<Sprawozdanie_0> kontagrupy_0() {
         List<Sprawozdanie_0> l = new ArrayList<>();
         for (SaldoKonto p : listaSaldoKonto) {
-            
+
         }
         return l;
     }
-     
+
     public void sprawozdanie() {
         przygotuj_0();
     }
-    
-    
+
     private void przygotuj_0() {
-        List<SaldoKonto> pobranekonta = pobierzkonta(listaSaldoKonto,"0",0);
+        List<SaldoKonto> pobranekonta = pobierzkonta(listaSaldoKonto, "0", 0);
         //grupa0 = generujgrupe0(pobranekonta);
         System.out.println("konta");
     }
-
-    
 
     private List<SaldoKonto> pobierzkonta(List<SaldoKonto> listaSaldoKonto, String string, int i) {
         List<SaldoKonto> l = new ArrayList<>();
@@ -337,9 +381,7 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
 //    private List<Sprawozdanie_0> generujgrupe0(List<SaldoKonto> pobranekonta) {
-//        
+//
 //    }
-//    
-     
-     
+//
 }

@@ -47,7 +47,7 @@ import waluty.Z;
 @ManagedBean
 @ViewScoped
 public class BilansGenerowanieView implements Serializable {
-    
+
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     @ManagedProperty(value = "#{saldoAnalitykaView}")
@@ -73,7 +73,7 @@ public class BilansGenerowanieView implements Serializable {
         this.komunikatyerror = new ArrayList<>();
         this.listawalut = new HashMap<>();
     }
-    
+
     @PostConstruct
     private void init() {
         List<Waluty> waluty = walutyDAOfk.findAll();
@@ -81,17 +81,12 @@ public class BilansGenerowanieView implements Serializable {
             listawalut.put(p.getSymbolwaluty(), p);
         }
     }
-    
-
-    
-   
 
 //<editor-fold defaultstate="collapsed" desc="comment">
-    
     public WpisView getWpisView() {
         return wpisView;
     }
-    
+
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
@@ -127,24 +122,22 @@ public class BilansGenerowanieView implements Serializable {
     public void setKomunikatyerror(List<String> komunikatyerror) {
         this.komunikatyerror = komunikatyerror;
     }
-   
+
     public SaldoAnalitykaView getSaldoAnalitykaView() {
         return saldoAnalitykaView;
     }
-    
+
     public void setSaldoAnalitykaView(SaldoAnalitykaView saldoAnalitykaView) {
         this.saldoAnalitykaView = saldoAnalitykaView;
     }
-    
+
 //</editor-fold>
-    
-    
     public static void generujbilans() {
         String podatnik = "Lolo";
         List<testobjects.Konto> saldakont = pobierzkonta(podatnik);
         List<testobjects.WierszBO_T> wierszeBO = generujwierszeBO(saldakont);
-        assert wierszeBO.size() == 10 : "za malo wierszy "+wierszeBO.size();
-        assert wierszeBO.get(9).getKwotaWn() == 150.0 : "nieprawidlowa kwota "+wierszeBO.get(9).getKwotaWn();
+        assert wierszeBO.size() == 10 : "za malo wierszy " + wierszeBO.size();
+        assert wierszeBO.get(9).getKwotaWn() == 150.0 : "nieprawidlowa kwota " + wierszeBO.get(9).getKwotaWn();
         boolean dokumentusuniety = usunpoprzednidokumentBO(podatnik);
         assert dokumentusuniety == true : "blad nie usunieto dokumentu";
         if (dokumentusuniety) {
@@ -179,8 +172,9 @@ public class BilansGenerowanieView implements Serializable {
         }
         return wierszeBO;
     }
-    public static void main(String[] args){
-         generujbilans();
+
+    public static void main(String[] args) {
+        generujbilans();
     }
 
     private static boolean usunpoprzednidokumentBO(String podatnik) {
@@ -188,10 +182,10 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private static Dokfk generujNowyDokBO(List<WierszBO_T> wierszeBO, String podatnik) {
-        Dokfk nowydok = getDokfk("BO",podatnik);
+        Dokfk nowydok = getDokfk("BO", podatnik);
         return nowydok;
     }
-    
+
     public static Dokfk getDokfk(String rodzaj, String podatnik) {
         DokfkPK dp = new DokfkPK(rodzaj, 12, podatnik, "2015");
         Dokfk d = new Dokfk(dp);
@@ -206,27 +200,27 @@ public class BilansGenerowanieView implements Serializable {
         d.setMiesiac("02");
         return d;
     }
-    
-     public void generuj() {
+
+    public void generuj() {
         this.komunikatyok = new ArrayList<>();
         boolean stop = false;
         List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-         if (konta.isEmpty()) {
+        if (konta.isEmpty()) {
             stop = true;
-            String error = "Brak kont w roku "+wpisView.getRokWpisuSt()+" nie można generować BO";
-            Msg.msg("e",error);
+            String error = "Brak kont w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
+            Msg.msg("e", error);
             komunikatyerror.add(error);
         } else {
-            komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: "+konta.size());
-         }
+            komunikatyok.add("Sprawdzono obecnosc planu kont. Liczba kont: " + konta.size());
+        }
         List<UkladBR> uklad = ukladBRDAO.findukladBRPodatnikRok(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         if (uklad.isEmpty()) {
             stop = true;
-            String error = "Brak ukladu w roku "+wpisView.getRokWpisuSt()+" nie można generować BO";
-            Msg.msg("e",error);
+            String error = "Brak ukladu w roku " + wpisView.getRokWpisuSt() + " nie można generować BO";
+            Msg.msg("e", error);
             komunikatyerror.add(error);
         } else {
-            komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: "+uklad.size());
+            komunikatyok.add("Sprawdzono obecnosc układu. Liczba ukladów: " + uklad.size());
         }
         if (stop == true) {
             sabledy = true;
@@ -234,6 +228,11 @@ public class BilansGenerowanieView implements Serializable {
             wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             Waluty walpln = saldoAnalitykaView.initGenerowanieBO();
             List<SaldoKonto> listaSaldoKonto = saldoAnalitykaView.getListaSaldoKonto();
+            for (SaldoKonto p : listaSaldoKonto) {
+                if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getSaldoWn() == 123.0) {
+                    System.out.println("");
+                }
+            }
             List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
             obliczkontawynikowe(kontowyniku, listaSaldoKonto, walpln);
@@ -241,7 +240,7 @@ public class BilansGenerowanieView implements Serializable {
             List<SaldoKonto> listaSaldoKontoPrzetworzone = przetwarzajSaldoKonto(listaSaldoKonto);
             List<WierszBO> wierszeBO = new ArrayList<>();
             zrobwierszeBO(wierszeBO, listaSaldoKontoPrzetworzone, kontaNowyRok);
-            komunikatyok.add("Wygenerowano BO na rok "+wpisView.getRokWpisuSt());
+            komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
             wierszBODAO.editList(wierszeBO);
             zapiszBOnaKontach(wierszeBO, kontaNowyRok);
             bilansWprowadzanieView.init();
@@ -249,15 +248,15 @@ public class BilansGenerowanieView implements Serializable {
             Msg.msg("Generuje bilans");
         }
     }
-    
+
     private void zapiszBOnaKontach(List<WierszBO> wierszeBO, List<Konto> kontaNowyRok) {
         for (WierszBO p : wierszeBO) {
-                Konto k = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
-                k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
-                k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
-                if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
-                    k.setBlokada(true);
-                }
+            Konto k = kontaNowyRok.get(kontaNowyRok.indexOf(p.getKonto()));
+            k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
+            k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
+            if (k.getBoWn() > 0.0 || k.getBoMa() > 0.0) {
+                k.setBlokada(true);
+            }
         }
         kontoDAO.editList(kontaNowyRok);
     }
@@ -278,9 +277,9 @@ public class BilansGenerowanieView implements Serializable {
         SaldoKonto p = pobierzSaldoKonto(listaSaldoKonto, kontowyniku);
         p.setWalutadlabo(walpln);
         if (wynik > 0) {
-            p.setSaldoMa(Z.z(p.getSaldoMa()+wynik));
+            p.setSaldoMa(Z.z(p.getSaldoMa() + wynik));
         } else {
-            p.setSaldoWn(Z.z(p.getSaldoWn())-wynik);
+            p.setSaldoWn(Z.z(p.getSaldoWn()) - wynik);
         }
     }
 
@@ -298,7 +297,7 @@ public class BilansGenerowanieView implements Serializable {
         return saldoKonto;
     }
 
-    private void zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto,  List<Konto> kontaNowyRok) {
+    private void zrobwierszeBO(List<WierszBO> wierszeBO, List<SaldoKonto> listaSaldoKonto, List<Konto> kontaNowyRok) {
         if (!listaSaldoKonto.isEmpty()) {
             for (SaldoKonto p : listaSaldoKonto) {
                 if (p.getKonto().getBilansowewynikowe().equals("bilansowe")) {
@@ -333,21 +332,21 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     private Collection<? extends SaldoKonto> przetworzPojedyncze(SaldoKonto p) {
-         List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
-         Set<Waluty> waluty = new HashSet<>();
-         for (StronaWiersza t : p.getZapisy()) {
-             waluty.add(listawalut.get(t.getSymbolWalut()));
-         }
-         for (Waluty wal : waluty) {
-             nowalista_wierszy.addAll(sumujdlawaluty(wal,p.getZapisy()));
-         }
-         return nowalista_wierszy;
+        List<SaldoKonto> nowalista_wierszy = new ArrayList<>();
+        Set<Waluty> waluty = new HashSet<>();
+        for (StronaWiersza t : p.getZapisy()) {
+            waluty.add(listawalut.get(t.getSymbolWalut()));
+        }
+        for (Waluty wal : waluty) {
+            nowalista_wierszy.addAll(sumujdlawaluty(wal, p.getZapisy()));
+        }
+        return nowalista_wierszy;
     }
 
     private Collection<? extends SaldoKonto> sumujdlawaluty(Waluty wal, List<StronaWiersza> zapisy) {
         List<SaldoKonto> zapisykonta = new ArrayList<>();
         for (StronaWiersza t : zapisy) {
-            System.out.println("generowanie bo " +t);
+            System.out.println("generowanie bo " + t);
             if (t.getPozostalo() != 0.0 && t.getSymbolWalut().equals(wal.getSymbolwaluty()) && t.getToNieJestRRK()) {
                 if (t.getKwota() == 26.20) {
                     System.out.println("");
@@ -358,5 +357,4 @@ public class BilansGenerowanieView implements Serializable {
         return zapisykonta;
     }
 
-   
 }
