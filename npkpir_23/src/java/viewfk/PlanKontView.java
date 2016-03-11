@@ -18,6 +18,7 @@ import daoFK.KontopozycjaZapisDAO;
 import daoFK.MiejsceKosztowDAO;
 import daoFK.PojazdyDAO;
 import daoFK.UkladBRDAO;
+import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.TreeNodeExtended;
 import entity.Podatnik;
@@ -28,6 +29,7 @@ import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.UkladBR;
+import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,10 +52,10 @@ import view.WpisView;
  *
  * @author Osito
  */
-
 @ManagedBean
 @ViewScoped
 public class PlanKontView implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private int levelBiezacy = 0;
@@ -89,13 +91,14 @@ public class PlanKontView implements Serializable {
     private KontopozycjaBiezacaDAO kontopozycjaBiezacaDAO;
     @Inject
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
+    @Inject
+    private WierszBODAO wierszBODAO;
     private String infozebrakslownikowych;
     @ManagedProperty(value = "#{planKontCompleteView}")
     private PlanKontCompleteView planKontCompleteView;
     private boolean bezslownikowych;
     private boolean tylkosyntetyka;
-    
-    
+
     public PlanKontView() {
     }
 
@@ -104,7 +107,7 @@ public class PlanKontView implements Serializable {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
         int czysaslownikowe = sprawdzkonta();
-        if (czysaslownikowe==0) {
+        if (czysaslownikowe == 0) {
             infozebrakslownikowych = " Brak podłączonych słowników do kont rozrachunkowych! Nie można księgować kontrahentów.";
             RequestContext.getCurrentInstance().update("dialogpierwszy");
         } else if (czysaslownikowe == 1) {
@@ -124,8 +127,8 @@ public class PlanKontView implements Serializable {
         if (wykazkont == null || wykazkont.size() == 0) {
             zwrot = 1;
         } else {
-            for (Konto p: wykazkont) {
-                if (p.isSlownikowe()==true) {
+            for (Konto p : wykazkont) {
+                if (p.isSlownikowe() == true) {
                     zwrot = 2;
                     break;
                 }
@@ -133,7 +136,7 @@ public class PlanKontView implements Serializable {
         }
         return zwrot;
     }
-    
+
     private TreeNodeExtended<Konto> rootInit(List<Konto> wykazKont) {
         TreeNodeExtended<Konto> r = new TreeNodeExtended("root", null);
         if (!wykazKont.isEmpty()) {
@@ -215,7 +218,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
-    
+
     public void dodajanalityczne() {
         String podatnik;
         Konto kontomacierzyste = null;
@@ -237,10 +240,10 @@ public class PlanKontView implements Serializable {
                 try {
                     KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, ukladBRDAO);
                     if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                           Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-                        } else {
-                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
-                        }
+                        Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
+                    } else {
+                        PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
+                    }
                 } catch (Exception e) {
                     E.e(e);
                 }
@@ -263,45 +266,45 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Nie można dodawać kont analitycznych. Istnieją zapisy z BO");
         }
     }
-    
+
     public void dodajanalityczneWpis() {
         String nrmacierzystego = PlanKontFKBean.modyfikujnr(noweKonto.getPelnynumer());
         Konto kontomacierzyste = PlanKontFKBean.wyszukajmacierzyste(wpisView, kontoDAOfk, nrmacierzystego);
         if (kontomacierzyste != null && kontomacierzyste.getIdslownika() == 0) {
-                int wynikdodaniakonta = 1;
-                wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
-                if (wynikdodaniakonta == 0) {
-                    try {
-                        KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, ukladBRDAO);
-                        if (kpo.getSyntetykaanalityka().equals("analityka")) {
-                           Msg.msg("w","Konto przyporządkowane z poziomu analityki!");
-                        } else {
-                            PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
-                        }
-                    } catch (Exception e) {
-                        E.e(e);
-                    }
-                }
-                if (wynikdodaniakonta == 0) {
-                    PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
-                    if (czyoddacdowzorca == true) {
-                        wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+            int wynikdodaniakonta = 1;
+            wynikdodaniakonta = PlanKontFKBean.dodajanalityczne(wykazkont, noweKonto, kontomacierzyste, kontoDAOfk, wpisView);
+            if (wynikdodaniakonta == 0) {
+                try {
+                    KontopozycjaZapis kpo = kontopozycjaZapisDAO.findByKonto(kontomacierzyste, ukladBRDAO);
+                    if (kpo.getSyntetykaanalityka().equals("analityka")) {
+                        Msg.msg("w", "Konto przyporządkowane z poziomu analityki!");
                     } else {
-                        wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                        PlanKontFKBean.naniesPrzyporzadkowanie(kpo, noweKonto, kontopozycjaZapisDAO, kontoDAOfk, "syntetyka", ukladBRDAO);
                     }
-                    noweKonto = new Konto();
-                    //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
-                    Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
-                } else {
-                    noweKonto = new Konto();
-                    Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+                } catch (Exception e) {
+                    E.e(e);
                 }
-                planKontCompleteView.init();
+            }
+            if (wynikdodaniakonta == 0) {
+                PlanKontFKBean.zablokujKontoMacierzysteNieSlownik(kontomacierzyste, kontoDAOfk);
+                if (czyoddacdowzorca == true) {
+                    wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
+                } else {
+                    wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                }
+                noweKonto = new Konto();
+                //PlanKontFKBean.odswiezroot(r, kontoDAOfk, wpisView);
+                Msg.msg("i", "Dodaje konto analityczne", "formX:messages");
+            } else {
+                noweKonto = new Konto();
+                Msg.msg("e", "Konto analityczne o takim numerze juz istnieje!", "formX:messages");
+            }
+            planKontCompleteView.init();
         } else {
             Msg.msg("e", "Niewłaściwy numer konta lub próba zmiany konta słownikowego. Nie dodano nowej analityki");
         }
     }
-    
+
     public void dodajslownik() {
         Konto kontomacierzyste = selectednodekonto;
         List<Konto> kontapodpiete = kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
@@ -426,16 +429,16 @@ public class PlanKontView implements Serializable {
                         Msg.msg("e", "Wystąpił błąd przy dodawaniu elementów słownika delegacji zagranicznych");
                     }
                 }
-            } catch (Exception e) {  E.e(e);
+            } catch (Exception e) {
+                E.e(e);
             }
         }
     }
 
-    
     public void implementacjaKontWzorcowych() {
         if (!wykazkontwzor.isEmpty()) {
             for (Konto p : wykazkontwzor) {
-                if (wpisView.isFKpiatki() == false && p.getPelnynumer().startsWith("5")){
+                if (wpisView.isFKpiatki() == false && p.getPelnynumer().startsWith("5")) {
                     System.out.println("Nie implementuje konta 5");
                 } else {
                     p.setMapotomkow(false);
@@ -504,37 +507,37 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
     }
-    
-     public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
+
+    public void implementacjaJednegoKontaWzorcowegoZAnalitykom() {
         if (selectednodekonto != null) {
             try {
-            List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
-            for (Podatnik p : listapodatnikowfk) {
-                Konto konto = selectednodekonto;
-                dodajpojedynczekoto(konto, wpisView.getPodatnikWpisu());
-                List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), konto.getPelnynumer());
-                for (Konto r : potomne) {
-                    dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
+                List<Podatnik> listapodatnikowfk = podatnikDAO.findPodatnikFK();
+                for (Podatnik p : listapodatnikowfk) {
+                    Konto konto = selectednodekonto;
+                    dodajpojedynczekoto(konto, wpisView.getPodatnikWpisu());
+                    List<Konto> potomne = kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), konto.getPelnynumer());
+                    for (Konto r : potomne) {
+                        dodajpojedynczekoto(r, wpisView.getPodatnikWpisu());
+                    }
                 }
-            }
-            wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-            //root = rootInit(wykazkont);
-            //rozwinwszystkie(root);
-            Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego z analityką u wszystkich klientów FK");
+                wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+                //root = rootInit(wykazkont);
+                //rozwinwszystkie(root);
+                Msg.msg("Zakonczono z sukcesem implementacje pojedyńczego konta wzorcowego z analityką u wszystkich klientów FK");
             } catch (Exception e1) {
-                        Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
+                Msg.msg("e", "Próbujesz zaimplementować konto analityczne. Zaimplementuj najpierw jego konto macierzyste.");
             }
         } else {
             Msg.msg("w", "Coś poszło nie tak. Lista kont wzorcowych jest pusta.");
         }
     }
-     
+
     public void implementacjaJednegoKontadoWzorcowychZAnalitykom() {
         if (selectednodekonto != null) {
             try {
                 Konto konto = selectednodekonto;
                 dodajpojedynczekoto(konto, "Wzorcowy");
-                List<Konto> potomne = kontoDAOfk.findKontaPotomne(wpisView, konto.getPelnynumer(),konto.getBilansowewynikowe());
+                List<Konto> potomne = kontoDAOfk.findKontaPotomne(wpisView, konto.getPelnynumer(), konto.getBilansowewynikowe());
                 for (Konto r : potomne) {
                     dodajpojedynczekotoWzorcowy(r, konto.getPelnynumer());
                 }
@@ -547,8 +550,8 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do zaimplementowania jest pusta.");
         }
     }
-     
-     private void dodajpojedynczekoto(Konto konto, String podatnik) {
+
+    private void dodajpojedynczekoto(Konto konto, String podatnik) {
         konto.setPodatnik(podatnik);
         if (!konto.getMacierzyste().equals("0")) {
             Konto macierzyste = kontoDAOfk.findKonto(konto.getMacierzyste(), wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
@@ -568,9 +571,9 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
         } catch (Exception ef) {
         }
-     }
-     
-     private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
+    }
+
+    private void dodajpojedynczekotoWzorcowy(Konto konto, String pelnynumer) {
         konto.setPodatnik("Wzorcowy");
         if (!konto.getMacierzyste().equals("0")) {
             Konto macierzyste = kontoDAOfk.findKonto(pelnynumer, "Wzorcowy", wpisView.getRokWpisu());
@@ -590,7 +593,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Wystąpił błąd przy implementowaniu kont. Istnieje konto o takim numerze: " + konto.getPelnynumer());
         } catch (Exception ef) {
         }
-     }
+    }
 
     public void usunieciewszystkichKontPodatnika() {
         if (!wykazkont.isEmpty()) {
@@ -601,13 +604,15 @@ public class PlanKontView implements Serializable {
                 wyczyscKonta("bilansowe");
                 kontopozycjaZapisDAO.usunZapisaneKontoPozycjaPodatnikUklad(ukladpodatnika, "bilansowe");
             }
+            wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
             for (Iterator it = wykazkont.iterator(); it.hasNext();) {
                 Konto p = (Konto) it.next();
                 if (!p.getPodatnik().equals("Wzorcowy")) {
                     try {
                         kontoDAOfk.destroy(p);
                         it.remove();
-                    } catch (Exception e) {  E.e(e);
+                    } catch (Exception e) {
+                        E.e(e);
                         Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                     }
                 } else {
@@ -622,6 +627,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
+
     private void wyczyscKonta(String rb) {
         if (rb.equals("wynikowe")) {
             List<Konto> listakont = kontoDAOfk.findWszystkieKontaWynikowePodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -645,6 +651,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
+
     public void usunieciewszystkichKontWzorcowy() {
         if (!wykazkontwzor.isEmpty()) {
             List<UkladBR> uklady = ukladBRDAO.findukladBRWzorcowyRok(wpisView.getRokWpisuSt());
@@ -657,7 +664,8 @@ public class PlanKontView implements Serializable {
             for (Konto p : wykazkontwzor) {
                 try {
                     kontoDAOfk.destroy(p);
-                } catch (Exception e) {  E.e(e);
+                } catch (Exception e) {
+                    E.e(e);
                     Msg.msg("e", "Wystąpił błąd przy usuwaniu wszytskich kont. Na nieusuniętych kontach istnieją zapisy. Przerywam wykonywanie funkcji");
                 }
             }
@@ -668,7 +676,6 @@ public class PlanKontView implements Serializable {
             Msg.msg("w", "Coś poszło nie tak. Lista kont do usuniecia jest pusta.");
         }
     }
-    
 
     public void porzadkowanieKontPodatnika() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -692,12 +699,10 @@ public class PlanKontView implements Serializable {
                     } else {
                         PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "wynik", wpisView.getRokWpisu());
                     }
+                } else if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "wnma", wpisView.getRokWpisu());
                 } else {
-                    if (p.getZwyklerozrachszczegolne().equals("rozrachunkowe") || p.getZwyklerozrachszczegolne().equals("vat") || p.getZwyklerozrachszczegolne().equals("szczególne")) {
-                        PozycjaRZiSFKBean.przyporzadkujpotkomkowRozrachunkowe(p, p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "wnma", wpisView.getRokWpisu());
-                    } else {
-                        PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "bilans", wpisView.getRokWpisu());
-                    }
+                    PozycjaRZiSFKBean.przyporzadkujpotkomkowZwykle(p.getPelnynumer(), p.getKontopozycjaID(), kontoDAOfk, wpisView.getPodatnikWpisu(), "bilans", wpisView.getRokWpisu());
                 }
             }
         }
@@ -720,7 +725,7 @@ public class PlanKontView implements Serializable {
     }
 
     public void usunZsubkontami(String klientWzor) {
-        Konto kontoDoUsuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
+        Konto kontoDoUsuniecia = selectednodekonto != null ? selectednodekonto : selectednodekontowzorcowy;
         List<Rodzajedok> dokumenty = null;
         if (klientWzor.equals("K")) {
             dokumenty = rodzajedokDAO.findListaPodatnik(wpisView.getPodatnikObiekt());
@@ -733,7 +738,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
-    
+
     private void usunrekurencja(String klientWzor, Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
         if (kontoDoUsuniecia.isMapotomkow() == false) {
             try {
@@ -759,7 +764,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
-    
+
     private void usunuzyciewdokumencie(Konto kontoDoUsuniecia, List<Rodzajedok> dokumenty) {
         try {
             for (Rodzajedok p : dokumenty) {
@@ -780,7 +785,7 @@ public class PlanKontView implements Serializable {
             E.e(e);
         }
     }
-    
+
     private void usunpozycje(Konto kontoDoUsuniecia) {
         try {
             KontopozycjaZapis p = kontopozycjaZapisDAO.findByKonto(kontoDoUsuniecia, ukladBRDAO);
@@ -791,7 +796,7 @@ public class PlanKontView implements Serializable {
             E.e(e);
         }
     }
-    
+
     private void usunkontozbazy(Konto kontoDoUsuniecia, String klientWzor) {
         kontoDAOfk.destroy(kontoDoUsuniecia);
         if (klientWzor.equals("W")) {
@@ -800,17 +805,16 @@ public class PlanKontView implements Serializable {
             wykazkont.remove(kontoDoUsuniecia);
         }
     }
-    
+
     private void oznaczbraksiostr(boolean sadzieci, Konto kontoDoUsuniecia, String klientWzor) {
         Konto kontomacierzyste = kontoDAOfk.findKonto(kontoDoUsuniecia.getMacierzysty());
         List<Konto> siostry = sprawdzczysasiostry(klientWzor, kontomacierzyste);
         if (siostry.size() < 1) {
-        //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
+            //jak nie ma wiecej dzieci podpietych pod konto macierzyse usuwanego to zaznaczamy to na koncie macierzystym;
             odznaczmacierzyste(sadzieci, kontomacierzyste, kontoDoUsuniecia);
         }
     }
-    
-    
+
     private void usunslownikowe(Konto kontoDoUsuniecia) {
         int wynik = PlanKontFKBean.usunelementyslownika(kontoDoUsuniecia.getMacierzyste(), kontoDAOfk, wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), wykazkont, kontopozycjaZapisDAO, ukladBRDAO);
         if (wynik == 0) {
@@ -824,8 +828,9 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Wystapił błąd i nie usunięto elementów słownika");
         }
     }
+
     public void usun(String klientWzor) {
-        Konto kontoDoUsuniecia = selectednodekonto != null? selectednodekonto : selectednodekontowzorcowy;
+        Konto kontoDoUsuniecia = selectednodekonto != null ? selectednodekonto : selectednodekontowzorcowy;
         if (kontoDoUsuniecia != null) {
             if (kontoDoUsuniecia.isBlokada() == true) {
                 Msg.msg("e", "Konto zablokowane. Na koncie istnieją zapisy. Nie można go usunąć");
@@ -842,7 +847,7 @@ public class PlanKontView implements Serializable {
                         oznaczbraksiostr(sadzieci, kontoDoUsuniecia, klientWzor);
                     }
                     Msg.msg("i", "Usuwam konto");
-                } catch (Exception e) { 
+                } catch (Exception e) {
                     E.e(e);
                     Msg.msg("e", "Istnieją zapisy na koncie lub konto użyte jest jako definicja dokumentu, nie można go usunąć.");
                 }
@@ -851,15 +856,15 @@ public class PlanKontView implements Serializable {
             Msg.msg("e", "Nie wybrano konta");
         }
     }
-    
+
     private List<Konto> sprawdzczysasiostry(String klientWzor, Konto kontomacierzyste) {
         if (klientWzor.equals("W")) {
             return kontoDAOfk.findKontaPotomnePodatnik("Wzorcowy", wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
         } else {
-            return kontoDAOfk.findKontaPotomnePodatnik( wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
+            return kontoDAOfk.findKontaPotomnePodatnik(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu(), kontomacierzyste.getPelnynumer());
         }
     }
-    
+
     private void odznaczmacierzyste(boolean sadzieci, Konto kontomacierzyste, Konto kontoDoUsuniecia) {
         if (sadzieci == false && !kontoDoUsuniecia.getMacierzyste().equals("0")) {
             kontomacierzyste.setBlokada(false);
@@ -892,14 +897,13 @@ public class PlanKontView implements Serializable {
     public void obslugaBlokadyKontaWszystkie() {
         for (Konto p : wykazkont) {
             Konto konto = p;
-                konto.setBlokada(false);
-                kontoDAOfk.edit(konto);
+            konto.setBlokada(false);
+            kontoDAOfk.edit(konto);
 
         }
         Msg.msg("w", "Odblokowano edycję kont");
     }
 
-    
     public void zmiananazwykonta() {
         try {
             List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomnePodatnik(wpisView, selectednodekonto);
@@ -914,11 +918,12 @@ public class PlanKontView implements Serializable {
                 }
             }
             kontoDAOfk.edit(selectednodekonto);
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
+
     public void zmiananazwykontawzorcowy() {
         try {
             List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, selectednodekontowzorcowy);
@@ -933,20 +938,20 @@ public class PlanKontView implements Serializable {
                 }
             }
             kontoDAOfk.edit(selectednodekontowzorcowy);
-        } catch (Exception e) {  E.e(e);
-            
+        } catch (Exception e) {
+            E.e(e);
+
         }
     }
-    
 
     public void selrow() {
         Msg.msg("i", "Wybrano: " + selectednodekonto.getPelnynumer() + " " + selectednodekonto.getNazwapelna());
     }
-    
-     public void selrowwzorcowy() {
+
+    public void selrowwzorcowy() {
         Msg.msg("i", "Wybrano: " + selectednodekontowzorcowy.getPelnynumer() + " " + selectednodekontowzorcowy.getNazwapelna());
     }
-    
+
     public void zachowajZmianyWKoncieWzorcowy(Konto konto) {
         kontoDAOfk.edit(konto);
         List<Konto> kontapotomne = kontoDAOfk.findKontaWszystkiePotomneWzorcowy(wpisView, konto);
@@ -956,16 +961,17 @@ public class PlanKontView implements Serializable {
         }
         wykazkontwzor = kontoDAOfk.findWszystkieKontaWzorcowy(wpisView);
     }
-    
-     public void porzadkujSlowniki() {
+
+    public void porzadkujSlowniki() {
         List<Kliencifk> obecniprzyporzadkowaniklienci = kliencifkDAO.znajdzkontofkKlient(wpisView.getPodatnikObiekt().getNip());
         boolean sakliencifk = obecniprzyporzadkowaniklienci != null && !obecniprzyporzadkowaniklienci.isEmpty();
         if (sakliencifk) {
             for (Kliencifk p : obecniprzyporzadkowaniklienci) {
                 try {
-                    PlanKontFKBean.porzadkujslownik(wykazkont, p.getNazwa(), p.getNip(), Integer.parseInt(p.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,1, ukladBRDAO);
-                } catch (Exception e) {  E.e(e);
-                    
+                    PlanKontFKBean.porzadkujslownik(wykazkont, p.getNazwa(), p.getNip(), Integer.parseInt(p.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 1, ukladBRDAO);
+                } catch (Exception e) {
+                    E.e(e);
+
                 }
             }
         }
@@ -974,9 +980,9 @@ public class PlanKontView implements Serializable {
         if (samiejscakosztow) {
             for (MiejsceKosztow r : miejscakosztow) {
                 try {
-                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,2, ukladBRDAO);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpismiejsca(), r.getOpisskrocony(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 2, ukladBRDAO);
                 } catch (Exception e1) {
-                    
+
                 }
             }
         }
@@ -988,9 +994,9 @@ public class PlanKontView implements Serializable {
                     if (r.getOpisdlugi().equals("113/05/2015/k")) {
                         System.out.println("k");
                     }
-                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,5, ukladBRDAO);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 5, ukladBRDAO);
                 } catch (Exception e1) {
-                    
+
                 }
             }
         }
@@ -999,22 +1005,22 @@ public class PlanKontView implements Serializable {
         if (sadelegacjezagr) {
             for (Delegacja r : delegacjezagraniczne) {
                 try {
-                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,6, ukladBRDAO);
+                    PlanKontFKBean.porzadkujslownik(wykazkont, r.getOpisdlugi(), r.getOpiskrotki(), Integer.parseInt(r.getNrkonta()), kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 6, ukladBRDAO);
                 } catch (Exception e1) {
-                    
+
                 }
             }
         }
         List<String> listamiesiace = Mce.getMcenazwaListSlownik();
         int nrkonta = 1;
         for (String l : listamiesiace) {
-            PlanKontFKBean.porzadkujslownik(wykazkont, l, l, nrkonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk,4, ukladBRDAO);
+            PlanKontFKBean.porzadkujslownik(wykazkont, l, l, nrkonta, kontoDAOfk, wpisView, kontopozycjaZapisDAO, kontoDAOfk, 4, ukladBRDAO);
             nrkonta++;
         }
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Msg.msg("Zakonczono aktualizowanie słowników");
     }
-     
+
     public void oznaczkontoJakoKosztowe() {
         if (selectednodekonto.getId() == null) {
             Msg.msg("e", "Nie wybrano konta");
@@ -1024,7 +1030,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
-    
+
     public void oznaczkontoJakoKosztoweWzorcowy() {
         if (selectednodekonto.getId() == null) {
             Msg.msg("e", "Nie wybrano konta");
@@ -1044,8 +1050,8 @@ public class PlanKontView implements Serializable {
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
-    
-     public void oznaczkontoJakoPrzychodoweWzorcowy() {
+
+    public void oznaczkontoJakoPrzychodoweWzorcowy() {
         if (selectednodekonto.getId() == null) {
             Msg.msg("e", "Nie wybrano konta");
         } else {
@@ -1054,7 +1060,7 @@ public class PlanKontView implements Serializable {
             Msg.msg("Naniesiono oznaczenia na konta");
         }
     }
-     
+
     public void drukujPlanKont(String parametr) {
         switch (parametr) {
             case "all":
@@ -1124,7 +1130,7 @@ public class PlanKontView implements Serializable {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
         Collections.sort(wykazkont, new Kontocomparator());
     }
-    
+
     private void usunslownikowe() {
         if (bezslownikowych || tylkosyntetyka) {
             for (Iterator<Konto> it = wykazkont.iterator(); it.hasNext();) {
@@ -1143,7 +1149,7 @@ public class PlanKontView implements Serializable {
             }
         }
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
     public Konto getSelectednodekonto() {
         return selectednodekonto;
@@ -1152,8 +1158,7 @@ public class PlanKontView implements Serializable {
     public void setSelectednodekonto(Konto selectednodekonto) {
         this.selectednodekonto = selectednodekonto;
     }
-    
-    
+
     public List<Konto> getWykazkont() {
         return wykazkont;
     }
@@ -1186,14 +1191,11 @@ public class PlanKontView implements Serializable {
         this.wewy = wewy;
     }
 
-    
-
 //   static{
     public String getListajs() {
         return "jeden,dwa,trzy,cztery,piec,szesc,siedem,osiem,dziewiec,dziesiec";
     }
 
-    
     public WpisView getWpisView() {
         return wpisView;
     }
@@ -1201,9 +1203,8 @@ public class PlanKontView implements Serializable {
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
-    
-//</editor-fold>
 
+//</editor-fold>
     public List<Konto> getWykazkontwzor() {
         return wykazkontwzor;
     }
@@ -1252,10 +1253,4 @@ public class PlanKontView implements Serializable {
         this.tylkosyntetyka = tylkosyntetyka;
     }
 
-    
-
-    
-
-    
-    
 }
