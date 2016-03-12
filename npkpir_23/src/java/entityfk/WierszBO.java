@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import waluty.Z;
 
 /**
  *
@@ -68,8 +69,17 @@ public class WierszBO implements Serializable {
         this.wierszBOPK.setOpis(p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode());
         this.podatnik = podatnik;
         this.konto = konto;
-        this.kwotaWn = p.getSaldoWn();
-        this.kwotaWnPLN = p.getSaldoWnPLN();
+        if (p.getSaldoWn() > p.getSaldoMa()) {
+            this.kwotaWn = Z.z(p.getSaldoWn() - p.getSaldoMa());
+            this.kwotaWnPLN = Z.z(p.getSaldoWnPLN() - p.getSaldoMaPLN());
+            this.kwotaMa = 0.0;
+            this.kwotaMaPLN = 0.0;
+        } else {
+            this.kwotaWn = 0.0;
+            this.kwotaWnPLN = 0.0;
+            this.kwotaMa = Z.z(p.getSaldoMa() - p.getSaldoWn());
+            this.kwotaMaPLN = Z.z(p.getSaldoMaPLN() - p.getSaldoWnPLN());
+        }
         this.kwotaMa = p.getSaldoMa();
         this.kwotaMaPLN = p.getSaldoMaPLN();
         this.kurs = p.getKursdlaBO();

@@ -1,19 +1,23 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition 
+<ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <p:outputPanel id="wrapper">    
+    <p:outputPanel id="wrapper">
         <h:outputText value="W tej części programu można uzupełniać dane podatkowe i inny dotyczące wszystkich klientów."/><br/>
         <h:outputText value="Następne te dane można wykorzystać do parametryzowania poszczególnych podatników"/><br/>
     </p:outputPanel>
     <h:form>
         <p:commandButton value="importuj z pliku" actionListener="#{walutyFKBean.pobierzkursy()}" ajax="false"/>
 
+    </h:form>
+
+    <h:form>
+        <p:commandButton value="multi" actionListener="#{watek.pobieraj()}" style="width: 120px;"/>
     </h:form>
     <!--    <h:form>
             <p:commandButton value="importuj z pliku" actionListener="#{KlView.pobierzklientazPliku()}" update="@all" />
@@ -27,7 +31,7 @@
 <!--        <p:commandButton value="skopiuj udzialy" actionListener="#{podatnikView.zamienudzialy()}"/>-->
 <!--        <p:commandButton value="zamien opodatkowanie" actionListener="#{podatnikView.zamienOpodatkowanieDochodowym()}"/>-->
 <!--        <p:commandButton value="naprawfaktury" actionListener="#{fakturaView.zrobfakt()}"/>-->
-   
-    
-</ui:composition>   
+
+
+</ui:composition>
 

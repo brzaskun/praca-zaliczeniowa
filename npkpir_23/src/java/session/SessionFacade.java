@@ -635,6 +635,16 @@ public class SessionFacade<T> implements Serializable {
         return (Konto) em.createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
     }
 
+    public Konto findKonto2(int id) {
+        Konto k = null;
+        try {
+            k = (Konto) em.createNamedQuery("Konto.findById").setParameter("id", id).getSingleResult();
+        } catch (Exception e) {
+
+        }
+        return k;
+    }
+
     public Dokfk findZZapisu(String numer) {
         return (Dokfk) em.createNamedQuery("Dokfk.findByNumer").setParameter("numer", numer).getSingleResult();
     }

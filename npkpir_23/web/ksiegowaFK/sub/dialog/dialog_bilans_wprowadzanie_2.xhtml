@@ -305,13 +305,13 @@
                     <f:facet name="header">
                         <h:outputText value="kurs"/>
                     </f:facet>
-                    <bcf:outputkurs value="#{item.kurs}"/>
+                    <bcf:outputkurs value="#{item.kurs}"  rendered="#{item.waluta.symbolwaluty ne 'PLN'}"/>
                 </p:column>
                 <p:column width="40" style="text-align: center;">
                     <f:facet name="header">
                         <h:outputText value="waluta"/>
                     </f:facet>
-                    <h:outputText value="#{item.waluta.symbolwaluty}"/>
+                    <h:outputText value="#{item.waluta.symbolwaluty}" rendered="#{item.waluta.symbolwaluty ne 'PLN'}"/>
                 </p:column>
                 <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
                     <f:facet name="header">

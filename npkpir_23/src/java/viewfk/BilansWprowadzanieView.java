@@ -396,7 +396,7 @@ public class BilansWprowadzanieView implements Serializable {
 
     private void usuwanielista(List<WierszBO> l, WierszBO wierszBO) {
         try {
-                Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
+            Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
             Podatnik p = wpisView.getPodatnikObiekt();
             String r = wpisView.getRokWpisuSt();
             if (l.size() > 1) {
@@ -444,6 +444,9 @@ public class BilansWprowadzanieView implements Serializable {
             List<Konto> listakont = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
             for (WierszBO p : zachowaneWiersze) {
                 Konto k = listakont.get(listakont.indexOf(p.getKonto()));
+                if (k.getPelnynumer().equals("202-2-28")) {
+                    System.out.println("");
+                }
                 k.setBoWn(k.getBoWn() + p.getKwotaWnPLN());
                 k.setBoMa(k.getBoMa() + p.getKwotaMaPLN());
                 if (k.getBoWn() != 0.0 || k.getBoMa() != 0.0) {
@@ -451,6 +454,7 @@ public class BilansWprowadzanieView implements Serializable {
                 }
                 kontoDAO.edit(k);
             }
+            obliczsaldoBOkonta(listakont);
             aktualizujListaW();
             podsumujWnMa(listaW);
             podsumujWnMa(lista0, listaSumList.get(0));
@@ -463,6 +467,25 @@ public class BilansWprowadzanieView implements Serializable {
         } else {
             Msg.msg("e", "Sprawdź opisy przy kontach. Niektóre się powtarzają. Nie można zachować bilansu");
         }
+    }
+
+    private void obliczsaldoBOkonta(List<Konto> przygotowanalista) {
+        for (Konto r : przygotowanalista) {
+            if (r.getPelnynumer().equals("202-2-28")) {
+                System.out.println("");
+            }
+            if (r.getBoWn() > r.getBoMa()) {
+                r.setBoWn(r.getBoWn() - r.getBoMa());
+                r.setBoMa(0.0);
+            } else if (r.getBoWn() < r.getBoMa()) {
+                r.setBoMa(r.getBoMa() - r.getBoWn());
+                r.setBoWn(0.0);
+            } else {
+                r.setBoWn(0.0);
+                r.setBoMa(0.0);
+            }
+        }
+        kontoDAOfk.editList(przygotowanalista);
     }
 
     private void aktualizujListaW() {
@@ -481,14 +504,14 @@ public class BilansWprowadzanieView implements Serializable {
         int licznik = 0;
         String nrkonta = null;
         for (WierszBO p : l) {
-           String opislista = p.getWierszBOPK().getOpis().toLowerCase();
+            String opislista = p.getWierszBOPK().getOpis().toLowerCase();
             if (opislista.equals(opis.toLowerCase())) {
                 if (p.getKonto() != null) {
                     nrkonta = p.getKonto().getPelnynumer();
                     licznik++;
                 }
             }
-                if (licznik > 0) {
+            if (licznik > 0) {
                 Msg.msg("e", "Taki opis już istnieje na koncie: " + nrkonta + " opis: " + opis);
                 selected.getWierszBOPK().setOpis("zmień opis");
                 RequestContext.getCurrentInstance().update(pole);
@@ -1388,7 +1411,7 @@ public class BilansWprowadzanieView implements Serializable {
                 zwrot = true;
             }
             if (f.trim().matches("^(.*\\s+.*)+$") && f.length() > 6) {
-                String numeropis = k.getPelnynumer()+" "+k.getNazwapelna().toLowerCase();
+                String numeropis = k.getPelnynumer() + " " + k.getNazwapelna().toLowerCase();
                 if (numeropis.startsWith(f.toLowerCase())) {
                     zwrot = true;
                 }
