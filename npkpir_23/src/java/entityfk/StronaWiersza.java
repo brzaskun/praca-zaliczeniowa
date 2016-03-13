@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package entityfk;
 
 import embeddable.Mce;
@@ -13,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,9 +70,10 @@ import waluty.Z;
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokWalutaBilansBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'bilansowe' AND t.wiersz.tabelanbp.waluta.symbolwaluty = :symbolwaluty AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza = 9"),
     @NamedQuery(name = "StronaWiersza.findByPodatnikRokBilansBO", query = "SELECT t FROM StronaWiersza t WHERE t.konto.bilansowewynikowe = 'bilansowe' AND t.wiersz.dokfk.dokfkPK.rok = :rok AND t.wiersz.dokfk.podatnikObj = :podatnikObj AND t.typStronaWiersza = 9")
 })
-public class StronaWiersza implements Serializable{
-     private static final long serialVersionUID = 1L;
-     
+public class StronaWiersza implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -89,19 +88,19 @@ public class StronaWiersza implements Serializable{
     private double kwotaPLN;
     @Column(name = "kwotaWaluta")
     private double kwotaWaluta;
-    @Column(name="rozliczono")
+    @Column(name = "rozliczono")
     private double rozliczono;
-    @Column(name="pozostalo")
+    @Column(name = "pozostalo")
     private double pozostalo;
-    @Column(name="typStronaWiersza")
+    @Column(name = "typStronaWiersza")
     //0-nowy, 1-nowatransakcja, 2- rozliczajacy, inne do wykorzystania
     //11-nowa transakcja Wn, 12 - nowa tansakcja Ma
     //21- platnosc Wn, 22- platnosc Ma
     //9- BO
     private int typStronaWiersza;
-    @Column(name="nowatransakcja")
+    @Column(name = "nowatransakcja")
     private boolean nowatransakcja;
-    @JoinColumn(name= "idkonto", referencedColumnName = "id")
+    @JoinColumn(name = "idkonto", referencedColumnName = "id")
     @ManyToOne
     private Konto konto;
     @Column(name = "wnma")
@@ -112,22 +111,18 @@ public class StronaWiersza implements Serializable{
     private List<Transakcja> platnosci;
     @ManyToMany
     @JoinTable(
-      name="StronaWiersza_Cechazapisu",
-      joinColumns={
-          @JoinColumn(name = "id_StronaWiersza", referencedColumnName = "id"),
-      },
-      inverseJoinColumns={
-          @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
-          @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
-      })
+            name = "StronaWiersza_Cechazapisu",
+            joinColumns = {
+                @JoinColumn(name = "id_StronaWiersza", referencedColumnName = "id"),},
+            inverseJoinColumns = {
+                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
+                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+            })
     private List<Cechazapisu> cechazapisuLista;
     private String symbolWalutyBO;
     private double kursBO;
     private String opisBO;
-    
-    
 
-   
     public StronaWiersza(Wiersz nowywiersz, String wnma) {
         this.nowetransakcje = new ArrayList<>();
         this.platnosci = new ArrayList<>();
@@ -139,8 +134,8 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = 0;
         this.cechazapisuLista = new ArrayList<>();
     }
-    
-     public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
+
+    public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota) {
         this.nowetransakcje = new ArrayList<>();
         this.platnosci = new ArrayList<>();
         this.kwota = Z.z(kwota);
@@ -151,8 +146,8 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = 0;
         this.cechazapisuLista = new ArrayList<>();
     }
-     
-     public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota, Konto konto) {
+
+    public StronaWiersza(Wiersz nowywiersz, String wnma, double kwota, Konto konto) {
         this.nowetransakcje = new ArrayList<>();
         this.platnosci = new ArrayList<>();
         this.kwota = Z.z(kwota);
@@ -164,56 +159,54 @@ public class StronaWiersza implements Serializable{
         this.konto = konto;
         this.cechazapisuLista = new ArrayList<>();
     }
-    
-     public StronaWiersza(WierszBO w, String wnma, String zapisy) {
-         this.nowetransakcje = new ArrayList<>();
-         this.platnosci = new ArrayList<>();
-         this.konto = w.getKonto();
-         this.typStronaWiersza = 9;
-         if (wnma.equals("Wn")) {
-             this.wnma = "Wn";
-             this.kwota = w.getKwotaWn();
-             this.kwotaPLN = w.getKwotaWnPLN();
-             this.kwotaWaluta = w.getKwotaWn();
-         } else {
-             this.wnma = "Ma";
-             this.kwota = w.getKwotaMa();
-             this.kwotaPLN = w.getKwotaMaPLN();
-             this.kwotaWaluta = w.getKwotaMa();
-         }
-         this.wiersz = new Wiersz();
-         this.wiersz.setIdwiersza(0);
-         this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis() != null ? w.getWierszBOPK().getOpis() : "zapis BO");
-         this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getWierszBOPK().getRok()));
-         this.cechazapisuLista = new ArrayList<>();
-         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
-       }
-     
-      public StronaWiersza(WierszBO w, String wnma) {
-         this.nowetransakcje = new ArrayList<>();
-         this.platnosci = new ArrayList<>();
-         this.konto = w.getKonto();
-         this.typStronaWiersza = 9;
-         this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
-         this.cechazapisuLista = new ArrayList<>();
-         if (wnma.equals("Wn")) {
-             this.wnma = "Wn";
-             this.kwota = w.getKwotaWn();
-             this.kwotaWaluta = w.getKwotaWn();
-             this.kwotaPLN = w.getKwotaWnPLN();
-         } else {
-             this.wnma = "Ma";
-             this.kwota = w.getKwotaMa();
-             this.kwotaWaluta = w.getKwotaMa();
-             this.kwotaPLN = w.getKwotaMaPLN();
-          }
-             this.nowatransakcja = true;
-             this.kursBO = w.getKurs();
-             this.opisBO = w.getWierszBOPK().getOpis();
 
-       }
-    
-    
+    public StronaWiersza(WierszBO w, String wnma, String zapisy) {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
+        this.konto = w.getKonto();
+        this.typStronaWiersza = 9;
+        if (wnma.equals("Wn")) {
+            this.wnma = "Wn";
+            this.kwota = w.getKwotaWn();
+            this.kwotaPLN = w.getKwotaWnPLN();
+            this.kwotaWaluta = w.getKwotaWn();
+        } else {
+            this.wnma = "Ma";
+            this.kwota = w.getKwotaMa();
+            this.kwotaPLN = w.getKwotaMaPLN();
+            this.kwotaWaluta = w.getKwotaMa();
+        }
+        this.wiersz = new Wiersz();
+        this.wiersz.setIdwiersza(0);
+        this.wiersz.setOpisWiersza(w.getWierszBOPK().getOpis() != null ? w.getWierszBOPK().getOpis() : "zapis BO");
+        this.wiersz.setDokfk(new Dokfk("zapis z BO", w.getWierszBOPK().getRok()));
+        this.cechazapisuLista = new ArrayList<>();
+        this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
+    }
+
+    public StronaWiersza(WierszBO w, String wnma) {
+        this.nowetransakcje = new ArrayList<>();
+        this.platnosci = new ArrayList<>();
+        this.konto = w.getKonto();
+        this.typStronaWiersza = 9;
+        this.symbolWalutyBO = w.getWaluta().getSymbolwaluty();
+        this.cechazapisuLista = new ArrayList<>();
+        if (wnma.equals("Wn")) {
+            this.wnma = "Wn";
+            this.kwota = w.getKwotaWn();
+            this.kwotaWaluta = w.getKwotaWn();
+            this.kwotaPLN = w.getKwotaWnPLN();
+        } else {
+            this.wnma = "Ma";
+            this.kwota = w.getKwotaMa();
+            this.kwotaWaluta = w.getKwotaMa();
+            this.kwotaPLN = w.getKwotaMaPLN();
+        }
+        this.nowatransakcja = true;
+        this.kursBO = w.getKurs();
+        this.opisBO = w.getWierszBOPK().getOpis();
+
+    }
 
     public StronaWiersza() {
         this.nowetransakcje = new ArrayList<>();
@@ -232,7 +225,7 @@ public class StronaWiersza implements Serializable{
     public void setKursBO(double kursBO) {
         this.kursBO = kursBO;
     }
-    
+
     public Integer getId() {
         return id;
     }
@@ -240,7 +233,7 @@ public class StronaWiersza implements Serializable{
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public String getWnma() {
         return wnma;
     }
@@ -272,7 +265,7 @@ public class StronaWiersza implements Serializable{
         }
         return this.rozliczono;
     }
-    
+
     public double getRozliczono(WpisView wpisView) {
         this.rozliczono = 0.0;
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -318,7 +311,7 @@ public class StronaWiersza implements Serializable{
     }
 
     public double getPozostalo() {
-         this.rozliczono = 0.0;
+        this.rozliczono = 0.0;
         if (this.nowatransakcja) {
             for (Transakcja p : this.platnosci) {
                 if (p.getKwotawwalucierachunku() > 0) {
@@ -340,7 +333,7 @@ public class StronaWiersza implements Serializable{
         }
         return this.pozostalo;
     }
-    
+
     public double getPozostalo(WpisView wpisView) {
         this.rozliczono = 0.0;
         int granicaDolna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacOd());
@@ -380,17 +373,17 @@ public class StronaWiersza implements Serializable{
         }
         return this.pozostalo;
     }
-    
-     public double getPozostaloPLN() {
-         double kwotaprzeliczenia = 0.0;
-         if (this.getWiersz().getTabelanbp() != null) {
-                kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredni());
-         } else if (this.getKursBO() != 0.0) {
-             kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
-         }
-         return kwotaprzeliczenia;
-     }
-    
+
+    public double getPozostaloPLN() {
+        double kwotaprzeliczenia = 0.0;
+        if (this.getWiersz().getTabelanbp() != null) {
+            kwotaprzeliczenia = Z.z(this.pozostalo * this.getWiersz().getTabelanbp().getKurssredni());
+        } else if (this.getKursBO() != 0.0) {
+            kwotaprzeliczenia = Z.z(this.pozostalo * kursBO);
+        }
+        return kwotaprzeliczenia;
+    }
+
     public String getNazwaWaluty() {
         if (this.getWiersz().getTabelanbp() != null) {
             return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
@@ -400,7 +393,7 @@ public class StronaWiersza implements Serializable{
     }
 
     public double getKursWaluty() {
-         if (this.getWiersz().getTabelanbp() != null) {
+        if (this.getWiersz().getTabelanbp() != null) {
             return this.wiersz.getTabelanbp().getKurssredni();
         } else {
             return this.kursBO;
@@ -419,7 +412,6 @@ public class StronaWiersza implements Serializable{
         this.typStronaWiersza = typStronaWiersza;
     }
 
-
     public Wiersz getWiersz() {
         return wiersz;
     }
@@ -431,7 +423,7 @@ public class StronaWiersza implements Serializable{
     public double getKwota() {
         return kwota;
     }
-    
+
     public double getKwotaR() {
         return Math.abs(kwota);
     }
@@ -439,12 +431,11 @@ public class StronaWiersza implements Serializable{
     public void setKwota(double kwota) {
         this.kwota = Z.z(kwota);
     }
-    
 
     public double getKwotaPLN() {
         return kwotaPLN;
     }
-    
+
     public double getKwotaPLNR() {
         return Math.abs(kwotaPLN);
     }
@@ -468,7 +459,6 @@ public class StronaWiersza implements Serializable{
     public void setNowatransakcja(boolean nowatransakcja) {
         this.nowatransakcja = nowatransakcja;
     }
-    
 
     public Konto getKonto() {
         return konto;
@@ -493,14 +483,14 @@ public class StronaWiersza implements Serializable{
     public void setOpisBO(String opisBO) {
         this.opisBO = opisBO;
     }
-    
+
     public Dokfk getDokfk() {
         return wiersz.getDokfk();
     }
+
     public String getDokfkS() {
         return wiersz.getDokfk().getDokfkPK().toString2();
     }
-    
 
 //    public void dodajTransakcjeNowe(Transakcja transakcja) {
 //        if (this.nowetransakcje.contains(transakcja)) {
@@ -511,7 +501,7 @@ public class StronaWiersza implements Serializable{
 //        }
 //        this.pozostalo = this.kwota - this.rozliczono;
 //    }
-//    
+//
 //    public void dodajPlatnosci(Transakcja transakcja) {
 //        if (this.platnosci.contains(transakcja)) {
 //            this.rozliczono = this.rozliczono - transakcja.getPoprzedniakwota() + transakcja.getKwotatransakcji();
@@ -521,7 +511,6 @@ public class StronaWiersza implements Serializable{
 //        }
 //        this.pozostalo = this.kwota - this.rozliczono;
 //    }
-
     public List<Transakcja> getNowetransakcje() {
         return nowetransakcje;
     }
@@ -545,11 +534,11 @@ public class StronaWiersza implements Serializable{
     public void setSymbolWalutyBO(String symbolWalutyBO) {
         this.symbolWalutyBO = symbolWalutyBO;
     }
-    
+
     public String getSymbolWaluty() {
         return this.wiersz.getTabelanbp().getWaluta().getSymbolwaluty();
     }
-    
+
     public String getSymbolWalut() {
         String symbol = null;
         if (this.wiersz.getTabelanbp() != null) {
@@ -559,8 +548,7 @@ public class StronaWiersza implements Serializable{
         }
         return symbol;
     }
-    
-    
+
     public StronaWiersza getDrugaStrona() {
         Wiersz w = this.getWiersz();
         if (this.wnma.equals("Wn")) {
@@ -569,22 +557,20 @@ public class StronaWiersza implements Serializable{
             return w.getStronaWn();
         }
     }
-    
-     public Konto getKontoPrzeciwstawne() {
+
+    public Konto getKontoPrzeciwstawne() {
         Wiersz w = this.getWiersz();
-        Konto t = null; 
+        Konto t = null;
         if (this.wnma.equals("Wn")) {
             if (w.getStronaMa() != null) {
                 t = w.getStronaMa().getKonto();
             }
-        } else {
-            if (w.getStronaWn() != null) {
-                t = w.getStronaWn().getKonto();
-            }
+        } else if (w.getStronaWn() != null) {
+            t = w.getStronaWn().getKonto();
         }
         return t;
     }
-     
+
     public boolean getToNieJestRRK() {
         boolean zwrot = true;
         if (this.wiersz != null && this.wiersz.getDokfk() != null && this.wiersz.getDokfk().getRodzajedok() != null) {
@@ -594,14 +580,11 @@ public class StronaWiersza implements Serializable{
         }
         return zwrot;
     }
-    
+
     public boolean isWn() {
         return this.wnma.equals("Wn");
     }
-    
-    
-    
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -634,15 +617,12 @@ public class StronaWiersza implements Serializable{
 
     @Override
     public String toString() {
-        if (this. id != null) {
-            return "StronaWiersza{" + "id=" + id + ", konto=" + konto.getPelnynumer()+", wnma="+ wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+        if (this.id != null) {
+            return "StronaWiersza{" + "id=" + id + ", konto=" + konto.getPelnynumer() + ", wnma=" + wnma + ", wiersz=" + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         } else {
-            return "StronaWiersza{" + "id=null, wnma="+ wnma +", wiersz= "+ wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
+            return "StronaWiersza{" + "id=null, wnma=" + wnma + ", wiersz= " + wiersz.getIdporzadkowy() + ", kwota=" + kwota + ", rozliczono=" + rozliczono + ", pozostalo=" + pozostalo + ", nowatransakcja=" + typStronaWiersza + '}';
         }
     }
 
-    
-    
-
-    
 }
+

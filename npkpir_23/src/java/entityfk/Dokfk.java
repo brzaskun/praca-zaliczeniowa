@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
- 
+
 /**
  *
  * @author Osito
@@ -78,6 +78,7 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.dokfkPK.seriadokfk FROM Dokfk d WHERE d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik")
 })
 public class Dokfk implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected DokfkPK dokfkPK = new DokfkPK();
@@ -111,7 +112,7 @@ public class Dokfk implements Serializable {
     @NotNull
     @Column(name = "numerwlasnydokfk", nullable = false, length = 255)
     private String numerwlasnydokfk;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("idporzadkowy")
     private List<Wiersz> listawierszy;
     @Column(name = "miesiac")
@@ -128,14 +129,14 @@ public class Dokfk implements Serializable {
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
     @ManyToOne
     private Tabelanbp tabelanbp;
-    @Column (name = "wartoscdokumentu")
+    @Column(name = "wartoscdokumentu")
     private double wartoscdokumentu;
-    @Column (name="wtrakcieedycji")
+    @Column(name = "wtrakcieedycji")
     private boolean wTrakcieEdycji;
     @JoinColumn(name = "kontr", referencedColumnName = "id")
     @ManyToOne
     private Klienci kontr;
-    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL,  orphanRemoval=true)
+    @OneToMany(mappedBy = "dokfk", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EVatwpisFK> ewidencjaVAT;
     @Size(max = 2)
     @Column(name = "vat_m")
@@ -145,17 +146,17 @@ public class Dokfk implements Serializable {
     private String vatR;
     @ManyToMany
     @JoinTable(
-      name="Dokfk_Cechazapisu",
-      joinColumns={
-          @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
-          @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
-          @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
-          @JoinColumn(name = "rok", referencedColumnName = "rok")
-      },
-      inverseJoinColumns={
-          @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
-          @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
-      })
+            name = "Dokfk_Cechazapisu",
+            joinColumns = {
+                @JoinColumn(name = "seriadokfk", referencedColumnName = "seriadokfk"),
+                @JoinColumn(name = "nrkolejnywserii", referencedColumnName = "nrkolejnywserii"),
+                @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
+                @JoinColumn(name = "rok", referencedColumnName = "rok")
+            },
+            inverseJoinColumns = {
+                @JoinColumn(name = "nazwacechy", referencedColumnName = "nazwacechy"),
+                @JoinColumn(name = "rodzajcechy", referencedColumnName = "rodzajcechy")
+            })
     private List<Cechazapisu> cechadokumentuLista;
     @Column(name = "nrdziennika")
     private String nrdziennika;
@@ -177,10 +178,9 @@ public class Dokfk implements Serializable {
     private boolean zawierasrodkitrw;
     @Column(name = "zawierarmk")
     private boolean zawierarmk;
- 
+    @Column(name = "zawierarozkurs")
+    private boolean zawierarozkurs;
 
-    
-    
     public Dokfk() {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
@@ -191,18 +191,18 @@ public class Dokfk implements Serializable {
         this.ewidencjaVAT = new ArrayList<>();
         this.cechadokumentuLista = new ArrayList<>();
     }
-    
+
     public Dokfk(String opis, String rok) {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
         this.dokfkPK.setSeriadokfk("BO");
         this.dokfkPK.setRok(rok);
         this.dokfkPK.setNrkolejnywserii(1);
-        this.datadokumentu = rok+"-01-31";
-        this.dataoperacji = rok+"-01-31";
-        this.datawplywu = rok+"-01-31";
-        this.datawystawienia = rok+"-01-31";
-        this.numerwlasnydokfk = "BO/"+rok+"/01";
+        this.datadokumentu = rok + "-01-31";
+        this.dataoperacji = rok + "-01-31";
+        this.datawplywu = rok + "-01-31";
+        this.datawystawienia = rok + "-01-31";
+        this.numerwlasnydokfk = "BO/" + rok + "/01";
         this.opisdokfk = opis;
         this.liczbarozliczonych = 0;
         this.wartoscdokumentu = 0.0;
@@ -249,7 +249,7 @@ public class Dokfk implements Serializable {
         this.cechadokumentuLista = new ArrayList<>();
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
-    
+
     public Dokfk(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView, Klienci klienci) {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
@@ -266,7 +266,7 @@ public class Dokfk implements Serializable {
         this.setDatawplywu(data);
         ustawNoweSelected(symbolPoprzedniegoDokumentu, rodzajedok, wpisView);
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="comment">
     public String getNrdziennika() {
         return nrdziennika;
@@ -331,8 +331,7 @@ public class Dokfk implements Serializable {
     public void setImportowany(boolean importowany) {
         this.importowany = importowany;
     }
-    
-    
+
     public List<Cechazapisu> getCechadokumentuLista() {
         return cechadokumentuLista;
     }
@@ -340,8 +339,6 @@ public class Dokfk implements Serializable {
     public void setCechadokumentuLista(List<Cechazapisu> cechadokumentuLista) {
         this.cechadokumentuLista = cechadokumentuLista;
     }
-    
-   
 
     public String getVatM() {
         return vatM;
@@ -358,7 +355,7 @@ public class Dokfk implements Serializable {
     public void setVatR(String vatR) {
         this.vatR = vatR;
     }
-    
+
     public List<EVatwpisFK> getEwidencjaVAT() {
         return ewidencjaVAT;
     }
@@ -382,7 +379,7 @@ public class Dokfk implements Serializable {
     public void setPodatnikObj(Podatnik podatnikObj) {
         this.podatnikObj = podatnikObj;
     }
-    
+
     public Klienci getKontr() {
         return kontr;
     }
@@ -423,11 +420,10 @@ public class Dokfk implements Serializable {
         this.wTrakcieEdycji = wTrakcieEdycji;
     }
 
-
     public Dokfk(String seriadokfk, int nrkolejny, String podatnik, String rok) {
         this.dokfkPK = new DokfkPK(seriadokfk, nrkolejny, podatnik, rok);
     }
-    
+
     public DokfkPK getDokfkPK() {
         return dokfkPK;
     }
@@ -444,7 +440,6 @@ public class Dokfk implements Serializable {
         this.walutadokumentu = walutadokumentu;
     }
 
-    
     public void setOpisdokfk(String opisdokfk) {
         this.opisdokfk = opisdokfk;
     }
@@ -456,24 +451,23 @@ public class Dokfk implements Serializable {
     public void setMiesiac(String miesiac) {
         this.miesiac = miesiac;
     }
-    
-    
+
     public void setDokfkPK(DokfkPK dokfkPK) {
         this.dokfkPK = dokfkPK;
     }
-    
+
     public String getDatawystawienia() {
         return datawystawienia;
     }
-    
+
     public void setDatawystawienia(String datawystawienia) {
         this.datawystawienia = datawystawienia;
     }
-      
+
     public String getNumerwlasnydokfk() {
         return numerwlasnydokfk;
     }
-    
+
     public void setNumerwlasnydokfk(String numerwlasnydokfk) {
         this.numerwlasnydokfk = numerwlasnydokfk;
     }
@@ -501,12 +495,12 @@ public class Dokfk implements Serializable {
     public void setWartoscdokumentu(double wartoscdokumentu) {
         this.wartoscdokumentu = wartoscdokumentu;
     }
- 
+
     @XmlTransient
     public List<Wiersz> getListawierszy() {
         return listawierszy;
     }
-    
+
     public void setListawierszy(List<Wiersz> listawierszy) {
         this.listawierszy = listawierszy;
     }
@@ -518,8 +512,14 @@ public class Dokfk implements Serializable {
     public void setZawierarmk(boolean zawierarmk) {
         this.zawierarmk = zawierarmk;
     }
-    
-    
+
+    public boolean isZawierarozkurs() {
+        return zawierarozkurs;
+    }
+
+    public void setZawierarozkurs(boolean zawierarozkurs) {
+        this.zawierarozkurs = zawierarozkurs;
+    }
 
     public Tabelanbp getTabelanbp() {
         return tabelanbp;
@@ -528,8 +528,6 @@ public class Dokfk implements Serializable {
     public void setTabelanbp(Tabelanbp tabelanbp) {
         this.tabelanbp = tabelanbp;
     }
-    
-    
 
 //    @XmlTransient
 //    public List<Kontozapisy> getZapisynakoncie() {
@@ -539,11 +537,8 @@ public class Dokfk implements Serializable {
 //    public void setZapisynakoncie(List<Kontozapisy> zapisynakoncie) {
 //        this.zapisynakoncie = zapisynakoncie;
 //    }
-//    
-    
-    
+//
     //</editor-fold>
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -566,9 +561,9 @@ public class Dokfk implements Serializable {
 
     @Override
     public String toString() {
-        return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " mc "+this.miesiac+" ]";
+        return "entityfk.Dokfk[ dokfkPK=" + dokfkPK + " mc " + this.miesiac + " ]";
     }
-    
+
     public String getDokfkLP() {
         StringBuilder s = new StringBuilder();
         s.append(this.dokfkPK.getSeriadokfk());
@@ -578,7 +573,7 @@ public class Dokfk implements Serializable {
         s.append(this.dokfkPK.getRok());
         return s.toString();
     }
-    
+
     public String getDokfkSN() {
         StringBuilder s = new StringBuilder();
         s.append(this.dokfkPK.getSeriadokfk());
@@ -588,7 +583,7 @@ public class Dokfk implements Serializable {
         s.append(this.dokfkPK.getRok());
         return s.toString();
     }
-    
+
     public EVatwpisFK getVATRK(Wiersz w) {
         EVatwpisFK ew = null;
         for (EVatwpisFK p : this.getEwidencjaVAT()) {
@@ -599,11 +594,10 @@ public class Dokfk implements Serializable {
         }
         return ew;
     }
-    
-    public String getMcRok() {
-        return this.miesiac+"/"+this.dokfkPK.getRok();
-    }
 
+    public String getMcRok() {
+        return this.miesiac + "/" + this.dokfkPK.getRok();
+    }
 
     public void dodajKwotyWierszaDoSumyDokumentu(Wiersz biezacywiersz) {
         try {//robimy to bo sa nowy wiersz jest tez podsumowywany, ale moze byc przeciez pusty wiec wyrzuca blad
@@ -611,14 +605,14 @@ public class Dokfk implements Serializable {
             double wn = biezacywiersz.getStronaWn() != null ? biezacywiersz.getStronaWn().getKwota() : 0.0;
             double ma = biezacywiersz.getStronaMa() != null ? biezacywiersz.getStronaMa().getKwota() : 0.0;
             double suma = 0.0;
-            if (typwiersza==1) {
+            if (typwiersza == 1) {
                 suma += wn;
-            } else if (typwiersza==2) {
+            } else if (typwiersza == 2) {
                 suma += ma;
             } else {
                 double kwotaWn = wn;
                 double kwotaMa = ma;
-                if (kwotaMa>kwotaWn) {
+                if (kwotaMa > kwotaWn) {
                     suma += wn;
                 } else {
                     suma += ma;
@@ -626,10 +620,10 @@ public class Dokfk implements Serializable {
             }
             this.wartoscdokumentu += suma;
         } catch (Exception e) {
-            
+
         }
     }
-    
+
     public void przeliczKwotyWierszaDoSumyDokumentu() {
         this.wartoscdokumentu = 0.0;
         for (Wiersz p : this.listawierszy) {
@@ -637,7 +631,7 @@ public class Dokfk implements Serializable {
         }
         RequestContext.getCurrentInstance().update("formwpisdokument:panelzkwotamidok");
     }
-    
+
 //    public void uzupelnijwierszeodane() {
 //        //ladnie uzupelnia informacje o wierszu pk
 //        List<Wiersz> wierszewdokumencie = this.listawierszy;
@@ -658,8 +652,7 @@ public class Dokfk implements Serializable {
 //        } catch (Exception e) {
 //        }
 //    }
-    
-    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu,  Rodzajedok rodzajedok, WpisView wpisView) {
+    public final void ustawNoweSelected(String symbolPoprzedniegoDokumentu, Rodzajedok rodzajedok, WpisView wpisView) {
         this.dokfkPK = new DokfkPK();
         //chodzi o FVS, FVZ a nie o numerwlasnydokfk :)
         this.dokfkPK.setPodatnik(wpisView.getPodatnikObiekt().getNip());
@@ -676,30 +669,29 @@ public class Dokfk implements Serializable {
         this.setVatR(wpisView.getRokWpisuSt());
         this.setVatM(mc);
         this.getListawierszy().add(ObslugaWiersza.ustawPierwszyWiersz(this));
-        this.setZablokujzmianewaluty(false); 
+        this.setZablokujzmianewaluty(false);
     }
-    
+
     public Wiersz poprzedniWiersz(Wiersz wiersz) {
         int index = this.listawierszy.indexOf(wiersz);
         try {
-            return this.listawierszy.get(index-1);
+            return this.listawierszy.get(index - 1);
         } catch (Exception e) {
-            
+
         }
         return null;
     }
-    
-     
+
     public Wiersz nastepnyWiersz(Wiersz wiersz) {
-         int index = this.listawierszy.indexOf(wiersz);
+        int index = this.listawierszy.indexOf(wiersz);
         try {
-            return this.listawierszy.get(index+1);
+            return this.listawierszy.get(index + 1);
         } catch (Exception e) {
-            
+
         }
         return null;
     }
-    
+
     public void usunpuste() {
         try {
             List<Wiersz> wierszedokumentu = this.getListawierszy();
@@ -712,11 +704,11 @@ public class Dokfk implements Serializable {
                 }
             }
         } catch (Exception e) {
-            
+
         }
     }
-    
-     public String pobierzSymbolPoprzedniegoDokfk() {
+
+    public String pobierzSymbolPoprzedniegoDokfk() {
         String symbolPoprzedniegoDokumentu = "";
         try {
             symbolPoprzedniegoDokumentu = new String(this.getDokfkPK().getSeriadokfk());
@@ -724,20 +716,20 @@ public class Dokfk implements Serializable {
         }
         return symbolPoprzedniegoDokumentu;
     }
-     
+
     public List<StronaWiersza> getStronyWierszy() {
         List<StronaWiersza> lista = new ArrayList<>();
         for (Wiersz p : this.listawierszy) {
-            if (p.getStronaWn()!=null) {
+            if (p.getStronaWn() != null) {
                 lista.add(p.getStronaWn());
             }
-            if (p.getStronaMa()!=null) {
+            if (p.getStronaMa() != null) {
                 lista.add(p.getStronaMa());
             }
         }
         return lista;
     }
-     
+
     public int sprawdzczynaniesionorozrachunki() {
         int brakrozrachunkow = 0;
         Iterator it = this.getStronyWierszy().iterator();
@@ -754,42 +746,40 @@ public class Dokfk implements Serializable {
         }
         return brakrozrachunkow;
     }
-    
+
     public void oznaczVATdokument(String sprawdzjakiokresvat) {
         if (!sprawdzjakiokresvat.equals("blad") && !this.ewidencjaVAT.isEmpty()) {
             for (EVatwpisFK p : this.ewidencjaVAT) {
                 if (p.getNetto() != 0.0 || p.getVat() != 0.0) {
-                if (p.getInnyokres()==0) {
+                    if (p.getInnyokres() == 0) {
                         p.setMcEw(this.getMiesiac());
                         p.setRokEw(this.getDokfkPK().getRok());
                         this.setVatR(this.getDokfkPK().getRok());
                         this.setVatM(this.getMiesiac());
+                    } else if (sprawdzjakiokresvat.equals("kwartalne")) {
+                        String[] nowyokres = Kwartaly.zwiekszkwartal(this.getDokfkPK().getRok(), this.getMiesiac(), p.getInnyokres());
+                        p.setRokEw(nowyokres[0]);
+                        p.setMcEw(nowyokres[1]);
+                        this.setVatR(nowyokres[0]);
+                        this.setVatM(nowyokres[1]);
                     } else {
-                        if (sprawdzjakiokresvat.equals("kwartalne")) {
-                            String[] nowyokres = Kwartaly.zwiekszkwartal(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
-                            p.setRokEw(nowyokres[0]);
-                            p.setMcEw(nowyokres[1]);
-                            this.setVatR(nowyokres[0]);
-                            this.setVatM(nowyokres[1]);
-                        } else {
-                            String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(),p.getInnyokres());
-                            p.setRokEw(nowyokres[0]);
-                            p.setMcEw(nowyokres[1]);
-                            this.setVatR(nowyokres[0]);
-                            this.setVatM(nowyokres[1]);
-                        }
+                        String[] nowyokres = Mce.zwiekszmiesiac(this.getDokfkPK().getRok(), this.getMiesiac(), p.getInnyokres());
+                        p.setRokEw(nowyokres[0]);
+                        p.setMcEw(nowyokres[1]);
+                        this.setVatR(nowyokres[0]);
+                        this.setVatM(nowyokres[1]);
                     }
                 }
             }
         }
     }
-    
+
     public void dodajTabeleWalut(Tabelanbp tabelanbp) {
         this.setTabelanbp(tabelanbp);
         List<Wiersz> wiersze = this.getListawierszy();
-            for (Wiersz p : wiersze) {
-                p.setTabelanbp(tabelanbp);
-            }
+        for (Wiersz p : wiersze) {
+            p.setTabelanbp(tabelanbp);
+        }
     }
 
     public void przepiszWierszeBO() {
@@ -797,7 +787,7 @@ public class Dokfk implements Serializable {
         for (Wiersz p : wiersze) {
             if (p.getTypWiersza() == 0) {
                 if (!p.getOpisWiersza().contains("zapis BO:")) {
-                    String nowyopis = "zapis BO: "+p.getOpisWiersza();
+                    String nowyopis = "zapis BO: " + p.getOpisWiersza();
                     p.setOpisWiersza(nowyopis);
                 }
                 if (p.getStronaWn().getKonto() != null) {
@@ -810,7 +800,7 @@ public class Dokfk implements Serializable {
             }
         }
     }
-    
+
     public boolean czyCecha() {
         if (this.cechadokumentuLista != null && this.cechadokumentuLista.size() > 0) {
             return true;
