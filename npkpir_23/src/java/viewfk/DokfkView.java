@@ -668,8 +668,9 @@ public class DokfkView implements Serializable {
                 }
                 oznaczdokumentSTRMK(selected, "0");
                 oznaczdokumentSTRMK(selected, "64");
+                //dodaje roznice kursowa w dokumencie
                 oznaczdokumentRozKurs(selected);
-                nanieswierszeRRK(selected);
+                //nanieswierszeRRK(selected);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;

@@ -122,6 +122,7 @@ public class StronaWiersza implements Serializable {
     private String symbolWalutyBO;
     private double kursBO;
     private String opisBO;
+   
 
     public StronaWiersza(Wiersz nowywiersz, String wnma) {
         this.nowetransakcje = new ArrayList<>();
@@ -491,6 +492,8 @@ public class StronaWiersza implements Serializable {
     public String getDokfkS() {
         return wiersz.getDokfk().getDokfkPK().toString2();
     }
+
+  
 
 //    public void dodajTransakcjeNowe(Transakcja transakcja) {
 //        if (this.nowetransakcje.contains(transakcja)) {

@@ -165,6 +165,8 @@ public class DokumentFKBean implements Serializable {
         } else {
             nanieswierszeDokRRK(roznicakursowa, w, p, kontoRozniceKursowe, sazlotowki, przychodyfinansowe);
         }
+        w.setStronanowatransakcja(p.getNowaTransakcja());
+        w.setStronarozliczajacy(p.getRozliczajacy());
         nd.getListawierszy().add(w);
     }
 

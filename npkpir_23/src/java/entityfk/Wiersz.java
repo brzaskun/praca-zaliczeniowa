@@ -108,6 +108,14 @@ public class Wiersz implements Serializable {
     private double saldoWBRK;
     @Column(name = "zawierarozkurs")
     private boolean zawierarozkurs;
+    @JoinColumn(name = "stronanowatransakcja", referencedColumnName = "id")
+    @OneToOne
+    private StronaWiersza stronanowatransakcja;
+    @JoinColumn(name = "stronarozliczajacy", referencedColumnName = "id")
+    @OneToOne
+    private StronaWiersza stronarozliczajacy;
+ 
+    
 
     public Wiersz() {
         this.strona = new HashMap<>();
@@ -131,6 +139,23 @@ public class Wiersz implements Serializable {
         this.eVatwpisFK = eVatwpisFK;
     }
 
+    public StronaWiersza getStronanowatransakcja() {
+        return stronanowatransakcja;
+    }
+
+    public void setStronanowatransakcja(StronaWiersza stronanowatransakcja) {
+        this.stronanowatransakcja = stronanowatransakcja;
+    }
+
+    public StronaWiersza getStronarozliczajacy() {
+        return stronarozliczajacy;
+    }
+
+    public void setStronarozliczajacy(StronaWiersza stronarozliczajacy) {
+        this.stronarozliczajacy = stronarozliczajacy;
+    }
+
+   
     public boolean isZawierarozkurs() {
         return zawierarozkurs;
     }
