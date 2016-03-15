@@ -5,6 +5,7 @@
 package view;
 
 import entity.Adminnews;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +23,8 @@ import session.SessionFacade;
  */
 @ManagedBean
 @ViewScoped
-public class AdminNews {
+public class AdminNews  implements Serializable {
+    private static final long serialVersionUID = 1L;
     
     private String nowynews;
     @Inject Adminnews adminnews;

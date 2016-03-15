@@ -251,7 +251,7 @@ public class Mce implements Serializable{
     public static String[] zmniejszmiesiac(String rok, String miesiac, int oilezmniejszyc) {
         String[] nowedane = new String[2];
         int mcInt = miesiacToNumber.get(miesiac)-oilezmniejszyc;
-        if (mcInt > 1) {
+        if (mcInt > 0) {
             nowedane[0] = rok;
             nowedane[1] = numberToMiesiac.get(mcInt);
         } else {

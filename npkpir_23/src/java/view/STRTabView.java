@@ -44,6 +44,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
@@ -84,6 +85,8 @@ public class STRTabView implements Serializable {
     private Srodkikst srodekkategoria;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{STREwidencja}")
+    private STREwidencja sTREwidencja;
     //tablica obiektów
     private List<SrodekTrw> srodkiTrwaleWyposazenie;
     //tablica obiektw danego klienta
@@ -664,6 +667,7 @@ public class STRTabView implements Serializable {
             wybranysrodektrwalyPosiadane = null;
             datazmiany = null;
             kwotazmiany = 0.0;
+            sTREwidencja.init();
         } catch (Exception e) {
             E.e(e);
         }
@@ -761,6 +765,38 @@ public class STRTabView implements Serializable {
             }
         }
     }
+    
+    public void zmianakwotynetto(ValueChangeEvent e) {
+        Double nowa = (Double) e.getNewValue();
+        wybranysrodektrwalyPosiadane.setNetto(nowa);
+        SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
+        SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+        //oblicza planowane umorzenia
+        wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
+        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        try {
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        
+    }
+    
+     public void zmianadatyprzyjecia(ValueChangeEvent e) {
+        String nowa = (String) e.getNewValue();
+        wybranysrodektrwalyPosiadane.setDataprzek(nowa);
+        SrodkiTrwBean.odpisroczny(wybranysrodektrwalyPosiadane);
+        SrodkiTrwBean.odpismiesieczny(wybranysrodektrwalyPosiadane);
+        //oblicza planowane umorzenia
+        wybranysrodektrwalyPosiadane.setUmorzPlan(SrodkiTrwBean.naliczodpisymczne(wybranysrodektrwalyPosiadane));
+        wybranysrodektrwalyPosiadane.setUmorzWyk(SrodkiTrwBean.generujumorzeniadlasrodka(wybranysrodektrwalyPosiadane, wpisView));
+        try {
+            sTRDAO.edit(wybranysrodektrwalyPosiadane);
+        } catch (Exception ex) {
+            E.e(ex);
+        }
+        
+    }
 
     public List<SrodekTrw> getListaWyposazenia() {
         return listaWyposazenia;
@@ -808,6 +844,14 @@ public class STRTabView implements Serializable {
 
     public void setZakupionewbiezacyrok_wnip(int zakupionewbiezacyrok_wnip) {
         this.zakupionewbiezacyrok_wnip = zakupionewbiezacyrok_wnip;
+    }
+
+    public STREwidencja getsTREwidencja() {
+        return sTREwidencja;
+    }
+
+    public void setsTREwidencja(STREwidencja sTREwidencja) {
+        this.sTREwidencja = sTREwidencja;
     }
 
     

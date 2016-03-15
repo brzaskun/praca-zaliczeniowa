@@ -75,6 +75,9 @@
                       <p:ajax event="change" global="false" partialSubmit="true"/>
                   </p:selectBooleanCheckbox>
             </p:panelGrid>
+            <p:outputPanel style="padding: 10px;">
+                <h:outputText value="Uwaga! Nie można dodawać kont analitycznych do zablokowanych kont syntetycznych"/>
+            </p:outputPanel>
             <p:panelGrid columns="2" >
                 <p:dataTable id="dataList" value="#{planKontView.wykazkont}" var="loop"  selectionMode="single" selection="#{planKontView.selectednodekonto}" 
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
@@ -156,5 +159,5 @@
             </p:panelGrid>
            
         </h:form>
-    </p:dialog>
+</p:dialog>
 </ui:composition>

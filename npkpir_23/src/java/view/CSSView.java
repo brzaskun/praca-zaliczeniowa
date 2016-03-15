@@ -16,7 +16,8 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean(name="CSSView")
 @SessionScoped
-public class CSSView implements Serializable{
+public class CSSView implements Serializable {
+    private static final long serialVersionUID = 1L;
     public String css;
     public List<String> cssList;
 

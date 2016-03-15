@@ -123,7 +123,7 @@ public class SrodkiTrwBean implements Serializable {
     
     public static void odpisroczny(SrodekTrw dodawanysrodektrwaly) {
         double odpisrok = 0.0;
-        double netto = dodawanysrodektrwaly.getNetto() - dodawanysrodektrwaly.getNiepodlegaamortyzacji() - dodawanysrodektrwaly.getUmorzeniepoczatkowe();
+        double netto = dodawanysrodektrwaly.getNetto() - dodawanysrodektrwaly.getNiepodlegaamortyzacji();
         odpisrok = Z.z(netto*dodawanysrodektrwaly.getStawka()/100.0);
         dodawanysrodektrwaly.setOdpisrok(odpisrok);
     }

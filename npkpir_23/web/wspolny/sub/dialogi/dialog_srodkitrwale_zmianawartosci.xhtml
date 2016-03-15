@@ -19,11 +19,13 @@
                     </p:column>
                     <h:outputText value="data zakupu"/>
                     <p:column>
-                        <p:inputText id="datazak" value="#{STRTableView.wybranysrodektrwalyPosiadane.datazak}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                        <p:inputText id="datazak" value="#{STRTableView.wybranysrodektrwalyPosiadane.datazak}"
+                                     onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
                     </p:column>
                     <h:outputText value="data przyjecia"/>
                     <p:column>
-                        <p:inputText id="dataprz" value="#{STRTableView.wybranysrodektrwalyPosiadane.dataprzek}" onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
+                        <p:inputText id="dataprz" value="#{STRTableView.wybranysrodektrwalyPosiadane.dataprzek}" valueChangeListener="#{STRTableView.zmianadatyprzyjecia}"
+                                     onchange="ustawDateSrodekTrw();" placeholder="rrrr-mm-dd"/>
                     </p:column>
                     <h:outputText value="numer faktury"/>
                     <p:column>
@@ -36,7 +38,7 @@
                     <h:outputText value="cena zakupu"/>
                     <p:column>
                         <pe:inputNumber id="cenazakupu" value="#{STRTableView.wybranysrodektrwalyPosiadane.netto}" symbol=" zł" required="true" requiredMessage="Brak kwoty - uzupełnij" 
-                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');"
+                                        onblur="zweryfikujczyniebrakujesrodektrw('form_dialog_srodkitrwale_zmianawartosci');" valueChangeListener="#{STRTableView.zmianakwotynetto}"
                                         style="text-align: right;" symbolPosition="s" decimalSeparator="." thousandSeparator=" " decimalPlaces="2"  styleClass="wiersznetto"/> 
                     </p:column>
                     <h:outputText value="środek trw/wyposazenie"/>
