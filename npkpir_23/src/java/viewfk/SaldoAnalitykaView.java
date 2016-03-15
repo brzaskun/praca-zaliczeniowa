@@ -170,7 +170,7 @@ public class SaldoAnalitykaView implements Serializable {
             przygotowanalista.put(p.getPelnynumer(), saldoKonto);
         }
         resetujBOnaKonto(przygotowanalista);
-        naniesZapisyNaKonto(przygotowanalista, zapisyRok, wierszenieuzupelnione);
+        naniesZapisyNaKontoBO(przygotowanalista, zapisyRok, wierszenieuzupelnione);
         for (SaldoKonto s : przygotowanalista.values()) {
             s.sumujBOZapisy();
             s.wyliczSaldo();
@@ -282,6 +282,49 @@ public class SaldoAnalitykaView implements Serializable {
     }
 
     private void naniesZapisyNaKonto(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
+        int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
+        for (StronaWiersza r : zapisyRok) {
+            if (!r.getDokfk().getDokfkPK().getSeriadokfk().equals("BO") && Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {
+                try {
+                    SaldoKonto p = przygotowanalista.get(r.getKonto().getPelnynumer());
+                    if (p != null) {
+                        if (r.getKonto().equals(p.getKonto())) {
+                            if (r.getWnma().equals("Wn")) {
+                                p.setObrotyWn(Z.z(p.getObrotyWn() + r.getKwotaPLN()));
+                            } else {
+                                p.setObrotyMa(Z.z(p.getObrotyMa() + r.getKwotaPLN()));
+                            }
+                            p.getZapisy().add(r);
+                        }
+                    }
+                } catch (Exception e) {
+                    if (r.getKonto() == null) {
+                        System.out.println("Konto null " + r.toString());
+                    }
+                    if (r.getWiersz().getDokfk().getMiesiac() == null) {
+                        System.out.println("Miesiac null " + r.toString());
+                    }
+                    E.e(e);
+                    if (wierszenieuzupelnione.size() > 0) {
+                        boolean jest = false;
+                        for (StronaWiersza t : wierszenieuzupelnione) {
+                            if (t.getDokfkS().equals(r.getDokfkS())) {
+                                jest = true;
+                            }
+                        }
+                        if (jest == false) {
+                            wierszenieuzupelnione.add(r);
+                        }
+                    } else {
+                        wierszenieuzupelnione.add(r);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private void naniesZapisyNaKontoBO(Map<String, SaldoKonto> przygotowanalista, List<StronaWiersza> zapisyRok, List<StronaWiersza> wierszenieuzupelnione) {
         int granicamca = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         for (StronaWiersza r : zapisyRok) {
             if (Mce.getMiesiacToNumber().get(r.getWiersz().getDokfk().getMiesiac()) <= granicamca) {

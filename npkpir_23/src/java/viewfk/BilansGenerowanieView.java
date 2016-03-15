@@ -202,6 +202,7 @@ public class BilansGenerowanieView implements Serializable {
     }
 
     public void generuj() {
+        wierszBODAO.deletePodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
         this.komunikatyok = new ArrayList<>();
         boolean stop = false;
         List<Konto> konta = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
@@ -234,6 +235,7 @@ public class BilansGenerowanieView implements Serializable {
                 }
             }
             List<Konto> kontaNowyRok = kontoDAO.findWszystkieKontaPodatnika(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            resetujBOnaKonto(kontaNowyRok);
             Konto kontowyniku = PlanKontFKBean.findKonto860(kontaNowyRok);
             obliczkontawynikowe(kontowyniku, listaSaldoKonto, walpln);
             //tutaj trzeba przerobic odpowiednio listaSaldo
@@ -243,9 +245,38 @@ public class BilansGenerowanieView implements Serializable {
             komunikatyok.add("Wygenerowano BO na rok " + wpisView.getRokWpisuSt());
             wierszBODAO.editList(wierszeBO);
             zapiszBOnaKontach(wierszeBO, kontaNowyRok);
+            obliczsaldoBOkonta(kontaNowyRok);
+            kontoDAO.editList(kontaNowyRok);
             bilansWprowadzanieView.init();
             bilansWprowadzanieView.zapiszBilansBOdoBazy();
             Msg.msg("Generuje bilans");
+        }
+    }
+
+    private void obliczsaldoBOkonta(List<Konto> przygotowanalista) {
+        for (Konto r : przygotowanalista) {
+            if (r.getPelnynumer().equals("201-2-23")) {
+                System.out.println("");
+            }
+            if (r.getBoWn() > r.getBoMa()) {
+                r.setBoWn(r.getBoWn() - r.getBoMa());
+                r.setBoMa(0.0);
+            } else if (r.getBoWn() < r.getBoMa()) {
+                r.setBoMa(r.getBoMa() - r.getBoWn());
+                r.setBoWn(0.0);
+            } else {
+                r.setBoWn(0.0);
+                r.setBoMa(0.0);
+            }
+        }
+    }
+
+    private void resetujBOnaKonto(List<Konto> przygotowanalista) {
+        for (Konto r : przygotowanalista) {
+            if (r != null) {
+                r.setBoWn(0.0);
+                r.setBoMa(0.0);
+            }
         }
     }
 
@@ -258,7 +289,6 @@ public class BilansGenerowanieView implements Serializable {
                 k.setBlokada(true);
             }
         }
-        kontoDAO.editList(kontaNowyRok);
     }
 
     private void obliczkontawynikowe(Konto kontowyniku, List<SaldoKonto> listaSaldoKonto, Waluty walpln) {
