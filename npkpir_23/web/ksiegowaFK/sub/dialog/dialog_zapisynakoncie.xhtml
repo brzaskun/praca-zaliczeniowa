@@ -20,7 +20,7 @@
                                         var="p" itemLabel="#{p.pelnynumer} #{p.nazwapelna}" itemValue="#{p}" cache="true" forceSelection="true"
                                         minQueryLength="1" maxResults="15" maxlength="10" converter="KontoConv"
                                         converterMessage="Nieudana konwersja Klient" queryDelay="1" 
-                                        styleClass="kontoinput, autoCompleteBig" 
+                                        styleClass="kontoinput, autoCompleteBig" onfocus="usunspacje(this)"
                                         >
                             <p:ajax event="query" global="false"/>
                             <p:ajax event="itemSelect" update=":tabelazzapisami:tabela, :tabelazsumami:sumy, :formwpiskonta:nazwawybranegokonta" 
@@ -148,7 +148,7 @@
                 <h:form id="tabelazzapisami">
                      <p:contextMenu for="tabela" style="width: 200px;">
                          <p:menuitem value="usuń z listy" icon="ui-icon-circle-minus" actionListener="#{kontoZapisFKView.usunzListy()}" update=":tabelazzapisami:tabela"/>
-                         <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();"/>
+                         <p:menuitem value="pokazdokument" global="false" icon="ui-icon-circle-plus" onclick="zapisywierszywybordok();" actionListener="#{dokfkView.edycjazapis()}"/>
                      </p:contextMenu>
                     <p:dataTable id="tabela" value="#{kontoZapisFKView.kontozapisy}" var="loop" rowKey="#{loop.id}" 
                                  selection="#{kontoZapisFKView.wybranekontadosumowania}" sortBy="#{loop}" style="width: 1190px; height: 550px; overflow-y: scroll;"

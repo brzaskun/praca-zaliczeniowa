@@ -166,6 +166,8 @@ public class DokfkView implements Serializable {
     private List<Waluty> wprowadzonesymbolewalut;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+    @ManagedProperty(value = "#{kontoZapisFKView}")
+    private KontoZapisFKView kontoZapisFKView;
     private String rachunekCzyPlatnosc;
     private int typwiersza;
     private Wiersz wybranyWiersz;
@@ -212,6 +214,7 @@ public class DokfkView implements Serializable {
     private DataTable dataTablezaksiegowane;
     private StronaWiersza selectedStronaWiersza;
     private Double podsumowaniewybranych;
+    private boolean totylkoedycjazapis;
 
     public DokfkView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
@@ -848,7 +851,11 @@ public class DokfkView implements Serializable {
                 RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
                 RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale");
                 RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychrmk:dataListsrodkiRMK");
-                RequestContext.getCurrentInstance().update("zestawieniezapisownakontach:dataList");
+                if (totylkoedycjazapis) {
+                    kontoZapisFKView.pobierzzapisy();
+                    RequestContext.getCurrentInstance().update("zestawieniezapisownakontach:dataList");
+                    totylkoedycjazapis = false;
+                }
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
                 RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
@@ -2863,6 +2870,14 @@ public class DokfkView implements Serializable {
     public void setWybranakategoriadok(String wybranakategoriadok) {
         this.wybranakategoriadok = wybranakategoriadok;
     }
+    
+    public KontoZapisFKView getKontoZapisFKView() {
+        return kontoZapisFKView;
+    }
+
+    public void setKontoZapisFKView(KontoZapisFKView kontoZapisFKView) {
+        this.kontoZapisFKView = kontoZapisFKView;
+    }
 
     public Double getPodsumowaniewybranych() {
         return podsumowaniewybranych;
@@ -3572,4 +3587,7 @@ public class DokfkView implements Serializable {
         }
     }
 
+    public void edycjazapis() {
+        this.totylkoedycjazapis = true;
+    }
 }

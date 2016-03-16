@@ -11,7 +11,6 @@ import daoFK.TransakcjaDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import entityfk.Konto;
-import entityfk.KontoZapisy;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
 import error.E;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -85,7 +83,7 @@ public class KontoZapisFKView implements Serializable{
 
     public void init() {
         wykazkont = kontoDAOfk.findWszystkieKontaPodatnikaBez0(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
-        zapisyRok = pobierzzapisy();
+        pobierzzapisy();
 //        if (wykazkont != null) {
 //            wybranekonto = wykazkont.get(0);
 //        }
@@ -113,9 +111,14 @@ public class KontoZapisFKView implements Serializable{
         }
     }
     
-    private List<StronaWiersza> pobierzzapisy() {
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        return zapisy;
+    public void pobierzzapisy() {
+        List<StronaWiersza> zapisy = new ArrayList<>();
+        try {
+            zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        } catch (Exception e) {
+            E.e(e);
+        }
+        zapisyRok = zapisy;
     }
     
     public void pobierzZapisyNaKoncieNode(Konto wybraneKontoNode) {
@@ -529,6 +532,9 @@ public class KontoZapisFKView implements Serializable{
         try {
             for (Iterator<StronaWiersza> it = kontozapisy.iterator(); it.hasNext(); ) {
                 StronaWiersza sw = it.next();
+                if (sw.getWiersz().getOpisWiersza().contains("zapis BO")) {
+                    System.out.println("d");
+                }
                 if (Z.z(sw.getPozostalo()) == 0.0 || sw.getDokfk().getRodzajedok().getSkrot().equals("RRK")) {
                     it.remove();
                 }
