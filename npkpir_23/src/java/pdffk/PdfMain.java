@@ -316,7 +316,7 @@ public class PdfMain {
     
     public static void dodajLinieOpisu(Document document, String opis) {
         try {
-            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[2]));
+            Paragraph opiswstepny = new Paragraph(new Phrase(opis, ft[1]));
             opiswstepny.setAlignment(Element.ALIGN_LEFT);
             document.add(opiswstepny);
             document.add(Chunk.NEWLINE);
@@ -1269,13 +1269,13 @@ public class PdfMain {
                     String pozycjaMa = p.getKontopozycjaID() != null ? p.getKontopozycjaID().getPozycjaMa() : "brak przyp.Ma";
                     table.addCell(ustawfrazeAlign(pozycjaMa, "center", 8));
                     double kwota = p.getBoWn() > 0 ? p.getBoWn(): 0;
-                    if (kwota > 0) {
+                    if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
                     }
                     kwota = p.getBoMa() > 0 ? p.getBoMa() : 0;
-                    if (kwota > 0) {
+                    if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 8));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 8));
@@ -1306,7 +1306,7 @@ public class PdfMain {
                     table.addCell(ustawfrazeAlign(p.getKonto().getPelnynumer()+" "+p.getKonto().getNazwapelna(), "left", 7));
                     table.addCell(ustawfrazeAlign(p.getWierszBOPK().getOpis(), "left", 7));
                     double kwota = p.getKurs();
-                    if (kwota > 0) {
+                    if (kwota > 0.0) {
                         number.setMinimumFractionDigits(4);
                         number.setMaximumFractionDigits(4);
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
@@ -1318,25 +1318,25 @@ public class PdfMain {
                     kwota = p.getKwotaWn(); 
                     number.setMinimumFractionDigits(2);
                     number.setMaximumFractionDigits(2);
-                    if (kwota > 0) {
+                    if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaWnPLN();
-                    if (kwota > 0 && !waluta.equals("PLN")) {
+                    if (kwota != 0.0 && !waluta.equals("PLN")) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaMa();
-                    if (kwota > 0) {
+                    if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaMaPLN();
-                    if (kwota > 0 && !waluta.equals("PLN")) {
+                    if (kwota != 0.0 && !waluta.equals("PLN")) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
@@ -1350,25 +1350,25 @@ public class PdfMain {
                     String waluta = p.getWaluta().getSymbolwaluty();
                     number.setMinimumFractionDigits(2);
                     number.setMaximumFractionDigits(2);
-                    if (kwota > 0) {
+                    if (kwota != 0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaWnPLN();
-                    if (kwota > 0 && !waluta.equals("PLN")) {
+                    if (kwota != 0 && !waluta.equals("PLN")) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaMa();
-                    if (kwota > 0) {
+                    if (kwota != 0.0) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
                     }
                     kwota = p.getKwotaMaPLN();
-                    if (kwota > 0 && !waluta.equals("PLN")) {
+                    if (kwota != 0.0 && !waluta.equals("PLN")) {
                         table.addCell(ustawfrazeAlign(number.format(kwota), "right", 7));
                     } else {
                         table.addCell(ustawfrazeAlign("", "center", 7));
@@ -1475,22 +1475,22 @@ public class PdfMain {
                 ZestawienieRyczalt p = (ZestawienieRyczalt) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(i++), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getOkres(), "left", 8));
-                if (p.getS170() > 0) {
+                if (p.getS170() != 0.0) {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS170())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS85() > 0) {
+                if (p.getS85() != 0.0) {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS85())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS55() > 0) {
+                if (p.getS55() != 0.0) {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS55())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));
                 }
-                if (p.getS30() > 0) {
+                if (p.getS30() != 0.0) {
                     table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getS30())), "right", 8));
                 } else {
                     table.addCell(ustawfrazeAlign("", "left", 8));

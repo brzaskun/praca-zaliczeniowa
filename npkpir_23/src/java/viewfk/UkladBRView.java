@@ -64,7 +64,7 @@ public class UkladBRView implements Serializable {
     @PostConstruct
     private void init() {
         try {
-            lista = ukladBRDAO.findPodatnik(wpisView.getPodatnikWpisu());
+            lista = ukladBRDAO.findPodatnikRok(wpisView);
             listaWzorcowy = ukladBRDAO.findPodatnik("Wzorcowy");
         } catch (Exception e) {
             System.out.println("Blad " + e.getStackTrace()[0].toString());

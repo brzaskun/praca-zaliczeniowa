@@ -11,17 +11,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import entity.Uz;
 import entityfk.WierszBO;
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.List;
-import javax.ejb.Stateless;
 import msg.Msg;
 import org.primefaces.context.RequestContext;
-import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajTabele;
-import static pdffk.PdfMain.finalizacjaDokumentu;
-import static pdffk.PdfMain.inicjacjaA4Portrait;
-import static pdffk.PdfMain.inicjacjaWritera;
-import static pdffk.PdfMain.naglowekStopkaP;
-import static pdffk.PdfMain.otwarcieDokumentu;
+import static pdffk.PdfMain.*;
 import plik.Plik;
 import view.WpisView;
 
@@ -31,7 +25,7 @@ import view.WpisView;
  */
 
 public class PdfWierszBO {
-    public static void drukujRKK(List<WierszBO> pobranetransakcje, WpisView wpisView) {
+    public static void drukujWierszeBO(List<WierszBO> pobranetransakcje, WpisView wpisView) {
         String nazwa = wpisView.getPodatnikObiekt().getNip()+"wierszBO";
         File file = Plik.plik(nazwa, true);
         if (file.isFile()) {
@@ -45,6 +39,7 @@ public class PdfWierszBO {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBO(pobranetransakcje),97,0);
+            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
@@ -67,11 +62,27 @@ public class PdfWierszBO {
             otwarcieDokumentu(document, nazwa);
             dodajOpisWstepny(document, "Zestawienie wierszy BO w firmie "+wpisView.getPodatnikWpisu(), wpisView.getMiesiacWpisu(), wpisView.getRokWpisuSt());
             dodajTabele(document, testobjects.testobjects.getTabelaWierszBOKonsolidacyjna(pobranetransakcje),97,1);
+            dodajLinieOpisu(document, obliczsumy(pobranetransakcje));
             finalizacjaDokumentu(document);
             String f = "pokazwydruk('"+nazwa+"');";
             RequestContext.getCurrentInstance().execute(f);
         } else {
             Msg.msg("w", "Nie wybrano wierszy BO do wydruku");
         }
+    }
+
+    private static String obliczsumy(List<WierszBO> pobranetransakcje) {
+        double wn = 0.0;
+        double ma = 0.0;
+        double wnpln = 0.0;
+        double mapln = 0.0;
+        for (WierszBO p : pobranetransakcje) {
+            wn += p.getKwotaWn();
+            ma += p.getKwotaMa();
+            wnpln += p.getKwotaWnPLN();
+            mapln += p.getKwotaMaPLN();
+        }
+        NumberFormat formatter = getNumberFormater();
+        return "Suma wn: "+formatter.format(wn)+", suma ma: "+formatter.format(ma)+", suma wnpln: "+formatter.format(wnpln)+", suma mapln: "+formatter.format(mapln);
     }
 }

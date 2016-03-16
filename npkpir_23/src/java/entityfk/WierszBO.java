@@ -69,6 +69,9 @@ public class WierszBO implements Serializable {
         this.wierszBOPK.setOpis(p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode());
         this.podatnik = podatnik;
         this.konto = konto;
+        if (p.getKonto().getPelnynumer().equals("202-2-13")) {
+            System.out.println("s");
+        }
         if (p.getSaldoWn() > p.getSaldoMa()) {
             this.kwotaWn = Z.z(p.getSaldoWn() - p.getSaldoMa());
             this.kwotaWnPLN = Z.z(p.getSaldoWnPLN() - p.getSaldoMaPLN());
@@ -80,8 +83,6 @@ public class WierszBO implements Serializable {
             this.kwotaMa = Z.z(p.getSaldoMa() - p.getSaldoWn());
             this.kwotaMaPLN = Z.z(p.getSaldoMaPLN() - p.getSaldoWnPLN());
         }
-        this.kwotaMa = p.getSaldoMa();
-        this.kwotaMaPLN = p.getSaldoMaPLN();
         this.kurs = p.getKursdlaBO();
         this.waluta = waluta;
         this.rozrachunek = false;

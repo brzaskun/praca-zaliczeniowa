@@ -1035,37 +1035,52 @@ public class BilansWprowadzanieView implements Serializable {
         listasum.clear();
         double stronaWn = 0.0;
         double stronaMa = 0.0;
+        double stronaWnpln = 0.0;
+        double stronaMapln = 0.0;
         for (WierszBO p : lista) {
-            stronaWn += p.getKwotaWnPLN();
-            stronaMa += p.getKwotaMaPLN();
+            stronaWn += p.getKwotaWn();
+            stronaMa += p.getKwotaMa();
+            stronaWnpln += p.getKwotaWnPLN();
+            stronaMapln += p.getKwotaMaPLN();
         }
         listasum.add(stronaWn);
         listasum.add(stronaMa);
         listasum.add(Z.z(stronaWn - stronaMa));
+        listasum.add(stronaWnpln);
+        listasum.add(stronaMapln);
+        listasum.add(Z.z(stronaWnpln - stronaMapln));
     }
 
     public void podsumujWnMa(List<WierszBO> listas, List listasum, List<WierszBO> lista) {
         listasum.clear();
         double stronaWn = 0.0;
         double stronaMa = 0.0;
-        if (listas.isEmpty()) {
-            for (WierszBO p : lista) {
-                stronaWn += p.getKwotaWnPLN();
-                stronaMa += p.getKwotaMaPLN();
-            }
+        double stronaWnpln = 0.0;
+        double stronaMapln = 0.0;
+        List<WierszBO> l = new ArrayList<>();
+        if (listas != null && !listas.isEmpty()) {
+            l = listas;
+        } else if (listaBOFiltered != null && !listaBOFiltered.isEmpty()) {
+            l = listaBOFiltered;
         } else {
-            for (WierszBO p : listas) {
-                stronaWn += p.getKwotaWnPLN();
-                stronaMa += p.getKwotaMaPLN();
-            }
+            l = lista;
+        }
+        for (WierszBO p : l) {
+                stronaWn += p.getKwotaWn();
+                stronaMa += p.getKwotaMa();
+                stronaWnpln += p.getKwotaWnPLN();
+                stronaMapln += p.getKwotaMaPLN();
         }
         listasum.add(stronaWn);
         listasum.add(stronaMa);
         listasum.add(Z.z(stronaWn - stronaMa));
+        listasum.add(stronaWnpln);
+        listasum.add(stronaMapln);
+        listasum.add(Z.z(stronaWnpln - stronaMapln));
     }
 
     public void drukuj(List<WierszBO> lista) {
-        PdfWierszBO.drukujRKK(lista, wpisView);
+        PdfWierszBO.drukujWierszeBO(lista, wpisView);
     }
 
     public void drukujListaKonsolidacyjna(List<WierszBO> lista) {
@@ -1372,6 +1387,8 @@ public class BilansWprowadzanieView implements Serializable {
             w = listaBOs;
         } else if (listaBOs1 != null && listaBOs1.size() > 0) {
             w = listaBOs1;
+        } else if (listaBOFiltered != null && listaBOFiltered.size() >0) {
+            w = listaBOFiltered;
         } else if (listaBO != null && listaBO.size() > 0) {
             w = listaBO;
         }
@@ -1379,7 +1396,7 @@ public class BilansWprowadzanieView implements Serializable {
             sortujliste(w);
         }
         dodajwierszsumy(w);
-        PdfWierszBO.drukujRKK(w, wpisView);
+        PdfWierszBO.drukujWierszeBO(w, wpisView);
     }
 
     private void sortujliste(List<WierszBO> w) {

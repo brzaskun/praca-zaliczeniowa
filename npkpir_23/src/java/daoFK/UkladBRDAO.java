@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.inject.Named;
 import session.SessionFacade;
+import view.WpisView;
 import viewfk.UkladBRView;
 
 /**
@@ -48,6 +49,14 @@ public class UkladBRDAO extends DAO implements Serializable{
     public List<UkladBR> findPodatnik(String nazwapelna) {
         try {
             return sessionFacade.findUkladBRPodatnik(nazwapelna);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public List<UkladBR> findPodatnikRok(WpisView wpisView) {
+        try {
+            return sessionFacade.findUkladBRPodatnikRok(wpisView);
         } catch (Exception e) { E.e(e); 
             return null;
         }
