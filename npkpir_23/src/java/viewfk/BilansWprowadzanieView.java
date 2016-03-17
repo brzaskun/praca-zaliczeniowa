@@ -500,45 +500,29 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public int weryfikacjaopisu(String opis, List<WierszBO> l, String pole) {
+    public int weryfikacjaopisu(WierszBO selected, List<WierszBO> l, String pole) {
         int licznik = 0;
-        String nrkonta = null;
-        for (WierszBO p : l) {
-            String opislista = p.getWierszBOPK().getOpis().toLowerCase();
-            if (opislista.equals(opis.toLowerCase())) {
-                if (p.getKonto() != null) {
-                    nrkonta = p.getKonto().getPelnynumer();
-                    licznik++;
+        String opis = selected.getWierszBOPK().getOpis().toLowerCase();
+        Konto konto = selected.getKonto();
+        if (konto != null) {
+            for (WierszBO p : l) {
+                if (p.getKonto().equals(konto)) {
+                    String opislista = p.getWierszBOPK().getOpis().toLowerCase();
+                    if (opislista.equals(opis.toLowerCase())) {
+                        licznik++;
+                    }
+                    if (licznik > 0) {
+                        Msg.msg("e", "Taki opis już istnieje na koncie: " + konto.getPelnynumer() + " opis: " + opis);
+                        selected.getWierszBOPK().setOpis("zmień opis");
+                        RequestContext.getCurrentInstance().update(pole);
+                        return 1;
+                    }
                 }
-            }
-            if (licznik > 0) {
-                Msg.msg("e", "Taki opis już istnieje na koncie: " + nrkonta + " opis: " + opis);
-                selected.getWierszBOPK().setOpis("zmień opis");
-                RequestContext.getCurrentInstance().update(pole);
-                return 1;
             }
         }
         return 0;
     }
 
-    public int weryfikacjaopisuN(String opis) {
-        int licznik = 0;
-        for (WierszBO p : listaBO) {
-            if (p.getWierszBOPK().getOpis().equals(opis)) {
-                if (p.getKonto() == selected.getKonto()) {
-                    licznik++;
-                }
-            }
-            if (licznik > 0) {
-                Msg.msg("e", "Taki opis już istnieje na koncie: " + selected.getKonto().getPelnynumer() + " opis: " + opis);
-                selected.getWierszBOPK().setOpis("zmień opis");
-                RequestContext.getCurrentInstance().update("formbilanswprowadzanie2_wiersz:opis");
-                RequestContext.getCurrentInstance().update("formbilanswprowadzanie2_wiersz:opis1");
-                return 1;
-            }
-        }
-        return 0;
-    }
 
     public int weryfikacjaopisuZapis(WierszBO wiersz, List<WierszBO> l) {
         int licznik = 0;
@@ -1059,7 +1043,7 @@ public class BilansWprowadzanieView implements Serializable {
         double stronaMapln = 0.0;
         List<WierszBO> l = new ArrayList<>();
         if (listas != null && !listas.isEmpty()) {
-            l = listas;
+                l = listas;
         } else if (listaBOFiltered != null && !listaBOFiltered.isEmpty()) {
             l = listaBOFiltered;
         } else {

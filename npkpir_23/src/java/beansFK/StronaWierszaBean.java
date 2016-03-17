@@ -8,8 +8,10 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import embeddable.Mce;
+import entity.Pozycjenafakturze_;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
+import error.E;
 import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -68,15 +70,17 @@ public class StronaWierszaBean {
             return kwotazlotowki;
         }
      
-     public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
+    public static List<StronaWiersza> pobraniezapisowwynikowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
-            StronaWiersza p = it.next();
-            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
-                it.remove();
+        if (granicagorna < 12) {
+            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext();) {
+                StronaWiersza p = it.next();
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna) {
+                    it.remove();
+                }
             }
-            }
+        }
         return pobranezapisy;
     }
      
@@ -100,11 +104,16 @@ public class StronaWierszaBean {
      public static List<StronaWiersza> pobraniezapisowbilansowe(StronaWierszaDAO stronaWierszaDAO, WpisView wpisView) {
         int granicagorna = Mce.getMiesiacToNumber().get(wpisView.getMiesiacWpisu());
         List<StronaWiersza> pobranezapisy = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
-            StronaWiersza p = it.next();
-            if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
-                it.remove();
+        StronaWiersza p = null;
+        try {
+            for (Iterator<StronaWiersza> it = pobranezapisy.iterator(); it.hasNext(); ) {
+                p = it.next();
+                if (Mce.getMiesiacToNumber().get(p.getDokfk().getMiesiac()) > granicagorna || p.getDokfk().getRodzajedok().getSkrot().equals("BO")) {
+                    it.remove();
+                }
             }
+        } catch (Exception e) {
+            E.e(e);
         }
         return pobranezapisy;
     }
