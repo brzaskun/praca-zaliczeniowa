@@ -1191,7 +1191,7 @@ public class PdfMain {
             }
             if (nazwaklasy.equals("testobjects.WierszCecha")) {
                 WierszCecha p = (WierszCecha) it.next();
-                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 8));
+                table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 8, 25f));
                 table.addCell(ustawfrazeAlign(p.getNazwacechy(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getRodzajcechy(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getDokfks(), "center", 8));

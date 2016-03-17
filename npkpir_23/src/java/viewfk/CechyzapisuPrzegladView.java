@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
+import pdffk.PdfCechyZapisow;
 import view.WpisView;
 
 /**
@@ -114,7 +115,16 @@ public class CechyzapisuPrzegladView implements Serializable{
             razem += p.getStronaWiersza().getKwotaPLN();
         }
     }
-    //<editor-fold defaultstate="collapsed" desc="comment">
+    
+    public void drukujzaksiegowanydokument() {
+        if (wybraneZapisy != null && !wybraneZapisy.isEmpty()) {
+            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, wybraneZapisy);
+        } else {
+            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, zapisyZCecha);
+        }
+    }
+    
+       //<editor-fold defaultstate="collapsed" desc="comment">
     public WpisView getWpisView() {
         return wpisView;
     }
