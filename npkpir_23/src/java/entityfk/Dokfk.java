@@ -36,6 +36,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.eclipse.persistence.annotations.Cache;
+import org.eclipse.persistence.annotations.CacheCoordinationType;
+import org.eclipse.persistence.annotations.CacheType;
 import org.primefaces.context.RequestContext;
 import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
@@ -77,6 +80,12 @@ import viewfk.subroutines.ObslugaWiersza;
     @NamedQuery(name = "Dokfk.znajdzDokumentPodatnikWpr", query = "SELECT DISTINCT d.dokfkPK.podatnik FROM Dokfk d WHERE d.wprowadzil = :wprowadzil"),
     @NamedQuery(name = "Dokfk.znajdzSeriePodatnik", query = "SELECT DISTINCT d.dokfkPK.seriadokfk FROM Dokfk d WHERE d.dokfkPK.rok = :rok AND d.podatnikObj = :podatnik")
 })
+@Cache(
+  type=CacheType.SOFT, // Cache everything until the JVM decides memory is low.
+  size=64000,  // Use 64,000 as the initial cache size.
+  expiry=36000000,  // 10 minutes
+  coordinationType=CacheCoordinationType.INVALIDATE_CHANGED_OBJECTS  // if cache coordination is used, only send invalidation messages.
+)
 public class Dokfk implements Serializable {
 
     private static final long serialVersionUID = 1L;
