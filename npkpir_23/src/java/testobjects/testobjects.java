@@ -158,7 +158,6 @@ public class testobjects {
        List n = new ArrayList();
        n.add("lp");
        n.add("nazwa cechy");
-       n.add("rodzaj cechy");
        n.add("id dokumentu");
        n.add("data dok");
        n.add("data operacji");

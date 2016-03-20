@@ -586,10 +586,9 @@ public class PdfMain {
                 col4[2] = 2;
                 col4[3] = 2;
                 col4[4] = 2;
-                col4[5] = 2;
-                col4[6] = 4;
-                col4[7] = 4;
-                col4[8] = 2;
+                col4[5] = 5;
+                col4[6] = 5;
+                col4[7] = 3;
                 return col4;
             case "embeddable.ZestawienieRyczalt":
                 col = new int[size];
@@ -1193,12 +1192,11 @@ public class PdfMain {
                 WierszCecha p = (WierszCecha) it.next();
                 table.addCell(ustawfrazeAlign(String.valueOf(p.getId()), "center", 8, 25f));
                 table.addCell(ustawfrazeAlign(p.getNazwacechy(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getRodzajcechy(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getDokfks(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getDatawystawienia(), "center", 8));
                 table.addCell(ustawfrazeAlign(p.getDataoperacji(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "center", 8));
-                table.addCell(ustawfrazeAlign(p.getOpiskonta(), "center", 8));
+                table.addCell(ustawfrazeAlign(p.getOpisWiersza(), "left", 8));
+                table.addCell(ustawfrazeAlign(p.getOpiskonta(), "left", 8));
                 table.addCell(ustawfrazeAlign(String.valueOf(number.format(p.getKwota())), "right", 8));
             }
             if (nazwaklasy.equals("entity.Dok")) {

@@ -5,16 +5,18 @@
  */
 package viewfk;
 
+import beansFK.CechazapisuBean;
+import static com.google.common.collect.Iterables.any;
 import daoFK.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
-import entityfk.Wiersz;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -33,7 +35,8 @@ public class CechyzapisuPrzegladView implements Serializable{
     private static final long serialVersionUID = 1L;
     private List<Dokfk> wykazZaksiegowanychDokumentow;
     private List<CechaStronaWiersza> zapisyZCecha;
-    private List<CechaStronaWiersza> wybraneZapisy;
+    private List<CechaStronaWiersza> wybraneZapisyZCecha;
+    private Set<String> wykazcech;
     private double razem;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -43,82 +46,64 @@ public class CechyzapisuPrzegladView implements Serializable{
     public CechyzapisuPrzegladView() {
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
         this.zapisyZCecha = new ArrayList<>();
+        this.wykazcech = new HashSet<>();
     }
     
     
     public void init() {
-        this.zapisyZCecha = new ArrayList<>();
         wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRokMc(wpisView);
-        for (Dokfk p : wykazZaksiegowanychDokumentow) {
-            if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
-                for (Cechazapisu r: p.getCechadokumentuLista()) {
-                    zapisyZCecha.addAll(pobierzstrony(r, p.getListawierszy()));
-                }
-            } else {
-                for (Wiersz r : p.getListawierszy()) {
-                    zapisyZCecha.addAll(pobierzpojedynczo(r));
+        this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
+        int i = 1;
+        for (CechaStronaWiersza p : zapisyZCecha) {
+            p.setId(i++);
+            wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
+        }
+        System.out.println("liczba "+zapisyZCecha.size());
+        RequestContext.getCurrentInstance().update("formcechyzapisow");
+    }
+    
+    public void initCIT8() {
+        this.zapisyZCecha = new ArrayList<>();
+        wykazZaksiegowanychDokumentow = dokDAOfk.findDokfkPodatnikRok(wpisView);
+        this.zapisyZCecha = CechazapisuBean.pobierzstrony(wykazZaksiegowanychDokumentow);
+        for (Iterator<CechaStronaWiersza> it = zapisyZCecha.iterator(); it.hasNext();) {
+            CechaStronaWiersza n = it.next();
+            if (!n.getStronaWiersza().getDokfk().getMiesiac().equals("12")) {
+                if (n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("pmn") || n.getCechazapisu().getCechazapisuPK().getNazwacechy().toLowerCase().equals("kupmn")) {
+                    it.remove();
                 }
             }
         }
         int i = 1;
         for (CechaStronaWiersza p : zapisyZCecha) {
             p.setId(i++);
+            wykazcech.add(p.getCechazapisu().getCechazapisuPK().getNazwacechy());
         }
         System.out.println("liczba "+zapisyZCecha.size());
         RequestContext.getCurrentInstance().update("formcechyzapisow");
     }
 
-    private Collection<? extends CechaStronaWiersza> pobierzstrony(Cechazapisu r, List<Wiersz> listawierszy) {
-        List<CechaStronaWiersza> lista = new ArrayList<>();
-        for (Wiersz p : listawierszy) {
-            if (p.getStronaWn() != null) {
-                if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
-                    lista.add(new CechaStronaWiersza(r, p.getStronaWn()));
-                }
-            }
-            if (p.getStronaMa() != null) {
-                if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
-                    lista.add(new CechaStronaWiersza(r, p.getStronaMa()));
-                }
-            }
-        }
-        return lista;
-    }
-
-    private Collection<? extends CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
-        List<CechaStronaWiersza> lista = new ArrayList<>();
-        if (r.getStronaWn() != null) {
-            if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
-                for (Cechazapisu s : r.getStronaWn().getCechazapisuLista()) {
-                    lista.add(new CechaStronaWiersza(s, r.getStronaWn()));
-                }
-            }
-        }
-        if (r.getStronaMa() != null) {
-            if (r.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaMa().getCechazapisuLista() != null) {
-                for (Cechazapisu s : r.getStronaMa().getCechazapisuLista()) {
-                    lista.add(new CechaStronaWiersza(s, r.getStronaMa()));
-                }
-            }
-        }
-        return lista;
-    }
+    
     
     public void odswiez() {
-        wpisView.wpisAktualizuj();
-        init();
+        if (wpisView.getMiesiacWpisu().equals("CR")) {
+            initCIT8();
+        } else {
+            wpisView.wpisAktualizuj();
+            init();
+        }
     }
 
     public void sumujwybrane() {
         razem = 0.0;
-        for (CechaStronaWiersza p : wybraneZapisy) {
+        for (CechaStronaWiersza p : wybraneZapisyZCecha) {
             razem += p.getStronaWiersza().getKwotaPLN();
         }
     }
     
     public void drukujzaksiegowanydokument() {
-        if (wybraneZapisy != null && !wybraneZapisy.isEmpty()) {
-            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, wybraneZapisy);
+        if (wybraneZapisyZCecha != null && !wybraneZapisyZCecha.isEmpty()) {
+            PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, wybraneZapisyZCecha);
         } else {
             PdfCechyZapisow.drukujzaksiegowanydokument(wpisView, zapisyZCecha);
         }
@@ -132,6 +117,14 @@ public class CechyzapisuPrzegladView implements Serializable{
     public void setWpisView(WpisView wpisView) {
         this.wpisView = wpisView;
     }
+
+    public Set<String> getWykazcech() {
+        return wykazcech;
+    }
+
+    public void setWykazcech(Set<String> wykazcech) {
+        this.wykazcech = wykazcech;
+    }
     
     public List<CechaStronaWiersza> getZapisyZCecha() {
         return zapisyZCecha;
@@ -141,12 +134,12 @@ public class CechyzapisuPrzegladView implements Serializable{
         this.zapisyZCecha = zapisyZCecha;
     }
 
-    public List<CechaStronaWiersza> getWybraneZapisy() {
-        return wybraneZapisy;
+    public List<CechaStronaWiersza> getWybraneZapisyZCecha() {
+        return wybraneZapisyZCecha;
     }
 
-    public void setWybraneZapisy(List<CechaStronaWiersza> wybraneZapisy) {
-        this.wybraneZapisy = wybraneZapisy;
+    public void setWybraneZapisyZCecha(List<CechaStronaWiersza> wybraneZapisyZCecha) {
+        this.wybraneZapisyZCecha = wybraneZapisyZCecha;
     }
 
     public double getRazem() {

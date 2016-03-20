@@ -9,12 +9,15 @@ import daoFK.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
+import entityfk.Wiersz;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
+import viewfk.CechyzapisuPrzegladView;
 
 /**
  *
@@ -84,6 +87,58 @@ public class CechazapisuBean {
             }
         }
         return suma;
+    }
+    
+    public static List<CechyzapisuPrzegladView.CechaStronaWiersza> pobierzstrony(List<Dokfk> wykazZaksiegowanychDokumentow) {
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> zapisyZCecha = new ArrayList<>();
+        for (Dokfk p : wykazZaksiegowanychDokumentow) {
+               if (p.getCechadokumentuLista() != null && p.getCechadokumentuLista().size() > 0) {
+                   for (Cechazapisu r: p.getCechadokumentuLista()) {
+                       zapisyZCecha.addAll(CechazapisuBean.pobierzStronyzDokfk(r, p.getListawierszy()));
+                   }
+               } else {
+                   for (Wiersz r : p.getListawierszy()) {
+                       zapisyZCecha.addAll(CechazapisuBean.pobierzpojedynczo(r));
+                   }
+               }
+           }
+        return zapisyZCecha;
+    }
+    
+    public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzStronyzDokfk(Cechazapisu r, List<Wiersz> listawierszy) {
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
+        for (Wiersz p : listawierszy) {
+            if (p.getStronaWn() != null) {
+                if (p.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe")) {
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaWn()));
+                }
+            }
+            if (p.getStronaMa() != null) {
+                if (p.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe")) {
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(r, p.getStronaMa()));
+                }
+            }
+        }
+        return lista;
+    }
+
+    public static Collection<? extends CechyzapisuPrzegladView.CechaStronaWiersza> pobierzpojedynczo(Wiersz r) {
+        List<CechyzapisuPrzegladView.CechaStronaWiersza> lista = new ArrayList<>();
+        if (r.getStronaWn() != null) {
+            if (r.getStronaWn().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaWn().getCechazapisuLista() != null) {
+                for (Cechazapisu s : r.getStronaWn().getCechazapisuLista()) {
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaWn()));
+                }
+            }
+        }
+        if (r.getStronaMa() != null) {
+            if (r.getStronaMa().getKonto().getBilansowewynikowe().equals("wynikowe") && r.getStronaMa().getCechazapisuLista() != null) {
+                for (Cechazapisu s : r.getStronaMa().getCechazapisuLista()) {
+                    lista.add(new CechyzapisuPrzegladView.CechaStronaWiersza(s, r.getStronaMa()));
+                }
+            }
+        }
+        return lista;
     }
     
     

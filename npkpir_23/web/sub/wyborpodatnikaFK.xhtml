@@ -41,7 +41,7 @@
                 </p:column>
                 <p:column >
                     <p:commandButton  action="/ksiegowaFK/ksiegowaFKDokument.xhtml?faces-redirect=true" 
-                                      style="width: 150px; float: right;" oncomplete="pobierzdanepoczatek();"
+                                      style="width: 150px; float: right;" onsuccess="pobierzdanepoczatek();"
                                       actionListener="#{WpisView.wpisAktualizuj()}" value="#{mgs.wybierzmcrok}" accesskey="s" />
                 </p:column>
             </p:panelGrid>
