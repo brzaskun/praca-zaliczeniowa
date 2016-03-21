@@ -149,7 +149,7 @@ public class SrodekTrw implements Serializable {
           @JoinColumn(name = "podatnikObj", referencedColumnName = "podatnikObj"),
           @JoinColumn(name = "rok", referencedColumnName = "rok")
      })
-    @ManyToOne
+    @ManyToOne(optional = true)
     private Dokfk dokfk;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SrodekTrw_NowaWartosc> zmianawartosci;
