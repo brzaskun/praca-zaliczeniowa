@@ -71,10 +71,14 @@ public class EVatwpisFKDAO  extends DAO implements Serializable{
             int dg = Integer.parseInt(mcod)-1;
             int gg = Integer.parseInt(mcdo)+1;
             for (EVatwpisFK p : input) {
+                if (p.getVat() == 511.34) {
+                    System.out.println("");
+                }
                 try {
                     int mcdok = Integer.parseInt(p.getDokfk().getMiesiac());
-                    if (mcod.equals("01")) {
-                        mcdok = 12 - mcdok;
+                    int rokdok = Integer.parseInt(p.getDokfk().getDokfkPK().getRok());
+                    if (rokdok < Integer.parseInt(rok)) {
+                        mcdok = dg;
                     }
                     if (mcdok <= dg && p.getVat() != 0.0) {
                         int p_mc = Integer.parseInt(p.getMcEw());
