@@ -54,12 +54,12 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update="@form, :tabelazsumamisyntetyka:sumy"/>
+                        <p:ajax event="change" listener="#{saldoSyntetykaView.odswiezsaldosyntetyczne}" update="formtablicasyntetyczne :tabelazsumamisyntetyka:sumy"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
                 <p:column>
-                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="@form, :tabelazsumamisyntetyka:sumy"/>
+                    <p:commandButton value="#{mgs.pobierz}" actionListener="#{saldoSyntetykaView.odswiezsaldosyntetyczne()}" style="width: 120px; margin-left: 20px;" update="formtablicasyntetyczne, :tabelazsumamisyntetyka:sumy"/>
                 </p:column>
                 
                     <h:outputText value="#{mgs.przetwarzanie}"/>

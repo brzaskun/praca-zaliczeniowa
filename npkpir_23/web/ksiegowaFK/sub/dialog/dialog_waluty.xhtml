@@ -36,10 +36,10 @@
                     </p:inplace>
                 </p:column>
                 <p:column headerText="usuń" width="60" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{walutyViewFK.usunwalute(wpis)}" update="@form" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{walutyViewFK.usunwalute(wpis)}" update="wprowadzonewaluty wpiswalut" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
                 </p:column>
                 <p:column headerText="pobierz kursy" width="60" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" actionListener="#{walutyKursRecznieView.pobierzkursyNowaWaluta(wpis)}" update="@form, :wprowadzonekursy" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
+                    <p:commandButton icon="ui-icon-arrowthickstop-1-s" actionListener="#{walutyKursRecznieView.pobierzkursyNowaWaluta(wpis)}" update="wprowadzonewaluty wpiswalut" rendered="#{wpis.symbolwaluty ne 'PLN'}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

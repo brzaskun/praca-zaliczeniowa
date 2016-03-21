@@ -259,7 +259,7 @@ body {
 
 .ui-datatable-scrollable-theadclone th span.ui-column-title {
     display: none !important;
-    height: 0px;
+    height: 0px !important;
 }
     
 /*.tablicafk td {

@@ -1702,6 +1702,10 @@ public class SessionFacade<T> implements Serializable {
     public List<UkladBR> findukladBRPodatnikRok(String podatnikWpisu, String rokWpisuSt) {
         return em.createNamedQuery("UkladBR.findByPodatnikRok").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getResultList();
     }
+    
+    public UkladBR findukladBRPodatnikRokPodstawowy(String podatnikWpisu, String rokWpisuSt) {
+        return (UkladBR) em.createNamedQuery("UkladBR.findByPodatnikRokPodstawowy").setParameter("podatnik", podatnikWpisu).setParameter("rok", rokWpisuSt).getSingleResult();
+    }
 
     public KontopozycjaZapis fintKontoPozycjaZapisByKonto(Konto konto, UkladBR ukladBR) {
         return (KontopozycjaZapis) em.createNamedQuery("KontopozycjaZapis.findByKontoId").setParameter("kontoId", konto).setParameter("ukladBR", ukladBR).getSingleResult();

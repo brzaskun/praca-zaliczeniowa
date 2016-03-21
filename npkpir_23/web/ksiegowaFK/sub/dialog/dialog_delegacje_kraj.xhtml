@@ -43,10 +43,10 @@
                     <h:outputText value="#{item.nrkonta}"/>
                 </p:column>
                 <p:column headerText="edytuj" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-comment" actionListener="#{delegacjeView.edytuj(item)}" update=":delegacje, @form"/>
+                    <p:commandButton icon="ui-icon-comment" actionListener="#{delegacjeView.edytuj(item)}" update=":delegacje delegacjelista"/>
                 </p:column>
                 <p:column headerText="usuń" width="40" style="text-align: center;">
-                    <p:commandButton icon="ui-icon-trash" actionListener="#{delegacjeView.usun(item, false)}" update=":delegacje, @form" rendered="#{item.aktywny eq false}"/>
+                    <p:commandButton icon="ui-icon-trash" actionListener="#{delegacjeView.usun(item, false)}" update=":delegacje delegacjelista" rendered="#{item.aktywny eq false}"/>
                 </p:column>
             </p:dataTable>
         </h:form>

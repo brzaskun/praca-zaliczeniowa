@@ -13,6 +13,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.KontoKwota;
@@ -83,6 +84,8 @@ public class PozycjaBRView implements Serializable {
     private PozycjaRZiSDAO pozycjaRZiSDAO;
     @Inject
     private PozycjaBilansDAO pozycjaBilansDAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     @Inject
     private UkladBR uklad;
     @Inject
@@ -179,6 +182,9 @@ public class PozycjaBRView implements Serializable {
     }
 
     public void pobierzukladprzegladRZiS() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
         ArrayList<PozycjaRZiSBilans> pozycje = new ArrayList<>();
         pobierzPozycje(pozycje);
         rootProjektRZiS.getChildren().clear();
@@ -254,6 +260,9 @@ public class PozycjaBRView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
         ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
         pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
@@ -307,6 +316,9 @@ public class PozycjaBRView implements Serializable {
     
     private void pobierzPozycjeAktywaPasywa(ArrayList<PozycjaRZiSBilans> pozycjeaktywa, ArrayList<PozycjaRZiSBilans> pozycjepasywa) {
         try {
+            if (uklad == null) {
+                uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+            }
             pozycjeaktywa.addAll(pozycjaBilansDAO.findBilansukladAktywa(uklad));
             pozycjepasywa.addAll(pozycjaBilansDAO.findBilansukladPasywa(uklad));
             if (pozycjeaktywa.isEmpty()) {

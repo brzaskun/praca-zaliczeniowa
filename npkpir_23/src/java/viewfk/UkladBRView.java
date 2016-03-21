@@ -16,6 +16,7 @@ import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -59,7 +60,7 @@ public class UkladBRView implements Serializable {
         lista = new ArrayList<>();
     }
 
-    
+    @PostConstruct
     public void init() {
         try {
             lista = ukladBRDAO.findPodatnikRok(wpisView);

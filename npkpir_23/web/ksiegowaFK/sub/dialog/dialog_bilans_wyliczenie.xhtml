@@ -48,7 +48,7 @@
                  <p:commandButton id="zwinwsz" value="zwiń wszystkie" actionListener="#{pozycjaBRView.zwinwszystkie()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:commandButton id="zwinw" value="zwiń poziom" actionListener="#{pozycjaBRView.zwin()}" update=":formprzegladbilans:dataList" style="float: left;" />
                  <p:column>
-                      <p:splitButton value="#{mgs.drukujaktywa}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
+                      <p:splitButton value="#{mgs.drukuj}"  style="margin-left: 30px;" type="submit" actionListener="#{pozycjaBRView.drukujBilans('a', pozycjaBRView.sumabilansowaaktywa)}">
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont}"  actionListener="#{pozycjaBRView.drukujBilansKonta('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                           <p:menuitem global="false" value="#{mgs.aktywaznrkont} bez 0"  actionListener="#{pozycjaBRView.drukujBilansKontaBez0('a', pozycjaBRView.sumabilansowaaktywa)}" icon="fa fa-print"/>  
                       </p:splitButton>

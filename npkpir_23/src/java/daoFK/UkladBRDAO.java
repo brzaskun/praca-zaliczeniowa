@@ -61,6 +61,8 @@ public class UkladBRDAO extends DAO implements Serializable{
             return null;
         }
     }
+    
+    
 
     public List<UkladBR> findukladBRWzorcowyRok(String rokWpisu) {
         try {
@@ -73,6 +75,14 @@ public class UkladBRDAO extends DAO implements Serializable{
     public List<UkladBR> findukladBRPodatnikRok(String podatnikWpisu, String rokWpisuSt) {
          try {
             return sessionFacade.findukladBRPodatnikRok(podatnikWpisu, rokWpisuSt);
+        } catch (Exception e) { E.e(e); 
+            return null;
+        }
+    }
+    
+    public UkladBR findukladBRPodatnikRokPodstawowy(String podatnikWpisu, String rokWpisuSt) {
+         try {
+            return sessionFacade.findukladBRPodatnikRokPodstawowy(podatnikWpisu, rokWpisuSt);
         } catch (Exception e) { E.e(e); 
             return null;
         }

@@ -58,11 +58,11 @@
                             </p:column>-->
                 <p:column>
                     <p:selectOneMenu value="#{WpisView.miesiacWpisu}">
-                        <p:ajax event="change" listener="#{miejsceKosztowView.zapisykontmiesiace}" update="@form"/>
+                        <p:ajax event="change" listener="#{miejsceKosztowView.zapisykontmiesiace}" update="formzapisymiejscakosztowwmcu"/>
                         <f:selectItems value="#{Mce.mceList}"/>
                     </p:selectOneMenu>
                 </p:column>
-                <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="@form" style="width: 120px;"/>
+                <p:commandButton value="#{mgs.pobierz}" actionListener="#{miejsceKosztowView.sumymiesiecy}" update="formzapisymiejscakosztowwmcu" style="width: 120px;"/>
             </p:panelGrid>
             <p:panel style="height: 600px">
                 <p:dataTable value="#{miejsceKosztowView.listasummiejsckosztow}" var="item" rowIndexVar="numer"

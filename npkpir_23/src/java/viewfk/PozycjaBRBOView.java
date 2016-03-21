@@ -12,6 +12,7 @@ import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.PozycjaBilansDAO;
 import daoFK.PozycjaRZiSDAO;
+import daoFK.UkladBRDAO;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
 import embeddablefk.KontoKwota;
@@ -84,6 +85,8 @@ public class PozycjaBRBOView implements Serializable {
     private UkladBR uklad;
     @Inject
     private WierszBODAO wierszBODAO;
+    @Inject
+    private UkladBRDAO ukladBRDAO;
     
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
@@ -240,6 +243,9 @@ public class PozycjaBRBOView implements Serializable {
     }
     
     public void pobierzukladprzegladBilans() {
+        if (uklad.getUklad() == null) {
+            uklad = ukladBRDAO.findukladBRPodatnikRokPodstawowy(wpisView.getPodatnikWpisu(), wpisView.getRokWpisuSt());
+        }
         ArrayList<PozycjaRZiSBilans> pozycjeaktywa = new ArrayList<>();
         ArrayList<PozycjaRZiSBilans> pozycjepasywa = new ArrayList<>();
         pobierzPozycjeAktywaPasywa(pozycjeaktywa, pozycjepasywa);
