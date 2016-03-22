@@ -30,6 +30,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -194,11 +195,16 @@ public class Dokfk implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dataksiegowania")
     private Date dataksiegowania;
-    @Column(name = "dataujecia", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Column(name = "dataujecia")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataujecia;
 
-
+    @PrePersist
+    private void prepresist() {
+        this.dataujecia = new Date();
+    }
+    
+    
     public Dokfk() {
         this.saldopoczatkowe = 0.0;
         this.saldokoncowe = 0.0;
