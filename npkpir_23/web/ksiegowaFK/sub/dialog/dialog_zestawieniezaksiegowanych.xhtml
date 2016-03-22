@@ -108,7 +108,7 @@
                 /* ]]> */
             </script>
             <p:contextMenu for="dataList" style="width: 200px;">
-                <p:menuitem value="oznacz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update="@(form)"/>
+                <p:menuitem value="oznacz/odznacz jako wzorzec" icon="fa fa-star" actionListener="#{dokfkView.oznaczDokfkJakoWzorzec()}" update=":zestawieniedokumentow:dataList"/>
                 <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
                 <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
                             oncomplete="PF('dialogwpisrmk').show();"/>
