@@ -199,11 +199,6 @@ public class Dokfk implements Serializable {
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date dataujecia;
 
-    @PrePersist
-    private void prepresist() {
-        this.dataujecia = new Date();
-    }
-    
     
     public Dokfk() {
         this.saldopoczatkowe = 0.0;

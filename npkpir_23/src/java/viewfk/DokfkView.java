@@ -677,6 +677,7 @@ public class DokfkView implements Serializable {
                 oznaczdokumentRozKurs(selected);
                 //nanieswierszeRRK(selected);
                 selected.przeliczKwotyWierszaDoSumyDokumentu();
+                selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 biezacetransakcje = null;
                 Dokfk dodany = dokDAOfk.findDokfkObj(selected);
@@ -845,26 +846,22 @@ public class DokfkView implements Serializable {
                     wykazZaksiegowanychDokumentowRMK.remove(selected);
                     wykazZaksiegowanychDokumentowRMK.add(selected);
                 }
+                selected.setDataujecia(new Date());
                 dokDAOfk.edit(selected);
                 wykazZaksiegowanychDokumentow.remove(selected);
                 wykazZaksiegowanychDokumentow.add(selected);
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
                 selected = new Dokfk();
-                RequestContext.getCurrentInstance().update("zestawieniedokumentow:dataList");
-                RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychsrodkitrwale:dataListsrodkitrwale");
-                RequestContext.getCurrentInstance().update("form_dialog_zestawieniezaksiegowanychrmk:dataListsrodkiRMK");
                 if (totylkoedycjazapis) {
                     kontoZapisFKView.pobierzzapisy();
-                    RequestContext.getCurrentInstance().update("zestawieniezapisownakontach:dataList");
                     totylkoedycjazapis = false;
                 }
                 Msg.msg("i", "Pomyślnie zaktualizowano dokument");
-                RequestContext.getCurrentInstance().execute("PF('wpisywanie').hide();");
             } catch (Exception e) {
                 E.e(e);
                 komunikatywpisdok = "Nie udało się zmienic dokumentu ";
                 RequestContext.getCurrentInstance().update("formwpisdokument:komunikatywpisdok");
-                Msg.msg("e", "Nie udało się zmenic dokumentu " + e.toString());
+                Msg.msg("e", "Nie udało się zmienić dokumentu " + e.toString());
             }
         } else {
             komunikatywpisdok = "Uzupełnij wiersze o kwoty/konto!";

@@ -591,9 +591,8 @@
                         <p:column>
                         <p:commandButton id="wpiszdokbutton" value="#{mgs.zapisz} (w)" styleClass="fkbutton" style="width: 150px;" actionListener="#{dokfkView.dodaj}" 
                                          accesskey="w" onsuccess="powrocNaPoczatekDokfk();" rendered="#{(dokfkView.zapisz0edytuj1 == false) and dokfkView.wlaczZapiszButon}"
-                                         onfocus="focusNaNowoDodanymEnter();
-                                                 sprawdzgrupeprzykliknieciuwzapisz();" global="false" 
-                        >
+                                         onfocus="focusNaNowoDodanymEnter();sprawdzgrupeprzykliknieciuwzapisz();" global="false"
+                                         oncomplete="">
                             <p:ajax event="click" listener="#{sesjaView.dodajdokument()}" global="false"/>
                         </p:commandButton>
                         </p:column>
@@ -602,7 +601,8 @@
                                          actionListener="#{dokfkView.edycja}" 
                                          accesskey="y" 
                                          onfocus="focusNaNowoDodanymEnter();"
-                                         rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" global="false"/>
+                                         rendered="#{dokfkView.zapisz0edytuj1}" onclick="sprawdzgrupeprzykliknieciuwzapisz();" 
+                                         global="false" oncomplete="PF('wpisywanie').hide();"/>
                         </p:column>
                         <p:column>
                             <h:outputText id="stanprzyciskuzapis" value="#{dokfkView.wlaczZapiszButon}" style="font-size: xx-small; color: white;"/>
