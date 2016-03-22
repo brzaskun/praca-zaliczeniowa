@@ -20,7 +20,7 @@
     </style>
     <p:dialog id="dialogtrzeci" header="Zestawienie zaksięgowanych dokumentów - #{WpisView.podatnikWpisu}" widgetVar="zestawieniezaksiegowanych" 
               dynamic="true" maximizable="true"
-              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1300, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
+              resizable="false"  onShow="ustawdialog('dialogtrzeci','menudokumenty', 1400, 580);" closeOnEscape="true" onHide="resetujdialog('dialogtrzeci');" >
         <!--        <h:form>
                     <p:commandButton value="uzupełnij" actionListener="#{dokfkView.uzupelnijdokumentyodkontrahenta()}"/>
                 </h:form>-->
@@ -112,12 +112,14 @@
                 <p:menuitem value="dodaj środek trw." icon="fa fa-truck" actionListener="#{srodkiTrwaleView.dodajSrodekTrwalyDokfk(dokfkView.selectedlist)}" oncomplete="PF('dialogwpissrodkitrwale').show();" update="dialogwpissrodkitrwale"/>
                 <p:menuitem value="dodaj rmk" icon="fa fa-clock-o" actionListener="#{rMKView.dodajNoweRMKDokfk(dokfkView.selectedlist)}" update="formrmk"
                             oncomplete="PF('dialogwpisrmk').show();"/>
+                <p:menuitem value="zaksięguj dokfk" icon="fa fa-book" actionListener="#{dokfkView.zaksiegujdokumenty()}" update=":zestawieniedokumentow:dataList"/>
+                <p:separator/>
                 <p:menuitem value="usuń zaznaczone" icon="fa fa-times" actionListener="#{dokfkView.usunzaznaczone}" update=":zestawieniedokumentow:dataList"/>
             </p:contextMenu>
 
             <p:dataTable id="dataList" value="#{dokfkView.wykazZaksiegowanychDokumentow}" var="item" rowIndexVar="row" widgetVar="tablicadokumenty" 
                          selection="#{dokfkView.selectedlist}" rowKey="#{item.dokfkSN}" binding="#{dokfkView.dataTablezaksiegowane}"
-                         style="width: 1260px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
+                         style="width: 1360px; height: 500px; overflow-y: scroll" filteredValue="#{dokfkView.filteredValue}" 
                          emptyMessage="Brak zaksięgowanych dokumentów" styleClass="gridZaksiegowane"
                          >
                 <!--                     <p:ajax event="rowSelect" oncomplete="pokazwierszedok();" update=":formwpisdokument, :dialogwiersze" />-->
@@ -127,7 +129,7 @@
                 <p:ajax event="rowUnselectCheckbox" global="false" listener="#{dokfkView.sumawartosciwybranych}" update="zestawieniedokumentow:sumawybranych"/>
                 <p:ajax event="rowToggle" global="false"/>
                 <p:column selectionMode="multiple" width="30" style="text-align: center;"></p:column>
-                <p:column style="width: 10px; height: 40px; text-align: center;" >
+                <p:column width="10" style="height: 40px; text-align: center;" >
                     <p:rowToggler rendered="#{item.ewidencjaVAT.size() gt 0}"/>
                 </p:column>
                 <p:column headerText="#{mgs.numerkolejny}" width="20" style="text-align: center; height: 35px;">
@@ -171,19 +173,28 @@
                 <p:column headerText="wzór" width="30" sortBy="#{item.wzorzec}" style="text-align: center; #{item.wzorzec eq true ? 'color: red;' : null}">
                     <h:outputText value="#{item.wzorzec eq true ? 'tak' : ''}" style="width: 25px;"/>
                 </p:column>
+                <p:column headerText="b/k" width="40" style="text-align: center;">
+                    <h:outputText value="bufor" rendered="#{item.dataksiegowania eq null}" style="width: 40px;"/>
+                    <h:outputText value="#{item.dataksiegowania}" rendered="#{item.dataksiegowania ne null}" style="width: 40px;">
+                        <f:convertDateTime dateStyle="medium"  />
+                    </h:outputText>
+                </p:column>
                 <p:column width="25" style="text-align: center;" >
                     <p:commandButton id="drukujbutton" icon="fa fa-print" actionListener="#{pdfDokfkView.drukujzaksiegowanydokument(item)}" styleClass="fkbutton"
                                      update=":formwpisdokument" style="width: 30px;" oncomplete="wydrukzaksiegowane('#{WpisView.podatnikObiekt.nip}');"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;" >
-                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o" actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
+                    <p:commandButton id="edytujbutton" icon="fa fa-pencil-square-o"
+                                     actionListener="#{dokfkView.przygotujDokumentEdycja(item, row)}" 
                                      accesskey="q" styleClass="fkbutton" 
                                      update=":formwpisdokument" onclick="schowajeditbutton(#{row})" 
-                                     rendered="#{!item.wTrakcieEdycji}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
+                                     rendered="#{!item.wTrakcieEdycji and item.dataksiegowania eq null}" style="width: 30px;"  onsuccess="PF('wpisywanie').show();"/>
                 </p:column>
                 <p:column width="25" style="text-align: center;">
                     <p:commandButton actionListener="#{dokfkView.przygotujdousuniecia(item)}" styleClass="fkbutton" icon="fa fa-trash-o" 
-                                     oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;" update=":potwierdzeniazestawieniedok"/>
+                                     oncomplete="PF('confirm3').show();" global="false"  style="width: 30px;"
+                                     rendered="#{item.dataksiegowania eq null}"
+                                     update=":potwierdzeniazestawieniedok"/>
                 </p:column>
                 <p:rowExpansion>
                     <p:column id="ewidencjavat" headerText="ewidencjavat - netto - vat - op/zw" resizable="true">  

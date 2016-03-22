@@ -60,6 +60,7 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -79,6 +80,8 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
+import static pdffk.PdfMain.dodajOpisWstepny;
+import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentu;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
@@ -90,7 +93,6 @@ import view.WpisView;
 import viewfk.subroutines.ObslugaWiersza;
 import viewfk.subroutines.UzupelnijWierszeoDane;
 import waluty.Z;
-import static pdffk.PdfMain.dodajOpisWstepny;
 
 /**
  *
@@ -2798,15 +2800,37 @@ public class DokfkView implements Serializable {
     }
 
     public void oznaczDokfkJakoWzorzec() {
-        if (selected == null) {
+        if (selectedlist == null || selectedlist.isEmpty()) {
             Msg.msg("e", "Nie wybrano dokumentu");
         } else {
-            selected.setWzorzec(!selected.isWzorzec());
-            dokDAOfk.edit(selected);
-            if (selected.isWzorzec() == true) {
+            Dokfk wzorzec = selectedlist.get(0);
+            wzorzec.setWzorzec(!wzorzec.isWzorzec());
+            dokDAOfk.edit(wzorzec);
+            if (wzorzec.isWzorzec() == true) {
                 Msg.msg("Oznaczono dokument jako wzorzec.");
             } else {
                 Msg.msg("w", "Odznaczono dokument jako wzorzec.");
+            }
+        }
+    }
+    
+    public void zaksiegujdokumenty() {
+        if (selectedlist == null || selectedlist.isEmpty()) {
+            Msg.msg("e", "Nie wybrano dokumentu do zaksięowania");
+        } else {
+            try {
+                for (Dokfk p : selectedlist) {
+                    if (p.getDataksiegowania() == null) {
+                        p.setDataksiegowania(new Date());
+                    } else {
+                        p.setDataksiegowania(null);
+                    }
+                }
+                dokDAOfk.editList(selectedlist);
+                Msg.msg("Zaksięgowano dokumenty w liczbie: "+selectedlist.size());
+            } catch (Exception e) {
+                E.e(e);
+                Msg.msg("e", "Wystąpił błąd podczas księgowania dokumentów.");
             }
         }
     }
