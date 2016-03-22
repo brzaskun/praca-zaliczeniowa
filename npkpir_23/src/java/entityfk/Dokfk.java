@@ -194,6 +194,9 @@ public class Dokfk implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dataksiegowania")
     private Date dataksiegowania;
+    @Column(name = "dataujecia", insertable=false, updatable=false, columnDefinition="timestamp default current_timestamp")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dataujecia;
 
 
     public Dokfk() {
@@ -293,6 +296,14 @@ public class Dokfk implements Serializable {
 
     public Date getDataksiegowania() {
         return dataksiegowania;
+    }
+
+    public Date getDataujecia() {
+        return dataujecia;
+    }
+
+    public void setDataujecia(Date dataujecia) {
+        this.dataujecia = dataujecia;
     }
 
     public void setDataksiegowania(Date dataksiegowania) {
