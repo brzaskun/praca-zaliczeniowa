@@ -12,6 +12,7 @@ import entity.Podatnik;
 import entity.Rodzajedok;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Basic;
@@ -30,6 +31,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -188,6 +191,10 @@ public class Dokfk implements Serializable {
     private boolean zawierarmk;
     @Column(name = "zawierarozkurs")
     private boolean zawierarozkurs;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "dataksiegowania")
+    private Date dataksiegowania;
+
 
     public Dokfk() {
         this.saldopoczatkowe = 0.0;
@@ -282,6 +289,14 @@ public class Dokfk implements Serializable {
 
     public void setNrdziennika(String nrdziennika) {
         this.nrdziennika = nrdziennika;
+    }
+
+    public Date getDataksiegowania() {
+        return dataksiegowania;
+    }
+
+    public void setDataksiegowania(Date dataksiegowania) {
+        this.dataksiegowania = dataksiegowania;
     }
 
     public boolean isZawierasrodkitrw() {
