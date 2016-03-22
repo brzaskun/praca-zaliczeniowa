@@ -113,7 +113,6 @@ public class PdfKonta {
         }
         document.add(tablicasuma(sumaSaldoKonto));
         document.close();
-        Msg.msg("i", "Wydrukowano symulację wyniku finansowego");
     }
     
     private static PdfPTable tablicasuma(List<SaldoKonto> listasuma) throws DocumentException, IOException {

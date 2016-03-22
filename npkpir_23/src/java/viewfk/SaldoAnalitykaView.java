@@ -85,7 +85,7 @@ public class SaldoAnalitykaView implements Serializable {
             }
         }
         listaSaldoKonto = new ArrayList<>();
-        przygotowanalistasald(kontaklienta, zapisyBO);
+        przygotowanalistasald(kontaklienta, zapisyBO, wybranyRodzajKonta);
     }
 
     public Waluty initGenerowanieBO() {
@@ -96,12 +96,12 @@ public class SaldoAnalitykaView implements Serializable {
         wpisView.setMiesiacWpisu("12");
         List<Konto> kontaklienta = kontoDAOfk.findKontaOstAlityka(wpisView);
         listaSaldoKonto = new ArrayList<>();
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
-        for (StronaWiersza p : zapisyRok) {
-            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
-                System.out.println("");
-            }
-        }
+        List<StronaWiersza> zapisyRok = pobierzzapisy("wszystkie");
+//        for (StronaWiersza p : zapisyRok) {
+//            if (p.getKonto().getPelnynumer().equals("201-2-19") && p.getKwota() == 123.0) {
+//                System.out.println("");
+//            }
+//        }
         przygotowanalistasaldBO(kontaklienta, zapisyRok);
         Waluty walpln = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
         for (Iterator<SaldoKonto> it = listaSaldoKonto.iterator(); it.hasNext();) {
@@ -123,8 +123,8 @@ public class SaldoAnalitykaView implements Serializable {
         init();
     }
 
-    private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO) {
-        List<StronaWiersza> zapisyRok = pobierzzapisy();
+    private void przygotowanalistasald(List<Konto> kontaklienta, List<StronaWiersza> zapisyBO, String rodzajkonta) {
+        List<StronaWiersza> zapisyRok = pobierzzapisy(rodzajkonta);
         Map<String, SaldoKonto> przygotowanalista = new HashMap<>();
         List<StronaWiersza> wierszenieuzupelnione = new ArrayList<>();
         for (Konto p : kontaklienta) {
@@ -367,9 +367,16 @@ public class SaldoAnalitykaView implements Serializable {
 
     }
 
-    private List<StronaWiersza> pobierzzapisy() {
-        List<StronaWiersza> zapisy = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
-        return zapisy;
+    private List<StronaWiersza> pobierzzapisy(String rodzajkont) {
+         List<StronaWiersza> zapisyRok = null;
+        if (rodzajkont.equals("wszystkie")) {
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRok(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        } else if (rodzajkont.equals("bilansowe")) {
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokBilans(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        } else if (rodzajkont.equals("wynikowe")){
+            zapisyRok = stronaWierszaDAO.findStronaByPodatnikRokWynik(wpisView.getPodatnikObiekt(), wpisView.getRokWpisuSt());
+        }
+        return zapisyRok;
     }
 
     public void drukuj(int i) {
