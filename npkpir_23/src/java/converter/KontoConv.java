@@ -26,6 +26,7 @@ public class KontoConv implements javax.faces.convert.Converter{
             PlanKontCompleteView planKontCompleteView = (PlanKontCompleteView) context.getELContext().getELResolver().getValue(context.getELContext(), null, "planKontCompleteView");
             //System.out.println("Wywołanie KotoConv getAsObject()");
             List<Konto> konta = planKontCompleteView.getListakont();
+            System.out.println("use KontoConv getAsObject");
             try {//robie to bo jak edytuje dokument to PlanKontView nie jest zainicjowany i WykazkontS jest pusty
                 if (submittedValue.trim().isEmpty()) {
                     return null;

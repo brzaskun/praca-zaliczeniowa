@@ -61,8 +61,6 @@ public class KontoZapisFKView implements Serializable{
     private List zapisydopodswietlenia;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
-    @ManagedProperty(value = "#{planKontView}")
-    private PlanKontView planKontView;
     private String wybranaWalutaDlaKont;
     private List<ListaSum> listasum;
     private List<Konto> wykazkont;
@@ -671,13 +669,6 @@ public class KontoZapisFKView implements Serializable{
         this.wybranaWalutaDlaKont = wybranaWalutaDlaKont;
     }
   
-    public PlanKontView getPlanKontView() {
-        return planKontView;
-    }
-
-    public void setPlanKontView(PlanKontView planKontView) {
-        this.planKontView = planKontView;
-    }
     
     public WpisView getWpisView() {
         return wpisView;
