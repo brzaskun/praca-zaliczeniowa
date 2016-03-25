@@ -60,7 +60,7 @@ public class PlanKontCompleteView implements Serializable {
                         query = qr;
                     }
                 } else {
-                    query = qr.split(" ")[0];
+                    query = qr.trim();
                 }
                 try {
                     String q = query.substring(0, 1);

@@ -8,13 +8,11 @@ package beansFK;
 
 import dao.StronaWierszaDAO;
 import embeddable.Mce;
-import entity.Pozycjenafakturze_;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
 import error.E;
 import java.util.Iterator;
 import java.util.List;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 import view.WpisView;
 
