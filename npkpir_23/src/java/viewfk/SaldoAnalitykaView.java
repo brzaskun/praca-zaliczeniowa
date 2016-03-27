@@ -62,6 +62,7 @@ public class SaldoAnalitykaView implements Serializable {
     private List<Sprawozdanie_0> grupa0;
 
     public SaldoAnalitykaView() {
+         E.m(this);
         sumaSaldoKonto = new ArrayList<>();
         wybranyRodzajKonta = "wszystkie";
     }

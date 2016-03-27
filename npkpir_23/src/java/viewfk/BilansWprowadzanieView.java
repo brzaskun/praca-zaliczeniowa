@@ -112,6 +112,7 @@ public class BilansWprowadzanieView implements Serializable {
     private WpisView wpisView;
 
     public BilansWprowadzanieView() {
+         E.m(this);
 
     }
 
@@ -266,48 +267,9 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public void dodajwiersz(int kategoria) {
-        switch (kategoria) {
-            case 0:
-                dodawanielista(lista0);
-                podsumujWnMa(lista0, listaSumList.get(0));
-                break;
-            case 1:
-                dodawanielista(lista1);
-                podsumujWnMa(lista1, listaSumList.get(1));
-                break;
-            case 2:
-                dodawanielista(lista2);
-                podsumujWnMa(lista2, listaSumList.get(2));
-                break;
-            case 3:
-                dodawanielista(lista3);
-                podsumujWnMa(lista3, listaSumList.get(3));
-                break;
-            case 6:
-                dodawanielista(lista6);
-                podsumujWnMa(lista6, listaSumList.get(6));
-                break;
-            case 8:
-                dodawanielista(lista8);
-                podsumujWnMa(lista8, listaSumList.get(8));
-                break;
-        }
-        podsumujWnMa(listaW);
-    }
+   
 
-    private void dodawanielista(List<WierszBO> l) {
-        if (l.size() > 0) {
-            WierszBO poprzedni = l.get(l.size() - 1);
-            if (poprzedni != null && poprzedni.getKonto() != null) {
-                Waluty w = walutyDAOfk.findWalutaBySymbolWaluty("PLN");
-                Podatnik p = wpisView.getPodatnikObiekt();
-                String r = wpisView.getRokWpisuSt();
-                l.add(new WierszBO(p, r, w));
-            }
-        }
-    }
-
+  
     public void usunwiersz(WierszBO wierszBO) {
         try {
             usuwanielista(listaBO, wierszBO);
@@ -355,37 +317,7 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public void usunwiersz(int kategoria, WierszBO wierszBO) {
-        switch (kategoria) {
-            case 0:
-                usuwanielista(lista0, wierszBO);
-                podsumujWnMa(lista0, listaSumList.get(0));
-                break;
-            case 1:
-                usuwanielista(lista1, wierszBO);
-                podsumujWnMa(lista1, listaSumList.get(1));
-                break;
-            case 2:
-                usuwanielista(lista2, wierszBO);
-                podsumujWnMa(lista2, listaSumList.get(2));
-                break;
-            case 3:
-                usuwanielista(lista3, wierszBO);
-                podsumujWnMa(lista3, listaSumList.get(3));
-                break;
-            case 6:
-                usuwanielista(lista6, wierszBO);
-                podsumujWnMa(lista6, listaSumList.get(6));
-                break;
-            case 8:
-                usuwanielista(lista8, wierszBO);
-                podsumujWnMa(lista8, listaSumList.get(8));
-                break;
-        }
-        wierszedousuniecia.add(wierszBO);
-        isteniejaWierszeBOdoUsuniecia = true;
-    }
-
+    
     private void usuwaniejeden(List<WierszBO> l, WierszBO wierszBO) {
         try {
             l.remove(wierszBO);
@@ -555,15 +487,6 @@ public class BilansWprowadzanieView implements Serializable {
         }
     }
 
-    public void przepiszkursN(double kwota, String strona) {
-        if (kwota != 0.0) {
-            if (strona.equals("Wn")) {
-                selected.setKwotaWnPLN(kwota);
-            } else {
-                selected.setKwotaMaPLN(kwota);
-            }
-        }
-    }
 
     public void przewalutuj(WierszBO wiersz, double kurs, double kwotaWwalucie, String strona, int idx, String tab) {
         String w = null;
@@ -1346,17 +1269,6 @@ public class BilansWprowadzanieView implements Serializable {
         stary.setKwotaWnPLN(stary.getKwotaWnPLN() + nowy.getKwotaWnPLN());
     }
 
-    public void kopiujkontoBO(WierszBO wierszbiezacy, Integer lista) {
-        List<WierszBO> l = listaGrupa.get(lista);
-        if (l.size() > 1) {
-            if (wierszbiezacy.getKonto() == null) {
-                WierszBO poprzednie = l.get(l.size() - 2);
-                wierszbiezacy.setKonto(poprzednie.getKonto());
-                String wiersz = "formbilanswprowadzanie:tabviewbilans:tab" + lista + ":" + (l.size() - 1) + ":konto";
-                RequestContext.getCurrentInstance().update(wiersz);
-            }
-        }
-    }
 
     public void wklejostatniekonto() {
         if (ostatniekonto != null && selected.getKonto() == null) {

@@ -5,17 +5,14 @@
 package viewfk;
 
 import daoFK.KontoDAOfk;
-import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
-import msg.Msg;
 import view.WpisView;
 
 /**
@@ -36,6 +33,7 @@ public class PlanKontJSView implements Serializable {
     private WpisView wpisView;
 
     public PlanKontJSView() {
+         E.m(this);
         opisKontaLista = new ArrayList<>();
     }
 

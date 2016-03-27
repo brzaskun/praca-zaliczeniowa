@@ -19,6 +19,7 @@ import embeddable.Mce;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class RMKDokView implements Serializable {
     
     
     public void init() {
+         E.m(this);
        List<Konto> kontaklienta = kontoDAOfk.findKontaRMK(wpisView.getPodatnikWpisu(), wpisView.getRokWpisu());
        kontarmk = przygotowanalistasald(kontaklienta);
        RequestContext.getCurrentInstance().update("formrmk");

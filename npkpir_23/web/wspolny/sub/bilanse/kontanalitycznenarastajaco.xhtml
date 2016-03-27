@@ -78,7 +78,7 @@
             </p:panelGrid>
             <p:dataTable id="tablicasaldaanalitycznenarastajaco" value="#{saldoAnalitykaNarastajacoView.listaSaldoKonto}" var="loop" rowKey="#{loop.konto.pelnynumer}"
                          filteredValue="#{saldoAnalitykaNarastajacoView.listaSaldoKontoSelected}"
-                         sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop.konto}" emptyMessage="#{mgs.niemazapisownakontach}" scrollRows="20"
+                         sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop.konto}" emptyMessage="#{mgs.niemazapisownakontach}" scrollRows="20"
                          styleClass="grid1"  widgetVar="tablicasaldaanalitycznenarastajaco" frozenColumns="3" 
                          scrollable="true" scrollHeight="625" selectionMode="single" scrollWidth="700"
                          >

@@ -93,6 +93,7 @@ public class PozycjaBRBOView implements Serializable {
     
 
     public PozycjaBRBOView() {
+         E.m(this);
         this.wykazkont = new ArrayList<>();
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();

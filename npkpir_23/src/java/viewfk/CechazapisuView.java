@@ -8,10 +8,10 @@ package viewfk;
 
 import daoFK.CechazapisuDAOfk;
 import entityfk.Cechazapisu;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -31,6 +31,7 @@ public class CechazapisuView implements Serializable {
     private String rodzajcechy;
 
     public CechazapisuView() {
+         E.m(this);
         this.pobranecechy = new ArrayList<>();
     }
     

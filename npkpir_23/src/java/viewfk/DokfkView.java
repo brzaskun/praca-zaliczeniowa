@@ -81,7 +81,6 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.extensions.component.inputnumber.InputNumber;
 import params.Params;
 import static pdffk.PdfMain.dodajOpisWstepny;
-import static pdffk.PdfMain.dodajOpisWstepny;
 import static pdffk.PdfMain.dodajTabele;
 import static pdffk.PdfMain.finalizacjaDokumentu;
 import static pdffk.PdfMain.inicjacjaA4Portrait;
@@ -219,6 +218,7 @@ public class DokfkView implements Serializable {
     private boolean totylkoedycjazapis;
 
     public DokfkView() {
+         E.m(this);
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
         this.biezacetransakcje = new ArrayList<>();
         this.transakcjejakosparowany = new ArrayList<>();
@@ -853,6 +853,7 @@ public class DokfkView implements Serializable {
                 Collections.sort(wykazZaksiegowanychDokumentow, new Dokfkcomparator());
                 selected = new Dokfk();
                 if (totylkoedycjazapis) {
+                    //to jest potrzebne w sumie do edycji dokumenty z zapisow konta, tylko ze wywolujemy inita KOmntoZapisy FKView
                     kontoZapisFKView.pobierzzapisy();
                     totylkoedycjazapis = false;
                 }

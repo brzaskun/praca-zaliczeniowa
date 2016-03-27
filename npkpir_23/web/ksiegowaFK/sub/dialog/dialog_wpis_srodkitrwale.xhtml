@@ -105,11 +105,11 @@
         <p:panelGrid columns="4" style="padding: 5px; margin-left: 5px;">
             <h:outputText value="konto środka"/>
             <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontonetto}" style="width: 350px;" converter="KontoConv">
-                <f:selectItems value="#{kontoView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                <f:selectItems value="#{planKontBOView.listakontSrodkiTrwale}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
             </p:selectOneMenu>
             <h:outputText value="konto umorzeń"/>
             <p:selectOneMenu value="#{srodkiTrwaleView.selectedSTR.kontoumorzenie}" style="width: 350px;" converter="KontoConv">
-                <f:selectItems value="#{kontoView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
+                <f:selectItems value="#{planKontBOView.listakontSrodkiTrwaleUmorzenia}" var="loop" itemLabel="#{loop.pelnynumer} #{loop.nazwapelna}"/>
             </p:selectOneMenu>
         </p:panelGrid>
             <p:commandButton value="dodaj środek" global="false" style="margin-top: 15px; width: 120px; margin-left: 10px;" onclick="PF('confirm1').show();"/>

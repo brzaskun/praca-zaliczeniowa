@@ -9,6 +9,7 @@ import dao.KlienciDAO;
 import daoFK.DokDAOfk;
 import entity.Klienci;
 import entityfk.Dokfk;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class GuestFKDokumenty implements Serializable{
     private List<Dokfk> dokumenty;
 
     public GuestFKDokumenty() {
+         E.m(this);
         this.dokumenty = new ArrayList<>();
     }
 

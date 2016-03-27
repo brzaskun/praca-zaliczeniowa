@@ -32,6 +32,12 @@ public class DokfkInterView implements Serializable {
     private WpisView wpisView;
     @Inject
     private RodzajedokDAO rodzajedokDAO;
+
+    public DokfkInterView() {
+         E.m(this);
+    }
+    
+    
     
     @PostConstruct
     public void init() {

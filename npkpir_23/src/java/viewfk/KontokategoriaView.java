@@ -33,6 +33,7 @@ public class KontokategoriaView  implements Serializable {
     private KontokategoriaDAOfk kontokategoriaDAOfk;
 
     public KontokategoriaView() {
+         E.m(this);
         this.lista = new ArrayList<>();
     }
     

@@ -7,6 +7,7 @@ package viewfk;
 
 import embeddablefk.TreeNodeExtended;
 import entityfk.PozycjaRZiS;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -34,6 +35,11 @@ public class XLSRZiSView implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+
+    public XLSRZiSView() {
+         E.m(this);
+    }
+    
     
     public void zachowajRZiSwXLS(TreeNodeExtended rootProjektRZiS) {
         try {

@@ -72,6 +72,12 @@ public class KontaVatFKView implements Serializable {
     @Inject
     private WalutyDAOfk walutyDAOfk;
 //    boolean dodajBO;
+
+    public KontaVatFKView() {
+         E.m(this);
+    }
+    
+    
     
     @PostConstruct
     private void init() {

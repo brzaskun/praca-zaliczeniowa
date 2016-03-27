@@ -52,6 +52,7 @@ public class SaldoSyntetykaView implements Serializable {
     private String wybranyRodzajKonta;
 
     public SaldoSyntetykaView() {
+         E.m(this);
         sumaSaldoKonto = new ArrayList<>();
     }
     

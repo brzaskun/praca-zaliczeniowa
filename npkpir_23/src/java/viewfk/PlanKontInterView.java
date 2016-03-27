@@ -34,6 +34,11 @@ public class PlanKontInterView implements Serializable {
     private WpisView wpisView;
     @Inject
     private KontoDAOfk kontoDAOfk;
+
+    public PlanKontInterView() {
+         E.m(this);
+    }
+    
     
     @PostConstruct
     public void init() {

@@ -7,6 +7,7 @@ package viewfk;
 
 import daoFK.TabelanbpDAO;
 import entityfk.Tabelanbp;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class TabelaNBPView implements Serializable {
     private List<Tabelanbp> listanpb;
 
     public TabelaNBPView() {
+         E.m(this);
         listanpb = new ArrayList<>();
     }
     

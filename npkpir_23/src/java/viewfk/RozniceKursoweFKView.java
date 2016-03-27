@@ -13,16 +13,8 @@ import daoFK.KontoDAOfk;
 import daoFK.TabelanbpDAO;
 import daoFK.TransakcjaDAO;
 import daoFK.WalutyDAOfk;
-import data.Data;
-import entity.Klienci;
-import entity.Rodzajedok;
 import entityfk.Dokfk;
-import entityfk.Konto;
-import entityfk.StronaWiersza;
-import entityfk.Tabelanbp;
 import entityfk.Transakcja;
-import entityfk.Waluty;
-import entityfk.Wiersz;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,6 +58,7 @@ public class RozniceKursoweFKView implements Serializable {
     private double sumatransakcji;
 
     public RozniceKursoweFKView() {
+         E.m(this);
         pobranetransakcje = new ArrayList<>();
     }
 

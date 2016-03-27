@@ -70,6 +70,7 @@ public class KontoZapisFKView implements Serializable{
     
 
     public KontoZapisFKView() {
+        E.m(this);
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
         wybranaWalutaDlaKont = "wszystkie";

@@ -59,6 +59,7 @@ public class UkladBRWzorcowyView implements Serializable{
     
 
     public UkladBRWzorcowyView() {
+         E.m(this);
         lista = new ArrayList<>();
     }
     

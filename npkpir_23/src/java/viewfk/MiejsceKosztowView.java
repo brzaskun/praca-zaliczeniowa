@@ -62,6 +62,7 @@ public class MiejsceKosztowView  implements Serializable{
     private KontopozycjaZapisDAO kontopozycjaZapisDAO;
 
     public MiejsceKosztowView() {
+         E.m(this);
         
     }
 

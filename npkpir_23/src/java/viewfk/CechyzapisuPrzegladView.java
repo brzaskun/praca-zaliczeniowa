@@ -6,11 +6,11 @@
 package viewfk;
 
 import beansFK.CechazapisuBean;
-import static com.google.common.collect.Iterables.any;
 import daoFK.DokDAOfk;
 import entityfk.Cechazapisu;
 import entityfk.Dokfk;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,6 +44,7 @@ public class CechyzapisuPrzegladView implements Serializable{
     private DokDAOfk dokDAOfk;
 
     public CechyzapisuPrzegladView() {
+         E.m(this);
         this.wykazZaksiegowanychDokumentow = new ArrayList<>();
         this.zapisyZCecha = new ArrayList<>();
         this.wykazcech = new HashSet<>();

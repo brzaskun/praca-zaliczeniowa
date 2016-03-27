@@ -6,6 +6,7 @@
 package viewfk;
 
 import beansFK.DokFKBean;
+import error.E;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -18,6 +19,12 @@ import javax.faces.bean.ViewScoped;
 @ViewScoped
 public class DokfkSortView implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    public DokfkSortView() {
+         E.m(this);
+    }
+    
+    
 
     public int sortZaksiegowaneDok(Object o1, Object o2) {
         return DokFKBean.sortZaksiegowaneDok(o1, o2);

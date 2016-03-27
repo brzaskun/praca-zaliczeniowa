@@ -8,6 +8,7 @@ package viewfk;
 
 import dao.WpisDAO;
 import entity.Wpis;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
@@ -30,6 +31,10 @@ public class GuestFKView implements Serializable {
     private WpisView wpisView;
     @Inject
     private WpisDAO wpisDAO;
+
+    public GuestFKView() {
+         E.m(this);
+    }
     
     public void aktualizujGuestFK() throws IOException {
         aktualizujGuest();

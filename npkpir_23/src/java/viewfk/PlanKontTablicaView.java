@@ -8,6 +8,7 @@ package viewfk;
 import beansFK.PlanKontTablicaBean;
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class PlanKontTablicaView {
     private List<Konto> tablica;
 
     public PlanKontTablicaView() {
+         E.m(this);
         leveleKonta = new HashMap<>();
     }
     

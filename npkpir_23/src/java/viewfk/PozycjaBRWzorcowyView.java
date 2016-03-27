@@ -83,6 +83,7 @@ public class PozycjaBRWzorcowyView implements Serializable {
     
 
     public PozycjaBRWzorcowyView() {
+         E.m(this);
         this.wykazkont = new ArrayList<>();
         this.nowyelementRZiS = new PozycjaRZiS();
         this.nowyelementBilans = new PozycjaBilans();

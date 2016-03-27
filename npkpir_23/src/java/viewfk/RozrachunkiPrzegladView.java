@@ -14,6 +14,7 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -56,6 +57,7 @@ public class RozrachunkiPrzegladView implements Serializable{
     private double sumapl;
 
     public RozrachunkiPrzegladView() {
+         E.m(this);
         wykazkont = new ArrayList<>();
         //listaRozrachunkow = new ArrayList<>();
         stronyWiersza = new ArrayList<>();

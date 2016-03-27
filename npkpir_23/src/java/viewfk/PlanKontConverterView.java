@@ -8,6 +8,7 @@ package viewfk;
 
 import daoFK.KontoDAOfk;
 import entityfk.Konto;
+import error.E;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -33,6 +34,7 @@ public class PlanKontConverterView implements Serializable{
     private WpisView wpisView;
 
     public PlanKontConverterView() {
+         E.m(this);
     }
 
     

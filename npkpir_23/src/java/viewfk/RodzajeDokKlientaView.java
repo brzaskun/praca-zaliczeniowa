@@ -33,6 +33,12 @@ public class RodzajeDokKlientaView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
 
+    public RodzajeDokKlientaView() {
+          E.m(this);
+    }
+
+    
+    
     
     @PostConstruct
     private void init() {

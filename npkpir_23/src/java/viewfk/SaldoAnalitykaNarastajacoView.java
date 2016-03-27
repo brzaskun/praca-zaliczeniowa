@@ -7,12 +7,10 @@
 package viewfk;
 
 import beansFK.BOFKBean;
-import com.itextpdf.text.Element;
 import dao.StronaWierszaDAO;
 import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import embeddable.Mce;
-import embeddablefk.SaldoKonto;
 import embeddablefk.SaldoKontoNarastajaco;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
@@ -54,6 +52,7 @@ public class SaldoAnalitykaNarastajacoView implements Serializable {
     private boolean saldaniezerowe;
 
     public SaldoAnalitykaNarastajacoView() {
+         E.m(this);
     }
     
     public void init() {

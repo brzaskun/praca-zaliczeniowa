@@ -80,9 +80,14 @@ public class WpisView implements Serializable {
     private StronaWierszaDAO stronaWierszaDAO;
     private boolean czegosbrakuje;
 
+    public WpisView() {
+        E.m(this);
+    }
+    
 
     @PostConstruct
     private void init() {
+         E.m(this);
         czegosbrakuje = false;
         if (miesiacDo == null && miesiacWpisu == null) {
             miesiacDo = miesiacWpisu;

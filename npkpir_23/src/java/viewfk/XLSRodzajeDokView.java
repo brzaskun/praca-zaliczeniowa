@@ -5,6 +5,7 @@
  */
 package viewfk;
 
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -31,6 +32,12 @@ public class XLSRodzajeDokView implements Serializable{
     private static final long serialVersionUID = 1L;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+
+    public XLSRodzajeDokView() {
+         E.m(this);
+    }
+    
+    
     
     public void zachowajwXLS(List rodzajedok) {
         try {

@@ -11,7 +11,6 @@ import entityfk.Konto;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +35,11 @@ public class PlanKontCompleteView implements Serializable {
     private KontoDAOfk kontoDAOfk;
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
+
+    public PlanKontCompleteView() {
+         E.m(this);
+    }
+    
     
   @PostConstruct
   public void init() {

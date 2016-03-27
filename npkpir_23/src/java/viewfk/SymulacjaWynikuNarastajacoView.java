@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
@@ -65,6 +64,7 @@ public class SymulacjaWynikuNarastajacoView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public SymulacjaWynikuNarastajacoView() {
+         E.m(this);
         this.listamiesiecy = new ArrayList<>();
         this.listamiesiecypoprzednich = new ArrayList<>();
         this.dozaplaty = new ArrayList<>();

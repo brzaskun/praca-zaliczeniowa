@@ -14,12 +14,10 @@ import daoFK.KontoDAOfk;
 import daoFK.WierszBODAO;
 import daoFK.WynikFKRokMcDAO;
 import embeddablefk.SaldoKonto;
-import entity.PodatnikUdzialy;
 import entityfk.Cechazapisu;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.WynikFKRokMc;
-import enumy.FormaPrawna;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -84,6 +82,7 @@ public class SymulacjaWynikuView implements Serializable {
     private PodatnikUdzialyDAO podatnikUdzialyDAO;
 
     public SymulacjaWynikuView() {
+         E.m(this);
         sumaSaldoKontoPrzychody = new ArrayList<>();
     }
 

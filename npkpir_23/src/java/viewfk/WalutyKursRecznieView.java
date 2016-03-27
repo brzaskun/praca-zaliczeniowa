@@ -36,6 +36,7 @@ public class WalutyKursRecznieView implements Serializable{
     private WalutyNBP walutyNBP;
     
       public void pobierzkursyNowaWaluta(Waluty w) {
+           E.m(this);
         String datawstepna;
         Integer numertabeli;
 //        datawstepna = "2013-12-30";

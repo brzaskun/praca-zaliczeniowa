@@ -12,6 +12,7 @@ import embeddablefk.KontoSumyRok;
 import embeddablefk.SaldoKonto;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -46,6 +47,7 @@ public class ZestawienieWynikoweRokView implements Serializable {
  
 
     public ZestawienieWynikoweRokView() {
+         E.m(this);
     }
 
     public void init() {

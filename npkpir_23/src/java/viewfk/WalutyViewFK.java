@@ -14,7 +14,6 @@ import error.E;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -62,6 +61,7 @@ public class WalutyViewFK implements Serializable {
     private DokfkView dokfkView;
 
     public WalutyViewFK() {
+         E.m(this);
         pobraneRodzajeWalut = new ArrayList<>();
         pobranekursy = new ArrayList<>();
         walutywuzyciu = new ArrayList<>();

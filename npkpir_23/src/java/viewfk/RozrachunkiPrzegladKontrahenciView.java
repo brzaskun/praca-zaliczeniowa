@@ -14,6 +14,7 @@ import embeddablefk.TreeNodeExtended;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Transakcja;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -58,6 +59,7 @@ public class RozrachunkiPrzegladKontrahenciView implements Serializable{
     private String coWyswietlacRozrachunkiPrzeglad;
 
     public RozrachunkiPrzegladKontrahenciView() {
+         E.m(this);
         listaKontRozrachunkowych = new ArrayList<>();
         //listaRozrachunkow = new ArrayList<>();
         stronyWiersza = new ArrayList<>();

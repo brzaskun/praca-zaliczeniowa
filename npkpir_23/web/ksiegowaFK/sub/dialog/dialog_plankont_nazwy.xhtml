@@ -28,7 +28,7 @@
                              rowStyleClass="#{loop.bilansowewynikowe eq 'bilansowe' ? (loop.level eq 0 ? 'row1' : loop.level eq 1 ? 'row2' : loop.level eq 2 ? 'row3' : 'row4') : (loop.level eq 0 ? 'row1w' : loop.level eq 1 ? 'row2w' : loop.level eq 2 ? 'row3w' : 'row4w')}" 
                              styleClass="tablicaplankont"
                              style="max-width: 1200px; height: 600px;" emptyMessage="Brak utworzonych kont dla firmy" rowKey="#{loop.id}"
-                             sortFunction="#{kontoView.sortujKonto}" sortBy="#{loop}"
+                             sortFunction="#{kontoSortView.sortujKonto}" sortBy="#{loop}"
                              >
                     <p:columnGroup type="header">
                         <p:row>

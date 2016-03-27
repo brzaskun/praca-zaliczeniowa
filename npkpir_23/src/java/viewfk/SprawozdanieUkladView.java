@@ -38,6 +38,7 @@ public class SprawozdanieUkladView  implements Serializable {
     private WpisView wpisView;
 
     public SprawozdanieUkladView() {
+         E.m(this);
         this.zachowaneuklady = new ArrayList<>();
     }
     

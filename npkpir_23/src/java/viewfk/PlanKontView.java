@@ -29,7 +29,6 @@ import entityfk.Konto;
 import entityfk.KontopozycjaZapis;
 import entityfk.MiejsceKosztow;
 import entityfk.UkladBR;
-import entityfk.WierszBO;
 import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -100,6 +99,7 @@ public class PlanKontView implements Serializable {
     private boolean tylkosyntetyka;
 
     public PlanKontView() {
+         E.m(this);
     }
 
     @PostConstruct

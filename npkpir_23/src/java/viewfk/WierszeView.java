@@ -10,6 +10,7 @@ import entityfk.DokfkPK;
 import entityfk.Konto;
 import entityfk.StronaWiersza;
 import entityfk.Wiersz;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +19,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
 import view.WpisView;
 
 /**
@@ -42,6 +42,12 @@ public class WierszeView implements Serializable {
     @ManagedProperty(value = "#{WpisView}")
     private WpisView wpisView;
     private boolean tylkobezrozrachunkow;
+
+    public WierszeView() {
+         E.m(this);
+    }
+    
+    
     
     public void init(){
         sumawn = 0.0;

@@ -11,7 +11,6 @@ import entityfk.Konto;
 import entityfk.Kontokategoria;
 import error.E;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -44,6 +43,7 @@ public class KontokategoriaPrzypView  implements Serializable {
     private WpisView wpisView;
 
     public KontokategoriaPrzypView() {
+         E.m(this);
     }
     
     @PostConstruct

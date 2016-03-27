@@ -8,6 +8,7 @@ package viewfk;
 import embeddablefk.SaldoKonto;
 import entityfk.StronaWiersza;
 import enumy.FormaPrawna;
+import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ public class XLSSymulacjaView implements Serializable{
     private WpisView wpisView;
     
     public void zachowajSymulacjewXLS(int modulator) {
+         E.m(this);
         try {
             List wynikpopmc = transferToPozycjaPrzychodKosztOdPoczRok();
             List przychody = null;

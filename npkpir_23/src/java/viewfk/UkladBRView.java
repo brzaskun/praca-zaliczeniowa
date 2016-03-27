@@ -57,6 +57,7 @@ public class UkladBRView implements Serializable {
     private String ukladdocelowyrok;
 
     public UkladBRView() {
+         E.m(this);
         lista = new ArrayList<>();
     }
 

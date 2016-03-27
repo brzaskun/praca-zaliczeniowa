@@ -11,6 +11,7 @@ import dao.UzDAO;
 import entity.MultiuserSettings;
 import entity.Podatnik;
 import entity.Uz;
+import error.E;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class MultiuserView   implements Serializable{
     private MultiuserSettingsDAO multiuserSettingsDAO;
 
     public MultiuserView() {
+         E.m(this);
         listamutliuserow = new ArrayList<>();
     }
     

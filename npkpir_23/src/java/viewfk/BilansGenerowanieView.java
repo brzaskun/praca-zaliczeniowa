@@ -18,6 +18,7 @@ import entityfk.StronaWiersza;
 import entityfk.UkladBR;
 import entityfk.Waluty;
 import entityfk.WierszBO;
+import error.E;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,6 +69,7 @@ public class BilansGenerowanieView implements Serializable {
     private boolean sabledy;
 
     public BilansGenerowanieView() {
+         E.m(this);
         this.komunikatyok = new ArrayList<>();
         this.komunikatyok.add("Nie rozpoczęto analizy");
         this.komunikatyerror = new ArrayList<>();

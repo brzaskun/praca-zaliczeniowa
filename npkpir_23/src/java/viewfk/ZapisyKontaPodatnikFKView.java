@@ -71,6 +71,7 @@ public class ZapisyKontaPodatnikFKView implements Serializable{
     
 
     public ZapisyKontaPodatnikFKView() {
+         E.m(this);
         kontozapisy = new ArrayList<>();
         wybranekontadosumowania = new ArrayList<>();
         grupykont = new ArrayList<>();

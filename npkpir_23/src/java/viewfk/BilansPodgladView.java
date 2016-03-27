@@ -49,6 +49,7 @@ public class BilansPodgladView  implements Serializable{
     private boolean sortujwgwartosci;
 
     public BilansPodgladView() {
+         E.m(this);
         this.root = new TreeNodeExtended("root", null);
     }
 

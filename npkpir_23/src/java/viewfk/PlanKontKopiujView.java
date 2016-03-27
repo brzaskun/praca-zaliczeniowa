@@ -42,6 +42,12 @@ public class PlanKontKopiujView implements Serializable {
     @Inject
     private KontoDAOfk kontoDAOfk;
 
+    public PlanKontKopiujView() {
+         E.m(this);
+    }
+    
+    
+
     @PostConstruct
     private void init() {
         rokzrodlowy = Roki.rokPoprzedni(wpisView.getRokWpisuSt());

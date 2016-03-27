@@ -71,6 +71,11 @@ public class SrodkiTrwaleAMOView implements Serializable {
     @Inject
     private AmoDokDAO amoDokDAO;
     private double roznicasald;
+
+    public SrodkiTrwaleAMOView() {
+         E.m(this);
+    }
+    
     
     
     @PostConstruct
