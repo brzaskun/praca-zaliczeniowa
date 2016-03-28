@@ -17,9 +17,11 @@
             <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"/>
             <h:outputStylesheet id="template" name="css/style.css"/>
             <h:outputScript library="js_common" name="language.js"/>
+            <h:outputScript library="js_common" name="globales.js"/>
             <title>Biuro Rachunkowe Taxman</title>
         </h:head>
         <h:body>
+            <bcf:ajaxs/>
             <div id="fb-root"></div>
             <script>
                 (function (d, s, id) {
@@ -91,6 +93,7 @@
                     </h:form>
             </p:panel>
             <h:form id="formlog1">
+                 
                 <p:panel style="margin-top: 2%; margin-left: auto; margin-right: auto; width: 380px" header="#{facesContext.viewRoot.locale.language.equals('pl') ? statusProgramuView.aktualnystatus.tekst : (facesContext.viewRoot.locale.language.equals('de') ? statusProgramuView.aktualnystatus.tekst_de : statusProgramuView.aktualnystatus.tekst_en)}">
                     <p:focus id="focus" context="logowaniepanel"/>
                     <p:panelGrid id="logowaniepanel" columns="2" style="margin-left: auto; margin-right: auto; margin-top: 4%; width: 350px; text-align: center;"  rendered="#{logowanie.liczniklogowan gt 0}">
@@ -110,10 +113,10 @@
                                 width: 150px;
                             };
                         </style>
-                        <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}" ajax="false"
+                        <p:splitButton value="#{mgs.zaloguj}" action="#{logowanie.login()}"
                                        rendered="#{logowanie.liczniklogowan gt 0}" styleClass="loginbutton">
-                            <p:menuitem value="zapamietaj mnie" action="#{logowanie.savelogin()}" ajax="false"/>
-                            <p:menuitem value="zapomnij mnie" action="#{logowanie.zapomnijmnie()}" ajax="false"/>
+                            <p:menuitem value="zapamietaj mnie" action="#{logowanie.savelogin()}"/>
+                            <p:menuitem value="zapomnij mnie" action="#{logowanie.zapomnijmnie()}"/>
                         </p:splitButton>
                         <h:outputText value="Logowanie do systemu z tego numeru IP zostalo zablokowane na 24 godziny ze względów bezpieczeństwa. Podczas ostatniego loginu wielokrotnie podano złe dane logujące. Skontaktuj się z adminem lub odczekaj 24h." rendered="#{logowanie.liczniklogowan eq 0}"/>
                     </p:panelGrid>

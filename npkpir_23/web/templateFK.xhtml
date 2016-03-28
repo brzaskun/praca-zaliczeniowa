@@ -71,14 +71,17 @@
             // ]]> 
             </script>-->
         <h:body>
-            
             <p:growl id="messageslogout" showDetail="true" sticky="true" widgetVar="messageslogout"/>
             <p:socket onMessage="handleMessage" channel="/notify" />
             <p:socket onMessage="handleMessage" channel="/ksiegowa" rendered="#{request.isUserInRole('Bookkeeper') or request.isUserInRole('BookkeeperFK')}"/>
             <p:idleMonitor timeout="600000">  
                 <p:ajax event="idle" listener="#{logowanie.logout()}" update="messageslogout" />  
                 <!--            <p:ajax event="active" listener="{idleMonitorController.activeListener}" update="messageslogout" />  -->
-            </p:idleMonitor>  
+            </p:idleMonitor>
+            <ui:include src="/wspolny/dialogZmianaOkresu.xhtml"/>
+                <h:form>
+                    <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" accesskey="o"/>
+                </h:form>
             <!--        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
                     <p:dialog header="Upłynął czas sesji" resizable="false"  
                               widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
@@ -89,7 +92,7 @@
             <!--        <h:form id="templateform">
                         <p:commandButton id="wyloguj" value="#{mgs.wyloguj}" action="{Logowanie.logout()}" style="display: none;"/>
                     </h:form>-->
-            <ui:insert name="body"> 
+            <ui:insert name="body" > 
                 
             </ui:insert>
            

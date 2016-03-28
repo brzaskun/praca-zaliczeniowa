@@ -83,13 +83,13 @@ public class Wiersz implements Serializable {
         @JoinColumn(name = "rok", referencedColumnName = "rok")
     })
 //    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH})
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Dokfk dokfk;
     //NIE USUWAĆ!!! to jest potrzebne do rapotow walutowych i wyciagow walutowych, chodzi o wprowadzenie daty przez użytkownika
     @Column(name = "dataWalutyWiersza")
     private String dataWalutyWiersza;
     @JoinColumn(name = "TABELANBP_idtabelanbp", referencedColumnName = "idtabelanbp")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Tabelanbp tabelanbp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyColumn(name = "strona_key")
@@ -101,7 +101,7 @@ public class Wiersz implements Serializable {
     private Wiersz czworka;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "czworka", orphanRemoval = true)
     private Set<Wiersz> piatki;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "wiersz", orphanRemoval = true, fetch = FetchType.EAGER)
     private EVatwpisFK eVatwpisFK;
     @Column(name = "saldoWBRK")
     private double saldoWBRK;

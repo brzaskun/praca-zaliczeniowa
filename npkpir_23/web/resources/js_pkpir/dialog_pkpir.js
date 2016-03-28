@@ -1,6 +1,6 @@
 "use strict";
 
-var ustawdialog4 = function(nazwa,menu, szerokosc, wysokosc) {
+var ustawdialog4 = function(nazwa,szerokosc, wysokosc) {
     $(document.getElementById(nazwa)).width(szerokosc).height(wysokosc);
     try {
         $(document.getElementById(nazwa)).position({

@@ -319,10 +319,9 @@ public class WpisView implements Serializable {
     }
     
     public void pobierz() {
-        //to mialo przyspieszac pobieranie z bazy danych, ale zwiekszylem xmx i to chyba tylko powoduje frakmentacje ramu
-//         List<Konto> a = kontoDAOfk.findWszystkieKontaPodatnika(this.getPodatnikWpisu(), this.getRokWpisuSt());
-//         List<Dokfk> b = dokDAOfk.findDokfkPodatnikRok(this);
-//         List<StronaWiersza> c = stronaWierszaDAO.findStronaByPodatnikRok(this.getPodatnikObiekt(), this.getRokWpisuSt());
+         List<Konto> a = kontoDAOfk.findWszystkieKontaPodatnika(this.getPodatnikWpisu(), this.getRokWpisuSt());
+         List<Dokfk> b = dokDAOfk.findDokfkPodatnikRok(this);
+         List<StronaWiersza> c = stronaWierszaDAO.findStronaByPodatnikRok(this.getPodatnikObiekt(), this.getRokWpisuSt());
     }
 
 //<editor-fold defaultstate="collapsed" desc="comment">

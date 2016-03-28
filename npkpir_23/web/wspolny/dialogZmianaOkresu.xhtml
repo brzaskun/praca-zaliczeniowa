@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:bcf="http://brzaskun.com/facelets">
+     <p:dialog id="dialogZmianaOkresu" header="zmiana okresu rozliczeniowego" widgetVar="dialogZmianaOkresu"  maximizable="true"  dynamic="true"
+              resizable="true" onShow="ustawdialog4('dialogZmianaOkresu',300,120);"
+              onHide="resetujdialog('dialogZmianaOkresu');"  closeOnEscape="true" appendTo="@(body)" modal="true"
+         >
+         <h:form>
+             <p:outputPanel style="margin: 30px;">
+                 <h:outputText value="rok:" />
+                 <p:selectOneMenu id="rokWpisu" value="#{WpisView.rokWpisu}" style="width: 70px;">
+                     <f:selectItems value="#{Roki.rokiList}"/>
+                     <p:ajax event="change" listener="#{WpisView.naniesDaneDoWpis()}" update="@(form)" oncomplete="PF('dialogZmianaOkresu').hide();" global="false"/>
+                 </p:selectOneMenu>
+                 <h:outputText value=" "/>
+                 <h:outputText value="miesiąc:" />
+                 <p:selectOneMenu id="miesiacWpisu" value="#{WpisView.miesiacWpisu}" style="width: 70px;">
+                     <f:selectItems value="#{Mce.mceList}"/>
+                     <p:ajax event="change" listener="#{WpisView.naniesDaneDoWpis()}" update="@(form)" oncomplete="PF('dialogZmianaOkresu').hide();" global="false"/>
+                 </p:selectOneMenu>
+             </p:outputPanel>
+         </h:form>
+     </p:dialog>
+</html>
+
+
+
