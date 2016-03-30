@@ -319,7 +319,7 @@
                     </f:facet>
                     <bcf:outputwal value="#{item.kwotaWn}" rendered="#{item.kwotaWn ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
                 </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
+                <p:column style="text-align: center;" sortBy="#{item.kwotaWnPLN}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Wn PLN"/>
                     </f:facet>
@@ -331,7 +331,7 @@
                     </f:facet>
                     <bcf:outputwal value="#{item.kwotaMa}" rendered="#{item.kwotaMa ne 0.0}" symbolwaluty="#{item.waluta.skrotsymbolu}"/>
                 </p:column>
-                <p:column style="text-align: center;" sortBy="#{item.kwotaWn}" width="90">
+                <p:column style="text-align: center;" sortBy="#{item.kwotaMaPLN}" width="90">
                     <f:facet name="header">
                         <h:outputText value="Kwota Ma PLN"/>
                     </f:facet>
