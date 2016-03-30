@@ -92,7 +92,7 @@ public class StronaWierszaBean {
             if (rok == wpisView.getRokWpisu() && mc > granicagorna) {
                 it.remove();
             }
-            if (rok < wpisView.getRokWpisu() && mc < 11) {
+            if ((rok < wpisView.getRokWpisu() && mc < 11) || rok > wpisView.getRokWpisu()) {
                 it.remove();
             }
         }

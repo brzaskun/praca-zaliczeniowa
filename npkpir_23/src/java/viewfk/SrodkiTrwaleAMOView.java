@@ -89,16 +89,20 @@ public class SrodkiTrwaleAMOView implements Serializable {
     private List<SaldoKonto> przygotowanalistasald(List<Konto> kontaklienta) {
         List<SaldoKonto> przygotowanalista = new ArrayList<>();
         int licznik = 0;
-        for (Konto p : kontaklienta) {
-            SaldoKonto saldoKonto = new SaldoKonto();
-            saldoKonto.setId(licznik++);
-            saldoKonto.setKonto(p);
-            naniesZapisyNaKonto(saldoKonto, p);
-            saldoKonto.sumujBOZapisy();
-            saldoKonto.wyliczSaldo();
-            dodajdolisty(saldoKonto, przygotowanalista);
+        if (kontaklienta != null) {
+            for (Konto p : kontaklienta) {
+                SaldoKonto saldoKonto = new SaldoKonto();
+                saldoKonto.setId(licznik++);
+                saldoKonto.setKonto(p);
+                naniesZapisyNaKonto(saldoKonto, p);
+                saldoKonto.sumujBOZapisy();
+                saldoKonto.wyliczSaldo();
+                dodajdolisty(saldoKonto, przygotowanalista);
+            }
+            roznicasald = obliczroznicesald(przygotowanalista);
+        } else {
+            roznicasald = 0.0;
         }
-        roznicasald = obliczroznicesald(przygotowanalista);
         return przygotowanalista;
     }
      private void naniesZapisyNaKonto(SaldoKonto saldoKonto, Konto p) {
