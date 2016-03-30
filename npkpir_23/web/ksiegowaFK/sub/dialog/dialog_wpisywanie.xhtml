@@ -212,7 +212,7 @@
                                     <p:inputText id="numerwlasny" value="#{dokfkView.selected.numerwlasnydokfk}" style="width: 140px;" valueChangeListener="#{dokfkView.skorygujokreswpisudokumentu}">
                                         <p:ajax global="false" event="focus" listener="#{dokfkView.podepnijEwidencjeVat(0)}" update=":formwpisdokument:panelzewidencjavat"/>
                                         <p:ajax global="false" event="blur" onsuccess="zerujwiadomosc()"/>
-                                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeSprawdzView.sprawdzIstnienieDelegacji(dokfkView.selected, WpisView)}" 
+                                        <p:ajax event="blur" global="false" partialSubmit="true" listener="#{delegacjeView.sprawdzIstnienieDelegacji(dokfkView.selected)}" 
                                                 update=":parametrydel"/>
                                     </p:inputText>
                                 </p:column>
@@ -310,7 +310,7 @@
                                                                  $(this).addClass('ui-state-default');"
                                                          style="height: 19px;"
                                                          >
-                                            <p:ajax global="false" event="blur" listener="#{delegacjeSprawdzView.pobierzkontodladelegacji(dokfkView.selected, WpisView)}"/>
+                                            <p:ajax global="false" event="blur" listener="#{delegacjeView.pobierzkontodladelegacji(dokfkView.selected)}"/>
                                             <p:ajax global="false" event="focus" onstart="sprawdzczymakonto(#{kliencifkView.makonto0niemakonta1});" />
                                             <p:ajax global="false" event="focus" listener="#{dokfkView.znajdzduplicatdokumentu}" update=":formwpisdokument:panelwpisbutton" oncomplete="znalezionoduplikat();" />
                                             <f:selectItems value="#{dokfkView.wprowadzonesymbolewalut}" var="p" itemLabel="#{p.symbolwaluty}" itemValue="#{p}"/>
@@ -662,7 +662,7 @@
                 <h:inputHidden id="aktualnywierszrozrachunkow" value="#{dokfkView.rodzaj}" />
             </h:form>
             <h:form id="parametrydel">
-                <h:inputHidden id="jest1niema0" value="#{delegacjeSprawdzView.jest1niema0}"/>
+                <h:inputHidden id="jest1niema0" value="#{delegacje.jest1niema0}"/>
             </h:form>
             <h:form id="parametrynowekonto">
                 <h:inputHidden id="jest1niema0" value="#{dokfkView.jest1niema0_konto}"/>
