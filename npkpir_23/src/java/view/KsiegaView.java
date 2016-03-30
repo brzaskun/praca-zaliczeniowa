@@ -5,24 +5,20 @@
 package view;
 
 import beansDok.KsiegaBean;
-import comparator.Dokcomparator;
 import dao.DokDAO;
 import dao.SumypkpirDAO;
 import dao.WpisDAO;
 import embeddable.DokKsiega;
 import embeddable.Mce;
 import entity.Dok;
-import entity.Klienci;
 import entity.KwotaKolumna1;
 import entity.Podatnik;
 import entity.Sumypkpir;
-import entity.SumypkpirPK;
 import entity.Wpis;
 import error.E;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
