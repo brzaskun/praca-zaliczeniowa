@@ -80,8 +80,11 @@
             </p:idleMonitor>
             <ui:include src="/wspolny/dialogZmianaOkresu.xhtml"/>
                 <h:form>
-                    <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" accesskey="o"/>
+                    <p:commandButton value="data" onclick="PF('dialogZmianaOkresu').show()" global="false" accesskey="o" style="display: none;"/>
                 </h:form>
+            <p:outputPanel style="margin-left: auto; margin-right: auto; margin-top: 300px; text-align: center;">
+                <h:outputText value="trwa ładowanie strony" style="color: blue; font-size: larger;  font-family: 'Arial Black', 'Arial Bold', Gadget, sans-serif;"/>
+            </p:outputPanel>
             <!--        <p:idleMonitor timeout="600000"  onidle="idleDialog.show()" onactive="idleDialog.hide()"/>  
                     <p:dialog header="Upłynął czas sesji" resizable="false"  
                               widgetVar="idleDialog" modal="true" width="400" onHide="wyloguj()">  
