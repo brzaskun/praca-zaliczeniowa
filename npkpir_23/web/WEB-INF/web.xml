@@ -219,7 +219,7 @@
     </error-page>
     <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
-        <location>/faces/login.xhtml?faces-redirect=true</location>
+        <location>/faces/SessionExpired.xhtml?faces-redirect=true</location>
     </error-page>
     <!-- Load custom tag into JSF web application -->
     <context-param>

@@ -138,6 +138,7 @@ public class Wiersz implements Serializable {
         this.eVatwpisFK = eVatwpisFK;
     }
 
+    
     public StronaWiersza getStronanowatransakcja() {
         return stronanowatransakcja;
     }
@@ -226,6 +227,15 @@ public class Wiersz implements Serializable {
     public void setStronaMa(StronaWiersza stronaWiersza) {
         this.strona.put("Ma", stronaWiersza);
     }
+    
+     public void removeStrona(String WnMa) {
+        if (WnMa.equals("Wn")) {
+            this.strona.remove("Wn");
+        } else {
+            this.strona.remove("Ma"); 
+        }
+                    
+    }
 
     public double getKwotaWn() {
         if (this.getStronaWn() != null) {
@@ -234,6 +244,7 @@ public class Wiersz implements Serializable {
             return 0.0;
         }
     }
+    
 
     public double getKwotaWnPLN() {
         if (this.getStronaWn() != null) {
@@ -257,6 +268,16 @@ public class Wiersz implements Serializable {
         } else {
             return 0.0;
         }
+    }
+    
+    public Konto getKontoDlaBO() {
+        Konto zwrot = null;
+        if (this.getStronaWn() != null) {
+            zwrot = this.getStronaWn().getKonto();
+        } else if (this.getStronaMa() != null) {
+            zwrot = this.getStronaMa().getKonto();
+        }
+        return zwrot;
     }
 
     public StronaWiersza getStronaWn() {
@@ -443,15 +464,15 @@ public class Wiersz implements Serializable {
     public boolean jest0niejest1(WierszBO w) {
         boolean jest0niejest1 = true;
         if (this.getStronaWn() != null) {
-            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getStronaWn().getKwota() == w.getKwotaWn()) {
+            if (this.getStronaWn().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(w.getOpis())) {
                 jest0niejest1 = false;
-                System.out.println("jest takie konto z kwota w bo");
+                System.out.println("jest takie konto z opisem w bo");
             }
         }
         if (this.getStronaMa() != null) {
-            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getStronaMa().getKwota() == w.getKwotaMa()) {
+            if (this.getStronaMa().getKonto().equals(w.getKonto()) && this.getOpisWiersza().equals(w.getOpis())) {
                 jest0niejest1 = false;
-                System.out.println("jest takie konto z kwota w bo");
+                System.out.println("jest takie konto z opisem w bo");
             }
         }
         return jest0niejest1;

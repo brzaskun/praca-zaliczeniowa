@@ -205,5 +205,13 @@ public class WierszBO implements Serializable {
     public void setKwotaMaPLN(double kwotaMaPLN) {
         this.kwotaMaPLN = kwotaMaPLN;
     }
+    
+    public String getOpis() {
+        return this.getWierszBOPK().getOpis();
+    }
+    
+    public String getRok() {
+        return this.getWierszBOPK().getRok();
+    }
 
 }
