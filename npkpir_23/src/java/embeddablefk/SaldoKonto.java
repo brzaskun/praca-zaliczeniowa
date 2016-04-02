@@ -87,7 +87,7 @@ public class SaldoKonto implements Serializable {
         this.zapisy = new ArrayList<>();
         this.zapisy.add(t);
         this.walutadlabo = wal;
-        this.opisdlabo = t.getWiersz().getOpisWiersza()+" "+t.getId();
+        this.opisdlabo = t.getDokfkS()+" "+t.getDokfk().getNumerwlasnydokfk()+" "+t.getWiersz().getOpisWiersza()+" zapis BO";
     }
     
     

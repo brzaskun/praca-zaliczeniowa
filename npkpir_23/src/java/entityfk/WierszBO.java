@@ -66,6 +66,10 @@ public class WierszBO implements Serializable {
     public WierszBO(Podatnik podatnik, SaldoKonto p, String rok, Konto konto, Waluty waluta) {
         this.wierszBOPK = new WierszBOPK();
         this.wierszBOPK.setRok(rok);
+        if (p.getOpisdlabo() != null) {
+            System.out.println("");
+        }
+        System.out.println("opis: "+p.getOpisdlabo());
         this.wierszBOPK.setOpis(p.getOpisdlabo() != null ? p.getOpisdlabo() : "zapis BO " + p.hashCode());
         this.podatnik = podatnik;
         this.konto = konto;
