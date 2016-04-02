@@ -178,7 +178,7 @@ public class PdfVatUE {
             table.setHeaderRows(1);
             int i = 1;
             for (Dokfk p : zawiera) {
-                table.addCell(ustawfrazeAlign(p.getDokfkLP(), "left", 7));
+                table.addCell(ustawfrazeAlign(p.getDokfkSN(), "left", 7));
                 table.addCell(ustawfrazeAlign(p.getDatadokumentu(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getNumerwlasnydokfk(), "center", 7));
                 table.addCell(ustawfrazeAlign(p.getOpisdokfk(), "left", 7));
